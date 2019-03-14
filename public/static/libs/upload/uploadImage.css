@@ -1,0 +1,91 @@
+/**
+ @ Name：文件上传
+ @ Author：xxx
+ @ License：xxx
+ */
+.layui-uploadImage-list {
+    margin: 10px 0 0 0;
+    width: 100%;
+}
+
+/* 组件样式 */
+.layui-uploadImage-list >div.dd {
+    position: relative;
+    width: 92px;
+    height: 92px;
+    float: left;
+    margin: 0 10px 10px 0;
+    border:1px solid #A1A1A1;
+    cursor: pointer;
+}
+
+.layui-uploadImage-list >div.dd >img {
+    width: 92px;
+    height: 92px;
+    float: left;
+    margin: 0 10px 10px 0;
+    z-index: 1;
+    border: 0;
+}
+
+/* 无图图片时透明 解决边框 */
+.layui-uploadImage-list img[src=""],img:not([src]) {
+    opacity:0;
+}
+/* 无图片时隐藏工具栏 */
+.layui-uploadImage-list img[src=""],img:not([src]) +div.operate {
+    display: none;
+}
+
+.layui-uploadImage-list >div.dd >input {
+    display: none;
+}
+
+.layui-uploadImage-list .layui-uploadImage-background {
+    position: absolute;
+    font-size: 40px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+.layui-uploadImage-list .layui-uploadImage-prompt {
+    position: absolute;
+    top: 76px;
+    left: 0;
+    width: 92px;
+    height: 16px;
+    font-size: 13px;
+    color: #292929;
+    background: #eaeaea;
+    -moz-opacity: .6;
+    opacity: .6;
+    text-align: center;
+}
+
+.layui-uploadImage-list >div.dd >div.operate {
+    position: absolute;
+    top: 3px;
+    right: 0;
+}
+
+.layui-uploadImage-list >div.dd >div.operate >i {
+    padding: 2px;
+    line-height: 15px;
+    text-align: center;
+    color: #005e51;
+    background: #eaeaea;
+    margin-left: 1px;
+    float: left;
+    filter: alpha(opacity=80);
+    -moz-opacity: .6;
+    opacity: .6;
+}
+
+.layui-uploadImage-list >div.dd >div.operate :hover {
+    cursor: pointer;
+    background: #2F4056;
+    color: #ffffff;
+    opacity: 1
+}

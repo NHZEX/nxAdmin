@@ -1,0 +1,37 @@
+.login-main{
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 350px;
+    height: 200px;
+    margin: 0 auto;
+
+    transition: margin-top .2s linear;
+    -webkit-transition: margin-top .2s linear;
+    -moz-transition: margin-top .2s linear;
+}
+.login-main header {
+    margin-top: 0;
+    height: 35px;
+    line-height: 35px;
+    font-size: 30px;
+    font-weight: 100;
+    text-align: center;
+}
+.login-main header {
+    margin-bottom: 15px;
+}
+.login-main form, .login-main form .layui-input-inline {
+    margin-bottom: 5px;
+}
+.login-main form .layui-input-inline, .login-main form .layui-input-inline input, .login-main form .layui-input-inline button{
+    width: 100%;
+}
+.login-main form .login-btn {
+    margin-bottom: 5px;
+}
+.login-main .layui-form-item {
+    margin-bottom: 0;
+}

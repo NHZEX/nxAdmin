@@ -1,0 +1,170 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: NHZEXG
+ * Date: 2019/1/8
+ * Time: 17:58
+ */
+
+namespace app\http\middleware;
+
+use app\common\traits\ShowReturn;
+use app\controller\AdminBase;
+use app\logic\AdminRole;
+use app\logic\Permission as PermissionLogic;
+use app\model\AdminUser as AdminUserModel;
+use app\model\Permission as PermissionModel;
+use facade\WebConv;
+use think\Container;
+use think\facade\Response;
+use think\facade\Url;
+use think\Request;
+
+class Authorize extends Middleware
+{
+    use ShowReturn;
+
+    /** @var \think\App */
+    protected $app;
+
+    /**
+     * @param Request  $request
+     * @param \Closure $next
+     * @return \think\response
+     * @throws \ReflectionException
+     * @throws \Throwable
+     * @throws \db\exception\ModelException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function handle(Request $request, \Closure $next)
+    {
+        //获取调度类
+        $transfer_class = self::getCurrentDispatchClass($request);
+        $action = $request->action(false);
+
+        if (null === $transfer_class) {
+            return $next($request);
+        }
+
+        // 计算节点Hash
+        $node = PermissionLogic::computeNode($transfer_class, $action);
+        // 获取节点标识
+        $flag = PermissionLogic::getFlagByHash($node->hash);
+        // 忽略权限控制
+        if (($flag & PermissionModel::FLAG_LOGIN) === 0) {
+            return $next($request);
+        }
+
+        // 分析控制器是否继承AdminBase
+        $r = new \ReflectionClass($transfer_class);
+        $tc = $r->newInstanceWithoutConstructor();
+        if (false === $tc instanceof AdminBase) {
+            return $next($request);
+        }
+        unset($r, $tc);
+
+        // 会话权限判断
+        if (PHP_SESSION_ACTIVE === session_status()) {
+            throw new \RuntimeException('session被提前启用');
+        }
+        $conv = WebConv::getSelf();
+
+        if (true !== $conv->verify()) {
+            return $this->jump($request, 'Unauthorized:' . $conv->getErrorMessage());
+        }
+
+        //超级管理员跳过权限限制
+        if ($conv->sess_user_genre === AdminUserModel::GENRE_SUPER_ADMIN) {
+            return $next($request);
+        }
+
+        //角色权限验证
+        if (($flag & PermissionModel::FLAG_PERMISSION) > 0) {
+            if (false === AdminRole::isPermissionAllowed($conv->sess_role_id, $node->hash)) {
+                return Response::create('权限不足', '', 403);
+            }
+        }
+
+        return $next($request);
+    }
+
+    /**
+     * 权限检查失败跳转
+     * @param Request $request
+     * @param         $message
+     * @return \think\response
+     */
+    protected function jump(Request $request, $message)
+    {
+        if (!$request->isAjax()) {
+            // 构建跳转数据
+            $jump = base64_encode($request->url(true));
+            return $this->error(
+                $message,
+                '/admin.login?' . http_build_query(['jump' => $jump])
+            );
+        } else {
+            return Response::create($message, '', 401)
+                ->header('Soft-Location', Url::build('@admin.login'));
+        }
+    }
+
+    /**
+     * 操作错误跳转的快捷方法
+     * @access protected
+     * @param  mixed   $msg    提示信息
+     * @param  string  $url    跳转的URL地址
+     * @param  mixed   $data   返回的数据
+     * @param  integer $wait   跳转等待时间
+     * @param  array   $header 发送的Header信息
+     * @return \think\response
+     */
+    protected function error($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
+    {
+        $type = $this->getResponseType();
+        if (is_null($url)) {
+            $url = $this->app['request']->isAjax() ? '' : 'javascript:history.back(-1);';
+        } elseif ('' !== $url) {
+            $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : $this->app['url']->build($url);
+        }
+
+        $result = [
+            'code' => 0,
+            'msg'  => $msg,
+            'data' => $data,
+            'url'  => $url,
+            'wait' => $wait,
+        ];
+
+        if ('html' == strtolower($type)) {
+            $type = 'jump';
+        }
+
+        $response = Response::create($result, $type)
+            ->header($header)
+            ->options(['jump_template' => $this->app['config']->get('dispatch_error_tmpl')]);
+
+        return $response;
+    }
+
+    /**
+     * 获取当前的response 输出类型
+     * @access protected
+     * @return string
+     */
+    protected function getResponseType()
+    {
+        if (!$this->app) {
+            $this->app = Container::get('app');
+        }
+
+        $isAjax = $this->app['request']->isAjax();
+        $config = $this->app['config'];
+
+        return $isAjax
+            ? $config->get('default_ajax_return')
+            : $config->get('default_return_type');
+    }
+}

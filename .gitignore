@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea
+.env
+.env.example
+.php_cs.cache
+vendor
+thinkphp
+log
+test.php

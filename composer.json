@@ -1,0 +1,57 @@
+{
+    "name": "topthink/think",
+    "description": "the new thinkphp framework",
+    "type": "project",
+    "keywords": [
+        "framework",
+        "thinkphp",
+        "ORM"
+    ],
+    "homepage": "http://thinkphp.cn/",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "liu21st",
+            "email": "liu21st@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "~7.2.10",
+        "ext-gd": "*", "ext-pdo": "*", "ext-gmp": "*",
+        "ext-exif": "*", "ext-zlib": "*", "ext-curl": "*",
+        "ext-json": "*", "ext-iconv": "*", "ext-posix": "*",
+        "ext-redis": "*", "ext-bcmath": "*", "ext-openssl": "*",
+        "ext-fileinfo": "*", "ext-mbstring": "*", "ext-simplexml": "*",
+        "ext-zip": "*",
+        "topthink/framework": "5.1.*",
+        "hashids/hashids": "^3.0",
+        "matomo/ini": "^2.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "symfony/polyfill-php73": "^1.10",
+        "robmorgan/phinx": "^0.10.6",
+        "rybakit/msgpack": "^0.5.4",
+        "nhzex/think-blade": "^1.0",
+        "nesbot/carbon": "^1.36.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "application",
+            "\\": "extend"
+        }
+    },
+    "extra": {
+        "think-path": "thinkphp"
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.laravel-china.org"
+        }
+    }
+}
