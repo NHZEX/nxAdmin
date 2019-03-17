@@ -42,8 +42,9 @@ trait MysqlJson
         $value = self::jsonValue($value);
 
         // 写入json数据
-        return $this
-            ->data($field, new Expression("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`), '$.{$path}', {$value})"));
+        $raw = new Expression("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`), '$.{$path}', {$value})");
+        $this->data($field, $raw);
+        return $this;
     }
 
     /**
@@ -54,7 +55,9 @@ trait MysqlJson
      */
     public function setJsonDatas(string $field, array $vs)
     {
-        if(empty($vs)) return $this;
+        if (empty($vs)) {
+            return $this;
+        }
 
         $sets = '';
         foreach ($vs as $v) {
@@ -64,8 +67,9 @@ trait MysqlJson
         }
 
         // 写入json数据
-        return $this
-            ->data($field, new Expression("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})"));
+        $raw = new Expression("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})");
+        $this->data($field, $raw);
+        return $this;
     }
 
     /**
@@ -75,10 +79,10 @@ trait MysqlJson
      */
     protected static function jsonValue($value)
     {
-        if(is_numeric($value)) {
+        if (is_numeric($value)) {
         } elseif (is_bool($value)) {
         } elseif (is_array($value)) {
-            if(is_assoc($value)) {
+            if (is_assoc($value)) {
                 $tmp = '';
                 foreach ($value as $key => $v) {
                     $tmp .= "'{$key}', " . self::jsonValue($v) . ',';
@@ -99,5 +103,4 @@ trait MysqlJson
 
         return $value;
     }
-
 }

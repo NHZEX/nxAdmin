@@ -75,24 +75,23 @@ class Role extends Base
 
     /**
      * @param int|null $base_pkid
+     * @param string|null $type
      * @return \think\Response
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function pageEdit(int $base_pkid = null)
+    public function pageEdit(int $base_pkid = null, ?string $type = null)
     {
-        $type = $this->request->param('type', null);
-        $genre = self::FILTER_TYPE_MAPPING[$type] ?? null;
-
         if ($base_pkid) {
             /** @var AdminRole $au */
             $au = (new AdminRole)->wherePk($base_pkid)->find();
             $params['csrf_update'] = $this->generateCsrfToken($au->id, $au->lock_version);
+            $params['genre'] = $au->genre;
         } else {
             $params['csrf'] = $this->generateCsrfTokenSimple();
+            $params['genre'] = self::FILTER_TYPE_MAPPING[$type] ?? null;
         }
-        $params['genre'] = $genre;
 
         $this->assign([
             'url_save' => url('save', $params),
@@ -124,7 +123,6 @@ class Role extends Base
         } else {
             $ar = new AdminRole();
         }
-        $ar->allowField(true);
         $result = $ar->save($input);
         return self::showMsg(CODE_SUCCEED, $result);
     }
@@ -135,9 +133,6 @@ class Role extends Base
      * @param null $id
      * @return mixed
      * @throws \app\exception\JsonException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function permission($id = null)
     {

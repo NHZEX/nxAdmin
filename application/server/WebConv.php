@@ -76,7 +76,7 @@ class WebConv
      * @access public
      * @return string|array
      */
-    public function getErrorMessage()
+    public function getErrorMessage(): string
     {
         return $this->errorMessage;
     }
@@ -110,7 +110,7 @@ class WebConv
     /**
      * 载入会话信息
      */
-    private function loadConvInfo()
+    private function loadConvInfo(): void
     {
         // 加载会话数据
         $info = Session2::get(self::CONV_ADMIN_INFO);
@@ -120,7 +120,7 @@ class WebConv
     /**
      * 保存会话信息
      */
-    private function saveConvInfo()
+    private function saveConvInfo(): void
     {
         Session2::set(self::CONV_ADMIN_INFO, $this->convAdminInfo);
     }
@@ -166,7 +166,7 @@ class WebConv
      * @param bool           $rememberme
      * @return static
      */
-    public static function createSession(AdminUserModel $user, bool $rememberme = false)
+    public static function createSession(AdminUserModel $user, bool $rememberme = false): WebConv
     {
         // 创建实例
         $that = \facade\WebConv::getSelf();
@@ -223,7 +223,7 @@ class WebConv
      * @param int $expire
      * @return string
      */
-    public function createRememberToken(AdminUserModel $user, string $user_agent, int $expire)
+    public function createRememberToken(AdminUserModel $user, string $user_agent, int $expire): string
     {
         $salt = Deploy::getSecuritySalt();
         // 用户特征
@@ -309,7 +309,7 @@ class WebConv
      * @param AdminUserModel $user
      * @return string
      */
-    protected static function generateUserFeature(AdminUserModel $user)
+    protected static function generateUserFeature(AdminUserModel $user): string
     {
         $feature = [
             $user->id, $user->genre, $user->status, $user->password
@@ -329,6 +329,14 @@ class WebConv
             $this->user = (new AdminUser())->wherePk($this->sess_user_id)->find();
         }
         return $this->user;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->sess_user_genre === AdminUser::GENRE_SUPER_ADMIN;
     }
 
     /**

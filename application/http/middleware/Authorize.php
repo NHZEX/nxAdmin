@@ -64,15 +64,11 @@ class Authorize extends Middleware
         unset($r, $tc);
 
         // 会话权限判断
-        if (PHP_SESSION_ACTIVE === session_status()) {
-            throw new \RuntimeException('session被提前启用');
+        if (true !== WebConv::verify()) {
+            return $this->jump($request, 'Unauthorized:' . WebConv::getErrorMessage());
         }
+
         $conv = WebConv::getSelf();
-
-        if (true !== $conv->verify()) {
-            return $this->jump($request, 'Unauthorized:' . $conv->getErrorMessage());
-        }
-
         //超级管理员跳过权限限制
         if ($conv->sess_user_genre === AdminUserModel::GENRE_SUPER_ADMIN) {
             return $next($request);

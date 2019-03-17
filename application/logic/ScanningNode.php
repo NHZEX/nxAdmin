@@ -14,7 +14,6 @@ use think\facade\Config;
 class ScanningNode
 {
     protected $controller = null;
-    protected $deny_module_list = [];
     protected $deny_controller_list = [
         'Base',
     ];
@@ -23,9 +22,6 @@ class ScanningNode
     public function __construct()
     {
         $this->controller = DS . Config::get('url_controller_layer') . DS;
-        $this->deny_module_list = Config::get('deny_module_list');
-        !is_array($this->deny_module_list) && $this->deny_module_list = [];
-        $this->deny_module_list = array_flip($this->deny_module_list);
         $this->deny_controller_list = array_flip($this->deny_controller_list);
     }
 

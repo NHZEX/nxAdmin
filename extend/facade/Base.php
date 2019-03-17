@@ -19,6 +19,7 @@ class Base extends Facade
      */
     public static function hasInstance(): bool
     {
+        /** @noinspection PhpDynamicAsStaticMethodCallInspection */
         return App::exists(static::getFacadeClass());
     }
     /**

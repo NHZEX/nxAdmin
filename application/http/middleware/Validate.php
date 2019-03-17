@@ -12,7 +12,6 @@ use app\common\traits\CsrfHelper;
 use app\common\traits\ShowReturn;
 use app\controller;
 use app\validate as validator;
-use think\facade\App;
 use think\Request;
 
 class Validate extends Middleware
@@ -55,17 +54,20 @@ class Validate extends Middleware
             [$validate_csrf, $validate_class, $validate_scene] = $validate_cfg;
 
             // 验证输入数据
-            $v = App::validate($validate_class);
-            if ($validate_scene) {
-                // 询问当前使用何种场景
-                if ('?' === $validate_scene && method_exists($validate_class, 'askScene')) {
-                    $validate_scene = call_user_func([$validate_class, 'askScene'], $request) ?: false;
+            if ($validate_class && class_exists($validate_class)) {
+                /** @var \think\Validate $v */
+                $v = new $validate_class();
+                if ($validate_scene) {
+                    // 询问当前使用何种场景
+                    if ('?' === $validate_scene && method_exists($validate_class, 'askScene')) {
+                        $validate_scene = call_user_func([$validate_class, 'askScene'], $request) ?: false;
+                    }
+                    // 选中将使用的验证场景
+                    $validate_scene && $v->scene($validate_scene);
                 }
-                // 选中将使用的验证场景
-                $validate_scene && $v->scene($validate_scene);
-            }
-            if (false === $v->check($request->param())) {
-                return self::showMsg(CODE_COM_PARAM, $v->getError());
+                if (false === $v->check($request->param())) {
+                    return self::showMsg(CODE_COM_PARAM, $v->getError());
+                }
             }
 
             // 验证CSRF令牌

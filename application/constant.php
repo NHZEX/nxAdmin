@@ -20,12 +20,12 @@ const HEADER_USER_AGENT = 'user-agent';
 const HEADER_X9_PACKAGE_NAME = 'package-name';
 const HEADER_X9_PACKAGE_VERSION = 'package-version';
 
-$env_root_path = think\facade\Env::get('root_path');
-$env_runtime_path = think\facade\Env::get('runtime_path');
+$root_path = \think\facade\App::getRootPath();
+$runtime_path = \think\facade\App::getRuntimePath();
 // 系统运行存储
-define('STORAGE_PATH', $env_root_path . 'storage' . DIRECTORY_SEPARATOR);
+define('STORAGE_PATH', $root_path . 'storage' . DIRECTORY_SEPARATOR);
 // 公开访问文件夹
-define('PUBILC_PATH', $env_root_path . 'public' . DIRECTORY_SEPARATOR);
+define('PUBILC_PATH', $root_path . 'public' . DIRECTORY_SEPARATOR);
 // 上传文件存储
 
 //上传文件存储路径
@@ -49,5 +49,5 @@ const UI_STORE_DEFAULT = UI_CONFIG_STORAGE . 'store_ui' . DIRECTORY_SEPARATOR;
 
 
 // CERTIFICATE 文件路径
-define('CA_ROOT_PATH', $env_runtime_path . 'cacert.pem');
-define('CA_ROOT_CHECKSUM_PATH', $env_runtime_path . 'cacert.pem.sha256');
+define('CA_ROOT_PATH', $runtime_path . 'cacert.pem');
+define('CA_ROOT_CHECKSUM_PATH', $runtime_path . 'cacert.pem.sha256');

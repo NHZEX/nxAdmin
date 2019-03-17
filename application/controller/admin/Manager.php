@@ -166,7 +166,6 @@ class Manager extends Base
             $au->genre = $input['genre'];
         }
 
-        $au->allowField(true);
         $au->save($input);
         return self::showMsg(CODE_SUCCEED);
     }

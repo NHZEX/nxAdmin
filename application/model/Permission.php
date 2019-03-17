@@ -202,6 +202,7 @@ class Permission extends Base
         $that->pid = 0;
 
         $that->genre = self::GENRE_CONTROLLER;
+        $that->action = '';
         $that->class_name = $class_name;
         if (is_array($controller_info)) {
             $that->alias_name = $controller_info['name'] ?? null;
