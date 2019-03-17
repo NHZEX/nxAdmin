@@ -3,8 +3,12 @@
 return
 [
     'paths' => [
-        'migrations' => '%%PHINX_CONFIG_DIR%%/phinx/migrations',
-        'seeds' => '%%PHINX_CONFIG_DIR%%/phinx/seeds'
+        'migrations' => [
+            'DbMigrations' => './phinx/migrations',
+        ],
+        'seeds' => [
+            'DbSeeds' => './phinx/seeds'
+        ]
     ],
     'environments' => [
         'default_migration_table' => '_phinxlog',

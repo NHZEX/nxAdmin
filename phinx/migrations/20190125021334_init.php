@@ -1,4 +1,5 @@
 <?php
+namespace DbMigrations;
 
 use phinx\Blueprint as B;
 use Phinx\Migration\AbstractMigration;
