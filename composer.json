@@ -31,7 +31,7 @@
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
         "nhzex/think-blade": "^1.0",
-        "nesbot/carbon": "^1.36.2"
+        "nesbot/carbon": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"
