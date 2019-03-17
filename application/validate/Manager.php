@@ -4,12 +4,14 @@
  * User: NHZEXG
  * Date: 2018/11/12
  * Time: 16:38
+ * @noinspection PhpUnusedParameterInspection
  */
 
 namespace app\validate;
 
 use app\controller\admin\Manager as ManagerController;
 use app\model\AdminUser;
+use facade\WebConv;
 use think\Request;
 
 class Manager extends Base
@@ -64,9 +66,11 @@ class Manager extends Base
      */
     protected function checkFilterType($value, $rule, $param, $field, $desc)
     {
-        if(!is_string($value)) return "{$desc} 数据类型错误";
-
-        return isset(ManagerController::FILTER_TYPE[$value]) ?: "{$desc} 内容无效: {$value}";
+        if (!is_string($value)) {
+            return "{$desc} 数据类型错误";
+        }
+        $isVali = isset(ManagerController::FILTER_TYPE[WebConv::getSelf()->sess_user_genre][$value]);
+        return $isVali ?: "{$desc} 内容无效: {$value}";
     }
 
     protected function inStatus($value)
@@ -80,14 +84,12 @@ class Manager extends Base
      */
     public static function askScene(Request $request)
     {
-        if(false !== strpos($request->header(CSRF_TOKEN, false), '.update')) {
-            if('password' === $request->param('action', false)) {
+        if (false !== strpos($request->header(CSRF_TOKEN, false), '.update')) {
+            if ('password' === $request->param('action', false)) {
                 return 'password';
             }
             return 'update';
         }
         return 'create';
     }
-
-
 }
