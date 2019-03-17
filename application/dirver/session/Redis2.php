@@ -21,7 +21,7 @@ class Redis2 extends Redis
      * @param  string $sessID
      * @return string
      */
-    public function read($sessID)
+    public function read($sessID): string
     {
         $sessKey = $this->config['session_name'] . $sessID;
         $result = $this->handler->get($sessKey);
@@ -31,10 +31,10 @@ class Redis2 extends Redis
      * 写入Session
      * @access public
      * @param string $sessID
-     * @param  string $sessData
+     * @param string $sessData
      * @return bool
      */
-    public function write($sessID, $sessData)
+    public function write($sessID, $sessData): bool
     {
         if (empty($sessData)) {
             return true;
@@ -53,7 +53,7 @@ class Redis2 extends Redis
      * @param string $sessID
      * @return bool
      */
-    public function destroy($sessID)
+    public function destroy($sessID): bool
     {
         $sessKey = $this->config['session_name'] . $sessID;
         return !$this->handler->exists($sessKey) || $this->handler->delete($sessKey) > 0;

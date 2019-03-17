@@ -176,13 +176,14 @@ class WebConv
 
         // 用户特征
         $user_feature = self::generateUserFeature($user);
+        $user_role = $user->role_id ? $user->role : null;
         // 会话信息
         $conv_info = [
             'user_id' => $user->id,
             'user_genre' => $user->genre,
             'user_status' => $user->status,
             'role_id' => $user->role_id,
-            'role_time' => $user->role ? $user->role->update_time : 0,
+            'role_time' => $user_role ? $user_role->update_time : 0,
             'login_time' => $user->last_login_time,
             'user_feature' => $user_feature,
             'access_time' => time() + self::CONV_TIME_OUT,
@@ -317,13 +318,15 @@ class WebConv
     }
 
     /**
+     * @noinspection PhpDocMissingThrowsInspection
      * @param bool $force
      * @return AdminUser
      */
     public function getAdminUser(bool $force = false)
     {
         if ($force || false === $this->user instanceof AdminUser) {
-            $this->user = AdminUser::get($this->sess_user_id, 60);
+            /** @noinspection PhpUnhandledExceptionInspection */
+            $this->user = (new AdminUser())->wherePk($this->sess_user_id)->find();
         }
         return $this->user;
     }
@@ -381,12 +384,12 @@ class WebConv
             if (AdminUser::STATUS_NORMAL !== $user->status || $this->sess_user_status !== $user->status) {
                 throw new BusinessResultSuccess("状态：{$user->status_desc}");
             }
-            if ($user->role_id !== $this->sess_role_id ||
-                ($user->role && $user->role->update_time !== $this->sess_role_time)
+            if ($user->role_id !== $this->sess_role_id
+                || ($user->role_id && $user->role && $user->role->update_time !== $this->sess_role_time)
             ) {
                 throw new BusinessResultSuccess('角色发生更变');
             }
-            if ($user->role && AdminRole::STATUS_NORMAL !== $user->role->status) {
+            if ($user->role_id && $user->role && AdminRole::STATUS_NORMAL !== $user->role->status) {
                 throw new BusinessResultSuccess("角色状态：{$user->role->status_desc}");
             }
             // 会话续期

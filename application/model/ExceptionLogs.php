@@ -54,7 +54,7 @@ class ExceptionLogs extends Base
         $cli = is_cli() ? 'cli' : 'other';
         $sapi = PHP_SAPI;
 
-        $request = Request::instance();
+        $request = Request::make('');
         $route_info = "route:{$request->module()}/{$request->controller()}/{$request->action()}";
         if ($route_info === 'route://') {
             $dispatch = $request->dispatch();

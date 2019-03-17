@@ -8,7 +8,6 @@
 
 namespace app\http\middleware;
 
-
 use think\exception\HttpException;
 use think\facade\App;
 use think\facade\Config;
@@ -42,7 +41,7 @@ abstract class Middleware
                 $result = $dispatch->getDispatch();
                 $controller = empty($result[1]) ? Config::get('app.default_controller') : $result[1];
                 $transfer_class = App::parseClass($request->module(), 'controller', $controller, false);
-                if(!class_exists($transfer_class)) {
+                if (!class_exists($transfer_class)) {
                     throw new HttpException(404, 'controller not exists:' . $transfer_class);
                 }
 

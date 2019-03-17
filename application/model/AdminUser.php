@@ -145,7 +145,7 @@ class AdminUser extends Base
     protected function beRoleName()
     {
         return $this->belongsTo(AdminRole::class, 'role_id', 'id')
-            ->field(['id', 'name' => 'role_name'])->bind('role_name');
+            ->field(['id', 'name' => 'role_name'])->bind(['role_name']);
     }
 
     /**

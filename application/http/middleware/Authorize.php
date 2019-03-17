@@ -15,28 +15,26 @@ use app\logic\Permission as PermissionLogic;
 use app\model\AdminUser as AdminUserModel;
 use app\model\Permission as PermissionModel;
 use facade\WebConv;
-use think\Container;
 use think\facade\Response;
 use think\facade\Url;
 use think\Request;
+use traits\controller\Jump;
 
 class Authorize extends Middleware
 {
     use ShowReturn;
+    use Jump;
 
     /** @var \think\App */
     protected $app;
 
     /**
-     * @param Request  $request
+     * @param Request $request
      * @param \Closure $next
      * @return \think\response
      * @throws \ReflectionException
-     * @throws \Throwable
+     * @throws \app\exception\JsonException
      * @throws \db\exception\ModelException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public function handle(Request $request, \Closure $next)
     {
@@ -107,7 +105,9 @@ class Authorize extends Middleware
             );
         } else {
             return Response::create($message, '', 401)
-                ->header('Soft-Location', Url::build('@admin.login'));
+                ->header([
+                    'Soft-Location' => Url::build('@admin.login')
+                ]);
         }
     }
 
@@ -147,24 +147,5 @@ class Authorize extends Middleware
             ->options(['jump_template' => $this->app['config']->get('dispatch_error_tmpl')]);
 
         return $response;
-    }
-
-    /**
-     * 获取当前的response 输出类型
-     * @access protected
-     * @return string
-     */
-    protected function getResponseType()
-    {
-        if (!$this->app) {
-            $this->app = Container::get('app');
-        }
-
-        $isAjax = $this->app['request']->isAjax();
-        $config = $this->app['config'];
-
-        return $isAjax
-            ? $config->get('default_ajax_return')
-            : $config->get('default_return_type');
     }
 }

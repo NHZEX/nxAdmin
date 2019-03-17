@@ -88,7 +88,7 @@ abstract class Base extends ThinkModel
     protected function beCreatorName()
     {
         return $this->belongsTo(AdminUser::class, 'creator_uid', 'id')
-            ->field(['username' => 'creator_name', 'id'])->bind('creator_name')->cache(true, 60);
+            ->field(['username' => 'creator_name', 'id'])->bind(['creator_name'])->cache(true, 60);
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class Base extends ThinkModel
     protected function beEditorName()
     {
         return $this->belongsTo(AdminUser::class, 'editor_uid', 'id')
-            ->field(['username' => 'editor_name', 'id'])->bind('editor_name')->cache(true, 60);
+            ->field(['username' => 'editor_name', 'id'])->bind(['editor_name'])->cache(true, 60);
     }
     /**
      * 关闭数据访问控制
