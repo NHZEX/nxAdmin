@@ -12,7 +12,7 @@ use app\exception\BusinessResult;
 use app\exception\JsonException;
 use basis\IP;
 use facade\Redis;
-use think\facade\Env;
+use think\facade\App;
 
 /**
  * Class Captcha
@@ -80,8 +80,8 @@ class Captcha
     public function __construct($config = [])
     {
         $this->config = array_merge($this->config, $config);
-        $this->background_path = Env::get('root_path') . 'extend/captcha/assets/bgs/';
-        $this->tff_path = Env::get('root_path') . 'extend/captcha/assets/';
+        $this->background_path = App::getRootPath() . 'extend/captcha/assets/bgs/';
+        $this->tff_path = App::getRootPath() . 'extend/captcha/assets/';
     }
 
     /**

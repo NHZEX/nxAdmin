@@ -130,11 +130,11 @@ return [
     'route_cache_option'     => [],
 
     // 默认跳转页面对应的模板文件
-    'dispatch_success_tmpl'  => think\facade\Env::get('app_path') . 'view/dispatch_jump.blade.php',
-    'dispatch_error_tmpl'    => think\facade\Env::get('app_path') . 'view/dispatch_jump.blade.php',
+    'dispatch_success_tmpl'  => \think\facade\App::getAppPath() . 'view/dispatch_jump.blade.php',
+    'dispatch_error_tmpl'    => \think\facade\App::getAppPath() . 'view/dispatch_jump.blade.php',
 
     // 异常页面的模板文件
-    'exception_tmpl'         => think\facade\Env::get('think_path') . 'tpl/think_exception.tpl',
+    'exception_tmpl'         => \think\facade\App::getThinkPath() . 'tpl/think_exception.tpl',
 
     // 错误显示信息,非调试模式有效
     'error_message'          => '页面错误！请稍后再试～',
