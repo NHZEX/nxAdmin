@@ -11,6 +11,7 @@ require.config({
         , 'lodash': 'libs/lodash/lodash.min'
 
         , 'helper': 'libs/helper/helper'
+        , 'vali': 'libs/helper/vali'
         , 'table-tpl': 'libs/table-tpl/table-tpl'
         , 'communication': 'libs/window-communication/communication'
 
