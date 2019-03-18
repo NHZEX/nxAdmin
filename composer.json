@@ -30,8 +30,7 @@
         "symfony/polyfill-php73": "^1.10",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
-        "nhzex/think-blade": "^1.0",
-        "nesbot/carbon": "^2.0"
+        "nhzex/think-blade": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.5"
