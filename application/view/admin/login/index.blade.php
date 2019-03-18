@@ -26,23 +26,21 @@
         </div>
         <div class="layui-form-item">
             <div class="layui-input-inline">
-                <input
-                        id="input-verify-code"
-                        name="captcha"
-                        required
-                        placeholder="请输入验证码"
-                        type="text"
-                        autocomplete="off"
-                        class="layui-input"
-                        style="width: 220px; float: left"
+                <input id="input-verify-code"
+                       name="captcha"
+                       required
+                       placeholder="请输入验证码"
+                       type="text"
+                       autocomplete="off"
+                       class="layui-input"
+                       style="width: 220px; float: left"
                 >
-                <img
-                        id="img-verify-code"
-                        src="{{ $url_captcha }}"
-                        alt="captcha"
-                        height="38"
-                        style="float: left"
-                        onclick="refrushVerifyCode();"
+                <img id="img-verify-code"
+                     src="{{ $url_captcha }}"
+                     alt="captcha"
+                     height="38"
+                     style="float: left"
+                     onclick="refrushVerifyCode();"
                 />
             </div>
         </div>
@@ -71,8 +69,8 @@
     }
 
     require([
-        'jquery', 'js-cookie', 'layui', 'helper'
-    ], ($, cookies, layui, helper) => {
+        'jquery', 'js-cookie', 'helper', 'vali', 'layui', 'layer'
+    ], ($, cookies, helper, vali, layui) => {
 
         function goMain() {
             window.location.href = '{{ $url_jump }}';
@@ -110,77 +108,73 @@
             }
         }, 500);
 
+        let layer = layui.layer;
+        let $logindiv = $('#login');
+        let $loginform = $('#loginform');
+        let $pwd = $loginform.find('input[name=password]');
 
-        layui.use(['form', 'layer'], function() {
-            let layer = layui.layer;
-            let $logindiv = $('#login');
-            let $loginform = $('#loginform');
-            let $pwd = $loginform.find('input[name=password]');
+        let layui_checkbox = $('div.layui-form-checkbox');
+        if(layui_checkbox.length) {
+            layui_checkbox.on('keyup', function (event) {
+                let key = event.which || 0;
+                if (key === 32) {
+                    $(this).trigger('click');
+                    event.preventDefault();
+                }
+            }).prop('tabindex', 0)
+        }
 
-            let layui_checkbox = $('div.layui-form-checkbox');
-            if(layui_checkbox.length) {
-                layui_checkbox.on('keyup', function (event) {
-                    let key = event.which || 0;
-                    if (key === 32) {
-                        $(this).trigger('click');
-                        event.preventDefault();
-                    }
-                }).prop('tabindex', 0)
+        $.get({
+            'url': '{{ $url_check }}',
+            'contentType': 'application/json; charset=utf-8',
+            'global': false,
+            'cache' : false
+        }).done(function(data){
+            if(0 === data.code){
+                goMain();
             }
-
-            $.get({
-                'url': '{{ $url_check }}',
-                'contentType': 'application/json; charset=utf-8',
-                'global': false,
-                'cache' : false
-            }).done(function(data){
-                if(0 === data.code){
-                    goMain();
-                }
-            }).fail(function(jqXHR){
-                $('#login-bth').prop('disabled',false);
-                //非401 没有权限才提示 通信失败处理流程
-                if(jqXHR.status !== 401){
-                    layer.msg('通讯失败');
-                }
-            }).always(function () {
-                $('#login-bth').removeClass('layui-btn-disabled').prop('disabled',false).text('登陆');
-            });
-
-            helper.vali2($loginform, $logindiv)
-                .pass(function (){
-                    let serialize = this.serialize('obj');
-
-                    layer.msg('登陆中...', {icon: 16, shade: 0.01});
-                    $('#login-bth').prop('disabled',true);
-
-                    //提交登陆请求
-                    $.post('{{ $url_login }}', serialize).done(function(res){
-                        if(res.code === 0){
-                            //更新会话访问令牌
-                            setToken();
-                            goMain();
-                        } else {
-                            if(1001 === res.code) {
-                                refrushVerifyCode();
-                            }
-                            if(1103 === res.code) {
-                                refrushVerifyCode();
-                                $pwd.focus().val('');
-                            }
-                            $('#loginform').find('');
-                            layer.msg(res.msg);
-                        }
-                    }).fail(function(){
-                        //通讯错误处理
-                        layer.msg('通讯失败');
-                    }).always(function () {
-                        $('#login-bth').prop('disabled',false);
-                        layer.closeAll('loading');
-                    });
-                    return false;
-                });
+        }).fail(function(jqXHR){
+            $('#login-bth').prop('disabled',false);
+            //非401 没有权限才提示 通信失败处理流程
+            if(jqXHR.status !== 401){
+                layer.msg('通讯失败');
+            }
+        }).always(function () {
+            $('#login-bth').removeClass('layui-btn-disabled').prop('disabled',false).text('登陆');
         });
 
+        vali.check($loginform, $logindiv)
+            .pass(function (){
+                let serialize = this.serialize('obj');
+
+                layer.msg('登陆中...', {icon: 16, shade: 0.01});
+                $('#login-bth').prop('disabled',true);
+
+                //提交登陆请求
+                $.post('{{ $url_login }}', serialize).done(function(res){
+                    if(res.code === 0){
+                        //更新会话访问令牌
+                        setToken();
+                        goMain();
+                    } else {
+                        if(1001 === res.code) {
+                            refrushVerifyCode();
+                        }
+                        if(1103 === res.code) {
+                            refrushVerifyCode();
+                            $pwd.focus().val('');
+                        }
+                        $('#loginform').find('');
+                        layer.msg(res.msg);
+                    }
+                }).fail(function(){
+                    //通讯错误处理
+                    layer.msg('通讯失败');
+                }).always(function () {
+                    $('#login-bth').prop('disabled',false);
+                    layer.closeAll('loading');
+                });
+                return false;
+            });
     });
 </script>
