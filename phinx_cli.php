@@ -15,6 +15,6 @@ $app = think\Container::get('app');
 $app->path(__DIR__ . '/application/')->initialize();
 
 // Phinx初始化
-$app = new Phinx\Console\PhinxApplication();
+$phinxApp = new Phinx\Console\PhinxApplication();
 /** @noinspection PhpUnhandledExceptionInspection */
-$app->run();
+$phinxApp->run();

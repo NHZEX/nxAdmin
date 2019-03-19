@@ -12,8 +12,8 @@ return
     ],
     'environments' => [
         'default_migration_table' => '_phinxlog',
-        'default_database' => 'development',
-        'development' => [
+        'default_database' => 'runtime',
+        'runtime' => [
             'connection' => \think\Db::connect()->getConnection()->connect(),
             'name' => \think\Db::getConfig('database'),
         ],

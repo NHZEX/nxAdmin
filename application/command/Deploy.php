@@ -141,7 +141,9 @@ class Deploy extends Command
         $output->writeln('================执行PHINX迁移================');
         $phinx = new SymfonyApplication();
         $phinx->add(new PhinxMigrate2());
-        $argvInput = new SymfonyArgvInput(['.', 'migrate', $verbosity, $dryRun ? '--dry-run' : null]);
+        $argv = ['.', 'migrate', $verbosity, $dryRun ? '--dry-run' : null];
+        $argv = array_filter($argv);
+        $argvInput = new SymfonyArgvInput($argv);
         $phinx->setAutoExit(false);
         $exitCode = $phinx->run($argvInput);
         if ($exitCode !== 0) {
