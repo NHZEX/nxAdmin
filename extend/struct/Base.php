@@ -11,7 +11,9 @@ namespace struct;
 
 abstract class Base implements \ArrayAccess, \JsonSerializable
 {
-    public function __construct(array $arr)
+    protected $hidden_key = [];
+
+    public function __construct(iterable $arr)
     {
         foreach ($arr as $key => $value)
         {
@@ -19,9 +21,59 @@ abstract class Base implements \ArrayAccess, \JsonSerializable
         }
     }
 
-    public function toArray()
+    /**
+     * 设置需要隐藏的输出值
+     * @access public
+     * @param  array $hidden 属性列表
+     * @return $this
+     */
+    public function hidden($hidden = []): Base
     {
-        return get_object_vars($this);
+        $this->hidden_key = array_flip($hidden);
+        return $this;
+    }
+
+    /**
+     * 返回该集合内部属性
+     * @return array
+     */
+    public function all(): array
+    {
+        return $this->getPublicVars();
+    }
+
+    /**
+     * 把结构对象转换为数组输出
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $data = $this->getPublicVars();
+        // 过滤隐藏值
+        if (count($this->hidden_key)) {
+            $data  = array_diff_key($data, $this->hidden_key);
+        }
+        return $data;
+    }
+
+    /**
+     * 获取类的公开属性
+     * @return array
+     */
+    private function getPublicVars(): array
+    {
+        /** @var $e */
+        $e = new class {
+            /**
+             * @param $that
+             * @return array
+             */
+            public function read($that): array
+            {
+                return get_object_vars($that);
+            }
+        };
+        return $e->read($this) ?: [];
     }
 
     /**
