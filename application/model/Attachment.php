@@ -152,6 +152,18 @@ class Attachment extends Base
         return false;
     }
 
+    /**
+     * @param string $index
+     * @param int $userId
+     * @param string $savePath
+     * @param string $fileMime
+     * @param string $fileExt
+     * @param int $fileSize
+     * @param string $fileSha1
+     * @param string $rawFileName
+     * @return Attachment
+     * @throws \db\exception\ModelException
+     */
     public static function createRecord(
         string $index,
         int $userId,

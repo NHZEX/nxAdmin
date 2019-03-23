@@ -14,7 +14,7 @@ use app\model\AdminUser;
 use facade\WebConv;
 use think\Request;
 
-class Manager extends Base
+class Manager extends Base implements VailAsk
 {
     protected $rule = [
         'username' => 'require|length:3,64',
@@ -82,7 +82,7 @@ class Manager extends Base
      * @param Request $request
      * @return string|null
      */
-    public static function askScene(Request $request)
+    public static function askScene(Request $request): ?string
     {
         if (false !== strpos($request->header(CSRF_TOKEN, false), '.update')) {
             if ('password' === $request->param('action', false)) {

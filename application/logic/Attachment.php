@@ -29,6 +29,7 @@ class Attachment extends Base
      * @param File $file
      * @param AdminUserModel|null $user
      * @return false|AttachmentModel
+     * @throws \db\exception\ModelException
      * @throws \think\exception\DbException
      */
     public function uploadImage(File $file, ?AdminUserModel $user)

@@ -17,6 +17,8 @@ class Upload extends AdminBase
     use ShowReturn;
 
     /**
+     * @return \think\Response
+     * @throws \db\exception\ModelException
      * @throws \think\exception\DbException
      */
     public function image()
@@ -40,6 +42,7 @@ class Upload extends AdminBase
      * 上传多个图片
      * User: Johnson
      * @return \think\Response
+     * @throws \db\exception\ModelException
      * @throws \think\exception\DbException
      */
     public function images()
@@ -66,6 +69,7 @@ class Upload extends AdminBase
      * User: Johnson
      * @param File $file
      * @return array|\think\Response
+     * @throws \db\exception\ModelException
      * @throws \think\exception\DbException
      */
     private function uploadImage(File $file)
