@@ -40,7 +40,8 @@ class Deploy extends Command
             ->setDescription('初始化部署')
             ->addOption('init', null, Option::VALUE_NONE, '强制初始化')
             ->addOption('force', 'f', Option::VALUE_NONE, '强制覆盖')
-            ->addOption('dev', null, Option::VALUE_NONE, '开发模式预设')
+            ->addOption('dev', 'd', Option::VALUE_NONE, '开发模式预设')
+            ->addOption('no-migrate', 'm', Option::VALUE_NONE, '不执行迁移')
             ->addOption('example', null, Option::VALUE_NONE, '生成范例文件')
             ->addOption('dry-run', null, Option::VALUE_NONE, '生成范例文件');
     }
@@ -59,6 +60,7 @@ class Deploy extends Command
         $dev = (bool)$input->getOption('dev');
         $forceInit = (bool)$input->getOption('init');
         $forceCover = (bool)$input->getOption('force');
+        $notMigrate = (bool)$input->getOption('no-migrate');
         $dryRun = (bool)$input->getOption('dry-run');
         $envPath = App::getRootPath() . '.env';
         $existEnv = file_exists($envPath);
@@ -76,9 +78,8 @@ class Deploy extends Command
          * 生成ENV配置文件
          * 1. ENV文件不存在
          * 2. ENV文件存在 且 强制覆盖
-         * 3. 强制初始化
          */
-        if (!$existEnv || ($existEnv && $forceCover && $forceInit)) {
+        if (!$existEnv || ($existEnv && $forceCover)) {
             $output->writeln('生成部署设置...');
             if (!isset($env[DeployServer::ITEM_NAME])) {
                 $env[DeployServer::ITEM_NAME] = DeployServer::init();
@@ -93,6 +94,8 @@ class Deploy extends Command
                 $env->app['trace'] = 1;
                 $env->app['tpl_cache'] = 0;
                 $env->database['debug'] = 1;
+            } else {
+                unset($env->develop);
             }
 
             if ($dryRun) {
@@ -104,8 +107,10 @@ class Deploy extends Command
         }
 
         // 执行更新操作
-        $output->writeln('启动更新作业...');
-        $this->execUpdate($env, $dryRun);
+        if (!$notMigrate) {
+            $output->writeln('启动更新作业...');
+            $this->execUpdate($env, $dryRun);
+        }
 
         /**
          * 配置系统功能
