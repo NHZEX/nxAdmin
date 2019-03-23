@@ -87,7 +87,7 @@ class Manager extends Base
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function pageEdit(?int $base_pkid = null, string $type = null)
+    public function pageEdit(?int $base_pkid = null, ?string $type = null)
     {
         if ($base_pkid) {
             /** @var AdminUser $au */
