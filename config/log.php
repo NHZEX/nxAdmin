@@ -32,7 +32,7 @@ $log = [
 ];
 
 // 设置远程日志
-if(Env::get('remotelog.enable', false)){
+if (Env::get('remotelog.enable', false)) {
     $log['type'] = 'socket';
     $log['host'] = Env::get('remotelog.host', '127.0.0.1');
     $force_client_ids = $log['force_client_ids'] ?? [];
