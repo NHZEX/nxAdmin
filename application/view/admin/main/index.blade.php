@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="zh">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -58,7 +57,7 @@
             </li>
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="{{ $user['avatar'] }}" class="layui-nav-img"
+                    <img src="{{ $user['avatar'] }}" class="layui-nav-img" alt="avatar"
                          onerror="imageError(this)"> {{ $user['nickname'] }}
                 </a>
                 <dl class="layui-nav-child">
@@ -116,11 +115,11 @@
 
         // 皮肤颜色切换
         $('dl.skin > dd').on('click', function () {
-            var $that = $(this);
-            var skin = $that.children('a').data('skin');
+            let $that = $(this);
+            let skin = $that.children('a').data('skin');
             switchSkin(skin);
         });
-        var setSkin = function (value) {
+        let setSkin = function (value) {
                 layui.data('kit_skin', {
                     key: 'skin',
                     value: value
