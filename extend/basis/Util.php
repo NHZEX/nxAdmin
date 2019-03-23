@@ -48,4 +48,13 @@ class Util
     {
         return lcfirst(self::toUpperCamelCase($input));
     }
+
+    /**
+     * 获取当前进程用户
+     * @return string
+     */
+    public static function whoami(): string
+    {
+        return posix_getpwuid(posix_geteuid())['name'];
+    }
 }

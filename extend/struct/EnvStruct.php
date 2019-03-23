@@ -16,6 +16,10 @@ class EnvStruct extends Base
         'tpl_cache' => 1,
     ];
 
+    public $develop = [
+        'secure_domain_name' => '',
+    ];
+
     public $system = [
         'log_file_path' => '',
         'web_title' => 'nxAdmin',
@@ -30,9 +34,9 @@ class EnvStruct extends Base
     public $database = [
         'hostname' => '127.0.0.1',
         'hostport' => 3306,
-        'database' => 'dbs',
-        'username' => 'usr',
-        'password' => 'pwd',
+        'database' => 'base',
+        'username' => 'root',
+        'password' => '',
         'debug' => 0,
         'sql_explain' => 0,
     ];
@@ -47,6 +51,6 @@ class EnvStruct extends Base
     ];
 
     public $task = [
-        'user' => 'www',
+        'user' => '',
     ];
 }

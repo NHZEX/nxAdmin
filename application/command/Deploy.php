@@ -13,6 +13,7 @@ use app\logic\SystemMenu;
 use app\model\AdminUser;
 use app\server\Deploy as DeployServer;
 use basis\Ini;
+use basis\Util;
 use facade\Redis;
 use phinx\PhinxMigrate2;
 use struct\EnvStruct;
@@ -45,6 +46,7 @@ class Deploy extends Command
             ->setDescription('初始化部署')
             ->addOption('force', 'f', Option::VALUE_NONE, '强制覆盖')
             ->addOption('dev', 'd', Option::VALUE_NONE, '添加开发模式预设')
+            ->addOption('run-user', null, Option::VALUE_OPTIONAL, '运行用户')
             ->addOption('init', null, Option::VALUE_NONE, '强制初始化')
             ->addOption('init-username', null, Option::VALUE_OPTIONAL, '初始化用户名')
             ->addOption('init-password', null, Option::VALUE_OPTIONAL, '初始化用户名')
@@ -86,6 +88,10 @@ class Deploy extends Command
 
         // 载入当前配置
         $env = new EnvStruct($existEnv ? Ini::readerFile($envPath) : []);
+        // 载入允许用户
+        $env->task['user'] = $input->getOption('run-user') ?: $env->task['user'];
+        $output->info('当前用户：' . Util::whoami()."({$env->task['user']})");
+        $env->task['user'] = $env->task['user'] ?? Util::whoami();
 
         /**
          * 生成ENV配置文件
