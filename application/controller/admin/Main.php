@@ -70,7 +70,7 @@ class Main extends Base
         }
         $menu = [];
 
-        foreach ($list as $key=>$item) {
+        foreach ($list as $key => $item) {
             $id .= "-$key";
             $children = isset($item['children']) ? $this->menu($item['children'], $id) : [];
 

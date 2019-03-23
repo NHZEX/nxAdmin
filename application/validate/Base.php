@@ -8,7 +8,6 @@
 
 namespace app\validate;
 
-
 use think\Request;
 use think\Validate;
 
@@ -22,9 +21,9 @@ abstract class Base extends Validate
      */
     protected function isPositiveInteger($value)
     {
-        if(filter_var($value, FILTER_VALIDATE_INT) && $value > 0){
+        if (filter_var($value, FILTER_VALIDATE_INT) && $value > 0) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

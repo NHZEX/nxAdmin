@@ -11,8 +11,8 @@ namespace app\logic;
 use app\exception\BusinessResult as BusinessResultSuccess;
 use app\model\AdminUser as AdminUserModel;
 use app\model\Attachment as AttachmentModel;
-use think\File;
 use think\facade\Lang;
+use think\File;
 
 /**
  * Class Attachment
@@ -33,34 +33,39 @@ class Attachment extends Base
      */
     public function uploadImage(File $file, ?AdminUserModel $user)
     {
-        $uid = $user ? $user->id : 0;
-        try{
+        try {
             // 替代 thinkphp file 验证
-            if(!$file->checkSize(4 * 1024 * 1024)) {
+            if (!$file->checkSize(4 * 1024 * 1024)) {
                 throw new BusinessResultSuccess(Lang::get('filesize not match'));
             }
-            if(!preg_match('/image\/.*/', $file->getMime())) {
+            if (!preg_match('/image\/.*/', $file->getMime())) {
                 throw new BusinessResultSuccess(Lang::get('mimetype to upload is not allowed'));
             }
             $this->getFileMime($file->getPathname());
             // 生成唯一文件名
             $uniqueFileName = $this->buildUniqueFileName($file);
             // 查找附件是否存在
-            if(!$annex = AttachmentModel::findFile($uniqueFileName)) {
+            if (!$annex = AttachmentModel::findFile($uniqueFileName)) {
                 $fileExt = substr($uniqueFileName, strrpos($uniqueFileName, '.') + 1);
                 // 生成保存文件名
                 $saveFileName = $this->buildSaveFileName($uniqueFileName);
                 // 创建附件记录
                 $annex = AttachmentModel::createRecord(
-                    $uniqueFileName, $uid, self::IMAGE_DIR . $saveFileName, $file->getMime(),
-                    $fileExt, $file->getSize(), $file->hash('sha1'), $file->getInfo('name')
+                    $uniqueFileName,
+                    $user ? $user->id : 0,
+                    self::IMAGE_DIR . $saveFileName,
+                    $file->getMime(),
+                    $fileExt,
+                    $file->getSize(),
+                    $file->hash('sha1'),
+                    $file->getInfo('name')
                 );
                 // 存储上传文件
-                if(false === $newFile = $file->move(UPLOAD_STORAGE_PATH . self::IMAGE_DIR, $saveFileName)) {
+                if (false === $newFile = $file->move(UPLOAD_STORAGE_PATH . self::IMAGE_DIR, $saveFileName)) {
                     throw new BusinessResultSuccess($newFile->getError());
                 }
             }
-        }catch (BusinessResultSuccess $success) {
+        } catch (BusinessResultSuccess $success) {
             $this->errorMessage = $success->getMessage();
             return false;
         }
@@ -72,7 +77,8 @@ class Attachment extends Base
      * @param File $file
      * @return string
      */
-    function buildUniqueFileName (File $file) {
+    public function buildUniqueFileName(File $file)
+    {
         //
         $tmpFileName = $file->getPathname();
         $name = $file->hash('sha1');
@@ -86,7 +92,8 @@ class Attachment extends Base
      * @param string $name
      * @return string
      */
-    function buildSaveFileName (string $name) {
+    public function buildSaveFileName(string $name)
+    {
         $savePath = substr($name, 0, 2) . DIRECTORY_SEPARATOR . substr($name, 2);
         $savePath = date('Ymd') . DIRECTORY_SEPARATOR . $savePath;
         return $savePath;
@@ -127,13 +134,13 @@ class Attachment extends Base
      */
     protected function getImageType($image, $to_ext = false)
     {
-        if(isset($this->image_type[$image])) {
+        if (isset($this->image_type[$image])) {
             $img_type = $this->image_type[$image];
-        } else{
+        } else {
             if (function_exists('exif_imagetype_1')) {
                 $img_type = exif_imagetype($image);
             } else {
-                if(is_array($info = getimagesize($image)) && isset($info[2])) {
+                if (is_array($info = getimagesize($image)) && isset($info[2])) {
                     $img_type = $info[2];
                 } else {
                     $img_type = false;
@@ -142,7 +149,7 @@ class Attachment extends Base
             $this->image_type[$image] = $img_type;
         }
 
-        if($to_ext) {
+        if ($to_ext) {
             return image_type_to_extension($img_type, false);
         } else {
             return $img_type;

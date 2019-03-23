@@ -49,6 +49,7 @@ class Menu extends Base
     public function edit(?int $pkid = null)
     {
         if ($pkid) {
+            /** @var SystemMenu $data */
             $data = (new SystemMenu())->wherePk($pkid)->find();
             $params['csrf_update'] = $this->generateCsrfToken($data->id, $data->lock_version);
         } else {

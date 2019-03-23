@@ -122,9 +122,9 @@ class AdminRole extends Base
 
     /**
      * @param int $genre
-     * @return \Generator
+     * @return iterable
      */
-    public static function selectOption(int $genre)
+    public static function selectOption(int $genre): iterable
     {
         return (new self())->where('genre', $genre)->field(['id', 'name'])->cursor();
     }

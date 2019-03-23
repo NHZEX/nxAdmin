@@ -8,7 +8,6 @@
 
 namespace app\exception;
 
-
 class InvalidAuthorization extends \Exception
 {
 

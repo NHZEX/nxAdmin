@@ -34,7 +34,6 @@ class Authorize extends Middleware
      * @return \think\response
      * @throws \ReflectionException
      * @throws \app\exception\JsonException
-     * @throws \db\exception\ModelException
      */
     public function handle(Request $request, \Closure $next)
     {

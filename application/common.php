@@ -374,7 +374,7 @@ function query_mysql_version($connect = null)
  */
 function query_mysql_exist_database(string $database, $connect = null)
 {
-    /** @noinspection SqlResolve SqlNoDataSourceInspection */
+    /** @noinspection SqlResolve SqlNoDataSourceInspection SqlDialectInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
         $list = \think\Db::connect($connect)->query($sql);

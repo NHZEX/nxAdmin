@@ -58,5 +58,4 @@ class Redis2 extends Redis
         $sessKey = $this->config['session_name'] . $sessID;
         return !$this->handler->exists($sessKey) || $this->handler->delete($sessKey) > 0;
     }
-
 }

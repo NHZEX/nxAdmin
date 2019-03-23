@@ -8,7 +8,6 @@
 
 namespace app\server;
 
-
 abstract class Base
 {
     // 错误信息
@@ -23,5 +22,4 @@ abstract class Base
     {
         return $this->errorMessage;
     }
-
 }

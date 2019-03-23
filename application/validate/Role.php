@@ -8,10 +8,8 @@
 
 namespace app\validate;
 
-
 class Role extends Base
 {
-
     protected $rule = [
         'id' => 'require|isPositiveInteger',
         'hashArr' => 'require|array',

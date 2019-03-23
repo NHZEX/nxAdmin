@@ -86,7 +86,6 @@ class Permission extends Base
 
     /**
      * @return \think\Response
-     * @throws \think\exception\PDOException
      */
     public function exportNodes()
     {

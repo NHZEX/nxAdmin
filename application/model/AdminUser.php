@@ -285,9 +285,6 @@ class AdminUser extends Base
      * @param $id
      * @return AdminUser|\PDOStatement|\think\Model|null
      * @throws ModelException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
      */
     public static function getUserByID($id)
     {

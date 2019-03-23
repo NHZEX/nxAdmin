@@ -11,7 +11,6 @@ namespace app\controller\admin;
 use app\logic\AdminUser;
 use captcha\Captcha;
 use facade\WebConv;
-use think\exception\DbException;
 use think\facade\Config;
 use think\facade\Cookie;
 use think\facade\Url;
@@ -121,7 +120,6 @@ class Login extends Base
 
     /**
      * 退出登陆
-     * @throws DbException
      */
     public function logout()
     {

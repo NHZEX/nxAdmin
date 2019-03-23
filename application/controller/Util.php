@@ -8,7 +8,6 @@
 
 namespace app\controller;
 
-
 class Util extends AdminBase
 {
     public function obtainCsrfToken()

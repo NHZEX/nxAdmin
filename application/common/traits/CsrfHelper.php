@@ -8,12 +8,10 @@
 
 namespace app\common\traits;
 
-use app\exception\InvalidAuthorization;
 use app\server\Deploy;
 use facade\Redis;
 use facade\WebConv;
 use Hashids\Hashids;
-use MessagePack\MessagePack;
 use struct\CsrfStruct;
 
 trait CsrfHelper
@@ -66,81 +64,6 @@ trait CsrfHelper
         $hashids = new Hashids(WebConv::getSelf()->getToken(), 16);
         [$pkid, $lock_version] = $hashids->decode($csrf_token->token);
         return [$pkid, $lock_version];
-    }
-
-    /**
-     * 生成令牌
-     * @param string $mac
-     * @param string $appid
-     * @return string
-     */
-    public function generateApiToken(string $mac, string $appid) :?string
-    {
-        $timeOut = 7200;
-        $version = dechex(API_TOKEN_V1);
-        $data = [
-            'iat' => time(),
-            'exp' => time() + $timeOut,
-            'mac' => $mac,
-            'uuid' => hash('fnv1a32', $appid),
-        ];
-
-        $payload = base64url_encode(MessagePack::pack($data));
-        $signature = base64url_encode(hash_hmac('SHA3-224', $payload, Deploy::getSecuritySalt(), true));
-
-        $token = $version . '.' . $payload . '.' . $signature;
-        $result = $this->registerApiToken($mac, $token, $timeOut);
-
-        return $result ? $token : null;
-    }
-
-    /**
-     * 解析令牌
-     * @param string $token
-     * @param string $appid
-     * @return string
-     * @throws InvalidAuthorization
-     */
-    public function parseApiToken(string $token, string $appid)
-    {
-        $result = explode('.', $token, 3);
-        if (3 !== count($result)) {
-            throw new InvalidAuthorization('格式无效', CODE_CONV_AUTHOR_INVALID);
-        }
-        [$version, $payload, $signature] = $result;
-
-        if (dechex(API_TOKEN_V1) !== $version) {
-            throw new InvalidAuthorization('无法识别的版本', CODE_CONV_AUTHOR_INVALID);
-        }
-
-        $currSignature = base64url_encode(hash_hmac('SHA3-224', $payload, Deploy::getSecuritySalt(), true));
-        if ($signature !== $currSignature) {
-            throw new InvalidAuthorization('签名无效', CODE_CONV_AUTHOR_INVALID);
-        }
-
-        $payload = base64url_decode($payload);
-        if (empty($payload)) {
-            throw new InvalidAuthorization('载荷无效', CODE_CONV_AUTHOR_INVALID);
-        }
-
-        $data = MessagePack::unpack($payload);
-        if (empty($data)) {
-            throw new InvalidAuthorization('载荷无效', CODE_CONV_AUTHOR_INVALID);
-        }
-
-        if (($data['exp'] ?? 0) < time()) {
-            throw new InvalidAuthorization('过期失效', CODE_CONV_AUTHOR_INVALID);
-        }
-
-        if (($data['uuid'] ?? '') !== hash('fnv1a32', $appid)) {
-            throw new InvalidAuthorization('UUID无效', CODE_CONV_AUTHOR_INVALID);
-        }
-
-        if (false === $this->verifyApiToken($data['mac'], $token)) {
-            throw new InvalidAuthorization('没有注册', CODE_CONV_AUTHOR_INVALID);
-        }
-
-        return $data['mac'];
     }
 
     /**

@@ -23,12 +23,14 @@ class Upload extends AdminBase
     {
         $field = $this->request->param('field');
         $files = $this->request->file($field);
-        if(is_array($files)) {
+        if (is_array($files)) {
             return self::showMsg(CODE_COM_PARAM, '无法处理提交');
         }
-        if($files instanceof File) {
-            return self::showData(CODE_SUCCEED,
-                $this->uploadImage($files));
+        if ($files instanceof File) {
+            return self::showData(
+                CODE_SUCCEED,
+                $this->uploadImage($files)
+            );
         } else {
             return self::showMsg(CODE_COM_PARAM);
         }
@@ -40,17 +42,18 @@ class Upload extends AdminBase
      * @return \think\Response
      * @throws \think\exception\DbException
      */
-    public function images(){
+    public function images()
+    {
         $files = $this->request->file();
-        if(!is_array($files)) {
+        if (!is_array($files)) {
             return self::showMsg(CODE_COM_PARAM, '无法处理提交');
         }
         /**
          * @var  $file File
          */
         $returnData = [];
-        foreach ($files as $key => $file){
-            if(false === ($file instanceof File)) {
+        foreach ($files as $key => $file) {
+            if (false === ($file instanceof File)) {
                 return self::showMsg(CODE_COM_PARAM, '无法处理提交');
             }
             $imageInfo = $this->uploadImage($file);
@@ -65,9 +68,10 @@ class Upload extends AdminBase
      * @return array|\think\Response
      * @throws \think\exception\DbException
      */
-    private function uploadImage(File $file){
+    private function uploadImage(File $file)
+    {
         $attachment = new Attachment();
-        if(false === $annex = $attachment->uploadImage($file, WebConv::getAdminUser())) {
+        if (false === $annex = $attachment->uploadImage($file, WebConv::getAdminUser())) {
             return self::showMsg(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
         }
         return [

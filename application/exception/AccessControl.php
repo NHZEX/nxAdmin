@@ -16,5 +16,4 @@ class AccessControl extends BusinessResult
     {
         parent::__construct($message, $code, $previous);
     }
-
 }

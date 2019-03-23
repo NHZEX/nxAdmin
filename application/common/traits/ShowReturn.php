@@ -67,7 +67,7 @@ trait ShowReturn
      */
     protected static function showMsg($code = '', $msg = '', $header = [])
     {
-       return self::showReturn($code, null, $msg, false, $header);
+        return self::showReturn($code, null, $msg, false, $header);
     }
 
     /**
@@ -81,7 +81,11 @@ trait ShowReturn
     protected static function showException(\Exception $exception, ?string $msg = null, $header = [])
     {
         return self::showReturn(
-            $exception->getCode(), null, $msg ?? $exception->getMessage(), false, $header
+            $exception->getCode(),
+            null,
+            $msg ?? $exception->getMessage(),
+            false,
+            $header
         );
     }
 
@@ -94,14 +98,9 @@ trait ShowReturn
      */
     protected static function showTable($data = null, int $code = CODE_SUCCEED, string $msg = '')
     {
-        if(
-            $data instanceof \think\Collection
-        ) {
+        if ($data instanceof \think\Collection) {
             $result = $data->toArray();
-        } elseif(
-            $data instanceof \think\Paginator ||
-            $data instanceof Paginator2
-        ) {
+        } elseif ($data instanceof \think\Paginator || $data instanceof Paginator2) {
             $result = [
                 'data' => $data->getCollection()->toArray(),
                 'count' => $data->total(),
@@ -150,7 +149,7 @@ trait ShowReturn
         ];
 
         if ($merge && is_array($data)) {
-            foreach ($data as $key=>$value) {
+            foreach ($data as $key => $value) {
                 $defult[$key] = $value;
             }
         } else {

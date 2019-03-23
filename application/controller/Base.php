@@ -8,7 +8,6 @@
 
 namespace app\controller;
 
-
 use app\common\traits\ShowReturn;
 use think\Controller;
 
