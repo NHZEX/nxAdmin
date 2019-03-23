@@ -401,10 +401,10 @@ class Deploy extends Command
         $output->writeln('配置Redis');
 
         // 加载环境变量
-        $env->redis['host'] = $this->env->get('redis_host', $env->database['host']);
-        $env->redis['port'] = $this->env->get('redis_port', $env->database['port']);
-        $env->redis['password'] = $this->env->get('redis_password', $env->database['password']);
-        $env->redis['select'] = $this->env->get('redis_select', $env->database['select']);
+        $env->redis['host'] = $this->env->get('redis_host', $env->redis['host']);
+        $env->redis['port'] = $this->env->get('redis_port', $env->redis['port']);
+        $env->redis['password'] = $this->env->get('redis_password', $env->redis['password']);
+        $env->redis['select'] = $this->env->get('redis_select', $env->redis['select']);
 
         if ($interaction) {
             $default = "{$env->redis['host']}:{$env->redis['port']}";
