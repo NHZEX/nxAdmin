@@ -39,7 +39,11 @@
         "psr-4": {
             "app\\": "application",
             "\\": "extend"
-        }
+        },
+        "files": [
+            "application/constant.php",
+            "application/status_code.php"
+        ]
     },
     "extra": {
         "think-path": "thinkphp"

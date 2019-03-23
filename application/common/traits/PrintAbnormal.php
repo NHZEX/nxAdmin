@@ -22,24 +22,26 @@ trait PrintAbnormal
      */
     protected static function printAbnormalToLog(\Throwable $e, ?string $type = null) :string
     {
-        if($e instanceof PDOException) {
+        // 打印而外POD异常信息
+        if ($e instanceof PDOException) {
             $db_info = $e->getData();
-            if(isset($db_info['Database Config'])) {
-                Log::record($db_info['Database Config'], 'dbconf');
+            if (isset($db_info['Database Config'])) {
+                Log::record($db_info['Database Config'], 'db-config');
                 unset($db_info['Database Config']);
             }
-            Log::record($db_info, 'error');
+            Log::record($db_info, 'critical');
         }
+        // 打印通用异常信息
         $msg = '';
         $trace = $e;
         do {
-            $msg .= 'ExceptionClass: '. get_class($trace) . "\n";
+            $msg .= 'ExceptionClass: \\'. get_class($trace) . "\n";
             $msg .= "{$trace->getFile()}:{$trace->getLine()}\n";
             $msg .= "StackTrace: [{$trace->getCode()}] {$trace->getMessage()}\n";
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());
         $msg .= '----------';
-        Log::record($msg, $type ?? 'debug');
+        Log::record($msg, $type ?? 'critical');
 
         return $msg;
     }

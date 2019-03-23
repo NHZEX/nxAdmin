@@ -30,12 +30,21 @@ class GlobalHandle extends Handle
      */
     public function report(Exception $exception)
     {
-        self::printAbnormalToLog($exception);
-
-        // 对不是Http-404的错误进行日志记录
-        if (!($exception instanceof HttpException && $exception->getStatusCode() === 404)) {
-            ExceptionLogs::push($exception);
+        // 不对[http-404]进行高级记录
+        // 不对降级异常进行高级记录
+        if (false === $exception instanceof ExceptionRecordDown
+            && !($exception instanceof HttpException && $exception->getStatusCode() === 404)
+        ) {
+            try {
+                ExceptionLogs::push($exception);
+            } catch (\Throwable $throwable) {
+                $newException = new ExceptionRecordDown('异常日志降级', 0, $throwable);
+                // 打印记录异常
+                self::printAbnormalToLog($newException);
+            }
         }
+        // 打印异常日志
+        self::printAbnormalToLog($exception);
         // 交由系统处理
         parent::report($exception);
     }

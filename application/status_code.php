@@ -13,6 +13,7 @@
  * 会话：11xx
  * 模型：12xx - 13xx
  * 业务：14xx - 15xx
+ * 支付：2000 - 2199
  */
 
 const CODE_SUCCEED = 0;
@@ -53,3 +54,6 @@ const CODE_LOGIC_REPLACE_ROOM = 1403; //换房流程失败
 
 const CODE_LOGIC_SCHEDULE = 1410; //排期操作失败
 const CODE_LOGIC_COST_CALCULATE = 1411; //计算费用失败
+
+const CODE_LOGIC_PAY = 2000;
+const CODE_LOGIC_PAY_WECHAT = 2010;

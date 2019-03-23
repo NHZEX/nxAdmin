@@ -9,10 +9,6 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-$app_path = \think\facade\App::getAppPath();
-require_once $app_path . 'status_code.php';
-require_once $app_path . 'constant.php';
-
 /**
  * @param array|object $data
  * @return string
