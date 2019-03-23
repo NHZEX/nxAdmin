@@ -33,17 +33,25 @@ class Deploy extends Command
     const MYSQL_VER_LIMIT = '5.7.22-log';
     const REDIS_VER_LIMIT = '4.0.8';
 
+    /** @var \think\App */
+    protected $app;
+    /** @var \think\Env */
+    protected $env;
+
     public function configure()
     {
         $this
             ->setName('deploy')
             ->setDescription('初始化部署')
-            ->addOption('init', null, Option::VALUE_NONE, '强制初始化')
             ->addOption('force', 'f', Option::VALUE_NONE, '强制覆盖')
-            ->addOption('dev', 'd', Option::VALUE_NONE, '开发模式预设')
+            ->addOption('dev', 'd', Option::VALUE_NONE, '添加开发模式预设')
+            ->addOption('init', null, Option::VALUE_NONE, '强制初始化')
+            ->addOption('init-username', null, Option::VALUE_OPTIONAL, '初始化用户名')
+            ->addOption('init-password', null, Option::VALUE_OPTIONAL, '初始化用户名')
+            ->addOption('ci', null, Option::VALUE_NONE, '启用持续集成')
             ->addOption('no-migrate', 'm', Option::VALUE_NONE, '不执行迁移')
             ->addOption('example', null, Option::VALUE_NONE, '生成范例文件')
-            ->addOption('dry-run', null, Option::VALUE_NONE, '生成范例文件');
+            ->addOption('dry-run', null, Option::VALUE_NONE, '尝试执行');
     }
 
     /**
@@ -54,20 +62,25 @@ class Deploy extends Command
      * @throws \Matomo\Ini\IniWritingException
      * @throws \db\exception\ModelException
      * @throws \think\Exception
+     * @throws \Exception
      */
     public function execute(Input $input, Output $output)
     {
+        $this->app = App::instance();
+        $this->env = $this->app->env;
+
         $dev = (bool)$input->getOption('dev');
         $forceInit = (bool)$input->getOption('init');
         $forceCover = (bool)$input->getOption('force');
         $notMigrate = (bool)$input->getOption('no-migrate');
         $dryRun = (bool)$input->getOption('dry-run');
-        $envPath = App::getRootPath() . '.env';
+        $ci = (bool)$input->getOption('ci');
+        $envPath = $this->app->getRootPath() . '.env';
         $existEnv = file_exists($envPath);
 
         if ((bool)$input->getOption('example')) {
             $output->writeln('生成ENV范例文件...');
-            Ini::writerFile(App::getRootPath() . '.env.example', (new EnvStruct([]))->toArray());
+            Ini::writerFile($this->app->getRootPath() . '.env.example', (new EnvStruct([]))->toArray());
             return;
         }
 
@@ -86,7 +99,7 @@ class Deploy extends Command
             }
 
             $output->writeln('配置Env设置...');
-            $this->setEnv($env);
+            $this->setEnv($env, !$ci);
 
             // 开发模式预设
             if ($dev) {
@@ -163,31 +176,47 @@ class Deploy extends Command
         SystemMenu::import($dryRun);
     }
 
-    protected function setEnv(EnvStruct $env)
+    /**
+     * @param EnvStruct $env
+     * @param bool      $interaction 交互
+     * @throws \Exception
+     */
+    protected function setEnv(EnvStruct $env, bool $interaction = true)
     {
-        $output = $this->output;
+        $this->checkInput(function () use ($env, $interaction) {
+            $this->inputMysqlConfig($env, $interaction);
+        }, '提供的Mysql配置不正确：%s', $interaction);
 
+        $this->checkInput(function () use ($env, $interaction) {
+            $this->inputRedisConfig($env, $interaction);
+        }, '提供的Redis配置不正确：%s', $interaction);
+    }
+
+    /**
+     * 校验输入是否正确
+     * @param \Closure $closure
+     * @param string   $message
+     * @param bool     $interaction 交互
+     * @throws \Exception
+     */
+    protected function checkInput(\Closure $closure, string $message, bool $interaction = true)
+    {
         /** @var \Exception $error */
         $error = null;
-
         while (true) {
             if (null !== $error) {
-                $output->warning("提供的Mysql配置不正确：{$error->getMessage()}");
+                $this->output->warning(str_replace('%s', $error->getMessage(), $message));
             }
             try {
-                $this->inputMysqlConfig($env);
+                $closure();
                 break;
             } catch (\Exception $error) {
-            }
-        }
-        while (true) {
-            if (null !== $error) {
-                $output->warning("提供的Redis配置不正确：{$error->getMessage()}");
-            }
-            try {
-                $this->inputRedisConfig($env);
-                break;
-            } catch (\Exception $error) {
+                if ($interaction) {
+                    // 防止死循环
+                    usleep(500000);
+                } else {
+                    throw $error;
+                }
             }
         }
     }
@@ -197,6 +226,7 @@ class Deploy extends Command
      * @param bool      $dryRun
      * @throws \db\exception\ModelException
      * @throws \think\Exception
+     * @throws \Exception
      */
     protected function initAdminUser(EnvStruct $env, bool $dryRun)
     {
@@ -205,37 +235,54 @@ class Deploy extends Command
 
         $output->writeln('> 添加超级管理员');
 
-        $question = new Question("输入管理员用户名\t\t", 'admin_' . get_rand_str(8));
-        $question->setValidator(function ($value) {
-            if (strlen($value) < 6) {
+        $admin_username = $input->getOption('init-username');
+        $admin_password = $input->getOption('init-password');
+
+        if (empty($admin_username)) {
+            $question = new Question("输入管理员用户名\t\t", 'admin_' . get_rand_str(8));
+            $question->setValidator(function ($value) {
+                if (strlen($value) < 6) {
+                    throw new \Exception('用户名长度必须大于等于6位');
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $admin_username = $this->askQuestion($input, $output, $question);
+        } else {
+            if (strlen($admin_username) < 6) {
                 throw new \Exception('用户名长度必须大于等于6位');
             }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $admin_username = $this->askQuestion($input, $output, $question);
+        }
 
-        $question = new Question("输入管理员密码(隐藏)\t\t", get_rand_str(16));
-        $question->setHidden(true);
-        $question->setValidator(function ($value) {
-            if (strlen($value) < 8) {
-                throw new \Exception('密码长度必须大于等于8位');
-            }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $admin_password = $this->askQuestion($input, $output, $question);
+        if (empty($admin_password)) {
+            $question = new Question("输入管理员密码(隐藏)\t\t", get_rand_str(16));
+            $question->setHidden(true);
+            $question->setValidator(function ($value) {
+                if (strlen($value) < 6) {
+                    throw new \Exception('密码长度必须大于等于6位');
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $admin_password = $this->askQuestion($input, $output, $question);
 
-        $question = new Question("重新输入密码(隐藏)\t\t", str_repeat('*', strlen($admin_password)));
-        $question->setHidden(true);
-        $question->setValidator(function ($value) use ($admin_password) {
-            if ($admin_password !== $value) {
-                throw new \Exception('两次输入密码不一致');
+            $question = new Question("重新输入密码(隐藏)\t\t", str_repeat('*', strlen($admin_password)));
+            $question->setHidden(true);
+            $question->setValidator(function ($value) use ($admin_password) {
+                if ($admin_password !== $value) {
+                    throw new \Exception('两次输入密码不一致');
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $this->askQuestion($input, $output, $question);
+        } else {
+            if (strlen($admin_password) < 6) {
+                throw new \Exception('密码长度必须大于等于6位');
             }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $this->askQuestion($input, $output, $question);
+        }
+
+
         $au = new AdminUser();
         $database_config = array_merge($au->getConfig(), $env->database);
         $au->setConnection(Connection::instance($database_config));
@@ -257,60 +304,71 @@ class Deploy extends Command
     /**
      * 输入数据库配置
      * @param EnvStruct $env
+     * @param bool      $interaction 交互
      * @throws \think\Exception
      * @throws \Exception
      */
-    protected function inputMysqlConfig(EnvStruct $env)
+    protected function inputMysqlConfig(EnvStruct $env, bool $interaction = true)
     {
         $input = $this->input;
         $output = $this->output;
 
         $output->writeln('配置数据库');
-        $default = "{$env->database['hostname']}:{$env->database['hostport']}";
-        $question = new Question("地址\t", $default);
-        $question->setValidator(function ($value) use ($env) {
-            if (false === strpos($value, ':')) {
-                $value .= ":{$env->database['hostport']}";
-            }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $db_host = $this->askQuestion($input, $output, $question);
-        [$env->database['hostname'], $env->database['hostport']] = explode(':', $db_host);
 
-        $question = new Question("库名\t", $env->database['database']);
-        $question->setValidator(function ($value) {
-            if (empty($value)) {
-                throw new \Exception('库名为空');
-            }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $env->database['database'] = $this->askQuestion($input, $output, $question);
+        // 加载环境变量
+        $env->database['hostname'] = $this->env->get('database_hostname', $env->database['hostname']);
+        $env->database['hostport'] = $this->env->get('database_hostport', $env->database['hostport']);
+        $env->database['database'] = $this->env->get('database_database', $env->database['database']);
+        $env->database['username'] = $this->env->get('database_username', $env->database['username']);
+        $env->database['password'] = $this->env->get('database_password', $env->database['password']);
 
-        $question = new Question("用户名\t", $env->database['username']);
-        $question->setValidator(function ($value) {
-            if (empty($value)) {
-                throw new \Exception('用户名为空');
-            }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $env->database['username'] = $this->askQuestion($input, $output, $question);
+        if ($interaction) {
+            $default = "{$env->database['hostname']}:{$env->database['hostport']}";
+            $question = new Question("地址\t", $default);
+            $question->setValidator(function ($value) use ($env) {
+                if (false === strpos($value, ':')) {
+                    $value .= ":{$env->database['hostport']}";
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $db_host = $this->askQuestion($input, $output, $question);
+            [$env->database['hostname'], $env->database['hostport']] = explode(':', $db_host);
 
-        $question = new Question("密码\t", $env->database['password']);
-        $question->setValidator(function ($value) {
-            if (empty($value)) {
-                throw new \Exception('密码为空');
-            }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $env->database['password'] = $this->askQuestion($input, $output, $question);
+            $question = new Question("库名\t", $env->database['database']);
+            $question->setValidator(function ($value) {
+                if (empty($value)) {
+                    throw new \Exception('库名为空');
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $env->database['database'] = $this->askQuestion($input, $output, $question);
 
+            $question = new Question("用户名\t", $env->database['username']);
+            $question->setValidator(function ($value) {
+                if (empty($value)) {
+                    throw new \Exception('用户名为空');
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $env->database['username'] = $this->askQuestion($input, $output, $question);
+
+            $question = new Question("密码\t", $env->database['password']);
+            $question->setValidator(function ($value) {
+                if (empty($value)) {
+                    throw new \Exception('密码为空');
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $env->database['password'] = $this->askQuestion($input, $output, $question);
+        }
+
+        // 合并最终设置
         $database_config = array_merge(\think\facade\Config::pull('database'), $env['database']);
-
-
+        // 检查mysql版本
         $mysql_ver = query_mysql_version($database_config);
 
         if (version_compare($mysql_ver, self::MYSQL_VER_LIMIT, '<')) {
@@ -326,39 +384,49 @@ class Deploy extends Command
     /**
      * 输入Redis配置
      * @param EnvStruct $env
+     * @param bool      $interaction 交互
      * @throws \Exception
      */
-    protected function inputRedisConfig(EnvStruct $env)
+    protected function inputRedisConfig(EnvStruct $env, bool $interaction = true)
     {
         $input = $this->input;
         $output = $this->output;
 
         $output->writeln('配置Redis');
-        $default = "{$env->redis['host']}:{$env->redis['port']}";
-        $question = new Question("地址\t", $default);
-        $question->setValidator(function ($value) use ($env) {
-            if (false === strpos($value, ':')) {
-                $value .= ":{$env->redis['port']}";
-            }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $db_host = $this->askQuestion($input, $output, $question);
-        [$env->redis['host'], $env->redis['port']] = explode(':', $db_host);
 
-        $question = new Question("密码\t", $env->redis['password']);
-        $question->setMaxAttempts(3);
-        $env->redis['password'] = $this->askQuestion($input, $output, $question);
+        // 加载环境变量
+        $env->redis['host'] = $this->env->get('redis_host', $env->database['host']);
+        $env->redis['port'] = $this->env->get('redis_port', $env->database['port']);
+        $env->redis['password'] = $this->env->get('redis_password', $env->database['password']);
+        $env->redis['select'] = $this->env->get('redis_select', $env->database['select']);
 
-        $question = new Question("库名\t", $env->redis['select']);
-        $question->setValidator(function ($value) {
-            if (!is_numeric($value)) {
-                throw new \Exception('库名无效');
-            }
-            return $value;
-        });
-        $question->setMaxAttempts(3);
-        $env->redis['select'] = $this->askQuestion($input, $output, $question);
+        if ($interaction) {
+            $default = "{$env->redis['host']}:{$env->redis['port']}";
+            $question = new Question("地址\t", $default);
+            $question->setValidator(function ($value) use ($env) {
+                if (false === strpos($value, ':')) {
+                    $value .= ":{$env->redis['port']}";
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $db_host = $this->askQuestion($input, $output, $question);
+            [$env->redis['host'], $env->redis['port']] = explode(':', $db_host);
+
+            $question = new Question("密码\t", $env->redis['password']);
+            $question->setMaxAttempts(3);
+            $env->redis['password'] = $this->askQuestion($input, $output, $question);
+
+            $question = new Question("库名\t", $env->redis['select']);
+            $question->setValidator(function ($value) {
+                if (!is_numeric($value)) {
+                    throw new \Exception('库名无效');
+                }
+                return $value;
+            });
+            $question->setMaxAttempts(3);
+            $env->redis['select'] = $this->askQuestion($input, $output, $question);
+        }
 
         Redis::setConfig($env->redis, true);
         if (Redis::getSelf()->ping() !== '+PONG') {
