@@ -8,7 +8,6 @@
 
 namespace db\exception;
 
-
 use think\Exception;
 
 class ModelException extends Exception

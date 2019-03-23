@@ -42,7 +42,9 @@ trait MysqlJson
         $value = self::jsonValue($value);
 
         // 写入json数据
-        $raw = new Expression("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`), '$.{$path}', {$value})");
+        $raw = new Expression(
+            "JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`), '$.{$path}', {$value})"
+        );
         $this->data($field, $raw);
         return $this;
     }

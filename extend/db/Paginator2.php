@@ -68,8 +68,13 @@ class Paginator2 implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
      * @param int|null         $total
      * @param bool             $simple
      */
-    public function __construct($items, int $listRows, ?int $currentPage = null, ?int $total = null, bool $simple = false)
-    {
+    public function __construct(
+        $items,
+        int $listRows,
+        ?int $currentPage = null,
+        ?int $total = null,
+        bool $simple = false
+    ) {
         $this->simple   = $simple;
         $this->listRows = $listRows;
 

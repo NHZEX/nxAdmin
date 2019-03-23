@@ -13,12 +13,12 @@ class HxDefault
 {
     const JSON_CODING_PARAMETER = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
 
-    public static function hxAesEncMac101(){
-
+    public static function hxAesEncMac101()
+    {
     }
 
-    public static function hxAesDecMac101(){
-
+    public static function hxAesDecMac101()
+    {
     }
 
     /**
@@ -37,8 +37,7 @@ class HxDefault
         string $enc_pwd,
         bool $padding = false,
         string $method = 'AES-128-CFB'
-    ): string
-    {
+    ): string {
         static $_methods = [
             'AES-128' => 16,
             'AES-192' => 24,
@@ -88,8 +87,7 @@ class HxDefault
         string $dec_pwd,
         bool $padding = false,
         string $method = 'AES-128-CFB'
-    ): string
-    {
+    ): string {
         static $_methods = [
             'AES-128' => 16,
             'AES-192' => 24,
@@ -158,13 +156,7 @@ class HxDefault
         $method = 'AES-128-CFB';
         $password = openssl_random_pseudo_bytes(32);
 
-        if (false === openssl_public_encrypt(
-                $password,
-                $enc_pwd,
-                $pub,
-                OPENSSL_PKCS1_PADDING
-            )
-        ) {
+        if (false === openssl_public_encrypt($password, $enc_pwd, $pub, OPENSSL_PKCS1_PADDING)) {
             throw new \Exception(openssl_error_string());
         }
 
@@ -189,8 +181,7 @@ class HxDefault
         string $enc_pwd,
         string $pri,
         &$out_pwd = null
-    ): string
-    {
+    ): string {
         $enc_pwd = base64_decode($enc_pwd);
         $pri_id = openssl_pkey_get_private($pri);
 
@@ -207,13 +198,7 @@ class HxDefault
             throw new \Exception('rsa enc data len error');
         }
 
-        if (false === openssl_private_decrypt(
-                $enc_pwd,
-                $dnc_pwd,
-                $pri,
-                OPENSSL_PKCS1_PADDING
-            )
-        ) {
+        if (false === openssl_private_decrypt($enc_pwd, $dnc_pwd, $pri, OPENSSL_PKCS1_PADDING)) {
             throw new \Exception(openssl_error_string());
         }
         $method = 'AES-128-CFB';
@@ -242,9 +227,7 @@ class HxDefault
         $uri = '/hello.html',
         &$nonce = 'ABCDEFGH',
         &$timestamp = 0
-    ): string
-    {
-
+    ): string {
         $timestamp = time();
         $nonce = base_convert($timestamp, 10, 36) . self::getRandStr(8);
         $data = "{$appsn}:{$method}:{$domain}:{$uri}:{$nonce}:{$timestamp}";
@@ -275,8 +258,7 @@ class HxDefault
         $uri = '/hello.html',
         $nonce = 'ABCDEFGH',
         $timestamp = 0
-    ): bool
-    {
+    ): bool {
         $data = "{$appsn}:{$method}:{$domain}:{$uri}:{$nonce}:{$timestamp}";
         return (bool)($sign === hash_hmac('sha256', $data, $password));
     }
@@ -303,8 +285,7 @@ class HxDefault
         $uri = '/hello.html',
         &$nonce = 'ABCDEFGH',
         &$timestamp = 0
-    ): string
-    {
+    ): string {
         $pri_id = openssl_pkey_get_private($pri);
 
         if (false === $pri_id) {
@@ -351,8 +332,7 @@ class HxDefault
         $uri = '/hello.html',
         $nonce = 'ABCDEFGH',
         $timestamp = 0
-    ): bool
-    {
+    ): bool {
         $pub_id = openssl_pkey_get_public($pub);
         $sign = base64_decode($sign);
 
@@ -383,9 +363,7 @@ class HxDefault
     public static function signDataHmacSha256(
         array $data,
         string $password
-    ): string
-    {
-
+    ): string {
         ksort($data);
         $data = http_build_query($data, SORT_STRING);
         $sign = hash_hmac('sha256', $data, $password, false);
@@ -405,8 +383,7 @@ class HxDefault
         array $data,
         string $datasign,
         string $password
-    )
-    {
+    ) {
         ksort($data);
         $data = http_build_query($data, SORT_STRING);
         $sign = hash_hmac('sha256', $data, $password, false);
@@ -428,11 +405,13 @@ class HxDefault
      */
     public static function signData2(
         string $appid,
-        string $method, string $path,
-        int $timestamp, string $nonce, string $userAgent,
+        string $method,
+        string $path,
+        int $timestamp,
+        string $nonce,
+        string $userAgent,
         ?array $data
-    ): string
-    {
+    ): string {
         $param = [
             'method' => $method,
             'path' => $path[0] === '/' ? $path : '/'.$path,
@@ -459,9 +438,10 @@ class HxDefault
      * @return string
      */
     public static function signData3(
-        array $data, string $timestamp, int $nonce
-    ): string
-    {
+        array $data,
+        string $timestamp,
+        int $nonce
+    ): string {
         $data = self::ksortNested($data);
 
         $param = [
@@ -488,9 +468,7 @@ class HxDefault
     public static function sign2DataHmacSha256(
         array $data,
         string $password
-    ): string
-    {
-
+    ): string {
         $data = self::arrayDecline($data);
         $sign = hash_hmac('sha256', $data, $password, false);
 
@@ -509,8 +487,7 @@ class HxDefault
         array $data,
         string $datasign,
         string $password
-    )
-    {
+    ) {
         $data = self::arrayDecline($data);
         $sign = hash_hmac('sha256', $data, $password, false);
 

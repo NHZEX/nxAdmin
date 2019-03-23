@@ -8,7 +8,6 @@
 
 namespace guzzle\psr7;
 
-
 use GuzzleHttp\Psr7\Response;
 
 /**

@@ -8,7 +8,6 @@
 
 namespace db\traits;
 
-
 use db\exception\ModelException;
 use think\Db;
 use think\db\Connection;

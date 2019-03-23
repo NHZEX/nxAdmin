@@ -8,7 +8,6 @@
 
 namespace basis;
 
-
 use Matomo\Ini\IniReader;
 use Matomo\Ini\IniWriter;
 
