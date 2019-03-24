@@ -27,6 +27,7 @@ class Redis2 extends Redis
         $result = $this->handler->get($sessKey);
         return is_string($result) ? $result : '';
     }
+
     /**
      * 写入Session
      * @access public
@@ -47,6 +48,7 @@ class Redis2 extends Redis
         }
         return $result ? true : false;
     }
+
     /**
      * 删除Session
      * @access public

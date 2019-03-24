@@ -1,0 +1,3 @@
+* text=auto
+public/static/* linguist-vendored
+CHANGELOG.md export-ignore

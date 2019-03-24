@@ -22,6 +22,7 @@ class Base extends Facade
         /** @noinspection PhpDynamicAsStaticMethodCallInspection */
         return App::exists(static::getFacadeClass());
     }
+
     /**
      * 获取当前实例
      * @return object
