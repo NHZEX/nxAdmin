@@ -50,7 +50,7 @@ class CreateModel extends Command
         $config = Db::connect()->getConfig();
         $database = $config['database'];
 
-        /** @noinspection SqlNoDataSourceInspection, SqlResolve */
+        /** @noinspection SqlNoDataSourceInspection SqlDialectInspection SqlResolve */
         $sql = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
         $tables = Db::query($sql);
         $table_names = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
@@ -62,7 +62,7 @@ class CreateModel extends Command
                 continue;
             }
 
-            /** @noinspection SqlResolve, SqlNoDataSourceInspection */
+            /** @noinspection SqlResolve SqlNoDataSourceInspection SqlDialectInspection */
             $sql = "select * from information_schema.COLUMNS "
                 . "where table_name = '{$table_name}' and table_schema = '{$database}'";
             $table_fields = Db::query($sql);
