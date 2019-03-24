@@ -61,7 +61,6 @@ class AdminRole extends Base
             $ext = json_decode_throw_on_error($value);
             Cache::set($key, $ext);
         }
-
         return $ext;
     }
 

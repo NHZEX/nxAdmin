@@ -16,6 +16,7 @@ namespace db;
  */
 class Query extends \think\db\Query
 {
+
     /**
      * 指定主键查询条件
      * @param  mixed $op        查询表达式
@@ -28,6 +29,7 @@ class Query extends \think\db\Query
     }
 
     /**
+     *
      * @param int  $limit
      * @param int  $page
      * @param bool $simple

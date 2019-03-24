@@ -14,7 +14,6 @@ class Util extends AdminBase
     {
         $token = $this->generateCsrfTokenSimple();
         $this->addCsrfToken($token);
-
         return self::showData(CODE_SUCCEED, $token);
     }
 }

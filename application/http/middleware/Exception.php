@@ -31,7 +31,6 @@ class Exception extends Middleware
         } catch (ModelException | AccessControl $e) {
             $result = self::showException($e);
         }
-
         return $result;
     }
 }

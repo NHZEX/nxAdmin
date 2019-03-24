@@ -71,19 +71,18 @@ class Deploy extends Command
         $this->app = App::instance();
         $this->env = $this->app->env;
 
-        $dev = (bool) $input->getOption('dev');
-        $forceInit = (bool) $input->getOption('init');
-        $forceCover = (bool) $input->getOption('force');
-        $notMigrate = (bool) $input->getOption('no-migrate');
-        $dryRun = (bool) $input->getOption('dry-run');
-        $ci = (bool) $input->getOption('ci');
+        $dev = (bool)$input->getOption('dev');
+        $forceInit = (bool)$input->getOption('init');
+        $forceCover = (bool)$input->getOption('force');
+        $notMigrate = (bool)$input->getOption('no-migrate');
+        $dryRun = (bool)$input->getOption('dry-run');
+        $ci = (bool)$input->getOption('ci');
         $envPath = $this->app->getRootPath() . '.env';
         $existEnv = file_exists($envPath);
 
-        if ((bool) $input->getOption('example')) {
+        if ((bool)$input->getOption('example')) {
             $output->writeln('生成ENV范例文件...');
             Ini::writerFile($this->app->getRootPath() . '.env.example', (new EnvStruct([]))->toArray());
-
             return;
         }
 
@@ -141,6 +140,7 @@ class Deploy extends Command
 
             $this->initAdminUser($env, $dryRun);
         }
+
 
         $output->writeln('所有操作都完成');
     }
@@ -250,7 +250,6 @@ class Deploy extends Command
                 if (strlen($value) < 6) {
                     throw new \Exception('用户名长度必须大于等于6位');
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -268,7 +267,6 @@ class Deploy extends Command
                 if (strlen($value) < 6) {
                     throw new \Exception('密码长度必须大于等于6位');
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -280,7 +278,6 @@ class Deploy extends Command
                 if ($admin_password !== $value) {
                     throw new \Exception('两次输入密码不一致');
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -290,6 +287,7 @@ class Deploy extends Command
                 throw new \Exception('密码长度必须大于等于6位');
             }
         }
+
 
         $au = new AdminUser();
         $database_config = array_merge($au->getConfig(), $env->database);
@@ -304,7 +302,7 @@ class Deploy extends Command
             $output->writeln($creatde_sql);
         } else {
             $au->save();
-        }
+        };
 
         $output->writeln('> 用户创建成功');
     }
@@ -337,7 +335,6 @@ class Deploy extends Command
                 if (false === strpos($value, ':')) {
                     $value .= ":{$env->database['hostport']}";
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -349,7 +346,6 @@ class Deploy extends Command
                 if (empty($value)) {
                     throw new \Exception('库名为空');
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -360,7 +356,6 @@ class Deploy extends Command
                 if (empty($value)) {
                     throw new \Exception('用户名为空');
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -371,7 +366,6 @@ class Deploy extends Command
                 if (empty($value)) {
                     throw new \Exception('密码为空');
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -419,7 +413,6 @@ class Deploy extends Command
                 if (false === strpos($value, ':')) {
                     $value .= ":{$env->redis['port']}";
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -435,7 +428,6 @@ class Deploy extends Command
                 if (!is_numeric($value)) {
                     throw new \Exception('库名无效');
                 }
-
                 return $value;
             });
             $question->setMaxAttempts(3);

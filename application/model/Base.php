@@ -100,7 +100,6 @@ abstract class Base extends ThinkModel
         return $this->belongsTo(AdminUser::class, 'editor_uid', 'id')
             ->field(['username' => 'editor_name', 'id'])->bind(['editor_name'])->cache(true, 60);
     }
-
     /**
      * 关闭数据访问控制
      * @param bool $off
@@ -109,7 +108,6 @@ abstract class Base extends ThinkModel
     {
         $this->data('__access_control', !$off);
     }
-
     /**
      * 是否关闭数据访问控制
      * @return bool

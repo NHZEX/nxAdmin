@@ -13,6 +13,7 @@ use think\facade\Log;
 
 trait PrintAbnormal
 {
+
     /**
      * @param \Throwable $e
      * @param null|string $type
@@ -52,7 +53,6 @@ trait PrintAbnormal
         do {
             $msg[] = "[#{$trace->getCode()}]({$trace->getMessage()})";
         } while ($trace = $trace->getPrevious());
-
         return join(' > ', $msg);
     }
 
@@ -60,7 +60,6 @@ trait PrintAbnormal
     {
         $list = get_included_files();
         Log::record($list, 'debug');
-
         return $list;
     }
 }

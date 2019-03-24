@@ -39,16 +39,16 @@ class Manager extends Base implements VailAsk
 
     protected $scene = [
         'table' => [
-            'page', 'limit', 'type',
+            'page', 'limit', 'type'
         ],
         'create' => [
-            'username', 'nickname', 'password', 'role_id', 'status',
+            'username', 'nickname', 'password', 'role_id', 'status'
         ],
         'update' => [
-            'nickname', 'role_id', 'status',
+            'nickname', 'role_id', 'status'
         ],
         'password' => [
-            'password',
+            'password'
         ],
         'pageadd' => ['mark', 'type'],
         'pageedit' => ['id', 'mark'],
@@ -70,7 +70,6 @@ class Manager extends Base implements VailAsk
             return "{$desc} 数据类型错误";
         }
         $isVali = isset(ManagerController::FILTER_TYPE[WebConv::getSelf()->sess_user_genre][$value]);
-
         return $isVali ?: "{$desc} 内容无效: {$value}";
     }
 
@@ -89,10 +88,8 @@ class Manager extends Base implements VailAsk
             if ('password' === $request->param('action', false)) {
                 return 'password';
             }
-
             return 'update';
         }
-
         return 'create';
     }
 }

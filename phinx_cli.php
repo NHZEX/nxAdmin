@@ -6,6 +6,7 @@
  * Date: 2019/1/25
  * Time: 9:44
  */
+
 require __DIR__ . '/thinkphp/base.php';
 
 // 应用初始化

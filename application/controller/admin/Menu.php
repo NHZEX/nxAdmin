@@ -33,7 +33,6 @@ class Menu extends Base
         if (!$result->isEmpty()) {
             $result->append(['status_desc']);
         }
-
         return self::showTable([
             'data' => $result,
             'count' => $result->count(),
@@ -63,7 +62,6 @@ class Menu extends Base
             'menu_data' => SystemMenu::getTextTree(),
             'node_data' => \app\logic\Permission::queryNodeFlagsIsMenu(),
         ]);
-
         return $this->fetch();
     }
 
@@ -85,7 +83,6 @@ class Menu extends Base
             $data = new SystemMenu();
         }
         $result = $data->save($input);
-
         return self::showMsg(CODE_SUCCEED, $result);
     }
 
@@ -98,14 +95,12 @@ class Menu extends Base
             return self::showMsg(CODE_COM_UNABLE_PROCESS, '调试模式未开启不能使用该操作');
         }
         SystemMenuLogic::export();
-
         return self::showMsg(CODE_SUCCEED);
     }
 
     public function delete($pkid = null)
     {
         SystemMenu::destroy($pkid);
-
         return self::showMsg(CODE_SUCCEED);
     }
 }

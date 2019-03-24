@@ -1,5 +1,4 @@
 <?php
-
 /** @noinspection PhpUnhandledExceptionInspection */
 return
 [
@@ -8,8 +7,8 @@ return
             'DbMigrations' => './phinx/migrations',
         ],
         'seeds' => [
-            'DbSeeds' => './phinx/seeds',
-        ],
+            'DbSeeds' => './phinx/seeds'
+        ]
     ],
     'environments' => [
         'default_migration_table' => '_phinxlog',
@@ -28,5 +27,5 @@ return
             'charset' => 'utf8',
         ],
     ],
-    'version_order' => 'creation',
+    'version_order' => 'creation'
 ];

@@ -45,18 +45,16 @@ class DeployUpdate extends Command
                 $this->output->error("Invalid mode: {$mode}");
                 $result = 1;
         }
-
         return $result;
     }
 
     public function gitUpdate(): int
     {
-        $yes = (bool) $this->input->getOption('yes');
+        $yes = (bool)$this->input->getOption('yes');
 
         $git_dir = App::getRootPath() . '.git';
         if (!is_dir($git_dir)) {
             $this->output->error("{$git_dir} does not exist");
-
             return 1;
         }
 
@@ -84,11 +82,9 @@ class DeployUpdate extends Command
             }
             if (0 !== $return) {
                 $this->output->error("exec fail: {$command}");
-
                 return 1;
             }
         }
-
         return 0;
     }
 }

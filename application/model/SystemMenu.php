@@ -27,6 +27,7 @@ use app\logic\SystemMenu as SystemMenuLogic;
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
  * @property int $delete_time 删除时间
+ *
  */
 class SystemMenu extends Base
 {
@@ -81,7 +82,6 @@ class SystemMenu extends Base
                 ];
             }
         }
-
         return $tree;
     }
 
