@@ -10,7 +10,7 @@ namespace redis;
 
 class RedisExtend extends \Redis
 {
-    private const SCRIPT_SERIAL_INC = <<<LUA
+    private const SCRIPT_SERIAL_INC = <<<'LUA'
 local sno = redis.call('INCR', KEYS[1])
 if sno > 65535 then
     sno = 1
@@ -20,7 +20,7 @@ redis.call('EXPIRE', KEYS[1], 1800)
 return sno
 LUA;
 
-    private const SCRIPT_RELEASE_LOCK = <<<LUA
+    private const SCRIPT_RELEASE_LOCK = <<<'LUA'
 if ARGV[1] == redis.call('GET', KEYS[1]) then
     return redis.call('DEL', KEYS[1]) or true
 end
@@ -75,7 +75,7 @@ LUA;
         $lock_name = "__lock:{$name}";
         $lock_id = uuidv4();
 
-        $end = (int)(microtime(true) * 1000) + $retry_timeout;
+        $end = (int) (microtime(true) * 1000) + $retry_timeout;
         do {
             if (empty($lock_timeout)) {
                 $result = $this->set($lock_name, $lock_id, ['NX']);
@@ -86,7 +86,7 @@ LUA;
                 break;
             }
             usleep(1000);
-        } while (!$result && (int)(microtime(true) * 1000) < $end);
+        } while (!$result && (int) (microtime(true) * 1000) < $end);
 
         return $result ? $lock_id : $result;
     }
@@ -113,6 +113,7 @@ LUA;
     {
         /** @var array $redis_info */
         $redis_info = $this->info('SERVER');
+
         return $redis_info['redis_version'];
     }
 }

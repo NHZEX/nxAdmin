@@ -35,7 +35,7 @@ class ExceptionLogs extends Base
     protected $updateTime = false;
 
     protected $type = [
-        'request_info' => 'json'
+        'request_info' => 'json',
     ];
 
     const TYPE_MIXED = 'mixed';
@@ -60,7 +60,6 @@ class ExceptionLogs extends Base
             $dispatch = $request->dispatch();
             if (is_array($dispatch) && isset($dispatch['type'])) {
                 if ('module' === $dispatch['type']) {
-                    ;
                     $route_info = 'route:' . join('/', $dispatch['module']);
                 } else {
                     $route_info = "{$dispatch['type']}:other";

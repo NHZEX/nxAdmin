@@ -49,6 +49,7 @@ class IP
             if (!$is_ipv4 && !$is_ipv6) {
                 return '0.0.0.0';
             }
+
             return $get_ip;
         } else {
             return '0.0.0.0';

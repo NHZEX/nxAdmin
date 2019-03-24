@@ -127,6 +127,7 @@ class HxDefault
             OPENSSL_RAW_DATA,
             $iv
         );
+
         return $out_date;
     }
 
@@ -203,6 +204,7 @@ class HxDefault
         }
         $method = 'AES-128-CFB';
         $out_pwd = [substr($dnc_pwd, 0, 16), substr($dnc_pwd, -16)];
+
         return self::hxAesDec101($in_data, $out_pwd[0], false, $method);
     }
 
@@ -232,6 +234,7 @@ class HxDefault
         $nonce = base_convert($timestamp, 10, 36) . self::getRandStr(8);
         $data = "{$appsn}:{$method}:{$domain}:{$uri}:{$nonce}:{$timestamp}";
         $sign = hash_hmac('sha256', $data, $password);
+
         return $sign;
     }
 
@@ -260,7 +263,8 @@ class HxDefault
         $timestamp = 0
     ): bool {
         $data = "{$appsn}:{$method}:{$domain}:{$uri}:{$nonce}:{$timestamp}";
-        return (bool)($sign === hash_hmac('sha256', $data, $password));
+
+        return (bool) ($sign === hash_hmac('sha256', $data, $password));
     }
 
     /**
@@ -305,6 +309,7 @@ class HxDefault
         if (false === openssl_sign($data, $sign, $pri_id, 'sha256')) {
             throw new \Exception(openssl_error_string());
         }
+
         return base64_encode($sign);
     }
 
@@ -388,7 +393,7 @@ class HxDefault
         $data = http_build_query($data, SORT_STRING);
         $sign = hash_hmac('sha256', $data, $password, false);
 
-        return (bool)($sign === $datasign);
+        return (bool) ($sign === $datasign);
     }
 
     /**
@@ -426,6 +431,7 @@ class HxDefault
         // - 测试发现大数编码是javascript对丢失一部分值
         $param = json_encode($param, self::JSON_CODING_PARAMETER);
         $sign = 'a' . hash_hmac('sha1', $param, $appid, false);
+
         return $sign;
     }
 
@@ -455,6 +461,7 @@ class HxDefault
         // - 测试发现大数编码是javascript对丢失一部分值
         $param = json_encode($param, self::JSON_CODING_PARAMETER);
         $sign = 'a' . hash('sha1', $param);
+
         return $sign;
     }
 
@@ -491,7 +498,7 @@ class HxDefault
         $data = self::arrayDecline($data);
         $sign = hash_hmac('sha256', $data, $password, false);
 
-        return (bool)($sign === $datasign);
+        return (bool) ($sign === $datasign);
     }
 
     /**
@@ -513,6 +520,7 @@ class HxDefault
         };
         array_walk($arr, $call, [$call, 'r']);
         ksort($arrstr, SORT_STRING);
+
         return join('&', $arrstr);
     }
 
@@ -535,6 +543,7 @@ class HxDefault
         for ($i = 0; $i < $length; $i++) {
             $text .= $chars[mt_rand(0, $chars_max_index)];
         }
+
         return $text;
     }
 
@@ -551,6 +560,7 @@ class HxDefault
                 $a[$k] = self::ksortNested($v);
             }
         }
+
         return $a;
     }
 }

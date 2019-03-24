@@ -40,6 +40,7 @@ trait OptimLock
             }
         }
         $result[$that->optimLock] = $lock_version;
+
         return $result;
     }
 
@@ -111,6 +112,7 @@ trait OptimLock
             /** @noinspection PhpUnhandledExceptionInspection */
             throw $exception;
         }
+
         return $result;
     }
 

@@ -17,7 +17,6 @@ use think\facade\Url;
 
 class Login extends Base
 {
-
     /**
      * @param null $jump
      * @return mixed
@@ -83,6 +82,7 @@ class Login extends Base
         $captcha = new Captcha(Config::pull('captcha'));
         $captcha->entry();
         $captcha->saveToRedis($_);
+
         return $captcha->send();
     }
 

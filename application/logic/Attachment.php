@@ -17,7 +17,6 @@ use think\File;
 /**
  * Class Attachment
  * @package app\common\logic
- *
  */
 class Attachment extends Base
 {
@@ -68,8 +67,10 @@ class Attachment extends Base
             }
         } catch (BusinessResultSuccess $success) {
             $this->errorMessage = $success->getMessage();
+
             return false;
         }
+
         return $annex;
     }
 
@@ -85,6 +86,7 @@ class Attachment extends Base
         $name = $file->hash('sha1');
         $name .= '.' . str_pad(dechex($file->getSize()), 8, '0', STR_PAD_LEFT);
         $name .= '.' . $this->getImageType($tmpFileName, true);
+
         return $name;
     }
 
@@ -97,6 +99,7 @@ class Attachment extends Base
     {
         $savePath = substr($name, 0, 2) . DIRECTORY_SEPARATOR . substr($name, 2);
         $savePath = date('Ymd') . DIRECTORY_SEPARATOR . $savePath;
+
         return $savePath;
     }
 
@@ -110,6 +113,7 @@ class Attachment extends Base
     {
         $finfo = new \finfo();
         $result = $finfo->file($filename, FILEINFO_MIME_TYPE);
+
         return $result;
     }
 
@@ -123,6 +127,7 @@ class Attachment extends Base
     {
         $finfo = new \finfo();
         $result = $finfo->file($filename, FILEINFO_EXTENSION);
+
         return $result;
     }
 
