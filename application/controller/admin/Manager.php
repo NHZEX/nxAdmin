@@ -23,8 +23,8 @@ class Manager extends Base
         AdminUser::GENRE_AGENT => [self::FILTER_AGENT => '代理'],
     ];
     const FILTER_TYPE_MAPPING = [
-        self::FILTER_SYSTEM => [AdminUser::GENRE_SUPER_ADMIN, AdminUser::GENRE_ADMIN,],
-        self::FILTER_AGENT => [AdminUser::GENRE_AGENT,],
+        self::FILTER_SYSTEM => [AdminUser::GENRE_SUPER_ADMIN, AdminUser::GENRE_ADMIN],
+        self::FILTER_AGENT => [AdminUser::GENRE_AGENT],
     ];
     const FILTER_TYPE_MAPPING_ROLE = [
         self::FILTER_SYSTEM => AdminRole::GENRE_SYSTEM,
@@ -50,6 +50,7 @@ class Manager extends Base
             'url_delete' => url('delete'),
             'manager_types' => self::FILTER_TYPE[WebConv::getSelf()->sess_user_genre],
         ]);
+
         return $this->fetch();
     }
 
@@ -76,6 +77,7 @@ class Manager extends Base
             $collection->load(['beRoleName']);
             $collection->append(['status_desc', 'genre_desc', 'avatar_data']);
         }
+
         return self::showTable($result);
     }
 
@@ -136,6 +138,7 @@ class Manager extends Base
         }
         $token = $this->generateCsrfToken($au->id, $au->lock_version);
         $this->addCsrfToken($token);
+
         return self::showData(CODE_SUCCEED, $token);
     }
 
@@ -167,6 +170,7 @@ class Manager extends Base
         }
 
         $au->save($input);
+
         return self::showMsg(CODE_SUCCEED);
     }
 
@@ -178,6 +182,7 @@ class Manager extends Base
     public function delete($id = null)
     {
         $result = AdminUser::destroy($id);
+
         return self::showData(CODE_SUCCEED, $result);
     }
 }

@@ -69,6 +69,7 @@ trait ModelUtil
                 array_push($map, [$field, $expression, $queryMap[$key]]);
             }
         }
+
         return $map;
     }
 }

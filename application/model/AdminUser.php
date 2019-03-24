@@ -68,9 +68,9 @@ class AdminUser extends Base
     ];
 
     const ACCESS_CONTROL = [
-        AdminUser::GENRE_SUPER_ADMIN => ['*', self::GENRE_SUPER_ADMIN, self::GENRE_ADMIN, self::GENRE_AGENT],
-        AdminUser::GENRE_ADMIN => ['*', self::GENRE_ADMIN, self::GENRE_AGENT],
-        AdminUser::GENRE_AGENT => [self::GENRE_AGENT],
+        self::GENRE_SUPER_ADMIN => ['*', self::GENRE_SUPER_ADMIN, self::GENRE_ADMIN, self::GENRE_AGENT],
+        self::GENRE_ADMIN => ['*', self::GENRE_ADMIN, self::GENRE_AGENT],
+        self::GENRE_AGENT => [self::GENRE_AGENT],
     ];
     const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
     const PWD_HASH_OPTIONS = ['cost' => 10];
@@ -182,6 +182,7 @@ class AdminUser extends Base
                 $this->save();
             }
         }
+
         return $value;
     }
 
@@ -195,6 +196,7 @@ class AdminUser extends Base
         if ($value) {
             return Attachment::formatAccessPath($value);
         }
+
         return '';
     }
 
@@ -257,6 +259,7 @@ class AdminUser extends Base
         $model->username = $username;
         $model->password = $password;
         $model->save();
+
         return $model;
     }
 
@@ -276,6 +279,7 @@ class AdminUser extends Base
             );
             $password_need_rehash && $this->password = $password;
         }
+
         return $verify_result;
     }
 
@@ -292,6 +296,7 @@ class AdminUser extends Base
         if (false === $user instanceof self) {
             throw new ModelException('用户不存在');
         }
+
         return $user;
     }
 }

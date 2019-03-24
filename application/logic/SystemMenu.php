@@ -41,6 +41,7 @@ class SystemMenu extends Base
             });
             Cache::set(self::$CACHE_KEY_MENUS_ALL, $menus);
         }
+
         return $menus;
     }
 
@@ -60,6 +61,7 @@ class SystemMenu extends Base
             });
             Cache::set(self::$CACHE_KEY_MENUS_MAPPING_NODE, $mapping);
         }
+
         return $mapping;
     }
 
@@ -88,6 +90,7 @@ class SystemMenu extends Base
             $menuIds = AdminRole::getExtMenu($roleId);
             $menus = self::filterById($menuIds, $menus);
         }
+
         return $menus;
     }
 
@@ -118,6 +121,7 @@ class SystemMenu extends Base
                 $newMenus[] = $menu;
             }
         }
+
         return $newMenus;
     }
 
@@ -133,6 +137,7 @@ class SystemMenu extends Base
         $nodes_data = var_export($datas->toArray(), true);
         $date = date('c');
         file_put_contents($nodes_dir . '/menus.php', "<?php\n//export date: {$date}\nreturn {$nodes_data};");
+
         return true;
     }
 
@@ -161,8 +166,10 @@ class SystemMenu extends Base
                     throw $exception;
                 }
             }
+
             return true;
         }
+
         return false;
     }
 }

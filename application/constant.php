@@ -5,7 +5,6 @@
  * Date: 2018/12/19
  * Time: 11:31
  */
-
 const RESOURCE_VERSION = '1.0';
 const CSRF_TOKEN = 'XSRF-Token';
 

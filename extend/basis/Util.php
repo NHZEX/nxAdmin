@@ -5,6 +5,7 @@
  * Date: 2019/3/6
  * Time: 15:10
  */
+
 namespace basis;
 
 class Util
@@ -36,6 +37,7 @@ class Util
         $uncamelized_words = self::toSnakeCase($input);
         $uncamelized_words = ucwords($uncamelized_words, '_');
         $uncamelized_words = str_replace($separator, '', $uncamelized_words);
+
         return $uncamelized_words;
     }
 
