@@ -79,7 +79,7 @@ class Session2 extends Session
         $this->sessionName = $config['name'] ?? ini_get('session.name');
         $this->sessionUseTransSid = boolval($config['use_trans_sid'] ?? ini_get('session.use_trans_sid'));
         if (isset($config['sid_length']) && $config['sid_length'] > 0) {
-            $this->sessionSidLength = (int)$config['sid_length'];
+            $this->sessionSidLength = (int) $config['sid_length'];
         }
         [
             'lifetime' => $cookie_lifetime,

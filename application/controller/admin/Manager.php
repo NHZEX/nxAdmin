@@ -23,8 +23,8 @@ class Manager extends Base
         AdminUser::GENRE_AGENT => [self::FILTER_AGENT => '代理'],
     ];
     const FILTER_TYPE_MAPPING = [
-        self::FILTER_SYSTEM => [AdminUser::GENRE_SUPER_ADMIN, AdminUser::GENRE_ADMIN,],
-        self::FILTER_AGENT => [AdminUser::GENRE_AGENT,],
+        self::FILTER_SYSTEM => [AdminUser::GENRE_SUPER_ADMIN, AdminUser::GENRE_ADMIN],
+        self::FILTER_AGENT => [AdminUser::GENRE_AGENT],
     ];
     const FILTER_TYPE_MAPPING_ROLE = [
         self::FILTER_SYSTEM => AdminRole::GENRE_SYSTEM,

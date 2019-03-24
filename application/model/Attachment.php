@@ -70,7 +70,7 @@ class Attachment extends Base
     public static function formatAccessPath($pic_path)
     {
         if (!$pic_path) {
-            return null;
+            return;
         }
         if (is_array($pic_path)) {
             foreach ($pic_path as &$val) {
@@ -88,7 +88,6 @@ class Attachment extends Base
                 return $result;
             }
         }
-        return null;
     }
 
     /**
@@ -99,7 +98,7 @@ class Attachment extends Base
     public static function formatForItemPath($pic_path)
     {
         if (!$pic_path) {
-            return null;
+            return;
         }
         if (is_array($pic_path)) {
             foreach ($pic_path as &$val) {
@@ -117,7 +116,6 @@ class Attachment extends Base
                 return "{$pic_path}:{$result}";
             }
         }
-        return null;
     }
 
     /**
@@ -129,13 +127,12 @@ class Attachment extends Base
     {
         $path_arr = explode('#', $input_path);
         if (count($path_arr) !== 2) {
-            return null;
+            return;
         }
         [$path, $driver] = $path_arr;
 
-        return Attachment::DRIVER_DICT[$driver].$path;
+        return self::DRIVER_DICT[$driver].$path;
     }
-
 
     /**
      * @param $fileKey

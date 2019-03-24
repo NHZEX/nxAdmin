@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -254,7 +255,7 @@ function repair_local_img_url_domain($url)
     }
 
     if (empty($url)) {
-        return null;
+        return;
     }
 
     if (0 === strpos($url, '//')) {
@@ -333,7 +334,7 @@ function repair_local_imgs_url_domain($urls)
     }
     return array_map(function ($val) use ($domain, $isSsl) {
         if (empty($val)) {
-            return null;
+            return;
         }
         if (0 === strpos($val, '//')) {
             return ($isSsl ? 'https:' : 'http:') . $val;
@@ -396,7 +397,7 @@ function sortArrByManyField()
 {
     $args = func_get_args();
     if (empty($args)) {
-        return null;
+        return;
     }
     $arr = array_shift($args);
     if (!is_array($arr)) {
@@ -411,7 +412,7 @@ function sortArrByManyField()
             $args[$key] = $temp;
         }
     }
-    $args[] = &$arr;//引用值
+    $args[] = &$arr; //引用值
     call_user_func_array('array_multisort', $args);
     return array_pop($args);
 }
@@ -419,7 +420,7 @@ function sortArrByManyField()
 /**
  * 多字节字符串按照字节长度进行截取
  * @param  string $string 字符串
- * @param  integer $length 截取长度
+ * @param  int $length 截取长度
  * @param  string $dot 省略符
  * @param  string $charset 编码
  * @return string

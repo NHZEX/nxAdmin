@@ -260,7 +260,7 @@ class HxDefault
         $timestamp = 0
     ): bool {
         $data = "{$appsn}:{$method}:{$domain}:{$uri}:{$nonce}:{$timestamp}";
-        return (bool)($sign === hash_hmac('sha256', $data, $password));
+        return (bool) ($sign === hash_hmac('sha256', $data, $password));
     }
 
     /**
@@ -388,7 +388,7 @@ class HxDefault
         $data = http_build_query($data, SORT_STRING);
         $sign = hash_hmac('sha256', $data, $password, false);
 
-        return (bool)($sign === $datasign);
+        return (bool) ($sign === $datasign);
     }
 
     /**
@@ -491,7 +491,7 @@ class HxDefault
         $data = self::arrayDecline($data);
         $sign = hash_hmac('sha256', $data, $password, false);
 
-        return (bool)($sign === $datasign);
+        return (bool) ($sign === $datasign);
     }
 
     /**

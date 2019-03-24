@@ -4,6 +4,7 @@
  * Date: 2018/7/30
  * Time: 16:08
  */
+
 namespace app\validate;
 
 class Login extends Base

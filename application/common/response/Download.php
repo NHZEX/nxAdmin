@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -22,6 +23,7 @@ class Download extends Response
     protected $mimeType;
     protected $isContent = false;
     protected $openinBrowser = false;
+
     /**
      * 处理数据
      * @access protected
@@ -85,7 +87,7 @@ class Download extends Response
     /**
      * 设置有效期
      * @access public
-     * @param  integer $expire 有效期
+     * @param  int $expire 有效期
      * @return $this
      */
     public function expire($expire)

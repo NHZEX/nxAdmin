@@ -15,7 +15,6 @@
  * 业务：14xx - 15xx
  * 支付：2000 - 2199
  */
-
 const CODE_SUCCEED = 0;
 
 const CODE_COM_CAPTCHA = 1001;          // 全局:验证码
@@ -27,7 +26,7 @@ const CODE_COM_REQUEST_INVALID = 1007;  // 全局:请求无效
 const CODE_COM_VERIFY_FAILURE = 1007;   // 全局:验证失败
 
 const CODE_MODEL_TRANSACTION = 1201;    // 模型:事务
-const CODE_MODEL_OPTIMISTIC_LOCK = 1202;// 模型:乐观锁
+const CODE_MODEL_OPTIMISTIC_LOCK = 1202; // 模型:乐观锁
 
 const CODE_CONV_VERIFY = 1101;          // 会话:验证
 const CODE_CONV_NOACCESS = 1102;        // 会话:访问
@@ -45,7 +44,7 @@ const CODE_DICT = [
     CODE_CONV_LASTING => 'Invalid iasting',
 
 ];
-const CODE_MODEL_NOT_EXIST = 1201;// 模型不存在
+const CODE_MODEL_NOT_EXIST = 1201; // 模型不存在
 
 //业务
 const CODE_LOGIC_OPEN_ROOM = 1401; //开房流程失败

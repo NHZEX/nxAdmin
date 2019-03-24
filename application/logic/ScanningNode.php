@@ -50,7 +50,7 @@ class ScanningNode
                 $up_controller[] = $controller_name;
                 foreach ($this->nextModuleDepth($controller_new, $up_controller) as $value) {
                     yield $value;
-                };
+                }
                 continue;
             }
             // 处理当前目录下的控制器
@@ -86,7 +86,7 @@ class ScanningNode
     {
         foreach ($this->nextModuleDepth($app_path . $this->controller, []) as $result) {
             yield $result;
-        };
+        }
     }
 
     /**
@@ -149,6 +149,5 @@ class ScanningNode
             }
             return $result;
         }
-        return null;
     }
 }

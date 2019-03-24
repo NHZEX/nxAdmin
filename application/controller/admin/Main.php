@@ -20,7 +20,6 @@ use think\facade\Url;
  */
 class Main extends Base
 {
-
     /**
      * 主页框架
      * @return mixed
