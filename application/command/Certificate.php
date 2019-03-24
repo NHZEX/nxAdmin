@@ -44,6 +44,7 @@ class Certificate extends Command
         if (false === file_exists(CA_ROOT_PATH)) {
             $output->error('缺失初始证书文件，请确保安全的情况下前往（https://curl.haxx.se/docs/caextract.html）下载');
             $output->error('证书存放位置：.\\runtime\\cacert.pem');
+
             return;
         }
 
@@ -164,8 +165,10 @@ class Certificate extends Command
             $this->output->info('CA更新成功');
         } else {
             $this->output->info('CA无需更新');
+
             return true;
         }
+
         return true;
     }
 }

@@ -87,6 +87,7 @@ class RedisProxy
         if (false === $this->init) {
             $this->init = $this->boot();
         }
+
         return $this->handler2->$name(...$arguments);
     }
 

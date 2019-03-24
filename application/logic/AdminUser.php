@@ -85,10 +85,12 @@ class AdminUser extends Base
             }
         } catch (BusinessResult $businessResult) {
             $this->errorMessage = $businessResult->getMessage();
+
             return false;
         } catch (DbException $e) {
             throw new \RuntimeException('数据库访问异常', 0, $e);
         }
+
         return true;
     }
 
@@ -106,6 +108,7 @@ class AdminUser extends Base
         $user->last_login_time = time();
         $user->save();
         $this->conv = WebConv::createSession($user, true);
+
         return true;
     }
 

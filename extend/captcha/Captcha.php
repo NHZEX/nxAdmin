@@ -139,7 +139,6 @@ class Captcha
      *        b：表示波形在Y轴的位置关系或纵向移动距离（上加下减）
      *        φ：决定波形与X轴位置关系或横向移动距离（左加右减）
      *        ω：决定周期（最小正周期T=2π/∣ω∣）
-     *
      */
     private function writeCurve()
     {
@@ -324,6 +323,7 @@ class Captcha
         $code = hash('md5', $code);
         $key = hash('md5', $this->seKey);
         $result = hash_hmac('sha1', $code, $key);
+
         return $result;
     }
 
@@ -333,6 +333,7 @@ class Captcha
             'Content-Length' => strlen($this->codeContent),
             'Cache-Control' => 'private, no-cache, no-store, must-revalidate',
         ];
+
         return response(
             $this->codeContent,
             200,
@@ -350,6 +351,7 @@ class Captcha
     public function check($code, $hashCode)
     {
         $result = $this->codeHash($code) === $hashCode;
+
         return $result;
     }
 
@@ -414,12 +416,15 @@ class Captcha
         } catch (BusinessResult $result) {
             $redis->delete($captcha_key);
             $this->message = $result->getMessage();
+
             return false;
         } catch (JsonException $exception) {
             $this->message = "解码失败: {$exception->getMessage()}";
+
             return false;
         }
         $redis->delete($captcha_key);
+
         return true;
     }
 }

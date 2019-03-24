@@ -46,6 +46,7 @@ trait MysqlJson
             "JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`), '$.{$path}', {$value})"
         );
         $this->data($field, $raw);
+
         return $this;
     }
 
@@ -71,6 +72,7 @@ trait MysqlJson
         // 写入json数据
         $raw = new Expression("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})");
         $this->data($field, $raw);
+
         return $this;
     }
 

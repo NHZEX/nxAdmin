@@ -5,6 +5,7 @@
  * Date: 2018/11/29
  * Time: 16:59
  */
+
 namespace app\controller;
 
 use app\common\traits\ShowReturn;
@@ -52,7 +53,7 @@ class Upload extends AdminBase
             return self::showMsg(CODE_COM_PARAM, '无法处理提交');
         }
         /**
-         * @var  $file File
+         * @var  File
          */
         $returnData = [];
         foreach ($files as $key => $file) {
@@ -62,6 +63,7 @@ class Upload extends AdminBase
             $imageInfo = $this->uploadImage($file);
             $returnData[$key] = $imageInfo;
         }
+
         return self::showData(CODE_SUCCEED, $returnData);
     }
 
@@ -78,6 +80,7 @@ class Upload extends AdminBase
         if (false === $annex = $attachment->uploadImage($file, WebConv::getAdminUser())) {
             return self::showMsg(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
         }
+
         return [
             'path' => "{$annex->path}#{$annex->driver}",
             'real_path' => $annex->real_path,

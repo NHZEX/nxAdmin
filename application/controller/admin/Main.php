@@ -20,7 +20,6 @@ use think\facade\Url;
  */
 class Main extends Base
 {
-
     /**
      * 主页框架
      * @return mixed
@@ -30,7 +29,7 @@ class Main extends Base
     public function index()
     {
         $this->assign('info', [
-            'title' => Env::get('system.web_title')
+            'title' => Env::get('system.web_title'),
         ]);
         $this->assign('webmenu', $this->getMenuToJson());
         $this->assign('user', WebConv::getAdminUser());
@@ -38,6 +37,7 @@ class Main extends Base
             'mainpage' => Url::build('sysinfo'),
             'logout' => Url::build('@admin.login/logout'),
         ]);
+
         return $this->fetch();
     }
 
@@ -54,6 +54,7 @@ class Main extends Base
         } else {
             $menus = SystemMenu::obtainMenus(WebConv::getSelf()->sess_role_id);
         }
+
         return json_encode_throw_on_error($menus);
     }
 
@@ -83,6 +84,7 @@ class Main extends Base
                 'children' => $children,
             ];
         }
+
         return $menu;
     }
 

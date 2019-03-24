@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -33,9 +34,9 @@ return [
     'session_name'   => $mixing_prefix ? "{$mixing_prefix}:" : 'session',
     // REDIS 设置
     'host'         => Env::get('redis.host', '127.0.0.1'), // redis主机
-    'port'         => (int)Env::get('redis.port', 6379), // redis端口
+    'port'         => (int) Env::get('redis.port', 6379), // redis端口
     'password'     => Env::get('redis.password', ''), // 密码
-    'select'       => (int)Env::get('redis.select', 0), // 操作库
-    'timeout'      => (int)Env::get('redis.timeout', 3), // 超时时间(秒)
+    'select'       => (int) Env::get('redis.select', 0), // 操作库
+    'timeout'      => (int) Env::get('redis.timeout', 3), // 超时时间(秒)
     'persistent'   => Env::get('redis.persistent', false), // 是否长连接
 ];
