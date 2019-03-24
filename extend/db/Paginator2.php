@@ -8,15 +8,9 @@
 
 namespace db;
 
-use ArrayAccess;
-use ArrayIterator;
-use Countable;
-use IteratorAggregate;
-use JsonSerializable;
 use think\model\Collection;
-use Traversable;
 
-class Paginator2 implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
+class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
 {
     /**
      * 是否简洁模式
@@ -203,13 +197,13 @@ class Paginator2 implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
     /**
      * Retrieve an external iterator
      * @link  https://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return Traversable An instance of an object implementing <b>Iterator</b> or
+     * @return \Traversable An instance of an object implementing <b>Iterator</b> or
      * <b>Traversable</b>
      * @since 5.0.0
      */
     public function getIterator()
     {
-        return new ArrayIterator($this->items->all());
+        return new \ArrayIterator($this->items->all());
     }
 
     /**
