@@ -156,7 +156,7 @@ function get_rand_str(int $length = 8, ?string $chars = null)
 
 /**
  * 递归取出数组所有值 (递归重建数组索引)
- * @param array $arr
+ * @param array       $arr
  * @param string|null $filter_key
  * @return array
  * @link https://stackoverflow.com/a/11943744/10242420

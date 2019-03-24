@@ -29,7 +29,7 @@ class Authorize extends Middleware
     protected $app;
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param \Closure $next
      * @return \think\response
      * @throws \ReflectionException

@@ -11,5 +11,4 @@ use app\controller\AdminBase;
 
 abstract class Base extends AdminBase
 {
-
 }
