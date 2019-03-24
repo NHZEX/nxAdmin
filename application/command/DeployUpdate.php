@@ -50,7 +50,7 @@ class DeployUpdate extends Command
 
     public function gitUpdate(): int
     {
-        $yes = (bool)$this->input->getOption('yes');
+        $yes = (bool) $this->input->getOption('yes');
 
         $git_dir = App::getRootPath() . '.git';
         if (!is_dir($git_dir)) {

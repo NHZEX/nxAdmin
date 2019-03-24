@@ -17,7 +17,6 @@ use think\File;
 /**
  * Class Attachment
  * @package app\common\logic
- *
  */
 class Attachment extends Base
 {

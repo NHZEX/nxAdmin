@@ -13,7 +13,6 @@ use think\facade\Log;
 
 trait PrintAbnormal
 {
-
     /**
      * @param \Throwable $e
      * @param null|string $type

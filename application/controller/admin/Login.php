@@ -17,7 +17,6 @@ use think\facade\Url;
 
 class Login extends Base
 {
-
     /**
      * @param null $jump
      * @return mixed

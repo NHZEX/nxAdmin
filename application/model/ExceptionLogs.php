@@ -60,7 +60,6 @@ class ExceptionLogs extends Base
             $dispatch = $request->dispatch();
             if (is_array($dispatch) && isset($dispatch['type'])) {
                 if ('module' === $dispatch['type']) {
-                    ;
                     $route_info = 'route:' . join('/', $dispatch['module']);
                 } else {
                     $route_info = "{$dispatch['type']}:other";

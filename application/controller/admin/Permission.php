@@ -121,7 +121,7 @@ class Permission extends Base
                 if ($item['menu']) {
                     $flag = $flag | PermissionModel::FLAG_MENU;
                 }
-                PermissionModel::wherePk($item['id'])->update(['flags' => $flag,]);
+                PermissionModel::wherePk($item['id'])->update(['flags' => $flag]);
             }
             // 重新设置节点缓存
             PermissionLogic::refreshCache();

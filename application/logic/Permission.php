@@ -56,7 +56,7 @@ class Permission
     public static function getFlagByHash(string $hash): int
     {
         $nodes = self::queryNodeHashFlagsAll();
-        return (int)($nodes[$hash] ?? 0);
+        return (int) ($nodes[$hash] ?? 0);
     }
 
     /**

@@ -10,5 +10,4 @@ namespace app\exception;
 
 class ExceptionManager extends \Exception
 {
-
 }

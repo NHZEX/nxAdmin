@@ -71,16 +71,16 @@ class Deploy extends Command
         $this->app = App::instance();
         $this->env = $this->app->env;
 
-        $dev = (bool)$input->getOption('dev');
-        $forceInit = (bool)$input->getOption('init');
-        $forceCover = (bool)$input->getOption('force');
-        $notMigrate = (bool)$input->getOption('no-migrate');
-        $dryRun = (bool)$input->getOption('dry-run');
-        $ci = (bool)$input->getOption('ci');
+        $dev = (bool) $input->getOption('dev');
+        $forceInit = (bool) $input->getOption('init');
+        $forceCover = (bool) $input->getOption('force');
+        $notMigrate = (bool) $input->getOption('no-migrate');
+        $dryRun = (bool) $input->getOption('dry-run');
+        $ci = (bool) $input->getOption('ci');
         $envPath = $this->app->getRootPath() . '.env';
         $existEnv = file_exists($envPath);
 
-        if ((bool)$input->getOption('example')) {
+        if ((bool) $input->getOption('example')) {
             $output->writeln('生成ENV范例文件...');
             Ini::writerFile($this->app->getRootPath() . '.env.example', (new EnvStruct([]))->toArray());
             return;
@@ -140,7 +140,6 @@ class Deploy extends Command
 
             $this->initAdminUser($env, $dryRun);
         }
-
 
         $output->writeln('所有操作都完成');
     }
@@ -288,7 +287,6 @@ class Deploy extends Command
             }
         }
 
-
         $au = new AdminUser();
         $database_config = array_merge($au->getConfig(), $env->database);
         $au->setConnection(Connection::instance($database_config));
@@ -302,7 +300,7 @@ class Deploy extends Command
             $output->writeln($creatde_sql);
         } else {
             $au->save();
-        };
+        }
 
         $output->writeln('> 用户创建成功');
     }

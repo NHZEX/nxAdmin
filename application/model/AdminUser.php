@@ -68,9 +68,9 @@ class AdminUser extends Base
     ];
 
     const ACCESS_CONTROL = [
-        AdminUser::GENRE_SUPER_ADMIN => ['*', self::GENRE_SUPER_ADMIN, self::GENRE_ADMIN, self::GENRE_AGENT],
-        AdminUser::GENRE_ADMIN => ['*', self::GENRE_ADMIN, self::GENRE_AGENT],
-        AdminUser::GENRE_AGENT => [self::GENRE_AGENT],
+        self::GENRE_SUPER_ADMIN => ['*', self::GENRE_SUPER_ADMIN, self::GENRE_ADMIN, self::GENRE_AGENT],
+        self::GENRE_ADMIN => ['*', self::GENRE_ADMIN, self::GENRE_AGENT],
+        self::GENRE_AGENT => [self::GENRE_AGENT],
     ];
     const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
     const PWD_HASH_OPTIONS = ['cost' => 10];

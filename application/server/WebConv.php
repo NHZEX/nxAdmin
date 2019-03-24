@@ -166,7 +166,7 @@ class WebConv
      * @param bool           $rememberme
      * @return static
      */
-    public static function createSession(AdminUserModel $user, bool $rememberme = false): WebConv
+    public static function createSession(AdminUserModel $user, bool $rememberme = false): self
     {
         // 创建实例
         $that = \facade\WebConv::getSelf();
