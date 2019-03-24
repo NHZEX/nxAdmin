@@ -4,7 +4,6 @@ enabled:
   - whitespace_after_comma_in_array
   - unary_operator_spaces
   - trim_array_spaces
-  - trailing_comma_in_multiline_array
   - ternary_operator_spaces
   - standardize_not_equals
   - space_after_semicolon
@@ -60,7 +59,6 @@ enabled:
   - declare_equal_normalize
   - cast_spaces
   - blank_line_after_opening_tag
-  - blank_line_before_return
   - binary_operator_spaces
 finder:
   exclude:
