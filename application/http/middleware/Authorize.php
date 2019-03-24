@@ -112,7 +112,7 @@ class Authorize extends Middleware
      * @param  mixed   $msg    提示信息
      * @param  string  $url    跳转的URL地址
      * @param  mixed   $data   返回的数据
-     * @param  int $wait   跳转等待时间
+     * @param  int     $wait   跳转等待时间
      * @param  array   $header 发送的Header信息
      * @return \think\response
      */

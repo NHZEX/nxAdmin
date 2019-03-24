@@ -242,9 +242,9 @@ function array_sign(array $data, string $algo = 'md5', ?string $hmac_key = null)
  * 规范化输出图片地址
  * @param $url
  * @author NHZEXG
- * @return null|string
+ * @return string|null
  */
-function repair_local_img_url_domain($url)
+function repair_local_img_url_domain($url): ?string
 {
     static $domain;
     static $isSsl;
@@ -255,7 +255,7 @@ function repair_local_img_url_domain($url)
     }
 
     if (empty($url)) {
-        return;
+        return null;
     }
 
     if (0 === strpos($url, '//')) {
@@ -320,7 +320,7 @@ function repair_local_imgs_url_domain_json($urls, $key = null)
  * @author NHZEXG
  * @return array
  */
-function repair_local_imgs_url_domain($urls)
+function repair_local_imgs_url_domain($urls): array
 {
     static $domain;
     static $isSsl;
@@ -334,7 +334,7 @@ function repair_local_imgs_url_domain($urls)
     }
     return array_map(function ($val) use ($domain, $isSsl) {
         if (empty($val)) {
-            return;
+            return '';
         }
         if (0 === strpos($val, '//')) {
             return ($isSsl ? 'https:' : 'http:') . $val;
@@ -397,7 +397,7 @@ function sortArrByManyField()
 {
     $args = func_get_args();
     if (empty($args)) {
-        return;
+        return [];
     }
     $arr = array_shift($args);
     if (!is_array($arr)) {

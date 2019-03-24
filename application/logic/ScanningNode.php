@@ -138,7 +138,7 @@ class ScanningNode
      * @param $doc
      * @return array|null 信息数组 {'name'=>'名称', 'desc'=>'说明'}
      */
-    public static function parseDoc(string $doc)
+    public static function parseDoc(string $doc): ?array
     {
         static $doc_regular = '/\*\s\$(name|desc)([\S\s]+?)$/m';
 
@@ -149,5 +149,6 @@ class ScanningNode
             }
             return $result;
         }
+        return null;
     }
 }

@@ -8,7 +8,6 @@ enabled:
   - standardize_not_equals
   - space_after_semicolon
   - single_blank_line_before_namespace
-  - simplified_null_return
   - short_scalar_cast
   - short_array_syntax
   - self_accessor
