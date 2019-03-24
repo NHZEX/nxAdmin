@@ -44,6 +44,7 @@ class Role extends Base
             'url_menu' => url('menu'),
             'manager_types' => self::FILTER_TYPE[WebConv::getSelf()->sess_user_genre],
         ]);
+
         return $this->fetch();
     }
 
@@ -70,6 +71,7 @@ class Role extends Base
         if (!$collection->isEmpty()) {
             $collection->append(['genre_desc', 'status_desc']);
         }
+
         return self::showTable($result);
     }
 
@@ -124,6 +126,7 @@ class Role extends Base
             $ar = new AdminRole();
         }
         $result = $ar->save($input);
+
         return self::showMsg(CODE_SUCCEED, $result);
     }
 
@@ -143,6 +146,7 @@ class Role extends Base
             'url_table' => url('@admin.permission/nodeList'),
             'url_save' => url('savePermission'),
         ]);
+
         return $this->fetch();
     }
 
@@ -156,6 +160,7 @@ class Role extends Base
     {
         $param = $this->request->param();
         AdminRoleLogic::savePermission($param['id'], $param['hashArr']);
+
         return self::showMsg(CODE_SUCCEED);
     }
 
@@ -170,7 +175,7 @@ class Role extends Base
     public function menu($id = 0)
     {
         $response = [
-            'parentId' => 'pid'
+            'parentId' => 'pid',
         ];
         $menuIds = AdminRoleLogic::getExtMenu($id);
         $this->assign([
@@ -194,6 +199,7 @@ class Role extends Base
         $param = $this->request->param();
         // 保存选中的HASH
         AdminRoleLogic::saveMenu($param['id'], $param['ids']);
+
         return self::showMsg(CODE_SUCCEED);
     }
 
@@ -205,6 +211,7 @@ class Role extends Base
     public function delete($id = null)
     {
         $result = AdminRole::destroy($id);
+
         return self::showData(CODE_SUCCEED, $result);
     }
 }

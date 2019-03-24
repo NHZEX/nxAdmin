@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -73,6 +74,7 @@ function base64url_decode(string $data): string
     if ($remainder = strlen($data) % 4) {
         $data .= str_repeat('=', 4 - $remainder);
     }
+
     return base64_decode(strtr($data, '-_', '+/'));
 }
 
@@ -105,6 +107,7 @@ function urlHash(?string $url, string $prefix = 'page-'): string
 
     $info = parse_url($url);
     $url = $info ? ($info['path'] ?? '/') : '/';
+
     return $prefix . crc32($url);
 }
 
@@ -151,6 +154,7 @@ function get_rand_str(int $length = 8, ?string $chars = null)
     for ($i = 0; $i < $length; $i++) {
         $text .= $chars[mt_rand(0, $chars_max_index)];
     }
+
     return $text;
 }
 
@@ -187,6 +191,7 @@ function array_values_recursive(array $arr, ?string $filter_key = null)
 function is_assoc(array $arr)
 {
     $keys = array_keys($arr);
+
     return array_keys($keys) !== $keys;
 }
 
@@ -204,6 +209,7 @@ function is_assoc2(array $arr)
     if (true === isset($arr[0])) {
         return false;
     }
+
     return array_keys($arr) !== range(0, count($arr) - 1);
 }
 
@@ -219,6 +225,7 @@ function has_string_keys(array $arr)
             return true;
         }
     }
+
     return false;
 }
 
@@ -234,6 +241,7 @@ function array_sign(array $data, string $algo = 'md5', ?string $hmac_key = null)
     } else {
         $sign = hash($algo, $code);
     }
+
     return $sign;
 }
 
@@ -254,7 +262,7 @@ function repair_local_img_url_domain($url)
     }
 
     if (empty($url)) {
-        return null;
+        return;
     }
 
     if (0 === strpos($url, '//')) {
@@ -266,6 +274,7 @@ function repair_local_img_url_domain($url)
     if (0 !== strpos($url, 'http')) {
         return $domain . '/' . $url;
     }
+
     return $url;
 }
 
@@ -299,6 +308,7 @@ function repair_local_imgs_url_domain_json($urls, $key = null)
     $urls = array_filter($urls, function ($val) {
         return !empty($val) && is_string($val);
     });
+
     return array_map(function ($val) use ($domain, $isSsl) {
         if (0 === strpos($val, '//')) {
             return ($isSsl ? 'https:' : 'http:') . $val;
@@ -309,6 +319,7 @@ function repair_local_imgs_url_domain_json($urls, $key = null)
         if (0 !== strpos($val, 'http')) {
             return $domain . '/' . $val;
         }
+
         return $val;
     }, $urls);
 }
@@ -331,9 +342,10 @@ function repair_local_imgs_url_domain($urls)
         $domain = $request->domain();
         $isSsl = $request->isSsl();
     }
+
     return array_map(function ($val) use ($domain, $isSsl) {
         if (empty($val)) {
-            return null;
+            return;
         }
         if (0 === strpos($val, '//')) {
             return ($isSsl ? 'https:' : 'http:') . $val;
@@ -344,6 +356,7 @@ function repair_local_imgs_url_domain($urls)
         if (0 !== strpos($val, 'http')) {
             return $domain . '/' . $val;
         }
+
         return $val;
     }, $urls);
 }
@@ -362,6 +375,7 @@ function query_mysql_version($connect = null)
     } else {
         $_version = \think\Db::query($sql);
     }
+
     return array_pop($_version)['mysqlver'];
 }
 
@@ -381,6 +395,7 @@ function query_mysql_exist_database(string $database, $connect = null)
     } else {
         $list = \think\Db::query($sql);
     }
+
     return count($list) > 0;
 }
 
@@ -396,7 +411,7 @@ function sortArrByManyField()
 {
     $args = func_get_args();
     if (empty($args)) {
-        return null;
+        return;
     }
     $arr = array_shift($args);
     if (!is_array($arr)) {
@@ -411,15 +426,16 @@ function sortArrByManyField()
             $args[$key] = $temp;
         }
     }
-    $args[] = &$arr;//引用值
+    $args[] = &$arr; //引用值
     call_user_func_array('array_multisort', $args);
+
     return array_pop($args);
 }
 
 /**
  * 多字节字符串按照字节长度进行截取
  * @param  string $string 字符串
- * @param  integer $length 截取长度
+ * @param  int $length 截取长度
  * @param  string $dot 省略符
  * @param  string $charset 编码
  * @return string
@@ -429,6 +445,7 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
     if (strlen($string) > $length) {
         $charset || $charset = mb_internal_encoding();
         $dotlen = strlen($dot);
+
         return mb_strcut($string, 0, $length - $dotlen, $charset) . $dot;
     }
 
@@ -448,6 +465,7 @@ function byte_unit_conversion(int $size)
     foreach ($units as $unit) {
         if ($size < 1024) {
             $size = sprintf('%.2f', $size);
+
             return "{$size}{$unit}";
         }
         $size = $size / 1024;

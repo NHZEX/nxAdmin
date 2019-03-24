@@ -130,7 +130,6 @@ class CreateModel extends Command
                 $class_text .= " * @property {$type} $"."{$field_name} {$comment}\n";
             }
 
-
             $class_text .= " */\n";
             $class_text .= "class {$class_name} extends Base\n";
             $class_text .= "{\n";

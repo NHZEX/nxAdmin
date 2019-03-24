@@ -25,9 +25,10 @@ abstract class Base implements \ArrayAccess, \JsonSerializable
      * @param  array $hidden 属性列表
      * @return $this
      */
-    public function hidden($hidden = []): Base
+    public function hidden($hidden = []): self
     {
         $this->hidden_key = array_flip($hidden);
+
         return $this;
     }
 
@@ -51,6 +52,7 @@ abstract class Base implements \ArrayAccess, \JsonSerializable
         if (count($this->hidden_key)) {
             $data  = array_diff_key($data, $this->hidden_key);
         }
+
         return $data;
     }
 
@@ -71,6 +73,7 @@ abstract class Base implements \ArrayAccess, \JsonSerializable
                 return get_object_vars($that);
             }
         };
+
         return $e->read($this) ?: [];
     }
 
@@ -80,7 +83,7 @@ abstract class Base implements \ArrayAccess, \JsonSerializable
      * @param mixed $offset <p>
      *                      An offset to check for.
      *                      </p>
-     * @return boolean true on success or false on failure.
+     * @return bool true on success or false on failure.
      *                      </p>
      *                      <p>
      *                      The return value will be casted to boolean if non-boolean was returned.

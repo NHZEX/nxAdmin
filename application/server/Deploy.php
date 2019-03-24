@@ -50,7 +50,7 @@ class Deploy
     public static function __callStatic($name, $arguments)
     {
         if (0 === strpos($name, 'get')) {
-            return Env::get(Deploy::ITEM_NAME . '.' . Util::toSnakeCase(substr($name, 3)));
+            return Env::get(self::ITEM_NAME . '.' . Util::toSnakeCase(substr($name, 3)));
         }
 
         throw new \RuntimeException('Fatal error: Call to undefined method '.__CLASS__."::{$name}");

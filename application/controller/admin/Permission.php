@@ -30,6 +30,7 @@ class Permission extends Base
             'url_save_flags' => url('saveFlags'),
             'url_export' => url('exportNodes'),
         ]);
+
         return $this->fetch();
     }
 
@@ -50,6 +51,7 @@ class Permission extends Base
         if (!$result->isEmpty()) {
             $result->append(['login_flag', 'permission_flag', 'menu_flag']);
         }
+
         return self::showTable([
             'data' => $result,
             'count' => $result->count(),
@@ -66,6 +68,7 @@ class Permission extends Base
     {
         $data = $this->request->param(null, null, 'htmlspecialchars');
         $result = PermissionModel::update($data, ['id' => $id], ['alias_name', 'description']);
+
         return self::showData(CODE_SUCCEED, $result);
     }
 
@@ -81,6 +84,7 @@ class Permission extends Base
         }
         //重新生成节点
         PermissionModel::generateNodes();
+
         return self::showMsg(CODE_SUCCEED, '操作成功');
     }
 
@@ -93,6 +97,7 @@ class Permission extends Base
             return self::showMsg(CODE_COM_UNABLE_PROCESS, '调试模式未开启不能修改权限节点');
         }
         PermissionLogic::exportNodes();
+
         return self::showMsg(CODE_SUCCEED);
     }
 
@@ -121,7 +126,7 @@ class Permission extends Base
                 if ($item['menu']) {
                     $flag = $flag | PermissionModel::FLAG_MENU;
                 }
-                PermissionModel::wherePk($item['id'])->update(['flags' => $flag,]);
+                PermissionModel::wherePk($item['id'])->update(['flags' => $flag]);
             }
             // 重新设置节点缓存
             PermissionLogic::refreshCache();

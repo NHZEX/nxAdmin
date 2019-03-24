@@ -13,7 +13,6 @@ use think\Response;
 
 trait ShowReturn
 {
-
     /**
      * 统一返回 被禁止的访问 未经授权(Forbidden)
      * see RFC7231 and RFC7235.
@@ -55,7 +54,6 @@ trait ShowReturn
     {
         return self::showReturn($code, $data, $msg, false, $header);
     }
-
 
     /**
      * 统一返回 只返回消息
@@ -108,6 +106,7 @@ trait ShowReturn
         } else {
             $result = $data;
         }
+
         return self::showReturn($code, $result, $msg, true);
     }
 
@@ -161,6 +160,7 @@ trait ShowReturn
         } elseif (CODE_DICT[$code] ?? false) {
             $defult['msg'] = CODE_DICT[$code];
         }
+
         return Response::create($defult, 'json', $http_code, $header, $options);
     }
 }

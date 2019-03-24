@@ -148,6 +148,7 @@ class WebConv
         if (0 === strpos($name, 'sess')) {
             $name = substr($name, 5);
             $this->convAdminInfo[$name] = $value;
+
             return;
         }
         throw new \ErrorException('Undefined property: '.__CLASS__."::{$name}");
@@ -166,7 +167,7 @@ class WebConv
      * @param bool           $rememberme
      * @return static
      */
-    public static function createSession(AdminUserModel $user, bool $rememberme = false): WebConv
+    public static function createSession(AdminUserModel $user, bool $rememberme = false): self
     {
         // 创建实例
         $that = \facade\WebConv::getSelf();
@@ -213,6 +214,7 @@ class WebConv
         $that->sessionId = Session2::getId();
 
         $that->loadConvInfo();
+
         return $that;
     }
 
@@ -231,7 +233,7 @@ class WebConv
         // 签名
         $sign_info = [
             'user_feature' => $user_feature,
-            'user_agent' => crc32($user_agent)
+            'user_agent' => crc32($user_agent),
         ];
         $sign = array_sign($sign_info, 'sha1', $salt . $user->remember);
 
@@ -239,6 +241,7 @@ class WebConv
         $index = $Hashids->encode($user->id, time() + $expire);
 
         $token_token = "{$index}.$sign";
+
         return $token_token;
     }
 
@@ -290,7 +293,7 @@ class WebConv
             // 签名
             $sign_info = [
                 'user_feature' => $user_feature,
-                'user_agent' => crc32($user_agent)
+                'user_agent' => crc32($user_agent),
             ];
             $sign_test = array_sign($sign_info, 'sha1', $salt . $user->remember);
             if ($sign !== $sign_test) {
@@ -298,6 +301,7 @@ class WebConv
             }
         } catch (BusinessResultSuccess $result) {
             Cookie::delete(self::COOKIE_LASTLOVE);
+
             return null;
         }
 
@@ -312,8 +316,9 @@ class WebConv
     protected static function generateUserFeature(AdminUserModel $user): string
     {
         $feature = [
-            $user->id, $user->genre, $user->status, $user->password
+            $user->id, $user->genre, $user->status, $user->password,
         ];
+
         return md5(join('|', $feature));
     }
 
@@ -328,6 +333,7 @@ class WebConv
             /** @noinspection PhpUnhandledExceptionInspection */
             $this->user = (new AdminUser())->wherePk($this->sess_user_id)->find();
         }
+
         return $this->user;
     }
 
@@ -405,6 +411,7 @@ class WebConv
         } catch (BusinessResultSuccess $result) {
             $this->destroy();
             $this->errorMessage = $result->getMessage();
+
             return $this->verifyResult = false;
         }
 

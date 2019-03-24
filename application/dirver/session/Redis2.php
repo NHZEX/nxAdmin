@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -25,6 +26,7 @@ class Redis2 extends Redis
     {
         $sessKey = $this->config['session_name'] . $sessID;
         $result = $this->handler->get($sessKey);
+
         return is_string($result) ? $result : '';
     }
 
@@ -46,6 +48,7 @@ class Redis2 extends Redis
         } else {
             $result = $this->handler->set($sessKey, $sessData);
         }
+
         return $result ? true : false;
     }
 
@@ -58,6 +61,7 @@ class Redis2 extends Redis
     public function destroy($sessID): bool
     {
         $sessKey = $this->config['session_name'] . $sessID;
+
         return !$this->handler->exists($sessKey) || $this->handler->delete($sessKey) > 0;
     }
 }

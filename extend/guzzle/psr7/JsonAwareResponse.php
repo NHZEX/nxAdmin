@@ -39,6 +39,7 @@ class JsonAwareResponse extends Response
         if (false !== strpos($this->getHeaderLine('Content-Type'), 'application/json')) {
             return $this->json = \json_decode_throw_on_error($body);
         }
+
         return $body;
     }
 }

@@ -129,7 +129,7 @@ class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     /**
      * 数据是否足够分页
      * @access public
-     * @return boolean
+     * @return bool
      */
     public function hasPages()
     {
@@ -176,7 +176,6 @@ class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
         return $this;
     }
 
-
     public function toArray()
     {
         try {
@@ -212,7 +211,7 @@ class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      * @param mixed $offset <p>
      *                      An offset to check for.
      *                      </p>
-     * @return boolean true on success or false on failure.
+     * @return bool true on success or false on failure.
      *                      </p>
      *                      <p>
      *                      The return value will be casted to boolean if non-boolean was returned.
