@@ -47,13 +47,11 @@ class Upload extends AdminBase
      */
     public function images()
     {
+        /** @var File[] $files */
         $files = $this->request->file();
         if (!is_array($files)) {
             return self::showMsg(CODE_COM_PARAM, '无法处理提交');
         }
-        /**
-         * @var  $file File
-         */
         $returnData = [];
         foreach ($files as $key => $file) {
             if (false === ($file instanceof File)) {
