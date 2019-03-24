@@ -12,4 +12,5 @@ use think\Exception;
 
 class ModelException extends Exception
 {
+
 }

@@ -24,7 +24,6 @@ class Ini
     public static function readerFile(string $file_path)
     {
         $reader = new IniReader();
-
         return $reader->readFile($file_path);
     }
 
@@ -57,7 +56,6 @@ class Ini
         if ($header === self::HEADER_DATE) {
             $header = '; Date:' . date('c') . "\n\n";
         }
-
         return $writer->writeToString($contents, $header);
     }
 }

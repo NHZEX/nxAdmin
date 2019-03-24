@@ -45,7 +45,6 @@ class Permission
                 ->column('flags', 'hash');
             Cache::set(self::$CACHE_KEY_ALL_NODE_FLAGS, $data);
         }
-
         return $data;
     }
 
@@ -57,8 +56,7 @@ class Permission
     public static function getFlagByHash(string $hash): int
     {
         $nodes = self::queryNodeHashFlagsAll();
-
-        return (int) ($nodes[$hash] ?? 0);
+        return (int)($nodes[$hash] ?? 0);
     }
 
     /**
@@ -85,7 +83,6 @@ class Permission
                 'name' => str_replace(['app\\controller\\', '\\', '-'], ['', '.', '/'], $rawPath, $count),
             ];
         }
-
         return $result;
     }
 
@@ -122,7 +119,6 @@ class Permission
         $nodes_data = var_export(PermissionModel::select()->toArray(), true);
         $date = date('c');
         file_put_contents($nodes_dir . '/nodes.php', "<?php\n//export date: {$date}\nreturn {$nodes_data};");
-
         return true;
     }
 
@@ -151,10 +147,8 @@ class Permission
                     throw $exception;
                 }
             }
-
             return true;
         }
-
         return false;
     }
 }

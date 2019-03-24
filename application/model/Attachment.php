@@ -40,7 +40,7 @@ class Attachment extends Base
     const DRIVER_QINIU = 'qiniu';
     const DRIVER_DICT = [
         self::DRIVER_LOCAL => '/upload/',
-        self::DRIVER_QINIU => '//pic.dev.ozxh.wang/',
+        self::DRIVER_QINIU => '//pic.dev.ozxh.wang/'
     ];
 
     /**
@@ -70,7 +70,7 @@ class Attachment extends Base
     public static function formatAccessPath($pic_path)
     {
         if (!$pic_path) {
-            return;
+            return null;
         }
         if (is_array($pic_path)) {
             foreach ($pic_path as &$val) {
@@ -80,7 +80,6 @@ class Attachment extends Base
                     $val = null;
                 }
             }
-
             return array_filter($pic_path, function ($v) {
                 return !empty($v);
             });
@@ -89,6 +88,7 @@ class Attachment extends Base
                 return $result;
             }
         }
+        return null;
     }
 
     /**
@@ -99,7 +99,7 @@ class Attachment extends Base
     public static function formatForItemPath($pic_path)
     {
         if (!$pic_path) {
-            return;
+            return null;
         }
         if (is_array($pic_path)) {
             foreach ($pic_path as &$val) {
@@ -109,7 +109,6 @@ class Attachment extends Base
                     $val = null;
                 }
             }
-
             return array_filter($pic_path, function ($v) {
                 return !empty($v);
             });
@@ -118,6 +117,7 @@ class Attachment extends Base
                 return "{$pic_path}:{$result}";
             }
         }
+        return null;
     }
 
     /**
@@ -129,12 +129,13 @@ class Attachment extends Base
     {
         $path_arr = explode('#', $input_path);
         if (count($path_arr) !== 2) {
-            return;
+            return null;
         }
         [$path, $driver] = $path_arr;
 
-        return self::DRIVER_DICT[$driver].$path;
+        return Attachment::DRIVER_DICT[$driver].$path;
     }
+
 
     /**
      * @param $fileKey
@@ -148,7 +149,6 @@ class Attachment extends Base
         if ($file instanceof self && is_file(UPLOAD_STORAGE_PATH . $file->path)) {
             return $file;
         }
-
         return false;
     }
 
@@ -186,7 +186,6 @@ class Attachment extends Base
         $that->sha1 = $fileSha1;
         $that->raw_file_name = $rawFileName;
         $that->save();
-
         return $that;
     }
 }

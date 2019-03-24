@@ -15,4 +15,5 @@ namespace app\exception;
  */
 class ExceptionRecordDown extends \Exception
 {
+
 }

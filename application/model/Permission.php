@@ -86,7 +86,6 @@ class Permission extends Base
 
             return $this->whereRaw("flags & ${flag} > 0");
         }
-
         return $this;
     }
 
@@ -185,7 +184,6 @@ class Permission extends Base
             $that->rollback();
             throw $e;
         }
-
         return true;
     }
 
@@ -267,7 +265,6 @@ class Permission extends Base
         }
 
         $that->save();
-
         return $that->id;
     }
 }
