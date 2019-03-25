@@ -38,8 +38,6 @@ class WebConv
     // 错误信息
     protected $errorMessage;
     /** @var string */
-    private $convCookieName;
-    /** @var string */
     private $sessionId;
     /** @var string */
     private $sessionToken;
@@ -100,7 +98,6 @@ class WebConv
         // 初始化Session
         Session2::init();
 
-        $this->convCookieName = Session2::getName();
         $this->sessionId = Session2::getId();
         $this->sessionToken = Cookie::get('token');
 
@@ -357,12 +354,13 @@ class WebConv
 
     /**
      * 验证会话
+     * @param bool $force
      * @return bool
      * @throws \db\exception\ModelException
      */
-    public function verify()
+    public function verify(bool $force = false)
     {
-        if (null !== $this->verifyResult) {
+        if (null !== $this->verifyResult && !$force) {
             return $this->verifyResult;
         }
         try {
@@ -438,8 +436,6 @@ class WebConv
         }
         // 销毁 Session
         Session2::destroy();
-        // 清除 Session Cookie
-        Cookie::delete($this->convCookieName);
         // 清除 Token Cookie
         Cookie::delete(self::COOKIE_CONV_TOKEN);
     }
