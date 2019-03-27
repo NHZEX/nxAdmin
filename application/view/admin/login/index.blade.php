@@ -70,9 +70,9 @@
     }
 
     require([
-        'jquery', 'js-cookie', 'helper', 'vali', 'verify', 'layui', 'layer'
+        'jquery', 'js-cookie', 'helper', 'verify', 'layui', 'layer'
 
-    ], ($, cookies, helper, vali, Verify, layui) => {
+    ], ($, cookies, helper, Verify, layui) => {
 
         function goMain() {
             window.location.href = '{{ $url_jump }}';
@@ -145,8 +145,7 @@
             $('#login-bth').removeClass('layui-btn-disabled').prop('disabled',false).text('登陆');
         });
 
-        (new Verify($loginform, $logindiv)).pass(function (){
-            console.log(this);
+        (new Verify($loginform)).pass(function (){
             let serialize = this.serialize(Verify.serializeObj);
 
             layer.msg('登陆中...', {icon: 16, shade: 0.01});

@@ -2,12 +2,12 @@
     'use strict';
     if (typeof define === 'function' && define.amd) {
         let preloading = ['layer', 'layform'];
-        define(['jquery', 'lodash', 'crc32', 'axios', 'vali', 'layui', ...preloading], factory);
+        define(['jquery', 'lodash', 'crc32', 'axios', 'verify', 'layui', ...preloading], factory);
     } else {
         throw Error('not support, missing amd dependence')
     }
 
-}(function ($, _, crc32, axios, vali, layui) {
+}(function ($, _, crc32, axios, verify, layui) {
     let helper = {};
 
     helper.noop = function() {};
@@ -273,7 +273,7 @@
                             layform.render(null, $form.attr('lay-filter'));
 
                             // 绑定表单验证器
-                            vali.check(form, $content)
+                            (new verify(form, $content))
                                 .pass(function (form, target) {
                                     let that = this;
                                     // 数据提交

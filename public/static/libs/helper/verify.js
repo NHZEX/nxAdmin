@@ -5,7 +5,6 @@
     } else {
         throw Error('not support, missing amd dependence')
     }
-
 }(function ($) {
     class Verify {
         // 序列化常量
@@ -19,7 +18,7 @@
         static serializeSq2 = 'sq2';
 
         static _STYLE_DANGER = 'layui-form-danger2';
-        static _NAMESPACES = 'verify-xxx';
+        static _NAMESPACES = 'verify-nx-zero';
         static _MARK_VALIDATE_ERROR = 'validate-error';
         static _REGEXP_0 = /^(.*?)\[/;
         static _REGEXP_1 = /\[(.*?)]/g;
@@ -33,19 +32,18 @@
         _gPassCall = null;
         /** @type {jQuery|jQuery.fn.init} */
         _gFormItem = null;
-
-        // 检测事件
+        /** @type {Object} 事件检测设定 */
         _checkEvent = {change: true, blur: false, keyup: true};
 
         /**
          * 构造函数
-         * @param {jQuery|HTMLFormElement} form
+         * @param {jQuery|HTMLFormElement} [form=null]
          * @param {jQuery|HTMLElement} content
          */
         constructor(form, content)
         {
             this._gForm = form;
-            this._gContent = content;
+            this._gContent = content || window.document.body;
 
             // 表单元素
             this.tags = 'input,textarea,select';
@@ -56,7 +54,7 @@
             // 禁用表单自动验证
             $form.attr("novalidate", true);
 
-            this._check(form, content);
+            this._check(this._gForm, this._gContent);
         }
 
         /**
@@ -77,22 +75,17 @@
          */
         _check (form, content) {
             let $form = $(form);
+            let namespaces = '.' + Verify._NAMESPACES;
             this._gFormItem = this.findInputs(form);
             $(this._gFormItem).each((i, input) => {
                 let funcEvent = () => {
                     this.checkInput(input);
                 };
-
+                $(input).off(namespaces);
                 for (let event in this._checkEvent) {
                     if (this._checkEvent.hasOwnProperty(event) && this._checkEvent[event] === true) {
-                        $(input)
-                            .off(event + '.' + Verify._NAMESPACES, funcEvent)
-                            .on(event + '.' + Verify._NAMESPACES, funcEvent);
+                        $(input).on(event + namespaces, funcEvent);
                     }
-                    $(input).on('invalid', (e) => {
-                        Verify._showError(e.target, e.target.validationMessage);
-                        return false;
-                    })
                 }
             });
             let submit = (target) => {
@@ -105,7 +98,7 @@
                 }
             };
             // 一级截取
-            $form.find('[type=submit]').bind('click', function (event) {
+            $form.find('[type=submit]').off(namespaces).bind('click' + namespaces, function (event) {
                 // 阻止默认事件
                 event.preventDefault();
                 // 表单校验
@@ -113,7 +106,7 @@
                 return false;
             });
             // 二级截取
-            $form.bind('submit', function (event) {
+            $form.off(namespaces).bind('submit' + namespaces, function (event) {
                 // 阻止默认事件
                 event.preventDefault();
                 // 表单校验
@@ -495,6 +488,7 @@
          */
         static focus (content, ele) {
             let $ele = $(ele);
+            let $content = $(content);
             let scroll = false;
             // 适配layui元素
             if (!$ele.is('[lay-ignore]') && $ele.is('select, [type=checkbox], [type=radio]')){
@@ -507,13 +501,13 @@
                 // offset().top innerHeight outerHeight height
                 let position = $ele.offset().top - $ele.innerHeight();
                 if (position < 100) {
-                    content.animate({
-                        scrollTop: position + (content.innerHeight() / 2)
+                    $content.animate({
+                        scrollTop: position + ($content.innerHeight() / 2)
                     }, 500);
                 }
-                if (position > content.height() - 100) {
-                    content.animate({
-                        scrollTop: position - (content.innerHeight() / 2)
+                if (position > $content.height() - 100) {
+                    $content.animate({
+                        scrollTop: position - ($content.innerHeight() / 2)
                     }, 500);
                 }
             } else {
