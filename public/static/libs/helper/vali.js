@@ -1,13 +1,12 @@
 ;(function (factory) {
     'use strict';
     if (typeof define === 'function' && define.amd) {
-        define(['jquery', 'lodash'], factory);
+        define(['jquery'], factory);
     } else {
         throw Error('not support, missing amd dependence')
     }
 
-}(function ($, _) {
-
+}(function ($) {
     const STYLE_DANGER = 'layui-form-danger2';
     const MARK_VALIDATE_ERROR = 'validate-error';
     const REGEXP_0 = /^(.*?)\[/;
@@ -327,15 +326,25 @@
             }
             return null;
         };
-
-
+        /**
+         * 设置验证通过事件
+         * @param {Function} call
+         * @returns {vail}
+         */
         this.pass = function (call) {
+            // noinspection JSUnusedGlobalSymbols
             this.passCall = $.isFunction(call) ? call : () => {};
             return this;
         };
+        /**
+         * 获取序列化书籍
+         * @param type
+         * @returns {Object|URLSearchParams|String}
+         */
         this.serialize = function(type) {
             return this.formSerialize(this.gForm, type || 'obj');
         };
+        // 序列化常量
         this.serialize.tObj = 'obj';
         this.serialize.tFd = 'fd';
         this.serialize.tSq = 'sq';
@@ -402,18 +411,29 @@
                 that.checkInput(this);
             }
         });
-        // params || {}
-        $form.bind("submit", function (event) {
-            // 阻止默认事件
-            event.preventDefault();
+        let submit = function(target) {
             // 表单校验
             that.gFormItem = that.findInputs(form);
             if (that.isAllpass(that.gFormItem)) {
-                let target = $form.find('button[type=submit], input[type=submit]').first() || event.target;
                 // 提前定位，防止提示被遮挡
                 vail.focus(that.gContent, target);
                 that.passCall.call(that, form, target);
             }
+        };
+        // 一级截取
+        $form.find('[type=submit]').bind('click', function (event) {
+            // 阻止默认事件
+            event.preventDefault();
+            // 表单校验
+            submit(event.target);
+            return false;
+        });
+        // 二级截取
+        $form.bind('submit', function (event) {
+            // 阻止默认事件
+            event.preventDefault();
+            // 表单校验
+            submit($form.find('button[type=submit], input[type=submit]').first() || event.target);
             return false;
         });
         $(form).data('validate', this);

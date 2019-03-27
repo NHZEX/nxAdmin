@@ -29,6 +29,7 @@
                 <input id="input-verify-code"
                        name="captcha"
                        required
+                       maxlength="4"
                        placeholder="请输入验证码"
                        type="text"
                        autocomplete="off"
@@ -69,8 +70,9 @@
     }
 
     require([
-        'jquery', 'js-cookie', 'helper', 'vali', 'layui', 'layer'
-    ], ($, cookies, helper, vali, layui) => {
+        'jquery', 'js-cookie', 'helper', 'vali', 'verify', 'layui', 'layer'
+
+    ], ($, cookies, helper, vali, Verify, layui) => {
 
         function goMain() {
             window.location.href = '{{ $url_jump }}';
@@ -143,38 +145,38 @@
             $('#login-bth').removeClass('layui-btn-disabled').prop('disabled',false).text('登陆');
         });
 
-        vali.check($loginform, $logindiv)
-            .pass(function (){
-                let serialize = this.serialize('obj');
+        (new Verify($loginform, $logindiv)).pass(function (){
+            console.log(this);
+            let serialize = this.serialize(Verify.serializeObj);
 
-                layer.msg('登陆中...', {icon: 16, shade: 0.01});
-                $('#login-bth').prop('disabled',true);
+            layer.msg('登陆中...', {icon: 16, shade: 0.01});
+            $('#login-bth').prop('disabled',true);
 
-                //提交登陆请求
-                $.post('{{ $url_login }}', serialize).done(function(res){
-                    if(res.code === 0){
-                        //更新会话访问令牌
-                        setToken();
-                        goMain();
-                    } else {
-                        if(1001 === res.code) {
-                            refrushVerifyCode();
-                        }
-                        if(1103 === res.code) {
-                            refrushVerifyCode();
-                            $pwd.focus().val('');
-                        }
-                        $('#loginform').find('');
-                        layer.msg(res.msg);
+            //提交登陆请求
+            $.post('{{ $url_login }}', serialize).done(function(res){
+                if(res.code === 0){
+                    //更新会话访问令牌
+                    setToken();
+                    goMain();
+                } else {
+                    if(1001 === res.code) {
+                        refrushVerifyCode();
                     }
-                }).fail(function(){
-                    //通讯错误处理
-                    layer.msg('通讯失败');
-                }).always(function () {
-                    $('#login-bth').prop('disabled',false);
-                    layer.closeAll('loading');
-                });
-                return false;
+                    if(1103 === res.code) {
+                        refrushVerifyCode();
+                        $pwd.focus().val('');
+                    }
+                    $('#loginform').find('');
+                    layer.msg(res.msg);
+                }
+            }).fail(function(){
+                //通讯错误处理
+                layer.msg('通讯失败');
+            }).always(function () {
+                $('#login-bth').prop('disabled',false);
+                layer.closeAll('loading');
             });
+            return false;
+        });
     });
 </script>

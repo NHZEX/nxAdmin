@@ -12,6 +12,7 @@ require.config({
 
         , 'helper': 'libs/helper/helper'
         , 'vali': 'libs/helper/vali'
+        , 'verify': 'libs/helper/verify'
         , 'table-tpl': 'libs/table-tpl/table-tpl'
         , 'communication': 'libs/window-communication/communication'
 
