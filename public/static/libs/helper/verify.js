@@ -24,6 +24,8 @@
         static _REGEXP_1 = /\[(.*?)]/g;
 
         html5 = true;
+        /** @type {String} 监听元素 */
+        tags = 'input,textarea,select';
         /** @type {jQuery|HTMLFormElement} */
         _gForm = null;
         /** @type {jQuery|HTMLElement} */
@@ -33,7 +35,7 @@
         /** @type {jQuery|jQuery.fn.init} */
         _gFormItem = null;
         /** @type {Object} 事件检测设定 */
-        _checkEvent = {change: true, blur: false, keyup: true};
+        _checkEvent = {change: true, blur: false, focus: true, keyup: true};
 
         /**
          * 构造函数
@@ -44,10 +46,6 @@
         {
             this._gForm = form;
             this._gContent = content || window.document.body;
-
-            // 表单元素
-            this.tags = 'input,textarea,select';
-
 
             let $form = $(form);
 
@@ -322,7 +320,7 @@
             // 显示错误信息
             $ele.addClass(Verify._STYLE_DANGER);
             $ele.addClass(Verify._MARK_VALIDATE_ERROR);
-            Verify._insertError($targetEle.get(0)).addClass('fadeInRight animated').css({width: 'auto'}).html(content);
+            Verify._insertError($targetEle.get(0)).addClass('fadeInRight').css({width: 'auto'}).html(content);
             return false;
         };
 
@@ -355,13 +353,22 @@
         static _insertError (ele) {
             let $html, $ele = $(ele);
             if (!$ele.data('insert')) {
-                $html = $('<span style="-webkit-animation-duration:.2s;animation-duration:.2s;padding-right:20px;color:#a94442;position:absolute;right:0;font-size:12px;z-index:2;display:block;width:34px;text-align:center;pointer-events:none"></span>');
-                $html.css({top: $(ele).position().top + 'px', paddingBottom: $(ele).css('paddingBottom'), lineHeight: $(ele).css('height')});
+                $html = $('<span class="animated" style="-webkit-animation-duration:.2s;animation-duration:.2s;padding-right:20px;color:#a94442;position:absolute;right:0;font-size:12px;z-index:2;display:block;width:34px;text-align:center;pointer-events:none"></span>');
                 $html.insertAfter(ele);
                 $ele.data('insert', true);
             } else {
                 $html = $ele.next('.animated');
             }
+            let parentPos = $(ele).parent().offset().left + $(ele).parent().innerWidth();
+            let elePos = $(ele).offset().left + $(ele).innerWidth();
+            let rightOffset = parentPos - elePos;
+            $html.css({
+                top: $(ele).position().top + 'px',
+                paddingBottom: $(ele).css('paddingBottom'),
+                paddingRight: rightOffset + 'px',
+                lineHeight: $(ele).css('height')
+            });
+
             return $html;
         };
 
