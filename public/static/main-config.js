@@ -3,12 +3,16 @@ require.config({
     baseUrl: '//'+window.location.host + '/static'
     , paths: {
         'jquery': 'libs/jquery/jquery-2.2.4.min'
-        , 'underscore': 'libs/underscore/underscore-min'
+        , 'underscore': 'libs/underscore/underscore.min'
         , 'axios': 'libs/axios/axios.min'
-        , 'artTemplate': 'libs/art-template/template-web'
+        , 'artTemplate': 'libs/art-template/template-web.min'
         , 'js-cookie': 'libs/js-cookie/js.cookie-2.2.0.min'
-        , 'crc32': 'libs/crc32/crc32'
+        , 'crc32': 'libs/crc32/crc32.min'
         , 'lodash': 'libs/lodash/lodash.min'
+        , 'require-css': '/static/require/css.min'
+
+        , 'bootstrap': 'libs/bootstrap3/js/bootstrap.min'
+        , 'bootstrap.typeahead': 'libs/bootstrap3/js/bootstrap3-typeahead.min'
 
         , 'helper': 'libs/helper/helper'
         , 'vali': 'libs/helper/vali'
@@ -16,13 +20,10 @@ require.config({
         , 'table-tpl': 'libs/table-tpl/table-tpl'
         , 'communication': 'libs/window-communication/communication'
 
-        , 'bootstrap': 'libs/bootstrap3/js/bootstrap.min'
-        , 'bootstrap.typeahead': 'libs/bootstrap3/js/bootstrap3-typeahead.min'
-
         , 'formSelects': 'libs/form-selects/formSelects-v4.min'
         , 'formSelects-css': 'libs/form-selects/formSelects-v4'
 
-        , 'jsoneditor': 'libs/jsoneditor/jsoneditor'
+        , 'jsoneditor': 'libs/jsoneditor/jsoneditor.min'
         , 'jsoneditor-css': 'libs/jsoneditor/jsoneditor.min'
         , 'jsoneditor-fixlayui-css': 'libs/jsoneditor/fixlayui'
 
@@ -109,7 +110,7 @@ require.config({
     }
     , map: {
         '*': {
-            'css': 'require/css.min'
+            'css': 'require-css'
         }
     },
 
