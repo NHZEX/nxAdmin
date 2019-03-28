@@ -6,37 +6,23 @@
         throw Error('not support, missing amd dependence')
     }
 }(function ($) {
+    const STYLE_DANGER = 'layui-form-danger2';
+    const NAMESPACES = 'verify-nx-zero';
+    const MARK_VALIDATE_ERROR = 'validate-error';
+    const REGEXP_0 = /^(.*?)\[/;
+    const REGEXP_1 = /\[(.*?)]/g;
+
+    // 序列化常量
+    // noinspection JSUnusedLocalSymbols
+    const SERIALIZE_OBJ = 'obj';
+    // noinspection JSUnusedLocalSymbols
+    const SERIALIZE_FD = 'fd';
+    // noinspection JSUnusedLocalSymbols
+    const SERIALIZE_SQ = 'sq';
+    // noinspection JSUnusedLocalSymbols
+    const SERIALIZE_SQ2 = 'sq2';
+
     class Verify {
-        // 序列化常量
-        // noinspection JSUnusedGlobalSymbols
-        static serializeObj = 'obj';
-        // noinspection JSUnusedGlobalSymbols
-        static serializeFd = 'fd';
-        // noinspection JSUnusedGlobalSymbols
-        static serializeSq = 'sq';
-        // noinspection JSUnusedGlobalSymbols
-        static serializeSq2 = 'sq2';
-
-        static _STYLE_DANGER = 'layui-form-danger2';
-        static _NAMESPACES = 'verify-nx-zero';
-        static _MARK_VALIDATE_ERROR = 'validate-error';
-        static _REGEXP_0 = /^(.*?)\[/;
-        static _REGEXP_1 = /\[(.*?)]/g;
-
-        html5 = true;
-        /** @type {String} 监听元素 */
-        tags = 'input,textarea,select';
-        /** @type {jQuery|HTMLFormElement} */
-        _gForm = null;
-        /** @type {jQuery|HTMLElement} */
-        _gContent = null;
-        /** @type {Function} */
-        _gPassCall = null;
-        /** @type {jQuery|jQuery.fn.init} */
-        _gFormItem = null;
-        /** @type {Object} 事件检测设定 */
-        _checkEvent = {change: true, blur: false, focus: true, keyup: true};
-
         /**
          * 构造函数
          * @param {jQuery|HTMLFormElement} [form=null]
@@ -44,7 +30,19 @@
          */
         constructor(form, content)
         {
+            this.html5 = true;
+            /** @type {String} 监听元素 */
+            this.tags = 'input,textarea,select';
+            /** @type {Object} 事件检测设定 */
+            this._checkEvent = {change: true, blur: false, focus: true, keyup: true};
+
+            /** @type {Function} */
+            this._gPassCall = () => {};
+            /** @type {jQuery|jQuery.fn.init} */
+            this._gFormItem = null;
+            /** @type {jQuery|HTMLFormElement} */
             this._gForm = form;
+            /** @type {jQuery|HTMLElement} */
             this._gContent = content || window.document.body;
 
             let $form = $(form);
@@ -73,7 +71,7 @@
          */
         _check (form, content) {
             let $form = $(form);
-            let namespaces = '.' + Verify._NAMESPACES;
+            let namespaces = `.${NAMESPACES}`;
             this._gFormItem = this.findInputs(form);
             $(this._gFormItem).each((i, input) => {
                 let funcEvent = () => {
@@ -181,25 +179,25 @@
          * 序列化表单表项值
          * @param {HTMLFormElement} form
          * @param {String} type
-         * @returns {Object|URLSearchParams|String|null}
+         * @returns {Object|URLSearchParams|FormData|String|null}
          */
-        formSerialize (form, type = Verify.serializeSq) {
+        formSerialize (form, type) {
             let $form = $(form);
-            if (type === 'qs') {
+            if (type === SERIALIZE_SQ) {
                 return $form.serialize();
-            } else if (type === 'qs2') {
+            } else if (type === SERIALIZE_SQ2) {
                 let urlSearchParams = new URLSearchParams();
                 this.echoInputs(form, ($ele, type, tag, name, value) => {
                     urlSearchParams.set(name, value);
                 }, true);
                 return urlSearchParams;
-            } else if (type === 'fd') {
+            } else if (type === SERIALIZE_FD) {
                 let param = new FormData();
                 this.echoInputs(form, ($ele, type, tag, name, value) => {
                     param.append(name, value);
                 }, true);
                 return param;
-            } else if (type === 'obj') {
+            } else if (type === SERIALIZE_OBJ) {
                 let data = {};
                 this.echoInputs(form, ($input, type, tag, name, value) => {
                     if (tag === 'input' && type === 'number' && !Number.isNaN(Number(value))) {
@@ -209,16 +207,16 @@
                         value = Number(value);
                     }
                     // 嵌套变量名
-                    if (Verify._REGEXP_0.test(name)) {
-                        let mainName = Verify._REGEXP_0.exec(name)[1], arr, currLevel;
+                    if (REGEXP_0.test(name)) {
+                        let mainName = REGEXP_0.exec(name)[1], arr, currLevel;
                         // 初始首级
                         data[mainName] || (data[mainName] = {});
                         currLevel = data[mainName];
 
                         // 初始次级
-                        while ((arr = Verify._REGEXP_1.exec(name)) !== null && Verify._REGEXP_1.global) {
+                        while ((arr = REGEXP_1.exec(name)) !== null && REGEXP_1.global) {
                             // 下一次匹配开始的位置 等于 字符串长度即代表 匹配即将完成
-                            if (Verify._REGEXP_1.lastIndex === arr.input.length) {
+                            if (REGEXP_1.lastIndex === arr.input.length) {
                                 // 最后一级执行赋值
                                 currLevel[arr[1]] = value;
                             } else {
@@ -235,13 +233,40 @@
             return null;
         };
 
+        // noinspection JSUnusedGlobalSymbols
         /**
-         * 获取序列化书籍
-         * @param {String} type
-         * @returns {Object|URLSearchParams|String}
+         * 获取序列化字符串
+         * @returns {String}
          */
-        serialize (type) {
-            return this.formSerialize(this._gForm, type || 'obj');
+        serializeString () {
+            return this.formSerialize(this._gForm, SERIALIZE_SQ);
+        };
+
+        // noinspection JSUnusedGlobalSymbols
+        /**
+         * 获取序列化字符串
+         * @returns {Object}
+         */
+        serializeObject () {
+            return this.formSerialize(this._gForm, SERIALIZE_OBJ);
+        };
+
+        // noinspection JSUnusedGlobalSymbols
+        /**
+         * 获取序列化字符串
+         * @returns {URLSearchParams}
+         */
+        serializeURLSearchParams () {
+            return this.formSerialize(this._gForm, SERIALIZE_SQ2);
+        };
+
+        // noinspection JSUnusedGlobalSymbols
+        /**
+         * 获取序列化字符串
+         * @returns {FormData}
+         */
+        serializeFormData () {
+            return this.formSerialize(this._gForm, SERIALIZE_FD);
         };
 
         /**
@@ -275,7 +300,7 @@
          * @returns {boolean}
          * @private
          */
-        static _isEmpty = function (ele, value) {
+        static _isEmpty (ele, value) {
             let trimValue = Verify.trim(ele.value);
             value = value || ele.getAttribute('placeholder');
             return (trimValue === "" || trimValue === value);
@@ -289,7 +314,7 @@
          * @returns {boolean}
          * @private
          */
-        static _isRegexPass = function (ele, regex, params) {
+        static _isRegexPass (ele, regex, params) {
             let inputValue = ele.value, dealValue = Verify.trim(inputValue);
             regex = regex || ele.getAttribute('pattern');
             if (dealValue === "" || !regex) {
@@ -318,8 +343,8 @@
                 $targetEle = $ele;
             }
             // 显示错误信息
-            $ele.addClass(Verify._STYLE_DANGER);
-            $ele.addClass(Verify._MARK_VALIDATE_ERROR);
+            $ele.addClass(STYLE_DANGER);
+            $ele.addClass(MARK_VALIDATE_ERROR);
             Verify._insertError($targetEle.get(0)).addClass('fadeInRight').css({width: 'auto'}).html(content);
             return false;
         };
@@ -339,8 +364,8 @@
                 $targetEle = $ele;
             }
             // 隐藏错误信息
-            $ele.removeClass(Verify._STYLE_DANGER);
-            $ele.removeClass(Verify._MARK_VALIDATE_ERROR);
+            $ele.removeClass(STYLE_DANGER);
+            $ele.removeClass(MARK_VALIDATE_ERROR);
             Verify._insertError($targetEle.get(0)).removeClass('fadeInRight').css({width: '30px'}).html('');
         };
 
@@ -435,7 +460,7 @@
                 if(input.validity instanceof ValidityState && !input.validity.valid) {
                     if (type === 'radio') {
                         let radioGroup = this._gFormItem.filter('[type=radio][name=' + input.name + ']');
-                        if(!radioGroup.is('.' + Verify._MARK_VALIDATE_ERROR)) {
+                        if(!radioGroup.is(`.${MARK_VALIDATE_ERROR}`)) {
                             Verify._showError(input, input.validationMessage);
                         }
                     } else {
@@ -447,7 +472,7 @@
                 if (type === "radio" && !$input.is(':checked')) {
                     let radioGroup = this._gFormItem.filter('[type=radio][name=' + input.name + ']');
                     if(radioGroup.is('[required]')) {
-                        if(!radioGroup.is('.' + Verify._MARK_VALIDATE_ERROR)) {
+                        if(!radioGroup.is(`.${MARK_VALIDATE_ERROR}`)) {
                             input.title = '请从这些选项中选择一个。';
                             Verify._remind(input);
                         }
@@ -476,7 +501,7 @@
             if (allpass) {
                 if (type === 'radio') {
                     that.gFormItem
-                        .filter('[type=radio][name=' + input.name + '].' + Verify._MARK_VALIDATE_ERROR)
+                        .filter(`[type=radio][name=${input.name}].${MARK_VALIDATE_ERROR}`)
                         .each(function (index, input) {
                             that.hideError(input);
                         })

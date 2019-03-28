@@ -111,7 +111,6 @@
         }, 500);
 
         let layer = layui.layer;
-        let $logindiv = $('#login');
         let $loginform = $('#loginform');
         let $pwd = $loginform.find('input[name=password]');
 
@@ -146,7 +145,7 @@
         });
 
         (new Verify($loginform)).pass(function (){
-            let serialize = this.serialize(Verify.serializeObj);
+            let serialize = this.serializeObject();
 
             layer.msg('登陆中...', {icon: 16, shade: 0.01});
             $('#login-bth').prop('disabled',true);

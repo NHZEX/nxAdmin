@@ -288,7 +288,7 @@
                                     };
 
                                     // 数据回调处理
-                                    let serialize = that.serialize(that.serialize.tObj);
+                                    let serialize = that.serializeObject();
                                     if ($.isFunction(currSwap.funFormSubmit)) {
                                         serialize = currSwap.funFormSubmit(form, serialize);
                                         if (false === serialize) {
