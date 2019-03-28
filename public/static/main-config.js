@@ -61,19 +61,16 @@ require.config({
             deps: ['jquery', 'css!layui-css']
             , init: function () {
                 let layui_dir = requirejs.s.contexts._.config.baseUrl;
-                // noinspection UnnecessaryLocalVariableJS
-                let result = layui.config({
+
+                return layui.config({
                     dir: layui_dir + 'libs/layui/'
                     , base: layui_dir + 'libs/layui/layui_exts/'
                     , kitBase: layui_dir + 'libs/kit/'
                 }).extend({
-                    requireJs: 'requireJs/requireJs'
-                    , treeGrid: 'treeGrid/treeGrid'
+                    treeGrid: 'treeGrid/treeGrid'
                     , eleTree: 'eleTree/eleTree'
                     , dtree: 'dtree/dtree'
                 });
-                // console.log(result.cache);
-                return result;
             }
         }
         , 'layelement': {
@@ -140,6 +137,7 @@ require(['jquery', 'layer'], function ($, layer) {
         }
     });
 
+    // noinspection JSUnusedLocalSymbols
     $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
         layer.closeAll('loading');
         if(401 === jqxhr.status) {
@@ -182,14 +180,16 @@ require(['axios', 'layer'], function (axios, layer) {
         // 处理CSRF令牌
         if(config.method === 'put' || config.method === 'post' || config.method === 'delete') {
             let csrf_token;
-            if(!config.csrf && (csrf_token = regex_csrf.exec(config.url))) {
+            // noinspection JSUnresolvedVariable
+            let csrf_flag = config.csrf;
+            if(!csrf_flag && (csrf_token = regex_csrf.exec(config.url))) {
                 config.headers['XSRF-Token'] = csrf_token[2]
                     + ('csrf_update' === csrf_token[1] ? '.update' : '.default');
-            } else if(config.csrf) {
-                let result = await isUserInDatabase(config.csrf);
+            } else if(csrf_flag) {
+                let result = await isUserInDatabase(csrf_flag);
                 config.headers['XSRF-Token'] = result.data.data;
             } else {
-                let result = await isUserInDatabase(config.csrf);
+                let result = await isUserInDatabase(csrf_flag);
                 config.headers['XSRF-Token'] = result.data.data;
             }
         }
