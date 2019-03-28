@@ -58,7 +58,7 @@
     </form>
 </div>
 </body>
-<script type="text/javascript" src="/static/require/require.js"></script>
+<script type="text/javascript" src="/static/require/require.min.js"></script>
 <script type="text/javascript" src="/static/main-config.js?_v={{ RESOURCE_VERSION }}"></script>
 <script>
     function refrushVerifyCode() {
