@@ -65,7 +65,7 @@ require.config({
 
                 return layui.config({
                     dir: layui_dir + 'libs/layui/'
-                    , base: layui_dir + 'libs/layui/layui_exts/'
+                    , base: layui_dir + 'libs/layui_exts/'
                     , kitBase: layui_dir + 'libs/kit/'
                 }).extend({
                     treeGrid: 'treeGrid/treeGrid'
