@@ -1,10 +1,10 @@
 # Created by .ignore support plugin (hsz.mobi)
 /.idea
-/.env
-/.env.example
-/.php_cs.cache
+/node_modules
 /vendor
 /thinkphp
-/log
-/tests/log
+/public/dist
+/.env
+/.php_cs.cache
+/yarn-error.log
 /test.php

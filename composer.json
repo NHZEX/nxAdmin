@@ -30,20 +30,28 @@
         "symfony/polyfill-php73": "^1.10",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
-        "nhzex/think-blade": "^1.0"
+        "nhzex/think-blade": "^1.0",
+        "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^7.5"
     },
     "autoload": {
         "psr-4": {
-            "app\\": "application",
-            "\\": "extend"
+            "app\\": "application"
+        },
+        "psr-0": {
+            "": "extend"
         },
         "files": [
             "application/constant.php",
             "application/status_code.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\": "tests"
+        }
     },
     "extra": {
         "think-path": "thinkphp"
