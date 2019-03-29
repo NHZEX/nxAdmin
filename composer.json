@@ -33,7 +33,7 @@
         "nhzex/think-blade": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.5"
+        "phpunit/phpunit": "^8.0"
     },
     "autoload": {
         "psr-4": {
