@@ -70,9 +70,8 @@
     }
 
     require([
-        'jquery', 'js-cookie', 'helper', 'verify', 'layui', 'layer'
-
-    ], ($, cookies, helper, Verify, layui) => {
+        'jquery', 'js-cookie', 'verify', 'layui', 'layer'
+    ], ($, cookies, Verify, layui) => {
 
         function goMain() {
             window.location.href = '{{ $url_jump }}';
