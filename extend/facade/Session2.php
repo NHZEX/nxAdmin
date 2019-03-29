@@ -14,7 +14,6 @@ use think\facade\Session;
  * Class Session2
  * @package facade
  * @method string getId(bool $regenerate = true) static sessionId获取
- * @method string getName() static sessionName获取
  */
 class Session2 extends Session
 {

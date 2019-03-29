@@ -15,7 +15,7 @@ use app\server\WebConv as WebConvServer;
  * Class WebConv
  * @package facade
  * @method WebConvServer getSelf() static
- * @method bool verify() static
+ * @method bool verify(bool $force = false) static
  * @method string getErrorMessage() static
  * @method WebConvServer createSession(AdminUserModel $user, bool $rememberme = false) static
  * @method AdminUserModel decodeRememberToken(?string $value) static

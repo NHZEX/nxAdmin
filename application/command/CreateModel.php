@@ -11,6 +11,7 @@ namespace app\command;
 use basis\Util;
 use think\console\Command;
 use think\console\Input;
+use think\console\input\Argument;
 use think\console\Output;
 use think\Db;
 use think\facade\App;
@@ -26,7 +27,8 @@ class CreateModel extends Command
 
     public function configure()
     {
-        $this->setName('create_model');
+        $this->setName('create_model')
+            ->addArgument('table', Argument::OPTIONAL, '指定表');
     }
 
     /**
@@ -37,6 +39,7 @@ class CreateModel extends Command
      */
     public function execute(Input $input, Output $output)
     {
+        $output_align = 22;
         // 导出配置
         $model_path = 'model';
 
@@ -44,7 +47,7 @@ class CreateModel extends Command
         $build_date = date('Y/m/d');
         $build_time = date('H:i');
         $export_path = realpath(App::getAppPath() . $model_path);
-        $namespace_path = 'app\\'.$model_path;
+        $namespace_path = 'app\\' . $model_path;
 
         // 加载数据
         $config = Db::connect()->getConfig();
@@ -56,31 +59,42 @@ class CreateModel extends Command
         $table_names = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
         $existsModels = scandir(App::getAppPath() . 'model' . DIRECTORY_SEPARATOR);
 
+        // 指定导出表
+        $need_table = $input->getArgument('table');
+        $need_table = $need_table ? explode(',', $need_table) : array_keys($table_names);
+
         foreach ($table_names as $table_name => $table_comment) {
-            //过滤
-            if (in_array($table_name, self::FILTE_TABLE)) {
+            $model_table_name = $table_name;
+            $class_name = Util::toUpperCamelCase($model_table_name);
+
+            $output->write(
+                '<info>'
+                . str_pad($table_name, $output_align) . " => " . str_pad($class_name, $output_align)
+                . ' </info>'
+            );
+
+            // 过滤 && 不重复生成模型
+            if (in_array($table_name, self::FILTE_TABLE)
+                || !in_array($table_name, $need_table)
+                || in_array("{$class_name}.php", $existsModels)
+            ) {
+                $output->info('Skip');
                 continue;
             }
+
+            $output->warning('Create');
 
             /** @noinspection SqlResolve SqlNoDataSourceInspection SqlDialectInspection */
             $sql = "select * from information_schema.COLUMNS "
                 . "where table_name = '{$table_name}' and table_schema = '{$database}'";
             $table_fields = Db::query($sql);
 
-            $model_table_name = $table_name;
-            $class_name = Util::toUpperCamelCase($model_table_name);
-
-            //不重复生成模型
-            if (in_array("{$class_name}.php", $existsModels)) {
-                continue;
-            }
-
             $pk_field_name = '';
 
             $class_text = "<?php\n";
             $class_text .= "/**\n";
             $class_text .= " * Created by Automatic build\n";
-            $class_text .= " * User: Auooru\n";
+            $class_text .= " * User: System\n";
             $class_text .= " * Date: {$build_date}\n";
             $class_text .= " * Time: {$build_time}\n";
             $class_text .= " */\n";
@@ -88,13 +102,18 @@ class CreateModel extends Command
             $class_text .= "namespace {$namespace_path};\n";
             $class_text .= "\n";
             $class_text .= "/**\n";
-            $class_text .= " * {$table_comment}\n";
+            $class_text .= " * Model: {$table_comment}\n";
             $class_text .= " * Class {$class_name}\n";
             $class_text .= " * @package {$namespace_path}\n";
             $class_text .= " *\n";
+
+            $comment_arr = [];
+            $max_type_len = 0;
+            $max_field_len = 0;
             foreach ($table_fields as $value) {
                 $field_name = $value['COLUMN_NAME'];
                 $comment = $value['COLUMN_COMMENT'];
+                $comment = empty($comment) ? '' : (' ' . $comment);
 
                 if ('PRI' === $value['COLUMN_KEY']) {
                     $pk_field_name = $field_name;
@@ -127,7 +146,18 @@ class CreateModel extends Command
                         $type = 'mixed';
                 }
 
-                $class_text .= " * @property {$type} $"."{$field_name} {$comment}\n";
+                $max_type_len = max($max_type_len, strlen($type));
+                $max_field_len = max($max_field_len, strlen($field_name));
+                $comment_arr[] = [$type, '$' . $field_name, $comment];
+            }
+
+            foreach ($comment_arr as $value) {
+                [$type, $field_name, $comment] = $value;
+
+                $type = str_pad($type, $max_type_len + 1);
+                $field_name = empty($comment) ? $field_name : str_pad($field_name, $max_field_len + 1);
+
+                $class_text .= " * @property {$type}{$field_name}{$comment}\n";
             }
 
             $class_text .= " */\n";
@@ -138,7 +168,7 @@ class CreateModel extends Command
             $class_text .= "    \n";
             $class_text .= "}\n";
 
-            $file_name = $export_path.DIRECTORY_SEPARATOR."{$class_name}.php";
+            $file_name = $export_path . DIRECTORY_SEPARATOR . "{$class_name}.php";
             file_put_contents($file_name, $class_text);
         }
     }

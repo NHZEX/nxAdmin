@@ -63,7 +63,7 @@ class Authorize extends Middleware
         unset($r, $tc);
 
         // 会话权限判断
-        if (true !== WebConv::verify()) {
+        if (true !== WebConv::verify(true)) {
             return $this->jump($request, 'Unauthorized:' . WebConv::getErrorMessage());
         }
 
