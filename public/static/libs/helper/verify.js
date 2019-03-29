@@ -119,7 +119,8 @@
          * @returns {jQuery}
          */
         findInputs (form) {
-            return $(form).find(this.tags).not('.layui-unselect');
+            // 兼容 layui、form-selects
+            return $(form).find(this.tags).not('.layui-unselect').not('.xm-hide-input, .xm-input');
         }
 
         /**
@@ -339,6 +340,8 @@
             // 适配layui元素
             if (!$ele.is('[lay-ignore]') && $ele.is('select, [type=checkbox], [type=radio]')){
                 $targetEle = $ele.next();
+            } else if ($ele.is('select[xm-select]')){
+                $targetEle = $ele.next();
             } else {
                 $targetEle = $ele;
             }
@@ -387,11 +390,19 @@
             let parentPos = $(ele).parent().offset().left + $(ele).parent().innerWidth();
             let elePos = $(ele).offset().left + $(ele).innerWidth();
             let rightOffset = parentPos - elePos;
+
+            // fixes form-selects 兼容性
+            let fixes = {
+                border: 'initial',
+                backgroundColor: 'initial',
+            };
+            // 计算样式
             $html.css({
                 top: $(ele).position().top + 'px',
                 paddingBottom: $(ele).css('paddingBottom'),
                 paddingRight: rightOffset + 'px',
-                lineHeight: $(ele).css('height')
+                lineHeight: $(ele).css('height'),
+                ...fixes
             });
 
             return $html;

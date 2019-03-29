@@ -31,3 +31,9 @@ input.layui-form-danger2:hover,
     border-width: 1px;
     border-color: #FF5722;
 }
+.layui-form-danger2 + div.xm-select-parent
+{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FF5722;
+}
