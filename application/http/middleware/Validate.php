@@ -10,8 +10,7 @@ namespace app\http\middleware;
 
 use app\common\traits\CsrfHelper;
 use app\common\traits\ShowReturn;
-use app\controller;
-use app\validate as validator;
+use think\App;
 use think\Request;
 
 class Validate extends Middleware
@@ -19,23 +18,15 @@ class Validate extends Middleware
     use ShowReturn;
     use CsrfHelper;
 
-    const VALIDATE_MAPPING = [
-        controller\admin\Login::class => [
-            'login' => [false, validator\Login::class],
-        ],
+    /** @var array 验证器映射 */
+    protected $mapping = [];
 
-        controller\admin\Manager::class => [
-            'pageedit' => [false, validator\Manager::class, 'pageedit'],
-            'save' => [true, validator\Manager::class, '?'],
-            'delete' => [true, validator\Manager::class, 'delete'],
-        ],
-        controller\admin\Role::class => [
-            'save' => [true, null, null],
-            'permission' => [false, validator\Role::class, 'toPermission'],
-            'savepermission' => [false, validator\Role::class, 'permission'],
-        ],
-        // TODO 菜单验证器
-    ];
+    public function __construct(App $app)
+    {
+        $path = $app->getAppPath() . 'validate.php';
+        /** @noinspection PhpIncludeInspection */
+        $this->mapping = require $path;
+    }
 
     /**
      * @param Request  $request
@@ -47,7 +38,7 @@ class Validate extends Middleware
         $currClass = $this->getCurrentDispatchClass($request);
         $currAction = $request->action();
 
-        $validate_cfg = array_change_key_case(self::VALIDATE_MAPPING[$currClass] ?? [])[$currAction] ?? false;
+        $validate_cfg = array_change_key_case($this->mapping[$currClass] ?? [])[$currAction] ?? false;
         if (is_array($validate_cfg)) {
             // 获取验证配置
             $validate_cfg = array_pad($validate_cfg, 3, null);

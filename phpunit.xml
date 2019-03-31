@@ -17,7 +17,6 @@
         <whitelist>
             <directory suffix=".php">application/</directory>
             <directory suffix=".php">extend/</directory>
-            <!--<directory suffix=".php">thinkphp/</directory>-->
             <exclude>
                 <!--<directory suffix=".php">application</directory>-->
             </exclude>
