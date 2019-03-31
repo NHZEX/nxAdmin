@@ -62,6 +62,11 @@
             "tests\\": "tests"
         }
     },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php think deploy -u"
+        ]
+    },
     "extra": {
         "think-path": "thinkphp"
     },

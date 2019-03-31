@@ -44,6 +44,7 @@ class Deploy extends Command
         $this
             ->setName('deploy')
             ->setDescription('初始化部署')
+            ->addOption('only-update', 'u', Option::VALUE_NONE, '只进行更新(禁用所有交互)')
             ->addOption('force', 'f', Option::VALUE_NONE, '强制覆盖')
             ->addOption('dev', 'd', Option::VALUE_NONE, '添加开发模式预设')
             ->addOption('run-user', null, Option::VALUE_OPTIONAL, '运行用户')
@@ -59,18 +60,19 @@ class Deploy extends Command
     /**
      * @param Input  $input
      * @param Output $output
-     * @return int|void|null
+     * @return int
      * @throws \Matomo\Ini\IniReadingException
      * @throws \Matomo\Ini\IniWritingException
      * @throws \db\exception\ModelException
      * @throws \think\Exception
      * @throws \Exception
      */
-    public function execute(Input $input, Output $output)
+    public function execute(Input $input, Output $output): int
     {
         $this->app = App::instance();
         $this->env = $this->app->env;
 
+        $update = (bool) $input->getOption('only-update');
         $dev = (bool) $input->getOption('dev');
         $forceInit = (bool) $input->getOption('init');
         $forceCover = (bool) $input->getOption('force');
@@ -83,7 +85,7 @@ class Deploy extends Command
         if ((bool) $input->getOption('example')) {
             $output->writeln('生成ENV范例文件...');
             Ini::writerFile($this->app->getRootPath() . '.env.example', (new EnvStruct([]))->toArray());
-            return;
+            return 0;
         }
 
         // 载入当前配置
@@ -93,12 +95,17 @@ class Deploy extends Command
         $output->info('当前用户：' . Util::whoami()."({$env->task['user']})");
         $env->task['user'] = $env->task['user'] ?? Util::whoami();
 
+        if ($update && !$existEnv) {
+            $output->error('部署文件不存在，请先部署');
+            return 1;
+        }
+
         /**
          * 生成ENV配置文件
          * 1. ENV文件不存在
          * 2. ENV文件存在 且 强制覆盖
          */
-        if (!$existEnv || ($existEnv && $forceCover)) {
+        if (!$existEnv || (!$update && $existEnv && $forceCover)) {
             $output->writeln('生成部署设置...');
             if (!isset($env[DeployServer::ITEM_NAME])) {
                 $env[DeployServer::ITEM_NAME] = DeployServer::init();
@@ -135,13 +142,14 @@ class Deploy extends Command
          * 配置系统功能
          * ENV文件不存在 或 强制初始化
          */
-        if (!$existEnv || $forceInit) {
+        if (!$update && (!$existEnv || $forceInit)) {
             $output->writeln('配置系统功能...');
 
             $this->initAdminUser($env, $dryRun);
         }
 
         $output->writeln('所有操作都完成');
+        return 0;
     }
 
     /**
