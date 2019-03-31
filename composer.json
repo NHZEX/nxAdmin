@@ -63,7 +63,7 @@
         }
     },
     "scripts": {
-        "post-autoload-dump": [
+        "post-install-cmd": [
             "@php think deploy -u"
         ]
     },
