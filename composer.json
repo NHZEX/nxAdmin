@@ -24,7 +24,7 @@
         "ext-fileinfo": "*", "ext-mbstring": "*", "ext-simplexml": "*",
         "ext-zip": "*",
         "topthink/framework": "5.1.*",
-        "hashids/hashids": "^3.0",
+        "hashids/hashids": "^4.0",
         "matomo/ini": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "symfony/polyfill-php73": "^1.10",
