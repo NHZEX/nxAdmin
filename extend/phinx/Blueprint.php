@@ -117,6 +117,9 @@ class Blueprint
                 $column->setDefault(0);
                 break;
             case 'string':
+                $column->setLimit($input1);
+                $column->setDefault('');
+                break;
             case 'char':
                 $column->setLimit($input1);
                 break;
@@ -135,6 +138,9 @@ class Blueprint
             case 'uuid':
                 $column->setCollation('ascii');
                 $column->setCollation('ascii_general_ci');
+                break;
+            case 'remark':
+                $column->setDefault('');
                 break;
         }
 
