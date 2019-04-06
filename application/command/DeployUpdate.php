@@ -58,14 +58,16 @@ class DeployUpdate extends Command
             return 1;
         }
 
+        $currBranchesName = trim(shell_exec('git rev-parse --abbrev-ref --symbolic-full-name HEAD'));
+        $currBranchesUpstream = trim(shell_exec('git rev-parse --abbrev-ref --symbolic-full-name @{u}'));
+        $this->output->info("curr branches name: {$currBranchesName}");
+        $this->output->info("curr branches upstream: {$currBranchesUpstream}");
+
         $commands = [
             'echo $PWD',
             'git status',
             'git fetch',
-            $yes ? 'git pull' : null,
-            'git submodule sync',
-            'git submodule update',
-            $yes ? 'git submodule status' : null,
+            $yes ? "git pull --ff-only" : null,
         ];
 
         foreach ($commands as $command) {
