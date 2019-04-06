@@ -9,10 +9,19 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-
 // 应用容器绑定定义
-return [
-    'session'  => \think\Session2::class,
-    'redis' => \app\server\RedisProxy::class,
-    'web_conv' => \app\server\WebConv::class,
+
+use app\server\RedisProxy;
+use app\server\WebConv;
+use think\Session2;
+
+$basis = [
+    'session'  => Session2::class,
+    'redis' => RedisProxy::class,
+    'web_conv' => WebConv::class,
 ];
+
+$expand = [
+];
+
+return $basis + $expand;
