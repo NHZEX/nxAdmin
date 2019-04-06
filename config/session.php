@@ -16,7 +16,7 @@
 
 use think\Facade\Env;
 
-$mixing_prefix = \app\server\Deploy::getMixingPrefix();
+$mixing_prefix = \app\server\DeployInfo::getMixingPrefix();
 
 return [
     'id'             => '',

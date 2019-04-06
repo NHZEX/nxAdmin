@@ -11,7 +11,7 @@ namespace app\command;
 use app\logic\Permission;
 use app\logic\SystemMenu;
 use app\model\AdminUser;
-use app\server\Deploy as DeployServer;
+use app\server\DeployInfo;
 use basis\Ini;
 use basis\Util;
 use facade\Redis;
@@ -107,8 +107,8 @@ class Deploy extends Command
          */
         if (!$existEnv || (!$update && $existEnv && $forceCover)) {
             $output->writeln('生成部署设置...');
-            if (!isset($env[DeployServer::ITEM_NAME])) {
-                $env[DeployServer::ITEM_NAME] = DeployServer::init();
+            if (!isset($env[DeployInfo::ITEM_NAME])) {
+                $env[DeployInfo::ITEM_NAME] = DeployInfo::init();
             }
 
             $output->writeln('配置Env设置...');

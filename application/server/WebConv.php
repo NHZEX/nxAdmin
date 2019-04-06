@@ -222,7 +222,7 @@ class WebConv
      */
     public function createRememberToken(AdminUserModel $user, string $user_agent, int $expire): string
     {
-        $salt = Deploy::getSecuritySalt();
+        $salt = DeployInfo::getSecuritySalt();
         // 用户特征
         $user_feature = self::generateUserFeature($user);
         // 签名
@@ -259,7 +259,7 @@ class WebConv
             }
             [$index, $sign] = $lastlove;
 
-            $salt = Deploy::getSecuritySalt();
+            $salt = DeployInfo::getSecuritySalt();
 
             $Hashids = new Hashids($salt . $sign, 8);
             $index_arr = $Hashids->decode($index);

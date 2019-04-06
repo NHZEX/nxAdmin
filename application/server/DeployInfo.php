@@ -9,19 +9,22 @@
 namespace app\server;
 
 use basis\Util;
-use think\facade\Env;
+use RuntimeException;
+use think\App;
 
 /**
  * Class Deploy
  * @package app\common\server
  *
- * @method static getSecuritySalt()
- * @method static getRootPathSign()
- * @method static getMixingPrefix()
+ * @method static getSecuritySalt(): string
+ * @method static getRootPathSign(): string
+ * @method static getMixingPrefix(): string
  */
-class Deploy
+class DeployInfo
 {
     const ITEM_NAME = 'deploy';
+
+    protected static $CAHCE = [];
 
     /**
      * 生成部署配置
@@ -29,8 +32,8 @@ class Deploy
     public static function init()
     {
         $security_salt = get_rand_str(32);
-        $root_path_sign = dechex(crc32(Env::get('root_path') . 'dir'));
-        $mixing_prefix = $root_path_sign.'_'.dechex(crc32($security_salt));
+        $root_path_sign = dechex(crc32(App::getInstance()->getAppPath() . 'dir'));
+        $mixing_prefix = $root_path_sign . '_' . dechex(crc32($security_salt));
 
         $env_contents = [
             'security_salt' => $security_salt,
@@ -49,10 +52,14 @@ class Deploy
      */
     public static function __callStatic($name, $arguments)
     {
-        if (0 === strpos($name, 'get')) {
-            return Env::get(self::ITEM_NAME . '.' . Util::toSnakeCase(substr($name, 3)));
+        if (isset(self::$CAHCE[$name])) {
+            return self::$CAHCE[$name];
         }
 
-        throw new \RuntimeException('Fatal error: Call to undefined method '.__CLASS__."::{$name}");
+        if (0 === strpos($name, 'get')) {
+            return self::$CAHCE[$name] = App::getInstance()->env->get(self::ITEM_NAME . '_' . Util::toSnakeCase(substr($name, 3)));
+        }
+
+        throw new RuntimeException('Fatal error: Call to undefined method ' . __CLASS__ . "::{$name}");
     }
 }

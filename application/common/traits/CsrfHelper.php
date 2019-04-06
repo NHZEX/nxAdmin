@@ -8,7 +8,7 @@
 
 namespace app\common\traits;
 
-use app\server\Deploy;
+use app\server\DeployInfo;
 use facade\Redis;
 use facade\WebConv;
 use Hashids\Hashids;
@@ -89,7 +89,7 @@ trait CsrfHelper
 
     private function addToken(string $token, string $tokenKey, int $timeOut = 3600)
     {
-        $prefix = Deploy::getMixingPrefix();
+        $prefix = DeployInfo::getMixingPrefix();
         $key = "{$prefix}_token:{$tokenKey}:{$token}";
         return Redis::getSelf()->set($key, 1, $timeOut);
     }
@@ -122,7 +122,7 @@ trait CsrfHelper
      */
     private function verifyToken(string $token, string $tokenKey)
     {
-        $prefix = Deploy::getMixingPrefix();
+        $prefix = DeployInfo::getMixingPrefix();
         $key = "{$prefix}_token:{$tokenKey}:{$token}";
         return Redis::getSelf()->del($key) > 0;
     }
@@ -137,7 +137,7 @@ trait CsrfHelper
      */
     protected function registerApiToken(string $mac, string $token, int $timeOut = 7200, int $max = 5) :bool
     {
-        $prefix = Deploy::getMixingPrefix();
+        $prefix = DeployInfo::getMixingPrefix();
         $redis = Redis::getSelf();
         $key = $prefix . '_token:api:' . $token;
         $setKey = $prefix . '_token:apilist:' . str_replace(':', '', $mac);
@@ -175,7 +175,7 @@ trait CsrfHelper
      */
     protected function verifyApiToken(string $mac, string $token, int $timeOut = 7200) :bool
     {
-        $prefix = Deploy::getMixingPrefix();
+        $prefix = DeployInfo::getMixingPrefix();
         $redis = Redis::getSelf();
         $key = $prefix . '_token:api:' . $token;
         $setKey = $prefix . '_token:apilist:' . str_replace(':', '', $mac);

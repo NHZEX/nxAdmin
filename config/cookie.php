@@ -14,7 +14,7 @@
 // | Cookie设置
 // +----------------------------------------------------------------------
 
-$mixing_prefix = \app\server\Deploy::getMixingPrefix();
+$mixing_prefix = \app\server\DeployInfo::getMixingPrefix();
 
 return [
     // cookie 名称前缀
