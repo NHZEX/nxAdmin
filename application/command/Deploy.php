@@ -14,7 +14,12 @@ use app\model\AdminUser;
 use app\server\DeployInfo;
 use basis\Ini;
 use basis\Util;
+use Closure;
+use db\exception\ModelException;
+use Exception;
 use facade\Redis;
+use Matomo\Ini\IniReadingException;
+use Matomo\Ini\IniWritingException;
 use phinx\PhinxMigrate2;
 use struct\EnvStruct;
 use Symfony\Component\Console\Application as SymfonyApplication;
@@ -27,7 +32,10 @@ use think\console\output\Ask;
 use think\console\output\Question;
 use think\Db;
 use think\db\Connection;
+use think\Env;
+use think\exception\PDOException;
 use think\facade\App;
+use think\facade\Config;
 
 class Deploy extends Command
 {
@@ -36,7 +44,7 @@ class Deploy extends Command
 
     /** @var \think\App */
     protected $app;
-    /** @var \think\Env */
+    /** @var Env */
     protected $env;
 
     public function configure()
@@ -51,7 +59,7 @@ class Deploy extends Command
             ->addOption('init', null, Option::VALUE_NONE, '强制初始化')
             ->addOption('init-username', null, Option::VALUE_OPTIONAL, '初始化用户名')
             ->addOption('init-password', null, Option::VALUE_OPTIONAL, '初始化用户名')
-            ->addOption('ci', null, Option::VALUE_NONE, '启用持续集成')
+            ->addOption('ci', null, Option::VALUE_NONE, '启用持续集成支持')
             ->addOption('no-migrate', 'm', Option::VALUE_NONE, '不执行迁移')
             ->addOption('example', null, Option::VALUE_NONE, '生成范例文件')
             ->addOption('dry-run', null, Option::VALUE_NONE, '尝试执行');
@@ -61,11 +69,11 @@ class Deploy extends Command
      * @param Input  $input
      * @param Output $output
      * @return int
-     * @throws \Matomo\Ini\IniReadingException
-     * @throws \Matomo\Ini\IniWritingException
-     * @throws \db\exception\ModelException
+     * @throws IniReadingException
+     * @throws IniWritingException
+     * @throws ModelException
      * @throws \think\Exception
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(Input $input, Output $output): int
     {
@@ -80,7 +88,7 @@ class Deploy extends Command
         $dryRun = (bool) $input->getOption('dry-run');
         $ci = (bool) $input->getOption('ci');
         $envPath = $this->app->getRootPath() . '.env';
-        $existEnv = file_exists($envPath);
+        $existEnv = file_exists($envPath) && filesize($envPath) > 0 && !empty(file_get_contents($envPath));
 
         if ((bool) $input->getOption('example')) {
             $output->writeln('生成ENV范例文件...');
@@ -155,8 +163,8 @@ class Deploy extends Command
     /**
      * @param EnvStruct $env
      * @param bool      $dryRun
-     * @throws \think\exception\PDOException
-     * @throws \Exception
+     * @throws PDOException
+     * @throws Exception
      */
     protected function execUpdate(EnvStruct $env, bool $dryRun)
     {
@@ -165,7 +173,7 @@ class Deploy extends Command
         $verbosity = empty($verbosity) ? null : "-{$verbosity}";
 
         //构建数据库链接参数
-        $database_config = array_merge(\think\facade\Config::pull('database'), $env->database);
+        $database_config = array_merge(Config::pull('database'), $env->database);
         Db::init($database_config);
 
         // 执行数据迁移
@@ -178,7 +186,7 @@ class Deploy extends Command
         $phinx->setAutoExit(false);
         $exitCode = $phinx->run($argvInput);
         if ($exitCode !== 0) {
-            throw new \Exception("数据迁移发生异常中止\n");
+            throw new Exception("数据迁移发生异常中止\n");
         }
         $output->writeln('================执行PHINX完成================');
 
@@ -192,7 +200,7 @@ class Deploy extends Command
     /**
      * @param EnvStruct $env
      * @param bool      $interaction 交互
-     * @throws \Exception
+     * @throws Exception
      */
     protected function setEnv(EnvStruct $env, bool $interaction = true)
     {
@@ -207,14 +215,14 @@ class Deploy extends Command
 
     /**
      * 校验输入是否正确
-     * @param \Closure $closure
+     * @param Closure $closure
      * @param string   $message
      * @param bool     $interaction 交互
-     * @throws \Exception
+     * @throws Exception
      */
-    protected function checkInput(\Closure $closure, string $message, bool $interaction = true)
+    protected function checkInput(Closure $closure, string $message, bool $interaction = true)
     {
-        /** @var \Exception $error */
+        /** @var Exception $error */
         $error = null;
         while (true) {
             if (null !== $error) {
@@ -223,7 +231,7 @@ class Deploy extends Command
             try {
                 $closure();
                 break;
-            } catch (\Exception $error) {
+            } catch (Exception $error) {
                 if ($interaction) {
                     // 防止死循环
                     usleep(500000);
@@ -237,9 +245,9 @@ class Deploy extends Command
     /**
      * @param EnvStruct $env
      * @param bool      $dryRun
-     * @throws \db\exception\ModelException
+     * @throws ModelException
      * @throws \think\Exception
-     * @throws \Exception
+     * @throws Exception
      */
     protected function initAdminUser(EnvStruct $env, bool $dryRun)
     {
@@ -255,7 +263,7 @@ class Deploy extends Command
             $question = new Question("输入管理员用户名\t\t", 'admin_' . get_rand_str(8));
             $question->setValidator(function ($value) {
                 if (strlen($value) < 6) {
-                    throw new \Exception('用户名长度必须大于等于6位');
+                    throw new Exception('用户名长度必须大于等于6位');
                 }
                 return $value;
             });
@@ -263,7 +271,7 @@ class Deploy extends Command
             $admin_username = $this->askQuestion($input, $output, $question);
         } else {
             if (strlen($admin_username) < 6) {
-                throw new \Exception('用户名长度必须大于等于6位');
+                throw new Exception('用户名长度必须大于等于6位');
             }
         }
 
@@ -272,7 +280,7 @@ class Deploy extends Command
             $question->setHidden(true);
             $question->setValidator(function ($value) {
                 if (strlen($value) < 6) {
-                    throw new \Exception('密码长度必须大于等于6位');
+                    throw new Exception('密码长度必须大于等于6位');
                 }
                 return $value;
             });
@@ -283,7 +291,7 @@ class Deploy extends Command
             $question->setHidden(true);
             $question->setValidator(function ($value) use ($admin_password) {
                 if ($admin_password !== $value) {
-                    throw new \Exception('两次输入密码不一致');
+                    throw new Exception('两次输入密码不一致');
                 }
                 return $value;
             });
@@ -291,7 +299,7 @@ class Deploy extends Command
             $this->askQuestion($input, $output, $question);
         } else {
             if (strlen($admin_password) < 6) {
-                throw new \Exception('密码长度必须大于等于6位');
+                throw new Exception('密码长度必须大于等于6位');
             }
         }
 
@@ -318,7 +326,7 @@ class Deploy extends Command
      * @param EnvStruct $env
      * @param bool      $interaction 交互
      * @throws \think\Exception
-     * @throws \Exception
+     * @throws Exception
      */
     protected function inputMysqlConfig(EnvStruct $env, bool $interaction = true)
     {
@@ -350,7 +358,7 @@ class Deploy extends Command
             $question = new Question("库名\t", $env->database['database']);
             $question->setValidator(function ($value) {
                 if (empty($value)) {
-                    throw new \Exception('库名为空');
+                    throw new Exception('库名为空');
                 }
                 return $value;
             });
@@ -360,7 +368,7 @@ class Deploy extends Command
             $question = new Question("用户名\t", $env->database['username']);
             $question->setValidator(function ($value) {
                 if (empty($value)) {
-                    throw new \Exception('用户名为空');
+                    throw new Exception('用户名为空');
                 }
                 return $value;
             });
@@ -370,7 +378,7 @@ class Deploy extends Command
             $question = new Question("密码\t", $env->database['password']);
             $question->setValidator(function ($value) {
                 if (empty($value)) {
-                    throw new \Exception('密码为空');
+                    throw new Exception('密码为空');
                 }
                 return $value;
             });
@@ -379,17 +387,17 @@ class Deploy extends Command
         }
 
         // 合并最终设置
-        $database_config = array_merge(\think\facade\Config::pull('database'), $env['database']);
+        $database_config = array_merge(Config::pull('database'), $env['database']);
         // 检查mysql版本
         $mysql_ver = query_mysql_version($database_config);
 
         if (version_compare($mysql_ver, self::MYSQL_VER_LIMIT, '<')) {
-            throw new \Exception("当前连接Mysql版本：{$mysql_ver}，最小限制版本：" . self::MYSQL_VER_LIMIT);
+            throw new Exception("当前连接Mysql版本：{$mysql_ver}，最小限制版本：" . self::MYSQL_VER_LIMIT);
         }
         $output->writeln("当前连接Mysql版本：{$mysql_ver}");
 
         if (!query_mysql_exist_database($env->database['database'], $database_config)) {
-            throw new \Exception("当前连接Mysql不存在库：{$env->database['database']}");
+            throw new Exception("当前连接Mysql不存在库：{$env->database['database']}");
         }
     }
 
@@ -397,7 +405,7 @@ class Deploy extends Command
      * 输入Redis配置
      * @param EnvStruct $env
      * @param bool      $interaction 交互
-     * @throws \Exception
+     * @throws Exception
      */
     protected function inputRedisConfig(EnvStruct $env, bool $interaction = true)
     {
@@ -432,7 +440,7 @@ class Deploy extends Command
             $question = new Question("库名\t", $env->redis['select']);
             $question->setValidator(function ($value) {
                 if (!is_numeric($value)) {
-                    throw new \Exception('库名无效');
+                    throw new Exception('库名无效');
                 }
                 return $value;
             });
@@ -442,13 +450,13 @@ class Deploy extends Command
 
         Redis::setConfig($env->redis, true);
         if (Redis::getSelf()->ping() !== '+PONG') {
-            throw new \Exception('Redis测试失败');
+            throw new Exception('Redis测试失败');
         }
 
         $redis_version = Redis::getSelf()->getServerVersion();
         if (version_compare($redis_version, self::REDIS_VER_LIMIT, '<')) {
             $errmsg = "当前连接Mysql版本：{$redis_version}，最小限制版本：" . self::REDIS_VER_LIMIT;
-            throw new \Exception($errmsg);
+            throw new Exception($errmsg);
         }
         $output->writeln("当前配置Redis版本：{$redis_version}");
     }
