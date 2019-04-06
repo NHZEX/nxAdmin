@@ -8,7 +8,6 @@
 
 namespace db\traits;
 
-use app\model\Base;
 use db\exception\ModelException;
 use think\Model;
 
@@ -16,7 +15,7 @@ use think\Model;
  * Trait OptimLock
  * @package db\traits
  * @mixin Model
- * @mixin Base
+ * @method \db\Query wherePk($op, $condition = null) static 指定主键查询条件
  */
 trait OptimLock
 {

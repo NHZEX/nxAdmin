@@ -55,7 +55,7 @@
                 });
 
                 axios.post("{{ $url_save }}",
-                    {ids: saveIDs})
+                    {id: '{{ $id }}', ids: saveIDs})
                     .then((res) =>{
                         if(res.data.code){
                             layer.msg(res.data.msg, {icon: 2});

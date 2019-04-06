@@ -12,7 +12,7 @@ abstract class Base implements \ArrayAccess, \JsonSerializable
 {
     protected $hidden_key = [];
 
-    public function __construct(iterable $arr)
+    public function __construct(iterable $arr = [])
     {
         foreach ($arr as $key => $value) {
             $this->$key = $value;

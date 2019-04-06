@@ -53,11 +53,16 @@ abstract class Base extends ThinkModel
     use ModelUtil;
     use OptimLock;
 
-    protected $readonly = ['creator_uid'];
+    protected $readonly = ['create_by'];
     /** @var bool 是否自动自动记录当前操作用户 */
     protected $recordUser = false;
     /** @var int 软删除字段默认值 */
     protected $defaultSoftDelete = 0;
+
+    /** @var string 创建者UID */
+    protected $createBy = 'create_by';
+    /** @var string 更新者UID */
+    protected $updateBy = 'update_by';
 
     // 全局模型初始化追加
     protected function initialize()
@@ -69,12 +74,12 @@ abstract class Base extends ThinkModel
             $conv = WebConv::getSelf();
             $record_user = function (self $data) use ($conv) {
                 // 缺乏必要的字段锁定设置
-                if (false === array_search('creator_uid', $data->readonly)) {
-                    $data->readonly[] = 'creator_uid';
+                if (false === array_search($this->createBy, $data->readonly)) {
+                    $data->readonly[] = $this->createBy;
                 }
                 $fields = array_flip($data->getTableFields());
-                isset($fields['creator_uid']) && $data->data('creator_uid', $conv->sess_user_id);
-                isset($fields['editor_uid']) && $data->data('editor_uid', $conv->sess_user_id);
+                isset($fields[$this->createBy]) && $data->data($this->createBy, $conv->sess_user_id);
+                isset($fields[$this->updateBy]) && $data->data($this->updateBy, $conv->sess_user_id);
             };
             static::beforeInsert($record_user);
             static::beforeUpdate($record_user);
@@ -87,7 +92,7 @@ abstract class Base extends ThinkModel
      */
     protected function beCreatorName()
     {
-        return $this->belongsTo(AdminUser::class, 'creator_uid', 'id')
+        return $this->belongsTo(AdminUser::class, $this->createBy, 'id')
             ->field(['username' => 'creator_name', 'id'])->bind(['creator_name'])->cache(true, 60);
     }
 
@@ -97,7 +102,7 @@ abstract class Base extends ThinkModel
      */
     protected function beEditorName()
     {
-        return $this->belongsTo(AdminUser::class, 'editor_uid', 'id')
+        return $this->belongsTo(AdminUser::class, $this->updateBy, 'id')
             ->field(['username' => 'editor_name', 'id'])->bind(['editor_name'])->cache(true, 60);
     }
 
