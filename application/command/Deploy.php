@@ -24,6 +24,7 @@ use phinx\PhinxMigrate2;
 use struct\EnvStruct;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArgvInput as SymfonyArgvInput;
+use think\App;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Option;
@@ -34,15 +35,13 @@ use think\Db;
 use think\db\Connection;
 use think\Env;
 use think\exception\PDOException;
-use think\facade\App;
-use think\facade\Config;
 
 class Deploy extends Command
 {
     const MYSQL_VER_LIMIT = '5.7.22-log';
     const REDIS_VER_LIMIT = '4.0.8';
 
-    /** @var \think\App */
+    /** @var App */
     protected $app;
     /** @var Env */
     protected $env;
@@ -77,7 +76,7 @@ class Deploy extends Command
      */
     public function execute(Input $input, Output $output): int
     {
-        $this->app = App::instance();
+        $this->app = App::getInstance();
         $this->env = $this->app->env;
 
         $update = (bool) $input->getOption('only-update');
@@ -173,7 +172,7 @@ class Deploy extends Command
         $verbosity = empty($verbosity) ? null : "-{$verbosity}";
 
         //构建数据库链接参数
-        $database_config = array_merge(Config::pull('database'), $env->database);
+        $database_config = array_merge($this->app->config->pull('database'), $env->database);
         Db::init($database_config);
 
         // 执行数据迁移
@@ -387,7 +386,7 @@ class Deploy extends Command
         }
 
         // 合并最终设置
-        $database_config = array_merge(Config::pull('database'), $env['database']);
+        $database_config = array_merge($this->app->config->pull('database'), $env['database']);
         // 检查mysql版本
         $mysql_ver = query_mysql_version($database_config);
 
