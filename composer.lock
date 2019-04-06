@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a87f7810a412946c9cd2c91d09dac192",
+    "content-hash": "7185f57e3a0ddae18f3da7274956644f",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -2626,6 +2626,44 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "deployer/dist",
+            "version": "v6.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/deployphp/distribution.git",
+                "reference": "8d2d20444570e5b52a9a4a7b0dd43a82486e03cb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/deployphp/distribution/zipball/8d2d20444570e5b52a9a4a7b0dd43a82486e03cb",
+                "reference": "8d2d20444570e5b52a9a4a7b0dd43a82486e03cb",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "bin": [
+                "dep"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anton Medvedev",
+                    "email": "anton@medv.io"
+                }
+            ],
+            "description": "Deployer Phar Distribution",
+            "homepage": "https://deployer.org",
+            "time": "2019-01-16T09:01:46+00:00"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.2.0",

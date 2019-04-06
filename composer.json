@@ -43,6 +43,7 @@
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
+        "deployer/dist": "^6.4",
         "phpunit/phpunit": "^7.5"
     },
     "autoload": {
