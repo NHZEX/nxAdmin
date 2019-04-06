@@ -127,8 +127,9 @@ class Login extends Base
      * @param WebConv $webConv
      * @throws \db\exception\ModelException
      */
-    public function logout(WebConv $webConv)
+    public function logout(\think\Cookie $cookie, WebConv $webConv)
     {
+        $cookie->delete('login_time');
         $webConv->destroy(true);
         $this->success('退出登陆', '@admin.login');
     }
