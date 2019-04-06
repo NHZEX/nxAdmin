@@ -32,7 +32,7 @@ class DeployInfo
     public static function init()
     {
         $security_salt = get_rand_str(32);
-        $root_path_sign = dechex(crc32(App::getInstance()->getAppPath() . 'dir'));
+        $root_path_sign = dechex(crc32(App::getInstance()->getRootPath() . 'dir'));
         $mixing_prefix = $root_path_sign . '_' . dechex(crc32($security_salt));
 
         $env_contents = [
@@ -57,7 +57,8 @@ class DeployInfo
         }
 
         if (0 === strpos($name, 'get')) {
-            return self::$CAHCE[$name] = App::getInstance()->env->get(self::ITEM_NAME . '_' . Util::toSnakeCase(substr($name, 3)));
+            $value = App::getInstance()->env->get(self::ITEM_NAME . '_' . Util::toSnakeCase(substr($name, 3)));
+            return self::$CAHCE[$name] = $value;
         }
 
         throw new RuntimeException('Fatal error: Call to undefined method ' . __CLASS__ . "::{$name}");
