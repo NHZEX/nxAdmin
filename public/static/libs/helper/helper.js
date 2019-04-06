@@ -83,6 +83,7 @@
 
     /**
      * 加载表单模态窗口
+     * TODO 分离表单模态框
      * @param url
      * @param params
      * @param title
@@ -127,10 +128,20 @@
         opt.initBefore || (opt.initBefore = null);
         // 窗口初始化后
         opt.initAfter || (opt.initAfter = null);
+        // TODO 表单初始化前
+        opt.formInitBefore || (opt.formInitBefore = null);
+        // TODO 表单初始化后
+        opt.formInitAfter || (opt.formInitAfter = null);
+        // 表单提交前
+        opt.formSubmitBefore || (opt.formSubmitBefore = null);
+        // TODO 表单提交后
+        opt.formSubmitAfter || (opt.formSubmitAfter = null);
         // 处理默认编辑数据 {data}
         opt.funHandleEditData || (opt.funHandleEditData = null);
-        // 处理表单提交数据 {form, data}
+        // 处理表单提交数据 {form, data} 弃用
         opt.funFormSubmit || (opt.funFormSubmit = null);
+        // 处理表单提交数据 {form, serialize, next}
+        opt.handleFormSubmit || (opt.handleFormSubmit = null);
         // 模态窗口加载完成 {layero, modalIndex}
         opt.funModalSucceed || (opt.funModalSucceed = null);
         // 模态窗口已经关闭 {}
@@ -247,7 +258,7 @@
                     let $pageMain = $(`#find-${that.modalHash}`);
                     let $content = $pageMain.parent('div');
                     let $forms = $pageMain.find('> form');
-                    let editDate = $pageMain.data('edit-data');
+                    let editData = $pageMain.data('edit-data');
                     let currSwap = helper.swapDefaultOption(window['swap'][that.modalHash]);
 
                     if($pageMain.length === 0) {
@@ -256,7 +267,7 @@
 
                     // 编辑数据预处理
                     if($.isFunction(currSwap.funHandleEditData)) {
-                        editDate = currSwap.funHandleEditData(editDate, $content);
+                        editData = currSwap.funHandleEditData(editData, $content);
                     }
 
                     // 窗口初始化
@@ -265,8 +276,8 @@
                         $forms.each(function (id, form) {
                             let $form = $(form);
                             // 自动赋值
-                            if(helper.isDataObject(editDate)) {
-                                that.formSetData(editDate, $form);
+                            if(helper.isDataObject(editData)) {
+                                that.formSetData(editData, $form);
                             }
                             $form.attr('lay-filter') || $form.attr('lay-filter', helper.randomString(16));
                             // 刷新layui组件
@@ -279,7 +290,7 @@
                                     // 数据提交
                                     let loadIndex = layer.load(2);
                                     let $form = $(form);
-                                    let method = ($form.attr('method') || 'put').toLowerCase();
+                                    let method = ($form.attr('method') || 'post').toLowerCase();
                                     let options = {
                                         url: $form.prop('action')
                                         , method: method
@@ -287,36 +298,65 @@
                                         , layer_elem: target
                                     };
 
-                                    // 数据回调处理
-                                    let serialize = that.serializeObject();
-                                    if ($.isFunction(currSwap.funFormSubmit)) {
-                                        serialize = currSwap.funFormSubmit(form, serialize);
-                                        if (false === serialize) {
-                                            layer.close(loadIndex);
-                                            return false;
+                                    let formSubmit = function(options) {
+                                        let serialize;
+                                        switch (options.enctype) {
+                                            case "multipart/form-data":
+                                                serialize = that.serializeFormData();
+                                                break;
+                                            case "json":
+                                                serialize = that.serializeObject();
+                                                break;
+                                            default:
+                                                serialize = that.serializeURLSearchParams();
                                         }
-                                    }
-                                    // 选择适当的方法
-                                    if (method === 'get' || method === 'head') {
-                                        options.params = serialize;
-                                    } else {
-                                        options.data = serialize;
-                                    }
-                                    axios.request(options)
-                                        .then(function (response) {
-                                            if(0 === response.data.code) {
-                                                layer.tips('操作完成', $(target), {
-                                                    tips: [2, '#01AAED'],
-                                                    end: function() {
-                                                        layer.close(modalIndex);
-                                                    }
-                                                })
+
+                                        // 数据回调处理
+                                        if ($.isFunction(currSwap.funFormSubmit)) {
+                                            console.warn('funFormSubmit-弃用');
+                                            serialize = currSwap.funFormSubmit(form, serialize);
+                                            if (false === serialize) {
+                                                layer.close(loadIndex);
+                                                return false;
                                             }
-                                        }).catch(function (error) {
-                                        throw error;
-                                    }).then(function() {
-                                        layer.close(loadIndex);
-                                    });
+                                        }
+
+                                        let goForm = () => {
+                                            // 选择适当的方法
+                                            if (method === 'get' || method === 'head') {
+                                                options.params = serialize;
+                                            } else {
+                                                options.data = serialize;
+                                            }
+                                            axios.request(options)
+                                                .then(function (response) {
+                                                    if(0 === response.data.code) {
+                                                        layer.tips('操作完成', $(target), {
+                                                            tips: [2, '#01AAED'],
+                                                            end: function() {
+                                                                layer.close(modalIndex);
+                                                            }
+                                                        })
+                                                    }
+                                                }).catch(function (error) {
+                                                throw error;
+                                            }).then(function() {
+                                                layer.close(loadIndex);
+                                            });
+                                        };
+
+                                        if ($.isFunction(currSwap.handleFormSubmit)) {
+                                            currSwap.handleFormSubmit(form, serialize, goForm);
+                                        } else {
+                                            goForm();
+                                        }
+                                    };
+
+                                    if($.isFunction(currSwap.formSubmitAfter)) {
+                                        currSwap.formSubmitAfter.call(that, form, options, modalIndex, () => {formSubmit(options)});
+                                    } else {
+                                        formSubmit(options);
+                                    }
                                 })
                         });
                         $forms.find('button[data-close]').off('click').on('click', function () {
@@ -330,7 +370,7 @@
 
 
                         if($.isFunction(currSwap.initAfter)) {
-                            currSwap.initAfter($content, editDate, modalIndex, done);
+                            currSwap.initAfter($content, editData, modalIndex, done);
                         } else {
                             done();
                         }
@@ -345,7 +385,7 @@
                     };
 
                     if($.isFunction(currSwap.initBefore)) {
-                        currSwap.initBefore($content, editDate, modalIndex, init);
+                        currSwap.initBefore($content, editData, modalIndex, init);
                     } else {
                         init();
                     }

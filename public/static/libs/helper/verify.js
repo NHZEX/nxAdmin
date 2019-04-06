@@ -120,7 +120,7 @@
          */
         findInputs (form) {
             // 兼容 layui、form-selects
-            return $(form).find(this.tags).not('.layui-unselect').not('.xm-hide-input, .xm-input');
+            return $(form).find(this.tags).not('.layui-unselect').not('.xm-hide-input, .xm-input').not('.eleTree-hideen');
         }
 
         /**
@@ -139,6 +139,10 @@
                 let type = $ele.prop('type').toLowerCase();
                 let tag = $ele.prop('tagName').toLowerCase();
                 let name = $ele.is('[data-as-name]') ? $ele.data('as-name') : $ele.prop('name');
+
+                if (name === ''){
+                    return ;
+                }
 
                 let value = $ele.val();
                 if (tag === 'input' && type === 'checkbox') {
@@ -165,7 +169,7 @@
                     continue;
                 }
                 if ($.isPlainObject(data[prop])) {
-                    data[prop] = that.objectAutoArray(data[prop]);
+                    data[prop] = that._objectAutoArray(data[prop]);
                 }
                 if (increment && !Number.isNaN(Number(prop)) && prop - initial === 1) {
                     initial = Number(prop);
@@ -195,7 +199,19 @@
             } else if (type === SERIALIZE_FD) {
                 let param = new FormData();
                 this.echoInputs(form, ($ele, type, tag, name, value) => {
-                    param.append(name, value);
+                    if (type === 'file') {
+                        let files = $ele.get(0).files;
+                        //多文件上传
+                        if (name.indexOf("[]") === -1 && files.length > 1){
+                            name = name + "[]";
+                        }
+
+                        for (let i = 0; i < files.length; i++) {
+                            param.append(name, files[i]);
+                        }
+                    } else {
+                        param.append(name, value);
+                    }
                 }, true);
                 return param;
             } else if (type === SERIALIZE_OBJ) {

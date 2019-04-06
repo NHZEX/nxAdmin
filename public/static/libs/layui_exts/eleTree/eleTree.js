@@ -1,7 +1,8 @@
 /**
- * 基于layui的tree重写
- * author: hsianglee
- * 最近修改时间: 2019/01/21
+ * @Name: 基于layui的tree重写
+ * @Author: 李祥
+ * @License：MIT
+ * 最近修改时间: 2019/03/20
  */
 
 layui.define(["jquery","laytpl"], function (exports) {
@@ -69,11 +70,16 @@ layui.define(["jquery","laytpl"], function (exports) {
                 if(options.data.length===0) return;
                 return _self.unCheckNodes.call(_self);
             },
+            unCheckArrNodes: function(data) {
+                if(options.data.length===0) return;
+                return _self.unCheckArrNodes.call(_self,data);
+            },
             expandAll: function() {
                 options.elem.children(".eleTree-node").children(".eleTree-node-group").empty();
                 _self.expandAll.call(_self,options.data,[],1,true);
-                _self.unCheckNodes();
+                _self.unCheckNodes(true);
                 _self.defaultChecked();
+                _self.checkboxInit();
             },
             unExpandAll: function() {
                 return _self.unExpandAll.call(_self);
@@ -128,9 +134,9 @@ layui.define(["jquery","laytpl"], function (exports) {
                                 }
                                 return [
                                     '{{# if(d[i]["'+options.request.checked+'"]) { }}',
-                                        '<input lay-ignore type="checkbox" name="eleTree-node" eleTree-status="1" checked class="eleTree-hideen ',
+                                        '<input type="checkbox" name="eleTree-node" lay-ignore eleTree-status="1" checked data-checked class="layui-hide eleTree-hideen ',
                                     '{{# }else{ }}',
-                                        '<input lay-ignore type="checkbox" name="eleTree-node" eleTree-status='+status+' class="eleTree-hideen ',
+                                        '<input type="checkbox" name="eleTree-node" lay-ignore eleTree-status='+status+' class="layui-hide eleTree-hideen ',
                                     '{{# } }}',
 
                                     '{{# if(d[i]["'+options.request.disabled+'"]) { }}',
@@ -159,7 +165,6 @@ layui.define(["jquery","laytpl"], function (exports) {
         options.request=$.extend({}, this.config.request, options.request);
         this.config = $.extend({}, this.config, options);
         this.prevClickEle=null;
-        this.addKeyIndex=20181201;
         this.nameIndex=1;
         this.render();
     };
@@ -445,10 +450,11 @@ layui.define(["jquery","laytpl"], function (exports) {
         checkboxInit: function() {
             var options=this.config;
             var _self=this;
-            options.elem.find("input[eleTree-status='1']").each(function(index,item) {
+            options.elem.find("input[data-checked]").each(function(index,item) {
                 var checkboxEl=$(item).siblings(".eleTree-checkbox");
                 var childNode=checkboxEl.parent(".eleTree-node-content").siblings(".eleTree-node-group").find("input[name='eleTree-node']");
                 // 选择当前
+                $(item).prop("checked","checked").attr("eleTree-status","1");
                 checkboxEl.addClass("eleTree-checkbox-checked");
                 checkboxEl.children("i").addClass("layui-icon-ok").removeClass("eleTree-checkbox-line");
                 // 选择子孙
@@ -701,8 +707,9 @@ layui.define(["jquery","laytpl"], function (exports) {
                     $(node).children(".eleTree-node-group").empty().append(string);
                     options.defaultExpandAll && $(node).children(".eleTree-node-group").children().show();
                 }); 
-                _self.unCheckNodes();
+                _self.unCheckNodes(true);
                 _self.defaultChecked();
+                _self.checkboxInit();
             });
         },
         updateKeySelf: function(key,data) {
@@ -735,8 +742,9 @@ layui.define(["jquery","laytpl"], function (exports) {
                     pElem.siblings(".eleTree-node-content").children(".eleTree-node-content-icon").children(".layui-icon").css("color", "transparent");
                 }
             });
-            this.unCheckNodes();
+            this.unCheckNodes(true);
             this.defaultChecked();
+            this.checkboxInit();
         },
         append: function(key,data) {
             var options=this.config;
@@ -822,7 +830,9 @@ layui.define(["jquery","laytpl"], function (exports) {
                 var obj={};
                 var id=$(item).parent(".eleTree-node-content").parent(".eleTree-node").attr("data-"+options.request.key);
                 id=isNaN(id) ? id : Number(id);
+                var label=$(item).siblings(".eleTree-node-content-label").text();
                 obj[options.request.key]=id;
+                obj[options.request.name]=label;
                 obj.elem=item;
                 obj.othis=$(item).siblings(".eleTree-checkbox").get(0)
                 arr.push(obj);
@@ -832,26 +842,40 @@ layui.define(["jquery","laytpl"], function (exports) {
         setChecked: function(arr,isReset) {
             var options=this.config;
             isReset=isReset || false;
-            this.unCheckNodes();
             if(isReset){
+                this.unCheckNodes();
                 options.defaultCheckedKeys=$.extend([],arr);
             }else{
+                this.unCheckNodes(true);
                 arr.forEach(function(val) {
                     if($.inArray(val,options.defaultCheckedKeys)===-1){
                         options.defaultCheckedKeys.push(val);
                     }
                 })
             }
-            
-            
             this.defaultChecked();
+            this.checkboxInit();
         },
-        unCheckNodes: function() {
+        unCheckNodes: function(_internal) {
+            _internal=_internal || false;   // _internal: 是否内部调用
             var options=this.config;
             options.elem.find("input.eleTree-hideen[eletree-status='1'],input.eleTree-hideen[eletree-status='2']").each(function(index,item) {
                 $(item).attr("eletree-status","0").prop("checked",false);
+                // 如果外部的取消选中，则所有的记录全部取消
+                if(!_internal){
+                    $(item).removeAttr("data-checked");
+                }
             });
             this.checkboxRender();
+        },
+        unCheckArrNodes: function(arr) {
+            var options=this.config;
+            arr.forEach(function(val,index) {
+                var inp=options.elem.find(".eleTree-node[data-"+options.request.key+"='"+val+"']").children(".eleTree-node-content").children(".eleTree-hideen[eletree-status='1'],.eleTree-hideen[eletree-status='2']")
+                if(inp.length>0){
+                    inp.prop("checked",true).removeAttr("data-checked").siblings(".eleTree-checkbox").trigger("click");
+                }
+            })
         },
         unExpandAll: function() {
             var options=this.config;
@@ -1019,9 +1043,9 @@ layui.define(["jquery","laytpl"], function (exports) {
                         .children(".eleTree-node-content-icon").children(".layui-icon")
                         .addClass("icon-rotate").removeAttr("style");
 
-                    _self.unCheckNodes();
+                    _self.unCheckNodes(true);
                     _self.defaultChecked();
-
+                    _self.checkboxInit();
                 })
             })
         },
@@ -1036,12 +1060,12 @@ layui.define(["jquery","laytpl"], function (exports) {
             });
             var menuStr=['<ul id="tree-menu">'
                 ,$.inArray("copy",options.contextmenuList)!==-1?'<li class="copy"><a href="javascript:;">复制</a></li>':''
-                ,$.inArray("add",options.contextmenuList)!==-1?'<li class="add"><a href="javascript:;">新增</a></li>'+
+                ,($.inArray("add",options.contextmenuList)!==-1 || $.inArray("add.async",options.contextmenuList)!==-1)?'<li class="add"><a href="javascript:;">新增</a></li>'+
                     '<li class="insertBefore"><a href="javascript:;">插入节点前</a></li>'+
                     '<li class="insertAfter"><a href="javascript:;">插入节点后</a></li>'+
                     '<li class="append"><a href="javascript:;">插入子节点</a></li>' : ""
-                ,$.inArray("edit",options.contextmenuList)!==-1?'<li class="edit"><a href="javascript:;">修改</a></li>':''
-                ,$.inArray("remove",options.contextmenuList)!==-1?'<li class="remove"><a href="javascript:;">删除</a></li>':''
+                ,($.inArray("edit",options.contextmenuList)!==-1 || $.inArray("edit.async",options.contextmenuList)!==-1)?'<li class="edit"><a href="javascript:;">修改</a></li>':''
+                ,($.inArray("remove",options.contextmenuList)!==-1 || $.inArray("remove.async",options.contextmenuList)!==-1)?'<li class="remove"><a href="javascript:;">删除</a></li>':''
             ,'</ul>'].join("");
             this.treeMenu=$(menuStr);
             options.elem.off("contextmenu").on("contextmenu",".eleTree-node-content",function(e) {
@@ -1081,7 +1105,7 @@ layui.define(["jquery","laytpl"], function (exports) {
                 })
                 // 添加的默认数据
                 var obj={};
-                obj[options.request.key]=_self.addKeyIndex;
+                obj[options.request.key]=Date.now();
                 obj[options.request.name]="未命名"+_self.nameIndex;
                 
                 var arr=["Append","InsertBefore","InsertAfter"];
@@ -1096,9 +1120,15 @@ layui.define(["jquery","laytpl"], function (exports) {
                         layui.event.call(node, MOD_NAME, 'node'+val+'('+ _self.filter +')', {
                             node: node,
                             data: nodeData.currentData,
+                            newData: obj,
                             // 重新设置数据
                             setData: function(o) {
-                                _self[s](key,$.extend({},obj,o));
+                                obj[options.request.key]=Date.now();
+                                obj[options.request.name]="未命名"+_self.nameIndex;
+                                var newObj=$.extend({},obj,o);
+                                this.newData=newObj
+                                _self[s](key,newObj);
+                                _self.nameIndex++;
                                 isStop=true;
                             },
                             // 停止添加
@@ -1106,10 +1136,12 @@ layui.define(["jquery","laytpl"], function (exports) {
                                 isStop=true;
                             }
                         });
-                        if(isStop) return;
-                        _self[s](key,obj)
-                        _self.nameIndex++;
-                        _self.addKeyIndex++;
+                        // 不是异步添加
+                        if($.inArray("add.async",options.contextmenuList)===-1){
+                            if(isStop) return;
+                            _self[s](key,obj)
+                            _self.nameIndex++;
+                        }
                     })
                 })
                 
@@ -1137,14 +1169,26 @@ layui.define(["jquery","laytpl"], function (exports) {
                                 isStop=true;
                                 $(inpThis).siblings(".eleTree-node-content-label").show();
                                 $(inpThis).remove();
+                            },
+                            async: function() {
+                                if(isStop) return;
+                                // 修改数据
+                                _self.reInitData(eleNode).currentData[options.request.name]=val;
+                                // 修改dom
+                                $(inpThis).siblings(".eleTree-node-content-label").text(val).show();
+                                $(inpThis).remove();
                             }
                         });
-                        if(isStop) return;
-                        // 修改数据
-                        _self.reInitData(eleNode).currentData[options.request.name]=val;
-                        // 修改dom
-                        $(this).siblings(".eleTree-node-content-label").text(val).show();
-                        $(this).remove();
+                        // 不是异步
+                        if($.inArray("edit.async",options.contextmenuList)===-1){
+                            if(isStop) return;
+                            // 修改数据
+                            _self.reInitData(eleNode).currentData[options.request.name]=val;
+                            // 修改dom
+                            $(this).siblings(".eleTree-node-content-label").text(val).show();
+                            $(this).remove();
+                        }
+                            
                     }).on("mousedown",function(e) {
                         // 防止input拖拽
                         e.stopPropagation();
@@ -1162,10 +1206,20 @@ layui.define(["jquery","laytpl"], function (exports) {
                         // 停止添加
                         stop: function() {
                             isStop=true;
+                            return this;
+                        },
+                        async: function() {
+                            if(isStop) return;
+                            _self.remove(key);
+                            return this;
                         }
                     });
-                    if(isStop) return;
-                    _self.remove(key);
+                    // 不是异步
+                    if($.inArray("remove.async",options.contextmenuList)===-1){
+                        if(isStop) return;
+                        _self.remove(key);
+                    }
+                    
                 })
 
                 _self.prevClickEle=$(this);
@@ -1238,6 +1292,6 @@ layui.define(["jquery","laytpl"], function (exports) {
 
     //加载组件所需样式
     layui.link(layui.cache.base + 'eleTree/eleTree.css', function(){}, 'eleTree');
-    
+
     exports(MOD_NAME,eleTree);
 })
