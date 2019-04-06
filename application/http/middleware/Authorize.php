@@ -10,14 +10,19 @@ namespace app\http\middleware;
 
 use app\common\traits\ShowReturn;
 use app\controller\AdminBase;
+use app\exception\JsonException;
 use app\logic\AdminRole;
 use app\logic\Permission as PermissionLogic;
 use app\model\AdminUser as AdminUserModel;
 use app\model\Permission as PermissionModel;
-use facade\WebConv;
-use think\facade\Response;
-use think\facade\Url;
+use app\server\WebConv;
+use Closure;
+use db\exception\ModelException;
+use ReflectionClass;
+use ReflectionException;
+use think\App;
 use think\Request;
+use think\Response;
 use traits\controller\Jump;
 
 class Authorize extends Middleware
@@ -25,18 +30,31 @@ class Authorize extends Middleware
     use ShowReturn;
     use Jump;
 
-    /** @var \think\App */
+    /** @var App */
     protected $app;
 
     /**
-     * @param Request  $request
-     * @param \Closure $next
-     * @return \think\response
-     * @throws \ReflectionException
-     * @throws \app\exception\JsonException
+     * Authorize constructor.
+     * @param App $app
      */
-    public function handle(Request $request, \Closure $next)
+    public function __construct(App $app)
     {
+        $this->app = $app;
+    }
+
+    /**
+     * @param Request  $request
+     * @param Closure $next
+     * @return response
+     * @throws ReflectionException
+     * @throws JsonException
+     * @throws ModelException
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        /** @var WebConv $webConv */
+        $webConv = $this->app->make(WebConv::class);
+
         //获取调度类
         $transfer_class = self::getCurrentDispatchClass($request);
         $action = $request->action(false);
@@ -55,7 +73,7 @@ class Authorize extends Middleware
         }
 
         // 分析控制器是否继承AdminBase
-        $r = new \ReflectionClass($transfer_class);
+        $r = new ReflectionClass($transfer_class);
         $tc = $r->newInstanceWithoutConstructor();
         if (false === $tc instanceof AdminBase) {
             return $next($request);
@@ -63,19 +81,18 @@ class Authorize extends Middleware
         unset($r, $tc);
 
         // 会话权限判断
-        if (true !== WebConv::verify(true)) {
-            return $this->jump($request, '需重新登录:' . WebConv::getErrorMessage());
+        if (true !== $webConv->verify(true)) {
+            return $this->jump($request, '需重新登录:' . $webConv->getErrorMessage());
         }
 
-        $conv = WebConv::getSelf();
         //超级管理员跳过权限限制
-        if ($conv->sess_user_genre === AdminUserModel::GENRE_SUPER_ADMIN) {
+        if ($webConv->sess_user_genre === AdminUserModel::GENRE_SUPER_ADMIN) {
             return $next($request);
         }
 
         //角色权限验证
         if (($flag & PermissionModel::FLAG_PERMISSION) > 0) {
-            if (false === AdminRole::isPermissionAllowed($conv->sess_role_id, $node->hash)) {
+            if (false === AdminRole::isPermissionAllowed($webConv->sess_role_id, $node->hash)) {
                 return Response::create('权限不足', '', 403);
             }
         }
@@ -87,13 +104,13 @@ class Authorize extends Middleware
      * 权限检查失败跳转
      * @param Request $request
      * @param         $message
-     * @return \think\response
+     * @return response
      */
     protected function jump(Request $request, $message)
     {
         if (!$request->isAjax()) {
             // 构建跳转数据
-            $jump = base64_encode($request->url(true));
+            $jump = rawurlencode($request->url(true));
             return $this->error(
                 $message,
                 '/admin.login?' . http_build_query(['jump' => $jump])
@@ -101,7 +118,7 @@ class Authorize extends Middleware
         } else {
             return Response::create($message, '', 401)
                 ->header([
-                    'Soft-Location' => Url::build('@admin.login')
+                    'Soft-Location' => $this->app->url->build('@admin.login')
                 ]);
         }
     }
@@ -114,7 +131,7 @@ class Authorize extends Middleware
      * @param  mixed   $data   返回的数据
      * @param  int     $wait   跳转等待时间
      * @param  array   $header 发送的Header信息
-     * @return \think\response
+     * @return response
      */
     protected function error($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
     {
@@ -130,7 +147,7 @@ class Authorize extends Middleware
             'msg'  => $msg,
             'data' => $data,
             'url'  => $url,
-            'wait' => $wait,
+            'wait' => $wait * 50,
         ];
 
         if ('html' == strtolower($type)) {

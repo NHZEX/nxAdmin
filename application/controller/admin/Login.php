@@ -9,8 +9,8 @@
 namespace app\controller\admin;
 
 use app\logic\AdminUser;
+use app\server\WebConv;
 use captcha\Captcha;
-use facade\WebConv;
 use think\facade\Config;
 use think\facade\Cookie;
 use think\facade\Url;
@@ -18,16 +18,17 @@ use think\facade\Url;
 class Login extends Base
 {
     /**
-     * @param null $jump
+     * @param WebConv $webConv
+     * @param string|null         $jump
      * @return mixed
      * @throws \db\exception\ModelException
      */
-    public function index($jump = null)
+    public function index(WebConv $webConv, ?string $jump = null)
     {
         $jump_url = $this->request->header('Referer', false);
         // 如果验证成功直接跳转到主页
-        if (WebConv::verify()) {
-            $this->redirect($jump_url ?: '@admin.main');
+        if ($webConv->verify()) {
+            return self::show302($jump_url ?: '@admin.main');
         } else {
             if ((new AdminUser())->testRemember()) {
                 $this->success('自动登陆成功', $jump_url ?: '@admin.main');
@@ -35,7 +36,7 @@ class Login extends Base
         }
 
         // 生成登陆成功后跳转目的地（url传入/主页）
-        $jump_url = $jump ? base64_decode($jump) : ($jump_url ?: Url::build('@admin.main'));
+        $jump_url = $jump ? rawurldecode($jump) : ($jump_url ?: Url::build('@admin.main'));
         false !== strpos($jump_url, 'admin.login/logout') && $jump_url = Url::build('@admin.main');
 
         $loginToken = get_rand_str(32);
@@ -48,7 +49,7 @@ class Login extends Base
             'url_jump' => $jump_url,
 
             'login_token' => $loginToken,
-            'cookid_name_by_conv_token' => Cookie::prefix() . WebConv::getSelf()::COOKIE_CONV_TOKEN,
+            'cookid_name_by_conv_token' => Cookie::prefix() . WebConv::COOKIE_CONV_TOKEN,
         ]);
 
         // 模板渲染
@@ -57,11 +58,13 @@ class Login extends Base
 
     /**
      * 会话有效性检查
+     * @param WebConv $webConv
      * @return \think\Response
+     * @throws \db\exception\ModelException
      */
-    public function check()
+    public function check(WebConv $webConv)
     {
-        if (WebConv::verify()) {
+        if ($webConv->verify()) {
             return self::showMsg(CODE_SUCCEED);
         } else {
             return self::showMsg(CODE_CONV_VERIFY);
@@ -119,10 +122,12 @@ class Login extends Base
 
     /**
      * 退出登陆
+     * @param WebConv $webConv
+     * @throws \db\exception\ModelException
      */
-    public function logout()
+    public function logout(WebConv $webConv)
     {
-        WebConv::destroy(true);
+        $webConv->destroy(true);
         $this->success('退出登陆', '@admin.login');
     }
 }

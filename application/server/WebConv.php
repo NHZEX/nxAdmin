@@ -12,10 +12,15 @@ use app\exception\BusinessResult as BusinessResultSuccess;
 use app\model\AdminRole;
 use app\model\AdminUser;
 use app\model\AdminUser as AdminUserModel;
-use facade\Session2;
+use db\exception\ModelException;
+use ErrorException;
 use Hashids\Hashids;
-use think\facade\App;
-use think\facade\Cookie;
+use think\App;
+use think\Cookie;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\exception\DbException;
+use think\Session2;
 
 /**
  * Class AdminConv
@@ -35,6 +40,12 @@ use think\facade\Cookie;
  */
 class WebConv
 {
+    protected $app;
+    /** @var Session2  */
+    protected $session2;
+    /** @var Cookie  */
+    protected $cookie;
+
     // 错误信息
     protected $errorMessage;
     /** @var string */
@@ -85,21 +96,26 @@ class WebConv
      */
     public function __wakeup()
     {
-        App::set('web_conv', $this);
+        App::getInstance()->bindTo(self::class, $this);
         $this->verifyResult = true;
     }
 
     /**
      * AdminConv constructor.
-     * @internal 不要直接使用该类
+     * @param App      $app
+     * @param Session2 $session2
+     * @param Cookie   $cookie
      */
-    public function __construct()
+    public function __construct(App $app, Session2 $session2, Cookie $cookie)
     {
+        $this->app = $app;
+        $this->cookie = $cookie;
+        $this->session2 = $session2;
         // 初始化Session
-        Session2::init();
+        $session2->init();
 
-        $this->sessionId = Session2::getId();
-        $this->sessionToken = Cookie::get(self::COOKIE_CONV_TOKEN);
+        $this->sessionId = $session2->getId();
+        $this->sessionToken = $cookie->get(self::COOKIE_CONV_TOKEN);
 
         $this->loadConvInfo();
     }
@@ -110,7 +126,7 @@ class WebConv
     private function loadConvInfo(): void
     {
         // 加载会话数据
-        $info = Session2::get(self::CONV_ADMIN_INFO);
+        $info = $this->session2->get(self::CONV_ADMIN_INFO);
         $info && $this->convAdminInfo = array_merge($this->convAdminInfo, $info);
     }
 
@@ -119,26 +135,26 @@ class WebConv
      */
     private function saveConvInfo(): void
     {
-        Session2::set(self::CONV_ADMIN_INFO, $this->convAdminInfo);
+        $this->session2->set(self::CONV_ADMIN_INFO, $this->convAdminInfo);
     }
 
     /**
      * @param $name
      * @return mixed
-     * @throws \ErrorException
+     * @throws ErrorException
      */
     public function __get($name)
     {
         if (0 === strpos($name, 'sess')) {
             return $this->convAdminInfo[substr($name, 5)];
         }
-        throw new \ErrorException('Undefined property: '.__CLASS__."::{$name}");
+        throw new ErrorException('Undefined property: '.__CLASS__."::{$name}");
     }
 
     /**
      * @param $name
      * @param $value
-     * @throws \ErrorException
+     * @throws ErrorException
      */
     public function __set($name, $value)
     {
@@ -147,15 +163,7 @@ class WebConv
             $this->convAdminInfo[$name] = $value;
             return;
         }
-        throw new \ErrorException('Undefined property: '.__CLASS__."::{$name}");
-    }
-
-    /**
-     * @return string
-     */
-    public static function getCookieLastlove(): ?string
-    {
-        return Cookie::get(self::COOKIE_LASTLOVE);
+        throw new ErrorException('Undefined property: '.__CLASS__."::{$name}");
     }
 
     /**
@@ -163,13 +171,10 @@ class WebConv
      * @param bool           $rememberme
      * @return static
      */
-    public static function createSession(AdminUserModel $user, bool $rememberme = false): self
+    public function createSession(AdminUserModel $user, bool $rememberme = false): self
     {
-        // 创建实例
-        $that = \facade\WebConv::getSelf();
-
         // 获取特征串 (必然重复/只做辅助识别)
-        $user_agent = request()->header('User-Agent');
+        $user_agent = $this->app->request->header('User-Agent');
 
         // 用户特征
         $user_feature = self::generateUserFeature($user);
@@ -189,28 +194,26 @@ class WebConv
 
         // 记住登录状态
         if ($rememberme) {
-            $rememberme_out_time = 604800;
-            $token = $that->createRememberToken($user, $user_agent, $rememberme_out_time);
-            Cookie::set(self::COOKIE_LASTLOVE, $token, [
+            $rememberme_out_time = 604800; // 7 day
+            $token = $this->createRememberToken($user, $user_agent, $rememberme_out_time);
+            $this->cookie->set(self::COOKIE_LASTLOVE, $token, [
                 'expire' => $rememberme_out_time,
                 'httponly' => true,
-            ]); // 7 day
+            ]);
         }
 
         // 生成访问令牌
-        $that->sessionToken = get_rand_str(16);
+        $this->sessionToken = get_rand_str(16);
 
         // 设置
-        Session2::set(self::CONV_ADMIN_INFO, $conv_info);
-        Session2::set(self::CONV_ADMIN_TOKEN, $that->sessionToken);
-        Session2::set(self::CONV_COMMON_KEY, get_rand_str(16));
-        Cookie::set(self::COOKIE_CONV_TOKEN, $that->sessionToken);
+        $this->session2->set(self::CONV_ADMIN_INFO, $conv_info);
+        $this->session2->set(self::CONV_ADMIN_TOKEN, $this->sessionToken);
+        $this->session2->set(self::CONV_COMMON_KEY, get_rand_str(16));
+        $this->cookie->set(self::COOKIE_CONV_TOKEN, $this->sessionToken);
 
-        // TODO 需要统一获取
-        $that->sessionId = Session2::getId();
-
-        $that->loadConvInfo();
-        return $that;
+        $this->sessionId = $this->session2->getId();
+        $this->loadConvInfo();
+        return $this;
     }
 
     /**
@@ -241,17 +244,17 @@ class WebConv
 
     /**
      * 解码记住令牌
-     * @param string $value
+     * @param string|null $value
      * @return AdminUserModel|null AdminUserModel 用户对象
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
-    public static function decodeRememberToken(?string $value): ?AdminUserModel
+    public function decodeRememberToken(?string $value = null): ?AdminUserModel
     {
         try {
             if (!$value) {
-                throw new BusinessResultSuccess('记住令牌不存在');
+                $value = $this->cookie->get(self::COOKIE_LASTLOVE);
             }
             $lastlove = explode('.', $value);
             if (count($lastlove) !== 2) {
@@ -294,7 +297,7 @@ class WebConv
                 throw new BusinessResultSuccess('数据一致性失败');
             }
         } catch (BusinessResultSuccess $result) {
-            Cookie::delete(self::COOKIE_LASTLOVE);
+            $this->cookie->delete(self::COOKIE_LASTLOVE);
             return null;
         }
 
@@ -356,7 +359,7 @@ class WebConv
      * 验证会话
      * @param bool $force
      * @return bool
-     * @throws \db\exception\ModelException
+     * @throws ModelException
      */
     public function verify(bool $force = false)
     {
@@ -367,7 +370,7 @@ class WebConv
             if (!$this->sessionToken || !$this->sessionId) {
                 throw new BusinessResultSuccess('会话不存在');
             }
-            if (Session2::get(self::CONV_ADMIN_TOKEN) !== $this->sessionToken) {
+            if ($this->session2->get(self::CONV_ADMIN_TOKEN) !== $this->sessionToken) {
                 throw new BusinessResultSuccess('令牌不一致');
             }
             if (time() > $this->sess_access_time) {
@@ -418,7 +421,7 @@ class WebConv
     /**
      * 销毁会话/
      * @param bool $destroy_remember 销毁记住登陆
-     * @throws \db\exception\ModelException
+     * @throws ModelException
      */
     public function destroy(bool $destroy_remember = false)
     {
@@ -428,11 +431,11 @@ class WebConv
                 $user->remember = get_rand_str(16);
                 $user->save();
             }
-            Cookie::delete(self::COOKIE_LASTLOVE);
+            $this->cookie->delete(self::COOKIE_LASTLOVE);
         }
         // 销毁 Session
-        Session2::destroy();
+        $this->session2->destroy();
         // 清除 Token Cookie
-        Cookie::delete(self::COOKIE_CONV_TOKEN);
+        $this->cookie->delete(self::COOKIE_CONV_TOKEN);
     }
 }

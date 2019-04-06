@@ -22,9 +22,6 @@ class AdminUser extends Base
     const LOGIN_TYPE_NAME = 'username';
     const LOGIN_TYPE_EMAIL = 'email';
 
-    /** @var \app\server\WebConv */
-    private $conv;
-
     /**
      * 用户登陆 邮箱或用户名
      * @param string $username
@@ -79,7 +76,7 @@ class AdminUser extends Base
             $user->last_login_ip = IP::getIp(true);
             if ($user->save()) {
                 // 创建会话
-                $this->conv = WebConv::createSession($user, $rememberme);
+                WebConv::createSession($user, $rememberme);
             } else {
                 throw new BusinessResult('登录信息更新失败，请重试');
             }
@@ -98,22 +95,13 @@ class AdminUser extends Base
      */
     public function testRemember()
     {
-        $value = WebConv::getCookieLastlove();
-        $user = WebConv::decodeRememberToken($value);
+        $user = WebConv::decodeRememberToken();
         if (false === $user instanceof AdminUserModel) {
             return false;
         }
         $user->last_login_time = time();
         $user->save();
-        $this->conv = WebConv::createSession($user, true);
+        WebConv::createSession($user, true);
         return true;
-    }
-
-    /**
-     * @return \app\server\WebConv
-     */
-    public function getConv()
-    {
-        return $this->conv;
     }
 }

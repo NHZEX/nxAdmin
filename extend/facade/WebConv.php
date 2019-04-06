@@ -18,11 +18,10 @@ use app\server\WebConv as WebConvServer;
  * @method bool verify(bool $force = false) static
  * @method string getErrorMessage() static
  * @method WebConvServer createSession(AdminUserModel $user, bool $rememberme = false) static
- * @method AdminUserModel decodeRememberToken(?string $value) static
+ * @method AdminUserModel decodeRememberToken(?string $value = null) static
  * @method AdminUserModel getAdminUser(bool $force = false) static
  * @method bool isSuperAdmin() static
  * @method void destroy(bool $destroy_remember = false) static
- * @method string getCookieLastlove() static
  */
 class WebConv extends Base
 {
