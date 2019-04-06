@@ -76,13 +76,9 @@
         function goMain() {
             window.location.href = '{{ $url_jump }}';
         }
-        function setToken() {
-            localStorage.setItem('__testToken', cookies.get('{{ $cookid_name_by_conv_token }}'));
-        }
 
-        function testToken() {
-            let testToken = localStorage.getItem('__testToken');
-            return (testToken && cookies.get('{{ $cookid_name_by_conv_token }}') === testToken);
+        function testIsLogin() {
+            return cookies.get('{{ $auto_login_name }}') > (new Date()).getTime() / 1000;
         }
 
         (function () {
@@ -103,11 +99,11 @@
 
         let checkLogin = setInterval(function () {
             // 会话访问令牌正确时跳转
-            if(testToken()){
+            if(testIsLogin()){
                 clearInterval(checkLogin);
                 goMain();
             }
-        }, 500);
+        }, 800);
 
         let layer = layui.layer;
         let $loginform = $('#loginform');
@@ -152,8 +148,6 @@
             //提交登陆请求
             $.post('{{ $url_login }}', serialize).done(function(res){
                 if(res.code === 0){
-                    //更新会话访问令牌
-                    setToken();
                     goMain();
                 } else {
                     if(1001 === res.code) {

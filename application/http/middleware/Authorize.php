@@ -147,7 +147,7 @@ class Authorize extends Middleware
             'msg'  => $msg,
             'data' => $data,
             'url'  => $url,
-            'wait' => $wait * 50,
+            'wait' => $wait,
         ];
 
         if ('html' == strtolower($type)) {

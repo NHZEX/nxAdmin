@@ -14,16 +14,18 @@
 // | 会话设置
 // +----------------------------------------------------------------------
 
+use app\dirver\session\Redis2;
+use app\server\DeployInfo;
 use think\Facade\Env;
 
-$mixing_prefix = \app\server\DeployInfo::getMixingPrefix();
+$mixing_prefix = DeployInfo::getMixingPrefix();
 
 return [
     'id'             => '',
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
     // 驱动方式 支持redis memcache memcached
-    'type'           => \app\dirver\session\Redis2::class,
+    'type'           => Redis2::class,
     // 是否自动开启 SESSION
     'auto_start'     => false,
     // 关闭自动生成Cookies
@@ -32,6 +34,8 @@ return [
     'name'           => 'one',
     // Memcached And Redis SESSION KEY 的前缀
     'session_name'   => $mixing_prefix ? "{$mixing_prefix}:sess:" : 'sess:',
+    // SESSION 超时(2小时)
+    'expire'         => 7200,
     // REDIS 设置
     'host'         => Env::get('redis.host', '127.0.0.1'), // redis主机
     'port'         => (int) Env::get('redis.port', 6379), // redis端口

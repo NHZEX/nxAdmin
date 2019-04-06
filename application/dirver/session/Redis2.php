@@ -17,6 +17,8 @@ use think\session\driver\Redis;
 
 class Redis2 extends Redis
 {
+    protected $debug = false;
+
     /**
      * 读取Session
      * @access public
@@ -26,10 +28,11 @@ class Redis2 extends Redis
     public function read($sessID): string
     {
         $sessKey = $this->config['session_name'] . $sessID;
-        Log::record($this->handler->ping(), 'session');
-        Log::record('read_sees: ' . $sessKey, 'session');
-        Log::record('read_result: ' . $this->handler->get($sessKey), 'session');
         $result = $this->handler->get($sessKey);
+        if ($this->debug) {
+            Log::record('read_sees: ' . $sessKey, 'session');
+            Log::record('read_result: ' . (empty($result) ? 'is_null' : 'not_null'), 'session');
+        }
         return is_string($result) ? $result : '';
     }
 
@@ -46,10 +49,11 @@ class Redis2 extends Redis
             return true;
         }
         $sessKey = $this->config['session_name'] . $sessID;
-        Log::record($this->handler->ping(), 'session');
-        Log::record('write_sees: ' . $sessKey, 'session');
-        Log::record('write_result: ' . $sessData, 'session');
-        Log::save();
+        if ($this->debug) {
+            Log::record('write_sees: ' . $sessKey, 'session');
+            Log::record('write_result: ' . (empty($sessData) ? 'is_null' : 'not_null'), 'session');
+            Log::save();
+        }
         if ($this->config['expire'] > 0) {
             $result = $this->handler->setex($sessKey, $this->config['expire'], $sessData);
         } else {

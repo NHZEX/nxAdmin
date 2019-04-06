@@ -210,6 +210,31 @@ class Session2 extends Session
     }
 
     /**
+     * 刷新会话ID
+     * @param bool $delete
+     */
+    public function regenerate($delete = false): void
+    {
+        empty($this->init) && $this->boot();
+
+        if ($delete) {
+            $session_data = [];
+            session_destroy();
+        } else {
+            $session_data = $_SESSION;
+        }
+
+        session_write_close();
+        session_unset();
+
+        $this->setId(null);
+        $this->getId();
+        $this->start();
+
+        $_SESSION = $session_data;
+    }
+
+    /**
      * 创建SessionCookie
      */
     protected function createSessionCookie()

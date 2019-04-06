@@ -48,7 +48,7 @@ trait CsrfHelper
      */
     protected function generateCsrfToken(int $pk_id, int $lock_version, bool $enable = true)
     {
-        $hashids = new Hashids(WebConv::getSelf()->getToken(), 16);
+        $hashids = new Hashids(WebConv::getSelf()->getSessionId(), 16);
         $result = $hashids->encode($pk_id, $lock_version, mt_rand());
         $result .= '.update';
         $enable && $this->addCsrfToken($result);
@@ -61,7 +61,7 @@ trait CsrfHelper
      */
     protected function parseCsrfToken(CsrfStruct $csrf_token)
     {
-        $hashids = new Hashids(WebConv::getSelf()->getToken(), 16);
+        $hashids = new Hashids(WebConv::getSelf()->getSessionId(), 16);
         [$pkid, $lock_version] = $hashids->decode($csrf_token->token);
         return [$pkid, $lock_version];
     }

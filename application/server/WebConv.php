@@ -16,6 +16,7 @@ use db\exception\ModelException;
 use ErrorException;
 use Hashids\Hashids;
 use think\App;
+use think\Config;
 use think\Cookie;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
@@ -35,7 +36,6 @@ use think\Session2;
  * @property int $sess_update_time
  * @property int $sess_login_time
  * @property string $sess_user_feature
- * @property int $sess_access_time
  * @property int $sess_user_agent
  */
 class WebConv
@@ -50,10 +50,11 @@ class WebConv
     protected $errorMessage;
     /** @var string */
     private $sessionId;
-    /** @var string */
-    private $sessionToken;
     /** @var AdminUser */
     private $user;
+
+    /** @var int 会话超时时间 */
+    protected $sessTimeOut = 7200;
 
     /** @var bool 验证结果 */
     protected $verifyResult;
@@ -67,18 +68,18 @@ class WebConv
         'update_time' => null,
         'login_time' => null,
         'user_feature' => null,
-        'access_time' => null,
         'user_agent' => null,
     ];
 
     const COOKIE_LASTLOVE = 'lastlove';
-    const COOKIE_CONV_TOKEN = 'token';
 
+    const CONV_CREATE_TIME = 'create_time';
     const CONV_ADMIN_INFO = 'conv_info';
     const CONV_ADMIN_TOKEN = 'conv_token';
     const CONV_COMMON_KEY = 'common_key';
+    const CONV_ACCESS_TIME = 'access_time';
 
-    const CONV_TIME_OUT = 7200;
+    const SESS_REFRESH_TIME_OUT = 10800; // 每3小时刷新一次 SESSION_ID
 
     /**
      * 返回模型的错误信息
@@ -105,17 +106,20 @@ class WebConv
      * @param App      $app
      * @param Session2 $session2
      * @param Cookie   $cookie
+     * @param Config   $config
      */
-    public function __construct(App $app, Session2 $session2, Cookie $cookie)
+    public function __construct(App $app, Session2 $session2, Cookie $cookie, Config $config)
     {
         $this->app = $app;
         $this->cookie = $cookie;
         $this->session2 = $session2;
+
+        $this->sessTimeOut = $config->get('session.expire', 7200);
+
         // 初始化Session
         $session2->init();
 
         $this->sessionId = $session2->getId();
-        $this->sessionToken = $cookie->get(self::COOKIE_CONV_TOKEN);
 
         $this->loadConvInfo();
     }
@@ -128,14 +132,6 @@ class WebConv
         // 加载会话数据
         $info = $this->session2->get(self::CONV_ADMIN_INFO);
         $info && $this->convAdminInfo = array_merge($this->convAdminInfo, $info);
-    }
-
-    /**
-     * 保存会话信息
-     */
-    private function saveConvInfo(): void
-    {
-        $this->session2->set(self::CONV_ADMIN_INFO, $this->convAdminInfo);
     }
 
     /**
@@ -188,7 +184,6 @@ class WebConv
             'role_time' => $user_role ? $user_role->update_time : 0,
             'login_time' => $user->last_login_time,
             'user_feature' => $user_feature,
-            'access_time' => time() + self::CONV_TIME_OUT,
             'user_agent' => crc32($user_agent),
         ];
 
@@ -202,14 +197,11 @@ class WebConv
             ]);
         }
 
-        // 生成访问令牌
-        $this->sessionToken = get_rand_str(16);
-
         // 设置
+        $this->setCreateTime();
+        $this->flushExpired();
         $this->session2->set(self::CONV_ADMIN_INFO, $conv_info);
-        $this->session2->set(self::CONV_ADMIN_TOKEN, $this->sessionToken);
         $this->session2->set(self::CONV_COMMON_KEY, get_rand_str(16));
-        $this->cookie->set(self::COOKIE_CONV_TOKEN, $this->sessionToken);
 
         $this->sessionId = $this->session2->getId();
         $this->loadConvInfo();
@@ -348,14 +340,6 @@ class WebConv
     }
 
     /**
-     * @return string|null
-     */
-    public function getToken() :?string
-    {
-        return $this->sessionToken;
-    }
-
-    /**
      * 验证会话
      * @param bool $force
      * @return bool
@@ -366,15 +350,13 @@ class WebConv
         if (null !== $this->verifyResult && !$force) {
             return $this->verifyResult;
         }
+        $curr_time = time();
         try {
-            if (!$this->sessionToken || !$this->sessionId) {
+            if (!$this->sessionId || empty($this->session2->get())) {
                 throw new BusinessResultSuccess('会话不存在');
             }
-            if ($this->session2->get(self::CONV_ADMIN_TOKEN) !== $this->sessionToken) {
-                throw new BusinessResultSuccess('令牌不一致');
-            }
-            if (time() > $this->sess_access_time) {
-                throw new BusinessResultSuccess('会话超时');
+            if ($curr_time > $this->session2->get(self::CONV_ACCESS_TIME)) {
+                throw new BusinessResultSuccess('会话过期');
             }
             $user_agent = request()->header('User-Agent');
             if ($this->sess_user_agent !== crc32($user_agent)) {
@@ -397,25 +379,47 @@ class WebConv
             if ($user->role_id && $user->role && AdminRole::STATUS_NORMAL !== $user->role->status) {
                 throw new BusinessResultSuccess("角色状态：{$user->role->status_desc}");
             }
-            // 会话续期
-            $this->flushExpired();
         } catch (BusinessResultSuccess $result) {
             $this->destroy();
             $this->errorMessage = $result->getMessage();
             return $this->verifyResult = false;
         }
 
+        if ($curr_time > $this->session2->get(self::CONV_CREATE_TIME)) {
+            // 旧会话延迟10秒失效
+            $this->flushExpired(10);
+            // 刷新会话ID
+            $this->session2->regenerate();
+            // 更新会话信息
+            $this->sessionId = $this->session2->getId();
+            // 设置创建时间
+            $this->setCreateTime();
+
+        }
+
+        // 会话续期
+        $this->flushExpired();
+
         return $this->verifyResult = true;
     }
 
     /**
      * 会话续期
+     * @param int|null $out_time
      * @author NHZEXG
      */
-    public function flushExpired()
+    public function flushExpired(?int $out_time = null)
     {
-        $this->sess_access_time = (time() + self::CONV_TIME_OUT);
-        $this->saveConvInfo();
+        $this->session2->set(self::CONV_ACCESS_TIME, time() + ($out_time ?? $this->sessTimeOut));
+    }
+
+    /**
+     * 设置创建时间
+     * @author NHZEXG
+     */
+    public function setCreateTime()
+    {
+        $this->session2->set(self::CONV_CREATE_TIME, time() + self::SESS_REFRESH_TIME_OUT);
     }
 
     /**
@@ -435,7 +439,5 @@ class WebConv
         }
         // 销毁 Session
         $this->session2->destroy();
-        // 清除 Token Cookie
-        $this->cookie->delete(self::COOKIE_CONV_TOKEN);
     }
 }

@@ -49,7 +49,7 @@ class Login extends Base
             'url_jump' => $jump_url,
 
             'login_token' => $loginToken,
-            'cookid_name_by_conv_token' => Cookie::prefix() . WebConv::COOKIE_CONV_TOKEN,
+            'auto_login_name' => Cookie::prefix() . 'login_time',
         ]);
 
         // 模板渲染
@@ -95,6 +95,7 @@ class Login extends Base
      * @throws \think\Exception
      */
     public function login(
+        \think\Cookie $cookie,
         AdminUser $adminUser
     ) {
         $param = $this->request->param();
@@ -114,6 +115,7 @@ class Login extends Base
 
         // 执行登陆操作
         if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme)) {
+            $cookie->set('login_time', time() + 10);
             return self::showMsg(CODE_SUCCEED);
         } else {
             return self::showMsg(CODE_CONV_LOGIN, $adminUser->getErrorMessage());
