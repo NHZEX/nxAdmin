@@ -40,10 +40,11 @@ use think\Session2;
  */
 class WebConv
 {
+    /** @var App */
     protected $app;
-    /** @var Session2  */
+    /** @var Session2 */
     protected $session2;
-    /** @var Cookie  */
+    /** @var Cookie */
     protected $cookie;
 
     // 错误信息
@@ -394,7 +395,6 @@ class WebConv
             $this->sessionId = $this->session2->getId();
             // 设置创建时间
             $this->setCreateTime();
-
         }
 
         // 会话续期

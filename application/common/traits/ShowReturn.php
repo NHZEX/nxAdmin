@@ -178,8 +178,7 @@ trait ShowReturn
         array $header = [],
         $http_code = 200,
         array $options = []
-    ): Response
-    {
+    ): Response {
         $defult = [
             'code' => $code ?? -1,
             'msg' => 'undefined',
