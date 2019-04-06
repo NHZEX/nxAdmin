@@ -1,11 +1,10 @@
 {
-    "name": "topthink/think",
+    "name": "nhzex/nxadmin",
     "description": "the new thinkphp framework",
     "type": "project",
     "keywords": [
-        "framework",
-        "thinkphp",
-        "ORM"
+        "frame",
+        "thinkphp"
     ],
     "homepage": "http://thinkphp.cn/",
     "license": "Apache-2.0",
@@ -17,20 +16,30 @@
     ],
     "require": {
         "php": "~7.2.10",
-        "ext-gd": "*", "ext-pdo": "*", "ext-gmp": "*",
-        "ext-exif": "*", "ext-zlib": "*", "ext-curl": "*",
-        "ext-json": "*", "ext-iconv": "*", "ext-posix": "*",
-        "ext-redis": "*", "ext-bcmath": "*", "ext-openssl": "*",
-        "ext-fileinfo": "*", "ext-mbstring": "*", "ext-simplexml": "*",
+        "ext-bcmath": "*",
+        "ext-curl": "*",
+        "ext-exif": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
+        "ext-gmp": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-posix": "*",
+        "ext-redis": "4.3.0",
+        "ext-simplexml": "*",
         "ext-zip": "*",
-        "topthink/framework": "5.1.*",
+        "ext-zlib": "*",
+        "guzzlehttp/guzzle": "^6.3",
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
-        "guzzlehttp/guzzle": "^6.3",
-        "symfony/polyfill-php73": "^1.10",
+        "nhzex/think-blade": "^1.0",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
-        "nhzex/think-blade": "^1.0",
+        "symfony/polyfill-php73": "^1.10",
+        "topthink/framework": "5.1.*",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
@@ -57,7 +66,12 @@
         "think-path": "thinkphp"
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.2.10"
+        }
     },
     "repositories": {
         "packagist": {

@@ -46,8 +46,8 @@ class EnvStruct extends Base
         'port' => 6379,
         'password' => '',
         'select' => 0,
-        'timeout' => 1,
-        'persistent' => 1,
+        'timeout' => 3,
+        'persistent' => 0,
     ];
 
     public $task = [

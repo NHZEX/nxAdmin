@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fca87321b8abd8d6cbe6605485fac803",
+    "content-hash": "a87f7810a412946c9cd2c91d09dac192",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -4210,22 +4210,25 @@
     "prefer-lowest": false,
     "platform": {
         "php": "~7.2.10",
-        "ext-gd": "*",
-        "ext-pdo": "*",
-        "ext-gmp": "*",
-        "ext-exif": "*",
-        "ext-zlib": "*",
-        "ext-curl": "*",
-        "ext-json": "*",
-        "ext-iconv": "*",
-        "ext-posix": "*",
-        "ext-redis": "*",
         "ext-bcmath": "*",
-        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-exif": "*",
         "ext-fileinfo": "*",
+        "ext-gd": "*",
+        "ext-gmp": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-posix": "*",
+        "ext-redis": "4.3.0",
         "ext-simplexml": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "ext-zlib": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.2.10"
+    }
 }
