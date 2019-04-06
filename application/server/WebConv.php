@@ -63,8 +63,8 @@ class WebConv
     const COOKIE_LASTLOVE = 'lastlove';
     const COOKIE_CONV_TOKEN = 'token';
 
-    const CONV_ADMIN_INFO = 'conv_admin_info';
-    const CONV_ADMIN_TOKEN = 'conv_admin_token';
+    const CONV_ADMIN_INFO = 'conv_info';
+    const CONV_ADMIN_TOKEN = 'conv_token';
     const CONV_COMMON_KEY = 'common_key';
 
     const CONV_TIME_OUT = 7200;
@@ -99,7 +99,7 @@ class WebConv
         Session2::init();
 
         $this->sessionId = Session2::getId();
-        $this->sessionToken = Cookie::get('token');
+        $this->sessionToken = Cookie::get(self::COOKIE_CONV_TOKEN);
 
         $this->loadConvInfo();
     }
@@ -365,35 +365,31 @@ class WebConv
         }
         try {
             if (!$this->sessionToken || !$this->sessionId) {
-                throw new BusinessResultSuccess('钥匙丢失');
+                throw new BusinessResultSuccess('会话不存在');
             }
             if (Session2::get(self::CONV_ADMIN_TOKEN) !== $this->sessionToken) {
-                throw new BusinessResultSuccess('令牌错误');
+                throw new BusinessResultSuccess('令牌不一致');
             }
-            $conv_info = Session2::get(self::CONV_ADMIN_INFO);
-            if (!$conv_info || !is_array($conv_info)) {
-                throw new BusinessResultSuccess('授权丢失');
+            if (time() > $this->sess_access_time) {
+                throw new BusinessResultSuccess('会话超时');
             }
             $user_agent = request()->header('User-Agent');
             if ($this->sess_user_agent !== crc32($user_agent)) {
-                throw new BusinessResultSuccess('授权无效');
-            }
-            if (time() > $this->sess_access_time) {
-                throw new BusinessResultSuccess('状态超时');
+                throw new BusinessResultSuccess('会话环境不一致');
             }
             $user = $this->getAdminUser();
             if ($this->sess_login_time !== $user->last_login_time ||
                 self::generateUserFeature($user) !== $this->sess_user_feature
             ) {
-                throw new BusinessResultSuccess('发生更变');
+                throw new BusinessResultSuccess('用户状态发生更变');
             }
             if (AdminUser::STATUS_NORMAL !== $user->status || $this->sess_user_status !== $user->status) {
-                throw new BusinessResultSuccess("状态：{$user->status_desc}");
+                throw new BusinessResultSuccess("用户状态：{$user->status_desc}");
             }
             if ($user->role_id !== $this->sess_role_id
                 || ($user->role_id && $user->role && $user->role->update_time !== $this->sess_role_time)
             ) {
-                throw new BusinessResultSuccess('角色发生更变');
+                throw new BusinessResultSuccess('角色状态发生更变');
             }
             if ($user->role_id && $user->role && AdminRole::STATUS_NORMAL !== $user->role->status) {
                 throw new BusinessResultSuccess("角色状态：{$user->role->status_desc}");

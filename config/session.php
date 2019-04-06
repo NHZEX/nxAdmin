@@ -31,7 +31,7 @@ return [
     // SESSION COOKIN
     'name'           => 'one',
     // Memcached And Redis SESSION KEY 的前缀
-    'session_name'   => $mixing_prefix ? "{$mixing_prefix}:" : 'session',
+    'session_name'   => $mixing_prefix ? "{$mixing_prefix}:sess:" : 'sess:',
     // REDIS 设置
     'host'         => Env::get('redis.host', '127.0.0.1'), // redis主机
     'port'         => (int) Env::get('redis.port', 6379), // redis端口

@@ -64,7 +64,7 @@ class Authorize extends Middleware
 
         // 会话权限判断
         if (true !== WebConv::verify(true)) {
-            return $this->jump($request, 'Unauthorized:' . WebConv::getErrorMessage());
+            return $this->jump($request, '需重新登录:' . WebConv::getErrorMessage());
         }
 
         $conv = WebConv::getSelf();

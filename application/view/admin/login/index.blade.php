@@ -70,7 +70,7 @@
     }
 
     require([
-        'jquery', 'js-cookie', 'verify', 'layui', 'layer'
+        'jquery', 'js-cookie', 'verify', 'layui', 'layer', 'layform'
     ], ($, cookies, Verify, layui) => {
 
         function goMain() {
