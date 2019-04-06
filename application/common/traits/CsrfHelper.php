@@ -13,6 +13,7 @@ use facade\Redis;
 use facade\WebConv;
 use Hashids\Hashids;
 use struct\CsrfStruct;
+use think\facade\Request;
 
 trait CsrfHelper
 {
@@ -21,7 +22,7 @@ trait CsrfHelper
      */
     protected function getRequestCsrfToken()
     {
-        $csrf = \think\facade\Request::header(CSRF_TOKEN, '.');
+        $csrf = Request::header(CSRF_TOKEN, '.');
         $csrf_value = explode('.', $csrf, 2);
         isset($csrf_value[1]) || $csrf_value[] = '';
         return new CsrfStruct(['token' => $csrf_value[0], 'mode' => $csrf_value[1]]);
@@ -125,67 +126,5 @@ trait CsrfHelper
         $prefix = DeployInfo::getMixingPrefix();
         $key = "{$prefix}_token:{$tokenKey}:{$token}";
         return Redis::getSelf()->del($key) > 0;
-    }
-
-    /**
-     * 注册Api令牌
-     * @param string $mac
-     * @param string $token
-     * @param int    $timeOut
-     * @param int    $max
-     * @return bool
-     */
-    protected function registerApiToken(string $mac, string $token, int $timeOut = 7200, int $max = 5) :bool
-    {
-        $prefix = DeployInfo::getMixingPrefix();
-        $redis = Redis::getSelf();
-        $key = $prefix . '_token:api:' . $token;
-        $setKey = $prefix . '_token:apilist:' . str_replace(':', '', $mac);
-
-        // 滚动删除
-        $redis->lPush($setKey, $token);
-        $overflow = $redis->lLen($setKey) - $max;
-        $redis->multi();
-        while (0 < $overflow--) {
-            $redis->rPop($setKey);
-        }
-        // 执行事务1
-        $result = $redis->exec() ?? [];
-
-        $redis->multi();
-        // 移除无效数据
-        foreach ($result as $value) {
-            $redis->del($prefix . '_token:api:' . $value);
-        }
-        // 设置令牌
-        $redis->expire($setKey, $timeOut);
-        $redis->set($key, 1, $timeOut);
-        // 执行事务2
-        $result = $redis->exec();
-
-        return array_pop($result);
-    }
-
-    /**
-     * 验证Api令牌
-     * @param string $mac
-     * @param string $token
-     * @param int    $timeOut
-     * @return bool
-     */
-    protected function verifyApiToken(string $mac, string $token, int $timeOut = 7200) :bool
-    {
-        $prefix = DeployInfo::getMixingPrefix();
-        $redis = Redis::getSelf();
-        $key = $prefix . '_token:api:' . $token;
-        $setKey = $prefix . '_token:apilist:' . str_replace(':', '', $mac);
-
-        $redis->multi();
-        $redis->exists($key);
-        $redis->expire($setKey, $timeOut);
-        $redis->expire($key, $timeOut);
-        $result = $redis->exec();
-
-        return array_shift($result);
     }
 }
