@@ -39,6 +39,7 @@
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
         "symfony/polyfill-php73": "^1.10",
+        "symfony/process": "^4.2",
         "symfony/var-exporter": "^4.2",
         "topthink/framework": "5.1.*",
         "vlucas/phpdotenv": "^3.3"

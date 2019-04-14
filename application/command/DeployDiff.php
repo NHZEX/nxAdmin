@@ -11,6 +11,9 @@ namespace app\command;
 
 use basis\Util;
 use Exception;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
+use Symfony\Component\VarExporter\Exception\ExceptionInterface;
 use Symfony\Component\VarExporter\VarExporter;
 use think\App;
 use think\console\Command;
@@ -37,6 +40,7 @@ class DeployDiff extends Command
      * @param Output $output
      * @return int
      * @throws Exception
+     * @throws ExceptionInterface
      */
     public function execute(Input $input, Output $output): int
     {
@@ -46,7 +50,21 @@ class DeployDiff extends Command
 
         switch ($mode) {
             case 'git':
-                $result = $this->gitDiff();
+                $git_dir = $this->app->getRootPath() . '.git';
+                if (!is_dir($git_dir)) {
+                    $this->output->error("{$git_dir} does not exist");
+                    return 1;
+                }
+                $currBranchesName = trim(shell_exec('git rev-parse --abbrev-ref --symbolic-full-name HEAD') ?: '');
+                $currBranchesUpstream = trim(shell_exec('git rev-parse --abbrev-ref --symbolic-full-name @{u}') ?: '');
+                $this->output->info("curr branches name: {$currBranchesName}");
+                $this->output->info("curr branches upstream: {$currBranchesUpstream}");
+
+                $result = $this->gitDiffToArchive(
+                    'b334cff9bdc2073dd702afbc1bef187cda52db0b',
+                    'de45fe47e0a7b2de2fd91ceadb70a4524d651ff0',
+                    $this->app->getRootPath() . 'update.pack.zip'
+                );
                 break;
             default:
                 $this->output->error("Invalid mode: {$mode}");
@@ -55,23 +73,30 @@ class DeployDiff extends Command
         return $result;
     }
 
-    public function gitDiff(): int
+    /**
+     * @param string $commit1
+     * @param string $commit2
+     * @param string $archivePath
+     * @return int
+     * @throws ExceptionInterface
+     * @throws Exception
+     */
+    public function gitDiffToArchive(string $commit1, string $commit2, string $archivePath): int
     {
-        $git_dir = $this->app->getRootPath() . '.git';
-        if (!is_dir($git_dir)) {
-            $this->output->error("{$git_dir} does not exist");
-            return 1;
+        $command = ['git', 'diff', '--name-status', $commit1, $commit2];
+
+        $process = new Process($command);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            $this->output->warning('获取差异失败: diff执行异常');
+            return $process->getExitCode();
         }
 
-        $currBranchesName = trim(shell_exec('git rev-parse --abbrev-ref --symbolic-full-name HEAD') ?: '');
-        $currBranchesUpstream = trim(shell_exec('git rev-parse --abbrev-ref --symbolic-full-name @{u}') ?: '');
-        $this->output->info("curr branches name: {$currBranchesName}");
-        $this->output->info("curr branches upstream: {$currBranchesUpstream}");
-
-        $commit1 = 'b334cff9bdc2073dd702afbc1bef187cda52db0b';
-        $commit2 = 'de45fe47e0a7b2de2fd91ceadb70a4524d651ff0';
-
-        $command = "git diff {$commit1}..{$commit2} --name-status";
+        $metadata = [
+            'add' => [],
+            'modify' => [],
+            'delete' => [],
+        ];
 
         /**
          * A: 添加
@@ -83,27 +108,11 @@ class DeployDiff extends Command
          * U: 文件未合并（您必须先完成合并才能提交）
          * X: “未知”更改类型（最有可能是错误，请报告）
          */
-
-        // Run it
-        $output = [];
-        exec($command, $output, $execCode);
-
-        if (0 !== $execCode) {
-            $this->output->error('获取差异失败');
-            return 1;
-        }
-
-        $metadata = [
-            'add' => [],
-            'modify' => [],
-            'delete' => [],
-        ];
-
-        // Output
-        foreach ($output as $line) {
+        foreach (explode(PHP_EOL, $process->getOutput()) as $line) {
             $this->output->writeln($line);
 
-            if (strpos($line, 'warning: CRLF will be replaced by LF in') === 0
+            if (empty($line)
+                || strpos($line, 'warning: CRLF will be replaced by LF in') === 0
                 || strpos($line, 'The file will have its original line endings in your working directory.') === 0
             ) {
                 continue;
@@ -148,55 +157,42 @@ class DeployDiff extends Command
             }
         }
 
-        // git show 73e5c494b6f918cb4db071881d6e65c1a430b908:.gitignore
-
-//        var_dump($filesToDelete ?? []);
-//        var_dump($filesToUpload ?? []);
-
-        // metadata.info
-
         $zip = new ZipArchive();
-        $zip->open($this->app->getRootPath() . 'update.pack.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        $zip->open($archivePath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
         foreach ($metadata['add'] as &$add) {
-            $output = [];
-            $this->output->writeln("git show {$commit2}:{$add['file_path']}");
-            exec("git show {$commit2}:{$add['file_path']}", $output, $execCode);
-            if (0 !== $execCode) {
-                throw new Exception('exec exit ' . $execCode);
-            }
-            $content = join(PHP_EOL, $output) . PHP_EOL;
-
+            $this->output->writeln("read {$commit2}:{$add['file_path']}");
+            $content = $this->gitShow($commit2, $add['file_path']);
             $add['file_hash'] = base64url_encode(hash('sha256', $content, true));
-
             $zip->addFromString($add['file_hash'], $content);
         }
 
         foreach ($metadata['modify'] as &$add) {
-            $this->output->writeln("git show {$commit2}:{$add['file_path']}");
-            exec("git show {$commit2}:{$add['file_path']}", $output, $execCode);
-            if (0 !== $execCode) {
-                throw new Exception('exec exit ' . $execCode);
-            }
-            $content = join(PHP_EOL, $output) . PHP_EOL;
-
+            $this->output->writeln("read {$commit2}:{$add['file_path']}");
+            $content = $this->gitShow($commit2, $add['file_path']);
             $add['file_hash'] = base64url_encode(hash('sha256', $content, true));
-
             $zip->addFromString($add['file_hash'], $content);
         }
 
         $zip->addFromString('.metadata.info', VarExporter::export($metadata));
-//        $zip->setCommentName('metadata.info', '元数据');
-//
-//        $zip->setArchiveComment('sadasdasdds.' . time());
+        $zip->setArchiveComment('Creation time: ' . date(DATE_ATOM));
         $zip->close();
 
-//        if ($zip->open('test.zip')) {
-//            for ($i = 0; $i < $zip->numFiles; $i++) {
-//                $filename = $zip->getNameIndex($i);
-//            }
-//        }
-
         return 0;
+    }
+
+    /**
+     * @param string $commit
+     * @param string $file
+     * @return string
+     */
+    private function gitShow(string $commit, string $file)
+    {
+        $process = new Process(['git', 'show', "{$commit}:{$file}"]);
+        $process->run();
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+        return $process->getOutput();
     }
 }
