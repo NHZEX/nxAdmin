@@ -425,7 +425,7 @@ function sortArrByManyField()
  * @param  string $charset 编码
  * @return string
  */
-function mb_strcut_omit(string $string, int $length, string $dot = '...', ?string $charset = null)
+function mb_strcut_omit(string $string, int $length, string $dot = '...', ?string $charset = null): string
 {
     if (strlen($string) > $length) {
         $charset || $charset = mb_internal_encoding();
@@ -434,24 +434,4 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
     }
 
     return $string;
-}
-
-/**
- * 字节单位转换
- * User: Johnson
- * @param int $size
- * @return string
- */
-function byte_unit_conversion(int $size)
-{
-    //单位
-    $units = ['B', 'KB', 'MB', 'GB'];
-    foreach ($units as $unit) {
-        if ($size < 1024) {
-            $size = sprintf('%.2f', $size);
-            return "{$size}{$unit}";
-        }
-        $size = $size / 1024;
-    }
-    throw new \OutOfBoundsException('文件过大，转换单位失败');
 }

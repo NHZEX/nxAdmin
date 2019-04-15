@@ -99,7 +99,7 @@ class Deploy extends Command
         $env = new EnvStruct($existEnv ? Ini::readerFile($envPath) : []);
         // 载入允许用户
         $env->task['user'] = $input->getOption('run-user') ?: $env->task['user'];
-        $output->info('当前用户：' . Util::whoami()."({$env->task['user']})");
+        $output->info('当前用户：' . Util::whoami() . "({$env->task['user']})");
         $env->task['user'] = $env->task['user'] ?? Util::whoami();
 
         if ($update && !$existEnv) {
@@ -244,7 +244,6 @@ class Deploy extends Command
     /**
      * @param EnvStruct $env
      * @param bool      $dryRun
-     * @throws ModelException
      * @throws \think\Exception
      * @throws Exception
      */

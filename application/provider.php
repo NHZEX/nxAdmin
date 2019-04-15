@@ -13,6 +13,7 @@
 
 use app\server\RedisProxy;
 use app\server\WebConv;
+use think\App;
 use think\Session2;
 
 $basis = [
@@ -24,4 +25,8 @@ $basis = [
 $expand = [
 ];
 
-return $basis + $expand;
+foreach ($expand as $value) {
+    App::getInstance()->bindTo($value);
+}
+
+return $basis;

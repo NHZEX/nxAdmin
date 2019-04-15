@@ -11,6 +11,7 @@ namespace db\traits;
 use db\exception\ModelException;
 use think\Db;
 use think\db\Connection;
+use think\Exception;
 
 trait TransactionExtension
 {
@@ -18,18 +19,25 @@ trait TransactionExtension
      * 当前是否在一个事务内
      * @author NHZEXG
      * @return bool
-     * @throws \think\Exception
      */
     public static function theTransaction()
     {
-        return Connection::instance(Db::getConfig())->getPdo()->inTransaction();
+        try {
+            $instance = Connection::instance(Db::getConfig())->getPdo();
+        } catch (Exception $e) {
+            // 处理连接类 \InvalidArgumentException 异常
+            return false;
+        }
+        if (false === $instance) {
+            return false;
+        }
+        return $instance->inTransaction();
     }
 
     /**
      * 当前是否在一个事务内
      * @author NHZEXGinTransaction
      * @return bool
-     * @throws \think\Exception
      */
     public function inTransaction() :bool
     {
@@ -40,7 +48,6 @@ trait TransactionExtension
      * 不再事务中执行将直接抛出异常
      * @author NHZEXG
      * @throws ModelException
-     * @throws \think\Exception
      */
     public static function theTransactionTryFail() :void
     {
@@ -53,7 +60,6 @@ trait TransactionExtension
      * 不再事务中执行将直接抛出异常
      * @author NHZEXG
      * @throws ModelException
-     * @throws \think\Exception
      */
     public function inTransactionTryFail() :void
     {

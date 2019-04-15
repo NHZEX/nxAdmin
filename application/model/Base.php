@@ -11,6 +11,7 @@ namespace app\model;
 use db\Query as Query2;
 use db\traits\ModelUtil;
 use db\traits\OptimLock;
+use db\traits\TransactionExtension;
 use facade\WebConv;
 use think\Model as ThinkModel;
 
@@ -51,6 +52,7 @@ use think\Model as ThinkModel;
 abstract class Base extends ThinkModel
 {
     use ModelUtil;
+    use TransactionExtension;
     use OptimLock;
 
     protected $optimLock = 'lock_version';

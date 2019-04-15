@@ -12,6 +12,7 @@ use basis\Util;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
+use think\console\input\Option;
 use think\console\Output;
 use think\Db;
 use think\facade\App;
@@ -28,6 +29,7 @@ class CreateModel extends Command
     public function configure()
     {
         $this->setName('create_model')
+            ->addOption('print', 'p', Option::VALUE_NONE, '打印')
             ->addArgument('table', Argument::OPTIONAL, '指定表');
     }
 
@@ -39,6 +41,8 @@ class CreateModel extends Command
      */
     public function execute(Input $input, Output $output)
     {
+        $is_print = (bool) $input->getOption('print');
+
         $output_align = 22;
         // 导出配置
         $model_path = 'model';
@@ -169,7 +173,13 @@ class CreateModel extends Command
             $class_text .= "}\n";
 
             $file_name = $export_path . DIRECTORY_SEPARATOR . "{$class_name}.php";
-            file_put_contents($file_name, $class_text);
+            if ($is_print) {
+                $output->warning(">> output: {$file_name}");
+                // $class_text = preg_replace('~^(.+)$~m', "    $1", $class_text);
+                $output->writeln($class_text);
+            } else {
+                file_put_contents($file_name, $class_text);
+            }
         }
     }
 }

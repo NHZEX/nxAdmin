@@ -10,8 +10,10 @@ namespace app\http\middleware;
 
 use app\common\traits\CsrfHelper;
 use app\common\traits\ShowReturn;
+use Closure;
 use think\App;
 use think\Request;
+use think\Response;
 
 class Validate extends Middleware
 {
@@ -30,10 +32,10 @@ class Validate extends Middleware
 
     /**
      * @param Request  $request
-     * @param \Closure $next
-     * @return \think\Response
+     * @param Closure $next
+     * @return Response
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $currClass = $this->getCurrentDispatchClass($request);
         $currAction = $request->action();
@@ -57,7 +59,8 @@ class Validate extends Middleware
                     $validate_scene && $v->scene($validate_scene);
                 }
                 if (false === $v->check($request->param())) {
-                    return self::showMsg(CODE_COM_PARAM, $v->getError());
+                    $message = is_array($v->getError()) ? join(',', $v->getError()) : $v->getError();
+                    return self::showMsg(CODE_COM_PARAM, $message);
                 }
             }
 

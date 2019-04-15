@@ -8,9 +8,15 @@
 
 namespace db;
 
-use think\model\Collection;
+use ArrayAccess;
+use ArrayIterator;
+use Countable;
+use DomainException;
+use IteratorAggregate;
+use JsonSerializable;
+use Traversable;
 
-class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable
+class Paginator2 implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
     /**
      * 是否简洁模式
@@ -101,7 +107,7 @@ class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     public function total()
     {
         if ($this->simple) {
-            throw new \DomainException('not support total');
+            throw new DomainException('not support total');
         }
 
         return $this->total;
@@ -120,7 +126,7 @@ class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     public function lastPage()
     {
         if ($this->simple) {
-            throw new \DomainException('not support last');
+            throw new DomainException('not support last');
         }
 
         return $this->lastPage;
@@ -180,7 +186,7 @@ class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     {
         try {
             $total = $this->total();
-        } catch (\DomainException $e) {
+        } catch (DomainException $e) {
             $total = null;
         }
 
@@ -196,13 +202,13 @@ class Paginator2 implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     /**
      * Retrieve an external iterator
      * @link  https://php.net/manual/en/iteratoraggregate.getiterator.php
-     * @return \Traversable An instance of an object implementing <b>Iterator</b> or
+     * @return Traversable An instance of an object implementing <b>Iterator</b> or
      * <b>Traversable</b>
      * @since 5.0.0
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->items->all());
+        return new ArrayIterator($this->items->all());
     }
 
     /**

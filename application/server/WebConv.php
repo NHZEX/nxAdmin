@@ -145,7 +145,7 @@ class WebConv
         if (0 === strpos($name, 'sess')) {
             return $this->convAdminInfo[substr($name, 5)];
         }
-        throw new ErrorException('Undefined property: '.__CLASS__."::{$name}");
+        throw new ErrorException('Undefined property: ' . __CLASS__ . '::' . $name);
     }
 
     /**
@@ -160,7 +160,7 @@ class WebConv
             $this->convAdminInfo[$name] = $value;
             return;
         }
-        throw new ErrorException('Undefined property: '.__CLASS__."::{$name}");
+        throw new ErrorException('Undefined property: ' . __CLASS__ . '::' . $name);
     }
 
     /**
@@ -269,7 +269,7 @@ class WebConv
             }
 
             /** @var AdminUserModel $user */
-            $user = (new AdminUserModel)->wherePk($user_id)->find();
+            $user = (new AdminUserModel())->wherePk($user_id)->find();
             if (false === $user instanceof AdminUserModel) {
                 throw new BusinessResultSuccess('用户不存在');
             }
@@ -425,7 +425,6 @@ class WebConv
     /**
      * 销毁会话/
      * @param bool $destroy_remember 销毁记住登陆
-     * @throws ModelException
      */
     public function destroy(bool $destroy_remember = false)
     {

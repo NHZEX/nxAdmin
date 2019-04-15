@@ -27,6 +27,6 @@ class WebConv extends Base
 {
     protected static function getFacadeClass()
     {
-        return 'web_conv';
+        return WebConvServer::class;
     }
 }
