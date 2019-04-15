@@ -55,8 +55,6 @@ abstract class Base extends ThinkModel
     use TransactionExtension;
     use OptimLock;
 
-    protected $optimLock = 'lock_version';
-
     protected $readonly = ['create_by'];
     /** @var bool 是否自动自动记录当前操作用户 */
     protected $recordUser = false;

@@ -19,10 +19,10 @@ use think\Session2;
 $basis = [
     'session'  => Session2::class,
     'redis' => RedisProxy::class,
-    'web_conv' => WebConv::class,
 ];
 
 $expand = [
+    WebConv::class,
 ];
 
 foreach ($expand as $value) {
