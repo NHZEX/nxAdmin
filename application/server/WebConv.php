@@ -12,7 +12,6 @@ use app\exception\BusinessResult as BusinessResultSuccess;
 use app\model\AdminRole;
 use app\model\AdminUser;
 use app\model\AdminUser as AdminUserModel;
-use db\exception\ModelException;
 use ErrorException;
 use Hashids\Hashids;
 use think\App;
@@ -21,7 +20,7 @@ use think\Cookie;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
-use think\Session2;
+use Tp\Session2;
 
 /**
  * Class AdminConv
@@ -344,7 +343,6 @@ class WebConv
      * 验证会话
      * @param bool $force
      * @return bool
-     * @throws ModelException
      */
     public function verify(bool $force = false)
     {

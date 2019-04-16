@@ -9,18 +9,19 @@
 namespace app\controller;
 
 use app\common\traits\ShowReturn;
+use app\facade\WebConv;
 use app\logic\Attachment;
-use facade\WebConv;
+use think\exception\DbException;
 use think\File;
+use think\Response;
 
 class Upload extends AdminBase
 {
     use ShowReturn;
 
     /**
-     * @return \think\Response
-     * @throws \db\exception\ModelException
-     * @throws \think\exception\DbException
+     * @return Response
+     * @throws DbException
      */
     public function image()
     {
@@ -42,9 +43,8 @@ class Upload extends AdminBase
     /**
      * 上传多个图片
      * User: Johnson
-     * @return \think\Response
-     * @throws \db\exception\ModelException
-     * @throws \think\exception\DbException
+     * @return Response
+     * @throws DbException
      */
     public function images()
     {
@@ -67,9 +67,8 @@ class Upload extends AdminBase
     /**
      * User: Johnson
      * @param File $file
-     * @return array|\think\Response
-     * @throws \db\exception\ModelException
-     * @throws \think\exception\DbException
+     * @return array|Response
+     * @throws DbException
      */
     private function uploadImage(File $file)
     {

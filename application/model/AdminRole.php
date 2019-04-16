@@ -9,10 +9,10 @@
 namespace app\model;
 
 use app\exception\AccessControl;
+use app\facade\WebConv;
 use app\logic\AdminRole as AdminRoleLogic;
-use db\traits\MysqlJson;
-use facade\WebConv;
 use think\model\concern\SoftDelete;
+use Tp\Model\Traits\MysqlJson;
 
 /**
  * Class AdminRole

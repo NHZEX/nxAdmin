@@ -6,7 +6,7 @@
  * Time: 13:20
  */
 
-namespace facade;
+namespace app\facade;
 
 use app\server\RedisProxy;
 use redis\RedisExtend;

@@ -10,12 +10,12 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-namespace app\dirver\session;
+namespace Tp\Session\Driver;
 
 use think\facade\Log;
-use think\session\driver\Redis;
+use think\session\driver\Redis as ThinkRedis;
 
-class Redis2 extends Redis
+class Redis extends ThinkRedis
 {
     protected $debug = false;
 

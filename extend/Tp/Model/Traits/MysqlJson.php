@@ -6,14 +6,15 @@
  * Time: 17:24
  */
 
-namespace db\traits;
+namespace Tp\Model\Traits;
 
 use think\db\Expression;
+use think\Model;
 
 /**
  * Trait OptimLock
  * @package db\traits
- * @mixin \think\Model
+ * @mixin Model
  */
 trait MysqlJson
 {

@@ -8,8 +8,9 @@
 
 namespace app\server;
 
-use facade\Redis;
+use app\facade\Redis;
 use redis\RedisExtend;
+use think\Config;
 
 /**
  * Class RedisProxy
@@ -33,7 +34,7 @@ class RedisProxy
     /** @var RedisExtend */
     protected $handler2 = null;
 
-    public function __construct(\think\Config $config)
+    public function __construct(Config $config)
     {
         $this->config = $config->pull('redis') + $this->config;
     }

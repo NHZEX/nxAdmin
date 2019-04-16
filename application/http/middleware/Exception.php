@@ -11,9 +11,10 @@ namespace app\http\middleware;
 
 use app\common\traits\ShowReturn;
 use app\exception\AccessControl;
-use db\exception\ModelException;
+use Closure;
 use think\Request;
 use think\Response;
+use Tp\Model\Exception\ModelException;
 
 class Exception extends Middleware
 {
@@ -21,10 +22,10 @@ class Exception extends Middleware
 
     /**
      * @param Request $request
-     * @param \Closure $next
+     * @param Closure $next
      * @return Response|string
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         try {
             $result = $next($request);

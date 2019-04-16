@@ -8,12 +8,15 @@
 
 namespace app\model;
 
-use db\Query as Query2;
-use db\traits\ModelUtil;
-use db\traits\OptimLock;
-use db\traits\TransactionExtension;
-use facade\WebConv;
+use app\facade\WebConv;
+use Closure;
 use think\Model as ThinkModel;
+use think\model\Collection;
+use think\model\relation\BelongsTo;
+use Tp\Db\Query as Query2;
+use Tp\Model\Traits\ModelUtil;
+use Tp\Model\Traits\OptimLock;
+use Tp\Model\Traits\TransactionExtension;
 
 /**
  * Class Base
@@ -41,12 +44,12 @@ use think\Model as ThinkModel;
  * @method mixed value(string $field) static 获取某个字段的值
  * @method array column(string $field, string $key = '') static 获取某个列的值
  * @method \static find(mixed $data = null) static 查询单个记录
- * @method \think\model\Collection|\static[] select(mixed $data = null) static 查询多个记录
+ * @method Collection|\static[] select(mixed $data = null) static 查询多个记录
  * @method mixed get(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 支持关联预载入
  * @method mixed getOrFail(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 不存在则抛出异常
  * @method mixed findOrEmpty(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录  不存在则返回空模型
  * @method mixed all(mixed $data = null,mixed $with =[],bool $cache= false) static 查询多个记录 支持关联预载入
- * @method ThinkModel withAttr(array $name,\Closure $closure) 动态定义获取器
+ * @method ThinkModel withAttr(array $name, Closure $closure) 动态定义获取器
  * @method Query2 wherePk($op, $condition = null) static 指定主键查询条件
  */
 abstract class Base extends ThinkModel
@@ -90,7 +93,7 @@ abstract class Base extends ThinkModel
 
     /**
      * 获取创建者名称
-     * @return \think\model\relation\BelongsTo
+     * @return BelongsTo
      */
     protected function beCreatorName()
     {
@@ -100,7 +103,7 @@ abstract class Base extends ThinkModel
 
     /**
      * 获取编辑者名称
-     * @return \think\model\relation\BelongsTo
+     * @return BelongsTo
      */
     protected function beEditorName()
     {

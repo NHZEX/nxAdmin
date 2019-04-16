@@ -6,7 +6,7 @@
  * Time: 18:06
  */
 
-namespace db;
+namespace Tp\Model;
 
 class Collection extends \think\model\Collection
 {

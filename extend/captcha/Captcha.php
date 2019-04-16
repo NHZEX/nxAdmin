@@ -10,8 +10,8 @@ namespace captcha;
 
 use app\exception\BusinessResult;
 use app\exception\JsonException;
+use app\facade\Redis;
 use basis\IP;
-use facade\Redis;
 use think\facade\App;
 
 /**

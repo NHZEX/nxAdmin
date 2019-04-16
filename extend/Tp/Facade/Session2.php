@@ -6,7 +6,7 @@
  * Time: 17:40
  */
 
-namespace facade;
+namespace Tp\Facade;
 
 use think\facade\Session;
 

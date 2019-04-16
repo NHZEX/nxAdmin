@@ -17,12 +17,12 @@ use app\model\AdminUser as AdminUserModel;
 use app\model\Permission as PermissionModel;
 use app\server\WebConv;
 use Closure;
-use db\exception\ModelException;
 use ReflectionClass;
 use ReflectionException;
 use think\App;
 use think\Request;
 use think\Response;
+use Tp\Model\Exception\ModelException;
 use traits\controller\Jump;
 
 class Authorize extends Middleware

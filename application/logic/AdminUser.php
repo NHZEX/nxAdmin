@@ -10,9 +10,11 @@ namespace app\logic;
 
 use app\common\traits\PrintAbnormal;
 use app\exception\BusinessResult;
+use app\facade\WebConv;
 use app\model\AdminUser as AdminUserModel;
 use basis\IP;
-use facade\WebConv;
+use RuntimeException;
+use think\Exception;
 use think\exception\DbException;
 
 class AdminUser extends Base
@@ -28,7 +30,7 @@ class AdminUser extends Base
      * @param string $password
      * @param bool $rememberme
      * @return bool
-     * @throws \think\Exception
+     * @throws Exception
      */
     public function loginNameWaitEmail(string $username, string $password, bool $rememberme = false)
     {
@@ -46,7 +48,7 @@ class AdminUser extends Base
      * @param string $password
      * @param bool $rememberme
      * @return bool
-     * @throws \think\Exception
+     * @throws Exception
      */
     public function login(string $type, string $username, string $password, bool $rememberme = false)
     {
@@ -60,7 +62,7 @@ class AdminUser extends Base
                     $user = (new AdminUserModel)->where('email', $username)->find();
                     break;
                 default:
-                    throw new \RuntimeException("无法处理的类型：{$type}");
+                    throw new RuntimeException("无法处理的类型：{$type}");
             }
             if (false === $user instanceof AdminUserModel) {
                 throw new BusinessResult('账号或密码错误');
@@ -84,14 +86,13 @@ class AdminUser extends Base
             $this->errorMessage = $businessResult->getMessage();
             return false;
         } catch (DbException $e) {
-            throw new \RuntimeException('数据库访问异常', 0, $e);
+            throw new RuntimeException('数据库访问异常', 0, $e);
         }
         return true;
     }
 
     /**
      * @return bool
-     * @throws \db\exception\ModelException
      */
     public function testRemember()
     {

@@ -8,9 +8,9 @@
 
 namespace app\common\traits;
 
+use app\facade\Redis;
+use app\facade\WebConv;
 use app\server\DeployInfo;
-use facade\Redis;
-use facade\WebConv;
 use Hashids\Hashids;
 use struct\CsrfStruct;
 use think\facade\Request;

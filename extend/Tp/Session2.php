@@ -6,11 +6,12 @@
  * Time: 20:31
  */
 
-namespace think;
+namespace Tp;
 
 use think\exception\ClassNotFoundException;
 use think\facade\Cookie;
 use think\facade\Request;
+use think\Session;
 
 /**
  * Class Session2

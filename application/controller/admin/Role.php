@@ -8,12 +8,12 @@
 
 namespace app\controller\admin;
 
+use app\facade\WebConv;
 use app\logic\AdminRole as AdminRoleLogic;
 use app\logic\SystemMenu;
 use app\model\AdminRole;
 use app\model\AdminUser;
-use db\exception\ModelException;
-use facade\WebConv;
+use Tp\Model\Exception\ModelException;
 
 class Role extends Base
 {

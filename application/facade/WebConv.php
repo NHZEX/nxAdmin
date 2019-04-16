@@ -6,7 +6,7 @@
  * Time: 15:29
  */
 
-namespace facade;
+namespace app\facade;
 
 use app\model\AdminUser as AdminUserModel;
 use app\server\WebConv as WebConvServer;

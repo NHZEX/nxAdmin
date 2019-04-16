@@ -6,12 +6,12 @@
  * Time: 12:01
  */
 
-namespace db\traits;
+namespace Tp\Model\Traits;
 
-use db\exception\ModelException;
 use think\Db;
 use think\db\Connection;
 use think\Exception;
+use Tp\Model\Exception\ModelException;
 
 trait TransactionExtension
 {

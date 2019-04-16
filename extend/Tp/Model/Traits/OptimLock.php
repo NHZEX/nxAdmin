@@ -6,12 +6,12 @@
  * Time: 10:04
  */
 
-namespace db\traits;
+namespace Tp\Model\Traits;
 
-use db\exception\ModelException;
-use db\Query;
 use Exception;
 use think\Model;
+use Tp\Db\Query;
+use Tp\Model\Exception\ModelException;
 
 /**
  * Trait OptimLock

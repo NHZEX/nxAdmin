@@ -9,7 +9,7 @@
 namespace app\logic;
 
 use app\common\traits\PrintAbnormal;
-use db\traits\TransactionExtension;
+use Tp\Model\Traits\TransactionExtension;
 
 abstract class Base
 {

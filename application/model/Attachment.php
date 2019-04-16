@@ -8,7 +8,8 @@
 
 namespace app\model;
 
-use db\traits\ModelUtil;
+use think\exception\DbException;
+use Tp\Model\Traits\ModelUtil;
 
 /**
  * Class Attachment
@@ -139,7 +140,7 @@ class Attachment extends Base
     /**
      * @param $fileKey
      * @return false|Attachment
-     * @throws \think\exception\DbException
+     * @throws DbException
      */
     public static function findFile($fileKey)
     {
@@ -161,7 +162,6 @@ class Attachment extends Base
      * @param string $fileSha1
      * @param string $rawFileName
      * @return Attachment
-     * @throws \db\exception\ModelException
      */
     public static function createRecord(
         string $index,

@@ -6,7 +6,7 @@
  * Time: 13:40
  */
 
-namespace facade;
+namespace app\facade;
 
 use think\Facade;
 use think\facade\App;

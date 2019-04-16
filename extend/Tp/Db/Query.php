@@ -6,13 +6,22 @@
  * Time: 9:11
  */
 
-namespace db;
+namespace Tp\Db;
+
+use Closure;
+use PDOStatement;
+use think\Collection;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\exception\DbException;
+use think\Model;
+use Tp\Paginator2;
 
 /**
  * Class Query
  * @package db
- * @method \PDOStatement|\think\Model|array|null find(array|string|Query|\Closure $data = null) 查询单条记录
- * @method \PDOStatement|\think\model\Collection|\think\Collection|array select(mixed $data = null) 查询多个记录
+ * @method PDOStatement|Model|array|null find(array|string|Query|Closure $data = null) 查询单条记录
+ * @method PDOStatement|\think\model\Collection|Collection|array select(mixed $data = null) 查询多个记录
  */
 class Query extends \think\db\Query
 {
@@ -32,9 +41,9 @@ class Query extends \think\db\Query
      * @param int  $page
      * @param bool $simple
      * @return Paginator2
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public function paginate2(int $limit = 10, int $page = 1, bool $simple = false)
     {

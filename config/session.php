@@ -14,9 +14,9 @@
 // | 会话设置
 // +----------------------------------------------------------------------
 
-use app\dirver\session\Redis2;
 use app\server\DeployInfo;
 use think\Facade\Env;
+use Tp\Session\Driver\Redis;
 
 $mixing_prefix = DeployInfo::getMixingPrefix();
 
@@ -25,7 +25,7 @@ return [
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
     // 驱动方式 支持redis memcache memcached
-    'type'           => Redis2::class,
+    'type'           => Redis::class,
     // 是否自动开启 SESSION
     'auto_start'     => false,
     // 关闭自动生成Cookies

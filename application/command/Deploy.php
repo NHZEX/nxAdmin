@@ -8,6 +8,7 @@
 
 namespace app\command;
 
+use app\facade\Redis;
 use app\logic\Permission;
 use app\logic\SystemMenu;
 use app\model\AdminUser;
@@ -15,9 +16,7 @@ use app\server\DeployInfo;
 use basis\Ini;
 use basis\Util;
 use Closure;
-use db\exception\ModelException;
 use Exception;
-use facade\Redis;
 use Matomo\Ini\IniReadingException;
 use Matomo\Ini\IniWritingException;
 use phinx\PhinxMigrate2;
@@ -35,6 +34,7 @@ use think\Db;
 use think\db\Connection;
 use think\Env;
 use think\exception\PDOException;
+use Tp\Model\Exception\ModelException;
 
 class Deploy extends Command
 {

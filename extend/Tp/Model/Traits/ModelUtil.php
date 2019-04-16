@@ -6,8 +6,9 @@
  * Time: 17:07
  */
 
-namespace db\traits;
+namespace Tp\Model\Traits;
 
+use Closure;
 use think\db\Expression;
 
 trait ModelUtil
@@ -59,7 +60,7 @@ trait ModelUtil
             if (count($value) === 3) {
                 //若$callBack是钩子函数则需要返回相应的值, 否则直接添加到数组中
                 list($field, $expression, $callBack) = $value;
-                if ($callBack instanceof \Closure) {
+                if ($callBack instanceof Closure) {
                     $value = [$field, $expression, $callBack($queryMap[$key])];
                 }
                 array_push($map, $value);

@@ -9,9 +9,13 @@
 namespace app\model;
 
 use app\exception\AccessControl;
-use db\exception\ModelException;
-use facade\WebConv;
+use app\facade\WebConv;
+use PDOStatement;
+use RuntimeException;
+use think\Model;
 use think\model\concern\SoftDelete;
+use think\model\relation\BelongsTo;
+use Tp\Model\Exception\ModelException;
 
 /**
  * Class AdminUser
@@ -24,23 +28,23 @@ use think\model\concern\SoftDelete;
  * @property string $nickname 昵称
  * @property string $password 密码
  * @property string $email 邮箱地址
- * @property int $avatar 头像
- * @property int $role_id 角色ID
- * @property int $group_id 部门id
- * @property string $signup_ip 注册ip
- * @property int $create_time 创建时间
- * @property int $update_time 更新时间
- * @property int $last_login_time 最后一次登录时间
- * @property string $last_login_ip 登录ip
- * @property string $remember 记住令牌
- * @property int $lock_version 数据版本
- * @property-read string $status_desc 状态描述
- * @property-read string $genre_desc 类型描述
- * @property-read string $role_name load(beRoleName)
- * @property-read \app\model\AdminRole $role 用户角色 load(role)
- * @property string|null $avatar_data
- * @property int $delete_time 删除时间
- * @property int $sign_out_time 退出登陆时间
+ * @property int            $avatar 头像
+ * @property int            $role_id 角色ID
+ * @property int            $group_id 部门id
+ * @property string         $signup_ip 注册ip
+ * @property int            $create_time 创建时间
+ * @property int            $update_time 更新时间
+ * @property int            $last_login_time 最后一次登录时间
+ * @property string         $last_login_ip 登录ip
+ * @property string         $remember 记住令牌
+ * @property int            $lock_version 数据版本
+ * @property-read string    $status_desc 状态描述
+ * @property-read string    $genre_desc 类型描述
+ * @property-read string    $role_name load(beRoleName)
+ * @property-read AdminRole $role 用户角色 load(role)
+ * @property string|null    $avatar_data
+ * @property int            $delete_time 删除时间
+ * @property int            $sign_out_time 退出登陆时间
  */
 class AdminUser extends Base
 {
@@ -140,7 +144,7 @@ class AdminUser extends Base
 
     /**
      * 快捷关联 角色名称
-     * @return \think\model\relation\BelongsTo
+     * @return BelongsTo
      */
     protected function beRoleName()
     {
@@ -150,7 +154,7 @@ class AdminUser extends Base
 
     /**
      * 关联获取 角色对象
-     * @return \think\model\relation\BelongsTo
+     * @return BelongsTo
      */
     protected function role()
     {
@@ -171,7 +175,6 @@ class AdminUser extends Base
      * 获取器 记住令牌
      * @param null|string $value
      * @return string
-     * @throws \db\exception\ModelException
      */
     protected function getRememberAttr(?string $value)
     {
@@ -229,14 +232,14 @@ class AdminUser extends Base
      * 指定设置器 生成密码哈希
      * @param string $value
      * @return bool|string
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     protected function setPasswordAttr(string $value)
     {
         $new_password = password_hash($value, self::PWD_HASH_ALGORITHM, self::PWD_HASH_OPTIONS);
 
         if (!$new_password) {
-            throw new \RuntimeException('创建密码哈希失败');
+            throw new RuntimeException('创建密码哈希失败');
         }
 
         return $new_password;
@@ -283,7 +286,7 @@ class AdminUser extends Base
      * 根据id获取用户
      * User: Johnson
      * @param $id
-     * @return AdminUser|\PDOStatement|\think\Model|null
+     * @return AdminUser|PDOStatement|Model|null
      * @throws ModelException
      */
     public static function getUserByID($id)

@@ -10,8 +10,8 @@
 namespace app\validate;
 
 use app\controller\admin\Manager as ManagerController;
+use app\facade\WebConv;
 use app\model\AdminUser;
-use facade\WebConv;
 use think\Request;
 
 class Manager extends Base implements VailAsk

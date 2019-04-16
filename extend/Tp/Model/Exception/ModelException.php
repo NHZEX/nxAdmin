@@ -6,7 +6,7 @@
  * Time: 9:44
  */
 
-namespace db\exception;
+namespace Tp\Model\Exception;
 
 use think\Exception;
 
