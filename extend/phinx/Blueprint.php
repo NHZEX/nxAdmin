@@ -8,8 +8,9 @@
 
 namespace phinx;
 
-use basis\Util;
+use HZEX\Util;
 use Phinx\Db\Adapter\MysqlAdapter as M;
+use Phinx\Db\Table\Column;
 
 /**
  * 字段构造增强
@@ -38,7 +39,7 @@ use Phinx\Db\Adapter\MysqlAdapter as M;
  */
 class Blueprint
 {
-    /** @var \Phinx\Db\Table\Column  */
+    /** @var Column  */
     protected $column;
 
     const COMMENTS = [
@@ -83,7 +84,7 @@ class Blueprint
 
     ];
 
-    protected function __construct(\Phinx\Db\Table\Column $column)
+    protected function __construct(Column $column)
     {
         $this->column = $column;
     }
@@ -94,7 +95,7 @@ class Blueprint
         null === $name && $name = Util::toSnakeCase($callName);
         [$type, $limit] = self::TYPE_MAPPING[$callName];
 
-        $column = new \Phinx\Db\Table\Column();
+        $column = new Column();
         $column->setName($name);
         $column->setType($type);
         // 全局设置
@@ -266,7 +267,7 @@ class Blueprint
 
     /**
      * 获取列定义
-     * @return \Phinx\Db\Table\Column
+     * @return Column
      */
     public function d()
     {

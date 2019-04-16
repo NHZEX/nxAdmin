@@ -8,7 +8,15 @@
 
 namespace app\logic;
 
+use app\exception\JsonException;
 use app\model\SystemMenu as SystemMenuModel;
+use Exception;
+use Symfony\Component\VarExporter\Exception\ExceptionInterface;
+use Symfony\Component\VarExporter\VarExporter;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\exception\DbException;
+use think\exception\PDOException;
 use think\facade\App;
 use think\facade\Cache;
 use think\facade\Url;
@@ -76,10 +84,10 @@ class SystemMenu extends Base
      * 统一获取菜单
      * @param int|null $roleId
      * @return array
-     * @throws \app\exception\JsonException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws JsonException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public static function obtainMenus(?int $roleId = null)
     {
@@ -96,10 +104,10 @@ class SystemMenu extends Base
      * @param array $allowIds
      * @param array $menus
      * @return array
-     * @throws \app\exception\JsonException
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws JsonException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public static function filterById(array $allowIds, array $menus)
     {
@@ -130,16 +138,23 @@ class SystemMenu extends Base
         $nodes_dir = App::getRootPath() . 'phinx';
         file_exists($nodes_dir) || mkdir($nodes_dir, 0755, true);
         $datas = SystemMenuModel::select();
-        $nodes_data = var_export($datas->toArray(), true);
+        $datas->map(function (SystemMenuModel $menu) {
+            empty($menu->create_time) && $menu->create_time = -1;
+        });
+        try {
+            $nodes_data = VarExporter::export($datas->toArray());
+        } catch (ExceptionInterface $e) {
+            $nodes_data = '[]';
+        }
         $date = date('c');
-        file_put_contents($nodes_dir . '/menus.php', "<?php\n//export date: {$date}\nreturn {$nodes_data};");
+        file_put_contents($nodes_dir . '/menus.php', "<?php\n//export date: {$date}\nreturn {$nodes_data};\n");
         return true;
     }
 
     /**
      * @param bool $dryRun
      * @return bool
-     * @throws \think\exception\PDOException
+     * @throws PDOException
      */
     public static function import(bool $dryRun = false)
     {
@@ -155,7 +170,7 @@ class SystemMenu extends Base
                     $p->insertAll($nodes_data);
                     self::refreshCache();
                     $p->commit();
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $p->rollback();
                     /** @noinspection PhpUnhandledExceptionInspection */
                     throw $exception;

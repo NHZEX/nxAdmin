@@ -17,5 +17,3 @@ $app = Container::get('app');
 $app->path(__DIR__. '/application/');
 $app->initialize();
 $app->hook->listen('app_init');
-
-Loader::addAutoLoadDir(__DIR__ . '/extend');

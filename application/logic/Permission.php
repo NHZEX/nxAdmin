@@ -10,8 +10,10 @@ namespace app\logic;
 
 use app\model\Permission as PermissionModel;
 use app\struct\PermissionNode;
-use basis\Util;
 use Exception;
+use HZEX\Util;
+use Symfony\Component\VarExporter\Exception\ExceptionInterface;
+use Symfony\Component\VarExporter\VarExporter;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
@@ -75,7 +77,7 @@ class Permission
         /** @var PermissionModel[] $nodes */
         $nodes = (new PermissionModel())
             ->field(['id', 'pid', 'action', 'hash', 'class_name'])
-            ->whereRaw('flags&'.PermissionModel::FLAG_MENU.'='.PermissionModel::FLAG_MENU)
+            ->whereRaw('flags&' . PermissionModel::FLAG_MENU . '=' . PermissionModel::FLAG_MENU)
             ->where('genre', PermissionModel::GENRE_ACTION)
             ->select();
 
@@ -121,9 +123,13 @@ class Permission
     {
         $nodes_dir = App::getRootPath() . 'phinx';
         file_exists($nodes_dir) || mkdir($nodes_dir, 0755, true);
-        $nodes_data = var_export(PermissionModel::select()->toArray(), true);
+        try {
+            $nodes_data = VarExporter::export(PermissionModel::select()->toArray());
+        } catch (ExceptionInterface $e) {
+            $nodes_data = '[]';
+        }
         $date = date('c');
-        file_put_contents($nodes_dir . '/nodes.php', "<?php\n//export date: {$date}\nreturn {$nodes_data};");
+        file_put_contents($nodes_dir . '/nodes.php', "<?php\n//export date: {$date}\nreturn {$nodes_data};\n");
         return true;
     }
 

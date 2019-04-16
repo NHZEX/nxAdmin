@@ -8,13 +8,14 @@
 
 namespace app\command;
 
-use basis\Util;
+use HZEX\Util;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
 use think\Db;
+use think\Exception;
 use think\facade\App;
 
 /**
@@ -37,7 +38,7 @@ class CreateModel extends Command
      * @param Input  $input
      * @param Output $output
      * @return int|void|null
-     * @throws \think\Exception
+     * @throws Exception
      */
     public function execute(Input $input, Output $output)
     {

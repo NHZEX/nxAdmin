@@ -8,7 +8,7 @@
 
 namespace app\server;
 
-use basis\Util;
+use HZEX\Util;
 use RuntimeException;
 use think\App;
 

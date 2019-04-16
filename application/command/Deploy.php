@@ -15,9 +15,9 @@ use app\model\AdminUser;
 use app\server\DeployInfo;
 use app\struct\EnvStruct;
 use basis\Ini;
-use basis\Util;
 use Closure;
 use Exception;
+use HZEX\Util;
 use Matomo\Ini\IniReadingException;
 use Matomo\Ini\IniWritingException;
 use phinx\PhinxMigrate2;
@@ -33,8 +33,8 @@ use think\console\output\Question;
 use think\Db;
 use think\db\Connection;
 use think\Env;
+use think\Exception as ExceptionThink;
 use think\exception\PDOException;
-use Tp\Model\Exception\ModelException;
 
 class Deploy extends Command
 {
@@ -70,8 +70,7 @@ class Deploy extends Command
      * @return int
      * @throws IniReadingException
      * @throws IniWritingException
-     * @throws ModelException
-     * @throws \think\Exception
+     * @throws ExceptionThink
      * @throws Exception
      */
     public function execute(Input $input, Output $output): int
@@ -244,7 +243,7 @@ class Deploy extends Command
     /**
      * @param EnvStruct $env
      * @param bool      $dryRun
-     * @throws \think\Exception
+     * @throws ExceptionThink
      * @throws Exception
      */
     protected function initAdminUser(EnvStruct $env, bool $dryRun)
@@ -323,7 +322,7 @@ class Deploy extends Command
      * 输入数据库配置
      * @param EnvStruct $env
      * @param bool      $interaction 交互
-     * @throws \think\Exception
+     * @throws ExceptionThink
      * @throws Exception
      */
     protected function inputMysqlConfig(EnvStruct $env, bool $interaction = true)

@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace app\command;
 
-use basis\Util;
+use HZEX\Util;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Option;
