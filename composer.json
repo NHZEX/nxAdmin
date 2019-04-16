@@ -35,6 +35,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
+        "nhzex/n-helper": "dev-master",
         "nhzex/think-blade": "^1.0",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",

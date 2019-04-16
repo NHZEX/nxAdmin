@@ -6,9 +6,11 @@
  * Time: 10:35
  */
 
-namespace struct;
+namespace app\struct;
 
-class EnvStruct extends Base
+use HZEX\DataStruct\BaseProperty;
+
+class EnvStruct extends BaseProperty
 {
     public $app = [
         'debug' => 0,

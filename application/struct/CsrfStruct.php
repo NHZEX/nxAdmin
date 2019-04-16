@@ -6,13 +6,15 @@
  * Time: 17:23
  */
 
-namespace struct;
+namespace app\struct;
+
+use HZEX\DataStruct\BaseProperty;
 
 /**
  * 请求令牌数据结构
  * Class CsrfStructure
  */
-class CsrfStruct extends Base
+class CsrfStruct extends BaseProperty
 {
     /** @var string 令牌 */
     public $token;

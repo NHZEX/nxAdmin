@@ -9,8 +9,13 @@
 namespace app\logic;
 
 use app\model\Permission as PermissionModel;
+use app\struct\PermissionNode;
 use basis\Util;
-use struct\PermissionNode;
+use Exception;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\exception\DbException;
+use think\exception\PDOException;
 use think\facade\App;
 use think\facade\Cache;
 
@@ -61,9 +66,9 @@ class Permission
 
     /**
      * 获取节点中属于菜单的项目
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public static function queryNodeFlagsIsMenu()
     {
@@ -125,7 +130,7 @@ class Permission
     /**
      * @param bool $dryRun
      * @return bool
-     * @throws \think\exception\PDOException
+     * @throws PDOException
      */
     public static function importNodes(bool $dryRun = false)
     {
@@ -141,7 +146,7 @@ class Permission
                     $p->insertAll($nodes_data);
                     self::refreshCache();
                     $p->commit();
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     $p->rollback();
                     /** @noinspection PhpUnhandledExceptionInspection */
                     throw $exception;

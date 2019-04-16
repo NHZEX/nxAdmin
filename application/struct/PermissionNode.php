@@ -6,9 +6,11 @@
  * Time: 14:46
  */
 
-namespace struct;
+namespace app\struct;
 
-class PermissionNode extends Base
+use HZEX\DataStruct\BaseProperty;
+
+class PermissionNode extends BaseProperty
 {
     /** @var string */
     public $nkey;
