@@ -14,7 +14,6 @@ use Countable;
 use DomainException;
 use IteratorAggregate;
 use JsonSerializable;
-use think\model\Collection as CollectionThink;
 use Tp\Model\Collection;
 use Traversable;
 
@@ -80,7 +79,7 @@ class Paginator2 implements ArrayAccess, Countable, IteratorAggregate, JsonSeria
         $this->simple   = $simple;
         $this->listRows = $listRows;
 
-        if (!$items instanceof CollectionThink) {
+        if (false === ($items instanceof Collection)) {
             $items = Collection::make($items);
         }
 

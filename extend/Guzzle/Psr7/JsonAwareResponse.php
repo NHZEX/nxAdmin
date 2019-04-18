@@ -6,9 +6,12 @@
  * Time: 19:39
  */
 
-namespace guzzle\psr7;
+namespace Guzzle\Psr7;
 
+use app\Exception\JsonException;
 use GuzzleHttp\Psr7\Response;
+use Psr\Http\Message\StreamInterface;
+use function json_decode_throw_on_error;
 
 /**
  * Class JsonAwareResponse
@@ -24,8 +27,8 @@ class JsonAwareResponse extends Response
     private $json;
 
     /**
-     * @return array|mixed|\Psr\Http\Message\StreamInterface
-     * @throws \app\exception\JsonException
+     * @return array|mixed|StreamInterface
+     * @throws JsonException
      */
     public function getBody()
     {
@@ -37,7 +40,7 @@ class JsonAwareResponse extends Response
 
         // if JSON HTTP header detected - then decode
         if (false !== strpos($this->getHeaderLine('Content-Type'), 'application/json')) {
-            return $this->json = \json_decode_throw_on_error($body);
+            return $this->json = json_decode_throw_on_error($body);
         }
         return $body;
     }

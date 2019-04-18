@@ -7,7 +7,11 @@
  * Ver: 1.0.0
  */
 
-namespace crypto;
+namespace Crypto;
+
+use Exception;
+use LengthException;
+use UnexpectedValueException;
 
 class HxDefault
 {
@@ -29,7 +33,7 @@ class HxDefault
      * @param bool $padding 是否自动填充到标准长度
      * @param string $method 加密算法名称
      * @return string         已加密数据
-     * @throws \LengthException
+     * @throws LengthException
      * @author NHZEXG
      */
     public static function hxAesEnc101(
@@ -47,13 +51,13 @@ class HxDefault
         $method = strtoupper($method);
         $bytes = $_methods[substr($method, 0, 7)] ?? 0;
         if (0 === $bytes) {
-            throw new \LengthException("Unknown cipher algorithm");
+            throw new LengthException("Unknown cipher algorithm");
         }
         if (strlen($enc_pwd) !== $bytes) {
             if ($padding) {
                 $enc_pwd = substr(hash('md5', $enc_pwd, true), -1 * $bytes);
             } else {
-                throw new \LengthException("cipher expects an password of precisely {$bytes} bytes");
+                throw new LengthException("cipher expects an password of precisely {$bytes} bytes");
             }
         }
 
@@ -97,14 +101,14 @@ class HxDefault
         $method = strtoupper($method);
         $bytes = $_methods[substr($method, 0, 7)] ?? 0;
         if (0 === $bytes) {
-            throw new \LengthException("Unknown cipher algorithm");
+            throw new LengthException("Unknown cipher algorithm");
         }
 
         if (strlen($dec_pwd) !== $bytes) {
             if ($padding) {
                 $dec_pwd = substr(hash('md5', $dec_pwd, true), -1 * $bytes);
             } else {
-                throw new \LengthException("cipher expects an password of precisely {$bytes} bytes");
+                throw new LengthException("cipher expects an password of precisely {$bytes} bytes");
             }
         }
 
@@ -114,7 +118,7 @@ class HxDefault
         $in_data = substr($in_data, 0, -16);
 
         if ($data_sign !== openssl_digest($in_data, 'md5', true)) {
-            throw new \UnexpectedValueException("dec data hash fail");
+            throw new UnexpectedValueException("dec data hash fail");
         }
 
         $iv_len = openssl_cipher_iv_length($method);
@@ -137,27 +141,27 @@ class HxDefault
      * @param string $pub RSA公钥
      * @return array          已加密数据
      * @author NHZEXG
-     * @throws \Exception
+     * @throws Exception
      */
     public static function hxRsaPubEnc101(string $in_data, string $pub): array
     {
         $pub_id = openssl_pkey_get_public($pub);
 
         if (false === $pub_id) {
-            throw new \Exception('rsa public key load error: ' . openssl_error_string());
+            throw new Exception('rsa public key load error: ' . openssl_error_string());
         }
         if (false === $details = openssl_pkey_get_details($pub_id)) {
-            throw new \Exception('call openssl_pkey_get_details fails, ' . openssl_error_string());
+            throw new Exception('call openssl_pkey_get_details fails, ' . openssl_error_string());
         }
         if (2048 > $details['bits']) {
-            throw new \Exception('rsa bits less than 2048');
+            throw new Exception('rsa bits less than 2048');
         }
 
         $method = 'AES-128-CFB';
         $password = openssl_random_pseudo_bytes(32);
 
         if (false === openssl_public_encrypt($password, $enc_pwd, $pub, OPENSSL_PKCS1_PADDING)) {
-            throw new \Exception(openssl_error_string());
+            throw new Exception(openssl_error_string());
         }
 
         $out_data = self::hxAesEnc101($in_data, substr($password, 0, 16), false, $method);
@@ -173,7 +177,7 @@ class HxDefault
      * @param string $pri RSA私钥
      * @param array $out_pwd 解码的秘钥
      * @return string          已解密数据
-     * @throws \Exception
+     * @throws Exception
      * @author NHZEXG
      */
     public static function hxRsaPriDnc101(
@@ -186,20 +190,20 @@ class HxDefault
         $pri_id = openssl_pkey_get_private($pri);
 
         if (false === $pri_id) {
-            throw new \Exception('rsa private key load error: ' . openssl_error_string());
+            throw new Exception('rsa private key load error: ' . openssl_error_string());
         }
         if (false === $details = openssl_pkey_get_details($pri_id)) {
-            throw new \Exception('call openssl_pkey_get_details fails, ' . openssl_error_string());
+            throw new Exception('call openssl_pkey_get_details fails, ' . openssl_error_string());
         }
         if (2048 > $details['bits']) {
-            throw new \Exception('rsa bits less than 2048');
+            throw new Exception('rsa bits less than 2048');
         }
         if (2048 / 8 !== strlen($enc_pwd)) {
-            throw new \Exception('rsa enc data len error');
+            throw new Exception('rsa enc data len error');
         }
 
         if (false === openssl_private_decrypt($enc_pwd, $dnc_pwd, $pri, OPENSSL_PKCS1_PADDING)) {
-            throw new \Exception(openssl_error_string());
+            throw new Exception(openssl_error_string());
         }
         $method = 'AES-128-CFB';
         $out_pwd = [substr($dnc_pwd, 0, 16), substr($dnc_pwd, -16)];
@@ -275,7 +279,7 @@ class HxDefault
      * @param int $timestamp 请求时间
      * @author NHZEXG
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public static function signHeadRsaWhitSha256(
         string $pri,
@@ -289,13 +293,13 @@ class HxDefault
         $pri_id = openssl_pkey_get_private($pri);
 
         if (false === $pri_id) {
-            throw new \Exception('rsa private key load error: ' . openssl_error_string());
+            throw new Exception('rsa private key load error: ' . openssl_error_string());
         }
         if (false === $details = openssl_pkey_get_details($pri_id)) {
-            throw new \Exception('call openssl_pkey_get_details fails, ' . openssl_error_string());
+            throw new Exception('call openssl_pkey_get_details fails, ' . openssl_error_string());
         }
         if (2048 > $details['bits']) {
-            throw new \Exception('rsa bits less than 2048');
+            throw new Exception('rsa bits less than 2048');
         }
 
         $timestamp = time();
@@ -303,7 +307,7 @@ class HxDefault
         $data = "{$appsn}:{$method}:{$domain}:{$uri}:{$nonce}:{$timestamp}";
 
         if (false === openssl_sign($data, $sign, $pri_id, 'sha256')) {
-            throw new \Exception(openssl_error_string());
+            throw new Exception(openssl_error_string());
         }
         return base64_encode($sign);
     }
@@ -320,7 +324,7 @@ class HxDefault
      * @param string $nonce 请求随机值
      * @param int $timestamp 请求时间
      * @return bool
-     * @throws \Exception
+     * @throws Exception
      * @author NHZEXG
      */
     public static function verifySignHeadRsaWhitSha256(
@@ -337,17 +341,17 @@ class HxDefault
         $sign = base64_decode($sign);
 
         if (false === $pub_id) {
-            throw new \Exception('rsa private key load error: ' . openssl_error_string());
+            throw new Exception('rsa private key load error: ' . openssl_error_string());
         }
         if (false === $details = openssl_pkey_get_details($pub_id)) {
-            throw new \Exception('call openssl_pkey_get_details fails, ' . openssl_error_string());
+            throw new Exception('call openssl_pkey_get_details fails, ' . openssl_error_string());
         }
         if (2048 > $details['bits']) {
-            throw new \Exception('rsa bits less than 2048');
+            throw new Exception('rsa bits less than 2048');
         }
         $data = "{$appsn}:{$method}:{$domain}:{$uri}:{$nonce}:{$timestamp}";
         if (false === $bool = openssl_verify($data, $sign, $pub_id, 'sha256')) {
-            throw new \Exception(openssl_error_string());
+            throw new Exception(openssl_error_string());
         }
 
         return $bool;

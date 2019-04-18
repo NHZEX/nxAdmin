@@ -6,7 +6,7 @@
  * Time: 10:42
  */
 
-namespace basis;
+namespace Basis;
 
 use Matomo\Ini\IniReader;
 use Matomo\Ini\IniWriter;

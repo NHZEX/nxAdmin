@@ -10,7 +10,7 @@ namespace app\controller\admin;
 
 use app\logic\AdminUser;
 use app\server\WebConv;
-use captcha\Captcha;
+use Captcha\Captcha;
 use think\facade\Config;
 use think\facade\Cookie;
 use think\facade\Url;

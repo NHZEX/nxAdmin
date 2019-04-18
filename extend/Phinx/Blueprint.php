@@ -6,7 +6,7 @@
  * Time: 17:46
  */
 
-namespace phinx;
+namespace Phinx;
 
 use HZEX\Util;
 use Phinx\Db\Adapter\MysqlAdapter as M;

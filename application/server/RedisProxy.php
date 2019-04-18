@@ -9,7 +9,7 @@
 namespace app\server;
 
 use app\facade\Redis;
-use redis\RedisExtend;
+use Redis\RedisExtend;
 use think\Config;
 
 /**

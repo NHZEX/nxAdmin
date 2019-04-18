@@ -6,9 +6,11 @@
  * Time: 14:26
  */
 
-namespace redis;
+namespace Redis;
 
-class RedisExtend extends \Redis
+use Redis;
+
+class RedisExtend extends Redis
 {
     private const SCRIPT_SERIAL_INC = <<<'LUA'
 local sno = redis.call('INCR', KEYS[1])

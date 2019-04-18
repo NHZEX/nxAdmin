@@ -8,7 +8,7 @@
 
 namespace app\model;
 
-use basis\IP;
+use Basis\IP;
 use think\facade\Request;
 
 /**

@@ -1,7 +1,7 @@
 <?php
 namespace DbMigrations;
 
-use phinx\Blueprint as B;
+use Phinx\Blueprint as B;
 use Phinx\Migration\AbstractMigration;
 
 class Menu extends AbstractMigration

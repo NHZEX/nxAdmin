@@ -6,7 +6,7 @@
  * Time: 14:53
  */
 
-namespace phinx;
+namespace Phinx;
 
 use Phinx\Console\Command\Migrate as Migrate;
 use Symfony\Component\Console\Input\InputInterface;

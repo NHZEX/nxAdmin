@@ -12,7 +12,7 @@ use app\common\traits\PrintAbnormal;
 use app\exception\BusinessResult;
 use app\facade\WebConv;
 use app\model\AdminUser as AdminUserModel;
-use basis\IP;
+use Basis\IP;
 use RuntimeException;
 use think\Exception;
 use think\exception\DbException;

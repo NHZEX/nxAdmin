@@ -6,13 +6,12 @@
  * Time: 18:19
  */
 
-namespace captcha;
+namespace Captcha;
 
 use app\exception\BusinessResult;
 use app\exception\JsonException;
 use app\facade\Redis;
-use basis\IP;
-use think\facade\App;
+use Basis\IP;
 
 /**
  * Class Captcha
@@ -80,8 +79,8 @@ class Captcha
     public function __construct($config = [])
     {
         $this->config = array_merge($this->config, $config);
-        $this->background_path = App::getRootPath() . 'extend/captcha/assets/bgs/';
-        $this->tff_path = App::getRootPath() . 'extend/captcha/assets/';
+        $this->background_path = __DIR__ . '/assets/bgs/';
+        $this->tff_path = __DIR__ . '/assets/';
     }
 
     /**

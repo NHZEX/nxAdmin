@@ -6,7 +6,7 @@
  * Time: 17:20
  */
 
-namespace basis;
+namespace Basis;
 
 /**
  * Class IP

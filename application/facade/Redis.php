@@ -9,7 +9,7 @@
 namespace app\facade;
 
 use app\server\RedisProxy;
-use redis\RedisExtend;
+use Redis\RedisExtend;
 
 /**
  * Class Redis
