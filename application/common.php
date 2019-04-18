@@ -13,7 +13,7 @@
 /**
  * @param array|object $data
  * @return string
- * @throws \app\exception\JsonException
+ * @throws \app\Exception\JsonException
  * @author NHZEXG
  */
 function json_encode_throw_on_error($data): string
@@ -23,7 +23,7 @@ function json_encode_throw_on_error($data): string
     if (JSON_ERROR_NONE !== $last_error = json_last_error()) {
         $last_error_msg = json_last_error_msg();
         json_encode([]);    // 复位错误
-        throw new \app\exception\JsonException(
+        throw new \app\Exception\JsonException(
             sprintf('Json Encode Fail: %d - %s', $last_error, $last_error_msg)
         );
     }
@@ -34,7 +34,7 @@ function json_encode_throw_on_error($data): string
 /**
  * @param string $json
  * @return array
- * @throws \app\exception\JsonException
+ * @throws \app\Exception\JsonException
  * @author NHZEXG
  */
 function json_decode_throw_on_error(string $json): array
@@ -44,7 +44,7 @@ function json_decode_throw_on_error(string $json): array
     if (JSON_ERROR_NONE !== $last_error = json_last_error()) {
         $last_error_msg = json_last_error_msg();
         json_decode('[]');    // 复位错误
-        throw new \app\exception\JsonException(
+        throw new \app\Exception\JsonException(
             sprintf('Json Decode Fail: %d - %s', $last_error, $last_error_msg)
         );
     }

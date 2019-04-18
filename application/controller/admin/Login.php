@@ -8,22 +8,25 @@
 
 namespace app\controller\admin;
 
-use app\logic\AdminUser;
-use app\server\WebConv;
+use app\Exception\JsonException;
+use app\Logic\AdminUser;
+use app\Server\WebConv;
 use Captcha\Captcha;
-use think\facade\Config;
-use think\facade\Cookie;
+use think\Config;
+use think\Cookie;
+use think\Exception;
 use think\facade\Url;
+use think\Response;
 
 class Login extends Base
 {
     /**
-     * @param WebConv $webConv
-     * @param string|null         $jump
+     * @param WebConv       $webConv
+     * @param Cookie $cookie
+     * @param string|null   $jump
      * @return mixed
-     * @throws \db\exception\ModelException
      */
-    public function index(WebConv $webConv, ?string $jump = null)
+    public function index(WebConv $webConv, Cookie $cookie, ?string $jump = null)
     {
         $jump_url = $this->request->header('Referer', false);
         // 如果验证成功直接跳转到主页
@@ -49,7 +52,7 @@ class Login extends Base
             'url_jump' => $jump_url,
 
             'login_token' => $loginToken,
-            'auto_login_name' => Cookie::prefix() . 'login_time',
+            'auto_login_name' => $cookie->prefix() . 'login_time',
         ]);
 
         // 模板渲染
@@ -59,8 +62,7 @@ class Login extends Base
     /**
      * 会话有效性检查
      * @param WebConv $webConv
-     * @return \think\Response
-     * @throws \db\exception\ModelException
+     * @return Response
      */
     public function check(WebConv $webConv)
     {
@@ -73,16 +75,17 @@ class Login extends Base
 
     /**
      * 产生一个验证码
-     * @param string|null $_
+     * @param Config $config
+     * @param string|null   $_
      * @return Captcha
-     * @throws \Exception
+     * @throws JsonException
      */
-    public function captcha(string $_ = null)
+    public function captcha(Config $config, string $_ = null)
     {
         if (!$_) {
             abort(404);
         }
-        $captcha = new Captcha(Config::pull('captcha'));
+        $captcha = new Captcha($config->pull('captcha'));
         $captcha->entry();
         $captcha->saveToRedis($_);
         return $captcha->send();
@@ -90,12 +93,15 @@ class Login extends Base
 
     /**
      * 登陆
+     * @param Cookie        $cookie
+     * @param Config $config
      * @param AdminUser     $adminUser
-     * @return \think\Response
-     * @throws \think\Exception
+     * @return Response
+     * @throws Exception
      */
     public function login(
-        \think\Cookie $cookie,
+        Cookie $cookie,
+        Config $config,
         AdminUser $adminUser
     ) {
         $param = $this->request->param();
@@ -104,7 +110,7 @@ class Login extends Base
         $ctoken = $param['#'];
 
         // 验证码校验
-        $captcha = new Captcha(Config::pull('captcha'));
+        $captcha = new Captcha($config->pull('captcha'));
         if (!$captcha->checkToRedis($ctoken, $param['captcha'] ?? '0000')) {
             return self::showMsg(CODE_COM_CAPTCHA, $captcha->getMessage());
         }
@@ -124,10 +130,10 @@ class Login extends Base
 
     /**
      * 退出登陆
-     * @param WebConv $webConv
-     * @throws \db\exception\ModelException
+     * @param Cookie $cookie
+     * @param WebConv       $webConv
      */
-    public function logout(\think\Cookie $cookie, WebConv $webConv)
+    public function logout(Cookie $cookie, WebConv $webConv)
     {
         $cookie->delete('login_time');
         $webConv->destroy(true);

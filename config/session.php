@@ -14,7 +14,7 @@
 // | 会话设置
 // +----------------------------------------------------------------------
 
-use app\server\DeployInfo;
+use app\Server\DeployInfo;
 use think\Facade\Env;
 use Tp\Session\Driver\Redis;
 

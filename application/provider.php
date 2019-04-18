@@ -11,8 +11,8 @@
 // +----------------------------------------------------------------------
 // 应用容器绑定定义
 
-use app\server\RedisProxy;
-use app\server\WebConv;
+use app\Server\RedisProxy;
+use app\Server\WebConv;
 use think\App;
 use Tp\Session2;
 

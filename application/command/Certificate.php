@@ -8,7 +8,7 @@
 
 namespace app\command;
 
-use app\exception\BusinessResult;
+use app\Exception\BusinessResult;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Option;

@@ -8,9 +8,9 @@
 
 namespace app\controller\admin;
 
-use app\facade\WebConv;
-use app\logic\SystemMenu;
-use app\model\AdminUser;
+use app\Facade\WebConv;
+use app\Logic\SystemMenu;
+use app\Model\AdminUser;
 use think\facade\Env;
 use think\facade\Url;
 
@@ -23,7 +23,7 @@ class Main extends Base
     /**
      * 主页框架
      * @return mixed
-     * @throws \app\exception\JsonException
+     * @throws \app\Exception\JsonException
      * @throws \think\exception\DbException
      */
     public function index()
@@ -42,7 +42,7 @@ class Main extends Base
 
     /**
      * @return string
-     * @throws \app\exception\JsonException
+     * @throws \app\Exception\JsonException
      * @throws \think\exception\DbException
      */
     private function getMenuToJson()

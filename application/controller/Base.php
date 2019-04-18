@@ -8,7 +8,7 @@
 
 namespace app\controller;
 
-use app\common\traits\ShowReturn;
+use app\common\Traits\ShowReturn;
 use think\Controller;
 
 abstract class Base extends Controller

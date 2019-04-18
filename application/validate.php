@@ -7,7 +7,7 @@
  */
 
 use app\controller;
-use app\validate as validator;
+use app\Validate as validator;
 
 return [
     controller\admin\Login::class => [

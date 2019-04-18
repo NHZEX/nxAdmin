@@ -8,12 +8,12 @@
 
 namespace app\command;
 
-use app\facade\Redis;
-use app\logic\Permission;
-use app\logic\SystemMenu;
-use app\model\AdminUser;
-use app\server\DeployInfo;
-use app\struct\EnvStruct;
+use app\Facade\Redis;
+use app\Logic\Permission;
+use app\Logic\SystemMenu;
+use app\Model\AdminUser;
+use app\Server\DeployInfo;
+use app\Struct\EnvStruct;
 use Basis\Ini;
 use Closure;
 use Exception;

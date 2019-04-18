@@ -8,11 +8,11 @@
 
 namespace app\controller\admin;
 
-use app\facade\WebConv;
-use app\logic\AdminRole as AdminRoleLogic;
-use app\logic\SystemMenu;
-use app\model\AdminRole;
-use app\model\AdminUser;
+use app\Facade\WebConv;
+use app\Logic\AdminRole as AdminRoleLogic;
+use app\Logic\SystemMenu;
+use app\Model\AdminRole;
+use app\Model\AdminUser;
 use Tp\Model\Exception\ModelException;
 
 class Role extends Base
@@ -132,7 +132,7 @@ class Role extends Base
      * User: Johnson
      * @param null $id
      * @return mixed
-     * @throws \app\exception\JsonException
+     * @throws \app\Exception\JsonException
      */
     public function permission($id = null)
     {
@@ -164,7 +164,7 @@ class Role extends Base
      * User: Johnson
      * @param int $id
      * @return mixed
-     * @throws \app\exception\JsonException
+     * @throws \app\Exception\JsonException
      * @throws \think\exception\DbException
      */
     public function menu($id = 0)
@@ -187,7 +187,7 @@ class Role extends Base
      * 保存菜单权限
      * User: Johnson
      * @return \think\Response
-     * @throws \app\exception\JsonException
+     * @throws \app\Exception\JsonException
      */
     public function saveMenu()
     {

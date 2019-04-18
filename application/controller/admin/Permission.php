@@ -8,11 +8,16 @@
 
 namespace app\controller\admin;
 
-use app\logic\Permission as PermissionLogic;
-use app\model\Permission as PermissionModel;
+use app\Logic\Permission as PermissionLogic;
+use app\Model\Permission as PermissionModel;
 use think\Db;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\exception\DbException;
 use think\facade\App;
 use think\model\Collection;
+use think\Response;
+use Throwable;
 
 class Permission extends Base
 {
@@ -35,10 +40,10 @@ class Permission extends Base
 
     /**
      * 获取节点列表
-     * @return \think\Response
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return Response
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public function nodeList()
     {
@@ -60,7 +65,7 @@ class Permission extends Base
      * 修改别名、注释
      * User: Johnson
      * @param null $id
-     * @return \think\Response
+     * @return Response
      */
     public function update($id = null)
     {
@@ -72,7 +77,7 @@ class Permission extends Base
     /**
      * 重新生成节点
      * User: Johnson
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function generateNodes()
     {
@@ -85,7 +90,7 @@ class Permission extends Base
     }
 
     /**
-     * @return \think\Response
+     * @return Response
      */
     public function exportNodes()
     {
@@ -99,8 +104,8 @@ class Permission extends Base
     /**
      * 批量修改标识操作
      * User: Johnson
-     * @return \think\Response
-     * @throws \Throwable
+     * @return Response
+     * @throws Throwable
      */
     public function saveFlags()
     {
@@ -126,7 +131,7 @@ class Permission extends Base
             // 重新设置节点缓存
             PermissionLogic::refreshCache();
             Db::commit();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Db::rollback();
             throw $e;
         }

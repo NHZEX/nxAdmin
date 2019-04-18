@@ -8,9 +8,9 @@
 
 namespace app\controller;
 
-use app\common\traits\ShowReturn;
-use app\facade\WebConv;
-use app\logic\Attachment;
+use app\common\Traits\ShowReturn;
+use app\Facade\WebConv;
+use app\Logic\Attachment;
 use think\exception\DbException;
 use think\File;
 use think\Response;

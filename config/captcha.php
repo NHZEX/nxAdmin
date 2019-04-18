@@ -7,7 +7,7 @@
  */
 return [
     // 验证码加密密钥
-    'seKey'    => \app\server\DeployInfo::getSecuritySalt() ?? 'null',
+    'seKey'    => \app\Server\DeployInfo::getSecuritySalt() ?? 'null',
     // 验证码过期时间（s）
     'expire'   => 120,
     // 验证码图片高度

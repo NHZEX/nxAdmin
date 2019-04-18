@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 namespace app\common;
 
-use app\server\WebConv;
+use app\Server\WebConv;
 use think\App;
 
 class End

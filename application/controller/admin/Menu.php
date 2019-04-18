@@ -8,9 +8,14 @@
 
 namespace app\controller\admin;
 
-use app\logic\SystemMenu as SystemMenuLogic;
-use app\model\SystemMenu;
+use app\Logic\SystemMenu as SystemMenuLogic;
+use app\Model\SystemMenu;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\exception\DbException;
 use think\facade\App;
+use think\Response;
+use Tp\Model\Exception\ModelException;
 
 class Menu extends Base
 {
@@ -42,9 +47,9 @@ class Menu extends Base
     /**
      * @param int|null $pkid
      * @return mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public function edit(?int $pkid = null)
     {
@@ -60,14 +65,14 @@ class Menu extends Base
             'edit_data' => $data ?? false,
             'url_save' => url('save', $params ?? []),
             'menu_data' => SystemMenu::getTextTree(),
-            'node_data' => \app\logic\Permission::queryNodeFlagsIsMenu(),
+            'node_data' => \app\Logic\Permission::queryNodeFlagsIsMenu(),
         ]);
         return $this->fetch();
     }
 
     /**
-     * @return \think\Response
-     * @throws \db\exception\ModelException
+     * @return Response
+     * @throws ModelException
      */
     public function save()
     {
@@ -87,7 +92,7 @@ class Menu extends Base
     }
 
     /**
-     * @return \think\Response
+     * @return Response
      */
     public function export()
     {

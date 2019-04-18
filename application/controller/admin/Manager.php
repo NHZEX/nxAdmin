@@ -8,9 +8,9 @@
 
 namespace app\controller\admin;
 
-use app\facade\WebConv;
-use app\model\AdminRole;
-use app\model\AdminUser;
+use app\Facade\WebConv;
+use app\Model\AdminRole;
+use app\Model\AdminUser;
 use Tp\Model\Exception\ModelException;
 
 class Manager extends Base

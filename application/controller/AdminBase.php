@@ -8,8 +8,8 @@
 
 namespace app\controller;
 
-use app\common\traits\CsrfHelper;
-use app\common\traits\ShowReturn;
+use app\common\Traits\CsrfHelper;
+use app\common\Traits\ShowReturn;
 use think\Controller;
 
 abstract class AdminBase extends Controller
