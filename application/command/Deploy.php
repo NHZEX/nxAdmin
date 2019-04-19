@@ -123,7 +123,7 @@ class Deploy extends Command
             // 开发模式预设
             if ($dev) {
                 $env->app['debug'] = 1;
-                $env->app['trace'] = 1;
+                $env->app['trace'] = 0;
                 $env->app['tpl_cache'] = 0;
                 $env->database['debug'] = 1;
             } else {
