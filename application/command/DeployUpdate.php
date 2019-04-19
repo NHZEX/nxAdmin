@@ -21,7 +21,7 @@ class DeployUpdate extends Command
     public function configure()
     {
         $this
-            ->setName('deploy:update')
+            ->setName('dep:update')
             ->addOption('mode', 'm', Option::VALUE_OPTIONAL, '模式选择 [git]', 'git')
             ->addOption('yes', 'y', Option::VALUE_NONE, '更新确认')
             ->setDescription('执行系统更新 [TEST]');

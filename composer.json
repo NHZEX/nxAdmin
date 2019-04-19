@@ -65,9 +65,7 @@
         }
     },
     "scripts": {
-        "post-install-cmd": [
-            "@php think deploy -u"
-        ]
+        "post-install-cmd": []
     },
     "extra": {
         "think-path": "thinkphp"

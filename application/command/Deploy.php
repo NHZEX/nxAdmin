@@ -49,7 +49,7 @@ class Deploy extends Command
     public function configure()
     {
         $this
-            ->setName('deploy')
+            ->setName('dep')
             ->setDescription('初始化部署')
             ->addOption('only-update', 'u', Option::VALUE_NONE, '只进行更新(禁用所有交互)')
             ->addOption('force', 'f', Option::VALUE_NONE, '强制覆盖')

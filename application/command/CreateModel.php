@@ -29,7 +29,7 @@ class CreateModel extends Command
 
     public function configure()
     {
-        $this->setName('create_model')
+        $this->setName('model:create')
             ->addOption('print', 'p', Option::VALUE_NONE, '打印')
             ->addArgument('table', Argument::OPTIONAL, '指定表');
     }
