@@ -48,7 +48,6 @@ class AdminUser extends Base
      * @param string $password
      * @param bool $rememberme
      * @return bool
-     * @throws Exception
      */
     public function login(string $type, string $username, string $password, bool $rememberme = false)
     {

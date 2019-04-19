@@ -9,13 +9,14 @@
 namespace Tp\Model\Traits;
 
 use Exception;
+use PDOStatement;
 use think\Model;
 use Tp\Db\Query;
 use Tp\Model\Exception\ModelException;
 
 /**
  * Trait OptimLock
- * @package db\traits
+ * @package Tp\Model\Traits
  * @mixin Model
  * @method Query wherePk($op, $condition = null) static 指定主键查询条件
  */
@@ -27,7 +28,7 @@ trait OptimLock
      * [被动验证] 使用乐观锁查询一条数据
      * @param int $id
      * @param int $lock_version
-     * @return static|\PDOStatement|\think\Model|null
+     * @return static|PDOStatement|Model|null
      * @throws ModelException
      */
     public static function getOptimisticVer(int $id, int $lock_version)

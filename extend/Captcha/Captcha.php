@@ -12,6 +12,7 @@ use app\Exception\BusinessResult;
 use app\Exception\JsonException;
 use app\Facade\Redis;
 use Basis\IP;
+use think\Response;
 
 /**
  * Class Captcha
@@ -240,7 +241,7 @@ class Captcha
      * 输出验证码并把验证码的
      * @access public
      * @param string $code 要生成验证码的标识
-     * @return \think\Response
+     * @return Response
      */
     public function entry(&$code = '')
     {

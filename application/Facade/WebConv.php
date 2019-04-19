@@ -13,7 +13,7 @@ use app\Server\WebConv as WebConvServer;
 
 /**
  * Class WebConv
- * @package facade
+ * @package app\Facade
  * @method WebConvServer getSelf() static
  * @method bool verify(bool $force = false) static
  * @method string getErrorMessage() static

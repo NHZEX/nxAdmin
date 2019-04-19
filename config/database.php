@@ -58,7 +58,7 @@ return [
     // Builder类
     'builder'         => '',
     // Query类
-    'query'           => 'Tp\\Db\\Query',
+    'query'           => \Tp\Db\Query::class,
     // 是否需要断线重连
     'break_reconnect' => false,
     // 断线标识字符串

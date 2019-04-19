@@ -14,16 +14,15 @@ use app\Server\WebConv;
 use Captcha\Captcha;
 use think\Config;
 use think\Cookie;
-use think\Exception;
 use think\facade\Url;
 use think\Response;
 
 class Login extends Base
 {
     /**
-     * @param WebConv       $webConv
-     * @param Cookie $cookie
-     * @param string|null   $jump
+     * @param WebConv     $webConv
+     * @param Cookie      $cookie
+     * @param string|null $jump
      * @return mixed
      */
     public function index(WebConv $webConv, Cookie $cookie, ?string $jump = null)
@@ -75,8 +74,8 @@ class Login extends Base
 
     /**
      * 产生一个验证码
-     * @param Config $config
-     * @param string|null   $_
+     * @param Config      $config
+     * @param string|null $_
      * @return Captcha
      * @throws JsonException
      */
@@ -93,11 +92,10 @@ class Login extends Base
 
     /**
      * 登陆
-     * @param Cookie        $cookie
-     * @param Config $config
-     * @param AdminUser     $adminUser
+     * @param Cookie    $cookie
+     * @param Config    $config
+     * @param AdminUser $adminUser
      * @return Response
-     * @throws Exception
      */
     public function login(
         Cookie $cookie,
@@ -130,8 +128,8 @@ class Login extends Base
 
     /**
      * 退出登陆
-     * @param Cookie $cookie
-     * @param WebConv       $webConv
+     * @param Cookie  $cookie
+     * @param WebConv $webConv
      */
     public function logout(Cookie $cookie, WebConv $webConv)
     {

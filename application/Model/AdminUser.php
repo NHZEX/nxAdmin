@@ -19,13 +19,13 @@ use Tp\Model\Exception\ModelException;
  * Class AdminUser
  *
  * @package app\common\model
- * @property int $id
- * @property int $genre
- * @property int $status 状态：0禁用，1启用
- * @property string $username 用户名
- * @property string $nickname 昵称
- * @property string $password 密码
- * @property string $email 邮箱地址
+ * @property int            $id
+ * @property int            $genre
+ * @property int            $status 状态：0禁用，1启用
+ * @property string         $username 用户名
+ * @property string         $nickname 昵称
+ * @property string         $password 密码
+ * @property string         $email 邮箱地址
  * @property int            $avatar 头像
  * @property int            $role_id 角色ID
  * @property int            $group_id 部门id
@@ -248,7 +248,6 @@ class AdminUser extends Base
      * @param string $username
      * @param string $password
      * @return AdminUser
-     * @throws ModelException
      */
     public static function createUser(
         string $username,

@@ -14,6 +14,7 @@
  * 模型：12xx - 13xx
  * 业务：14xx - 15xx
  */
+
 const CODE_SUCCEED = 0;
 
 const CODE_COM_CAPTCHA = 1001;          // 全局:验证码
@@ -36,7 +37,9 @@ const CODE_CONV_ACCESS_CONTROL = 1106;  // 会话:被访问控制阻止
 
 const CODE_DICT = [
     CODE_SUCCEED => 'succeed',
+
     CODE_COM_CAPTCHA => '验证码错误',
+
     CODE_CONV_VERIFY => 'Access is invalid',
     CODE_CONV_NOACCESS => 'No permission to access',
     CODE_CONV_LOGIN => 'Login failed',

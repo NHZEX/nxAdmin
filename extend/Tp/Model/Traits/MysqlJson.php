@@ -13,7 +13,7 @@ use think\Model;
 
 /**
  * Trait OptimLock
- * @package db\traits
+ * @package Tp\Model\Traits
  * @mixin Model
  */
 trait MysqlJson

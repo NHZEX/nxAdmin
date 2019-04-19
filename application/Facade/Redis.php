@@ -13,7 +13,7 @@ use Redis\RedisExtend;
 
 /**
  * Class Redis
- * @package facade
+ * @package app\Facade
  * @mixin RedisProxy
  * @method RedisExtend getSelf() static
  * @method void setConfig(array $cfg, $reconnect = false) static

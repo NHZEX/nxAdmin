@@ -14,6 +14,7 @@ use app\Model\AdminUser;
 use app\Model\AdminUser as AdminUserModel;
 use ErrorException;
 use Hashids\Hashids;
+use Serializable;
 use think\App;
 use think\Config;
 use think\Cookie;
@@ -21,6 +22,8 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
 use Tp\Session2;
+use function serialize;
+use function unserialize;
 
 /**
  * Class AdminConv
@@ -37,28 +40,20 @@ use Tp\Session2;
  * @property string $sess_user_feature
  * @property int $sess_user_agent
  */
-class WebConv
+class WebConv implements Serializable
 {
     /** @var App */
-    protected $app;
+    private $app;
     /** @var Session2 */
-    protected $session2;
+    private $session2;
     /** @var Cookie */
-    protected $cookie;
+    private $cookie;
 
-    // 错误信息
-    protected $errorMessage;
-    /** @var string */
+    /** @var string 错误信息 */
+    private $errorMessage;
+    /** @var string 会话ID */
     private $sessionId;
-    /** @var AdminUser */
-    private $user;
-
-    /** @var int 会话超时时间 */
-    protected $sessTimeOut = 7200;
-
-    /** @var bool 验证结果 */
-    protected $verifyResult;
-
+    /** @var array 会话数据 */
     private $convAdminInfo = [
         'user_id' => null,
         'user_genre' => null,
@@ -70,6 +65,13 @@ class WebConv
         'user_feature' => null,
         'user_agent' => null,
     ];
+    /** @var bool 验证结果 */
+    private $verifyResult;
+    /** @var AdminUser */
+    private $user;
+
+    /** @var int 会话超时时间 */
+    private $sessTimeOut = 7200;
 
     const COOKIE_LASTLOVE = 'lastlove';
 
@@ -92,13 +94,45 @@ class WebConv
     }
 
     /**
-     * 反序列化的魔术方法
-     * User: Johnson
+     * String representation of object
+     * @link  https://php.net/manual/en/serializable.serialize.php
+     * @return string the string representation of the object or null
+     * @since 5.1.0
      */
-    public function __wakeup()
+    public function serialize()
     {
-        App::getInstance()->bindTo(self::class, $this);
-        $this->verifyResult = true;
+        return serialize([
+            'sessionId' => $this->sessionId,
+            'convAdminInfo' => $this->convAdminInfo,
+            'verifyResult' => $this->verifyResult,
+        ]);
+    }
+
+    /**
+     * Constructs the object
+     * @link  https://php.net/manual/en/serializable.unserialize.php
+     * @param string $serialized <p>
+     *                           The string representation of the object.
+     *                           </p>
+     * @return void
+     * @since 5.1.0
+     */
+    public function unserialize($serialized)
+    {
+        $this->app = App::getInstance();
+        $this->app->bindTo(self::class, $this);
+        $this->cookie = $this->app->cookie;
+        $this->session2 = $this->app->make(Session2::class);
+        $this->sessTimeOut = $this->app->config->get('session.expire', 7200);
+
+        $data = unserialize($serialized);
+
+        foreach ($data as $key => $value) {
+            $this->$key = $value;
+        }
+
+        $this->app->log->alert($serialized);
+        $this->app->log->alert($data);
     }
 
     /**

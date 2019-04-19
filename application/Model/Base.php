@@ -47,7 +47,7 @@ use Tp\Model\Traits\TransactionExtension;
  * @method Collection|\static[] select(mixed $data = null) static 查询多个记录
  * @method mixed get(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 支持关联预载入
  * @method mixed getOrFail(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 不存在则抛出异常
- * @method mixed findOrEmpty(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录  不存在则返回空模型
+ * @method mixed findOrEmpty(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 不存在则返回空模型
  * @method mixed all(mixed $data = null,mixed $with =[],bool $cache= false) static 查询多个记录 支持关联预载入
  * @method ThinkModel withAttr(array $name, Closure $closure) 动态定义获取器
  * @method Query2 wherePk($op, $condition = null) static 指定主键查询条件
