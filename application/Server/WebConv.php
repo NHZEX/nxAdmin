@@ -424,7 +424,7 @@ class WebConv implements Serializable
             return $this->verifyResult = false;
         }
 
-        if ($curr_time > $this->app->session->get(self::CONV_CREATE_TIME)) {
+        if (self::SESS_REFRESH_TIME_OUT && $curr_time > $this->app->session->get(self::CONV_CREATE_TIME)) {
             // 旧会话延迟10秒失效
             $this->flushExpired(10);
             // 刷新会话ID
