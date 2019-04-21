@@ -8,13 +8,13 @@
 
 namespace Tp\Facade;
 
-use think\facade\Session;
+use think\facade\Session as ThinkSession;
 
 /**
- * Class Session2
+ * Class Session
  * @package Tp\Facade
  * @method string getId(bool $regenerate = true) static sessionId获取
  */
-class Session2 extends Session
+class Session extends ThinkSession
 {
 }

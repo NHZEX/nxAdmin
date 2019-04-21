@@ -11,13 +11,13 @@ namespace Tp;
 use think\exception\ClassNotFoundException;
 use think\facade\Cookie;
 use think\facade\Request;
-use think\Session;
+use think\Session as ThinkSession;
 
 /**
  * Class Session2
  * @package think
  */
-class Session2 extends Session
+class Session extends ThinkSession
 {
     /** @var string 会话ID */
     protected $sessionId = null;

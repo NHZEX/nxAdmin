@@ -14,10 +14,10 @@
 use app\Server\RedisProxy;
 use app\Server\WebConv;
 use think\App;
-use Tp\Session2;
+use Tp\Session;
 
 $basis = [
-    'session'  => Session2::class,
+    'session'  => Session::class,
     'redis' => RedisProxy::class,
 ];
 
