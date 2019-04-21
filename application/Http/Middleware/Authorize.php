@@ -80,6 +80,7 @@ class Authorize extends Middleware
 
         // 会话权限判断
         if (true !== $webConv->verify()) {
+            $this->app->cookie->delete('login_time');
             return $this->jump($request, '需重新登录:' . $webConv->getErrorMessage());
         }
 
