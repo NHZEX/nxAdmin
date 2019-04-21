@@ -10,12 +10,12 @@ declare(strict_types=1);
 namespace app\common;
 
 use app\Server\WebConv;
-use think\App;
+use think\facade\App;
 
 class End
 {
-    public function run(App $app)
+    public function run()
     {
-        $app->delete(WebConv::class);
+        App::getInstance()->delete(WebConv::class);
     }
 }
