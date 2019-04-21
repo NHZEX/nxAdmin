@@ -12,8 +12,6 @@ use app\Exception\JsonException;
 use app\Logic\AdminUser;
 use app\Server\WebConv;
 use Captcha\Captcha;
-use think\Config;
-use think\Cookie;
 use think\facade\Url;
 use think\Response;
 
@@ -21,11 +19,10 @@ class Login extends Base
 {
     /**
      * @param WebConv     $webConv
-     * @param Cookie      $cookie
      * @param string|null $jump
      * @return mixed
      */
-    public function index(WebConv $webConv, Cookie $cookie, ?string $jump = null)
+    public function index(WebConv $webConv, ?string $jump = null)
     {
         $jump_url = $this->request->header('Referer', false);
         // 如果验证成功直接跳转到主页
@@ -51,7 +48,7 @@ class Login extends Base
             'url_jump' => $jump_url,
 
             'login_token' => $loginToken,
-            'auto_login_name' => $cookie->prefix() . 'login_time',
+            'auto_login_name' => $this->app->cookie->prefix() . 'login_time',
         ]);
 
         // 模板渲染
@@ -74,17 +71,16 @@ class Login extends Base
 
     /**
      * 产生一个验证码
-     * @param Config      $config
      * @param string|null $_
      * @return Captcha
      * @throws JsonException
      */
-    public function captcha(Config $config, string $_ = null)
+    public function captcha(string $_ = null)
     {
         if (!$_) {
             abort(404);
         }
-        $captcha = new Captcha($config->pull('captcha'));
+        $captcha = new Captcha($this->app->config->pull('captcha'));
         $captcha->entry();
         $captcha->saveToRedis($_);
         return $captcha->send();
@@ -92,14 +88,10 @@ class Login extends Base
 
     /**
      * 登陆
-     * @param Cookie    $cookie
-     * @param Config    $config
      * @param AdminUser $adminUser
      * @return Response
      */
     public function login(
-        Cookie $cookie,
-        Config $config,
         AdminUser $adminUser
     ) {
         $param = $this->request->param();
@@ -108,7 +100,7 @@ class Login extends Base
         $ctoken = $param['#'];
 
         // 验证码校验
-        $captcha = new Captcha($config->pull('captcha'));
+        $captcha = new Captcha($this->app->config->pull('captcha'));
         if (!$captcha->checkToRedis($ctoken, $param['captcha'] ?? '0000')) {
             return self::showMsg(CODE_COM_CAPTCHA, $captcha->getMessage());
         }
@@ -119,7 +111,7 @@ class Login extends Base
 
         // 执行登陆操作
         if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme)) {
-            $cookie->set('login_time', time() + 10);
+            $this->app->cookie->set('login_time', time() + 10);
             return self::showMsg(CODE_SUCCEED);
         } else {
             return self::showMsg(CODE_CONV_LOGIN, $adminUser->getErrorMessage());
@@ -128,12 +120,11 @@ class Login extends Base
 
     /**
      * 退出登陆
-     * @param Cookie  $cookie
      * @param WebConv $webConv
      */
-    public function logout(Cookie $cookie, WebConv $webConv)
+    public function logout(WebConv $webConv)
     {
-        $cookie->delete('login_time');
+        $this->app->cookie->delete('login_time');
         $webConv->destroy(true);
         $this->success('退出登陆', '@admin.login');
     }

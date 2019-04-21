@@ -16,11 +16,11 @@ use ErrorException;
 use Hashids\Hashids;
 use Serializable;
 use think\App;
-use think\Config;
-use think\Cookie;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
+use think\Exception;
 use think\exception\DbException;
+use think\facade\App as AppFacade;
 use Tp\Session;
 use function serialize;
 use function unserialize;
@@ -46,8 +46,6 @@ class WebConv implements Serializable
     private $app;
     /** @var Session */
     private $session2;
-    /** @var Cookie */
-    private $cookie;
 
     /** @var string 错误信息 */
     private $errorMessage;
@@ -119,10 +117,9 @@ class WebConv implements Serializable
      */
     public function unserialize($serialized)
     {
-        $this->app = App::getInstance();
+        $this->app = AppFacade::getInstance();
         $this->app->bindTo(self::class, $this);
-        $this->cookie = $this->app->cookie;
-        $this->session2 = $this->app->make(Session::class);
+        $this->session2 = $this->app->session;
         $this->sessTimeOut = $this->app->config->get('session.expire', 7200);
 
         $data = unserialize($serialized);
@@ -137,23 +134,27 @@ class WebConv implements Serializable
 
     /**
      * AdminConv constructor.
-     * @param App     $app
-     * @param Session $session2
-     * @param Cookie  $cookie
-     * @param Config  $config
+     * @throws Exception
      */
-    public function __construct(App $app, Session $session2, Cookie $cookie, Config $config)
+    public function __construct()
     {
-        $this->app = $app;
-        $this->cookie = $cookie;
-        $this->session2 = $session2;
+        $this->app = AppFacade::getInstance();
+        $this->session2 = $this->app->session;
 
-        $this->sessTimeOut = $config->get('session.expire', 7200);
+        $this->sessTimeOut = $this->app->config->get('session.expire', 7200);
 
-        // 初始化Session
-        $session2->init();
+        // 兼容 Swoole
+        if (method_exists($this->session2, 'init')) {
+            // 初始化Session
+            $this->session2->init();
+        }
 
-        $this->sessionId = $session2->getId();
+        // 增强兼容性
+        if (method_exists($this->app->session, 'getId')) {
+            $this->sessionId = $this->app->session->getId();
+        } else {
+            $this->sessionId = session_id();
+        }
 
         $this->loadConvInfo();
     }
@@ -225,7 +226,7 @@ class WebConv implements Serializable
         if ($rememberme) {
             $rememberme_out_time = 604800; // 7 day
             $token = $this->createRememberToken($user, $user_agent, $rememberme_out_time);
-            $this->cookie->set(self::COOKIE_LASTLOVE, $token, [
+            $this->app->cookie->set(self::COOKIE_LASTLOVE, $token, [
                 'expire' => $rememberme_out_time,
                 'httponly' => true,
             ]);
@@ -280,7 +281,7 @@ class WebConv implements Serializable
     {
         try {
             if (!$value) {
-                $value = $this->cookie->get(self::COOKIE_LASTLOVE);
+                $value = $this->app->cookie->get(self::COOKIE_LASTLOVE);
             }
             $lastlove = explode('.', $value);
             if (count($lastlove) !== 2) {
@@ -323,7 +324,7 @@ class WebConv implements Serializable
                 throw new BusinessResultSuccess('数据一致性失败');
             }
         } catch (BusinessResultSuccess $result) {
-            $this->cookie->delete(self::COOKIE_LASTLOVE);
+            $this->app->cookie->delete(self::COOKIE_LASTLOVE);
             return null;
         }
 
@@ -466,7 +467,7 @@ class WebConv implements Serializable
                 $user->remember = get_rand_str(16);
                 $user->save();
             }
-            $this->cookie->delete(self::COOKIE_LASTLOVE);
+            $this->app->cookie->delete(self::COOKIE_LASTLOVE);
         }
         // 销毁 Session
         $this->session2->destroy();
