@@ -21,7 +21,6 @@ use think\db\exception\ModelNotFoundException;
 use think\Exception;
 use think\exception\DbException;
 use think\facade\App as AppFacade;
-use Tp\Session;
 use function serialize;
 use function unserialize;
 
@@ -44,8 +43,6 @@ class WebConv implements Serializable
 {
     /** @var App */
     private $app;
-    /** @var Session */
-    private $session2;
 
     /** @var string 错误信息 */
     private $errorMessage;
@@ -119,7 +116,6 @@ class WebConv implements Serializable
     {
         $this->app = AppFacade::getInstance();
         $this->app->bindTo(self::class, $this);
-        $this->session2 = $this->app->session;
         $this->sessTimeOut = $this->app->config->get('session.expire', 7200);
 
         $data = unserialize($serialized);
@@ -139,24 +135,33 @@ class WebConv implements Serializable
     public function __construct()
     {
         $this->app = AppFacade::getInstance();
-        $this->session2 = $this->app->session;
 
         $this->sessTimeOut = $this->app->config->get('session.expire', 7200);
 
         // 兼容 Swoole
-        if (method_exists($this->session2, 'init')) {
+        if (method_exists($this->app->session, 'init')) {
             // 初始化Session
-            $this->session2->init();
+            $this->app->session->init();
         }
 
         // 增强兼容性
-        if (method_exists($this->app->session, 'getId')) {
-            $this->sessionId = $this->app->session->getId();
-        } else {
-            $this->sessionId = session_id();
-        }
+        $this->sessionId = $this->getSessId();
 
         $this->loadConvInfo();
+    }
+
+    /**
+     * 获取会话ID
+     * @return string
+     */
+    private function getSessId(): string
+    {
+        // 增强兼容性
+        if (method_exists($this->app->session, 'getId')) {
+            return $this->app->session->getId();
+        } else {
+            return session_id();
+        }
     }
 
     /**
@@ -165,7 +170,7 @@ class WebConv implements Serializable
     private function loadConvInfo(): void
     {
         // 加载会话数据
-        $info = $this->session2->get(self::CONV_ADMIN_INFO);
+        $info = $this->app->session->get(self::CONV_ADMIN_INFO);
         $info && $this->convAdminInfo = array_merge($this->convAdminInfo, $info);
     }
 
@@ -235,10 +240,10 @@ class WebConv implements Serializable
         // 设置
         $this->setCreateTime();
         $this->flushExpired();
-        $this->session2->set(self::CONV_ADMIN_INFO, $conv_info);
-        $this->session2->set(self::CONV_COMMON_KEY, get_rand_str(16));
+        $this->app->session->set(self::CONV_ADMIN_INFO, $conv_info);
+        $this->app->session->set(self::CONV_COMMON_KEY, get_rand_str(16));
 
-        $this->sessionId = $this->session2->getId();
+        $this->sessionId = $this->getSessId();
         $this->loadConvInfo();
         return $this;
     }
@@ -386,10 +391,10 @@ class WebConv implements Serializable
         }
         $curr_time = time();
         try {
-            if (!$this->sessionId || empty($this->session2->get())) {
+            if (!$this->sessionId || empty($this->app->session->get())) {
                 throw new BusinessResultSuccess('会话不存在');
             }
-            if ($curr_time > $this->session2->get(self::CONV_ACCESS_TIME)) {
+            if ($curr_time > $this->app->session->get(self::CONV_ACCESS_TIME)) {
                 throw new BusinessResultSuccess('会话过期');
             }
             $user_agent = request()->header('User-Agent');
@@ -419,13 +424,13 @@ class WebConv implements Serializable
             return $this->verifyResult = false;
         }
 
-        if ($curr_time > $this->session2->get(self::CONV_CREATE_TIME)) {
+        if ($curr_time > $this->app->session->get(self::CONV_CREATE_TIME)) {
             // 旧会话延迟10秒失效
             $this->flushExpired(10);
             // 刷新会话ID
-            $this->session2->regenerate();
+            $this->app->session->regenerate();
             // 更新会话信息
-            $this->sessionId = $this->session2->getId();
+            $this->sessionId = $this->getSessId();
             // 设置创建时间
             $this->setCreateTime();
         }
@@ -443,7 +448,7 @@ class WebConv implements Serializable
      */
     public function flushExpired(?int $out_time = null)
     {
-        $this->session2->set(self::CONV_ACCESS_TIME, time() + ($out_time ?? $this->sessTimeOut));
+        $this->app->session->set(self::CONV_ACCESS_TIME, time() + ($out_time ?? $this->sessTimeOut));
     }
 
     /**
@@ -452,7 +457,7 @@ class WebConv implements Serializable
      */
     public function setCreateTime()
     {
-        $this->session2->set(self::CONV_CREATE_TIME, time() + self::SESS_REFRESH_TIME_OUT);
+        $this->app->session->set(self::CONV_CREATE_TIME, time() + self::SESS_REFRESH_TIME_OUT);
     }
 
     /**
@@ -470,6 +475,6 @@ class WebConv implements Serializable
             $this->app->cookie->delete(self::COOKIE_LASTLOVE);
         }
         // 销毁 Session
-        $this->session2->destroy();
+        $this->app->session->destroy();
     }
 }
