@@ -21,7 +21,7 @@ use think\Cookie;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
-use Tp\Session2;
+use Tp\Session;
 use function serialize;
 use function unserialize;
 
@@ -44,7 +44,7 @@ class WebConv implements Serializable
 {
     /** @var App */
     private $app;
-    /** @var Session2 */
+    /** @var Session */
     private $session2;
     /** @var Cookie */
     private $cookie;
@@ -122,7 +122,7 @@ class WebConv implements Serializable
         $this->app = App::getInstance();
         $this->app->bindTo(self::class, $this);
         $this->cookie = $this->app->cookie;
-        $this->session2 = $this->app->make(Session2::class);
+        $this->session2 = $this->app->make(Session::class);
         $this->sessTimeOut = $this->app->config->get('session.expire', 7200);
 
         $data = unserialize($serialized);
@@ -137,12 +137,12 @@ class WebConv implements Serializable
 
     /**
      * AdminConv constructor.
-     * @param App      $app
-     * @param Session2 $session2
-     * @param Cookie   $cookie
-     * @param Config   $config
+     * @param App     $app
+     * @param Session $session2
+     * @param Cookie  $cookie
+     * @param Config  $config
      */
-    public function __construct(App $app, Session2 $session2, Cookie $cookie, Config $config)
+    public function __construct(App $app, Session $session2, Cookie $cookie, Config $config)
     {
         $this->app = $app;
         $this->cookie = $cookie;
