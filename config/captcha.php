@@ -6,6 +6,8 @@
  * Time: 10:03
  */
 return [
+    // 登陆验证码
+    'login'   => true,
     // 验证码加密密钥
     'seKey'    => \app\Server\DeployInfo::getSecuritySalt() ?? 'null',
     // 验证码过期时间（s）
