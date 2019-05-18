@@ -100,9 +100,11 @@ class Login extends Base
         $ctoken = $param['#'];
 
         // 验证码校验
-        $captcha = new Captcha($this->app->config->pull('captcha'));
-        if (!$captcha->checkToRedis($ctoken, $param['captcha'] ?? '0000')) {
-            return self::showMsg(CODE_COM_CAPTCHA, $captcha->getMessage());
+        if ($this->app->config->get('captcha.login')) {
+            $captcha = new Captcha($this->app->config->pull('captcha'));
+            if (!$captcha->checkToRedis($ctoken, $param['captcha'] ?? '0000')) {
+                return self::showMsg(CODE_COM_CAPTCHA, $captcha->getMessage());
+            }
         }
 
         // 参数提取

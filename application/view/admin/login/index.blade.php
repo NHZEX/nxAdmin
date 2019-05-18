@@ -24,27 +24,29 @@
                 <input name="password" required placeholder="请输入密码"  type="password" autocomplete="current-password" class="layui-input">
             </div>
         </div>
-        <div class="layui-form-item">
-            <div class="layui-input-inline">
-                <input id="input-verify-code"
-                       name="captcha"
-                       required
-                       maxlength="4"
-                       placeholder="请输入验证码"
-                       type="text"
-                       autocomplete="off"
-                       class="layui-input"
-                       style="width: 220px; float: left"
-                >
-                <img id="img-verify-code"
-                     src="{{ $url_captcha }}"
-                     alt="captcha"
-                     height="38"
-                     style="float: left"
-                     onclick="refrushVerifyCode();"
-                />
+        @if (config('captcha.login'))
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input id="input-verify-code"
+                           name="captcha"
+                           required
+                           maxlength="4"
+                           placeholder="请输入验证码"
+                           type="text"
+                           autocomplete="off"
+                           class="layui-input"
+                           style="width: 220px; float: left"
+                    >
+                    <img id="img-verify-code"
+                         src="{{ $url_captcha }}"
+                         alt="captcha"
+                         height="38"
+                         style="float: left"
+                         onclick="refrushVerifyCode();"
+                    />
+                </div>
             </div>
-        </div>
+        @endif
         <div class="layui-form-item" pane>
             <label for="lasting"></label>
             <div class="layui-input-inline">
@@ -63,10 +65,12 @@
 <script>
     function refrushVerifyCode() {
         let obj = document.getElementById('img-verify-code');
-        obj.setAttribute('src', obj.getAttribute('src').toString().split('?')[0] + '?_t=' + Math.random());
-        let captcha = document.getElementById('input-verify-code');
-        captcha.value = '';
-        captcha.focus();
+        if (obj) {
+            obj.setAttribute('src', obj.getAttribute('src').toString().split('?')[0] + '?_t=' + Math.random());
+            let captcha = document.getElementById('input-verify-code');
+            captcha.value = '';
+            captcha.focus();
+        }
     }
 
     require([
