@@ -9,50 +9,53 @@
 namespace app\Struct;
 
 use HZEX\DataStruct\BaseProperty;
+use think\facade\Env;
 
 class EnvStruct extends BaseProperty
 {
-    public $app = [
-        'debug' => 0,
-        'trace' => 0,
-        'tpl_cache' => 1,
-    ];
+    public static function read()
+    {
+        $that = new self();
+        $keys = array_keys($that->toArray());
 
-    public $develop = [
-        'secure_domain_name' => '',
-    ];
+        foreach ($keys as $key) {
+            $that->$key = Env::get($key, $that->$key);
+        }
 
-    public $system = [
-        'log_file_path' => '',
-        'web_title' => 'nxAdmin',
-    ];
+        return $that;
+    }
 
-    public $remotelog = [
-        'enable' => 0,
-        'host' => '127.0.0.1',
-        'force_client_id' => 'develop',
-    ];
+    public $APP_DEBUG = 0;
+    public $APP_TRACE = 0;
+    public $APP_TPL_CACHE = 1;
 
-    public $database = [
-        'hostname' => '127.0.0.1',
-        'hostport' => 3306,
-        'database' => 'base',
-        'username' => 'root',
-        'password' => '',
-        'debug' => 0,
-        'sql_explain' => 0,
-    ];
+    public $DEVELOP_SECURE_DOMAIN_NAME = '';
 
-    public $redis = [
-        'host' => '127.0.0.1',
-        'port' => 6379,
-        'password' => '',
-        'select' => 0,
-        'timeout' => 3,
-        'persistent' => 0,
-    ];
+    public $SYSTEM_LOG_FILE_PATH = '';
+    public $SYSTEM_WEB_TITLE = 'nxAdmin';
 
-    public $task = [
-        'user' => '',
-    ];
+    public $REMOTELOG_ENABLE = 0;
+    public $REMOTELOG_HOST = '127.0.0.1';
+    public $REMOTELOG_FORCE_CLIENT_ID = 'develop';
+
+    public $DATABASE_HOSTNAME = '127.0.0.1';
+    public $DATABASE_HOSTPORT = 3306;
+    public $DATABASE_DATABASE = 'base';
+    public $DATABASE_USERNAME = 'root';
+    public $DATABASE_PASSWORD = '';
+    public $DATABASE_DEBUG = 0;
+    public $DATABASE_SQL_EXPLAIN = 0;
+
+    public $REDIS_HOST = '127.0.0.1';
+    public $REDIS_PORT = 6379;
+    public $REDIS_PASSWORD = '';
+    public $REDIS_SELECT = 0;
+    public $REDIS_TIMEOUT = 3;
+    public $REDIS_PERSISTENT = 0;
+
+    public $TASK_USER = '';
+
+    public $DEPLOY_SECURITY_SALT = '';
+    public $DEPLOY_ROOT_PATH_SIGN = '';
+    public $DEPLOY_MIXING_PREFIX = '';
 }

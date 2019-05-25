@@ -18,8 +18,6 @@ use Basis\Ini;
 use Closure;
 use Exception;
 use HZEX\Util;
-use Matomo\Ini\IniReadingException;
-use Matomo\Ini\IniWritingException;
 use Phinx\PhinxMigrate2;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArgvInput as SymfonyArgvInput;
@@ -68,8 +66,6 @@ class Deploy extends Command
      * @param Input  $input
      * @param Output $output
      * @return int
-     * @throws IniReadingException
-     * @throws IniWritingException
      * @throws ExceptionThink
      * @throws Exception
      */
@@ -90,16 +86,20 @@ class Deploy extends Command
 
         if ((bool) $input->getOption('example')) {
             $output->writeln('生成ENV范例文件...');
-            Ini::writerFile($this->app->getRootPath() . '.env.example', (new EnvStruct([]))->toArray());
+            Ini::writerFile(
+                $this->app->getRootPath() . '.env.example'
+                , (new EnvStruct([]))->toArray()
+                , Ini::HEADER_DATE
+            );
             return 0;
         }
 
         // 载入当前配置
-        $env = new EnvStruct($existEnv ? Ini::readerFile($envPath) : []);
+        $env = EnvStruct::read();
         // 载入允许用户
-        $env->task['user'] = $input->getOption('run-user') ?: $env->task['user'];
-        $output->info('当前用户：' . Util::whoami() . "({$env->task['user']})");
-        $env->task['user'] = $env->task['user'] ?? Util::whoami();
+        $env->TASK_USER = $input->getOption('run-user') ?: $env->TASK_USER;
+        $output->info('当前用户：' . Util::whoami() . "({$env->TASK_USER})");
+        $env->TASK_USER = $env->TASK_USER ?? Util::whoami();
 
         if ($update && !$existEnv) {
             $output->error('部署文件不存在，请先部署');
@@ -113,8 +113,8 @@ class Deploy extends Command
          */
         if (!$existEnv || (!$update && $existEnv && $forceCover)) {
             $output->writeln('生成部署设置...');
-            if (!isset($env[DeployInfo::ITEM_NAME])) {
-                $env[DeployInfo::ITEM_NAME] = DeployInfo::init();
+            foreach (DeployInfo::init() as $key => $value) {
+                $env[$key] = $value;
             }
 
             $output->writeln('配置Env设置...');
@@ -122,12 +122,12 @@ class Deploy extends Command
 
             // 开发模式预设
             if ($dev) {
-                $env->app['debug'] = 1;
-                $env->app['trace'] = 0;
-                $env->app['tpl_cache'] = 0;
-                $env->database['debug'] = 1;
+                $env->APP_DEBUG = 1;
+                $env->APP_TRACE = 1;
+                $env->APP_TPL_CACHE = 0;
+                $env->DATABASE_DEBUG = 1;
             } else {
-                unset($env->develop);
+                unset($env->DEVELOP_SECURE_DOMAIN_NAME);
             }
 
             if ($dryRun) {
@@ -171,8 +171,7 @@ class Deploy extends Command
         $verbosity = empty($verbosity) ? null : "-{$verbosity}";
 
         //构建数据库链接参数
-        $database_config = array_merge($this->app->config->pull('database'), $env->database);
-        Db::init($database_config);
+        Db::init($this->getDbConfig($env));
 
         // 执行数据迁移
         $output->writeln('================执行PHINX迁移================');
@@ -242,6 +241,37 @@ class Deploy extends Command
 
     /**
      * @param EnvStruct $env
+     * @return array
+     */
+    private function getDbConfig(EnvStruct $env)
+    {
+        return array_merge($this->app->config->pull('database'), [
+            'hostname' => $env->DATABASE_HOSTNAME,
+            'hostport' => (int) $env->DATABASE_HOSTPORT,
+            'database' => $env->DATABASE_DATABASE,
+            'username' => $env->DATABASE_USERNAME,
+            'password' => $env->DATABASE_PASSWORD,
+        ]);
+    }
+
+    /**
+     * @param EnvStruct $env
+     * @return array
+     */
+    private function getRedisConfig(EnvStruct $env)
+    {
+        return [
+            'host'         => $env->REDIS_HOST,
+            'port'         => $env->REDIS_PORT,
+            'password'     => $env->REDIS_PASSWORD,
+            'select'       => (int) $env->REDIS_SELECT,
+            'timeout'      => (int) $env->REDIS_TIMEOUT,
+            'persistent'   => (bool) $env->REDIS_PERSISTENT,
+        ];
+    }
+
+    /**
+     * @param EnvStruct $env
      * @param bool      $dryRun
      * @throws ExceptionThink
      * @throws Exception
@@ -301,7 +331,7 @@ class Deploy extends Command
         }
 
         $au = new AdminUser();
-        $database_config = array_merge($au->getConfig(), $env->database);
+        $database_config = $this->getDbConfig($env);
         $au->setConnection(Connection::instance($database_config));
         $au->genre = AdminUser::GENRE_SUPER_ADMIN;
         $au->username = $au->nickname = $admin_username;
@@ -332,27 +362,20 @@ class Deploy extends Command
 
         $output->writeln('配置数据库');
 
-        // 加载环境变量
-        $env->database['hostname'] = $this->env->get('database_hostname', $env->database['hostname']);
-        $env->database['hostport'] = $this->env->get('database_hostport', $env->database['hostport']);
-        $env->database['database'] = $this->env->get('database_database', $env->database['database']);
-        $env->database['username'] = $this->env->get('database_username', $env->database['username']);
-        $env->database['password'] = $this->env->get('database_password', $env->database['password']);
-
         if ($interaction) {
-            $default = "{$env->database['hostname']}:{$env->database['hostport']}";
+            $default = "{$env->DATABASE_HOSTNAME}:{$env->DATABASE_HOSTPORT}";
             $question = new Question("地址\t", $default);
             $question->setValidator(function ($value) use ($env) {
                 if (false === strpos($value, ':')) {
-                    $value .= ":{$env->database['hostport']}";
+                    $value .= ":{$env->DATABASE_HOSTPORT}";
                 }
                 return $value;
             });
             $question->setMaxAttempts(3);
             $db_host = $this->askQuestion($input, $output, $question);
-            [$env->database['hostname'], $env->database['hostport']] = explode(':', $db_host);
+            [$env->DATABASE_HOSTNAME, $env->DATABASE_HOSTPORT] = explode(':', $db_host);
 
-            $question = new Question("库名\t", $env->database['database']);
+            $question = new Question("库名\t", $env->DATABASE_DATABASE);
             $question->setValidator(function ($value) {
                 if (empty($value)) {
                     throw new Exception('库名为空');
@@ -360,9 +383,9 @@ class Deploy extends Command
                 return $value;
             });
             $question->setMaxAttempts(3);
-            $env->database['database'] = $this->askQuestion($input, $output, $question);
+            $env->DATABASE_DATABASE = $this->askQuestion($input, $output, $question);
 
-            $question = new Question("用户名\t", $env->database['username']);
+            $question = new Question("用户名\t", $env->DATABASE_USERNAME);
             $question->setValidator(function ($value) {
                 if (empty($value)) {
                     throw new Exception('用户名为空');
@@ -370,9 +393,9 @@ class Deploy extends Command
                 return $value;
             });
             $question->setMaxAttempts(3);
-            $env->database['username'] = $this->askQuestion($input, $output, $question);
+            $env->DATABASE_USERNAME = $this->askQuestion($input, $output, $question);
 
-            $question = new Question("密码\t", $env->database['password']);
+            $question = new Question("密码\t", $env->DATABASE_PASSWORD);
             $question->setValidator(function ($value) {
                 if (empty($value)) {
                     throw new Exception('密码为空');
@@ -380,11 +403,11 @@ class Deploy extends Command
                 return $value;
             });
             $question->setMaxAttempts(3);
-            $env->database['password'] = $this->askQuestion($input, $output, $question);
+            $env->DATABASE_PASSWORD = $this->askQuestion($input, $output, $question);
         }
 
         // 合并最终设置
-        $database_config = array_merge($this->app->config->pull('database'), $env['database']);
+        $database_config = $this->getDbConfig($env);
         // 检查mysql版本
         $mysql_ver = query_mysql_version($database_config);
 
@@ -393,8 +416,8 @@ class Deploy extends Command
         }
         $output->writeln("当前连接Mysql版本：{$mysql_ver}");
 
-        if (!query_mysql_exist_database($env->database['database'], $database_config)) {
-            throw new Exception("当前连接Mysql不存在库：{$env->database['database']}");
+        if (!query_mysql_exist_database($env->DATABASE_DATABASE, $database_config)) {
+            throw new Exception("当前连接Mysql不存在库：{$env->DATABASE_DATABASE}");
         }
     }
 
@@ -411,30 +434,24 @@ class Deploy extends Command
 
         $output->writeln('配置Redis');
 
-        // 加载环境变量
-        $env->redis['host'] = $this->env->get('redis_host', $env->redis['host']);
-        $env->redis['port'] = $this->env->get('redis_port', $env->redis['port']);
-        $env->redis['password'] = $this->env->get('redis_password', $env->redis['password']);
-        $env->redis['select'] = $this->env->get('redis_select', $env->redis['select']);
-
         if ($interaction) {
-            $default = "{$env->redis['host']}:{$env->redis['port']}";
+            $default = "{$env->REDIS_HOST}:{$env->REDIS_PORT}";
             $question = new Question("地址\t", $default);
             $question->setValidator(function ($value) use ($env) {
                 if (false === strpos($value, ':')) {
-                    $value .= ":{$env->redis['port']}";
+                    $value .= ":{$env->REDIS_PORT}";
                 }
                 return $value;
             });
             $question->setMaxAttempts(3);
             $db_host = $this->askQuestion($input, $output, $question);
-            [$env->redis['host'], $env->redis['port']] = explode(':', $db_host);
+            [$env->REDIS_HOST, $env->REDIS_PORT] = explode(':', $db_host);
 
-            $question = new Question("密码\t", $env->redis['password']);
+            $question = new Question("密码\t", $env->REDIS_PASSWORD);
             $question->setMaxAttempts(3);
-            $env->redis['password'] = $this->askQuestion($input, $output, $question);
+            $env->REDIS_PASSWORD = $this->askQuestion($input, $output, $question);
 
-            $question = new Question("库名\t", $env->redis['select']);
+            $question = new Question("库名\t", $env->REDIS_SELECT);
             $question->setValidator(function ($value) {
                 if (!is_numeric($value)) {
                     throw new Exception('库名无效');
@@ -442,10 +459,10 @@ class Deploy extends Command
                 return $value;
             });
             $question->setMaxAttempts(3);
-            $env->redis['select'] = $this->askQuestion($input, $output, $question);
+            $env->REDIS_SELECT = $this->askQuestion($input, $output, $question);
         }
 
-        Redis::setConfig($env->redis, true);
+        Redis::setConfig($this->getRedisConfig($env), true);
         if (Redis::getSelf()->ping() !== '+PONG') {
             throw new Exception('Redis测试失败');
         }

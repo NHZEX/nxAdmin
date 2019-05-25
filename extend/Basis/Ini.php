@@ -8,54 +8,67 @@
 
 namespace Basis;
 
-use Matomo\Ini\IniReader;
-use Matomo\Ini\IniWriter;
-
+/**
+ * Class Ini
+ * @package Basis
+ */
 class Ini
 {
     const HEADER_DATE = 'date';
 
     /**
-     * 读取INI
-     * @param string $file_path
-     * @return array
-     * @throws \Matomo\Ini\IniReadingException
-     */
-    public static function readerFile(string $file_path)
-    {
-        $reader = new IniReader();
-        return $reader->readFile($file_path);
-    }
-
-    /**
-     * 写入INI
+     * 写入Env
      * @param string $file_path
      * @param array $contents
      * @param string $header
-     * @throws \Matomo\Ini\IniWritingException
      */
-    public static function writerFile(string $file_path, array $contents, string $header = '')
+    public static function writerFile(string $file_path, iterable $contents, string $header = '')
     {
-        $writer = new IniWriter();
         if ($header === self::HEADER_DATE) {
-            $header = '; Date:' . date('c') . "\n\n";
+            $header = '# Date:' . date('c') . "\n\n";
         }
-        $writer->writeToFile($file_path, $contents, $header);
+
+        file_put_contents($file_path, $header . self::generate($contents));
     }
 
     /**
-     * 写入INI
+     * 写入Env
      * @param array $contents
      * @param string $header
      * @return string
-     * @throws \Matomo\Ini\IniWritingException
      */
     public static function writer(array $contents, string $header = '')
     {
-        $writer = new IniWriter();
         if ($header === self::HEADER_DATE) {
-            $header = '; Date:' . date('c') . "\n\n";
+            $header = '# Date:' . date('c') . "\n\n";
         }
-        return $writer->writeToString($contents, $header);
+        return $header . self::generate($contents);
+    }
+
+    /**
+     * 生成常量文本
+     * @param iterable $contents
+     * @return string
+     */
+    protected static function generate(iterable $contents)
+    {
+        $text = '';
+        $ts = '';
+        foreach ($contents as $key => $value)
+        {
+            if (is_bool($value)) {
+                $value = var_export($value, true);
+            } elseif (is_numeric($value)) {
+            } elseif (is_string($value)) {
+                $value = "\"{$value}\"";
+            }
+
+            if (!empty($ts) && $ts !== substr($key, 0, 3)) {
+                $text .= PHP_EOL . PHP_EOL;
+            }
+            $text .= "{$key}={$value}\n";
+            $ts = substr($key, 0, 3);
+        }
+        return $text;
     }
 }
