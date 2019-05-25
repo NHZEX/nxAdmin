@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK IT ]
 // +----------------------------------------------------------------------
@@ -244,8 +245,6 @@ class Socket
         if (isset($args[$name])) {
             return $args[$name];
         }
-
-        return;
     }
 
     /**
@@ -275,5 +274,4 @@ class Socket
 
         return curl_exec($ch);
     }
-
 }

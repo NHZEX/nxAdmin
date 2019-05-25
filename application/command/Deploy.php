@@ -87,9 +87,7 @@ class Deploy extends Command
         if ((bool) $input->getOption('example')) {
             $output->writeln('生成ENV范例文件...');
             Ini::writerFile(
-                $this->app->getRootPath() . '.env.example'
-                , (new EnvStruct([]))->toArray()
-                , Ini::HEADER_DATE
+                $this->app->getRootPath() . '.env.example', (new EnvStruct([]))->toArray(), Ini::HEADER_DATE
             );
             return 0;
         }
