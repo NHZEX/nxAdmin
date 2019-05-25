@@ -54,8 +54,7 @@ class Ini
     {
         $text = '';
         $ts = '';
-        foreach ($contents as $key => $value)
-        {
+        foreach ($contents as $key => $value) {
             if (is_bool($value)) {
                 $value = var_export($value, true);
             } elseif (is_numeric($value)) {

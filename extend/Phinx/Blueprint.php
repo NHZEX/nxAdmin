@@ -39,7 +39,7 @@ use Phinx\Db\Table\Column;
  */
 class Blueprint
 {
-    /** @var Column  */
+    /** @var Column */
     protected $column;
 
     const COMMENTS = [
