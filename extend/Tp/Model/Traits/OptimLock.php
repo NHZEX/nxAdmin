@@ -10,6 +10,7 @@ namespace Tp\Model\Traits;
 
 use Exception;
 use PDOStatement;
+use think\exception\PDOException;
 use think\Model;
 use Tp\Db\Query;
 use Tp\Model\Exception\ModelException;
@@ -46,26 +47,25 @@ trait OptimLock
     }
 
     /**
-     * @param mixed $where
      * @return bool
-     * @throws Exception
+     * @throws PDOException
      */
-    protected function updateData($where)
+    protected function updateData(): bool
     {
         // 获取必要数据 MOD
         $is_optim_lock = $this->optimLock && isset($this[$this->optimLock]);
         $optimLockValue = $this[$this->optimLock] ?? 0;
 
-        // 自动更新
-        $this->autoCompleteData($this->update);
-
         // 事件回调
-        if (false === $this->trigger('before_update')) {
+        if (false === $this->trigger('BeforeUpdate')) {
             return false;
         }
 
+        $this->checkData();
+
         // 获取有更新的数据
         $data = $this->getChangedData();
+
         // 移除无效数据 MOD
         foreach (array_diff(array_keys($data), $this->getTableFields()) as $k) {
             unset($data[$k]);
@@ -77,54 +77,26 @@ trait OptimLock
                 $this->autoRelationUpdate();
             }
 
-            return false;
-        } elseif ($this->autoWriteTimestamp && $this->updateTime && !isset($data[$this->updateTime])) {
+            return true;
+        }
+
+        if ($this->autoWriteTimestamp && $this->updateTime && !isset($data[$this->updateTime])) {
             // 自动写入更新时间
-            $data[$this->updateTime] = $this->autoWriteTimestamp($this->updateTime);
-
-            $this->data($this->updateTime, $data[$this->updateTime]);
-        }
-
-        // 自增锁版本 MOD
-        if ($is_optim_lock) {
-            $data[$this->optimLock] = $this->getData($this->optimLock) + 1;
-        }
-
-        // 尝试获取查询条件
-        if (empty($where) && !empty($tmpWhere = $this->getWhere())) {
-            $where = $tmpWhere;
+            $data[$this->updateTime]       = $this->autoWriteTimestamp($this->updateTime);
+            $this->set($this->updateTime, $data[$this->updateTime]);
         }
 
         // 检查允许字段
-        $allowFields = $this->checkAllowFields(array_merge($this->auto, $this->update));
+        $allowFields = $this->checkAllowFields();
 
-        // 保留主键数据
-        foreach ($this->getData() as $key => $val) {
-            if ($this->isPk($key)) {
-                $data[$key] = $val;
+        foreach ($this->relationWrite as $name => $val) {
+            if (!is_array($val)) {
+                continue;
             }
-        }
 
-        $pk    = $this->getPk();
-        $array = [];
-
-        foreach ((array) $pk as $key) {
-            if (isset($data[$key])) {
-                $array[] = [$key, '=', $data[$key]];
-                unset($data[$key]);
-            }
-        }
-
-        if (!empty($array)) {
-            $where = $array;
-        }
-
-        foreach ((array) $this->relationWrite as $name => $val) {
-            if (is_array($val)) {
-                foreach ($val as $key) {
-                    if (isset($data[$key])) {
-                        unset($data[$key]);
-                    }
+            foreach ($val as $key) {
+                if (isset($data[$key])) {
+                    unset($data[$key]);
                 }
             }
         }
@@ -134,15 +106,16 @@ trait OptimLock
         $db->startTrans();
 
         try {
-            $tmp = $db->where($where);
+            $where  = $this->getWhere();
+            $result = $db->where($where);
             // 设置乐观锁条件 MOD
-            $is_optim_lock && $tmp->where($this->optimLock, '=', $optimLockValue);
-            $tmp->strict(false)
+            $is_optim_lock && $result->where($this->optimLock, '=', $optimLockValue);
+            $result->strict(false)
                 ->field($allowFields)
                 ->update($data);
 
             // 检测是否更新成功 MOD
-            if ($is_optim_lock && $this->getConnection()->getNumRows() === 0) {
+            if ($is_optim_lock && count($this->toArray()) === 0) {
                 throw new ModelException('The object being updated is outdated.', CODE_MODEL_OPTIMISTIC_LOCK);
             }
 
@@ -154,7 +127,7 @@ trait OptimLock
             $db->commit();
 
             // 更新回调
-            $this->trigger('after_update');
+            $this->trigger('AfterUpdate');
 
             return true;
         } catch (Exception $e) {

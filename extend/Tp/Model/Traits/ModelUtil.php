@@ -9,19 +9,21 @@
 namespace Tp\Model\Traits;
 
 use Closure;
-use think\db\Expression;
+use InvalidArgumentException;
+use think\db\Raw;
+use think\facade\Db;
 
 trait ModelUtil
 {
     /**
      * think orm 创建一个查询表达式
      * @param $value
+     * @return Raw
      * @author NHZEXG
-     * @return Expression
      */
     public static function dbRaw($value)
     {
-        return new Expression($value);
+        return Db::raw($value);
     }
 
     /**
@@ -32,7 +34,11 @@ trait ModelUtil
      */
     public function hasData($field)
     {
-        return isset($this[$field]);
+        try {
+            return isset($this[$field]);
+        } catch (InvalidArgumentException $exception) {
+            return false;
+        }
     }
 
     /**
