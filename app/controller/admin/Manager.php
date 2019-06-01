@@ -11,6 +11,12 @@ namespace app\controller\admin;
 use app\Facade\WebConv;
 use app\Model\AdminRole;
 use app\Model\AdminUser;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
+use think\Exception;
+use think\exception\DbException;
+use think\facade\View;
+use think\Response;
 use Tp\Model\Exception\ModelException;
 
 class Manager extends Base
@@ -42,7 +48,7 @@ class Manager extends Base
      */
     public function index()
     {
-        $this->assign([
+        View::assign([
             'url_table' => url('table'),
             'url_page_edit' => url('pageEdit'),
             'url_change_password' => url('changePassword'),
@@ -50,16 +56,16 @@ class Manager extends Base
             'url_delete' => url('delete'),
             'manager_types' => self::FILTER_TYPE[WebConv::getSelf()->sess_user_genre],
         ]);
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**
      * @param int $page
      * @param int $limit
      * @param string $type
-     * @return \think\Response
-     * @throws \think\Exception
-     * @throws \think\exception\DbException
+     * @return Response
+     * @throws Exception
+     * @throws DbException
      */
     public function table(int $page = 1, int $limit = 1, string $type = 'system')
     {
@@ -67,8 +73,7 @@ class Manager extends Base
             return self::showMsg(CODE_COM_PARAM);
         }
         $genre = self::FILTER_TYPE_MAPPING[$type];
-
-        $result = (new AdminUser())->field(['password', 'delete_time'], true)
+        $result = (new AdminUser())->hidden(['password', 'delete_time'])
             ->whereIn('genre', $genre)
             ->paginate2($limit, $page, false);
         $collection = $result->getCollection();
@@ -82,10 +87,10 @@ class Manager extends Base
     /**
      * @param int|null    $base_pkid
      * @param string|null $type
-     * @return \think\Response
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return string
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function pageEdit(?int $base_pkid = null, ?string $type = null)
     {
@@ -108,7 +113,7 @@ class Manager extends Base
             $params['csrf'] = $this->generateCsrfTokenSimple();
         }
 
-        $this->assign([
+        View::assign([
             'url_save' => url('save', $params),
             'url_upload' => url('@upload/image'),
             'genre_list' => $genres ?? [],
@@ -117,15 +122,15 @@ class Manager extends Base
             'edit_data' => $au ?? false,
         ]);
 
-        return $this->fetch('edit');
+        return View::fetch('edit');
     }
 
     /**
      * @param int|null $pkid
-     * @return \think\Response
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @return Response
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public function changePassword(int $pkid = null)
     {
@@ -140,7 +145,7 @@ class Manager extends Base
     }
 
     /**
-     * @return \think\Response
+     * @return Response
      * @throws ModelException
      */
     public function save()
@@ -173,7 +178,7 @@ class Manager extends Base
     /**
      * 删除用户
      * @param null $id
-     * @return \think\Response
+     * @return Response
      */
     public function delete($id = null)
     {

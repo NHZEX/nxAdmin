@@ -15,6 +15,7 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
 use think\facade\App;
+use think\facade\View;
 use think\model\Collection;
 use think\Response;
 use Throwable;
@@ -28,14 +29,14 @@ class Permission extends Base
      */
     public function node()
     {
-        $this->assign([
+        View::assign([
             'url_table' => url('nodeList'),
             'url_update' => url('update'),
             'url_generate' => url('generateNodes'),
             'url_save_flags' => url('saveFlags'),
             'url_export' => url('exportNodes'),
         ]);
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**

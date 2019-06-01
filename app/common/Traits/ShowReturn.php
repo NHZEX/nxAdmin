@@ -53,7 +53,7 @@ trait ShowReturn
      */
     protected static function show302(string $url, array $header = []): Response
     {
-        return new Redirect($url, 302, $header);
+        return \redirect($url, 302, $header);
     }
 
     /**
@@ -65,7 +65,8 @@ trait ShowReturn
      */
     protected static function showHttpCode($code, string $msg = '', array $header = []): Response
     {
-        return Response::create($msg, 'html', $code, $header);
+        return Response::create($msg, 'html', $code)
+            ->header($header);
     }
 
     /**
@@ -197,6 +198,8 @@ trait ShowReturn
         } elseif (CODE_DICT[$code] ?? false) {
             $defult['msg'] = CODE_DICT[$code];
         }
-        return Response::create($defult, 'json', $http_code, $header, $options);
+        return Response::create($defult, 'json', $http_code)
+            ->header($header)
+            ->options($options);
     }
 }

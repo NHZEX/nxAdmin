@@ -13,6 +13,7 @@ use app\Logic\AdminRole as AdminRoleLogic;
 use app\Logic\SystemMenu;
 use app\Model\AdminRole;
 use app\Model\AdminUser;
+use think\facade\View;
 use Tp\Model\Exception\ModelException;
 
 class Role extends Base
@@ -35,7 +36,7 @@ class Role extends Base
      */
     public function index()
     {
-        $this->assign([
+        View::assign([
             'url_table' => url('table'),
             'url_page_edit' => url('pageEdit'),
             'url_update' => url('update'),
@@ -44,7 +45,7 @@ class Role extends Base
             'url_menu' => url('menu'),
             'manager_types' => self::FILTER_TYPE[WebConv::getSelf()->sess_user_genre],
         ]);
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**
@@ -93,14 +94,14 @@ class Role extends Base
             $params['genre'] = self::FILTER_TYPE_MAPPING[$type] ?? null;
         }
 
-        $this->assign([
+        View::assign([
             'url_save' => url('save', $params),
             'genre_list' => $genres ?? [],
             'status_list' => AdminRole::STATUS_DICT,
             'edit_data' => $au ?? false,
         ]);
 
-        return $this->fetch('edit');
+        return View::fetch('edit');
     }
 
     /**
@@ -137,13 +138,13 @@ class Role extends Base
     public function permission($id = null)
     {
         $hashArr = AdminRoleLogic::getExtPermission($id);
-        $this->assign([
+        View::assign([
             'hashArr' => json_encode_throw_on_error($hashArr),
             'role_id' => $id,
             'url_table' => url('@admin.permission/nodeList'),
             'url_save' => url('savePermission'),
         ]);
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**
@@ -173,14 +174,14 @@ class Role extends Base
             'parentId' => 'pid'
         ];
         $menuIds = AdminRoleLogic::getExtMenu($id);
-        $this->assign([
+        View::assign([
             'url_save' => url('saveMenu', ['id' => $id]),
             'data' => json_encode_throw_on_error(SystemMenu::obtainMenus()),
             'check_ids' => json_encode_throw_on_error($menuIds),
             'response' => json_encode_throw_on_error($response),
         ]);
 
-        return $this->fetch('public/dtree');
+        return View::fetch('public/dtree');
     }
 
     /**
