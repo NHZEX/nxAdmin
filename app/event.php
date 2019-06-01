@@ -1,5 +1,4 @@
 <?php
-
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -9,24 +8,20 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-// 应用容器绑定定义
 
-use app\Server\RedisProxy;
-use app\Server\WebConv;
-use think\App;
-use Tp\Session;
+// 事件定义文件
+return [
+    'bind'      => [
+    ],
 
-$basis = [
-    'session'  => Session::class,
-    'redis' => RedisProxy::class,
+    'listen'    => [
+        'AppInit'  => [],
+        'HttpRun'  => [],
+        'HttpEnd'  => [],
+        'LogLevel' => [],
+        'LogWrite' => [],
+    ],
+
+    'subscribe' => [
+    ],
 ];
-
-$expand = [
-    WebConv::class,
-];
-
-foreach ($expand as $value) {
-    App::getInstance()->bindTo($value);
-}
-
-return $basis;

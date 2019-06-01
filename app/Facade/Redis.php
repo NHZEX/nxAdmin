@@ -22,6 +22,6 @@ class Redis extends Base
 {
     public static function getFacadeClass()
     {
-        return 'redis';
+        return RedisProxy::class;
     }
 }

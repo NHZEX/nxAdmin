@@ -14,6 +14,6 @@ require_once __DIR__ . '/thinkphp/base.php';
 
 /** @var App $app */
 $app = Container::get('app');
-$app->path(__DIR__. '/application/');
+$app->path(__DIR__ . '/app/');
 $app->initialize();
 $app->hook->listen('app_init');

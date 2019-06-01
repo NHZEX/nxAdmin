@@ -14,7 +14,7 @@
 // | 模板设置
 // +----------------------------------------------------------------------
 
-use nhzex\Blade\Blade\Driver as BladeDriver;
+use HZEX\Blade\Driver as BladeDriver;
 use think\facade\Env;
 
 return [

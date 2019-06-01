@@ -11,7 +11,7 @@ require __DIR__ . '/thinkphp/base.php';
 // 应用初始化
 /** @var \think\App $app */
 $app = think\Container::get('app');
-$app->path(__DIR__ . '/application/')->initialize();
+$app->path(__DIR__ . '/app/')->initialize();
 
 // Phinx初始化
 $phinxApp = new Phinx\Console\PhinxApplication();
