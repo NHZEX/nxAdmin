@@ -9,6 +9,7 @@
 namespace app\Model;
 
 use app\Logic\SystemMenu as SystemMenuLogic;
+use think\Model;
 
 /**
  * 系统菜单
@@ -40,11 +41,19 @@ class SystemMenu extends Base
         self::STATUS_NORMAL => '正常',
     ];
 
-    public static function init()
+    public static function onAfterInsert(Model $model)
     {
-        self::afterInsert([SystemMenuLogic::class, 'refreshCache']);
-        self::afterUpdate([SystemMenuLogic::class, 'refreshCache']);
-        self::afterDelete([SystemMenuLogic::class, 'refreshCache']);
+        SystemMenuLogic::refreshCache();
+    }
+
+    public static function onAfterUpdate(Model $model)
+    {
+        SystemMenuLogic::refreshCache();
+    }
+
+    public static function onAfterDelete(Model $model)
+    {
+        SystemMenuLogic::refreshCache();
     }
 
     /**

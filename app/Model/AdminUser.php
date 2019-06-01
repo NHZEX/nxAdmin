@@ -77,67 +77,98 @@ class AdminUser extends Base
     const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
     const PWD_HASH_OPTIONS = ['cost' => 10];
 
-    public static function init()
+    /**
+     * @param AdminUser $model
+     * @return mixed|void
+     * @throws AccessControl
+     * @throws ModelException
+     */
+    public static function onBeforeInsert(AdminUser $model)
     {
-        $checkAccessControl = function (self $data) {
-            if ($data->isDisableAccessControl()) {
-                return;
-            }
-            $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
-            $dataId = $data->getOrigin('id');
-            if (null === $dataGenre || null === WebConv::getSelf()->sess_user_genre) {
-                return;
-            }
-            $accessGenre = WebConv::getSelf()->sess_user_genre;
-            $accessId = WebConv::getSelf()->sess_user_id;
-            $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
-            // 控制当前用户的组间访问
-            if (false === in_array($dataGenre, $genreControl)) {
-                throw new AccessControl('当前登陆的用户无该数据的操作权限');
-            }
-            // 当前数据存在ID且数据ID与访问ID不一致 且 当前权限组不具备全组访问权限
-            if ((null !== $dataId && $dataId !== $accessId) && false === in_array('*', $genreControl)) {
-                throw new AccessControl('当前登陆的用户无该数据的操作权限');
-            }
-        };
-        $checkUserInputUnique = function (self $data) {
-            if ($data->hasData('username')
-                && $data->getOrigin('username') !== $data->getData('username')
-            ) {
-                $isExist = static::withTrashed()
-                    ->where('username', $data->username)
-                    ->limit(1)->count();
-                if ($isExist > 0) {
-                    throw new ModelException("该账号 {$data->username} 已经存在");
-                }
-            }
-            if ($data->hasData('email')
-                && $data->getOrigin('email') !== $data->getData('email')
-            ) {
-                $isExist = (new static)
-                    ->where('email', $data->email)
-                    ->limit(1)->count();
-                if ($isExist > 0) {
-                    throw new ModelException("该邮箱 {$data->email} 已经存在");
-                }
-            }
-        };
-        self::beforeInsert($checkAccessControl);
-        self::beforeUpdate($checkAccessControl);
-        self::beforeDelete($checkAccessControl);
-        self::beforeInsert($checkUserInputUnique);
-        self::beforeUpdate($checkUserInputUnique);
+        self::checkAccessControl($model);
+        self::checkUserInputUnique($model);
 
-        self::beforeInsert(function (self $data) {
-            // 数据填充
-            foreach (['signup_ip' => 0, 'last_login_ip' => 0] as $field => $default) {
-                if (!$data->hasData($field)) {
-                    $data->data($field, $default);
-                }
+        // 数据填充
+        foreach (['signup_ip' => 0, 'last_login_ip' => 0] as $field => $default) {
+            if (!$model->hasData($field)) {
+                $model->data([
+                    $field => $default,
+                ]);
             }
-            // 令牌填充
-            $data->data('remember', get_rand_str(16));
-        });
+        }
+
+        // 令牌填充
+        $model->data([
+            'remember' => get_rand_str(16)
+        ]);
+    }
+
+    /**
+     * @param AdminUser $model
+     * @return mixed|void
+     * @throws AccessControl
+     * @throws ModelException
+     */
+    public static function onBeforeUpdate(AdminUser $model)
+    {
+        self::checkAccessControl($model);
+        self::checkUserInputUnique($model);
+    }
+
+    /**
+     * @param AdminUser $model
+     * @return mixed|void
+     * @throws AccessControl
+     */
+    public static function onBeforeDelete(AdminUser $model)
+    {
+        self::checkAccessControl($model);
+    }
+
+    protected static function checkAccessControl(AdminUser $data) {
+        if ($data->isDisableAccessControl()) {
+            return;
+        }
+        $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
+
+        $dataId = $data->getOrigin('id');
+        if (null === $dataGenre || null === WebConv::getSelf()->sess_user_genre) {
+            return;
+        }
+        $accessGenre = WebConv::getSelf()->sess_user_genre;
+        $accessId = WebConv::getSelf()->sess_user_id;
+        $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
+        // 控制当前用户的组间访问
+        if (false === in_array($dataGenre, $genreControl)) {
+            throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        }
+        // 当前数据存在ID且数据ID与访问ID不一致 且 当前权限组不具备全组访问权限
+        if ((null !== $dataId && $dataId !== $accessId) && false === in_array('*', $genreControl)) {
+            throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        }
+    }
+
+    protected static function checkUserInputUnique(self $data) {
+        if ($data->hasData('username')
+            && $data->getOrigin('username') !== $data->getData('username')
+        ) {
+            $isExist = static::withTrashed()
+                ->where('username', $data->username)
+                ->limit(1)->count();
+            if ($isExist > 0) {
+                throw new ModelException("该账号 {$data->username} 已经存在");
+            }
+        }
+        if ($data->hasData('email')
+            && $data->getOrigin('email') !== $data->getData('email')
+        ) {
+            $isExist = (new static)
+                ->where('email', $data->email)
+                ->limit(1)->count();
+            if ($isExist > 0) {
+                throw new ModelException("该邮箱 {$data->email} 已经存在");
+            }
+        }
     }
 
     /**
@@ -147,7 +178,9 @@ class AdminUser extends Base
     protected function beRoleName()
     {
         return $this->belongsTo(AdminRole::class, 'role_id', 'id')
-            ->field(['id', 'name' => 'role_name'])->bind(['role_name']);
+            ->bind([
+                'role_name' => 'name',
+            ]);
     }
 
     /**
@@ -179,7 +212,9 @@ class AdminUser extends Base
         if (!$value) {
             $value = get_rand_str(16);
             if ($this->isExists()) {
-                $this->data('remember', $value);
+                $this->data([
+                    'remember' => $value
+                ]);
                 $this->save();
             }
         }

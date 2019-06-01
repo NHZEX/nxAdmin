@@ -58,20 +58,17 @@ class Permission extends Base
     public static $increase_id = 0;
     public static $info_cache = [];
 
-    public static function init()
+    public static function onBeforeInsert(Permission $permission)
     {
-        //新增数据设置默认值
-        self::event('before_insert', function (self $permission) {
-            if (empty($permission->action)) {
-                $permission->setAttr('action', '');
-            }
-            if (empty($permission->alias_name)) {
-                $permission->setAttr('alias_name', '');
-            }
-            if (empty($permission->description)) {
-                $permission->setAttr('description', '');
-            }
-        });
+        if (empty($permission->action)) {
+            $permission->setAttr('action', '');
+        }
+        if (empty($permission->alias_name)) {
+            $permission->setAttr('alias_name', '');
+        }
+        if (empty($permission->description)) {
+            $permission->setAttr('description', '');
+        }
     }
 
     public function queryFlags($query, $mapName = 'queryMap')
