@@ -6,7 +6,7 @@
  * Time: 10:46
  */
 
-namespace app\Http\Middleware;
+namespace app\Middleware;
 
 use app\common\Traits\CsrfHelper;
 use app\common\Traits\ShowReturn;

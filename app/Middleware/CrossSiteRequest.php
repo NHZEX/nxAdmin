@@ -6,7 +6,7 @@
  * Time: 10:39
  */
 
-namespace app\Http\Middleware;
+namespace app\Middleware;
 
 use think\facade\App;
 use think\facade\Env;
