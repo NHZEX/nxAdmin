@@ -8,10 +8,10 @@
 
 namespace app\controller;
 
+use app\BaseController;
 use app\common\Traits\ShowReturn;
-use think\Controller;
 
-abstract class Base extends Controller
+abstract class Base extends BaseController
 {
     use ShowReturn;
 }
