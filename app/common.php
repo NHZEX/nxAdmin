@@ -18,7 +18,7 @@
  */
 function json_encode_throw_on_error($data): string
 {
-    $json = json_encode($data, JSON_UNESCAPED_UNICODE);
+    $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
     if (JSON_ERROR_NONE !== $last_error = json_last_error()) {
         $last_error_msg = json_last_error_msg();
@@ -359,9 +359,9 @@ function query_mysql_version($connect = null)
 {
     $sql = 'select version() as mysqlver';
     if ($connect) {
-        $_version = \think\Db::connect($connect)->query($sql);
+        $_version = \think\facade\Db::connect($connect)->query($sql);
     } else {
-        $_version = \think\Db::query($sql);
+        $_version = \think\facade\Db::query($sql);
     }
     return array_pop($_version)['mysqlver'];
 }
@@ -378,9 +378,9 @@ function query_mysql_exist_database(string $database, $connect = null)
     /** @noinspection SqlResolve SqlNoDataSourceInspection SqlDialectInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
-        $list = \think\Db::connect($connect)->query($sql);
+        $list = \think\facade\Db::connect($connect)->query($sql);
     } else {
-        $list = \think\Db::query($sql);
+        $list = \think\facade\Db::query($sql);
     }
     return count($list) > 0;
 }
