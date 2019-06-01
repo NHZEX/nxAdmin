@@ -1,5 +1,4 @@
 <?php
-
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -11,16 +10,15 @@
 // +----------------------------------------------------------------------
 
 // [ 应用入口文件 ]
-
 namespace think;
 
-// 加载基础文件
-require __DIR__ . '/../thinkphp/base.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-// 支持事先使用静态方法设置Request对象和Config对象
+// 执行HTTP应用并响应
+$http = (new App())->http;
 
-// 执行应用并响应
-/** @var App $app */
-$app = Container::get('app');
-/** @noinspection PhpUnhandledExceptionInspection */
-$app->run()->send();
+$response = $http->run();
+
+$response->send();
+
+$http->end($response);

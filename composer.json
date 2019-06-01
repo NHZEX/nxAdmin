@@ -4,7 +4,8 @@
     "type": "project",
     "keywords": [
         "framework",
-        "thinkphp"
+        "thinkphp",
+        "ORM"
     ],
     "homepage": "http://thinkphp.cn/",
     "license": "Apache-2.0",
@@ -36,12 +37,15 @@
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
         "nhzex/n-helper": "dev-master",
-        "nhzex/think-blade": "^1.0",
+        "nhzex/think-blade": "3.0.x-dev",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-exporter": "^4.2",
-        "topthink/framework": "5.1.*",
+        "topthink/framework": "6.0.x-dev",
+        "topthink/think-socketlog": "^1.0",
+        "topthink/think-view": "dev-master",
+        "symfony/var-dumper":"^4.2",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
@@ -49,14 +53,14 @@
     },
     "autoload": {
         "psr-4": {
-            "app\\": "application"
+            "app\\": "app"
         },
         "psr-0": {
             "": "extend"
         },
         "files": [
-            "application/constant.php",
-            "application/status_code.php"
+            "app/constant.php",
+            "app/status_code.php"
         ]
     },
     "autoload-dev": {

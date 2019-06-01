@@ -31,12 +31,15 @@ $log = [
     'max_files'   => 0,
     // 是否关闭日志写入
     'close'       => false,
+    'host'        => Env::get('remotelog.host', '127.0.0.1'),
+    'force_client_ids' => 'Johnson'
 ];
 
 // 设置远程日志
-if (Env::get('remotelog.enable', false)) {
+/*if (Env::get('remotelog.enable', false)) {
     $log['type'] = Socket::class;
     $log['host'] = Env::get('remotelog.host', '127.0.0.1');
+    var_dump($log['host']);
     $force_client_ids = $log['force_client_ids'] ?? [];
     $force_client_ids = array_merge(
         $force_client_ids,
@@ -46,6 +49,6 @@ if (Env::get('remotelog.enable', false)) {
     $log['force_client_ids'] = $force_client_ids;
     //限制允许读取日志的client_id
     $log['allow_client_ids'] = [];
-}
+}*/
 
 return $log;

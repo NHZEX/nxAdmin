@@ -14,11 +14,7 @@
 // | Cookie设置
 // +----------------------------------------------------------------------
 
-$mixing_prefix = \app\Server\DeployInfo::getMixingPrefix();
-
 return [
-    // cookie 名称前缀
-    'prefix'    => $mixing_prefix ? "{$mixing_prefix}_" : '',
     // cookie 保存时间
     'expire'    => 0,
     // cookie 保存路径
