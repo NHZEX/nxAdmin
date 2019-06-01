@@ -243,7 +243,7 @@ class Deploy extends Command
      */
     private function getDbConfig(EnvStruct $env)
     {
-        return array_merge($this->app->config->pull('database'), [
+        return array_merge($this->app->config->get('database'), [
             'hostname' => $env->DATABASE_HOSTNAME,
             'hostport' => (int) $env->DATABASE_HOSTPORT,
             'database' => $env->DATABASE_DATABASE,
