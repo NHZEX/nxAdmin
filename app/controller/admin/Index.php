@@ -7,12 +7,10 @@
 
 namespace app\controller\admin;
 
-use think\facade\Url;
-
 class Index extends Base
 {
     public function index()
     {
-        $this->redirect(Url::build('@admin.login'));
+        return redirect(url('@admin.login'));
     }
 }

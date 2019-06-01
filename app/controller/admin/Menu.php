@@ -14,6 +14,7 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
 use think\facade\App;
+use think\facade\View;
 use think\Response;
 use Tp\Model\Exception\ModelException;
 
@@ -21,14 +22,14 @@ class Menu extends Base
 {
     public function index()
     {
-        $this->assign([
+        View::assign([
             'url_table' => url('table'),
             'url_page_edit' => url('edit'),
             'url_delete' => url('delete'),
             'url_export' => url('export'),
         ]);
 
-        return $this->fetch();
+        return View::fetch();
     }
 
     public function table()
@@ -61,13 +62,13 @@ class Menu extends Base
             $params['csrf'] = $this->generateCsrfTokenSimple();
         }
 
-        $this->assign([
+        View::assign([
             'edit_data' => $data ?? false,
             'url_save' => url('save', $params ?? []),
             'menu_data' => SystemMenu::getTextTree(),
             'node_data' => \app\Logic\Permission::queryNodeFlagsIsMenu(),
         ]);
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**

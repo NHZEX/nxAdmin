@@ -12,7 +12,7 @@ use app\Exception\JsonException;
 use app\Logic\AdminUser;
 use app\Server\WebConv;
 use Captcha\Captcha;
-use think\facade\Url;
+use think\facade\View;
 use think\Response;
 
 class Login extends Base
@@ -35,24 +35,24 @@ class Login extends Base
         }
 
         // 生成登陆成功后跳转目的地（url传入/主页）
-        $jump_url = $jump ? rawurldecode($jump) : ($jump_url ?: Url::build('@admin.main'));
-        false !== strpos($jump_url, 'admin.login/logout') && $jump_url = Url::build('@admin.main');
+        $jump_url = $jump ? rawurldecode($jump) : ($jump_url ?: url('@admin.main'));
+        false !== strpos($jump_url, 'admin.login/logout') && $jump_url = url('@admin.main');
 
         $loginToken = get_rand_str(32);
 
         // 生成主页请求URL
-        $this->assign([
-            'url_login' => Url::build('login', ['_' => crc32($loginToken)], false),
-            'url_check' => Url::build('check', [], false),
-            'url_captcha' => Url::build('captcha', ['_' => $loginToken], false),
+        View::assign([
+            'url_login' => url('login', ['_' => crc32($loginToken)], false),
+            'url_check' => url('check', [], false),
+            'url_captcha' => url('captcha', ['_' => $loginToken], false),
             'url_jump' => $jump_url,
 
             'login_token' => $loginToken,
-            'auto_login_name' => $this->app->cookie->prefix() . 'login_time',
+            'auto_login_name' => 'login_time',
         ]);
 
         // 模板渲染
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**

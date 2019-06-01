@@ -12,7 +12,7 @@ use app\Facade\WebConv;
 use app\Logic\SystemMenu;
 use app\Model\AdminUser;
 use think\facade\Env;
-use think\facade\Url;
+use think\facade\View;
 
 /**
  * Class Main
@@ -28,16 +28,17 @@ class Main extends Base
      */
     public function index()
     {
-        $this->assign('info', [
+        View::assign('info', [
             'title' => Env::get('system.web_title')
         ]);
-        $this->assign('webmenu', $this->getMenuToJson());
-        $this->assign('user', WebConv::getAdminUser());
-        $this->assign('url', [
-            'mainpage' => Url::build('sysinfo'),
-            'logout' => Url::build('@admin.login/logout'),
+        View::assign('webmenu', $this->getMenuToJson());
+        View::assign('user', WebConv::getAdminUser());
+
+        View::assign('url', [
+            'mainpage' => url('sysinfo'),
+            'logout' => url('@admin.login/logout'),
         ]);
-        return $this->fetch();
+        return View::fetch();
     }
 
     /**
@@ -91,6 +92,6 @@ class Main extends Base
      */
     public function sysinfo()
     {
-        return $this->fetch();
+        return View::fetch();
     }
 }
