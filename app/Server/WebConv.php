@@ -76,7 +76,7 @@ class WebConv implements Serializable
     const CONV_COMMON_KEY = 'common_key';
     const CONV_ACCESS_TIME = 'access_time';
 
-    const SESS_REFRESH_TIME_OUT = 10800; // 每3小时刷新一次 SESSION_ID
+    const SESS_REFRESH_TIME_OUT = 0; // 每3小时刷新一次 SESSION_ID
 
     /**
      * 返回模型的错误信息
@@ -115,7 +115,7 @@ class WebConv implements Serializable
     public function unserialize($serialized)
     {
         $this->app = AppFacade::getInstance();
-        $this->app->bindTo(self::class, $this);
+        $this->app->bind(self::class, $this);
         $this->sessTimeOut = $this->app->config->get('session.expire', 7200);
 
         $data = unserialize($serialized);
@@ -419,7 +419,7 @@ class WebConv implements Serializable
                 throw new BusinessResultSuccess("角色状态：{$user->role->status_desc}");
             }
         } catch (BusinessResultSuccess $result) {
-            $this->destroy();
+            //$this->destroy();
             $this->errorMessage = $result->getMessage();
             return $this->verifyResult = false;
         }
@@ -428,7 +428,7 @@ class WebConv implements Serializable
             // 旧会话延迟10秒失效
             $this->flushExpired(10);
             // 刷新会话ID
-            $this->app->session->regenerate();
+            //$this->app->session->regenerate();
             // 更新会话信息
             $this->sessionId = $this->getSessId();
             // 设置创建时间
