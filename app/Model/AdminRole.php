@@ -9,6 +9,7 @@
 namespace app\Model;
 
 use app\Exception\AccessControl;
+use app\Exception\JsonException;
 use app\Facade\WebConv;
 use app\Logic\AdminRole as AdminRoleLogic;
 use think\model\concern\SoftDelete;
@@ -63,41 +64,75 @@ class AdminRole extends Base
     const EXT_PERMISSION = 'permission';
     const EXT_MENU = 'menu';
 
-    public static function init()
+    public static function onBeforeInsert(self $model)
     {
-        $checkAccessControl = function (self $data) {
-            $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
-            $dataId = $data->getOrigin('id');
-            if (null === $dataGenre || null === WebConv::getSelf()->sess_user_genre) {
-                return;
-            }
-            $accessGenre = WebConv::getSelf()->sess_user_genre;
-            $accessId = WebConv::getSelf()->sess_user_id;
-            $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
-            if (false === in_array($dataGenre, $genreControl)) {
-                throw new AccessControl('当前登陆的用户无该数据的操作权限');
-            }
-            // 当前数据存在ID且数据ID与访问ID不一致 且 当前权限组不具备全组访问权限
-            if ((null !== $dataId && $dataId !== $accessId) && false === in_array('*', $genreControl)) {
-                throw new AccessControl('当前登陆的用户无该数据的操作权限');
-            }
-        };
-        self::beforeInsert($checkAccessControl);
-        self::beforeUpdate($checkAccessControl);
-        self::beforeDelete($checkAccessControl);
-        //新增数据设置默认值
-        self::beforeInsert(function (self $role) {
-            if (empty($role->ext)) {
-                $role->setAttr('ext', '{}');
-            }
-            if (empty($role->description)) {
-                $role->setAttr('description', '');
-            }
-        });
+       self::checkAccessControl($model);
 
-        self::afterInsert([AdminRoleLogic::class, 'refreshCache']);
-        //self::afterUpdate([AdminRoleLogic::class, 'refreshCache']); TODO 乐观锁导致无法获取主键值
-        self::afterDelete([AdminRoleLogic::class, 'destroyCache']);
+        if (empty($model->ext)) {
+            $model->setAttr('ext', '{}');
+        }
+        if (empty($model->description)) {
+            $model->setAttr('description', '');
+        }
+    }
+
+    /**
+     * @param AdminRole $model
+     * @return mixed|void
+     * @throws AccessControl
+     */
+    public static function onBeforeUpdate(AdminRole $model)
+    {
+        self::checkAccessControl($model);
+    }
+
+    /**
+     * @param AdminRole $model
+     * @return mixed|void
+     * @throws AccessControl
+     */
+    public static function onBeforeDelete(AdminRole $model)
+    {
+        self::checkAccessControl($model);
+    }
+
+    /**
+     * @param AdminRole $model
+     * @throws JsonException
+     */
+    public static function onAfterInsert(AdminRole $model)
+    {
+        AdminRoleLogic::refreshCache($model);
+    }
+
+    /**
+     * @param AdminRole $model
+     */
+    public static function onAfterDelete(AdminRole $model)
+    {
+        AdminRoleLogic::destroyCache($model);
+    }
+
+    /**
+     * @param AdminRole $data
+     * @throws AccessControl
+     */
+    protected static function checkAccessControl(AdminRole $data) {
+        $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
+        $dataId = $data->getOrigin('id');
+        if (null === $dataGenre || null === WebConv::getSelf()->sess_user_genre) {
+            return;
+        }
+        $accessGenre = WebConv::getSelf()->sess_user_genre;
+        $accessId = WebConv::getSelf()->sess_user_id;
+        $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
+        if (false === in_array($dataGenre, $genreControl)) {
+            throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        }
+        // 当前数据存在ID且数据ID与访问ID不一致 且 当前权限组不具备全组访问权限
+        if ((null !== $dataId && $dataId !== $accessId) && false === in_array('*', $genreControl)) {
+            throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        }
     }
 
     /**
