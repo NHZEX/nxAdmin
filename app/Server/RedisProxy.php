@@ -36,7 +36,7 @@ class RedisProxy
 
     public function __construct(Config $config)
     {
-        $this->config = $config->pull('redis') + $this->config;
+        $this->config = $config->get('redis') + $this->config;
     }
 
     public function setConfig(array $cfg, $reconnect = false)

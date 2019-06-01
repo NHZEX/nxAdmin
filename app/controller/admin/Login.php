@@ -80,7 +80,7 @@ class Login extends Base
         if (!$_) {
             abort(404);
         }
-        $captcha = new Captcha($this->app->config->pull('captcha'));
+        $captcha = new Captcha($this->app->config->get('captcha'));
         $captcha->entry();
         $captcha->saveToRedis($_);
         return $captcha->send();
@@ -101,7 +101,7 @@ class Login extends Base
 
         // 验证码校验
         if ($this->app->config->get('captcha.login')) {
-            $captcha = new Captcha($this->app->config->pull('captcha'));
+            $captcha = new Captcha($this->app->config->get('captcha'));
             if (!$captcha->checkToRedis($ctoken, $param['captcha'] ?? '0000')) {
                 return self::showMsg(CODE_COM_CAPTCHA, $captcha->getMessage());
             }
