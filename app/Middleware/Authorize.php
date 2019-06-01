@@ -6,7 +6,7 @@
  * Time: 17:58
  */
 
-namespace app\Http\Middleware;
+namespace app\Middleware;
 
 use app\common\Traits\ShowReturn;
 use app\controller\AdminBase;
@@ -22,12 +22,10 @@ use ReflectionException;
 use think\App;
 use think\Request;
 use think\Response;
-use traits\controller\Jump;
 
 class Authorize extends Middleware
 {
     use ShowReturn;
-    use Jump;
 
     /** @var App */
     protected $app;
@@ -134,7 +132,7 @@ class Authorize extends Middleware
      */
     protected function error($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
     {
-        $type = $this->getResponseType();
+        $type = (request()->isJson() || request()->isAjax()) ? 'json' : 'html';
         if (is_null($url)) {
             $url = $this->app['request']->isAjax() ? '' : 'javascript:history.back(-1);';
         } elseif ('' !== $url) {
@@ -155,7 +153,7 @@ class Authorize extends Middleware
 
         $response = Response::create($result, $type)
             ->header($header)
-            ->options(['jump_template' => $this->app['config']->get('dispatch_error_tmpl')]);
+            ->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
 
         return $response;
     }

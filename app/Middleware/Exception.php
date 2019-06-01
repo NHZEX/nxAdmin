@@ -7,7 +7,7 @@
  * @noinspection PhpRedundantCatchClauseInspection
  */
 
-namespace app\Http\Middleware;
+namespace app\Middleware;
 
 use app\common\Traits\ShowReturn;
 use app\Exception\AccessControl;
