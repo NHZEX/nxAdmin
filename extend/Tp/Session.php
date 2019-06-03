@@ -43,7 +43,7 @@ class Session extends ThinkSession
      * @param  string     $id session_id
      * @return void
      */
-    public function setId(?string $id)
+    public function setId(?string $id): void
     {
         $this->sessionId = $id;
     }
@@ -54,7 +54,7 @@ class Session extends ThinkSession
      * @param  bool $regenerate 不存在是否自动生成
      * @return string
      */
-    public function getId(bool $regenerate = true)
+    public function getId(bool $regenerate = true): string
     {
         if ($regenerate && empty($this->sessionId)) {
             $this->sessionId = get_rand_str($this->sessionSidLength);
@@ -66,7 +66,7 @@ class Session extends ThinkSession
      * 获取Session名称
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->sessionName;
     }
@@ -118,7 +118,7 @@ class Session extends ThinkSession
      * @param  array $config
      * @return void
      */
-    public function setConfig(array $config = [])
+    public function setConfig(array $config = []): void
     {
         $this->config = array_merge($this->config, array_change_key_case($config));
         $this->loadSessionConfig($this->config);
@@ -128,7 +128,7 @@ class Session extends ThinkSession
      * 初始化Session
      * @param array $config
      */
-    public function init(array $config = [])
+    public function init(array $config = []): void
     {
         $config = $config ?: $this->config;
 
@@ -189,7 +189,7 @@ class Session extends ThinkSession
      * @access public
      * @return void
      */
-    public function start()
+    public function start(): void
     {
         // 设置SessionID
         session_id($this->getId(false));
@@ -213,8 +213,9 @@ class Session extends ThinkSession
     /**
      * 刷新会话ID
      * @param bool $delete
+     * @return string
      */
-    public function regenerate($delete = false): void
+    public function regenerate($delete = false): string
     {
         empty($this->init) && $this->boot();
 
@@ -233,6 +234,8 @@ class Session extends ThinkSession
         $this->start();
 
         $_SESSION = $session_data;
+
+        return $this->sessionId;
     }
 
     /**
@@ -268,7 +271,7 @@ class Session extends ThinkSession
         );
     }
 
-    public function destroy()
+    public function destroy(): void
     {
         if (!empty($_SESSION)) {
             $_SESSION = [];

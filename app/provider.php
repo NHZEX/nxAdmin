@@ -13,12 +13,10 @@
 
 use app\ExceptionHandle;
 use app\Request;
+use app\Server\RedisProxy;
 use app\Server\WebConv;
-use think\App;
-use Tp\Session;
 
 $basis = [
-    'session'  => Session::class,
     'redis' => RedisProxy::class,
     'think\Request' => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
