@@ -129,10 +129,10 @@ abstract class BaseController
 
         $type = (request()->isJson() || request()->isAjax()) ? 'json' : 'html';
         if ('html' == strtolower($type)) {
-            $type = 'jump';
+            $response = Response::create('/dispatch_jump', 'view')->assign($result);
+        } else {
+            $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
         }
-
-        $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
 
         throw new HttpResponseException($response);
     }
@@ -189,10 +189,10 @@ abstract class BaseController
         $type = (request()->isJson() || request()->isAjax()) ? 'json' : 'html';
         // 把跳转模板的渲染下沉，这样在 response_send 行为里通过getData()获得的数据是一致性的格式
         if ('html' == strtolower($type)) {
-            $type = 'jump';
+            $response = Response::create('/dispatch_jump', 'view')->assign($result);
+        } else {
+            $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
         }
-
-        $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_success_tmpl')]);
 
         throw new HttpResponseException($response);
     }

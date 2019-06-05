@@ -14,7 +14,7 @@ return [
 /*    CrossSiteRequest::class,*/
     \think\middleware\SessionInit::class,
     Authorize::class,
-   // Validate::class,
+    Validate::class,
     Exception::class,
     // 全局请求缓存
     // 'think\middleware\CheckRequestCache',
