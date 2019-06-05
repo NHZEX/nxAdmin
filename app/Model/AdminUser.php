@@ -91,16 +91,12 @@ class AdminUser extends Base
         // 数据填充
         foreach (['signup_ip' => 0, 'last_login_ip' => 0] as $field => $default) {
             if (!$model->hasData($field)) {
-                $model->data([
-                    $field => $default,
-                ]);
+                $model->$field = $default;
             }
         }
 
         // 令牌填充
-        $model->data([
-            'remember' => get_rand_str(16)
-        ]);
+        $model->remember = get_rand_str(16);
     }
 
     /**
@@ -125,7 +121,8 @@ class AdminUser extends Base
         self::checkAccessControl($model);
     }
 
-    protected static function checkAccessControl(AdminUser $data) {
+    protected static function checkAccessControl(AdminUser $data)
+    {
         if ($data->isDisableAccessControl()) {
             return;
         }
@@ -148,7 +145,8 @@ class AdminUser extends Base
         }
     }
 
-    protected static function checkUserInputUnique(self $data) {
+    protected static function checkUserInputUnique(self $data)
+    {
         if ($data->hasData('username')
             && $data->getOrigin('username') !== $data->getData('username')
         ) {
@@ -212,9 +210,7 @@ class AdminUser extends Base
         if (!$value) {
             $value = get_rand_str(16);
             if ($this->isExists()) {
-                $this->data([
-                    'remember' => $value
-                ]);
+                $this->remember = $value;
                 $this->save();
             }
         }

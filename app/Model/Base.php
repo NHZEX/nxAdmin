@@ -83,12 +83,10 @@ abstract class Base extends ThinkModel
                     $data->readonly[] = $this->createBy;
                 }
                 $fields = array_flip($data->getTableFields());
-                isset($fields[$this->createBy]) && $data->data([
-                    $this->createBy => $conv->sess_user_id
-                ]);
-                isset($fields[$this->updateBy]) && $data->data([
-                    $this->updateBy => $conv->sess_user_id
-                ]);
+                isset($fields[$this->createBy]) &&
+                    $data[$this->createBy] = $conv->sess_user_id;
+                isset($fields[$this->updateBy]) &&
+                    $data[$this->updateBy] = $conv->sess_user_id;
             };
             static::beforeInsert($record_user);
             static::beforeUpdate($record_user);
@@ -121,9 +119,7 @@ abstract class Base extends ThinkModel
      */
     public function turnOffAccessControl(bool $off = true): void
     {
-        $this->data([
-            '__access_control' => !$off
-        ]);
+        $this['__access_control'] = !$off;
     }
 
     /**

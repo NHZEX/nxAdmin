@@ -8,7 +8,7 @@
 
 namespace Tp\Model\Traits;
 
-use think\db\Expression;
+use think\db\Raw;
 use think\Model;
 
 /**
@@ -43,10 +43,10 @@ trait MysqlJson
         $value = self::jsonValue($value);
 
         // 写入json数据
-        $raw = new Expression(
+        $raw = new Raw(
             "JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`), '$.{$path}', {$value})"
         );
-        $this->data($field, $raw);
+        $this->$field = $raw;
         return $this;
     }
 
@@ -70,8 +70,8 @@ trait MysqlJson
         }
 
         // 写入json数据
-        $raw = new Expression("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})");
-        $this->data($field, $raw);
+        $raw = new Raw("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})");
+        $this->$field = $raw;
         return $this;
     }
 
