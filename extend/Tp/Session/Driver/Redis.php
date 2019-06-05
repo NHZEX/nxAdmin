@@ -27,7 +27,7 @@ class Redis extends ThinkRedis
      */
     public function read($sessID): string
     {
-        $sessKey = $this->config['session_name'] . $sessID;
+        $sessKey = $this->config['prefix'] . $sessID;
         $result = $this->handler->get($sessKey);
         if ($this->debug) {
             Log::record('read_sees: ' . $sessKey, 'session');
@@ -48,7 +48,7 @@ class Redis extends ThinkRedis
         if (empty($sessData)) {
             return true;
         }
-        $sessKey = $this->config['session_name'] . $sessID;
+        $sessKey = $this->config['prefix'] . $sessID;
         if ($this->debug) {
             Log::record('write_sees: ' . $sessKey, 'session');
             Log::record('write_result: ' . (empty($sessData) ? 'is_null' : 'not_null'), 'session');
@@ -70,7 +70,7 @@ class Redis extends ThinkRedis
      */
     public function destroy($sessID): bool
     {
-        $sessKey = $this->config['session_name'] . $sessID;
+        $sessKey = $this->config['prefix'] . $sessID;
         return !$this->handler->exists($sessKey) || $this->handler->delete($sessKey) > 0;
     }
 }

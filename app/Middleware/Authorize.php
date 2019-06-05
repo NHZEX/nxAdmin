@@ -148,12 +148,10 @@ class Authorize extends Middleware
         ];
 
         if ('html' == strtolower($type)) {
-            $type = 'jump';
+            $response = Response::create('/dispatch_jump', 'view')->assign($result);
+        } else {
+            $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
         }
-
-        $response = Response::create($result, $type)
-            ->header($header)
-            ->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
 
         return $response;
     }

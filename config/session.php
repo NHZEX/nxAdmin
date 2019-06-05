@@ -32,7 +32,7 @@ return [
     // SESSION COOKIN
     'name'           => 'one',
     // Memcached And Redis SESSION KEY 的前缀
-    'session_name'   => $mixing_prefix ? "{$mixing_prefix}:sess:" : 'sess:',
+    'prefix'   => $mixing_prefix ? "{$mixing_prefix}:sess:" : 'sess:',
     // SESSION 超时(2小时)
     'expire'         => 7200,
     // REDIS 设置
