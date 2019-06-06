@@ -67,7 +67,7 @@ class AdminRole extends Base
 
     public static function onBeforeInsert(Model $model)
     {
-       self::checkAccessControl($model);
+        self::checkAccessControl($model);
 
         if (empty($model->ext)) {
             $model->setAttr('ext', '{}');
@@ -103,7 +103,7 @@ class AdminRole extends Base
      * @param AdminRole $model
      * @throws JsonException
      */
-    public static function onAfterInsert(AdminRole $model)
+    public static function onAfterInsert(self $model)
     {
         AdminRoleLogic::refreshCache($model);
     }
@@ -111,7 +111,7 @@ class AdminRole extends Base
     /**
      * @param AdminRole $model
      */
-    public static function onAfterDelete(AdminRole $model)
+    public static function onAfterDelete(self $model)
     {
         AdminRoleLogic::destroyCache($model);
     }
@@ -120,7 +120,8 @@ class AdminRole extends Base
      * @param AdminRole $data
      * @throws AccessControl
      */
-    protected static function checkAccessControl(AdminRole $data) {
+    protected static function checkAccessControl(self $data)
+    {
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
         $dataId = $data->getOrigin('id');
         if (null === $dataGenre || null === WebConv::getSelf()->sess_user_genre) {

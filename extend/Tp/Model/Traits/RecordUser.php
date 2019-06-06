@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tp\Model\Traits;
-
 
 use app\Facade\WebConv;
 use app\Model\AdminUser;
