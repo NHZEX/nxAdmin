@@ -12,6 +12,7 @@ use app\Exception\AccessControl;
 use app\Exception\JsonException;
 use app\Facade\WebConv;
 use app\Logic\AdminRole as AdminRoleLogic;
+use think\Model;
 use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
 
@@ -64,7 +65,7 @@ class AdminRole extends Base
     const EXT_PERMISSION = 'permission';
     const EXT_MENU = 'menu';
 
-    public static function onBeforeInsert(self $model)
+    public static function onBeforeInsert(Model $model)
     {
        self::checkAccessControl($model);
 
@@ -74,6 +75,7 @@ class AdminRole extends Base
         if (empty($model->description)) {
             $model->setAttr('description', '');
         }
+        self::recodeUser($model);
     }
 
     /**
@@ -81,9 +83,10 @@ class AdminRole extends Base
      * @return mixed|void
      * @throws AccessControl
      */
-    public static function onBeforeUpdate(AdminRole $model)
+    public static function onBeforeUpdate(Model $model)
     {
         self::checkAccessControl($model);
+        self::recodeUser($model);
     }
 
     /**
@@ -91,7 +94,7 @@ class AdminRole extends Base
      * @return mixed|void
      * @throws AccessControl
      */
-    public static function onBeforeDelete(AdminRole $model)
+    public static function onBeforeDelete(Model $model)
     {
         self::checkAccessControl($model);
     }
