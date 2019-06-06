@@ -8,9 +8,8 @@
 
 namespace Tp\Model\Traits;
 
-use think\Db;
-use think\db\Connection;
 use think\Exception;
+use think\facade\App;
 use Tp\Model\Exception\ModelException;
 
 trait TransactionExtension
@@ -23,7 +22,8 @@ trait TransactionExtension
     public static function theTransaction()
     {
         try {
-            $instance = Connection::instance(Db::getConfig())->getPdo();
+            $db = App::getInstance()->db;
+            $instance = $db->instance($db->getConfig())->getPdo();
         } catch (Exception $e) {
             // 处理连接类 \InvalidArgumentException 异常
             return false;

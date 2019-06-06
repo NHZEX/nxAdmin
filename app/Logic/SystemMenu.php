@@ -19,7 +19,6 @@ use think\exception\DbException;
 use think\exception\PDOException;
 use think\facade\App;
 use think\facade\Cache;
-use think\facade\Url;
 
 /**
  * Class SystemMenu
