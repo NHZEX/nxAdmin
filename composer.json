@@ -69,7 +69,10 @@
         }
     },
     "scripts": {
-        "post-install-cmd": []
+        "post-install-cmd": [
+            "@php think service:discover",
+            "@php think vendor:publish"
+        ]
     },
     "extra": {
         "think-path": "thinkphp"
