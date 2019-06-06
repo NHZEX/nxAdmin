@@ -44,7 +44,7 @@ class SystemMenu extends Base
             // 初始化菜单URL
             array_walk_recursive($menus, function (&$value, $key) {
                 if ('url' === $key && !empty($value) && $value !== '#') {
-                    $value = url($value, [], true, false);
+                    $value = (string) url($value, [], true, false);
                 }
             });
             Cache::set(self::$CACHE_KEY_MENUS_ALL, $menus);
