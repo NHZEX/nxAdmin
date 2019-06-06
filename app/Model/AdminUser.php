@@ -11,6 +11,7 @@ namespace app\Model;
 use app\Exception\AccessControl;
 use app\Facade\WebConv;
 use RuntimeException;
+use think\Model;
 use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Tp\Model\Exception\ModelException;
@@ -83,7 +84,7 @@ class AdminUser extends Base
      * @throws AccessControl
      * @throws ModelException
      */
-    public static function onBeforeInsert(AdminUser $model)
+    public static function onBeforeInsert(Model $model)
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
@@ -97,6 +98,7 @@ class AdminUser extends Base
 
         // 令牌填充
         $model->remember = get_rand_str(16);
+        self::recodeUser($model);
     }
 
     /**
@@ -105,10 +107,11 @@ class AdminUser extends Base
      * @throws AccessControl
      * @throws ModelException
      */
-    public static function onBeforeUpdate(AdminUser $model)
+    public static function onBeforeUpdate(Model $model)
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
+        self::recodeUser($model);
     }
 
     /**

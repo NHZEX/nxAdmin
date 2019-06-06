@@ -10,6 +10,7 @@ namespace app\Model;
 
 use app\Logic\Permission as PermissionLogic;
 use app\Logic\ScanningNode;
+use think\Model;
 use Throwable;
 
 /**
@@ -58,7 +59,7 @@ class Permission extends Base
     public static $increase_id = 0;
     public static $info_cache = [];
 
-    public static function onBeforeInsert(Permission $permission)
+    public static function onBeforeInsert(Model $permission)
     {
         if (empty($permission->action)) {
             $permission->setAttr('action', '');

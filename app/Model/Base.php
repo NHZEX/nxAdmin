@@ -8,14 +8,13 @@
 
 namespace app\Model;
 
-use app\Facade\WebConv;
 use Closure;
 use think\Model as ThinkModel;
 use think\model\Collection;
-use think\model\relation\BelongsTo;
 use Tp\Db\Query as Query2;
 use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
+use Tp\Model\Traits\RecordUser;
 use Tp\Model\Traits\TransactionExtension;
 
 /**
@@ -57,60 +56,20 @@ abstract class Base extends ThinkModel
     use ModelUtil;
     use TransactionExtension;
     use OptimLock;
+    use RecordUser;
 
     protected $readonly = ['create_by'];
-    /** @var bool 是否自动自动记录当前操作用户 */
-    protected $recordUser = false;
     /** @var int 软删除字段默认值 */
     protected $defaultSoftDelete = 0;
 
-    /** @var string 创建者UID */
-    protected $createBy = 'create_by';
-    /** @var string 更新者UID */
-    protected $updateBy = 'update_by';
-
-    // 全局模型初始化追加
-    protected function initialize()
+    public static function onBeforeInsert(ThinkModel $model)
     {
-        parent::initialize();
-
-        // 自动追加操作人
-        if ($this->recordUser && WebConv::hasInstance()) {
-            $conv = WebConv::getSelf();
-            $record_user = function (self $data) use ($conv) {
-                // 缺乏必要的字段锁定设置
-                if (false === array_search($this->createBy, $data->readonly)) {
-                    $data->readonly[] = $this->createBy;
-                }
-                $fields = array_flip($data->getTableFields());
-                isset($fields[$this->createBy]) &&
-                    $data[$this->createBy] = $conv->sess_user_id;
-                isset($fields[$this->updateBy]) &&
-                    $data[$this->updateBy] = $conv->sess_user_id;
-            };
-            static::beforeInsert($record_user);
-            static::beforeUpdate($record_user);
-        }
+        self::recodeUser($model);
     }
 
-    /**
-     * 获取创建者名称
-     * @return BelongsTo
-     */
-    protected function beCreatorName()
+    public static function onBeforeUpdate(ThinkModel $model)
     {
-        return $this->belongsTo(AdminUser::class, $this->createBy, 'id')
-            ->field(['username' => 'creator_name', 'id'])->bind(['creator_name'])->cache(true, 60);
-    }
-
-    /**
-     * 获取编辑者名称
-     * @return BelongsTo
-     */
-    protected function beEditorName()
-    {
-        return $this->belongsTo(AdminUser::class, $this->updateBy, 'id')
-            ->field(['username' => 'editor_name', 'id'])->bind(['editor_name'])->cache(true, 60);
+        self::recodeUser($model);
     }
 
     /**
