@@ -31,7 +31,7 @@ class AdminRole extends Base
      */
     public static function destroyCache(AdminRoleModel $data)
     {
-        Cache::rm(self::getRoleExtCacheKey($data->id));
+        Cache::delete(self::getRoleExtCacheKey($data->id));
     }
 
     /**

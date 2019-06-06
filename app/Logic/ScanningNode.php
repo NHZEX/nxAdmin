@@ -25,7 +25,7 @@ class ScanningNode
 
     public function __construct()
     {
-        $this->controller = DS . Config::get('url_controller_layer') . DS;
+        $this->controller = DS . Config::get('route.controller_layer') . DS;
         $this->deny_controller_list = array_flip($this->deny_controller_list);
     }
 

@@ -10,11 +10,11 @@ namespace app\controller\admin;
 
 use app\Logic\Permission as PermissionLogic;
 use app\Model\Permission as PermissionModel;
-use think\Db;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
 use think\facade\App;
+use think\facade\Db;
 use think\facade\View;
 use think\model\Collection;
 use think\Response;

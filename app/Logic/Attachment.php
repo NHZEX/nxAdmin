@@ -59,7 +59,7 @@ class Attachment extends Base
                     $fileExt,
                     $file->getSize(),
                     $file->hash('sha1'),
-                    $file->getInfo('name')
+                    $file->getName()
                 );
                 // 存储上传文件
                 if (false === $newFile = $file->move(UPLOAD_STORAGE_PATH . self::IMAGE_DIR, $saveFileName)) {
