@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -8,7 +9,7 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace app;
 
@@ -63,7 +64,8 @@ abstract class BaseController
 
     // 初始化
     protected function initialize()
-    {}
+    {
+    }
 
     /**
      * 验证数据
@@ -107,7 +109,7 @@ abstract class BaseController
      * @param  mixed   $msg 提示信息
      * @param  string  $url 跳转的URL地址
      * @param  mixed   $data 返回的数据
-     * @param  integer $wait 跳转等待时间
+     * @param  int $wait 跳转等待时间
      * @param  array   $header 发送的Header信息
      * @return void
      */
@@ -140,7 +142,7 @@ abstract class BaseController
     /**
      * 返回封装后的API数据到客户端
      * @param  mixed   $data 要返回的数据
-     * @param  integer $code 返回的code
+     * @param  int $code 返回的code
      * @param  mixed   $msg 提示信息
      * @param  string  $type 返回数据格式
      * @param  array   $header 发送的Header信息
@@ -166,7 +168,7 @@ abstract class BaseController
      * @param  mixed     $msg 提示信息
      * @param  string    $url 跳转的URL地址
      * @param  mixed     $data 返回的数据
-     * @param  integer   $wait 跳转等待时间
+     * @param  int   $wait 跳转等待时间
      * @param  array     $header 发送的Header信息
      * @return void
      */

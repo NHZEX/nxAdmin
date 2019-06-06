@@ -12,7 +12,6 @@ use Exception;
 use think\Collection;
 use think\Paginator;
 use think\Response;
-use think\response\Redirect;
 use Tp\Paginator2;
 
 trait ShowReturn

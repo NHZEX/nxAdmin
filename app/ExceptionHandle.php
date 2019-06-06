@@ -1,4 +1,5 @@
 <?php
+
 // +----------------------------------------------------------------------
 // | ThinkPHP [ WE CAN DO IT JUST THINK ]
 // +----------------------------------------------------------------------
@@ -8,7 +9,9 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+
 namespace app;
+
 use app\common\Traits\PrintAbnormal;
 use app\Exception\ExceptionRecordDown;
 use app\Model\ExceptionLogs;
@@ -16,6 +19,7 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\Response;
 use Throwable;
+
 /**
  * 应用异常处理类
  */
@@ -50,6 +54,7 @@ class ExceptionHandle extends Handle
         // 交由系统处理
         parent::report($exception);
     }
+
     /**
      * Render an exception into an HTTP response.
      *
