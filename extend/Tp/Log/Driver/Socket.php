@@ -13,13 +13,16 @@
 namespace Tp\Log\Driver;
 
 use think\App;
+use think\contract\LogHandlerInterface;
 
 /**
  * github: https://github.com/luofei614/SocketLog
  * @author luofei614<weibo.com/luofei614>
  */
-class Socket
+class Socket implements LogHandlerInterface
 {
+    protected $app;
+
     public $port = 1116; //SocketLog 服务的http的端口号
 
     protected $config = [
@@ -44,11 +47,13 @@ class Socket
     ];
 
     protected $allowForceClientIds = []; //配置强制推送且被授权的client_id
-    protected $app;
+
+    protected $clientArg = [];
 
     /**
      * 架构函数
      * @access public
+     * @param  App   $app  应用对象
      * @param  array $config 缓存参数
      */
     public function __construct(App $app, array $config = [])
@@ -66,7 +71,7 @@ class Socket
      * @param  array     $log 日志信息
      * @return bool
      */
-    public function save(array $log = [], $append = false)
+    public function save(array $log): bool
     {
         if (!$this->check()) {
             return false;
@@ -82,8 +87,8 @@ class Socket
             $memory_str = ' [内存消耗：' . $memory_use . 'kb]';
             $file_load  = ' [文件加载：' . count(get_included_files()) . ']';
 
-            if (isset($_SERVER['HTTP_HOST'])) {
-                $current_uri = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+            if ($this->app->exists('request')) {
+                $current_uri = $this->app->request->host(). $this->app->request->baseUrl();
             } else {
                 $current_uri = 'cmd:' . implode(' ', $_SERVER['argv'] ?? ['unknown']);
             }
@@ -100,7 +105,7 @@ class Socket
             $trace[] = [
                 'type' => in_array($type, $this->config['expand_level']) ? 'group' : 'groupCollapsed',
                 'msg'  => '[ ' . $type . ' ]',
-                'css'  => isset($this->css[$type]) ? $this->css[$type] : '',
+                'css'  => $this->css[$type] ?? '',
             ];
 
             foreach ($val as $msg) {
@@ -184,7 +189,7 @@ class Socket
             'force_client_id' => $force_client_id,
         ];
 
-        $msg     = @json_encode($logs);
+        $msg     = json_encode($logs, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PARTIAL_OUTPUT_ON_ERROR);
         $address = '/' . $client_id; //将client_id作为地址， server端通过地址判断将日志发布给谁
 
         $this->send($this->config['host'], $msg, $address);
@@ -222,29 +227,28 @@ class Socket
 
     protected function getClientArg($name)
     {
-        static $args = [];
-
         $key = 'HTTP_USER_AGENT';
-
-        if (isset($_SERVER['HTTP_SOCKETLOG'])) {
+        if (empty($this->app->request->server('HTTP_SOCKETLOG', ''))) {
             $key = 'HTTP_SOCKETLOG';
         }
 
-        if (!isset($_SERVER[$key])) {
-            return;
+        if (empty($socketLog = $this->app->request->server($key))) {
+            return [];
         }
 
-        if (empty($args)) {
-            if (!preg_match('/SocketLog\((.*?)\)/', $_SERVER[$key], $match)) {
-                $args = ['tabid' => null];
-                return;
+        if (empty($this->clientArg)) {
+            if (!preg_match('/SocketLog\((.*?)\)/', $socketLog, $match)) {
+                $this->clientArg = ['tabid' => null];
+                return [];
             }
-            parse_str($match[1], $args);
+            parse_str($match[1] ?? '', $this->clientArg);
         }
 
-        if (isset($args[$name])) {
-            return $args[$name];
+        if (isset($this->clientArg[$name])) {
+            return $this->clientArg[$name];
         }
+
+        return [];
     }
 
     /**

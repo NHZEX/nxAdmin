@@ -14,11 +14,12 @@
 // | 日志设置
 // +----------------------------------------------------------------------
 use think\facade\Env;
+use think\log\driver\File;
 use Tp\Log\Driver\Socket;
 
 $log = [
     // 日志记录方式，内置 file socket 支持扩展
-    'type'        => Socket::class,
+    'type'        => File::class,
     // 日志保存目录
     'path'        => Env::get('system.log_file_path', null),
     // 日志记录级别
@@ -31,11 +32,21 @@ $log = [
     'max_files'   => 0,
     // 是否关闭日志写入
     'close'       => false,
-    'host'        => Env::get('remotelog.host', '127.0.0.1'),
-    //日志强制记录到配置的client_id
-    'force_client_ids' => ['Johnson'],
-    //限制允许读取日志的client_id
-    'allow_client_ids'    => [],
 ];
+
+// 设置远程日志
+if (Env::get('remotelog.enable', false)) {
+    $log['type'] = Socket::class;
+    $log['host'] = Env::get('remotelog.host', '127.0.0.1');
+    $force_client_ids = $log['force_client_ids'] ?? [];
+    $force_client_ids = array_merge(
+        $force_client_ids,
+        explode(',', Env::get('remotelog.force_client_id', 'develop'))
+    );
+    //日志强制记录到配置的client_id
+    $log['force_client_ids'] = $force_client_ids;
+    //限制允许读取日志的client_id
+    $log['allow_client_ids'] = [];
+}
 
 return $log;
