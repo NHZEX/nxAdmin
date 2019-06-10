@@ -65,6 +65,11 @@ class AdminRole extends Base
     const EXT_PERMISSION = 'permission';
     const EXT_MENU = 'menu';
 
+    /**
+     * @param Model $model
+     * @return mixed|void
+     * @throws AccessControl
+     */
     public static function onBeforeInsert(Model $model)
     {
         self::checkAccessControl($model);
@@ -79,7 +84,7 @@ class AdminRole extends Base
     }
 
     /**
-     * @param AdminRole $model
+     * @param Model $model
      * @return mixed|void
      * @throws AccessControl
      */
@@ -100,27 +105,27 @@ class AdminRole extends Base
     }
 
     /**
-     * @param AdminRole $model
+     * @param Model $model
      * @throws JsonException
      */
-    public static function onAfterInsert(self $model)
+    public static function onAfterInsert(Model $model)
     {
         AdminRoleLogic::refreshCache($model);
     }
 
     /**
-     * @param AdminRole $model
+     * @param Model $model
      */
-    public static function onAfterDelete(self $model)
+    public static function onAfterDelete(Model $model)
     {
         AdminRoleLogic::destroyCache($model);
     }
 
     /**
-     * @param AdminRole $data
+     * @param Model $data
      * @throws AccessControl
      */
-    protected static function checkAccessControl(self $data)
+    protected static function checkAccessControl(Model $data)
     {
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
         $dataId = $data->getOrigin('id');

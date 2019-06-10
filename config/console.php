@@ -16,7 +16,7 @@
 use app\command\Certificate;
 use app\command\CreateModel;
 use app\command\Deploy;
-use app\command\DeployUpdate;
+
 use think\facade\Env;
 
 return [
@@ -27,6 +27,5 @@ return [
         Certificate::class,
         CreateModel::class,
         Deploy::class,
-        DeployUpdate::class,
     ],
 ];
