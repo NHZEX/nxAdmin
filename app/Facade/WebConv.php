@@ -14,7 +14,6 @@ use app\Server\WebConv as WebConvServer;
 /**
  * Class WebConv
  * @package app\Facade
- * @method WebConvServer getSelf() static
  * @method WebConvServer instance() static
  * @method ?bool lookVerify() static
  * @method bool verify(bool $force = false) static

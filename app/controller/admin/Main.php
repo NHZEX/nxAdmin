@@ -49,10 +49,10 @@ class Main extends Base
     private function getMenuToJson()
     {
         //超级管理员不限制菜单
-        if (WebConv::getSelf()->sess_user_genre === AdminUser::GENRE_SUPER_ADMIN) {
+        if (WebConv::instance()->sess_user_genre === AdminUser::GENRE_SUPER_ADMIN) {
             $menus = SystemMenu::obtainMenus();
         } else {
-            $menus = SystemMenu::obtainMenus(WebConv::getSelf()->sess_role_id);
+            $menus = SystemMenu::obtainMenus(WebConv::instance()->sess_role_id);
         }
         return json_encode_throw_on_error($menus);
     }

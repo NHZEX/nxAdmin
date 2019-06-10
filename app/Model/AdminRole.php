@@ -129,11 +129,11 @@ class AdminRole extends Base
     {
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
         $dataId = $data->getOrigin('id');
-        if (null === $dataGenre || null === WebConv::getSelf()->sess_user_genre) {
+        if (null === $dataGenre || null === WebConv::instance()->sess_user_genre) {
             return;
         }
-        $accessGenre = WebConv::getSelf()->sess_user_genre;
-        $accessId = WebConv::getSelf()->sess_user_id;
+        $accessGenre = WebConv::instance()->sess_user_genre;
+        $accessId = WebConv::instance()->sess_user_id;
         $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
         if (false === in_array($dataGenre, $genreControl)) {
             throw new AccessControl('当前登陆的用户无该数据的操作权限');

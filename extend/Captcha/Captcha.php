@@ -376,7 +376,7 @@ class Captcha
             'expire_time' => time() + $this->expire,
             'ua_sign' => md5($ua),
         ];
-        Redis::getSelf()->set("captcha:ctoken_{$ctoken}", json_encode_throw_on_error($pack), $this->expire);
+        Redis::instance()->set("captcha:ctoken_{$ctoken}", json_encode_throw_on_error($pack), $this->expire);
     }
 
     /**
@@ -388,7 +388,7 @@ class Captcha
      */
     public function checkToRedis(string $ctoken, string $code)
     {
-        $redis = Redis::getSelf();
+        $redis = Redis::instance();
         $captcha_key = "captcha:ctoken_{$ctoken}";
         try {
             $pack = $redis->get($captcha_key);
