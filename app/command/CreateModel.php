@@ -14,7 +14,7 @@ use think\console\Input;
 use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
-use think\Db;
+use think\facade\Db;
 use think\Exception;
 use think\facade\App;
 

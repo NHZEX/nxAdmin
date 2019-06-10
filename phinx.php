@@ -15,8 +15,8 @@ return
         'default_migration_table' => '_phinxlog',
         'default_database' => 'runtime',
         'runtime' => [
-            'connection' => \think\Db::connect()->getConnection()->connect(),
-            'name' => \think\Db::getConfig('database'),
+            'connection' => app()->db->connect()->getConnection()->connect(),
+            'name' => app()->db->getConfig('database'),
         ],
         'example' => [
             'adapter' => 'mysql',

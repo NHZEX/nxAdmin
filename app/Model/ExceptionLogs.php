@@ -55,7 +55,7 @@ class ExceptionLogs extends Base
         $sapi = PHP_SAPI;
 
         $request = Request::instance();
-        $route_info = "route:{$request->module()}/{$request->controller()}/{$request->action()}";
+        $route_info = "route:{$request->app()}/{$request->controller()}/{$request->action()}";
         if ($route_info === 'route://') {
             $dispatch = $request->dispatch();
             if (is_array($dispatch) && isset($dispatch['type'])) {
