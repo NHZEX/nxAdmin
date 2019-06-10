@@ -28,7 +28,7 @@
         </tr>
         <tr>
             <td>执行环境</td>
-            <td>{{ $_SERVER['SERVER_SOFTWARE'] }}</td>
+            <td>{{ $_SERVER['SERVER_SOFTWARE'] ?? (extension_loaded('swoole') ? ('swoole' . '-' . phpversion('swoole')) : 'null') }}</td>
         </tr>
         <tr>
             <td>PHP接口类型</td>
