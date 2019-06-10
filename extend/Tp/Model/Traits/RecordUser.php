@@ -27,9 +27,8 @@ trait RecordUser
      */
     protected static function recodeUser(Model $data)
     {
-        if ($data->recordUser && WebConv::hasInstance()) {
-            $conv = WebConv::getSelf();
-
+        $conv = WebConv::instance();
+        if ($data->recordUser && $conv->lookVerify()) {
             // 缺乏必要的字段锁定设置
             if (false === array_search($data->createBy, $data->readonly)) {
                 $data->readonly[] = $data->createBy;
