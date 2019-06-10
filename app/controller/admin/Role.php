@@ -43,7 +43,7 @@ class Role extends Base
             'url_delete' => url('delete'),
             'url_permission' => url('permission'),
             'url_menu' => url('menu'),
-            'manager_types' => self::FILTER_TYPE[WebConv::getSelf()->sess_user_genre],
+            'manager_types' => self::FILTER_TYPE[WebConv::instance()->sess_user_genre],
         ]);
         return View::fetch();
     }
@@ -59,7 +59,7 @@ class Role extends Base
      */
     public function table(int $page = 1, int $limit = 1, string $type = 'system')
     {
-        if (!isset(self::FILTER_TYPE[WebConv::getSelf()->sess_user_genre][$type])) {
+        if (!isset(self::FILTER_TYPE[WebConv::instance()->sess_user_genre][$type])) {
             return self::showMsg(CODE_COM_PARAM);
         }
         $genre = self::FILTER_TYPE_MAPPING[$type];

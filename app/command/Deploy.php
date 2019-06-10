@@ -467,11 +467,11 @@ class Deploy extends Command
         }
 
         Redis::setConfig($this->getRedisConfig($env), true);
-        if (Redis::getSelf()->ping() !== '+PONG') {
+        if (Redis::instance()->ping() !== '+PONG') {
             throw new Exception('Redis测试失败');
         }
 
-        $redis_version = Redis::getSelf()->getServerVersion();
+        $redis_version = Redis::instance()->getServerVersion();
         if (version_compare($redis_version, self::REDIS_VER_LIMIT, '<')) {
             $errmsg = "当前连接Mysql版本：{$redis_version}，最小限制版本：" . self::REDIS_VER_LIMIT;
             throw new Exception($errmsg);

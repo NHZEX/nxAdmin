@@ -49,7 +49,7 @@ trait CsrfHelper
      */
     protected function generateCsrfToken(int $pk_id, int $lock_version, bool $enable = true)
     {
-        $hashids = new Hashids(WebConv::getSelf()->getSessionId(), 16);
+        $hashids = new Hashids(WebConv::instance()->getSessionId(), 16);
         $result = $hashids->encode($pk_id, $lock_version, mt_rand());
         $result .= '.update';
         $enable && $this->addCsrfToken($result);
@@ -62,7 +62,7 @@ trait CsrfHelper
      */
     protected function parseCsrfToken(CsrfStruct $csrf_token)
     {
-        $hashids = new Hashids(WebConv::getSelf()->getSessionId(), 16);
+        $hashids = new Hashids(WebConv::instance()->getSessionId(), 16);
         [$pkid, $lock_version] = $hashids->decode($csrf_token->token);
         return [$pkid, $lock_version];
     }
@@ -74,7 +74,7 @@ trait CsrfHelper
      */
     protected function addCsrfToken(string $token)
     {
-        $conv = WebConv::getSelf();
+        $conv = WebConv::instance();
         return $this->addToken($token, 'csrf:' . $conv->getSessionId());
     }
 
@@ -92,7 +92,7 @@ trait CsrfHelper
     {
         $prefix = DeployInfo::getMixingPrefix();
         $key = "{$prefix}_token:{$tokenKey}:{$token}";
-        return Redis::getSelf()->set($key, 1, $timeOut);
+        return Redis::instance()->set($key, 1, $timeOut);
     }
 
     /**
@@ -102,7 +102,7 @@ trait CsrfHelper
      */
     protected function verifyCsrfToken(string $token)
     {
-        $conv = WebConv::getSelf();
+        $conv = WebConv::instance();
         return $this->verifyToken($token, 'csrf:' . $conv->getSessionId());
     }
 
@@ -125,6 +125,6 @@ trait CsrfHelper
     {
         $prefix = DeployInfo::getMixingPrefix();
         $key = "{$prefix}_token:{$tokenKey}:{$token}";
-        return Redis::getSelf()->del($key) > 0;
+        return Redis::instance()->del($key) > 0;
     }
 }

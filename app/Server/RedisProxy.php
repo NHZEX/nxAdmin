@@ -98,6 +98,6 @@ class RedisProxy
      */
     public static function getInstance()
     {
-        return Redis::getSelf();
+        return Redis::instance();
     }
 }
