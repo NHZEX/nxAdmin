@@ -169,7 +169,8 @@ class Deploy extends Command
         $verbosity = empty($verbosity) ? null : "-{$verbosity}";
 
         //构建数据库链接参数
-        Db::init($this->getDbConfig($env));
+        $db = new Db($this->getDbConfig($env));
+        $this->app->db = $db;
 
         // 执行数据迁移
         $output->writeln('================执行PHINX迁移================');
@@ -189,6 +190,11 @@ class Deploy extends Command
         $output->writeln('更新权限节点...');
         Permission::importNodes($dryRun);
         $output->writeln('更新菜单节点...');
+        $this->app->request->setSubDomain('/');
+        $ref = new \ReflectionClass($this->app->route);
+        $p = $ref->getProperty('request');
+        $p->setAccessible(true);
+        $p->setValue($this->app->route, $this->app->request);
         SystemMenu::import($dryRun);
     }
 

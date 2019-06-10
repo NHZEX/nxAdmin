@@ -13,10 +13,20 @@
 // +----------------------------------------------------------------------
 // | 控制台配置
 // +----------------------------------------------------------------------
+use app\command\Certificate;
+use app\command\CreateModel;
+use app\command\Deploy;
+use app\command\DeployUpdate;
+use think\facade\Env;
+
 return [
     // 执行用户（Windows下无效）
-    'user'     => \think\facade\Env::get('task.user', null),
+    'user'     => Env::get('task.user', null),
     // 指令定义
     'commands' => [
+        Certificate::class,
+        CreateModel::class,
+        Deploy::class,
+        DeployUpdate::class,
     ],
 ];
