@@ -380,6 +380,15 @@ class WebConv implements Serializable
     }
 
     /**
+     * 获取会话结果
+     * @return bool|null
+     */
+    public function lookVerify(): ?bool
+    {
+        return $this->verifyResult;
+    }
+
+    /**
      * 验证会话
      * @param bool $force
      * @return bool
