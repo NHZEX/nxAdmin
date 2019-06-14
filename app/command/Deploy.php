@@ -29,7 +29,6 @@ use think\console\Output;
 use think\console\output\Ask;
 use think\console\output\Question;
 use think\Db;
-use think\db\Connection;
 use think\Env;
 use think\Exception as ExceptionThink;
 use think\exception\PDOException;
@@ -335,8 +334,8 @@ class Deploy extends Command
         }
 
         $au = new AdminUser();
-        $database_config = $this->getDbConfig($env);
-        $au->setConnection(Connection::instance($database_config));
+
+        $au->setConnection($this->app->db->getConfig());
         $au->genre = AdminUser::GENRE_SUPER_ADMIN;
         $au->username = $au->nickname = $admin_username;
         $au->password = $admin_password;
