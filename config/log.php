@@ -13,9 +13,9 @@
 // +----------------------------------------------------------------------
 // | 日志设置
 // +----------------------------------------------------------------------
+use HZEX\TpSwoole\Tp\Log\Driver\SocketLog;
 use think\facade\Env;
 use think\log\driver\File;
-use Tp\Log\Driver\Socket;
 
 $log = [
     // 日志记录方式，内置 file socket 支持扩展
@@ -36,7 +36,7 @@ $log = [
 
 // 设置远程日志
 if (Env::get('remotelog.enable', false)) {
-    $log['type'] = Socket::class;
+    $log['type'] = SocketLog::class;
     $log['host'] = Env::get('remotelog.host', '127.0.0.1');
     $force_client_ids = $log['force_client_ids'] ?? [];
     $force_client_ids = array_merge(

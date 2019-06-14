@@ -16,7 +16,7 @@
 
 return [
     // 驱动方式
-    'type'   => 'File',
+    'type'   => \Tp\Cache\Driver\Redis::class,
     // 缓存保存目录
     'path'   => '',
     // 缓存前缀

@@ -19,25 +19,12 @@ use app\Server\WebConv;
 use Closure;
 use ReflectionClass;
 use ReflectionException;
-use think\App;
 use think\Request;
 use think\Response;
 
 class Authorize extends Middleware
 {
     use ShowReturn;
-
-    /** @var App */
-    protected $app;
-
-    /**
-     * Authorize constructor.
-     * @param App $app
-     */
-    public function __construct(App $app)
-    {
-        $this->app = $app;
-    }
 
     /**
      * @param Request $request

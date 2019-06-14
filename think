@@ -13,7 +13,9 @@
 namespace think;
 
 // 加载基础文件
+use HZEX\TpSwoole\VirtualContainer;
+
 require __DIR__ . '/vendor/autoload.php';
 
 // 应用初始化
-(new App())->console->run();
+(new VirtualContainer())->console->run();

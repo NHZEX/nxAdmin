@@ -12,12 +12,28 @@
 
 namespace Tp\Session\Driver;
 
+use think\contract\SessionHandlerInterface;
 use think\facade\Log;
-use think\session\driver\Redis as ThinkRedis;
 
-class Redis extends ThinkRedis
+/**
+ * Class Redis
+ * @package Tp\Session\Driver
+ * TODO 未完全兼容
+ */
+class Redis implements SessionHandlerInterface
 {
     protected $debug = false;
+
+    protected $config  = [
+        'host'       => '127.0.0.1', // redis主机
+        'port'       => 6379, // redis端口
+        'password'   => '', // 密码
+        'select'     => 0, // 操作库
+        'expire'     => 3600, // 有效期(秒)
+        'timeout'    => 0, // 超时时间(秒)
+        'persistent' => true, // 是否长连接
+        'prefix'     => '', // session key前缀
+    ];
 
     /**
      * 读取Session
@@ -28,7 +44,8 @@ class Redis extends ThinkRedis
     public function read($sessID): string
     {
         $sessKey = $this->config['prefix'] . $sessID;
-        $result = $this->handler->get($sessKey);
+
+        $result = \app\Facade\Redis::instance()->get($sessKey);
         if ($this->debug) {
             Log::record('read_sees: ' . $sessKey, 'session');
             Log::record('read_result: ' . (empty($result) ? 'is_null' : 'not_null'), 'session');
@@ -55,9 +72,9 @@ class Redis extends ThinkRedis
             Log::save();
         }
         if ($this->config['expire'] > 0) {
-            $result = $this->handler->setex($sessKey, $this->config['expire'], $sessData);
+            $result = \app\Facade\Redis::instance()->setex($sessKey, $this->config['expire'], $sessData);
         } else {
-            $result = $this->handler->set($sessKey, $sessData);
+            $result = \app\Facade\Redis::instance()->set($sessKey, $sessData);
         }
         return $result ? true : false;
     }
@@ -65,12 +82,12 @@ class Redis extends ThinkRedis
     /**
      * 删除Session
      * @access public
-     * @param string $sessID
+     * @param  string $sessID
      * @return bool
      */
-    public function destroy($sessID): bool
+    public function delete(string $sessID): bool
     {
         $sessKey = $this->config['prefix'] . $sessID;
-        return !$this->handler->exists($sessKey) || $this->handler->delete($sessKey) > 0;
+        return !\app\Facade\Redis::instance()->exists($sessKey) || \app\Facade\Redis::instance()->delete($sessKey) > 0;
     }
 }

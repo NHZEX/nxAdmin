@@ -6,13 +6,15 @@
  */
 
 use app\Middleware\Authorize;
-use app\Middleware\CrossSiteRequest;
+use app\Middleware\DebugInfo;
 use app\Middleware\Exception;
 use app\Middleware\Validate;
+use think\middleware\SessionInit;
 
 return [
-/*    CrossSiteRequest::class,*/
-    \think\middleware\SessionInit::class,
+    // CrossSiteRequest::class,
+    DebugInfo::class,
+    SessionInit::class,
     Authorize::class,
     Validate::class,
     Exception::class,

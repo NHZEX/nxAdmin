@@ -10,6 +10,7 @@ namespace app\Server;
 
 use app\Facade\Redis;
 use Redis\RedisExtend;
+use Smf\ConnectionPool\BorrowConnectionTimeoutException;
 use think\Config;
 
 /**
@@ -42,10 +43,6 @@ class RedisProxy
     public function setConfig(array $cfg, $reconnect = false)
     {
         $this->config = $cfg + $this->config;
-        if ($reconnect && $this->handler2 instanceof RedisExtend) {
-            $this->handler2->close();
-            $this->handler2 = null;
-        }
     }
 
     /**
@@ -53,42 +50,24 @@ class RedisProxy
      */
     protected function boot()
     {
-        $this->handler2 = new RedisExtend();
-
-        if ($this->config['persistent']) {
-            $result = $this->handler2->pconnect($this->config['host'], $this->config['port'], $this->config['timeout']);
-        } else {
-            $result = $this->handler2->connect($this->config['host'], $this->config['port'], $this->config['timeout']);
-        }
-        if (false === $result) {
-            return false;
-        }
-
-        if (!empty($this->config['password'])) {
-            $this->handler2->auth($this->config['password']);
-        }
-
-        $result = '+PONG' === $this->handler2->ping();
-        if (false === $result) {
-            return false;
-        }
-
-        if (0 != $this->config['select']) {
-            $result = $this->handler2->select($this->config['select']);
-        }
-        if (false === $result) {
-            return false;
-        } else {
-            return true;
-        }
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     * @throws BorrowConnectionTimeoutException
+     */
     public function __call($name, $arguments)
     {
-        if (false === $this->init) {
-            $this->init = $this->boot();
-        }
-        return $this->handler2->$name(...$arguments);
+        /** @var ConnectionPool $pools */
+        $pools = app()->make(ConnectionPool::class);
+        $poredis = $pools->getConnectionPool('redis');
+        /** @var \Redis $redis */
+        $redis = $poredis->borrow();
+        $result = $redis->$name(...$arguments);
+        $poredis->return($redis);
+        return $result;
     }
 
     /**

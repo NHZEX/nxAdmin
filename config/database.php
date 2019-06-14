@@ -10,11 +10,12 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+use HZEX\TpSwoole\Coroutine\Db\Connector\Mysql;
 use think\facade\Env;
 
 return [
     // 数据库类型
-    'type'            => 'mysql',
+    'type'            => Mysql::class,
     // 服务器地址
     'hostname'        => Env::get('database.hostname', '127.0.0.1'),
     // 数据库名

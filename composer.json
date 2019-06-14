@@ -38,18 +38,21 @@
         "matomo/ini": "^2.0",
         "nhzex/n-helper": "dev-master",
         "nhzex/think-blade": "3.0.x-dev",
+        "nhzex/tp-swoole": "2.0.x-dev",
+        "open-smf/connection-pool": "~1.0",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
         "symfony/polyfill-php73": "^1.10",
+        "symfony/var-dumper": "^4.2",
         "symfony/var-exporter": "^4.2",
         "topthink/framework": "6.0.x-dev",
         "topthink/think-socketlog": "^1.0",
         "topthink/think-view": "dev-master",
-        "symfony/var-dumper":"^4.2",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^7.5",
+        "swoole/ide-helper": "^4.3"
     },
     "autoload": {
         "psr-4": {
@@ -89,6 +92,10 @@
         "packagist": {
             "type": "composer",
             "url": "https://packagist.laravel-china.org"
+        },
+        "swoole": {
+            "type": "path",
+            "url": "../tp-swoole"
         }
     }
 }

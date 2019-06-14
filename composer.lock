@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "01cb52674e01bc8eb2b67898f3fb887f",
+    "content-hash": "e84a5011d41c78576f2cd54b5dc19e4a",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1295,12 +1295,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-blade.git",
-                "reference": "3d2bf5f516946ed0ea55436a57fe47f43134b975"
+                "reference": "ffb23e5ac5343114b9bf21c976610bc48a9e02d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/3d2bf5f516946ed0ea55436a57fe47f43134b975",
-                "reference": "3d2bf5f516946ed0ea55436a57fe47f43134b975",
+                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/ffb23e5ac5343114b9bf21c976610bc48a9e02d1",
+                "reference": "ffb23e5ac5343114b9bf21c976610bc48a9e02d1",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1336,7 +1336,113 @@
                 }
             ],
             "description": "Use Laravel Blade templates without the full Laravel framework",
-            "time": "2019-05-04T13:59:36+00:00"
+            "time": "2019-06-11T06:56:20+00:00"
+        },
+        {
+            "name": "nhzex/tp-swoole",
+            "version": "2.0.x-dev",
+            "dist": {
+                "type": "path",
+                "url": "../tp-swoole",
+                "reference": "83fd20e18abb827e379561729bb4f1ffa0794c3f"
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-pcntl": "*",
+                "ext-pdo": "*",
+                "ext-sockets": "*",
+                "ext-swoole": "^4.3.2",
+                "open-smf/connection-pool": "~1.0",
+                "php": "~7.2.10",
+                "topthink/framework": "6.0.x-dev",
+                "topthink/think-helper": "^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8",
+                "swoole/ide-helper": "^4.3"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "HZEX\\TpSwoole\\Service"
+                    ],
+                    "config": {
+                        "swoole": "src/Config/swoole.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HZEX\\TpSwoole\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ]
+        },
+        {
+            "name": "open-smf/connection-pool",
+            "version": "v1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/open-smf/connection-pool.git",
+                "reference": "efea7c1e86adb48cb47e06c71cff4ac1096ce21c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/open-smf/connection-pool/zipball/efea7c1e86adb48cb47e06c71cff4ac1096ce21c",
+                "reference": "efea7c1e86adb48cb47e06c71cff4ac1096ce21c",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-swoole": ">=4.2.9",
+                "php": ">=7.0.0"
+            },
+            "suggest": {
+                "ext-redis": "A PHP extension for Redis."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Smf\\ConnectionPool\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Xie Biao",
+                    "email": "hhxsv5@sina.com"
+                }
+            ],
+            "description": "A common connection pool based on Swoole is usually used as the database connection pool.",
+            "homepage": "https://github.com/open-smf/connection-pool",
+            "keywords": [
+                "connection-pool",
+                "database-connection-pool",
+                "swoole"
+            ],
+            "time": "2019-05-28T03:47:27+00:00"
         },
         {
             "name": "opis/closure",
@@ -2915,12 +3021,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "7637e861b92b2dd554253f79d89e46d09b4c0c97"
+                "reference": "a265e415abc86e27c87b11cf4dafbda9a39699d6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/7637e861b92b2dd554253f79d89e46d09b4c0c97",
-                "reference": "7637e861b92b2dd554253f79d89e46d09b4c0c97",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/a265e415abc86e27c87b11cf4dafbda9a39699d6",
+                "reference": "a265e415abc86e27c87b11cf4dafbda9a39699d6",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2970,7 +3076,52 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-06-10T04:05:24+00:00"
+            "time": "2019-06-12T09:29:27+00:00"
+        },
+        {
+            "name": "topthink/think-helper",
+            "version": "v3.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-helper.git",
+                "reference": "41333ab4a42845ca53f8e53a0e197befd816bf82"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-helper/zipball/41333ab4a42845ca53f8e53a0e197befd816bf82",
+                "reference": "41333ab4a42845ca53f8e53a0e197befd816bf82",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "topthink/framework": "^6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "think\\helper\\": "src"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "yunwuxin",
+                    "email": "448901948@qq.com"
+                }
+            ],
+            "description": "The ThinkPHP5 Helper Package",
+            "time": "2019-03-28T04:03:57+00:00"
         },
         {
             "name": "topthink/think-socketlog",
@@ -4641,6 +4792,49 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
+            "name": "swoole/ide-helper",
+            "version": "4.3.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swoole/ide-helper.git",
+                "reference": "7035aeb5c6d42c22b44aef1304aac62d6733b5e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/7035aeb5c6d42c22b44aef1304aac62d6733b5e5",
+                "reference": "7035aeb5c6d42c22b44aef1304aac62d6733b5e5",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "~3.4.0",
+                "zendframework/zend-code": "~3.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Swoole\\IDEHelper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team Swoole",
+                    "email": "team@swoole.com"
+                }
+            ],
+            "description": "IDE help files for Swoole.",
+            "time": "2019-05-22T19:49:35+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.1.2",
             "source": {
@@ -4749,6 +4943,7 @@
     "stability-flags": {
         "nhzex/n-helper": 20,
         "nhzex/think-blade": 20,
+        "nhzex/tp-swoole": 20,
         "topthink/framework": 20,
         "topthink/think-view": 20
     },

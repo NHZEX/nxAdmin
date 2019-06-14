@@ -78,7 +78,7 @@ class Login extends Base
     public function captcha(string $_ = null)
     {
         if (!$_) {
-            abort(404);
+            abort(401);
         }
         $captcha = new Captcha($this->app->config->get('captcha'));
         $captcha->entry();
