@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Mlog;
 
 use Mlog\Handler\RotatingFileHandler;

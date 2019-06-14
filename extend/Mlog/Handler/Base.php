@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Mlog\Handler;
 
 use Monolog\Handler\AbstractProcessingHandler;

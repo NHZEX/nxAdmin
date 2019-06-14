@@ -1,6 +1,5 @@
 <?php
 
-
 namespace app\Facade;
 
 use Mlog\Logger as LoggerServer;
