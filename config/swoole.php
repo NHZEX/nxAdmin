@@ -9,7 +9,6 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-use app\Server\ConnectionPool;
 use think\facade\App;
 
 return [
@@ -17,16 +16,14 @@ return [
     'enable_coroutine' => true,
     'resetters' => [],
     'penetrates' => [
-        ConnectionPool::class
+    ],
+    'events' => [
     ],
     'server' => [
         'host' => '0.0.0.0', // 监听地址
         'port' => 9505, // 监听端口
         'mode' => SWOOLE_PROCESS, // 运行模式 默认为SWOOLE_PROCESS
         'sock_type' => SWOOLE_TCP, // sock type 默认为SWOOLE_SOCK_TCP
-        'events' => [
-            ConnectionPool::class
-        ],
         'options' => [
             'daemonize' => false,
             'dispatch_mode' => 2,

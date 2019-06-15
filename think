@@ -18,4 +18,9 @@ use HZEX\TpSwoole\VirtualContainer;
 require __DIR__ . '/vendor/autoload.php';
 
 // 应用初始化
-(new VirtualContainer())->console->run();
+if (class_exists('\\Co')) {
+    $app = new VirtualContainer();
+} else {
+    $app = new App();
+}
+$app->console->run();

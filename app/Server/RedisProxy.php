@@ -8,9 +8,11 @@
 
 namespace app\Server;
 
-use app\Facade\Redis;
+use Co;
+use HZEX\TpSwoole\Worker\ConnectionPool;
 use Redis\RedisExtend;
 use Smf\ConnectionPool\BorrowConnectionTimeoutException;
+use Smf\ConnectionPool\ConnectionPool as SmfConnectionPool;
 use think\Config;
 
 /**
@@ -32,6 +34,12 @@ class RedisProxy
         'persistent' => 1,
     ];
 
+    /** @var string */
+    protected $poolName;
+
+    /** @var SmfConnectionPool */
+    protected $pools;
+
     /** @var RedisExtend */
     protected $handler2 = null;
 
@@ -43,6 +51,9 @@ class RedisProxy
     public function setConfig(array $cfg, $reconnect = false)
     {
         $this->config = $cfg + $this->config;
+        if ($reconnect && $this->init) {
+            $this->__destruct();
+        }
     }
 
     /**
@@ -50,6 +61,54 @@ class RedisProxy
      */
     protected function boot()
     {
+        $this->handler2 = new RedisExtend();
+
+        if ($this->config['persistent']) {
+            $result = $this->handler2->pconnect($this->config['host'], $this->config['port'], $this->config['timeout']);
+        } else {
+            $result = $this->handler2->connect($this->config['host'], $this->config['port'], $this->config['timeout']);
+        }
+        if (false === $result) {
+            return false;
+        }
+
+        if (!empty($this->config['password'])) {
+            $this->handler2->auth($this->config['password']);
+        }
+
+        $result = '+PONG' === $this->handler2->ping();
+        if (false === $result) {
+            return false;
+        }
+
+        if (0 != $this->config['select']) {
+            $result = $this->handler2->select($this->config['select']);
+        }
+        if (false === $result) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * @throws BorrowConnectionTimeoutException
+     */
+    protected function bootPool()
+    {
+        /** @var ConnectionPool $pools */
+        $pools = app()->make(ConnectionPool::class);
+        $smfRedisPool = $pools->requestRedis([
+            'host'     => $this->config['host'],
+            'port'     => $this->config['port'],
+            'database' => $this->config['select'],
+            'password' => $this->config['password'],
+            'timeout'  => $this->config['timeout'],
+        ], $this->poolName);
+
+        $this->handler2 = $smfRedisPool->borrow();
+
+        return true;
     }
 
     /**
@@ -60,23 +119,26 @@ class RedisProxy
      */
     public function __call($name, $arguments)
     {
-        /** @var ConnectionPool $pools */
-        $pools = app()->make(ConnectionPool::class);
-        $poredis = $pools->getConnectionPool('redis');
-        /** @var \Redis $redis */
-        $redis = $poredis->borrow();
-        $result = $redis->$name(...$arguments);
-        $poredis->return($redis);
-        return $result;
+        if (false === $this->init) {
+            if (-1 === Co::getCid()) {
+                $this->init = $this->boot();
+            } else {
+                $this->init = $this->bootPool();
+            }
+        }
+
+        return $this->handler2->$name(...$arguments);
     }
 
-    /**
-     * @return RedisExtend|null|false
-     * @author NHZEXG
-     * @deprecated
-     */
-    public static function getInstance()
+    public function __destruct()
     {
-        return Redis::instance();
+        if (-1 === Co::getCid()) {
+            if ($this->init) {
+                $this->handler2->close();
+            }
+        } else {
+            $this->pools->return($this->handler2);
+        }
+        $this->handler2 = null;
     }
 }
