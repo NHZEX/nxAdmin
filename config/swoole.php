@@ -9,15 +9,20 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
+use app\common\Handle\DestroyRedisConnection;
 use think\facade\App;
 
 return [
     'auto_reload' => false,
     'enable_coroutine' => true,
     'resetters' => [],
-    'penetrates' => [
-    ],
-    'events' => [
+    'penetrates' => [],
+    'events' => [],
+    'pools' => [],
+    'container' => [
+        'destroy' => [
+            DestroyRedisConnection::class,
+        ],
     ],
     'server' => [
         'host' => '0.0.0.0', // 监听地址

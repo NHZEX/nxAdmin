@@ -1344,7 +1344,7 @@
             "dist": {
                 "type": "path",
                 "url": "../tp-swoole",
-                "reference": "2595bb804a6eedec013e3b270599fae9a586382c"
+                "reference": "9c3a2c5294c8ed6fba02ee62af9107368e62c626"
             },
             "require": {
                 "ext-curl": "*",

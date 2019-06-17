@@ -98,7 +98,7 @@ class RedisProxy
     {
         /** @var ConnectionPool $pools */
         $pools = app()->make(ConnectionPool::class);
-        $smfRedisPool = $pools->requestRedis([
+        $this->pools = $pools->requestRedis([
             'host'     => $this->config['host'],
             'port'     => $this->config['port'],
             'database' => $this->config['select'],
@@ -106,7 +106,7 @@ class RedisProxy
             'timeout'  => $this->config['timeout'],
         ], $this->poolName);
 
-        $this->handler2 = $smfRedisPool->borrow();
+        $this->handler2 = $this->pools->borrow();
 
         return true;
     }
@@ -130,15 +130,24 @@ class RedisProxy
         return $this->handler2->$name(...$arguments);
     }
 
-    public function __destruct()
+    /**
+     * 关闭连接
+     */
+    public function closeLink()
     {
-        if (-1 === Co::getCid()) {
-            if ($this->init) {
+        if ($this->init) {
+            if (-1 === Co::getCid()) {
                 $this->handler2->close();
+            } else {
+                $this->pools->return($this->handler2);
             }
-        } else {
-            $this->pools->return($this->handler2);
         }
         $this->handler2 = null;
+        $this->init = false;
+    }
+
+    public function __destruct()
+    {
+        $this->closeLink();
     }
 }
