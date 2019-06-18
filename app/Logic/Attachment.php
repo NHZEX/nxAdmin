@@ -13,6 +13,7 @@ use app\Model\AdminUser as AdminUserModel;
 use app\Model\Attachment as AttachmentModel;
 use finfo;
 use think\exception\DbException;
+use think\exception\FileException;
 use think\facade\Lang;
 use think\File;
 
@@ -36,7 +37,7 @@ class Attachment extends Base
     {
         try {
             // 替代 thinkphp file 验证
-            if (!$file->checkSize(4 * 1024 * 1024)) {
+            if ($file->getSize() > (4 * 1024 * 1024)) {
                 throw new BusinessResultSuccess(Lang::get('filesize not match'));
             }
             if (!preg_match('/image\/.*/', $file->getMime())) {
@@ -59,15 +60,19 @@ class Attachment extends Base
                     $fileExt,
                     $file->getSize(),
                     $file->hash('sha1'),
-                    $file->getName()
+                    $file->getFilename()
                 );
+
                 // 存储上传文件
-                if (false === $newFile = $file->move(UPLOAD_STORAGE_PATH . self::IMAGE_DIR, $saveFileName)) {
-                    throw new BusinessResultSuccess($newFile->getError());
-                }
+                $path = self::IMAGE_DIR . dirname($saveFileName);
+                $name = basename($saveFileName);
+                $file->move(UPLOAD_STORAGE_PATH . $path, $name);
             }
         } catch (BusinessResultSuccess $success) {
             $this->errorMessage = $success->getMessage();
+            return false;
+        } catch (FileException $exception) {
+            $this->errorMessage = $exception->getMessage();
             return false;
         }
         return $annex;
