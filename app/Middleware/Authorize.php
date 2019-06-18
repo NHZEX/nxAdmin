@@ -115,7 +115,7 @@ class Authorize extends Middleware
         } else {
             return Response::create($message, '', 401)
                 ->header([
-                    'Soft-Location' => $this->app->url->build('@admin.login')
+                    'Soft-Location' => $this->app->route->buildUrl('@admin.login')
                 ]);
         }
     }

@@ -43,7 +43,6 @@
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-exporter": "^4.2",
         "topthink/framework": "6.0.x-dev",
-        "topthink/think-socketlog": "^1.0",
         "topthink/think-view": "dev-master",
         "symfony/var-dumper":"^4.2",
         "vlucas/phpdotenv": "^3.3"
