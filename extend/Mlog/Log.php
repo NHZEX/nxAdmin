@@ -4,6 +4,7 @@ namespace Mlog;
 
 use Mlog\Handler\FileHandler;
 use Mlog\Handler\SocketLogHandler;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\BufferHandler;
 use Monolog\Logger;
 use think\App;
@@ -29,9 +30,11 @@ class Log extends \think\Log
             $handlers[] = $socketLogHandler;
         }
 
-        $date = date('Ym', time());
-        $filename = $app->getRuntimePath() . 'log' . DIRECTORY_SEPARATOR . $date . DIRECTORY_SEPARATOR . 'log.log';
-        $rotatingFileHandler = new FileHandler('my_log', $filename, Logger::WARNING);
+        $timestamp = time();
+        $filename = $app->getRuntimePath() . 'log' . DIRECTORY_SEPARATOR . date('Ym', $timestamp)
+            . DIRECTORY_SEPARATOR . date('d', $timestamp) . '.log';
+        $rotatingFileHandler = new FileHandler('my_log', $filename);
+        $rotatingFileHandler->setFormatter(new LineFormatter("[%level_name%]: %message% %context% %extra%\n"));
         $handler = new BufferHandler($rotatingFileHandler);
         $handlers[] = $handler;
 
