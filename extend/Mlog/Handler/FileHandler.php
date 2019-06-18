@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Mlog\Handler;
-
 
 use Monolog\Handler\StreamHandler;
 
@@ -75,5 +73,4 @@ class FileHandler extends StreamHandler
         $this->write([]);
         parent::close();
     }
-
 }

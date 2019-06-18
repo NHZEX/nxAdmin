@@ -3142,12 +3142,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "8eacbe0b2cf4e94fbed7311ba4a27100ed7b59ad"
+                "reference": "77b111bdcb90aeb8569c367739fc2290cae910a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/8eacbe0b2cf4e94fbed7311ba4a27100ed7b59ad",
-                "reference": "8eacbe0b2cf4e94fbed7311ba4a27100ed7b59ad",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/77b111bdcb90aeb8569c367739fc2290cae910a3",
+                "reference": "77b111bdcb90aeb8569c367739fc2290cae910a3",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3199,7 +3199,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-06-17T11:35:19+00:00"
+            "time": "2019-06-18T05:35:37+00:00"
         },
         {
             "name": "topthink/think-socketlog",
