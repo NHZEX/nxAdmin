@@ -5,7 +5,6 @@ namespace Mlog\Handler;
 
 
 use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 
 /**
  * 文件处理器
@@ -23,10 +22,18 @@ class FileHandler extends StreamHandler
 
     protected $recordInfo = [];
 
-    public function __construct($channel, $stream, $level = Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false)
+    public function __construct($channel)
     {
+        //获取mlog的文件配置
+        $config = config('mlog.file');
+        //设置文件名
+        $timestamp = time();
+        $filename = $config['path'] . date('Ym', $timestamp)
+            . DIRECTORY_SEPARATOR . date('d', $timestamp) . '.log';
+
         $this->channel = $channel;
-        parent::__construct($stream, $level, $bubble, $filePermission, $useLocking);
+
+        parent::__construct($filename, $config['level']);
     }
 
     public function handle(array $record)
@@ -48,13 +55,14 @@ class FileHandler extends StreamHandler
             return;
         }
 
+        $date = date('Y-m-d h:i:sa', time());
         $channle = $this->channel;
         $request= app()->request;
         $method = $request->method();
         $ip = $request->ip();
         $url = $request->url(true);
 
-        $log['formatted'] = "{$channle} {$ip} {$method} {$url} \n";
+        $log['formatted'] = "{$date} {$channle} {$ip} {$method} {$url} \n";
         foreach ($this->messages as $level => $formatted) {
             $log['formatted'] .= "{$formatted}";
         }

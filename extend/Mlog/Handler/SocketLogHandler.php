@@ -48,7 +48,7 @@ class SocketLogHandler extends AbstractProcessingHandler
     public function __construct(App $app)
     {
         $this->app = $app;
-        $config = $app->config->get('log');
+        $config = $app->config->get('mlog.socketlog');
         if (!empty($config)) {
             $this->config = array_merge($this->config, $config);
         }

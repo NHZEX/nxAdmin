@@ -8,7 +8,6 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\BufferHandler;
 use Monolog\Logger;
 use think\App;
-use think\facade\Env;
 
 class Log extends \think\Log
 {
@@ -25,15 +24,13 @@ class Log extends \think\Log
 
         $handlers = [];
         //SocketLog远程日志
-        if (Env::get('remotelog.enable', false)) {
+
+        if ($app->config->get('mlog.socketlog.enable')) {
             $socketLogHandler = new BufferHandler(new SocketLogHandler($app));
             $handlers[] = $socketLogHandler;
         }
 
-        $timestamp = time();
-        $filename = $app->getRuntimePath() . 'log' . DIRECTORY_SEPARATOR . date('Ym', $timestamp)
-            . DIRECTORY_SEPARATOR . date('d', $timestamp) . '.log';
-        $rotatingFileHandler = new FileHandler('my_log', $filename);
+        $rotatingFileHandler = new FileHandler('my_log');
         $rotatingFileHandler->setFormatter(new LineFormatter("[%level_name%]: %message% %context% %extra%\n"));
         $handler = new BufferHandler($rotatingFileHandler);
         $handlers[] = $handler;
