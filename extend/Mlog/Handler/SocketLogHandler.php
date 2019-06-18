@@ -2,9 +2,14 @@
 
 namespace Mlog\Handler;
 
+use Monolog\Handler\AbstractProcessingHandler;
 use think\App;
 
-class SocketLogHandler extends Base
+/**
+ * SocketLog远程日志处理器
+ * Created by PhpStorm.
+ */
+class SocketLogHandler extends AbstractProcessingHandler
 {
     /**
      * 分日志等级的内容
@@ -51,26 +56,99 @@ class SocketLogHandler extends Base
         parent::__construct();
     }
 
+    public function handleBatch(array $records)
+    {
+        if (!$this->check()) {
+            return false;
+        }
+
+        $traces = [];
+
+        if ($this->app->isDebug()) {
+            $runtime    = round(microtime(true) - $this->app->getBeginTime(), 10);
+            $reqs       = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
+            $time_str   = ' [运行时间：' . number_format($runtime, 6) . 's][吞吐率：' . $reqs . 'req/s]';
+            $memory_use = number_format((memory_get_usage() - $this->app->getBeginMem()) / 1024, 2);
+            $memory_str = ' [内存消耗：' . $memory_use . 'kb]';
+            $file_load  = ' [文件加载：' . count(get_included_files()) . ']';
+
+            if ($this->app->exists('request')) {
+                $current_uri = $this->app->request->host(). $this->app->request->baseUrl();
+            } else {
+                $current_uri = 'cmd:' . implode(' ', $_SERVER['argv'] ?? ['unknown']);
+            }
+
+            // 基本信息
+            $traces[] = [
+                'type' => 'group',
+                'msg'  => $current_uri . $time_str . $memory_str . $file_load,
+                'css'  => $this->css['page'],
+            ];
+        }
+
+        foreach ($records as $record) {
+            $this->handle($record);
+        }
+
+        foreach ($this->levelContent as $type => $content) {
+            $traces[] = [
+                'type' => 'groupCollapsed',
+                'msg'  => '[ ' . $type . ' ]',
+                'css'  => $this->css[$type] ?? '',
+            ];
+
+            foreach ($content as $trace) {
+                $traces[] = $trace;
+            }
+
+            $traces[] = [
+                'type' => 'groupEnd',
+                'msg'  => '',
+                'css'  => '',
+            ];
+        }
+
+        $traces[] = [
+            'type' => 'groupEnd',
+            'msg'  => '',
+            'css'  => '',
+        ];
+
+        $tabid = $this->getClientArg('tabid');
+
+        if (!$client_id = $this->getClientArg('client_id')) {
+            $client_id = '';
+        }
+
+        if (!empty($this->allowForceClientIds)) {
+            //强制推送到多个client_id
+            foreach ($this->allowForceClientIds as $force_client_id) {
+                $client_id = $force_client_id;
+                $this->sendToClient($tabid, $client_id, $traces, $force_client_id);
+            }
+        } else {
+            $this->sendToClient($tabid, $client_id, $traces, '');
+        }
+
+        return true;
+    }
+
     /**
      * Writes the record down to the log of the implementing handler
      *
      * @param array $record
      * @return bool
      */
-    public function write(array $record): bool
+    public function write(array $record)
     {
-        if (!$this->check()) {
-            return false;
-        }
-
         $type = strtolower($record['level_name']);
-
         $msg = $record['message'];
+        $context = $record['context'];
+
         if (!is_string($msg)) {
             $msg = var_export($msg, true);
         }
 
-        $context = $record['context'];
         if (is_string($msg) && !empty($context)) {
             $replace = [];
             foreach ($context as $key => $val) {
@@ -87,85 +165,13 @@ class SocketLogHandler extends Base
         ];
 
         if ($this->config['show_included_files']) {
-            $this->levelContent[$type][] = [
+            $this->levelContent['file'][] = [
                 'type' => 'log',
-                'msg' => implode("\n", get_included_files()),
-                'css' => '',
-            ];
-        }
-
-        return true;
-    }
-
-    public function save()
-    {
-        if (!$this->check()) {
-            return false;
-        }
-
-        if ($this->app->isDebug()) {
-            $runtime    = round(microtime(true) - $this->app->getBeginTime(), 10);
-            $reqs       = $runtime > 0 ? number_format(1 / $runtime, 2) : '∞';
-            $time_str   = ' [运行时间：' . number_format($runtime, 6) . 's][吞吐率：' . $reqs . 'req/s]';
-            $memory_use = number_format((memory_get_usage() - $this->app->getBeginMem()) / 1024, 2);
-            $memory_str = ' [内存消耗：' . $memory_use . 'kb]';
-            $file_load  = ' [文件加载：' . count(get_included_files()) . ']';
-
-            if ($this->app->exists('request')) {
-                $current_uri = $this->app->request->host(). $this->app->request->baseUrl();
-            } else {
-                $current_uri = 'cmd:' . implode(' ', $_SERVER['argv']);
-            }
-
-            // 基本信息
-            $trace = [
-                'type' => 'group',
-                'msg'  => $current_uri . $time_str . $memory_str . $file_load,
-                'css'  => $this->css['page'],
-            ];
-
-            $traceLogs[] = $trace;
-        }
-
-        foreach ($this->levelContent as $type => $contents) {
-            $traceLogs[] = [
-                'type' => 'groupCollapsed',
-                'msg'  => '[ ' . $type . ' ]',
-                'css'  => $this->css[$type] ?? '',
-            ];
-
-            foreach ($contents as $content) {
-                $traceLogs[] = $content;
-            }
-
-            $traceLogs[] = [
-                'type' => 'groupEnd',
-                'msg'  => '',
+                'msg'  => implode("\n", get_included_files()),
                 'css'  => '',
             ];
         }
 
-        $traceLogs[] = [
-            'type' => 'groupEnd',
-            'msg'  => '',
-            'css'  => '',
-        ];
-
-        $tabid = $this->getClientArg('tabid');
-
-        if (!$client_id = $this->getClientArg('client_id')) {
-            $client_id = '';
-        }
-
-        if (!empty($this->allowForceClientIds)) {
-            //强制推送到多个client_id
-            foreach ($this->allowForceClientIds as $force_client_id) {
-                $client_id = $force_client_id;
-                $this->sendToClient($tabid, $client_id, $traceLogs, $force_client_id);
-            }
-        } else {
-            $this->sendToClient($tabid, $client_id, $traceLogs, '');
-        }
         return true;
     }
 

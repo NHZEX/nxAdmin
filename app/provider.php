@@ -15,14 +15,14 @@ use app\ExceptionHandle;
 use app\Request;
 use app\Server\RedisProxy;
 use app\Server\WebConv;
-use Mlog\Logger;
+use Mlog\Log;
 
 $basis = [
     'redis' => RedisProxy::class,
     'think\Request' => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
     'webconv' => WebConv::class,
-    'think\Log' => Logger::class,
+    'think\Log' => Log::class,
 ];
 
 return $basis;
