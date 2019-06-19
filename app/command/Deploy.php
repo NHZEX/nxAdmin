@@ -19,6 +19,7 @@ use Closure;
 use Exception;
 use HZEX\Util;
 use Phinx\PhinxMigrate2;
+use ReflectionClass;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArgvInput as SymfonyArgvInput;
 use think\App;
@@ -135,10 +136,13 @@ class Deploy extends Command
             }
         }
 
+        // 重新构建数据库链接
+        $this->app->db = new Db($this->getDbConfig($env));
+
         // 执行更新操作
         if (!$notMigrate) {
             $output->writeln('启动更新作业...');
-            $this->execUpdate($env, $dryRun);
+            $this->execUpdate($dryRun);
         }
 
         /**
@@ -148,7 +152,7 @@ class Deploy extends Command
         if (!$update && (!$existEnv || $forceInit)) {
             $output->writeln('配置系统功能...');
 
-            $this->initAdminUser($env, $dryRun);
+            $this->initAdminUser($dryRun);
         }
 
         $output->writeln('所有操作都完成');
@@ -156,20 +160,15 @@ class Deploy extends Command
     }
 
     /**
-     * @param EnvStruct $env
      * @param bool      $dryRun
      * @throws PDOException
      * @throws Exception
      */
-    protected function execUpdate(EnvStruct $env, bool $dryRun)
+    protected function execUpdate(bool $dryRun)
     {
         $output = $this->output;
         $verbosity = str_repeat('v', $output->getVerbosity() - $output::VERBOSITY_NORMAL);
         $verbosity = empty($verbosity) ? null : "-{$verbosity}";
-
-        //构建数据库链接参数
-        $db = new Db($this->getDbConfig($env));
-        $this->app->db = $db;
 
         // 执行数据迁移
         $output->writeln('================执行PHINX迁移================');
@@ -190,7 +189,7 @@ class Deploy extends Command
         Permission::importNodes($dryRun);
         $output->writeln('更新菜单节点...');
         $this->app->request->setSubDomain('/');
-        $ref = new \ReflectionClass($this->app->route);
+        $ref = new ReflectionClass($this->app->route);
         $p = $ref->getProperty('request');
         $p->setAccessible(true);
         $p->setValue($this->app->route, $this->app->request);
@@ -274,12 +273,10 @@ class Deploy extends Command
     }
 
     /**
-     * @param EnvStruct $env
      * @param bool      $dryRun
-     * @throws ExceptionThink
      * @throws Exception
      */
-    protected function initAdminUser(EnvStruct $env, bool $dryRun)
+    protected function initAdminUser(bool $dryRun)
     {
         $input = $this->input;
         $output = $this->output;
@@ -335,7 +332,7 @@ class Deploy extends Command
 
         $au = new AdminUser();
 
-        $au->setConnection($this->app->db->getConfig());
+        $au->setConnection($this->app->db->getConnection());
         $au->genre = AdminUser::GENRE_SUPER_ADMIN;
         $au->username = $au->nickname = $admin_username;
         $au->password = $admin_password;

@@ -61,6 +61,8 @@ abstract class Base extends ThinkModel
     protected $readonly = ['create_by'];
     /** @var int 软删除字段默认值 */
     protected $defaultSoftDelete = 0;
+    /** @var bool 自动写入时间戳 */
+    protected $autoWriteTimestamp = true;
 
     public static function onBeforeInsert(ThinkModel $model)
     {
