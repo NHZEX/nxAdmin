@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6f5da12c7af6107773af47e22ca3a6a7",
+    "content-hash": "f6090005c8c4c54a8f1ac370aa43b39b",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1129,16 +1129,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.52",
+            "version": "1.0.53",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391"
+                "reference": "08e12b7628f035600634a5e76d95b5eb66cea674"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/c5a5097156387970e6f0ccfcdf03f752856f3391",
-                "reference": "c5a5097156387970e6f0ccfcdf03f752856f3391",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/08e12b7628f035600634a5e76d95b5eb66cea674",
+                "reference": "08e12b7628f035600634a5e76d95b5eb66cea674",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1215,7 +1215,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-05-20T20:21:14+00:00"
+            "time": "2019-06-18T20:09:29+00:00"
         },
         {
             "name": "league/flysystem-cached-adapter",
@@ -1487,7 +1487,7 @@
             "dist": {
                 "type": "path",
                 "url": "../tp-swoole",
-                "reference": "9c3a2c5294c8ed6fba02ee62af9107368e62c626"
+                "reference": "3adff358c4c4e84f4121af5c6ef509131b0c04d7"
             },
             "require": {
                 "ext-curl": "*",
@@ -3164,12 +3164,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "783c5a759468cba6d8177585eedebc4b32ff5bca"
+                "reference": "5e7dbee39ffb090ea8005e64c93a888d3b94d717"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/783c5a759468cba6d8177585eedebc4b32ff5bca",
-                "reference": "783c5a759468cba6d8177585eedebc4b32ff5bca",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/5e7dbee39ffb090ea8005e64c93a888d3b94d717",
+                "reference": "5e7dbee39ffb090ea8005e64c93a888d3b94d717",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3221,7 +3221,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-06-18T06:24:52+00:00"
+            "time": "2019-06-18T10:39:30+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -3267,49 +3267,6 @@
             ],
             "description": "The ThinkPHP5 Helper Package",
             "time": "2019-03-28T04:03:57+00:00"
-        },
-        {
-            "name": "topthink/think-socketlog",
-            "version": "v1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/top-think/think-socketlog.git",
-                "reference": "3384737e6d7cba84e27e4f31069de4bdc6a548fa"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-socketlog/zipball/3384737e6d7cba84e27e4f31069de4bdc6a548fa",
-                "reference": "3384737e6d7cba84e27e4f31069de4bdc6a548fa",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://dl.laravel-china.org/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "topthink/framework": "^6.0.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "think\\log\\driver\\": "src"
-                },
-                "files": []
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "liu21st",
-                    "email": "liu21st@gmail.com"
-                }
-            ],
-            "description": "SocketLog for thinkphp",
-            "time": "2019-04-26T06:20:35+00:00"
         },
         {
             "name": "topthink/think-template",
