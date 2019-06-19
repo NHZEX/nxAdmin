@@ -8,9 +8,7 @@
 
 namespace Tp\Model\Traits;
 
-use Exception;
-use PDOStatement;
-use think\exception\PDOException;
+use InvalidArgumentException;
 use think\Model;
 use Tp\Db\Query;
 use Tp\Model\Exception\ModelException;
@@ -20,19 +18,35 @@ use Tp\Model\Exception\ModelException;
  * @package Tp\Model\Traits
  * @mixin Model
  * @method Query wherePk($op, $condition = null) static 指定主键查询条件
+ * @property string|false $optimLock
  */
 trait OptimLock
 {
     protected $optimLock = 'lock_version';
 
+    private $lockVersion = 0;
+
     /**
-     * [被动验证] 使用乐观锁查询一条数据
      * @param int $id
      * @param int $lock_version
-     * @return static|PDOStatement|Model|null
+     * @return Model|OptimLock|null
      * @throws ModelException
+     * @deprecated
+     * @see findOptimisticVer
      */
     public static function getOptimisticVer(int $id, int $lock_version)
+    {
+        return static::findOptimisticVer($id, $lock_version);
+    }
+
+    /**
+     * 使用特定锁查询一条数据
+     * @param int $id
+     * @param int $lock_version
+     * @return static|Model|null
+     * @throws ModelException
+     */
+    public static function findOptimisticVer(int $id, int $lock_version)
     {
         $that = (new static());
         $result = $that->wherePk($id)->where($that->optimLock, $lock_version)->find();
@@ -47,126 +61,106 @@ trait OptimLock
     }
 
     /**
-     * @return bool
-     * @throws PDOException
+     * 获取变化的数据 并排除只读数据
+     * TODO 数据类型发生变化时无法分辨数据变更
+     * @return array
      */
-    protected function updateData(): bool
+    public function getChangedData(): array
     {
-        // 获取必要数据 MOD
-        $is_optim_lock = $this->optimLock && isset($this[$this->optimLock]);
-        $optimLockValue = $this[$this->optimLock] ?? 0;
+        /** @noinspection PhpUndefinedClassInspection */
+        $data = parent::getChangedData();
 
-        // 事件回调
-        if (false === $this->trigger('BeforeUpdate')) {
-            return false;
-        }
-
-        $this->checkData();
-
-        // 获取有更新的数据
-        $data = $this->getChangedData();
-
-        // 移除无效数据 MOD
+        // 移除非字段数据值，降低乐观锁的无效更新
         foreach (array_diff(array_keys($data), $this->getTableFields()) as $k) {
             unset($data[$k]);
         }
 
-        if (empty($data)) {
-            // 关联更新
-            if (!empty($this->relationWrite)) {
-                $this->autoRelationUpdate();
-            }
-
-            return true;
+        // 无数据需要变更
+        if (isset($data[$this->optimLock]) && 1 === count($data)) {
+            $data = [];
         }
 
-        if ($this->autoWriteTimestamp && $this->updateTime && !isset($data[$this->updateTime])) {
-            // 自动写入更新时间
-            $data[$this->updateTime]       = $this->autoWriteTimestamp($this->updateTime);
-            $this->set($this->updateTime, $data[$this->updateTime]);
-        }
+        return $data;
+    }
 
-        // 检查允许字段
-        $allowFields = $this->checkAllowFields();
-
-        foreach ($this->relationWrite as $name => $val) {
-            if (!is_array($val)) {
-                continue;
-            }
-
-            foreach ($val as $key) {
-                if (isset($data[$key])) {
-                    unset($data[$key]);
-                }
-            }
-        }
-
-        // 模型更新
-        $db = $this->db(false);
-        $db->startTrans();
-
+    /**
+     * 获取锁内容
+     * @return int|null
+     */
+    protected function getLockVersion(): ?int
+    {
         try {
-            $where  = $this->getWhere();
-            $result = $db->where($where);
-            // 设置乐观锁条件 MOD
-            $is_optim_lock && $result->where($this->optimLock, '=', $optimLockValue);
-            $result->strict(false)
-                ->field($allowFields)
-                ->update($data);
+            $lockVer = $this->getData($this->optimLock);
+        } catch (InvalidArgumentException $exception) {
+            $lockVer = $this->getOrigin($this->optimLock);
+        }
 
-            // 检测是否更新成功 MOD
-            if ($is_optim_lock && count($this->toArray()) === 0) {
-                throw new ModelException('The object being updated is outdated.', CODE_MODEL_OPTIMISTIC_LOCK);
-            }
+        return is_numeric($lockVer) ? (int) $lockVer : null;
+    }
 
-            // 关联更新
-            if (!empty($this->relationWrite)) {
-                $this->autoRelationUpdate();
-            }
+    /**
+     * 数据检查
+     * @access protected
+     * @return void
+     */
+    protected function checkData(): void
+    {
+        $this->isExists() ? $this->updateLockVersion() : $this->recordLockVersion();
+    }
 
-            $db->commit();
-
-            // 更新回调
-            $this->trigger('AfterUpdate');
-
-            return true;
-        } catch (Exception $e) {
-            $db->rollback();
-            throw $e;
+    /**
+     * 记录乐观锁
+     * @access protected
+     * @return void
+     */
+    protected function recordLockVersion(): void
+    {
+        if ($this->optimLock) {
+            $this->set($this->optimLock, 0);
         }
     }
 
     /**
-     * 获取变化的数据 并排除只读数据
-     * @access public
-     * @return array
-     * @NotEnabled
+     * 更新乐观锁
+     * @access protected
+     * @return void
      */
-    public function getChangedDataNotEnabled()
+    protected function updateLockVersion(): void
     {
-        $currData = $this->getData(null);
-        $originData = $this->getOrigin(null);
-        if ($this->isForce()) {
-            $data = $currData;
-        } else {
-            $data = array_udiff_assoc($currData, $originData, function ($a, $b) {
-                if ((empty($a) || empty($b)) && $a !== $b) {
-                    return 1;
-                }
+        if ($this->optimLock && null !== ($lockVer = $this->getLockVersion())) {
+            // 更新乐观锁
+            $this->set($this->optimLock, $lockVer + 1);
+            $this->lockVersion = $lockVer;
+        }
+    }
 
-                return is_object($a) || $a != $b ? 1 : 0;
-            });
+    /**
+     * @return array
+     */
+    public function getWhere()
+    {
+        /** @noinspection PhpUndefinedClassInspection */
+        $where = parent::getWhere();
+
+        if (!$this->optimLock) {
+            return $where;
         }
 
-        if (!empty($this->readonly)) {
-            // 只读字段不允许更新
-            foreach ($this->readonly as $key => $field) {
-                if (isset($data[$field])) {
-                    unset($data[$field]);
-                }
-            }
+        if (null !== ($lockVer = $this->getLockVersion())) {
+            $where[] = [$this->optimLock, '=', $this->lockVersion];
         }
 
-        return $data;
+        return $where;
+    }
+
+    /**
+     * @param $result
+     * @throws ModelException
+     */
+    protected function checkResult($result): void
+    {
+        if (!$result) {
+            throw new ModelException('The object being updated is outdated.', CODE_MODEL_OPTIMISTIC_LOCK);
+        }
     }
 }
