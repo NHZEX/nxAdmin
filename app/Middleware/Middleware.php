@@ -9,6 +9,7 @@
 namespace app\Middleware;
 
 use Closure;
+use HZEX\Util;
 use think\exception\HttpException;
 use think\facade\App;
 use think\Request;
@@ -29,7 +30,7 @@ abstract class Middleware
      */
     protected function getCurrentDispatchClass(Request $request) :?string
     {
-        $controller = $request->controller(true);
+        $controller = Util::toSnakeCase($request->controller());
         $transfer_class = App::parseClass('controller', $controller);
         if (!class_exists($transfer_class)) {
             throw new HttpException(404, 'controller not exists:' . $transfer_class);
