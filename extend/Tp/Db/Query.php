@@ -8,20 +8,18 @@
 
 namespace Tp\Db;
 
-use Closure;
-use PDOStatement;
-use think\Collection;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\DbException;
 use think\Model;
+use think\model\Collection;
 use Tp\Paginator2;
 
 /**
  * Class Query
  * @package db
- * @method PDOStatement|Model|array|null find(array|string|Query|Closure $data = null) 查询单条记录
- * @method PDOStatement|\think\model\Collection|Collection|array select(mixed $data = null) 查询多个记录
+ * @method array|Model|null find($data = null) 查询单条记录
+ * @method Collection|Model[]|array select($data = null) 查询多个记录
  */
 class Query extends \think\db\Query
 {
