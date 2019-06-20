@@ -56,7 +56,7 @@ return [
             // 'max_request' => 100000,
             // 'task_max_request' => 100000,
             'send_yield' => true, // 发送数据协程调度
-            'reload_async' => true, // 异步安全重启
+            'reload_async' => false, // 异步安全重启
         ],
     ],
     'websocket' => [
@@ -64,7 +64,7 @@ return [
         // 'host' => '0.0.0.0', // 监听地址
         // 'port' => 9502, // 监听端口
         // 'sock_type' => SWOOLE_TCP, // sock type 默认为SWOOLE_SOCK_TCP
-        'handler' => WebSocket::class,
+        // 'handler' => WebSocket::class,
         // 'parser' => Parser::class,
         // 'route_file' => base_path() . 'websocket.php',
         'ping_interval' => 25000,

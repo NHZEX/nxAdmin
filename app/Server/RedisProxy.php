@@ -34,6 +34,8 @@ class RedisProxy
         'persistent' => 1,
     ];
 
+    protected $isSwoole = false;
+
     /** @var string */
     protected $poolName;
 
@@ -46,6 +48,7 @@ class RedisProxy
     public function __construct(Config $config)
     {
         $this->config = $config->get('redis') + $this->config;
+        $this->isSwoole = exist_swoole();
     }
 
     public function setConfig(array $cfg, $reconnect = false)
@@ -120,7 +123,7 @@ class RedisProxy
     public function __call($name, $arguments)
     {
         if (false === $this->init) {
-            if (-1 === Co::getCid()) {
+            if (false === $this->isSwoole || -1 === Co::getCid()) {
                 $this->init = $this->boot();
             } else {
                 $this->init = $this->bootPool();
@@ -136,7 +139,7 @@ class RedisProxy
     public function closeLink()
     {
         if ($this->init) {
-            if (-1 === Co::getCid()) {
+            if (false === $this->isSwoole || -1 === Co::getCid()) {
                 $this->handler2->close();
             } else {
                 $this->pools->return($this->handler2);

@@ -435,3 +435,18 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
 
     return $string;
 }
+
+if (!function_exists('exist_swoole')) {
+    /**
+     * 是否存在 swoole
+     * @return bool
+     */
+    function exist_swoole(): bool
+    {
+        static $exist;
+        if (null === $exist) {
+            $exist = extension_loaded('swoole');
+        }
+        return $exist;
+    }
+}
