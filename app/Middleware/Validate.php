@@ -23,11 +23,15 @@ class Validate extends Middleware
     /** @var array 验证器映射 */
     protected $mapping = [];
 
-    public function __construct(App $app)
+    public static function __make(App $app)
     {
+        $that = new self($app);
+
         $path = $app->getAppPath() . 'validate.php';
         /** @noinspection PhpIncludeInspection */
-        $this->mapping = require $path;
+        $that->mapping = require $path;
+
+        return $that;
     }
 
     /**

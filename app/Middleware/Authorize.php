@@ -19,25 +19,13 @@ use app\Server\WebConv;
 use Closure;
 use ReflectionClass;
 use ReflectionException;
-use think\App;
 use think\Request;
 use think\Response;
+use think\response\View;
 
 class Authorize extends Middleware
 {
     use ShowReturn;
-
-    /** @var App */
-    protected $app;
-
-    /**
-     * Authorize constructor.
-     * @param App $app
-     */
-    public function __construct(App $app)
-    {
-        $this->app = $app;
-    }
 
     /**
      * @param Request $request
@@ -148,7 +136,9 @@ class Authorize extends Middleware
         ];
 
         if ('html' == strtolower($type)) {
-            $response = Response::create('/dispatch_jump', 'view')->assign($result);
+            /** @var View $respView */
+            $respView = Response::create('/dispatch_jump', 'view');
+            $response = $respView->assign($result);
         } else {
             $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
         }
