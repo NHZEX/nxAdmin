@@ -15,7 +15,7 @@ use Redis\RedisExtend;
  * Class Redis
  * @package app\Facade
  * @mixin RedisProxy
- * @method RedisExtend instance() static
+ * @method RedisExtend instance(...$args) static
  * @method void setConfig(array $cfg, $reconnect = false) static
  */
 class Redis extends Base

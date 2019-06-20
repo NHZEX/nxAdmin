@@ -61,8 +61,7 @@
                          onerror="imageError(this)"> {{ $user['nickname'] }}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" kit-target
-                           data-options="{url:'basic.html',icon:'&#xe658;',title:'基本资料',id:'966'}"><span>基本资料</span></a>
+                    <dd><a href="javascript:;" id="basic_info"><span>基本资料</span></a>
                     </dd>
                     <dd><a href="javascript:;" kit-target><span>安全设置</span></a></dd>
                 </dl>
@@ -106,7 +105,7 @@
 <script>
     {{--window.menu = JSON.parse('{!! $webmenu !!}');--}}
     {{--window.mainUrl = '{{ $url['mainpage'] }}';--}}
-    require(['jquery', 'layui', 'kitapp', 'kitmessage'], function ($, layui, kitapp, kitmessage) {
+    require(['jquery', 'layui', 'kitapp', 'kitmessage', 'helper'], function ($, layui, kitapp, kitmessage, helper) {
         // （新）主入口
         kitapp.set({
             data: Object({!! $webmenu !!}),
@@ -118,6 +117,14 @@
             let $that = $(this);
             let skin = $that.children('a').data('skin');
             switchSkin(skin);
+        });
+
+        $('#basic_info').on('click', function () {
+            helper.formModal()
+                .load('{{ $url['basic_info'] }}', [], '基本资料', '500px')
+                .end(() => {
+
+                });
         });
         let setSkin = function (value) {
                 layui.data('kit_skin', {
