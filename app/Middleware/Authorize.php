@@ -21,6 +21,7 @@ use ReflectionClass;
 use ReflectionException;
 use think\Request;
 use think\Response;
+use think\response\View;
 
 class Authorize extends Middleware
 {
@@ -135,7 +136,9 @@ class Authorize extends Middleware
         ];
 
         if ('html' == strtolower($type)) {
-            $response = Response::create('/dispatch_jump', 'view')->assign($result);
+            /** @var View $respView */
+            $respView = Response::create('/dispatch_jump', 'view');
+            $response = $respView->assign($result);
         } else {
             $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
         }
