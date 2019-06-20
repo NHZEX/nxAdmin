@@ -28,14 +28,16 @@ class Main extends Base
      */
     public function index()
     {
+        $webconv = WebConv::getAdminUser();
         View::assign('info', [
             'title' => Env::get('system.web_title')
         ]);
         View::assign('webmenu', $this->getMenuToJson());
-        View::assign('user', WebConv::getAdminUser());
+        View::assign('user', $webconv);
 
         View::assign('url', [
             'mainpage' => url('sysinfo'),
+            'basic_info' => url('@admin.manager/pageEdit', ['base_pkid' => $webconv->id]),
             'logout' => url('@admin.login/logout'),
         ]);
         return View::fetch();
