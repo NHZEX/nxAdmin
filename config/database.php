@@ -11,6 +11,7 @@
 // +----------------------------------------------------------------------
 
 use think\facade\Env;
+use Tp\Db\Query;
 
 return [
     // 默认使用的数据库连接配置
@@ -35,7 +36,7 @@ return [
             // 数据库连接参数
             'params'          => [],
             // 数据库编码默认采用utf8
-            'charset'         => Env::get('database.charset', 'utf8mb4'),
+            'charset'         => 'utf8mb4',
             // 数据库表前缀
             'prefix'          => Env::get('database.prefix', ''),
             // 数据库调试模式
@@ -55,7 +56,7 @@ return [
             // Builder类
             'builder'         => '',
             // Query类
-            'query'           => \Tp\Db\Query::class,
+            'query'           => Query::class,
             // 是否需要断线重连
             'break_reconnect' => false,
         ]

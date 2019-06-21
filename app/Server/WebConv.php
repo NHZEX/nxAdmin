@@ -81,9 +81,9 @@ class WebConv implements Serializable
     /**
      * 返回模型的错误信息
      * @access public
-     * @return string|array
+     * @return string
      */
-    public function getErrorMessage(): string
+    public function getErrorMessage(): ?string
     {
         return $this->errorMessage;
     }
@@ -428,7 +428,7 @@ class WebConv implements Serializable
                 throw new BusinessResultSuccess("角色状态：{$user->role->status_desc}");
             }
         } catch (BusinessResultSuccess $result) {
-            //$this->destroy();
+            $this->destroy();
             $this->errorMessage = $result->getMessage();
             return $this->verifyResult = false;
         }

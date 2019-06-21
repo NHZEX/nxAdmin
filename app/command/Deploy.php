@@ -87,7 +87,9 @@ class Deploy extends Command
         if ((bool) $input->getOption('example')) {
             $output->writeln('生成ENV范例文件...');
             Ini::writerFile(
-                $this->app->getRootPath() . '.env.example', (new EnvStruct([]))->toArray(), Ini::HEADER_DATE
+                $this->app->getRootPath() . '.env.example',
+                (new EnvStruct([]))->toArray(),
+                Ini::HEADER_DATE
             );
             return 0;
         }
@@ -160,7 +162,7 @@ class Deploy extends Command
     }
 
     /**
-     * @param bool      $dryRun
+     * @param bool $dryRun
      * @throws PDOException
      * @throws Exception
      */
@@ -215,8 +217,8 @@ class Deploy extends Command
     /**
      * 校验输入是否正确
      * @param Closure $closure
-     * @param string   $message
-     * @param bool     $interaction 交互
+     * @param string  $message
+     * @param bool    $interaction 交互
      * @throws Exception
      */
     protected function checkInput(Closure $closure, string $message, bool $interaction = true)
@@ -263,17 +265,17 @@ class Deploy extends Command
     private function getRedisConfig(EnvStruct $env)
     {
         return [
-            'host'         => $env->REDIS_HOST,
-            'port'         => $env->REDIS_PORT,
-            'password'     => $env->REDIS_PASSWORD,
-            'select'       => (int) $env->REDIS_SELECT,
-            'timeout'      => (int) $env->REDIS_TIMEOUT,
-            'persistent'   => (bool) $env->REDIS_PERSISTENT,
+            'host' => $env->REDIS_HOST,
+            'port' => $env->REDIS_PORT,
+            'password' => $env->REDIS_PASSWORD,
+            'select' => (int) $env->REDIS_SELECT,
+            'timeout' => (int) $env->REDIS_TIMEOUT,
+            'persistent' => (bool) $env->REDIS_PERSISTENT,
         ];
     }
 
     /**
-     * @param bool      $dryRun
+     * @param bool $dryRun
      * @throws Exception
      */
     protected function initAdminUser(bool $dryRun)
