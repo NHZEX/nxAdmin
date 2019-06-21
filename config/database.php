@@ -12,6 +12,7 @@
 
 use HZEX\TpSwoole\Coroutine\Db\Connector\Mysql;
 use think\facade\Env;
+use Tp\Db\Query;
 
 return [
     // 默认使用的数据库连接配置
@@ -56,7 +57,7 @@ return [
             // Builder类
             'builder'         => '',
             // Query类
-            'query'           => \Tp\Db\Query::class,
+            'query'           => Query::class,
             // 是否需要断线重连
             'break_reconnect' => false,
         ]

@@ -6,12 +6,13 @@
  * Date: 2019/1/25
  * Time: 9:44
  */
-require __DIR__ . '/thinkphp/base.php';
+
+use think\App;
+
+require __DIR__ . '/vendor/autoload.php';
 
 // 应用初始化
-/** @var \think\App $app */
-$app = think\Container::get('app');
-$app->path(__DIR__ . '/app/')->initialize();
+$app = (new App())->initialize();
 
 // Phinx初始化
 $phinxApp = new Phinx\Console\PhinxApplication();

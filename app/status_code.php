@@ -46,4 +46,4 @@ const CODE_DICT = [
     CODE_CONV_LASTING => 'Invalid iasting',
 
 ];
-const CODE_MODEL_NOT_EXIST = 1201; // 模型不存在
+
