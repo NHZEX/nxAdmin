@@ -6,7 +6,7 @@
  * Time: 10:40
  */
 
-namespace app\command;
+namespace app\Command;
 
 use HZEX\Util;
 use think\console\Command;

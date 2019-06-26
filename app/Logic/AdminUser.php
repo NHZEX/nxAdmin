@@ -8,10 +8,10 @@
 
 namespace app\Logic;
 
-use app\common\Traits\PrintAbnormal;
 use app\Exception\BusinessResult;
 use app\Facade\WebConv;
 use app\Model\AdminUser as AdminUserModel;
+use app\Traits\PrintAbnormal;
 use Basis\IP;
 use RuntimeException;
 use think\Exception;

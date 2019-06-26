@@ -8,7 +8,7 @@
 
 namespace app\Logic;
 
-use app\common\Traits\PrintAbnormal;
+use app\Traits\PrintAbnormal;
 use Tp\Model\Traits\TransactionExtension;
 
 abstract class Base

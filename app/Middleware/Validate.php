@@ -8,8 +8,8 @@
 
 namespace app\Middleware;
 
-use app\common\Traits\CsrfHelper;
-use app\common\Traits\ShowReturn;
+use app\Traits\CsrfHelper;
+use app\Traits\ShowReturn;
 use Closure;
 use think\App;
 use think\Request;

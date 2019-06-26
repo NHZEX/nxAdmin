@@ -8,7 +8,6 @@
 
 namespace app\Middleware;
 
-use app\common\Traits\ShowReturn;
 use app\controller\AdminBase;
 use app\Exception\JsonException;
 use app\Logic\AdminRole;
@@ -16,6 +15,7 @@ use app\Logic\Permission as PermissionLogic;
 use app\Model\AdminUser as AdminUserModel;
 use app\Model\Permission as PermissionModel;
 use app\Server\WebConv;
+use app\Traits\ShowReturn;
 use Closure;
 use ReflectionClass;
 use ReflectionException;

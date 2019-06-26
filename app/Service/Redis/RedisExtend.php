@@ -6,7 +6,7 @@
  * Time: 14:26
  */
 
-namespace Redis;
+namespace app\Service\Redis;
 
 use Redis;
 

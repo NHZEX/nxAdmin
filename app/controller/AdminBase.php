@@ -9,8 +9,8 @@
 namespace app\controller;
 
 use app\BaseController;
-use app\common\Traits\CsrfHelper;
-use app\common\Traits\ShowReturn;
+use app\Traits\CsrfHelper;
+use app\Traits\ShowReturn;
 
 abstract class AdminBase extends BaseController
 {

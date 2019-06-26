@@ -6,11 +6,10 @@
  * Time: 17:52
  */
 
-namespace app\Server;
+namespace app\Service\Redis;
 
 use Co;
 use HZEX\TpSwoole\Worker\ConnectionPool;
-use Redis\RedisExtend;
 use Smf\ConnectionPool\BorrowConnectionTimeoutException;
 use Smf\ConnectionPool\ConnectionPool as SmfConnectionPool;
 use think\Config;
@@ -20,7 +19,7 @@ use think\Config;
  * @package app\server
  * @mixin RedisExtend
  */
-class RedisProxy
+class RedisProvider
 {
     protected $init = false;
 
@@ -57,6 +56,11 @@ class RedisProxy
         if ($reconnect && $this->init) {
             $this->__destruct();
         }
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**

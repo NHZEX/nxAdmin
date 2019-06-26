@@ -6,7 +6,7 @@
  * Time: 16:47
  */
 
-namespace app\common\Traits;
+namespace app\Traits;
 
 use app\Facade\Redis;
 use app\Facade\WebConv;
