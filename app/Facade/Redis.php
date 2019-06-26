@@ -8,14 +8,13 @@
 
 namespace app\Facade;
 
-use app\Server\RedisProxy;
-use Redis\RedisExtend;
+use app\Service\Redis\RedisProvider;
 
 /**
  * Class Redis
  * @package app\Facade
- * @mixin RedisProxy
- * @method RedisExtend instance(...$args) static
+ * @mixin RedisProvider
+ * @method RedisProvider instance(...$args) static
  * @method void setConfig(array $cfg, $reconnect = false) static
  */
 class Redis extends Base

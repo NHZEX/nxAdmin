@@ -6,10 +6,8 @@
  * Time: 17:52
  */
 
-namespace app\Server;
+namespace app\Service\Redis;
 
-use app\Facade\Redis;
-use Redis\RedisExtend;
 use think\Config;
 
 /**
@@ -17,7 +15,7 @@ use think\Config;
  * @package app\server
  * @mixin RedisExtend
  */
-class RedisProxy
+class RedisProvider
 {
     protected $init = false;
 
@@ -46,6 +44,11 @@ class RedisProxy
             $this->handler2->close();
             $this->handler2 = null;
         }
+    }
+
+    public function getConfig()
+    {
+        return $this->config;
     }
 
     /**
@@ -89,15 +92,5 @@ class RedisProxy
             $this->init = $this->boot();
         }
         return $this->handler2->$name(...$arguments);
-    }
-
-    /**
-     * @return RedisExtend|null|false
-     * @author NHZEXG
-     * @deprecated
-     */
-    public static function getInstance()
-    {
-        return Redis::instance();
     }
 }
