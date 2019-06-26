@@ -6,7 +6,7 @@
  * Time: 15:45
  */
 
-namespace app\command;
+namespace app\Command;
 
 use app\Facade\Redis;
 use app\Logic\Permission;

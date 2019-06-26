@@ -12,9 +12,9 @@
 
 namespace app;
 
-use app\common\Traits\PrintAbnormal;
 use app\Exception\ExceptionRecordDown;
 use app\Model\ExceptionLogs;
+use app\Traits\PrintAbnormal;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\Handle;

@@ -13,9 +13,9 @@
 // +----------------------------------------------------------------------
 // | 控制台配置
 // +----------------------------------------------------------------------
-use app\command\Certificate;
-use app\command\CreateModel;
-use app\command\Deploy;
+use app\Command\Certificate;
+use app\Command\CreateModel;
+use app\Command\Deploy;
 use think\facade\Env;
 
 return [

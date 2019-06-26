@@ -6,7 +6,7 @@
  * Time: 14:54
  */
 
-namespace app\common\Traits;
+namespace app\Traits;
 
 use think\exception\PDOException;
 use think\facade\Log;

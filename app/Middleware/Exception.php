@@ -9,8 +9,8 @@
 
 namespace app\Middleware;
 
-use app\common\Traits\ShowReturn;
 use app\Exception\AccessControl;
+use app\Traits\ShowReturn;
 use Closure;
 use think\Request;
 use think\Response;

@@ -8,8 +8,8 @@
 
 namespace app\Exception;
 
-use app\common\Traits\PrintAbnormal;
-use app\common\Traits\ShowReturn;
+use app\Traits\PrintAbnormal;
+use app\Traits\ShowReturn;
 
 /**
  * Class BusinessResult

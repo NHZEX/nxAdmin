@@ -6,7 +6,7 @@
  * Time: 16:17
  */
 
-namespace app\command;
+namespace app\Command;
 
 use app\Exception\BusinessResult;
 use think\console\Command;

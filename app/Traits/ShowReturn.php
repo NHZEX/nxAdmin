@@ -6,12 +6,13 @@
  * Time: 14:47
  */
 
-namespace app\common\Traits;
+namespace app\Traits;
 
 use Exception;
 use think\Collection;
 use think\Paginator;
 use think\Response;
+use think\response\Redirect;
 use Tp\Paginator2;
 
 trait ShowReturn
@@ -47,12 +48,15 @@ trait ShowReturn
     /**
      * 统一返回 跳转
      * @param string $url
+     * @param array  $params
      * @param array  $header
      * @return Response
      */
-    protected static function show302(string $url, array $header = []): Response
+    protected static function show302(string $url, array $params = [], array $header = []): Response
     {
-        return \redirect($url, 302, $header);
+        /** @var Redirect $redirect */
+        $redirect = Response::create($url, 'redirect', 302);
+        return $redirect->params($params)->header($header);
     }
 
     /**
