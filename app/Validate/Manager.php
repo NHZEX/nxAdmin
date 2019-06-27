@@ -69,7 +69,7 @@ class Manager extends Base implements VailAsk
         if (!is_string($value)) {
             return "{$desc} 数据类型错误";
         }
-        $isVali = isset(ManagerController::FILTER_TYPE[WebConv::instance()->sess_user_genre][$value]);
+        $isVali = isset(ManagerController::FILTER_TYPE[WebConv::getUserGenre()][$value]);
         return $isVali ?: "{$desc} 内容无效: {$value}";
     }
 

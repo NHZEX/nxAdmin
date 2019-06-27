@@ -11,6 +11,7 @@ use think\model\relation\BelongsTo;
  * 自动记录用户
  * Trait ModelEvent
  * @package Tp\Model\Traits
+ * @mixin Model
  */
 trait RecordUser
 {
@@ -23,7 +24,7 @@ trait RecordUser
 
     /**
      * 自动记录操作用户
-     * @param self $data
+     * @param self|Model $data
      */
     protected static function recodeUser(Model $data)
     {
@@ -35,9 +36,9 @@ trait RecordUser
             }
             $fields = array_flip($data->getTableFields());
             isset($fields[$data->createBy]) &&
-            $data[$data->createBy] = $conv->sess_user_id;
+            $data[$data->createBy] = $conv->getUserId();
             isset($fields[$data->updateBy]) &&
-            $data[$data->updateBy] = $conv->sess_user_id;
+            $data[$data->updateBy] = $conv->getUserId();
         }
     }
 

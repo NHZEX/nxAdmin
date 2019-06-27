@@ -79,7 +79,7 @@ class AdminUser extends Base
     const PWD_HASH_OPTIONS = ['cost' => 10];
 
     /**
-     * @param AdminUser $model
+     * @param AdminUser|Model $model
      * @return mixed|void
      * @throws AccessControl
      * @throws ModelException
@@ -102,7 +102,7 @@ class AdminUser extends Base
     }
 
     /**
-     * @param AdminUser $model
+     * @param AdminUser|Model $model
      * @return mixed|void
      * @throws AccessControl
      * @throws ModelException
@@ -119,12 +119,16 @@ class AdminUser extends Base
      * @return mixed|void
      * @throws AccessControl
      */
-    public static function onBeforeDelete(self $model)
+    public static function onBeforeDelete(AdminUser $model)
     {
         self::checkAccessControl($model);
     }
 
-    protected static function checkAccessControl(self $data)
+    /**
+     * @param self $data
+     * @throws AccessControl
+     */
+    protected static function checkAccessControl(AdminUser $data)
     {
         if ($data->isDisableAccessControl()) {
             return;
@@ -132,11 +136,11 @@ class AdminUser extends Base
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
 
         $dataId = $data->getOrigin('id');
-        if (null === $dataGenre || null === WebConv::instance()->sess_user_genre) {
+        if (null === $dataGenre || null === WebConv::getUserGenre()) {
             return;
         }
-        $accessGenre = WebConv::instance()->sess_user_genre;
-        $accessId = WebConv::instance()->sess_user_id;
+        $accessGenre = WebConv::getUserGenre();
+        $accessId = WebConv::getUserId();
         $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
         // 控制当前用户的组间访问
         if (false === in_array($dataGenre, $genreControl)) {
@@ -148,7 +152,11 @@ class AdminUser extends Base
         }
     }
 
-    protected static function checkUserInputUnique(self $data)
+    /**
+     * @param self $data
+     * @throws ModelException
+     */
+    protected static function checkUserInputUnique(AdminUser $data)
     {
         if ($data->hasData('username')
             && $data->getOrigin('username') !== $data->getData('username')

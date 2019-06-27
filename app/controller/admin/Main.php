@@ -28,7 +28,7 @@ class Main extends Base
      */
     public function index()
     {
-        $webconv = WebConv::getAdminUser();
+        $webconv = WebConv::getConvUser();
         View::assign('info', [
             'title' => Env::get('system.web_title')
         ]);
@@ -51,10 +51,10 @@ class Main extends Base
     private function getMenuToJson()
     {
         //超级管理员不限制菜单
-        if (WebConv::instance()->sess_user_genre === AdminUser::GENRE_SUPER_ADMIN) {
+        if (WebConv::getUserGenre() === AdminUser::GENRE_SUPER_ADMIN) {
             $menus = SystemMenu::obtainMenus();
         } else {
-            $menus = SystemMenu::obtainMenus(WebConv::instance()->sess_role_id);
+            $menus = SystemMenu::obtainMenus(WebConv::getRoleId());
         }
         return json_encode_throw_on_error($menus);
     }

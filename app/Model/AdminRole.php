@@ -99,24 +99,24 @@ class AdminRole extends Base
      * @return mixed|void
      * @throws AccessControl
      */
-    public static function onBeforeDelete(Model $model)
+    public static function onBeforeDelete(AdminRole $model)
     {
         self::checkAccessControl($model);
     }
 
     /**
-     * @param Model $model
+     * @param AdminRole $model
      * @throws JsonException
      */
-    public static function onAfterInsert(Model $model)
+    public static function onAfterInsert(AdminRole $model)
     {
         AdminRoleLogic::refreshCache($model);
     }
 
     /**
-     * @param Model $model
+     * @param AdminRole $model
      */
-    public static function onAfterDelete(Model $model)
+    public static function onAfterDelete(AdminRole $model)
     {
         AdminRoleLogic::destroyCache($model);
     }
@@ -129,11 +129,11 @@ class AdminRole extends Base
     {
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
         $dataId = $data->getOrigin('id');
-        if (null === $dataGenre || null === WebConv::instance()->sess_user_genre) {
+        if (null === $dataGenre || null === WebConv::getUserGenre()) {
             return;
         }
-        $accessGenre = WebConv::instance()->sess_user_genre;
-        $accessId = WebConv::instance()->sess_user_id;
+        $accessGenre = WebConv::getUserGenre();
+        $accessId = WebConv::getUserId();
         $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
         if (false === in_array($dataGenre, $genreControl)) {
             throw new AccessControl('当前登陆的用户无该数据的操作权限');

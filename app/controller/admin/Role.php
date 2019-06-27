@@ -43,7 +43,7 @@ class Role extends Base
             'url_delete' => url('delete'),
             'url_permission' => url('permission'),
             'url_menu' => url('menu'),
-            'manager_types' => self::FILTER_TYPE[WebConv::instance()->sess_user_genre],
+            'manager_types' => self::FILTER_TYPE[WebConv::getUserGenre()],
         ]);
         return View::fetch();
     }
@@ -59,7 +59,7 @@ class Role extends Base
      */
     public function table(int $page = 1, int $limit = 1, string $type = 'system')
     {
-        if (!isset(self::FILTER_TYPE[WebConv::instance()->sess_user_genre][$type])) {
+        if (!isset(self::FILTER_TYPE[WebConv::getUserGenre()][$type])) {
             return self::showMsg(CODE_COM_PARAM);
         }
         $genre = self::FILTER_TYPE_MAPPING[$type];
@@ -77,7 +77,7 @@ class Role extends Base
     /**
      * @param int|null $base_pkid
      * @param string|null $type
-     * @return \think\Response
+     * @return string
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
