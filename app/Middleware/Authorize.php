@@ -119,9 +119,9 @@ class Authorize extends Middleware
      */
     protected function error($msg = '', $url = null, $data = '', $wait = 3, array $header = [])
     {
-        $type = (request()->isJson() || request()->isAjax()) ? 'json' : 'html';
+        $type = ($this->app->request->isJson() || $this->app->request->isAjax()) ? 'json' : 'html';
         if (is_null($url)) {
-            $url = $this->app['request']->isAjax() ? '' : 'javascript:history.back(-1);';
+            $url = $this->app->request->isAjax() ? '' : 'javascript:history.back(-1);';
         } elseif ('' !== $url) {
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : $this->app['url']->build($url);
         }
@@ -139,7 +139,9 @@ class Authorize extends Middleware
             $respView = Response::create('/dispatch_jump', 'view');
             $response = $respView->assign($result);
         } else {
-            $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
+            $response = Response::create($result, $type)
+                ->header($header)
+                ->options(['jump_template' => $this->app->config->get('app.dispatch_error_tmpl')]);
         }
 
         return $response;
