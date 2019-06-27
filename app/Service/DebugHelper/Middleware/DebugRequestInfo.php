@@ -4,30 +4,29 @@ declare(strict_types=1);
 namespace app\Service\DebugHelper\Middleware;
 
 use Closure;
-use think\Middleware;
+use think\App;
 use think\Request;
 use think\Response;
 
-class DebugRequestInfo extends Middleware
+class DebugRequestInfo
 {
     /**
      * @param Request $request
      * @param Closure $next
+     * @param App     $app
      * @return Response|string
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, App $app)
     {
         // 记录路由和请求信息
-        if ($this->app->isDebug()) {
-            $app = $request->app() ?: 'empty';
-            $controller = $request->controller(true);
-            $class = $this->app->parseClass('controller', $controller);
-            $action = $request->action();
-            $this->app->log->info("[ DISPATCH ] {$app}-{$class}#{$action}");
-            // $this->app->log->info('[ ROUTE ] ' . var_export($request->rule()->__debugInfo(), true));
-            $this->app->log->info('[ HEADER ] ' . var_export($request->header(), true));
-            $this->app->log->info('[ PARAM ] ' . var_export($request->param(), true));
-        }
+        $appName = $request->app() ?: 'empty';
+        $controller = $request->controller(true);
+        $class = $app->parseClass('controller', $controller);
+        $action = $request->action();
+        $app->log->info("[ DISPATCH ] {$appName}-{$class}#{$action}");
+        // $app->log->info('[ ROUTE ] ' . var_export($request->rule()->__debugInfo(), true));
+        $app->log->info('[ HEADER ] ' . var_export($request->header(), true));
+        $app->log->info('[ PARAM ] ' . var_export($request->param(), true));
         return $next($request);
     }
 }
