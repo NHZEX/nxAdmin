@@ -6,14 +6,11 @@
  */
 
 use app\Middleware\Authorize;
-use app\Middleware\DebugInfo;
 use app\Middleware\Exception;
 use app\Middleware\Validate;
 use think\middleware\SessionInit;
 
 return [
-    // 请求调试信息
-    DebugInfo::class,
     // 全局请求缓存
     // \think\middleware\CheckRequestCache::class,
     // 多语言加载

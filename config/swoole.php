@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-use app\common\Handle\DestroyRedisConnection;
+use app\Service\Swoole\DestroyRedisConnection;
 use think\facade\App;
 
 return [

@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace app\common\Handle;
+namespace app\Service\Swoole;
 
-use app\Server\RedisProxy;
+use app\Service\Redis\RedisProvider;
 use HZEX\TpSwoole\Container\Destroy\DestroyContract;
 use think\Container;
 
@@ -17,8 +17,8 @@ class DestroyRedisConnection implements DestroyContract
      */
     public function handle(Container $container): void
     {
-        /** @var RedisProxy $redis */
-        $redis = $container->make(RedisProxy::class);
+        /** @var RedisProvider $redis */
+        $redis = $container->make(RedisProvider::class);
         $redis->closeLink();
     }
 }

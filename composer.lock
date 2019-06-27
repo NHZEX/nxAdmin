@@ -1487,12 +1487,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/tp-swoole.git",
-                "reference": "077114848d202d23d003a66d96086bf40a434899"
+                "reference": "886f49b5adce7fa496cd0139029487d36e553710"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/077114848d202d23d003a66d96086bf40a434899",
-                "reference": "077114848d202d23d003a66d96086bf40a434899",
+                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/886f49b5adce7fa496cd0139029487d36e553710",
+                "reference": "886f49b5adce7fa496cd0139029487d36e553710",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1546,7 +1546,7 @@
                     "email": "auooru@outlook.com"
                 }
             ],
-            "time": "2019-06-20T03:47:00+00:00"
+            "time": "2019-06-27T09:34:20+00:00"
         },
         {
             "name": "open-smf/connection-pool",
