@@ -9,11 +9,11 @@
 namespace app\Traits;
 
 use app\Facade\Redis;
-use app\Facade\WebConv;
 use app\Server\DeployInfo;
 use app\Struct\CsrfStruct;
 use Hashids\Hashids;
 use think\facade\Request;
+use think\facade\Session;
 
 trait CsrfHelper
 {
@@ -49,7 +49,7 @@ trait CsrfHelper
      */
     protected function generateCsrfToken(int $pk_id, int $lock_version, bool $enable = true)
     {
-        $hashids = new Hashids(WebConv::instance()->getSessionId(), 16);
+        $hashids = new Hashids(Session::getId(), 16);
         $result = $hashids->encode($pk_id, $lock_version, mt_rand());
         $result .= '.update';
         $enable && $this->addCsrfToken($result);
@@ -62,7 +62,7 @@ trait CsrfHelper
      */
     protected function parseCsrfToken(CsrfStruct $csrf_token)
     {
-        $hashids = new Hashids(WebConv::instance()->getSessionId(), 16);
+        $hashids = new Hashids(Session::getId(), 16);
         [$pkid, $lock_version] = $hashids->decode($csrf_token->token);
         return [$pkid, $lock_version];
     }
@@ -74,8 +74,7 @@ trait CsrfHelper
      */
     protected function addCsrfToken(string $token)
     {
-        $conv = WebConv::instance();
-        return $this->addToken($token, 'csrf:' . $conv->getSessionId());
+        return $this->addToken($token, 'csrf:' . Session::getId());
     }
 
     /**
@@ -102,8 +101,7 @@ trait CsrfHelper
      */
     protected function verifyCsrfToken(string $token)
     {
-        $conv = WebConv::instance();
-        return $this->verifyToken($token, 'csrf:' . $conv->getSessionId());
+        return $this->verifyToken($token, 'csrf:' . Session::getId());
     }
 
     /**

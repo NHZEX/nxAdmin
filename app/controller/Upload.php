@@ -73,7 +73,7 @@ class Upload extends AdminBase
     private function uploadImage(File $file)
     {
         $attachment = new Attachment();
-        if (false === $annex = $attachment->uploadImage($file, WebConv::getAdminUser())) {
+        if (false === $annex = $attachment->uploadImage($file, WebConv::getConvUser())) {
             return self::showMsg(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
         }
         return [

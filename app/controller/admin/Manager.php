@@ -54,7 +54,7 @@ class Manager extends Base
             'url_change_password' => url('changePassword'),
             'url_save' => url('save'),
             'url_delete' => url('delete'),
-            'manager_types' => self::FILTER_TYPE[WebConv::instance()->sess_user_genre],
+            'manager_types' => self::FILTER_TYPE[WebConv::getUserGenre()],
         ]);
         return View::fetch();
     }
@@ -69,7 +69,7 @@ class Manager extends Base
      */
     public function table(int $page = 1, int $limit = 1, string $type = 'system')
     {
-        if (!isset(self::FILTER_TYPE[WebConv::instance()->sess_user_genre][$type])) {
+        if (!isset(self::FILTER_TYPE[WebConv::getUserGenre()][$type])) {
             return self::showMsg(CODE_COM_PARAM);
         }
         $genre = self::FILTER_TYPE_MAPPING[$type];
@@ -107,7 +107,7 @@ class Manager extends Base
             $genre_role = self::FILTER_TYPE_MAPPING_ROLE[$type];
             $genres = array_intersect_key(AdminUser::GENRE_DICT, array_flip($genre));
 
-            if (WebConv::instance()->sess_user_genre !== AdminUser::GENRE_SUPER_ADMIN) {
+            if (!WebConv::isSuperAdmin()) {
                 unset($genres[AdminUser::GENRE_SUPER_ADMIN]);
             }
             $params['csrf'] = $this->generateCsrfTokenSimple();
@@ -164,7 +164,7 @@ class Manager extends Base
                 $input = [];
             }
             // 如果没有传输用户类型，则自动赋值
-            isset($input['genre']) || $input['genre'] = WebConv::instance()->sess_user_genre;
+            isset($input['genre']) || $input['genre'] = WebConv::getUserGenre();
         } else {
             $au = new AdminUser();
             $au->password = $input['password'];

@@ -10,11 +10,11 @@ namespace app\Middleware;
 
 use app\controller\AdminBase;
 use app\Exception\JsonException;
+use app\Facade\WebConv;
 use app\Logic\AdminRole;
 use app\Logic\Permission as PermissionLogic;
 use app\Model\AdminUser as AdminUserModel;
 use app\Model\Permission as PermissionModel;
-use app\Server\WebConv;
 use app\Traits\ShowReturn;
 use Closure;
 use ReflectionClass;
@@ -36,8 +36,7 @@ class Authorize extends Middleware
      */
     public function handle(Request $request, Closure $next)
     {
-        /** @var WebConv $webConv */
-        $webConv = $this->app->make(WebConv::class);
+        $webConv = WebConv::instance();
 
         //获取调度类
         $transfer_class = self::getCurrentDispatchClass($request);
@@ -71,13 +70,13 @@ class Authorize extends Middleware
         }
 
         //超级管理员跳过权限限制
-        if ($webConv->sess_user_genre === AdminUserModel::GENRE_SUPER_ADMIN) {
+        if ($webConv->getUserGenre() === AdminUserModel::GENRE_SUPER_ADMIN) {
             return $next($request);
         }
 
         //角色权限验证
         if (($flag & PermissionModel::FLAG_PERMISSION) > 0) {
-            if (false === AdminRole::isPermissionAllowed($webConv->sess_role_id, $node->hash)) {
+            if (false === AdminRole::isPermissionAllowed($webConv->getRoleId(), $node->hash)) {
                 return Response::create('权限不足', '', 403);
             }
         }

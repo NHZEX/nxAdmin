@@ -9,25 +9,29 @@
 namespace app\Facade;
 
 use app\Model\AdminUser as AdminUserModel;
-use app\Server\WebConv as WebConvServer;
+use app\Service\WebConv\WebConv as WebConvService;
 
 /**
  * Class WebConv
  * @package app\Facade
- * @method WebConvServer instance() static
- * @method ?bool lookVerify() static
- * @method bool verify(bool $force = false) static
- * @method string getErrorMessage() static
- * @method WebConvServer createSession(AdminUserModel $user, bool $rememberme = false) static
+ * @method WebConvService instance() static
+ * @method WebConvService createSession(AdminUserModel $user, bool $rememberme = false) static
  * @method AdminUserModel decodeRememberToken(?string $value = null) static
- * @method AdminUserModel getAdminUser(bool $force = false) static
+ * @method string getErrorMessage() static
+ * @method bool verify(bool $force = false) static
+ * @method ?bool lookVerify() static
+ * @method AdminUserModel getConvUser(bool $force = false) static
  * @method bool isSuperAdmin() static
+ * @method int getUserId() static
+ * @method int getUserGenre() static
+ * @method int getRoleId() static
+ * @method int getLoginTime() static
  * @method void destroy(bool $destroy_remember = false) static
  */
 class WebConv extends Base
 {
     protected static function getFacadeClass()
     {
-        return WebConvServer::class;
+        return 'webconv';
     }
 }

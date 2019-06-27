@@ -9,8 +9,8 @@
 namespace app\controller\admin;
 
 use app\Exception\JsonException;
+use app\Facade\WebConv;
 use app\Logic\AdminUser;
-use app\Server\WebConv;
 use Captcha\Captcha;
 use think\facade\View;
 use think\Response;
@@ -18,15 +18,14 @@ use think\Response;
 class Login extends Base
 {
     /**
-     * @param WebConv     $webConv
      * @param string|null $jump
      * @return mixed
      */
-    public function index(WebConv $webConv, ?string $jump = null)
+    public function index(?string $jump = null)
     {
         $jump_url = $this->request->header('Referer', false);
         // 如果验证成功直接跳转到主页
-        if ($webConv->verify()) {
+        if (WebConv::verify()) {
             return self::show302($jump_url ?: '@admin.main');
         } else {
             if ((new AdminUser())->testRemember()) {
@@ -57,12 +56,11 @@ class Login extends Base
 
     /**
      * 会话有效性检查
-     * @param WebConv $webConv
      * @return Response
      */
-    public function check(WebConv $webConv)
+    public function check()
     {
-        if ($webConv->verify()) {
+        if (WebConv::verify()) {
             return self::showMsg(CODE_SUCCEED);
         } else {
             return self::showMsg(CODE_CONV_VERIFY);
@@ -122,12 +120,11 @@ class Login extends Base
 
     /**
      * 退出登陆
-     * @param WebConv $webConv
      */
-    public function logout(WebConv $webConv)
+    public function logout()
     {
         $this->app->cookie->delete('login_time');
-        $webConv->destroy(true);
+        WebConv::destroy(true);
         $this->success('退出登陆', '@admin.login');
     }
 }
