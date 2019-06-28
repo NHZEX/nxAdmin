@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace Tp\Cache\Driver;
 
+use app\Service\Redis\RedisProvider;
+use Closure;
+use Co;
 use Exception;
 use think\cache\Driver;
 use think\Container;
@@ -33,6 +36,11 @@ class Redis extends Driver implements CacheHandlerInterface
         'serialize'  => [],
     ];
 
+    protected $isSwoole = false;
+
+    /** @var RedisProvider */
+    private $redis;
+
     /**
      * 架构函数
      * @access public
@@ -44,9 +52,30 @@ class Redis extends Driver implements CacheHandlerInterface
             $this->options = array_merge($this->options, $options);
         }
 
-        if (0 != $this->options['select']) {
-            \app\Facade\Redis::instance()->select($this->options['select']);
+        $this->isSwoole = exist_swoole();
+        $this->init();
+    }
+
+    /**
+     * 打开Session
+     * @access protected
+     * @return bool
+     */
+    protected function init(): bool
+    {
+        if (null === $this->redis) {
+            $this->redis = \app\Facade\Redis::newMake([], true);
+            $this->redis->setConfig([
+                'host' => $this->options['host'],
+                'port' => $this->options['port'],
+                'password' => $this->options['password'],
+                'select' => $this->options['select'],
+                'timeout' => $this->options['timeout'],
+                'persistent' => $this->options['persistent'],
+            ], true);
+            \app\Facade\Redis::addStoresHosting($this->redis);
         }
+        return true;
     }
 
     /**
@@ -57,7 +86,7 @@ class Redis extends Driver implements CacheHandlerInterface
      */
     public function has($name): bool
     {
-        return 1 == \app\Facade\Redis::instance()->exists($this->getCacheKey($name));
+        return 1 == $this->redis->exists($this->getCacheKey($name));
     }
 
     /**
@@ -71,7 +100,7 @@ class Redis extends Driver implements CacheHandlerInterface
     {
         $this->readTimes++;
 
-        $value = \app\Facade\Redis::instance()->get($this->getCacheKey($name));
+        $value = $this->redis->get($this->getCacheKey($name));
 
         if (is_null($value) || false === $value) {
             return $default;
@@ -101,9 +130,9 @@ class Redis extends Driver implements CacheHandlerInterface
         $value  = $this->serialize($value);
 
         if ($expire) {
-            $result = \app\Facade\Redis::instance()->setex($key, $expire, $value);
+            $result = $this->redis->setex($key, $expire, $value);
         } else {
-            $result = \app\Facade\Redis::instance()->set($key, $value);
+            $result = $this->redis->set($key, $value);
         }
 
         return $result;
@@ -122,7 +151,7 @@ class Redis extends Driver implements CacheHandlerInterface
 
         $key = $this->getCacheKey($name);
 
-        return \app\Facade\Redis::instance()->incrby($key, $step);
+        return $this->redis->incrby($key, $step);
     }
 
     /**
@@ -138,7 +167,7 @@ class Redis extends Driver implements CacheHandlerInterface
 
         $key = $this->getCacheKey($name);
 
-        return \app\Facade\Redis::instance()->decrby($key, $step);
+        return $this->redis->decrby($key, $step);
     }
 
     /**
@@ -151,7 +180,7 @@ class Redis extends Driver implements CacheHandlerInterface
     {
         $this->writeTimes++;
 
-        \app\Facade\Redis::instance()->del($this->getCacheKey($name));
+        $this->redis->del($this->getCacheKey($name));
         return true;
     }
 
@@ -164,7 +193,7 @@ class Redis extends Driver implements CacheHandlerInterface
     {
         $this->writeTimes++;
 
-        \app\Facade\Redis::instance()->flushDB();
+        $this->redis->flushDB();
         return true;
     }
 
@@ -187,10 +216,10 @@ class Redis extends Driver implements CacheHandlerInterface
 
         while ($time + 5 > time() && $this->has($name . '_lock')) {
             // 存在锁定则等待
-            if (-1 === \Co::getCid()) {
+            if (!$this->isSwoole || -1 === Co::getCid()) {
                 usleep(200000);
             } else {
-                \Co::sleep(0.02);
+                Co::sleep(0.02);
             }
 
         }
@@ -199,7 +228,7 @@ class Redis extends Driver implements CacheHandlerInterface
             // 锁定
             $this->set($name . '_lock', true);
 
-            if ($value instanceof \Closure) {
+            if ($value instanceof Closure) {
                 // 获取缓存数据
                 $value = Container::getInstance()->invokeFunction($value);
             }

@@ -12,6 +12,7 @@
 
 namespace Tp\Session\Driver;
 
+use app\Service\Redis\RedisProvider;
 use think\contract\SessionHandlerInterface;
 use think\facade\Log;
 
@@ -24,6 +25,9 @@ class Redis implements SessionHandlerInterface
 {
     protected $debug = false;
 
+    /** @var RedisProvider */
+    private $redis;
+
     protected $config  = [
         'host'       => '127.0.0.1', // redis主机
         'port'       => 6379, // redis端口
@@ -35,6 +39,35 @@ class Redis implements SessionHandlerInterface
         'prefix'     => '', // session key前缀
     ];
 
+    public function __construct(array $config = [])
+    {
+        $this->config = array_merge($this->config, $config);
+        $this->debug = $this->config['debug'] ?? false;
+        $this->init();
+    }
+
+    /**
+     * 打开Session
+     * @access protected
+     * @return bool
+     */
+    protected function init(): bool
+    {
+        if (null === $this->redis) {
+            $this->redis = \app\Facade\Redis::newMake([], true);
+            $this->redis->setConfig([
+                'host' => $this->config['host'],
+                'port' => $this->config['port'],
+                'password' => $this->config['password'],
+                'select' => $this->config['select'],
+                'timeout' => $this->config['timeout'],
+                'persistent' => $this->config['persistent'],
+            ], true);
+            \app\Facade\Redis::addStoresHosting($this->redis);
+        }
+        return true;
+    }
+
     /**
      * 读取Session
      * @access public
@@ -45,7 +78,7 @@ class Redis implements SessionHandlerInterface
     {
         $sessKey = $this->config['prefix'] . $sessID;
 
-        $result = \app\Facade\Redis::instance()->get($sessKey);
+        $result = $this->redis->get($sessKey);
         if ($this->debug) {
             Log::record('read_sees: ' . $sessKey, 'session');
             Log::record('read_result: ' . (empty($result) ? 'is_null' : 'not_null'), 'session');
@@ -72,9 +105,9 @@ class Redis implements SessionHandlerInterface
             Log::save();
         }
         if ($this->config['expire'] > 0) {
-            $result = \app\Facade\Redis::instance()->setex($sessKey, $this->config['expire'], $sessData);
+            $result = $this->redis->setex($sessKey, $this->config['expire'], $sessData);
         } else {
-            $result = \app\Facade\Redis::instance()->set($sessKey, $sessData);
+            $result = $this->redis->set($sessKey, $sessData);
         }
         return $result ? true : false;
     }
@@ -88,6 +121,6 @@ class Redis implements SessionHandlerInterface
     public function delete(string $sessID): bool
     {
         $sessKey = $this->config['prefix'] . $sessID;
-        return !\app\Facade\Redis::instance()->exists($sessKey) || \app\Facade\Redis::instance()->delete($sessKey) > 0;
+        return !$this->redis->exists($sessKey) || $this->redis->delete($sessKey) > 0;
     }
 }

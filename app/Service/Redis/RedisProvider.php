@@ -35,6 +35,12 @@ class RedisProvider
 
     protected $isSwoole = false;
 
+    /**
+     * 存储实例
+     * @var RedisProvider[]
+     */
+    protected $storesHosting = [];
+
     /** @var string */
     protected $poolName;
 
@@ -107,8 +113,8 @@ class RedisProvider
         $pools = app()->make(ConnectionPool::class);
         $this->pools = $pools->requestRedis([
             'host'     => $this->config['host'],
-            'port'     => $this->config['port'],
-            'database' => $this->config['select'],
+            'port'     => (int) $this->config['port'],
+            'database' => (int) $this->config['select'],
             'password' => $this->config['password'],
             'timeout'  => $this->config['timeout'],
         ], $this->poolName);
@@ -138,6 +144,17 @@ class RedisProvider
     }
 
     /**
+     * 添加连接实例托管
+     * @param RedisProvider $storage
+     * @return $this
+     */
+    public function addStoresHosting(RedisProvider $storage)
+    {
+        $this->storesHosting[] = $storage;
+        return $this;
+    }
+
+    /**
      * 关闭连接
      */
     public function closeLink()
@@ -151,6 +168,11 @@ class RedisProvider
         }
         $this->handler2 = null;
         $this->init = false;
+
+        // 关闭托管连接
+        foreach ($this->storesHosting as $item) {
+            $item->closeLink();
+        }
     }
 
     public function __destruct()
