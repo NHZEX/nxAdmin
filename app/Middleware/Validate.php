@@ -27,9 +27,10 @@ class Validate extends Middleware
     {
         $that = new self($app);
 
-        $path = $app->getAppPath() . 'validate.php';
-        /** @noinspection PhpIncludeInspection */
-        $that->mapping = require $path;
+        if (file_exists($path = $app->getAppPath() . 'validate.php')) {
+            /** @noinspection PhpIncludeInspection */
+            $that->mapping = require $path;
+        }
 
         return $that;
     }
