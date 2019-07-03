@@ -2539,7 +2539,7 @@ layui.config({}).extend({}).define(['laytpl', 'laypage', 'layer', 'form'], funct
                     that.fullHeightGap = options.height.split('-')[1];
                 }
             }
-            options.height = th - that.fullHeightGap;
+            options.calcHeight = th - that.fullHeightGap;
         }
     };
     /**
@@ -2548,7 +2548,7 @@ layui.config({}).extend({}).define(['laytpl', 'laypage', 'layer', 'form'], funct
     Class.prototype.resizeHeight = function() {
         var that = this,
             options = that.config,
-            height = options.height,
+            height = options.calcHeight,
             bodyHeight;
         if (height < 135) height = 135;
         that.elem.css('height', height);
@@ -2752,7 +2752,7 @@ layui.config({}).extend({}).define(['laytpl', 'laypage', 'layer', 'form'], funct
 
             layer.close(that.tipsIndex);
         });
-        _WIN.unbind('resize').on('resize', function() { //自适应
+        _WIN.unbind('resize.layui-treeGrid').on('resize.layui-treeGrid', function() { //自适应
             that.resize();
         });
     };
