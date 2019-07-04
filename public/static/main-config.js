@@ -30,6 +30,9 @@ require.config({
         , 'nprogress': 'libs/nprogress/nprogress'
         , 'nprogress-css': 'libs/nprogress/nprogress'
 
+        , 'zTree': 'libs/zTree/jquery.ztree.all.min'
+        , 'zTree-css': 'libs/zTree/zTreeStyle'
+
         , 'uploadImage': 'libs/upload/uploadImage'
         , 'uploadImage-css': 'libs/upload/uploadImage'
 
@@ -96,21 +99,25 @@ require.config({
             deps: ['layui']
         }
         , 'formSelects': {  // , 'formSelects': ['css!formSelects-css']
-            'deps': ['jquery', 'css!formSelects-css']
+            deps: ['jquery', 'css!formSelects-css']
         }
         , 'jsoneditor': {
-            'deps': ['css!jsoneditor-css', 'css!jsoneditor-fixlayui-css']
+            deps: ['css!jsoneditor-css', 'css!jsoneditor-fixlayui-css']
         }
         , 'nprogress': {
-            'deps': ['css!nprogress-css']
+            deps: ['css!nprogress-css']
         }
         , 'uploadImage': {
-            'deps': ['css!uploadImage-css']
+            deps: ['css!uploadImage-css']
+        }
+        , 'zTree': {
+            deps: ['jquery', 'css!zTree-css']
+            , exports: 'jQuery.fn.zTree'
         }
     }
     , map: {
         '*': {
-            'css': 'require-css'
+            css: 'require-css'
         }
     },
 

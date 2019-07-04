@@ -6,8 +6,9 @@
  * Time: 14:54
  */
 
-namespace app\controller\admin;
+namespace app\controller\admin\Permission;
 
+use app\controller\admin\Base;
 use app\Logic\Permission as PermissionLogic;
 use app\Model\Permission as PermissionModel;
 use think\db\exception\DataNotFoundException;
@@ -20,14 +21,14 @@ use think\model\Collection;
 use think\Response;
 use Throwable;
 
-class Permission extends Base
+class Node extends Base
 {
     /**
      * 首页
      * User: Johnson
      * @return mixed
      */
-    public function node()
+    public function index()
     {
         View::assign([
             'url_table' => url('nodeList'),

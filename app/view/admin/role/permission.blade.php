@@ -22,7 +22,6 @@
     ) {
         layui.use(['form', 'layer', 'table', 'treeGrid'], function () {
             let $ = layui.jquery,
-                form = layui.form,
                 layer = layui.layer,
                 tree_grid = layui.treeGrid;
 
@@ -62,7 +61,6 @@
                 }
             });
 
-            form.render();
             // 打开或折叠全部节点
             $('#open-all-tree').on('click', () => {
                 let treedata = tree_grid.getDataTreeList(treeId);

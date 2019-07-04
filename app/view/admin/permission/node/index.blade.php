@@ -1,16 +1,11 @@
 @extends('layouts.master')
-@section('title', 'apk分类')
+@section('title', '权限节点管理')
 @section('content')
 <div style="margin: 5px;">
     <table id="table-node" lay-filter="table-node"></table>
 </div>
 @endsection
 @section('javascript')
-<script type="text/html" id="table-toolbar-tool">
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-xs" lay-event="apk_classify">apk分类</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-</script>
 <script type="text/html" id="table-main-toolbar">
     <div style="display:flex;">
         <button class="layui-btn" id="btn-refresh">

@@ -122,6 +122,7 @@ class Role extends Base
                 return self::showMsg(CODE_COM_DATA_NOT_EXIST, '数据不存在');
             }
         } else {
+
             $ar = new AdminRole();
         }
         $result = $ar->save($input);
@@ -141,7 +142,7 @@ class Role extends Base
         View::assign([
             'hashArr' => json_encode_throw_on_error($hashArr),
             'role_id' => $id,
-            'url_table' => url('@admin.permission/nodeList'),
+            'url_table' => url('@admin.permission.node/nodeList'),
             'url_save' => url('savePermission'),
         ]);
         return View::fetch();
