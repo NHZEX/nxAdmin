@@ -34,6 +34,7 @@ class CreateModel extends Command
             ->addOption('dir', 'd', Option::VALUE_OPTIONAL, '模型目录', './app/Model')
             ->addOption('namespace', 'a', Option::VALUE_OPTIONAL, '命名空间', 'app\\Model')
             ->addOption('print', 'p', Option::VALUE_NONE, '打印')
+            ->addOption('save', 's', Option::VALUE_NONE, '保存（只能和指定表同时使用, 且与打印互斥）')
             ->addArgument('table', Argument::OPTIONAL, '指定表');
     }
 
@@ -45,6 +46,7 @@ class CreateModel extends Command
     public function execute(Input $input, Output $output)
     {
         $out_print = (bool) $input->getOption('print');
+        $save = (bool) $input->getOption('save');
         $connect = $input->getOption('connect');
         $namespace = $input->getOption('namespace');
         $out_dir = $input->getOption('dir');
@@ -81,7 +83,30 @@ class CreateModel extends Command
 
         // 指定导出表
         $need_table = $input->getArgument('table');
-        $need_table = $need_table ? explode(',', $need_table) : array_keys($table_names);
+        $is_need = !empty($need_table);
+        $need_table = explode(',', $need_table);
+        if ($is_need) {
+            foreach ($need_table as &$value) {
+                $name_hits = [];
+                foreach ($table_names as $table_name => $comment) {
+                    if (0 === strpos($table_name, $value)) {
+                        $name_hits[] = $table_name;
+                    }
+                }
+                if (count($name_hits) === 1) {
+                    $value = $name_hits[0];
+                } elseif (count($name_hits) > 1) {
+                    $value = $this->output->choice($this->input, "输入的表名（{$value}）可能是如下匹配: ", $name_hits, null);
+                } else {
+                    $output->error("输入的表名无法满足如何匹配: {$name_hits}");
+                }
+            }
+        }
+
+        // 如果指定表，默认屏幕输出
+        if ($is_need && !$save) {
+            $out_print = true;
+        }
 
         foreach ($table_names as $table_name => $table_comment) {
             $model_table_name = $table_name;
@@ -94,10 +119,15 @@ class CreateModel extends Command
             );
 
             // 过滤 && 不重复生成模型
-            if (in_array($table_name, self::FILTE_TABLE)
-                || !in_array($table_name, $need_table)
-                || in_array("{$class_name}.php", $existsModels)
-            ) {
+            if (in_array($table_name, self::FILTE_TABLE)) {
+                $output->error('Ignore');
+                continue;
+            }
+            if (!$out_print && in_array("{$class_name}.php", $existsModels)) {
+                $output->error('Exist');
+                continue;
+            }
+            if ($is_need && !in_array($table_name, $need_table)) {
                 $output->info('Skip');
                 continue;
             }
