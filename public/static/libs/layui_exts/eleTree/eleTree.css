@@ -1,4 +1,4 @@
-/* 18-12-10 */
+/* 2019/06/01 */
 /* 样式加载完毕的标识 */
 html #layuicss-eleTree{display: none; position: absolute; width: 1989px;}
 
@@ -26,6 +26,7 @@ html #layuicss-eleTree{display: none; position: absolute; width: 1989px;}
     cursor: pointer;
     height: 26px;
     line-height: 1.3;
+    white-space: nowrap;
 }
 .eleTree-node-content:hover,
 .eleTree-node-content.eleTree-node-content-active{
@@ -58,10 +59,28 @@ html #layuicss-eleTree{display: none; position: absolute; width: 1989px;}
     font-size: 12px;
 }
 
+/* 线条样式 */
+.eleTree-node{
+    position: relative;
+}
+.eleTree-node .eleTree-node-verticalline{
+    position: absolute;
+    width: 0;
+    height: 100%;
+    border: 1px dotted #ccc;
+    z-index: 1;
+}
+.eleTree-node .eleTree-node-horizontalline{
+    position: absolute;
+    height: 0;
+    top: 13px;
+    border: 1px dotted #ccc;
+    z-index: 1;
+}
 
 /* checkbox第三种状态 */
 input.eleTree-hideen[type=checkbox]{
-    display: none !important; /* 修复与layui兼容性-nhzex */
+    display: none;
 }
 .eleTree-checkbox {
     height: auto!important;
