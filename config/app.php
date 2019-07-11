@@ -18,7 +18,7 @@ use think\facade\Env;
 
 return [
     // 应用地址
-    'app_host'         => Env::get('app.host', ''),
+    'app_host'         => Env::get('APP_HOST', ''),
     // 应用的命名空间
     'app_namespace'    => '',
     // 是否启用路由
@@ -44,7 +44,4 @@ return [
     'error_message'    => '页面错误！请稍后再试～',
     // 显示错误信息
     'show_error_msg'   => false,
-    // 默认跳转页面对应的模板文件
-    'dispatch_success_tmpl'  => \think\facade\App::getAppPath() . 'view/dispatch_jump.blade.php',
-    'dispatch_error_tmpl'    => \think\facade\App::getAppPath() . 'view/dispatch_jump.blade.php',
 ];

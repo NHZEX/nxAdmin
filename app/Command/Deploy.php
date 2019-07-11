@@ -29,7 +29,6 @@ use think\console\input\Option;
 use think\console\Output;
 use think\console\output\Ask;
 use think\console\output\Question;
-use think\Db;
 use think\Env;
 use think\Exception as ExceptionThink;
 use think\exception\PDOException;
@@ -139,7 +138,7 @@ class Deploy extends Command
         }
 
         // 重新构建数据库链接
-        $this->app->db = new Db($this->getDbConfig($env));
+        $this->app->db->init($this->getDbConfig($env));
 
         // 执行更新操作
         if (!$notMigrate) {

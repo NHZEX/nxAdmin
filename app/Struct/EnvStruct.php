@@ -31,9 +31,9 @@ class EnvStruct extends BaseProperty
 
     public $DEVELOP_SECURE_DOMAIN_NAME = '';
 
-    public $SYSTEM_LOG_FILE_PATH = '';
     public $SYSTEM_WEB_TITLE = 'nxAdmin';
 
+    public $LOG_STORAGE_PATH = '';
     public $REMOTELOG_ENABLE = 0;
     public $REMOTELOG_HOST = '127.0.0.1';
     public $REMOTELOG_FORCE_CLIENT_ID = 'develop';
