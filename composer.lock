@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "68c2f2ffe99959e60384d7737b830271",
+    "content-hash": "89c22f89bc5e1d9ac74390de4fc04257",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1442,12 +1442,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-blade.git",
-                "reference": "90deb0f130bd7f931902e69a0a999dae18d4297f"
+                "reference": "16e5c0b7993fde113199c274185b07c93d6c8c63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/90deb0f130bd7f931902e69a0a999dae18d4297f",
-                "reference": "90deb0f130bd7f931902e69a0a999dae18d4297f",
+                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/16e5c0b7993fde113199c274185b07c93d6c8c63",
+                "reference": "16e5c0b7993fde113199c274185b07c93d6c8c63",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1485,7 +1485,7 @@
                 }
             ],
             "description": "Use Laravel Blade templates without the full Laravel framework",
-            "time": "2019-07-11T01:54:07+00:00"
+            "time": "2019-07-11T03:58:44+00:00"
         },
         {
             "name": "opis/closure",
@@ -3064,12 +3064,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "b7317bbede8ee15ce01d54133a4a286d15e0472c"
+                "reference": "f9b4e134c2cdbf77cd4e44da9c70a2a983a1a475"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/b7317bbede8ee15ce01d54133a4a286d15e0472c",
-                "reference": "b7317bbede8ee15ce01d54133a4a286d15e0472c",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/f9b4e134c2cdbf77cd4e44da9c70a2a983a1a475",
+                "reference": "f9b4e134c2cdbf77cd4e44da9c70a2a983a1a475",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3121,7 +3121,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-07-10T05:26:26+00:00"
+            "time": "2019-07-11T06:38:11+00:00"
         },
         {
             "name": "topthink/think-cache",
@@ -3220,16 +3220,16 @@
         },
         {
             "name": "topthink/think-helper",
-            "version": "v3.1.1",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-helper.git",
-                "reference": "92c24d1057118dada3ca18232cd18ef38a831ad6"
+                "reference": "a629c4271fdf3d7e7c6d89089791417cb4796a2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-helper/zipball/92c24d1057118dada3ca18232cd18ef38a831ad6",
-                "reference": "92c24d1057118dada3ca18232cd18ef38a831ad6",
+                "url": "https://api.github.com/repos/top-think/think-helper/zipball/a629c4271fdf3d7e7c6d89089791417cb4796a2c",
+                "reference": "a629c4271fdf3d7e7c6d89089791417cb4796a2c",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3237,6 +3237,9 @@
                         "preferred": true
                     }
                 ]
+            },
+            "require": {
+                "php": ">=7.1.0"
             },
             "type": "library",
             "autoload": {
@@ -3258,7 +3261,7 @@
                 }
             ],
             "description": "The ThinkPHP6 Helper Package",
-            "time": "2019-07-10T08:52:50+00:00"
+            "time": "2019-07-11T04:35:03+00:00"
         },
         {
             "name": "topthink/think-log",
@@ -3306,16 +3309,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.10",
+            "version": "v2.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "07fd29b682c38a1ea2ca956cf2e5087ee52327c9"
+                "reference": "fd7e5b5c8b8f20ce03d3b63f3c7fb80069aa0f4f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/07fd29b682c38a1ea2ca956cf2e5087ee52327c9",
-                "reference": "07fd29b682c38a1ea2ca956cf2e5087ee52327c9",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/fd7e5b5c8b8f20ce03d3b63f3c7fb80069aa0f4f",
+                "reference": "fd7e5b5c8b8f20ce03d3b63f3c7fb80069aa0f4f",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3326,7 +3329,7 @@
             },
             "require": {
                 "php": ">=7.1.0",
-                "topthink/think-container": "^2.0"
+                "topthink/think-helper": "^3.1"
             },
             "suggest": {
                 "topthink/think-cache": "Required to use query cache (^2.0)."
@@ -3353,7 +3356,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2019-07-08T09:19:03+00:00"
+            "time": "2019-07-11T04:34:33+00:00"
         },
         {
             "name": "topthink/think-template",

@@ -65,7 +65,7 @@ return [
             // 日志强制记录到配置的 client_id
             'force_client_ids' => explode(',', Env::get('REMOTELOG_FORCE_CLIENT_ID', 'develop')),
             // 限制允许读取日志的 client_id
-            'allow_client_ids' => explode(',', Env::get('REMOTELOG_ALLOW_CLIENT_ID', '')),
+            'allow_client_ids' => [],
             // 日志处理
             'processor'      => null,
             // 关闭通道日志写入
