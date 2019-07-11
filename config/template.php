@@ -15,15 +15,14 @@
 // +----------------------------------------------------------------------
 
 use HZEX\Blade\Driver as BladeDriver;
-use think\facade\Env;
 
 return [
     // 模板引擎类型 支持 php think 支持扩展
     'type'         => BladeDriver::class,
     // 默认模板渲染规则 1 解析为小写+下划线 2 全部转换小写 3 保持操作方法
     'auto_rule'    => 1,
-    // 视图基础目录（集中式）
-    'view_base'    => \think\facade\App::getAppPath() . 'view' . DIRECTORY_SEPARATOR,
+    // 模板基础路径
+    'view_base'    => app_path('view'),
     // 模板路径
     'view_path'    => '',
     // 模板后缀
@@ -38,6 +37,4 @@ return [
     'taglib_begin' => '{',
     // 标签库标签结束标记
     'taglib_end'   => '}',
-    // 是否开启模板编译缓存,设为false则每次都会重新编译
-    'tpl_cache'    => boolval(Env::get('app.debug') ? Env::get('app.tpl_cache', true) : true),
 ];

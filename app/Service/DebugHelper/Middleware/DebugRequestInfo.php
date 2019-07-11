@@ -23,10 +23,10 @@ class DebugRequestInfo
         $controller = $request->controller(true);
         $class = $app->parseClass('controller', $controller);
         $action = $request->action();
-        $app->log->info("[ DISPATCH ] {$appName}-{$class}#{$action}");
+        $app->log->record("dispatch: {$appName}-{$class}-{$action}", 'route');
         // $app->log->info('[ ROUTE ] ' . var_export($request->rule()->__debugInfo(), true));
-        $app->log->info('[ HEADER ] ' . var_export($request->header(), true));
-        $app->log->info('[ PARAM ] ' . var_export($request->param(), true));
+        $app->log->record('header: ' . var_export($request->header(), true), 'request');
+        $app->log->record('param: ' . var_export($request->param(), true), 'request');
         return $next($request);
     }
 }

@@ -16,22 +16,30 @@ use Tp\Db\Query;
 
 return [
     // 默认使用的数据库连接配置
-    'default' => Env::get('database.driver', 'mysql'),
+    'default' => Env::get('database.driver', 'main'),
+    // 自定义时间查询规则
+    'time_query_rule' => [],
+    // 自动写入时间戳字段
+    // true为自动识别类型 false关闭
+    // 字符串则明确指定时间字段类型 支持 int timestamp datetime date
+    'auto_timestamp' => true,
+    // 时间字段取出后的默认时间格式
+    'datetime_format' => 'Y-m-d H:i:s',
     // 数据库连接配置信息
     'connections' => [
-        'mysql' => [
+        'main' => [
             // 数据库类型
             'type'            => Mysql::class,
-            // 服务器地址
+            // 地址
             'hostname'        => Env::get('database.hostname', '127.0.0.1'),
+            // 端口
+            'hostport'        => Env::get('database.hostport', '3306'),
             // 数据库名
             'database'        => Env::get('database.database', 'database'),
             // 用户名
             'username'        => Env::get('database.username', 'root'),
             // 密码
             'password'        => Env::get('database.password', ''),
-            // 端口
-            'hostport'        => Env::get('database.hostport', '3306'),
             // 连接dsn
             'dsn'             => '',
             // 数据库连接参数
@@ -64,8 +72,4 @@ return [
 
         // 更多的数据库配置信息
     ],
-    // 自动写入时间戳字段
-    'auto_timestamp'  => true,
-    // 时间字段取出后的默认时间格式 默认'Y-m-d H:i:s'
-    'datetime_format' => 'Y-m-d H:i:s',
 ];

@@ -16,7 +16,7 @@ return
         'default_database' => 'runtime',
         'runtime' => [
             'connection' => app()->db->connect()->getConnection()->connect(),
-            'name' => app()->db->getConfig('database'),
+            'name' => app()->db->connect()->getConfig('database'),
         ],
         'example' => [
             'adapter' => 'mysql',

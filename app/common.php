@@ -9,6 +9,9 @@
 // +----------------------------------------------------------------------
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
+use think\db\exception\BindParamException;
+use think\facade\Db;
+use think\facade\Request;
 
 /**
  * @param array|object $data
@@ -101,7 +104,7 @@ function parse_user_agent(string $ua)
 function urlHash(?string $url, string $prefix = 'page-'): string
 {
     if (null === $url) {
-        $url = \think\facade\Request::baseUrl();
+        $url = Request::baseUrl();
     }
 
     $info = parse_url($url);
@@ -351,17 +354,18 @@ function repair_local_imgs_url_domain($urls): array
 
 /**
  * 查询当前链接 mysql 版本
- * @param string|array $connect
+ * @param string $connect
  * @return string
- * @throws \think\Exception
+ * @throws BindParamException
+ * @throws \think\db\exception\PDOException
  */
-function query_mysql_version($connect = null)
+function query_mysql_version(string $connect = null)
 {
     $sql = 'select version() as mysqlver';
     if ($connect) {
-        $_version = \think\facade\Db::connect($connect)->query($sql);
+        $_version = Db::connect($connect, true)->query($sql);
     } else {
-        $_version = \think\facade\Db::query($sql);
+        $_version = Db::query($sql);
     }
     return array_pop($_version)['mysqlver'];
 }
@@ -369,18 +373,19 @@ function query_mysql_version($connect = null)
 /**
  * 查询当前链接 mysql 是否存在指定库
  * @param string $database
- * @param null $connect
+ * @param string $connect
  * @return bool
- * @throws \think\Exception
+ * @throws BindParamException
+ * @throws \think\db\exception\PDOException
  */
-function query_mysql_exist_database(string $database, $connect = null)
+function query_mysql_exist_database(string $database, string $connect = null)
 {
     /** @noinspection SqlResolve SqlNoDataSourceInspection SqlDialectInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
-        $list = \think\facade\Db::connect($connect)->query($sql);
+        $list = Db::connect($connect, true)->query($sql);
     } else {
-        $list = \think\facade\Db::query($sql);
+        $list = Db::query($sql);
     }
     return count($list) > 0;
 }
@@ -391,7 +396,7 @@ function query_mysql_exist_database(string $database, $connect = null)
  * 示例：$this->multiaArraySort($arr, 'num', SORT_DESC, 'sort', SORT_ASC)
  * @copyright https://blog.csdn.net/qq_35296546/article/details/78812176
  * @return array
- * @throws \Exception
+ * @throws Exception
  */
 function sortArrByManyField()
 {
@@ -401,7 +406,7 @@ function sortArrByManyField()
     }
     $arr = array_shift($args);
     if (!is_array($arr)) {
-        throw new \Exception("第一个参数不为数组");
+        throw new Exception("第一个参数不为数组");
     }
     foreach ($args as $key => $field) {
         if (is_string($field)) {

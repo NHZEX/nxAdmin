@@ -20,6 +20,7 @@ use Exception;
 use HZEX\Util;
 use Phinx\PhinxMigrate2;
 use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArgvInput as SymfonyArgvInput;
 use think\App;
@@ -29,10 +30,8 @@ use think\console\input\Option;
 use think\console\Output;
 use think\console\output\Ask;
 use think\console\output\Question;
-use think\Db;
 use think\Env;
 use think\Exception as ExceptionThink;
-use think\exception\PDOException;
 
 class Deploy extends Command
 {
@@ -66,7 +65,6 @@ class Deploy extends Command
      * @param Input  $input
      * @param Output $output
      * @return int
-     * @throws ExceptionThink
      * @throws Exception
      */
     public function execute(Input $input, Output $output): int
@@ -138,9 +136,6 @@ class Deploy extends Command
             }
         }
 
-        // 重新构建数据库链接
-        $this->app->db = new Db($this->getDbConfig($env));
-
         // 执行更新操作
         if (!$notMigrate) {
             $output->writeln('启动更新作业...');
@@ -163,8 +158,8 @@ class Deploy extends Command
 
     /**
      * @param bool $dryRun
-     * @throws PDOException
      * @throws Exception
+     * @throws ReflectionException
      */
     protected function execUpdate(bool $dryRun)
     {
@@ -249,13 +244,15 @@ class Deploy extends Command
      */
     private function getDbConfig(EnvStruct $env)
     {
-        return array_merge($this->app->config->get('database'), [
+        $config = $this->app->config->get('database');
+        $config['connections']['main'] = array_merge($config['connections']['main'], [
             'hostname' => $env->DATABASE_HOSTNAME,
             'hostport' => (int) $env->DATABASE_HOSTPORT,
             'database' => $env->DATABASE_DATABASE,
             'username' => $env->DATABASE_USERNAME,
             'password' => $env->DATABASE_PASSWORD,
         ]);
+        return $config;
     }
 
     /**
@@ -408,17 +405,17 @@ class Deploy extends Command
             $env->DATABASE_PASSWORD = $this->askQuestion($input, $output, $question);
         }
 
-        // 合并最终设置
-        $database_config = $this->getDbConfig($env);
+        // 重设数据库配置
+        $this->app->db->setConfig($this->getDbConfig($env));
         // 检查mysql版本
-        $mysql_ver = query_mysql_version($database_config);
+        $mysql_ver = query_mysql_version();
 
         if (version_compare($mysql_ver, self::MYSQL_VER_LIMIT, '<')) {
             throw new Exception("当前连接Mysql版本：{$mysql_ver}，最小限制版本：" . self::MYSQL_VER_LIMIT);
         }
         $output->writeln("当前连接Mysql版本：{$mysql_ver}");
 
-        if (!query_mysql_exist_database($env->DATABASE_DATABASE, $database_config)) {
+        if (!query_mysql_exist_database($env->DATABASE_DATABASE)) {
             throw new Exception("当前连接Mysql不存在库：{$env->DATABASE_DATABASE}");
         }
     }

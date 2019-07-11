@@ -21,20 +21,16 @@ use Tp\Session\Driver\Redis;
 $mixing_prefix = DeployInfo::getMixingPrefix();
 
 return [
+    // SESSION COOKIN
+    'name'           => 'one',
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
     // 驱动方式 支持redis memcache memcached
     'type'           => Redis::class,
-    // 是否自动开启 SESSION
-    'auto_start'     => false,
-    // 关闭自动生成Cookies
-    'use_cookies'    => false,
-    // SESSION COOKIN
-    'name'           => 'one',
-    // Memcached And Redis SESSION KEY 的前缀
-    'prefix'   => $mixing_prefix ? "{$mixing_prefix}:sess:" : 'sess:',
     // SESSION 超时(2小时)
     'expire'         => 7200,
+    // Memcached And Redis SESSION KEY 的前缀
+    'prefix'   => $mixing_prefix ? "{$mixing_prefix}:sess:" : 'sess:',
     // REDIS 设置
     'host'         => Env::get('redis.host', '127.0.0.1'), // redis主机
     'port'         => (int) Env::get('redis.port', 6379), // redis端口
