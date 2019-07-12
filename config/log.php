@@ -9,15 +9,15 @@
 // +----------------------------------------------------------------------
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
-use think\facade\Env;
 use HZEX\TpSwoole\Tp\Log\Driver\SocketLog;
+use think\facade\Env;
 
 // +----------------------------------------------------------------------
 // | 日志设置
 // +----------------------------------------------------------------------
 
 $log_file_path = Env::get('LOG_STORAGE_PATH', '');
-$default_channel = (bool) Env::get('REMOTELOG_ENABLEH', false) ? 'remotelog' : 'file';
+$default_channel = (bool) Env::get('REMOTELOG_ENABLE', false) ? 'remotelog' : 'file';
 
 return [
     // 默认日志记录通道
