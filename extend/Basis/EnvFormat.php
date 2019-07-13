@@ -12,7 +12,7 @@ namespace Basis;
  * Class Ini
  * @package Basis
  */
-class Ini
+class EnvFormat
 {
     const HEADER_DATE = 'date';
 
@@ -63,7 +63,7 @@ class Ini
             }
 
             if (!empty($ts) && $ts !== substr($key, 0, 3)) {
-                $text .= PHP_EOL . PHP_EOL;
+                $text .= PHP_EOL;
             }
             $text .= "{$key}={$value}\n";
             $ts = substr($key, 0, 3);

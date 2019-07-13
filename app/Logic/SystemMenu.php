@@ -9,14 +9,14 @@
 namespace app\Logic;
 
 use app\Exception\JsonException;
+use app\Model\System;
 use app\Model\SystemMenu as SystemMenuModel;
 use Exception;
 use Symfony\Component\VarExporter\Exception\ExceptionInterface;
 use Symfony\Component\VarExporter\VarExporter;
 use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\exception\DbException;
-use think\exception\PDOException;
 use think\facade\App;
 use think\facade\Cache;
 
@@ -131,6 +131,9 @@ class SystemMenu extends Base
     /**
      * 导出菜单
      * @return bool
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public static function export()
     {
@@ -153,20 +156,24 @@ class SystemMenu extends Base
     /**
      * @param bool $dryRun
      * @return bool
-     * @throws PDOException
+     * @throws Exception
      */
     public static function import(bool $dryRun = false)
     {
-        $nodes_file = App::getRootPath() . 'phinx/menus.php';
-        if (file_exists($nodes_file)) {
+        $update_file = App::getRootPath() . 'phinx/menus.php';
+        if (file_exists($update_file)) {
             /** @noinspection PhpIncludeInspection */
-            $nodes_data = require $nodes_file;
+            $update_data = require $update_file;
+            $file_hash = hash('md5', serialize($update_data));
+            if (System::getLabel('dep_data_menu_ver') === $file_hash) {
+                return true;
+            }
             $p = new SystemMenuModel();
             if (!$dryRun) {
                 try {
                     $p->startTrans();
                     $p->where('id', '>', '0')->delete();
-                    $p->insertAll($nodes_data);
+                    $p->insertAll($update_data);
                     self::refreshCache();
                     $p->commit();
                 } catch (Exception $exception) {
@@ -175,6 +182,7 @@ class SystemMenu extends Base
                     throw $exception;
                 }
             }
+            System::setLabel('dep_data_menu_ver', $file_hash);
             return true;
         }
         return false;

@@ -17,7 +17,7 @@ use Tp\Log\Driver\Socket;
 // +----------------------------------------------------------------------
 
 $log_file_path = Env::get('LOG_STORAGE_PATH', '');
-$default_channel = (bool) Env::get('REMOTELOG_ENABLEH', false) ? 'remotelog' : 'file';
+$default_channel = (bool) Env::get('REMOTELOG_ENABLE', false) ? 'remotelog' : 'file';
 
 return [
     // 默认日志记录通道

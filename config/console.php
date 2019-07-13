@@ -15,7 +15,6 @@
 // +----------------------------------------------------------------------
 use app\Command\Certificate;
 use app\Command\CreateModel;
-use app\Command\Deploy;
 use think\facade\Env;
 
 return [
@@ -25,6 +24,5 @@ return [
     'commands' => [
         Certificate::class,
         CreateModel::class,
-        Deploy::class,
     ],
 ];
