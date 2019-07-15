@@ -131,6 +131,14 @@ class Deploy extends Command
     /**
      * @return string
      */
+    public function getVerbosity(): string
+    {
+        return $this->verbosity;
+    }
+
+    /**
+     * @return string
+     */
     public function getEnvFilePath(): string
     {
         return $this->envFilePath;

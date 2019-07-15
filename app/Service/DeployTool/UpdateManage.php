@@ -8,6 +8,7 @@ use app\Logic\SystemMenu;
 use Exception;
 use Phinx\PhinxMigrate2;
 use ReflectionClass;
+use ReflectionException;
 use Symfony\Component\Console\Application as SymfonyApplication;
 use Symfony\Component\Console\Input\ArgvInput as SymfonyArgvInput;
 use think\console\Output;
@@ -28,10 +29,20 @@ class UpdateManage extends FeaturesManage
 
     /**
      * @param Output $output
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @throws Exception
      */
-    public function actionUpdate(Output $output)
+    public function actionAuto(Output $output)
+    {
+        $this->actionMigrate($output);
+        $this->actionUpdate($output);
+    }
+
+    /**
+     * @param Output $output
+     * @throws Exception
+     */
+    public function actionMigrate(Output $output)
     {
         // TODO 环境检查
         if (false === $this->deploy->isEnvExist()) {
@@ -39,7 +50,7 @@ class UpdateManage extends FeaturesManage
             return;
         }
 
-        $verbosity = empty($this->verbosity) ? null : "-{$this->verbosity}";
+        $verbosity = empty($this->deploy->getVerbosity()) ? null : "-{$this->deploy->getVerbosity()}";
 
         // 执行数据迁移
         $output->writeln('================执行PHINX迁移================');
@@ -54,6 +65,20 @@ class UpdateManage extends FeaturesManage
             throw new Exception("数据迁移发生异常中止\n");
         }
         $output->writeln('================执行PHINX完成================');
+    }
+
+    /**
+     * @param Output $output
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function actionUpdate(Output $output)
+    {
+        // TODO 环境检查
+        if (false === $this->deploy->isEnvExist()) {
+            $output->writeln('> 运行环境不正常');
+            return;
+        }
 
         // 更新权限节点
         $output->writeln('更新权限节点...');
