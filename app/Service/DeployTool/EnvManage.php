@@ -253,6 +253,11 @@ class EnvManage extends FeaturesManage
         }
 
         $this->testRedis($this->getRedisConfig($env));
+        $cacheConfig = $this->app->config->get('cache');
+        if (isset($cacheConfig['stores']['redis'])) {
+            $cacheConfig['stores']['redis'] = array_merge($cacheConfig['stores']['redis'], $this->getRedisConfig($env));
+        }
+        $this->app->cache->config($cacheConfig);
     }
 
 

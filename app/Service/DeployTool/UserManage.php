@@ -179,6 +179,10 @@ class UserManage extends FeaturesManage
         }
 
         $output->writeln('> 用户创建成功');
+        if ((bool) $input->getOption('no-interaction')) {
+            $output->writeln("  > 用户账号: {$admin_username}");
+            $output->writeln("  > 用户密码: {$admin_password}");
+        }
 
         return true;
     }
