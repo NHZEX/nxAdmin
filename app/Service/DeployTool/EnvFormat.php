@@ -6,7 +6,7 @@
  * Time: 10:42
  */
 
-namespace Basis;
+namespace app\Service\DeployTool;
 
 /**
  * Class Ini
@@ -15,21 +15,6 @@ namespace Basis;
 class EnvFormat
 {
     const HEADER_DATE = 'date';
-
-    /**
-     * 写入Env
-     * @param string $file_path
-     * @param array $contents
-     * @param string $header
-     */
-    public static function writerFile(string $file_path, iterable $contents, string $header = '')
-    {
-        if ($header === self::HEADER_DATE) {
-            $header = '# Date:' . date('c') . "\n\n";
-        }
-
-        file_put_contents($file_path, $header . self::generate($contents));
-    }
 
     /**
      * 写入Env
@@ -42,7 +27,22 @@ class EnvFormat
         if ($header === self::HEADER_DATE) {
             $header = '# Date:' . date('c') . "\n\n";
         }
-        return $header . self::generate($contents);
+
+        $data = (array) $contents;
+        ksort($data);
+
+        return $header . self::generate($data);
+    }
+
+    /**
+     * 写入Env
+     * @param string $file_path
+     * @param array $contents
+     * @param string $header
+     */
+    public static function writerFile(string $file_path, iterable $contents, string $header = '')
+    {
+        file_put_contents($file_path, self::writer($contents, $header));
     }
 
     /**

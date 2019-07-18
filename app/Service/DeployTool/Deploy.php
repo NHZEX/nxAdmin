@@ -8,7 +8,7 @@
 
 namespace app\Service\DeployTool;
 
-use app\Struct\EnvStruct;
+use app\Service\DeployTool\Struct\EnvStruct;
 use Exception;
 use HZEX\Util;
 use think\console\Command;
@@ -42,6 +42,10 @@ class Deploy extends Command
      * @var string
      */
     protected $verbosity;
+    /**
+     * @var array
+     */
+    protected $config;
 
     public function configure()
     {
@@ -77,6 +81,7 @@ class Deploy extends Command
 
         $this->envFilePath = $this->app->getRootPath() . '.env';
         $this->envFileExist = file_exists($this->envFilePath) && filesize($this->envFilePath) > 0;
+        $this->config = $this->app->config->get('deploy');
 
         // 载入当前配置
         $this->env = EnvStruct::read();
@@ -174,6 +179,18 @@ class Deploy extends Command
     public function setEnvExist(bool $envFileExist): void
     {
         $this->envFileExist = $envFileExist;
+    }
+
+    /**
+     * @param string|null $name
+     * @return array
+     */
+    public function getConfig(?string $name = null)
+    {
+        if (null === $name) {
+            return $this->config;
+        }
+        return $this->config[$name] ?? null;
     }
 
     /**
