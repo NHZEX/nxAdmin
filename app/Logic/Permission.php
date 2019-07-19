@@ -149,11 +149,11 @@ class Permission
             /** @noinspection PhpIncludeInspection */
             $update_data = require $update_file;
             $file_hash = hash('md5', serialize($update_data));
-            if (System::getLabel('dep_data_nodes_ver') === $file_hash) {
-                return true;
-            }
-            $p = new PermissionModel();
             if (!$dryRun) {
+                if (System::getLabel('dep_data_nodes_ver') === $file_hash) {
+                    return true;
+                }
+                $p = new PermissionModel();
                 try {
                     $p->startTrans();
                     $p->where('id', '>', '0')->delete();
@@ -165,8 +165,8 @@ class Permission
                     /** @noinspection PhpUnhandledExceptionInspection */
                     throw $exception;
                 }
+                System::setLabel('dep_data_nodes_ver', $file_hash);
             }
-            System::setLabel('dep_data_nodes_ver', $file_hash);
             return true;
         }
         return false;

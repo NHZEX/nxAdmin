@@ -33,15 +33,15 @@ return [
             // 数据库类型
             'type'            => 'mysql',
             // 服务器地址
-            'hostname'        => env_get('DB_%s_HOSTNAME', '127.0.0.1', 'main'),
+            'hostname'        => env_get('DB_MAIN_HOSTNAME', '127.0.0.1'),
             // 端口
-            'hostport'        => env_get('DB_%s_HOSTPORT', '3306', 'main'),
+            'hostport'        => env_get('DB_MAIN_HOSTPORT', '3306'),
             // 数据库名
-            'database'        => env_get('DB_%s_DATABASE', '', 'main'),
+            'database'        => env_get('DB_MAIN_DATABASE', ''),
             // 用户名
-            'username'        => env_get('DB_%s_USERNAME', 'root', 'main'),
+            'username'        => env_get('DB_MAIN_USERNAME', 'root'),
             // 密码
-            'password'        => env_get('DB_%s_PASSWORD', '', 'main'),
+            'password'        => env_get('DB_MAIN_PASSWORD', ''),
             // 连接dsn
             'dsn'             => '',
             // 数据库连接参数
@@ -51,7 +51,7 @@ return [
             // 数据库表前缀
             'prefix'          => '',
             // 数据库调试模式
-            'debug'           => (bool) env_get('DATABASE_DEBUG', false, 'main'),
+            'debug'           => (bool) env_get('DB_MAIN_DEBUG', false),
             // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
             'deploy'          => 0,
             // 数据库读写是否分离 主从式有效

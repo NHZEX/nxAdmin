@@ -43,6 +43,7 @@ class RedisProvider
         if ($reconnect && $this->handler2 instanceof RedisExtend) {
             $this->handler2->close();
             $this->handler2 = null;
+            $this->init = false;
         }
     }
 

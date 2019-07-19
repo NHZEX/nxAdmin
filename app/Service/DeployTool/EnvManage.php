@@ -14,7 +14,6 @@ use think\console\Input;
 use think\console\Output;
 use think\db\exception\BindParamException;
 use think\db\exception\PDOException;
-use think\helper\Str;
 
 class EnvManage extends FeaturesManage
 {
@@ -145,7 +144,8 @@ class EnvManage extends FeaturesManage
             try {
                 $closure();
                 break;
-            } catch (InputException|ConfigInvalidException $error) {
+            } /** @noinspection PhpRedundantCatchClauseInspection */
+            catch (InputException | ConfigInvalidException $error) {
                 if ((bool) $this->input->getOption('no-interaction')) {
                     // 防止死循环
                     usleep(500000);
@@ -167,24 +167,24 @@ class EnvManage extends FeaturesManage
     {
         $this->output->writeln('> 配置数据库');
 
-        $dbPreset = $this->deploy->getConfig('db');
-        $dbPresetItem = $dbPreset['item'];
+        $configName = 'db';
+        $dbPreset = $this->deploy->getConfig($configName);
 
         // 载入数据库配置
-        foreach ($this->envExtract($dbPreset['prefix'], 3) as $data) {
+        foreach ($this->envExtract($configName, 3) as $data) {
             [$group, $name, $value] = $data;
-            if (isset($dbPresetItem[$group])) {
-                $dbPresetItem[$group]['conf'][$name][0] = $value;
+            if (isset($dbPreset[$group])) {
+                $dbPreset[$group]['form'][$name][0] = $value;
             }
         };
 
-        foreach ($dbPresetItem as $name => $info) {
+        foreach ($dbPreset as $name => $info) {
             $this->output->writeln(" > 配置库: {$info['desc']}({$name})");
-            $result = $this->showFormsInput($info['conf']);
+            $result = $this->showFormsInput($info['form']);
             // 测试配置
             $this->testMysql($name, $result);
             // 转换为常量
-            $result = $this->toEnvFormat($dbPreset['prefix'], $name, $result);
+            $result = $this->toEnvFormat($configName, $name, $result);
             // 写到常量
             foreach ($result as $key => $value) {
                 $this->env->$key = $value;
@@ -201,10 +201,11 @@ class EnvManage extends FeaturesManage
     {
         $this->output->writeln('> 配置Redis');
 
-        $redisPreset = $this->deploy->getConfig('redis');
+        $configName = 'redis';
+        $redisPreset = $this->deploy->getConfig($configName);
 
         // 载入Redis配置
-        foreach ($this->envExtract('REDIS', 2) as $data) {
+        foreach ($this->envExtract($configName, 2) as $data) {
             [, $name, $value] = $data;
             $redisPreset[$name][0] = $value;
         };
@@ -213,53 +214,9 @@ class EnvManage extends FeaturesManage
         // 测试配置
         $this->testRedis($result);
         // 转换为常量
-        $result = $this->toEnvFormat('REDIS', null, $result);
+        $result = $this->toEnvFormat($configName, null, $result);
         // 写到常量
         foreach ($result as $key => $value) {
-            $this->env->$key = $value;
-        }
-    }
-
-    /**
-     * @throws ConfigInvalidException
-     * @throws InputException
-     */
-    protected function configCache()
-    {
-        $this->output->writeln('> 配置Cache');
-
-        $cachePreset = $this->deploy->getConfig('cache');
-        $cachePresetItem = $cachePreset['item'];
-
-        // 载入数据库配置
-        foreach ($this->envExtract($cachePreset['prefix'], 3) as $data) {
-            [$group, $name, $value] = $data;
-            if (isset($cachePresetItem[$group])) {
-                $cachePresetItem[$group]['conf'][$name][0] = $value;
-            }
-        };
-
-        $config = [];
-        // TODO 暂时只支持redis驱动
-        if ($this->output->confirm($this->input, '是否复用Redis配置', true)) {
-            // 载入Redis配置
-            foreach ($this->envExtract('REDIS', 2) as $data) {
-                [, $name, $value] = $data;
-                $config[$name] = $value;
-            };
-        } else {
-            $config = $this->showFormsInput($cachePresetItem['redis']['conf']);
-        }
-        // 测试配置
-        $this->testRedis($config);
-        // 写入缓存组件
-        $cacheConfig = $this->app->config->get('cache');
-        $cacheConfig['stores']['redis'] = array_merge($cacheConfig['stores']['redis'], $config);
-        $this->app->cache->config($cacheConfig);
-        // 转换为常量
-        $config = $this->toEnvFormat($cachePreset['prefix'], 'redis', $config);
-        // 写到常量
-        foreach ($config as $key => $value) {
             $this->env->$key = $value;
         }
     }
@@ -285,12 +242,11 @@ class EnvManage extends FeaturesManage
             // 载入Redis配置
             foreach ($this->envExtract('REDIS', 2) as $data) {
                 [, $name, $value] = $data;
+                // 赋值继承值
                 $config["redis_{$name}"] = $value;
+                // 移除已经赋值的输入表项
+                unset($cachePreset["redis_{$name}"]);
             };
-            // 移除redis输入;
-            $cachePreset = array_filter($cachePreset, function ($value, $key) {
-                return !Str::startsWith($key, 'redis_');
-            }, ARRAY_FILTER_USE_BOTH);
         }
 
         $config = $config + $this->showFormsInput($cachePreset);
@@ -312,9 +268,14 @@ class EnvManage extends FeaturesManage
         }
     }
 
+    protected function configCache()
+    {
+        // TODO 配置缓存
+    }
+
     protected function configLog()
     {
-        // TODO 日志配置管理
+        // TODO 配置日志
     }
 
     /**

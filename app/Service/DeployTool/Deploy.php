@@ -57,8 +57,8 @@ class Deploy extends Command
             ->addOption('force', 'f', Option::VALUE_NONE, '强制覆盖')
             ->addOption('dev', 'd', Option::VALUE_NONE, '添加开发模式预设')
             ->addOption('run-user', null, Option::VALUE_OPTIONAL, '运行用户')
-            ->addOption('init-username', null, Option::VALUE_OPTIONAL, '初始化用户名')
-            ->addOption('init-password', null, Option::VALUE_OPTIONAL, '初始化用户名')
+            ->addOption('add-username', null, Option::VALUE_OPTIONAL, '初始化用户名')
+            ->addOption('add-password', null, Option::VALUE_OPTIONAL, '初始化用户名')
             ->addOption('dry-run', null, Option::VALUE_NONE, '尝试执行');
     }
 

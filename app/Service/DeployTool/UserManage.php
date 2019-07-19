@@ -51,6 +51,11 @@ class UserManage extends FeaturesManage
             return false;
         }
 
+        if ($this->deploy->isDryRun()) {
+            $output->writeln('> 跳过用户创建');
+            return true;
+        }
+
         $existUser = AdminUser::where('genre', '=', AdminUser::GENRE_SUPER_ADMIN)
             ->where('status', '=' ,AdminUser::STATUS_NORMAL)
             ->count() > 0;
@@ -113,10 +118,12 @@ class UserManage extends FeaturesManage
             return false;
         }
 
+        $noInteraction = (bool) $input->getOption('no-interaction');
+
         $output->writeln('> 添加超级管理员');
 
-        $admin_username = $input->getOption('init-username');
-        $admin_password = $input->getOption('init-password');
+        $admin_username = $input->getOption('add-username');
+        $admin_password = $input->getOption('add-password');
 
         if (empty($admin_username)) {
             $question = new Question("输入管理员用户名\t\t", 'admin_' . get_rand_str(8));
@@ -176,10 +183,13 @@ class UserManage extends FeaturesManage
             $output->writeln($creatde_sql);
         } else {
             $au->save();
+            if ($output->getVerbosity() >= $output::VERBOSITY_VERBOSE) {
+                $output->writeln($au->getLastSql());
+            }
         }
 
-        $output->writeln('> 用户创建成功');
-        if ((bool) $input->getOption('no-interaction')) {
+        $output->writeln('> 用户创建成功' . ($noInteraction ? '<comment>[回显]</comment>' : ''));
+        if ($noInteraction) {
             $output->writeln("  > 用户账号: {$admin_username}");
             $output->writeln("  > 用户密码: {$admin_password}");
         }

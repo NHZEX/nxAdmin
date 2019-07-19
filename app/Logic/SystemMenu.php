@@ -164,12 +164,12 @@ class SystemMenu extends Base
         if (file_exists($update_file)) {
             /** @noinspection PhpIncludeInspection */
             $update_data = require $update_file;
-            $file_hash = hash('md5', serialize($update_data));
-            if (System::getLabel('dep_data_menu_ver') === $file_hash) {
-                return true;
-            }
-            $p = new SystemMenuModel();
             if (!$dryRun) {
+                $file_hash = hash('md5', serialize($update_data));
+                if (System::getLabel('dep_data_menu_ver') === $file_hash) {
+                    return true;
+                }
+                $p = new SystemMenuModel();
                 try {
                     $p->startTrans();
                     $p->where('id', '>', '0')->delete();
@@ -181,8 +181,8 @@ class SystemMenu extends Base
                     /** @noinspection PhpUnhandledExceptionInspection */
                     throw $exception;
                 }
+                System::setLabel('dep_data_menu_ver', $file_hash);
             }
-            System::setLabel('dep_data_menu_ver', $file_hash);
             return true;
         }
         return false;

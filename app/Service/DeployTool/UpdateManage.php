@@ -78,7 +78,6 @@ class UpdateManage extends FeaturesManage
 
     /**
      * @param Output $output
-     * @throws ReflectionException
      * @throws Exception
      */
     public function actionData(Output $output)
@@ -89,15 +88,37 @@ class UpdateManage extends FeaturesManage
             return;
         }
 
-        // 更新权限节点
-        $output->writeln('更新权限节点...');
+        $this->updateNodes($output);
+        $this->updateMenu($output);
+
+    }
+
+    /**
+     * 更新权限节点
+     * @param Output $output
+     * @throws Exception
+     */
+    protected function updateNodes(Output $output)
+    {
+        $output->writeln('> 更新权限节点...');
         Permission::importNodes($this->deploy->isDryRun());
-        $output->writeln('更新菜单节点...');
+    }
+
+    /**
+     * 更新菜单节点
+     * @param Output $output
+     * @throws ReflectionException
+     */
+    protected function updateMenu(Output $output)
+    {
+        $output->writeln('> 更新菜单节点...');
+        // 虚拟当前请求
         $this->app->request->setSubDomain('/');
         $ref = new ReflectionClass($this->app->route);
         $p = $ref->getProperty('request');
         $p->setAccessible(true);
         $p->setValue($this->app->route, $this->app->request);
         SystemMenu::import($this->deploy->isDryRun());
+        $this->app->delete('request');
     }
 }

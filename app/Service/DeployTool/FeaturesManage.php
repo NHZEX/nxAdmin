@@ -169,10 +169,13 @@ abstract class FeaturesManage
                 continue;
             }
             if ($segments === 2) {
-                [$prefix, $name] = $ekey;
+                $prefix = array_shift($ekey);
+                $name = join('_', $ekey);
                 $group = null;
             } else {
-                [$prefix, $group, $name] = $ekey;
+                $prefix = array_shift($ekey);
+                $group = array_shift($ekey);
+                $name = join('_', $ekey);
                 $group = strtolower($group);
             }
             // 筛选有效数据库段
