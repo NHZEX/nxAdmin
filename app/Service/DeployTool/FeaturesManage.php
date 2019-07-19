@@ -71,6 +71,7 @@ abstract class FeaturesManage
      * @param Input  $input
      * @param Output $output
      * @param        $option
+     * @return bool|int|null
      * @throws Exception
      */
     public function __invoke(Input $input, Output $output, $option)
@@ -85,9 +86,10 @@ abstract class FeaturesManage
 
         if (null === $runAction) {
             $this->deploy->showActionList($this->getActionList());
+            return true;
         } else {
             $runAction = Str::camel('action_' . $runAction);
-            $this->app->invokeFunction(
+            return $this->app->invokeFunction(
                 Closure::fromCallable([$this, $runAction]),
                 ['input' => $input, 'output' =>  $output, 'option' =>  $option]
             );

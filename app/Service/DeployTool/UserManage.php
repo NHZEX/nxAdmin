@@ -57,8 +57,8 @@ class UserManage extends FeaturesManage
         }
 
         $existUser = AdminUser::where('genre', '=', AdminUser::GENRE_SUPER_ADMIN)
-            ->where('status', '=' ,AdminUser::STATUS_NORMAL)
-            ->count() > 0;
+                ->where('status', '=', AdminUser::STATUS_NORMAL)
+                ->count() > 0;
 
         if (false === $existUser) {
             return $this->actionAdd($input, $output);
@@ -122,8 +122,8 @@ class UserManage extends FeaturesManage
 
         $output->writeln('> 添加超级管理员');
 
-        $admin_username = $input->getOption('add-username');
-        $admin_password = $input->getOption('add-password');
+        $admin_username = $this->app->env->get('INIT_SADMIN_USERNAME', $input->getOption('add-username'));
+        $admin_password = $this->app->env->get('INIT_SADMIN_PASSWORD', $input->getOption('add-password'));
 
         if (empty($admin_username)) {
             $question = new Question("输入管理员用户名\t\t", 'admin_' . get_rand_str(8));
@@ -183,7 +183,7 @@ class UserManage extends FeaturesManage
             $output->writeln($creatde_sql);
         } else {
             $au->save();
-            if ($output->getVerbosity() >= $output::VERBOSITY_VERBOSE) {
+            if ($output->isDebug()) {
                 $output->writeln($au->getLastSql());
             }
         }

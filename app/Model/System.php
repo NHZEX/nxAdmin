@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace app\Model;
 
+use think\db\exception\BindParamException;
+use think\db\exception\PDOException;
+use think\facade\Db;
+
 /**
  * Class System
  * @package app\Model
@@ -19,6 +23,21 @@ class System extends Base
         'label' => 'string',
         'value' => 'string',
     ];
+
+    /**
+     * 是否可用
+     * @return bool
+     * @throws BindParamException
+     * @throws PDOException
+     */
+    public static function isAvailable()
+    {
+        $database = DB::getConnection()->getConfig('database');
+        /** @noinspection SqlResolve */
+        /** @noinspection SqlNoDataSourceInspection */
+        $sql = "select * from `INFORMATION_SCHEMA`.`TABLES` where TABLE_SCHEMA='{$database}' and TABLE_NAME='system'";
+        return count(Db::query($sql)) > 0;
+    }
 
     /**
      * 查询一个值

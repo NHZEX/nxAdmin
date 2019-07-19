@@ -29,7 +29,7 @@
         "ext-openssl": "*",
         "ext-pdo": "*",
         "ext-posix": "*",
-        "ext-redis": "4.3.0",
+        "ext-redis": "^4.3.0",
         "ext-simplexml": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
@@ -40,11 +40,12 @@
         "nhzex/think-blade": "3.0.x-dev",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
+        "symfony/finder": "^4.3",
         "symfony/polyfill-php73": "^1.10",
+        "symfony/var-dumper": "^4.2",
         "symfony/var-exporter": "^4.2",
-        "topthink/framework": "6.0.x-dev#f9b4e134c2cdbf77cd4e44da9c70a2a983a1a475",
+        "topthink/framework": "6.0.x-dev#661510f51894f0f755e531fa792449780ed7d960",
         "topthink/think-view": "dev-master",
-        "symfony/var-dumper":"^4.2",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
@@ -85,9 +86,5 @@
         }
     },
     "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.laravel-china.org"
-        }
     }
 }

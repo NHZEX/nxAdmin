@@ -47,6 +47,11 @@ class Deploy extends Command
      */
     protected $config;
 
+    /**
+     * @var int
+     */
+    protected $code;
+
     public function configure()
     {
         $this
@@ -59,6 +64,7 @@ class Deploy extends Command
             ->addOption('run-user', null, Option::VALUE_OPTIONAL, '运行用户')
             ->addOption('add-username', null, Option::VALUE_OPTIONAL, '初始化用户名')
             ->addOption('add-password', null, Option::VALUE_OPTIONAL, '初始化用户名')
+            ->addOption('max-retry', null, Option::VALUE_OPTIONAL, '最大重试次数', 10)
             ->addOption('dry-run', null, Option::VALUE_NONE, '尝试执行');
     }
 
@@ -92,11 +98,20 @@ class Deploy extends Command
         $this->env->TASK_USER = $this->env->TASK_USER ?? Util::whoami();
 
         // 可用指令列表
-        $actionList = ['auto' => '自动', 'env' => '常量管理', 'user' => '用户管理', 'update' => '更新管理'];
+        $actionList = [
+            'auto' => '自动',
+            'help' => '帮助',
+            'env' => '常量管理',
+            'user' => '用户管理',
+            'update' => '更新管理'
+        ];
 
         switch ($this->autoAction($action, $actionList)) {
             case 'auto':
                 $this->auto($input, $output);
+                break;
+            case 'help':
+                $this->showActionList($actionList);
                 break;
             case 'env':
                 $env = new EnvManage($this, $this->env);
@@ -112,11 +127,18 @@ class Deploy extends Command
                 break;
             default:
                 if ($this->envFileExist) {
-                    $this->showActionList($actionList);
+                    // 自动更新数据
+                    $features = new UpdateManage($this, $this->env);
+                    if (false === $features($input, $output, [$features->getDefaultAction()])) {
+                        // 显示命令列表
+                        $this->showActionList($actionList);
+                    }
                 } else {
                     $this->auto($input, $output);
                 }
         }
+
+        return $this->code;
     }
 
     /**
@@ -194,6 +216,14 @@ class Deploy extends Command
     }
 
     /**
+     * @param int $code
+     */
+    public function setCode(int $code): void
+    {
+        $this->code = $code;
+    }
+
+    /**
      * @param string|null $runAction
      * @param array       $actionList
      * @return bool|mixed|string|null
@@ -212,7 +242,8 @@ class Deploy extends Command
         if (count($name_hits) === 1) {
             $runAction = $name_hits[0];
         } elseif (count($name_hits) > 1) {
-            $runAction = $this->output->choice($this->input, "输入的指令（{$runAction}）可能是以下匹配: ", $name_hits, null);
+            $runAction = $this->output
+                ->choice($this->input, "输入的指令（{$runAction}）可能是以下匹配: ", $name_hits, null);
         } else {
             $this->output->error("输入的指令不存在: {$runAction}");
             $runAction = null;
@@ -237,5 +268,4 @@ class Deploy extends Command
             $this->output->info($action . $description);
         }
     }
-
 }

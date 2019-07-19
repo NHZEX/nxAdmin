@@ -80,6 +80,15 @@ class SystemMenu extends Base
     }
 
     /**
+     *  清理缓存
+     */
+    public static function clearCache()
+    {
+        Cache::delete(self::$CACHE_KEY_MENUS_ALL);
+        Cache::delete(self::$CACHE_KEY_MENUS_MAPPING_NODE);
+    }
+
+    /**
      * 统一获取菜单
      * @param int|null $roleId
      * @return array
@@ -154,11 +163,12 @@ class SystemMenu extends Base
     }
 
     /**
-     * @param bool $dryRun
+     * @param bool        $dryRun
+     * @param string|null $message
      * @return bool
      * @throws Exception
      */
-    public static function import(bool $dryRun = false)
+    public static function import(bool $dryRun = false, string &$message = null)
     {
         $update_file = App::getRootPath() . 'phinx/menus.php';
         if (file_exists($update_file)) {
@@ -167,6 +177,7 @@ class SystemMenu extends Base
             if (!$dryRun) {
                 $file_hash = hash('md5', serialize($update_data));
                 if (System::getLabel('dep_data_menu_ver') === $file_hash) {
+                    $message = '<comment>数据无需更新</comment>';
                     return true;
                 }
                 $p = new SystemMenuModel();
@@ -174,7 +185,7 @@ class SystemMenu extends Base
                     $p->startTrans();
                     $p->where('id', '>', '0')->delete();
                     $p->insertAll($update_data);
-                    self::refreshCache();
+                    self::clearCache();
                     $p->commit();
                 } catch (Exception $exception) {
                     $p->rollback();
@@ -183,8 +194,10 @@ class SystemMenu extends Base
                 }
                 System::setLabel('dep_data_menu_ver', $file_hash);
             }
+            $message = '<info>数据更新完成</info>';
             return true;
         }
+        $message = '<error>数据文件不存在</error>';
         return false;
     }
 }

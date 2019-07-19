@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpRedundantCatchClauseInspection */
 declare(strict_types=1);
 
 namespace app\Service\DeployTool;
@@ -10,6 +11,7 @@ use app\Service\DeployTool\Exception\InputException;
 use app\Service\DeployTool\Struct\EnvStruct;
 use Closure;
 use Exception;
+use RedisException;
 use think\console\Input;
 use think\console\Output;
 use think\db\exception\BindParamException;
@@ -107,7 +109,7 @@ class EnvManage extends FeaturesManage
     protected function configEnv()
     {
         $this->checkInput(function () {
-            $this->configMysql();
+            $this->configDataBase();
         }, '提供的数据库配置不正确：%s');
 
         $this->checkInput(function () {
@@ -137,18 +139,19 @@ class EnvManage extends FeaturesManage
     {
         /** @var Exception $error */
         $error = null;
+        $count = (int) $this->input->getOption('max-retry');
         while (true) {
             if (null !== $error) {
-                $this->output->warning(str_replace('%s', $error->getMessage(), $message));
+                $message = str_replace('%s', $error->getMessage(), $message);
+                $this->output->writeln("<highlight>{$message}</highlight>");
             }
             try {
                 $closure();
                 break;
-            } /** @noinspection PhpRedundantCatchClauseInspection */
-            catch (InputException | ConfigInvalidException $error) {
-                if ((bool) $this->input->getOption('no-interaction')) {
+            } catch (InputException | ConfigInvalidException $error) {
+                if ($count-- && (bool) $this->input->getOption('no-interaction')) {
                     // 防止死循环
-                    usleep(500000);
+                    sleep(1);
                 } else {
                     throw $error;
                 }
@@ -163,7 +166,7 @@ class EnvManage extends FeaturesManage
      * @throws InputException
      * @throws PDOException
      */
-    protected function configMysql()
+    protected function configDataBase()
     {
         $this->output->writeln('> 配置数据库');
 
@@ -182,7 +185,12 @@ class EnvManage extends FeaturesManage
             $this->output->writeln(" > 配置库: {$info['desc']}({$name})");
             $result = $this->showFormsInput($info['form']);
             // 测试配置
-            $this->testMysql($name, $result);
+            switch ($info['type']) {
+                case 'mysql':
+                    $this->testMysql($name, $result);
+                    break;
+                default:
+            }
             // 转换为常量
             $result = $this->toEnvFormat($configName, $name, $result);
             // 写到常量
@@ -268,6 +276,10 @@ class EnvManage extends FeaturesManage
         }
     }
 
+    /**
+     * 设置Cache
+     * @throws ConfigInvalidException
+     */
     protected function configCache()
     {
         // TODO 配置缓存
@@ -294,7 +306,15 @@ class EnvManage extends FeaturesManage
         $this->app->db->setConfig($config);
 
         // 检查mysql版本
-        $mysql_ver = query_mysql_version($connections);
+        try {
+            $mysql_ver = query_mysql_version($connections);
+        } catch (\PDOException $exception) {
+            $address = empty($testConfig['dsn'])
+                ? "{$testConfig['hostname']}:{$testConfig['hostport']}"
+                :  $testConfig['dsn'];
+            $message = "数据库连接[$address]异常：{$exception->getMessage()}";
+            throw new ConfigInvalidException($message, $exception->getCode(), $exception);
+        }
 
         if (version_compare($mysql_ver, self::MYSQL_VER_LIMIT, '<')) {
             throw new ConfigInvalidException("当前连接Mysql版本：{$mysql_ver}，最小限制版本：" . self::MYSQL_VER_LIMIT);
@@ -313,9 +333,16 @@ class EnvManage extends FeaturesManage
     protected function testRedis(array $config)
     {
         Redis::setConfig($config, true);
-        if (Redis::instance()->ping() !== '+PONG') {
-            throw new ConfigInvalidException('Redis测试失败');
+
+        try {
+            if (Redis::instance()->ping() !== '+PONG') {
+                throw new ConfigInvalidException('Redis测试失败');
+            }
+        } catch (RedisException $exception) {
+            $message = "Redis连接[{$config['host']}:{$config['port']}]异常：{$exception->getMessage()}";
+            throw new ConfigInvalidException($message, $exception->getCode(), $exception);
         }
+
 
         $redis_version = Redis::instance()->getServerVersion();
         if (version_compare($redis_version, self::REDIS_VER_LIMIT, '<')) {

@@ -138,11 +138,12 @@ class Permission
     }
 
     /**
-     * @param bool $dryRun
+     * @param bool        $dryRun
+     * @param string|null $message
      * @return bool
      * @throws Exception
      */
-    public static function importNodes(bool $dryRun = false)
+    public static function importNodes(bool $dryRun = false, string &$message = null): bool
     {
         $update_file = App::getRootPath() . 'phinx/nodes.php';
         if (file_exists($update_file)) {
@@ -151,6 +152,7 @@ class Permission
             $file_hash = hash('md5', serialize($update_data));
             if (!$dryRun) {
                 if (System::getLabel('dep_data_nodes_ver') === $file_hash) {
+                    $message = '<comment>数据无需更新</comment>';
                     return true;
                 }
                 $p = new PermissionModel();
@@ -167,8 +169,10 @@ class Permission
                 }
                 System::setLabel('dep_data_nodes_ver', $file_hash);
             }
+            $message = '<info>数据更新完成</info>';
             return true;
         }
+        $message = '<error>数据文件不存在</error>';
         return false;
     }
 }

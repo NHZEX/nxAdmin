@@ -5,6 +5,7 @@ return [
     'db' => [
         'main' => [
             'desc' => '主数据库',
+            'type' => 'mysql',
             'form' => [
                 'hostname' => ['127.0.0.1', '地址', 'text', 'require|ip'],
                 'hostport' => [3306, '端口', 'int', 'integer|between:1,65535'],
