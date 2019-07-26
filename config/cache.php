@@ -14,11 +14,11 @@
 // | 缓存设置
 // +----------------------------------------------------------------------
 
-use think\facade\Env;
+use app\Server\DeployInfo;
 
 return [
     // 默认缓存驱动
-    'default' => Env::get('cache.driver', 'redis'),
+    'default' => 'redis',
     // 缓存连接方式配置
     'stores'  => [
         'file' => [
@@ -37,11 +37,9 @@ return [
         ],
         'redis' => [
             // 驱动方式
-            'type'       => \Tp\Cache\Driver\Redis::class,
-            // 缓存保存目录
-            'path'       => '',
+            'type'       =>  \Tp\Cache\Driver\Redis::class,
             // 缓存前缀
-            'prefix'     => 'cache:',
+            'prefix'     => DeployInfo::getMixingPrefix() . ':cache:',
             // 缓存有效期 0表示永久缓存
             'expire'     => 0,
             // 缓存标签前缀
@@ -49,17 +47,17 @@ return [
             // 序列化机制 例如 ['serialize', 'unserialize']
             'serialize'  => [],
             // Redis Host
-            'host'       => '127.0.0.1',
+            'host'       => env_get('REDIS_HOST', '127.0.0.1'),
             // Redis Port
-            'port'       => 6379,
+            'port'       => (int) env_get('REDIS_PORT', 6379),
             // Redis Password
-            'password'   => '',
+            'password'   => env_get('REDIS_PASSWORD', ''),
             // Redis Select
-            'select'     => 0,
+            'select'     => (int) env_get('REDIS_SELECT', 0),
             // Redis Timeout
-            'timeout'    => 0,
+            'timeout'    => (int) env_get('REDIS_TIMEOUT', 3),
             // Redis Persistent
-            'persistent' => false,
+            'persistent' => (bool) env_get('REDIS_PERSISTENT', false),
         ]
         // 更多的缓存连接
     ],

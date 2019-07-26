@@ -10,10 +10,11 @@
 // +----------------------------------------------------------------------
 
 use app\Service\Swoole\DestroyRedisConnection;
+use app\Service\Swoole\ServiceHealthCheck;
 use think\facade\App;
 
 return [
-    'auto_reload' => false,
+    'hot_reload' => env_get('SERVER_HOT_RELOAD', false),
     'enable_coroutine' => true,
     'resetters' => [],
     'penetrates' => [],
@@ -24,9 +25,9 @@ return [
             DestroyRedisConnection::class,
         ],
     ],
+    'health' => ServiceHealthCheck::class,
     'server' => [
-        'host' => '0.0.0.0', // 监听地址
-        'port' => 9505, // 监听端口
+        'listen' => env_get('SERVER_HTTP_LISTEN', '0.0.0.0:9501'), // 监听
         'mode' => SWOOLE_PROCESS, // 运行模式 默认为SWOOLE_PROCESS
         'sock_type' => SWOOLE_TCP, // sock type 默认为SWOOLE_SOCK_TCP
         'options' => [

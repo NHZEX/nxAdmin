@@ -1,0 +1,62 @@
+# https://hub.docker.com/_/influxdb
+# https://hub.docker.com/_/mysql/
+# https://hub.docker.com/_/redis
+
+version: '2'
+
+services:
+  ops-server:
+    image: ops-server:latest
+    restart: "no"
+    depends_on:
+      - mysql
+      - redis
+      - influxdb
+    networks:
+      - ops-server-network
+    ports:
+      - "9501:9501"
+      - "9502:9502"
+    environment:
+      PHP_DB_MAIN_HOSTNAME: mysql
+      PHP_DB_MAIN_DATABASE: data
+      PHP_DB_MAIN_USERNAME: root
+      PHP_DB_MAIN_PASSWORD: password
+      PHP_DB_INFLUX_HOSTNAME: influxdb
+      PHP_DB_INFLUX_DATABASE: data
+      PHP_REDIS_HOST: redis
+      PHP_INIT_SADMIN_USERNAME: tmpadmin
+      PHP_INIT_SADMIN_PASSWORD: 12334123
+  redis:
+    image: redis:5
+    restart: always
+    networks:
+      - ops-server-network
+  mysql:
+    image: mysql:5.7
+    restart: always
+    networks:
+      - ops-server-network
+    volumes:
+      - ops-server-mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: data
+  influxdb:
+    image: influxdb:1.7-alpine
+    restart: always
+    networks:
+      - ops-server-network
+    volumes:
+      - ops-server-influxdb:/var/lib/influxdb
+    environment:
+      INFLUXDB_DB: data
+      # 开启权限校验后无法创建相应用户，先不启用权限校验
+      INFLUXDB_HTTP_AUTH_ENABLED: 0
+      INFLUXDB_ADMIN_USER: root
+      INFLUXDB_ADMIN_PASSWORD: password
+networks:
+  ops-server-network:
+volumes:
+  ops-server-mysql:
+  ops-server-influxdb:

@@ -6,18 +6,16 @@ namespace Tp\Cache\Driver;
 use app\Service\Redis\RedisProvider;
 use Closure;
 use Co;
+use DateTime;
 use Exception;
 use think\cache\Driver;
-use think\Container;
-use think\contract\CacheHandlerInterface;
 use throwable;
 
 /**
  * Class Redis
  * @package Tp\Session\Driver
- * TODO 未完全兼容
  */
-class Redis extends Driver implements CacheHandlerInterface
+class Redis extends Driver
 {
     /**
      * 配置参数
@@ -39,7 +37,7 @@ class Redis extends Driver implements CacheHandlerInterface
     protected $isSwoole = false;
 
     /** @var RedisProvider */
-    private $redis;
+    protected $handler;
 
     /**
      * 架构函数
@@ -63,9 +61,9 @@ class Redis extends Driver implements CacheHandlerInterface
      */
     protected function init(): bool
     {
-        if (null === $this->redis) {
-            $this->redis = \app\Facade\Redis::newMake([], true);
-            $this->redis->setConfig([
+        if (null === $this->handler) {
+            $this->handler = \app\Facade\Redis::newMake([], true);
+            $this->handler->setConfig([
                 'host' => $this->options['host'],
                 'port' => $this->options['port'],
                 'password' => $this->options['password'],
@@ -73,7 +71,7 @@ class Redis extends Driver implements CacheHandlerInterface
                 'timeout' => $this->options['timeout'],
                 'persistent' => $this->options['persistent'],
             ], true);
-            \app\Facade\Redis::addStoresHosting($this->redis);
+            \app\Facade\Redis::addStoresHosting($this->handler);
         }
         return true;
     }
@@ -86,7 +84,7 @@ class Redis extends Driver implements CacheHandlerInterface
      */
     public function has($name): bool
     {
-        return 1 == $this->redis->exists($this->getCacheKey($name));
+        return 1 == $this->handler->exists($this->getCacheKey($name));
     }
 
     /**
@@ -100,7 +98,7 @@ class Redis extends Driver implements CacheHandlerInterface
     {
         $this->readTimes++;
 
-        $value = $this->redis->get($this->getCacheKey($name));
+        $value = $this->handler->get($this->getCacheKey($name));
 
         if (is_null($value) || false === $value) {
             return $default;
@@ -112,9 +110,9 @@ class Redis extends Driver implements CacheHandlerInterface
     /**
      * 写入缓存
      * @access public
-     * @param  string            $name 缓存变量名
-     * @param  mixed             $value  存储数据
-     * @param  integer|\DateTime $expire  有效时间（秒）
+     * @param  string           $name   缓存变量名
+     * @param  mixed            $value  存储数据
+     * @param  integer|DateTime $expire 有效时间（秒）
      * @return bool
      */
     public function set($name, $value, $expire = null): bool
@@ -130,9 +128,9 @@ class Redis extends Driver implements CacheHandlerInterface
         $value  = $this->serialize($value);
 
         if ($expire) {
-            $result = $this->redis->setex($key, $expire, $value);
+            $result = $this->handler->setex($key, $expire, $value);
         } else {
-            $result = $this->redis->set($key, $value);
+            $result = $this->handler->set($key, $value);
         }
 
         return $result;
@@ -151,7 +149,7 @@ class Redis extends Driver implements CacheHandlerInterface
 
         $key = $this->getCacheKey($name);
 
-        return $this->redis->incrby($key, $step);
+        return $this->handler->incrby($key, $step);
     }
 
     /**
@@ -167,7 +165,7 @@ class Redis extends Driver implements CacheHandlerInterface
 
         $key = $this->getCacheKey($name);
 
-        return $this->redis->decrby($key, $step);
+        return $this->handler->decrby($key, $step);
     }
 
     /**
@@ -180,7 +178,7 @@ class Redis extends Driver implements CacheHandlerInterface
     {
         $this->writeTimes++;
 
-        $this->redis->del($this->getCacheKey($name));
+        $this->handler->del($this->getCacheKey($name));
         return true;
     }
 
@@ -193,8 +191,43 @@ class Redis extends Driver implements CacheHandlerInterface
     {
         $this->writeTimes++;
 
-        $this->redis->flushDB();
+        $this->handler->flushDB();
         return true;
+    }
+
+    /**
+     * 删除缓存标签
+     * @access public
+     * @param array $keys 缓存标识列表
+     * @return void
+     */
+    public function clearTag(array $keys): void
+    {
+        // 指定标签清除
+        $this->handler->del($keys);
+    }
+
+    /**
+     * 追加（数组）缓存数据
+     * @access public
+     * @param string $name  缓存标识
+     * @param mixed  $value 数据
+     * @return void
+     */
+    public function push(string $name, $value): void
+    {
+        $this->handler->sAdd($name, $value);
+    }
+
+    /**
+     * 获取标签包含的缓存标识
+     * @access public
+     * @param string $tag 缓存标签
+     * @return array
+     */
+    public function getTagItems(string $tag): array
+    {
+        return $this->handler->sMembers($tag);
     }
 
     /**
@@ -230,7 +263,7 @@ class Redis extends Driver implements CacheHandlerInterface
 
             if ($value instanceof Closure) {
                 // 获取缓存数据
-                $value = Container::getInstance()->invokeFunction($value);
+                $value = $value();
             }
 
             // 缓存数据

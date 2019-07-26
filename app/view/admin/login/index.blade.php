@@ -66,7 +66,7 @@
     function refrushVerifyCode() {
         let obj = document.getElementById('img-verify-code');
         if (obj) {
-            obj.setAttribute('src', obj.getAttribute('src').toString().split('?')[0] + '?t=' + Math.random());
+            obj.setAttribute('src', obj.getAttribute('src').toString().split('?')[0] + '?_t=' + Math.random());
             let captcha = document.getElementById('input-verify-code');
             captcha.value = '';
             captcha.focus();
