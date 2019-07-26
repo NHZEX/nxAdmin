@@ -13,7 +13,7 @@ use think\facade\Env;
 
 class EnvStruct extends BaseProperty
 {
-    protected const PREFIX = ['DB_', 'REDIS_', 'CACHE_', 'LOG_', 'SESSION_'];
+    protected const PREFIX = ['DB_', 'REDIS_', 'CACHE_', 'LOG_', 'SESSION_', 'SERVER_'];
 
     public static function read()
     {

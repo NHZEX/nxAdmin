@@ -137,21 +137,18 @@ class EnvManage extends FeaturesManage
      */
     protected function checkInput(Closure $closure, string $message)
     {
-        /** @var Exception $error */
-        $error = null;
         $count = (int) $this->input->getOption('max-retry');
         while (true) {
-            if (null !== $error) {
-                $message = str_replace('%s', $error->getMessage(), $message);
-                $this->output->writeln("<highlight>{$message}</highlight>");
-            }
             try {
                 $closure();
                 break;
             } catch (InputException | ConfigInvalidException $error) {
-                if ($count-- && (bool) $this->input->getOption('no-interaction')) {
+                if ($count-- || ((bool) $this->input->getOption('no-interaction') && $count)) {
                     // 防止死循环
                     sleep(1);
+                    // 打印错误信息
+                    $message = str_replace('%s', $error->getMessage(), $message);
+                    $this->output->writeln("<highlight>{$message}</highlight>");
                 } else {
                     throw $error;
                 }
@@ -303,7 +300,8 @@ class EnvManage extends FeaturesManage
     {
         $config = $this->app->config->get('database');
         $config['connections'][$connections] = array_merge($config['connections'][$connections], $testConfig);
-        $this->app->db->setConfig($config);
+        $this->app->config->set($config, 'database');
+        $this->app->delete('db');
 
         // 检查mysql版本
         try {
