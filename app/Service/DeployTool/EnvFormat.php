@@ -6,30 +6,15 @@
  * Time: 10:42
  */
 
-namespace Basis;
+namespace app\Service\DeployTool;
 
 /**
  * Class Ini
  * @package Basis
  */
-class Ini
+class EnvFormat
 {
     const HEADER_DATE = 'date';
-
-    /**
-     * 写入Env
-     * @param string $file_path
-     * @param array $contents
-     * @param string $header
-     */
-    public static function writerFile(string $file_path, iterable $contents, string $header = '')
-    {
-        if ($header === self::HEADER_DATE) {
-            $header = '# Date:' . date('c') . "\n\n";
-        }
-
-        file_put_contents($file_path, $header . self::generate($contents));
-    }
 
     /**
      * 写入Env
@@ -42,7 +27,22 @@ class Ini
         if ($header === self::HEADER_DATE) {
             $header = '# Date:' . date('c') . "\n\n";
         }
-        return $header . self::generate($contents);
+
+        $data = (array) $contents;
+        ksort($data);
+
+        return $header . self::generate($data);
+    }
+
+    /**
+     * 写入Env
+     * @param string $file_path
+     * @param array $contents
+     * @param string $header
+     */
+    public static function writerFile(string $file_path, iterable $contents, string $header = '')
+    {
+        file_put_contents($file_path, self::writer($contents, $header));
     }
 
     /**
@@ -63,7 +63,7 @@ class Ini
             }
 
             if (!empty($ts) && $ts !== substr($key, 0, 3)) {
-                $text .= PHP_EOL . PHP_EOL;
+                $text .= PHP_EOL;
             }
             $text .= "{$key}={$value}\n";
             $ts = substr($key, 0, 3);

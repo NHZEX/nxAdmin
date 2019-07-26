@@ -4,8 +4,7 @@
     "type": "project",
     "keywords": [
         "framework",
-        "thinkphp",
-        "ORM"
+        "thinkphp"
     ],
     "homepage": "http://thinkphp.cn/",
     "license": "Apache-2.0",
@@ -29,7 +28,7 @@
         "ext-openssl": "*",
         "ext-pdo": "*",
         "ext-posix": "*",
-        "ext-redis": "4.3.0",
+        "ext-redis": "^4.3.0",
         "ext-simplexml": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
@@ -42,10 +41,12 @@
         "open-smf/connection-pool": "~1.0",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
+        "symfony/finder": "^4.3",
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-dumper": "^4.2",
         "symfony/var-exporter": "^4.2",
-        "topthink/framework": "6.0.x-dev#661510f51894f0f755e531fa792449780ed7d960",
+        "topthink/framework": "6.0.x-dev#f0babbd6529a57d8043690d63aa9505ca8a2c60d",
+        "topthink/think-orm": "2.0.x-dev#d0649a61896ddd060e7a038b79b3481d8730ceff",
         "topthink/think-view": "dev-master",
         "vlucas/phpdotenv": "^3.3"
     },
@@ -88,9 +89,5 @@
         }
     },
     "repositories": {
-        "packagist": {
-            "type": "composer",
-            "url": "https://packagist.laravel-china.org"
-        }
     }
 }

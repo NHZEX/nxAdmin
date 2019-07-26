@@ -74,20 +74,11 @@ abstract class Base extends ThinkModel
     }
 
     /**
-     * 关闭数据访问控制
-     * @param bool $off
-     */
-    public function turnOffAccessControl(bool $off = true): void
-    {
-        $this['__access_control'] = !$off;
-    }
-
-    /**
      * 是否关闭数据访问控制
      * @return bool
      */
     public function isDisableAccessControl(): bool
     {
-        return $this->hasData('__access_control') && false === $this->getData('__access_control');
+        return PHP_SAPI === 'cli' && defined('DISABLE_ACCESS_CONTROL');
     }
 }

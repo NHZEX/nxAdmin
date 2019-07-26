@@ -33,6 +33,13 @@ class Init extends AbstractMigration
      */
     public function change()
     {
+        $table = B::table()->id(false)->primaryKey('label')->comment('系统表')->d();
+        $system = $this->table('system', $table);
+        $system
+            ->addColumn(B::string('label', 48)->comment('标签')->d())
+            ->addColumn(B::string('value', 255)->comment('值')->d())
+            ->create();
+
         $admin_role = $this->table('admin_role', B::table()->comment('系统角色')->unsigned()->d());
         $admin_role
             ->addColumn(B::genre()->comment('角色类型')->d())

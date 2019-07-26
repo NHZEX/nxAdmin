@@ -9,14 +9,14 @@
 namespace app\Logic;
 
 use app\Exception\JsonException;
+use app\Model\System;
 use app\Model\SystemMenu as SystemMenuModel;
 use Exception;
 use Symfony\Component\VarExporter\Exception\ExceptionInterface;
 use Symfony\Component\VarExporter\VarExporter;
 use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\exception\DbException;
-use think\exception\PDOException;
 use think\facade\App;
 use think\facade\Cache;
 
@@ -80,6 +80,15 @@ class SystemMenu extends Base
     }
 
     /**
+     *  清理缓存
+     */
+    public static function clearCache()
+    {
+        Cache::delete(self::$CACHE_KEY_MENUS_ALL);
+        Cache::delete(self::$CACHE_KEY_MENUS_MAPPING_NODE);
+    }
+
+    /**
      * 统一获取菜单
      * @param int|null $roleId
      * @return array
@@ -131,6 +140,9 @@ class SystemMenu extends Base
     /**
      * 导出菜单
      * @return bool
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
+     * @throws DbException
      */
     public static function export()
     {
@@ -151,32 +163,41 @@ class SystemMenu extends Base
     }
 
     /**
-     * @param bool $dryRun
+     * @param bool        $dryRun
+     * @param string|null $message
      * @return bool
-     * @throws PDOException
+     * @throws Exception
      */
-    public static function import(bool $dryRun = false)
+    public static function import(bool $dryRun = false, string &$message = null)
     {
-        $nodes_file = App::getRootPath() . 'phinx/menus.php';
-        if (file_exists($nodes_file)) {
+        $update_file = App::getRootPath() . 'phinx/menus.php';
+        if (file_exists($update_file)) {
             /** @noinspection PhpIncludeInspection */
-            $nodes_data = require $nodes_file;
-            $p = new SystemMenuModel();
+            $update_data = require $update_file;
             if (!$dryRun) {
+                $file_hash = hash('md5', serialize($update_data));
+                if (System::getLabel('dep_data_menu_ver') === $file_hash) {
+                    $message = '<comment>数据无需更新</comment>';
+                    return true;
+                }
+                $p = new SystemMenuModel();
                 try {
                     $p->startTrans();
                     $p->where('id', '>', '0')->delete();
-                    $p->insertAll($nodes_data);
-                    self::refreshCache();
+                    $p->insertAll($update_data);
+                    self::clearCache();
                     $p->commit();
                 } catch (Exception $exception) {
                     $p->rollback();
                     /** @noinspection PhpUnhandledExceptionInspection */
                     throw $exception;
                 }
+                System::setLabel('dep_data_menu_ver', $file_hash);
             }
+            $message = '<info>数据更新完成</info>';
             return true;
         }
+        $message = '<error>数据文件不存在</error>';
         return false;
     }
 }

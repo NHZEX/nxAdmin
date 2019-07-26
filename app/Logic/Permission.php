@@ -9,15 +9,15 @@
 namespace app\Logic;
 
 use app\Model\Permission as PermissionModel;
+use app\Model\System;
 use app\Struct\PermissionNode;
 use Exception;
 use HZEX\Util;
 use Symfony\Component\VarExporter\Exception\ExceptionInterface;
 use Symfony\Component\VarExporter\VarExporter;
 use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\exception\DbException;
-use think\exception\PDOException;
 use think\facade\App;
 use think\facade\Cache;
 
@@ -68,6 +68,7 @@ class Permission
 
     /**
      * 获取节点中属于菜单的项目
+     * @return array
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      * @throws DbException
@@ -118,6 +119,9 @@ class Permission
     /**
      * 导出权限节点树
      * @return bool
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public static function exportNodes()
     {
@@ -134,22 +138,28 @@ class Permission
     }
 
     /**
-     * @param bool $dryRun
+     * @param bool        $dryRun
+     * @param string|null $message
      * @return bool
-     * @throws PDOException
+     * @throws Exception
      */
-    public static function importNodes(bool $dryRun = false)
+    public static function importNodes(bool $dryRun = false, string &$message = null): bool
     {
-        $nodes_file = App::getRootPath() . 'phinx/nodes.php';
-        if (file_exists($nodes_file)) {
+        $update_file = App::getRootPath() . 'phinx/nodes.php';
+        if (file_exists($update_file)) {
             /** @noinspection PhpIncludeInspection */
-            $nodes_data = require $nodes_file;
-            $p = new PermissionModel();
+            $update_data = require $update_file;
+            $file_hash = hash('md5', serialize($update_data));
             if (!$dryRun) {
+                if (System::getLabel('dep_data_nodes_ver') === $file_hash) {
+                    $message = '<comment>数据无需更新</comment>';
+                    return true;
+                }
+                $p = new PermissionModel();
                 try {
                     $p->startTrans();
                     $p->where('id', '>', '0')->delete();
-                    $p->insertAll($nodes_data);
+                    $p->insertAll($update_data);
                     self::refreshCache();
                     $p->commit();
                 } catch (Exception $exception) {
@@ -157,9 +167,12 @@ class Permission
                     /** @noinspection PhpUnhandledExceptionInspection */
                     throw $exception;
                 }
+                System::setLabel('dep_data_nodes_ver', $file_hash);
             }
+            $message = '<info>数据更新完成</info>';
             return true;
         }
+        $message = '<error>数据文件不存在</error>';
         return false;
     }
 }
