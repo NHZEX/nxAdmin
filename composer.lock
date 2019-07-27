@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9998f9e30f201b92164d9d6d34a2541c",
+    "content-hash": "576a5ea57ad621c365c74275a9a40cf4",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1351,12 +1351,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/tp-swoole.git",
-                "reference": "5e56d6e2dc7887922eab9674c67fe8160ae55b5b"
+                "reference": "d6faf9ce7e539891bb743aab4cf07672a44d96b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/tp-swoole/zipball/5e56d6e2dc7887922eab9674c67fe8160ae55b5b",
-                "reference": "5e56d6e2dc7887922eab9674c67fe8160ae55b5b",
+                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/tp-swoole/zipball/d6faf9ce7e539891bb743aab4cf07672a44d96b6",
+                "reference": "d6faf9ce7e539891bb743aab4cf07672a44d96b6",
                 "shasum": ""
             },
             "require": {
@@ -1375,7 +1375,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^8",
-                "swoole/ide-helper": "~4.3.4"
+                "swoft/swoole-ide-helper": "~4.4.0"
             },
             "type": "library",
             "extra": {
@@ -1406,7 +1406,7 @@
                     "email": "auooru@outlook.com"
                 }
             ],
-            "time": "2019-07-25T06:09:12+00:00"
+            "time": "2019-07-27T07:53:43+00:00"
         },
         {
             "name": "open-smf/connection-pool",
@@ -4520,41 +4520,32 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
-            "name": "swoole/ide-helper",
-            "version": "4.4.0",
+            "name": "swoft/swoole-ide-helper",
+            "version": "v4.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "d8fcff025cd386635f74fe68fb669be4c5b4a0d4"
+                "url": "https://github.com/swoft-cloud/swoole-ide-helper.git",
+                "reference": "6d813bd31cd18924771181922bf3bc0b92ae68b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/swoole/ide-helper/zipball/d8fcff025cd386635f74fe68fb669be4c5b4a0d4",
-                "reference": "d8fcff025cd386635f74fe68fb669be4c5b4a0d4",
+                "url": "https://github-api-proxy.cnpkg.org/repos/swoft-cloud/swoole-ide-helper/zipball/6d813bd31cd18924771181922bf3bc0b92ae68b7",
+                "reference": "6d813bd31cd18924771181922bf3bc0b92ae68b7",
                 "shasum": ""
             },
-            "require-dev": {
-                "squizlabs/php_codesniffer": "~3.4.0",
-                "zendframework/zend-code": "~3.3.0"
-            },
             "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Swoole\\IDEHelper\\": "src/"
-                }
-            },
             "notification-url": "https://repo.packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
-            "authors": [
-                {
-                    "name": "Team Swoole",
-                    "email": "team@swoole.com"
-                }
+            "description": "ide helper for Swoft and Swoole",
+            "keywords": [
+                "ide-helper",
+                "php",
+                "swoft",
+                "swoole"
             ],
-            "description": "IDE help files for Swoole.",
-            "time": "2019-07-07T19:43:22+00:00"
+            "time": "2019-07-11T13:23:46+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -4677,7 +4668,7 @@
         "ext-redis": "^4.3.0",
         "ext-simplexml": "*",
         "ext-sockets": "*",
-        "ext-swoole": "^4.3.2",
+        "ext-swoole": "~4.4.0",
         "ext-zip": "*",
         "ext-zlib": "*"
     },

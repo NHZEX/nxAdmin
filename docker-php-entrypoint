@@ -1,7 +1,11 @@
 #!/bin/sh
 set -e
 
+# 执行部署比检查环境状态
 php ./think dep --max-retry=60 -n -v
+
+# 防止强制结束时记录文件没法及时清理导致启动异常
+rm runtime/swoole.pid || true
 
 # first arg is `-f` or `--some-option`
 if [ "${1#-}" != "$1" ]; then
