@@ -36,7 +36,7 @@
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
         "nhzex/n-helper": "dev-master",
-        "nhzex/think-blade": "3.0.x-dev",
+        "nhzex/think-blade": "4.0.1",
         "robmorgan/phinx": "^0.10.6",
         "rybakit/msgpack": "^0.5.4",
         "symfony/finder": "^4.3",
