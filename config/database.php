@@ -50,8 +50,6 @@ return [
             'charset'         => 'utf8mb4',
             // 数据库表前缀
             'prefix'          => '',
-            // 数据库调试模式
-            'debug'           => (bool) env_get('DB_MAIN_DEBUG', false),
             // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
             'deploy'          => 0,
             // 数据库读写是否分离 主从式有效
@@ -62,14 +60,16 @@ return [
             'slave_no'        => '',
             // 是否严格检查字段是否存在
             'fields_strict'   => true,
-            // 是否需要进行SQL性能分析
-            'sql_explain'     => false,
+            // 开启字段缓存
+            'fields_cache'    => false,
+            // 监听SQL
+            'trigger_sql'     => true,
             // Builder类
             'builder'         => '',
             // Query类
             'query'           => Query::class,
             // 是否需要断线重连
-            'break_reconnect' => false,
+            'break_reconnect' => true,
             // 字段缓存路径
             'schema_cache_path' => app()->getRuntimePath() . 'schema' . DIRECTORY_SEPARATOR,
         ]

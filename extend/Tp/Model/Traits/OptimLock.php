@@ -24,7 +24,7 @@ trait OptimLock
 {
     protected $optimLock = 'lock_version';
 
-    private $lockVersion = 0;
+    private $lockVersion = null;
 
     /**
      * @param int $id
@@ -147,6 +147,10 @@ trait OptimLock
         }
 
         if (null !== ($lockVer = $this->getLockVersion())) {
+            // 删除数据时乐观锁没有走数据检测流程
+            if ($this->lockVersion === null) {
+                $this->lockVersion = $lockVer;
+            }
             $where[] = [$this->optimLock, '=', $this->lockVersion];
         }
 

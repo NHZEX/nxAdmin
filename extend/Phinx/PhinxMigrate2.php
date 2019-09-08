@@ -15,6 +15,8 @@ use think\facade\App;
 
 class PhinxMigrate2 extends Migrate
 {
+    protected static $defaultName = 'migrate';
+
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
