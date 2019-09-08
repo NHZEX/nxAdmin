@@ -333,7 +333,7 @@ class EnvManage extends FeaturesManage
         Redis::setConfig($config, true);
 
         try {
-            if (Redis::instance()->ping() !== '+PONG') {
+            if (!Redis::instance()->ping()) {
                 throw new ConfigInvalidException('Redis测试失败');
             }
         } catch (RedisException $exception) {
