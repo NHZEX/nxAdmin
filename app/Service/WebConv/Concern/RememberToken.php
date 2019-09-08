@@ -8,8 +8,8 @@ use app\Model\AdminUser as AdminUserModel;
 use app\Server\DeployInfo;
 use Hashids\Hashids;
 use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\exception\DbException;
 
 /**
  * Trait RememberToken

@@ -8,12 +8,19 @@
 
 namespace app\controller\admin;
 
+use app\Exception\JsonException;
 use app\Facade\WebConv;
 use app\Logic\AdminRole as AdminRoleLogic;
 use app\Logic\SystemMenu;
 use app\Model\AdminRole;
 use app\Model\AdminUser;
+use Exception;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\facade\View;
+use think\Response;
+use Throwable;
 use Tp\Model\Exception\ModelException;
 
 class Role extends Base
@@ -33,6 +40,7 @@ class Role extends Base
     /**
      * 主页
      * @return mixed
+     * @throws Exception
      */
     public function index()
     {
@@ -53,14 +61,15 @@ class Role extends Base
      * @param int    $page
      * @param int    $limit
      * @param string $type
-     * @return \think\Response
-     * @throws \think\Exception
-     * @throws \think\exception\DbException
+     * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function table(int $page = 1, int $limit = 1, string $type = 'system')
     {
         if (!isset(self::FILTER_TYPE[WebConv::getUserGenre()][$type])) {
-            return self::showMsg(CODE_COM_PARAM);
+            return self::showMsg(CODE_COM_PARAM, '无效的筛选参数');
         }
         $genre = self::FILTER_TYPE_MAPPING[$type];
 
@@ -75,12 +84,13 @@ class Role extends Base
     }
 
     /**
-     * @param int|null $base_pkid
+     * @param int|null    $base_pkid
      * @param string|null $type
      * @return string
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     * @throws Exception
      */
     public function pageEdit(int $base_pkid = null, ?string $type = null)
     {
@@ -105,7 +115,7 @@ class Role extends Base
     }
 
     /**
-     * @return \think\Response
+     * @return Response
      */
     public function save()
     {
@@ -114,7 +124,7 @@ class Role extends Base
         if ($csrf->isUpdate()) {
             [$pkid, $lock_version] = $this->parseCsrfToken($csrf);
             try {
-                $ar = AdminRole::getOptimisticVer($pkid, $lock_version);
+                $ar = AdminRole::findOptimisticVer($pkid, $lock_version);
             } catch (ModelException $e) {
                 return self::showException($e);
             }
@@ -133,7 +143,8 @@ class Role extends Base
      * User: Johnson
      * @param null $id
      * @return mixed
-     * @throws \app\Exception\JsonException
+     * @throws JsonException
+     * @throws Exception
      */
     public function permission($id = null)
     {
@@ -150,8 +161,8 @@ class Role extends Base
     /**
      * 保存角色权限
      * User: Johnson
-     * @return \think\Response
-     * @throws \Throwable
+     * @return Response
+     * @throws Throwable
      */
     public function savePermission()
     {
@@ -165,8 +176,11 @@ class Role extends Base
      * User: Johnson
      * @param int $id
      * @return mixed
-     * @throws \app\Exception\JsonException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws JsonException
+     * @throws ModelNotFoundException
+     * @throws DbException
+     * @throws Exception
      */
     public function menu($id = 0)
     {
@@ -187,8 +201,8 @@ class Role extends Base
     /**
      * 保存菜单权限
      * User: Johnson
-     * @return \think\Response
-     * @throws \app\Exception\JsonException
+     * @return Response
+     * @throws JsonException
      */
     public function saveMenu()
     {
@@ -201,7 +215,7 @@ class Role extends Base
     /**
      * 删除用户
      * @param null $id
-     * @return \think\Response
+     * @return Response
      */
     public function delete($id = null)
     {

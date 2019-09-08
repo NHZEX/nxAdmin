@@ -8,12 +8,16 @@
 
 namespace app\Traits;
 
-use Exception;
+use app\ExceptionHandle;
+use think\App;
 use think\Collection;
 use think\Paginator;
 use think\Response;
 use think\response\Redirect;
+use Throwable;
 use Tp\Paginator2;
+use function HuangZx\debug_array;
+use function HuangZx\set_path_cut_len;
 
 trait ShowReturn
 {
@@ -112,21 +116,46 @@ trait ShowReturn
 
     /**
      * 统一返回 返回简单异常
-     * @param Exception $exception
+     * @param Throwable $exception
      * @param string    $msg
      * @param array     $header
      * @return Response
      * @author NHZEXG
      */
-    protected static function showException(Exception $exception, ?string $msg = null, $header = []): Response
+    protected static function showException(Throwable $exception, ?string $msg = null, $header = []): Response
     {
-        return self::showReturn(
-            $exception->getCode(),
-            null,
-            $msg ?? $exception->getMessage(),
-            false,
-            $header
-        );
+        $app = App::getInstance();
+        $rootpath_len = strlen($app->getRootPath());
+        set_path_cut_len($rootpath_len);
+        /** @var ExceptionHandle $handle */
+        $handle = $app->make(ExceptionHandle::class);
+        $handle->report($exception);
+
+        $traces = [];
+        $next = $exception;
+        do {
+            $trace = $exception->getTrace();
+            $traces[] = array_map(function ($trace) use ($rootpath_len) {
+                if (isset($trace['file'])) {
+                    $trace['file'] = substr($trace['file'], $rootpath_len);
+                }
+                if (isset($trace['args']) && function_exists('debug_array_ex')) {
+                    $trace['args'] = debug_array($trace['args']);
+                }
+                return $trace;
+            }, $trace);
+        } while ($next = $next->getPrevious());
+
+        $data = [
+            'code' => CODE_ERROE,
+            'msg' => $msg ?? $exception->getMessage(),
+        ] + ($app->isDebug() ? [
+            'err_code' => $exception->getCode(),
+            'err_line' => $exception->getLine(),
+            'err_file' => substr($exception->getFile(), $rootpath_len),
+            'err_trace' => $traces,
+        ] : []);
+        return self::showReturn(null, $data, null, true, $header);
     }
 
     /**
@@ -177,7 +206,7 @@ trait ShowReturn
     private static function showReturn(
         $code = null,
         $data = null,
-        string $msg = '',
+        ?string $msg = '',
         bool $merge = false,
         array $header = [],
         $http_code = 200,

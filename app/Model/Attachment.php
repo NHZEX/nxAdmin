@@ -8,7 +8,9 @@
 
 namespace app\Model;
 
-use think\exception\DbException;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use Tp\Model\Traits\ModelUtil;
 
 /**
@@ -140,13 +142,15 @@ class Attachment extends Base
     /**
      * @param $fileKey
      * @return false|Attachment
+     * @throws DataNotFoundException
      * @throws DbException
+     * @throws ModelNotFoundException
      */
     public static function findFile($fileKey)
     {
         /** @var self|null $file */
         $file = (new self())->where('index', $fileKey)->find();
-        if ($file instanceof self && is_file(UPLOAD_STORAGE_PATH . $file->path)) {
+        if ($file instanceof self) {
             return $file;
         }
         return false;

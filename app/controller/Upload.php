@@ -11,8 +11,11 @@ namespace app\controller;
 use app\Facade\WebConv;
 use app\Logic\Attachment;
 use app\Traits\ShowReturn;
-use think\exception\DbException;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\File;
+use think\file\UploadedFile;
 use think\Response;
 
 class Upload extends AdminBase
@@ -21,7 +24,9 @@ class Upload extends AdminBase
 
     /**
      * @return Response
+     * @throws DataNotFoundException
      * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function image()
     {
@@ -44,7 +49,9 @@ class Upload extends AdminBase
      * 上传多个图片
      * User: Johnson
      * @return Response
+     * @throws DataNotFoundException
      * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function images()
     {
@@ -66,11 +73,13 @@ class Upload extends AdminBase
 
     /**
      * User: Johnson
-     * @param File $file
+     * @param UploadedFile $file
      * @return array|Response
+     * @throws DataNotFoundException
      * @throws DbException
+     * @throws ModelNotFoundException
      */
-    private function uploadImage(File $file)
+    private function uploadImage(UploadedFile $file)
     {
         $attachment = new Attachment();
         if (false === $annex = $attachment->uploadImage($file, WebConv::getConvUser())) {

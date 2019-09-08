@@ -14,6 +14,8 @@ use think\console\Input;
 use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
+use think\db\exception\BindParamException;
+use think\db\exception\PDOException;
 use think\facade\Db;
 
 /**
@@ -42,6 +44,8 @@ class CreateModel extends Command
      * @param Input  $input
      * @param Output $output
      * @return int|void|null
+     * @throws BindParamException
+     * @throws PDOException
      */
     public function execute(Input $input, Output $output)
     {
@@ -72,7 +76,7 @@ class CreateModel extends Command
 
         // 获取数据库信息
         $config = Db::getConfig();
-        $database = $config['database'];
+        $database = $config['connections']['main']['database'];
 
         // 加载数据
         /** @noinspection SqlNoDataSourceInspection SqlDialectInspection SqlResolve */

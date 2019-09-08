@@ -411,14 +411,14 @@ class Captcha
                 throw new BusinessResult('验证码错误.');
             }
         } catch (BusinessResult $result) {
-            $redis->delete($captcha_key);
+            $redis->del($captcha_key);
             $this->message = $result->getMessage();
             return false;
         } catch (JsonException $exception) {
             $this->message = "解码失败: {$exception->getMessage()}";
             return false;
         }
-        $redis->delete($captcha_key);
+        $redis->del($captcha_key);
         return true;
     }
 }

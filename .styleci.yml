@@ -1,5 +1,5 @@
-preset: PSR2
-risky: true
+preset: psr2
+risky: false
 enabled:
   - whitespace_after_comma_in_array
   - unary_operator_spaces
@@ -10,7 +10,6 @@ enabled:
   - single_blank_line_before_namespace
   - short_scalar_cast
   - short_array_syntax
-  - self_accessor
   - post_increment
   - print_to_echo
   - phpdoc_indent
@@ -47,7 +46,6 @@ enabled:
   - no_blank_lines_between_traits
   - method_separation
   - magic_constant_casing
-  - alpha_ordered_imports
   - lowercase_cast
   - function_typehint_space
   - hash_to_slash_comment
@@ -55,7 +53,7 @@ enabled:
   - include
   - declare_equal_normalize
   - cast_spaces
-  - blank_line_after_opening_tag
+  - linebreak_after_opening_tag
   - binary_operator_spaces
 finder:
   exclude:

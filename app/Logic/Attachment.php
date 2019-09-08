@@ -12,10 +12,14 @@ use app\Exception\BusinessResult as BusinessResultSuccess;
 use app\Model\AdminUser as AdminUserModel;
 use app\Model\Attachment as AttachmentModel;
 use finfo;
-use think\exception\DbException;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\exception\FileException;
+use think\facade\Filesystem;
 use think\facade\Lang;
 use think\File;
+use think\file\UploadedFile;
 
 /**
  * Class Attachment
@@ -23,17 +27,19 @@ use think\File;
  */
 class Attachment extends Base
 {
-    const IMAGE_DIR = 'images' . DIRECTORY_SEPARATOR;
+    const PREFIX_IMAGE = 'images';
 
     private $image_type = [];
 
     /**
-     * @param File $file
+     * @param UploadedFile        $file
      * @param AdminUserModel|null $user
      * @return false|AttachmentModel
+     * @throws DataNotFoundException
      * @throws DbException
+     * @throws ModelNotFoundException
      */
-    public function uploadImage(File $file, ?AdminUserModel $user)
+    public function uploadImage(UploadedFile $file, ?AdminUserModel $user)
     {
         try {
             // 替代 thinkphp file 验证
@@ -44,29 +50,36 @@ class Attachment extends Base
                 throw new BusinessResultSuccess(Lang::get('mimetype to upload is not allowed'));
             }
             $this->getFileMime($file->getPathname());
+            // 初始化文件存储
+            $upload = Filesystem::disk('upload');
             // 生成唯一文件名
             $uniqueFileName = $this->buildUniqueFileName($file);
-            // 查找附件是否存在
+            // 查找附件记录是否存在
             if (!$annex = AttachmentModel::findFile($uniqueFileName)) {
                 $fileExt = substr($uniqueFileName, strrpos($uniqueFileName, '.') + 1);
-                // 生成保存文件名
+                // 生成保存名称
                 $saveFileName = $this->buildSaveFileName($uniqueFileName);
                 // 创建附件记录
                 $annex = AttachmentModel::createRecord(
                     $uniqueFileName,
                     $user ? $user->id : 0,
-                    self::IMAGE_DIR . $saveFileName,
+                    self::PREFIX_IMAGE . DIRECTORY_SEPARATOR . $saveFileName,
                     $file->getMime(),
                     $fileExt,
                     $file->getSize(),
                     $file->hash('sha1'),
-                    $file->getFilename()
+                    $file->getOriginalName()
                 );
-
-                // 存储上传文件
-                $path = self::IMAGE_DIR . dirname($saveFileName);
-                $name = basename($saveFileName);
-                $file->move(UPLOAD_STORAGE_PATH . $path, $name);
+            }
+            // 查找存档是否有效
+            if (false === $upload->has($annex->path)) {
+                $fileStream = fopen($file->getRealPath(), 'r');
+                if (!is_resource($fileStream)) {
+                    $this->errorMessage = "不是有效的文件资源: {$file->getRealPath()}";
+                    return false;
+                }
+                Filesystem::disk('upload')->putStream($annex->path, $fileStream);
+                fclose($fileStream);
             }
         } catch (BusinessResultSuccess $success) {
             $this->errorMessage = $success->getMessage();

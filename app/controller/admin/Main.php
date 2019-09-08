@@ -8,11 +8,15 @@
 
 namespace app\controller\admin;
 
+use app\Exception\JsonException;
 use app\Facade\WebConv;
 use app\Logic\SystemMenu;
 use app\Model\AdminUser;
-use think\facade\Env;
-use think\facade\View;
+use Exception;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\Env;
 
 /**
  * Class Main
@@ -22,31 +26,37 @@ class Main extends Base
 {
     /**
      * 主页框架
+     * @param Env     $env
      * @return mixed
-     * @throws \app\Exception\JsonException
-     * @throws \think\exception\DbException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws JsonException
+     * @throws ModelNotFoundException
      */
-    public function index()
+    public function index(Env $env)
     {
-        $webconv = WebConv::getConvUser();
-        View::assign('info', [
-            'title' => Env::get('system.web_title')
+        $this->view->assign([
+            'info' => [
+                'title' => $env->get('system.web_title'),
+            ],
+            'webmenu' => $this->getMenuToJson(),
+            'user' => WebConv::getConvUser(),
+            'url' => [
+                'mainpage' => url('sysinfo'),
+                'basic_info' => url('@admin.manager/pageEdit', ['base_pkid' => WebConv::getConvUser()->id]),
+                'logout' => url('@admin.login/logout'),
+            ],
         ]);
-        View::assign('webmenu', $this->getMenuToJson());
-        View::assign('user', $webconv);
 
-        View::assign('url', [
-            'mainpage' => url('sysinfo'),
-            'basic_info' => url('@admin.manager/pageEdit', ['base_pkid' => $webconv->id]),
-            'logout' => url('@admin.login/logout'),
-        ]);
-        return View::fetch();
+        return $this->view->fetch();
     }
 
     /**
      * @return string
-     * @throws \app\Exception\JsonException
-     * @throws \think\exception\DbException
+     * @throws JsonException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     private function getMenuToJson()
     {
@@ -90,10 +100,11 @@ class Main extends Base
 
     /**
      * 系统信息页面
-     * @return mixed
+     * @return string
+     * @throws Exception
      */
     public function sysinfo()
     {
-        return View::fetch();
+        return $this->view->fetch();
     }
 }

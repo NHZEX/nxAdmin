@@ -33,8 +33,7 @@ class DeployInfo
     {
         $app = App::getInstance();
 
-        if (
-            $app->env->get('DEPLOY_SECURITY_SALT', false)
+        if ($app->env->get('DEPLOY_SECURITY_SALT', false)
             && $app->env->get('DEPLOY_ROOT_PATH_SIGN', false)
             && $app->env->get('DEPLOY_MIXING_PREFIX', false)
         ) {
