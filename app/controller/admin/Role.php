@@ -63,6 +63,7 @@ class Role extends Base
      * @param string $type
      * @return Response
      * @throws DataNotFoundException
+     * @throws DbException
      * @throws ModelNotFoundException
      */
     public function table(int $page = 1, int $limit = 1, string $type = 'system')

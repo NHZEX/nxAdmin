@@ -9,8 +9,8 @@
 namespace Tp\Db;
 
 use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\exception\DbException;
 use think\Model;
 use think\model\Collection;
 use Tp\Paginator2;
