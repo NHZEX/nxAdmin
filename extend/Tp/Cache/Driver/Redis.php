@@ -254,7 +254,6 @@ class Redis extends Driver
             } else {
                 Co::sleep(0.02);
             }
-
         }
 
         try {
