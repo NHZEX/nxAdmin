@@ -12,6 +12,7 @@ use app\Exception\JsonException;
 use app\Facade\WebConv;
 use app\Logic\AdminUser;
 use Captcha\Captcha;
+use Exception;
 use think\facade\View;
 use think\Response;
 
@@ -20,6 +21,7 @@ class Login extends Base
     /**
      * @param string|null $jump
      * @return mixed
+     * @throws Exception
      */
     public function index(?string $jump = null)
     {
@@ -76,7 +78,7 @@ class Login extends Base
     public function captcha(string $_ = null)
     {
         if (!$_) {
-            abort(404);
+            abort(401);
         }
         $captcha = new Captcha($this->app->config->get('captcha'));
         $captcha->entry();

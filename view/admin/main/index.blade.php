@@ -101,7 +101,7 @@
     }
 </script>
 <script type="text/javascript" src="/static/require/require.min.js"></script>
-<script type="text/javascript" src="/static/main-config.js?_v={{ RESOURCE_VERSION }}"></script>
+<script type="text/javascript" src="/static/main-config.js?_v={{ RESOURCE_VERSION }}&debug={{ app()->isDebug() }}"></script>
 <script>
     {{--window.menu = JSON.parse('{!! $webmenu !!}');--}}
     {{--window.mainUrl = '{{ $url['mainpage'] }}';--}}

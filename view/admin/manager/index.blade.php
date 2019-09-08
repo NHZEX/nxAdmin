@@ -5,7 +5,7 @@
     <div class="layui-tab layui-tab-brief" lay-filter="tab-brief">
         <ul class="layui-tab-title">
             @foreach($manager_types as $key=>$val)
-                <li lay-id="{{ $loop->index }}" data-type="{{ $key }}" @if($loop->first) layui-this @endif>{{ $val }}</li>
+                <li lay-id="{{ $loop->index }}" data-type="{{ $key }}" class="@if($loop->first) layui-this @endif">{{ $val }}</li>
             @endforeach
         </ul>
         <div class="layui-tab-content">
@@ -70,10 +70,10 @@
             let tableIns;
 
             element.on('tab(tab-brief)', function(data){
-                table_where.type = $(this).data('type');
+                table_where.type = $(data.elem).find('ul > li').eq(data.index).data('type');
                 if(tableIns) {
                     if(!_.isEqual(table_where, tableIns.config.where)) {
-                        tableIns.setParams(table_where);
+                        tableIns.setParams($.extend(true, {}, table_where));
                         tableIns.refresh();
                     }
                 }
@@ -87,7 +87,7 @@
                 , loading: true
                 , method: 'post'
                 , page: true
-                , where: table_where
+                , where: $.extend(true, {}, table_where)
                 , cols: [[
                     {field: 'id', width: 100, title: 'id'}
                     , {title: '类型', field: 'genre_desc', width: 150}

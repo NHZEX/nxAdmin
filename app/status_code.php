@@ -16,6 +16,7 @@
  */
 
 const CODE_SUCCEED = 0;
+const CODE_ERROE = 1;
 
 const CODE_COM_CAPTCHA = 1001;          // 全局:验证码
 const CODE_COM_PARAM = 1002;            // 全局:输入参数
@@ -37,6 +38,7 @@ const CODE_CONV_ACCESS_CONTROL = 1106;  // 会话:被访问控制阻止
 
 const CODE_DICT = [
     CODE_SUCCEED => 'succeed',
+    CODE_ERROE => 'error',
 
     CODE_COM_CAPTCHA => '验证码错误',
 

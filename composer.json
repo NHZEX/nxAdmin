@@ -28,28 +28,27 @@
         "ext-openssl": "*",
         "ext-pdo": "*",
         "ext-posix": "*",
-        "ext-redis": "^4.3.0",
+        "ext-redis": "^4.3.0 || ^5.0",
         "ext-simplexml": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
         "guzzlehttp/guzzle": "^6.3",
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
-        "nhzex/n-helper": "dev-master",
-        "nhzex/think-blade": "3.0.x-dev",
-        "robmorgan/phinx": "^0.10.6",
+        "nhzex/n-helper": "^1.0",
+        "nhzex/think-blade": "^4.0.1",
+        "robmorgan/phinx": "^0.11",
         "rybakit/msgpack": "^0.5.4",
         "symfony/finder": "^4.3",
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-dumper": "^4.2",
         "symfony/var-exporter": "^4.2",
-        "topthink/framework": "6.0.x-dev#f0babbd6529a57d8043690d63aa9505ca8a2c60d",
-        "topthink/think-orm": "2.0.x-dev#d0649a61896ddd060e7a038b79b3481d8730ceff",
-        "topthink/think-view": "dev-master",
+        "topthink/framework": "6.0.x-dev#ecd62899fade5fc269bf1d328fc6251ed21249c2",
+        "topthink/think-orm": "^2.0.23",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.5"
+        "phpunit/phpunit": "^8"
     },
     "autoload": {
         "psr-4": {
@@ -80,7 +79,7 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": true,
+        "optimize-autoloader": false,
         "platform": {
             "php": "7.2.10"
         }

@@ -37,3 +37,13 @@ input.layui-form-danger2:hover,
     border-width: 1px;
     border-color: #FF5722;
 }
+
+/* iview */
+.ivu-table td.table-column-isometric {
+    font-family: Menlo, Consolas, "Source Code Pro", Monaco, 'Courier New', "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
+
+/* 移除应用内容窗口的边框 */
+.server-app-modal .ivu-modal-body {
+    padding: 0;
+}

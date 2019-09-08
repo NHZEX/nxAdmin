@@ -15,10 +15,6 @@ define('ROOT_PATH', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SE
 define('STORAGE_PATH', ROOT_PATH . 'storage' . DIRECTORY_SEPARATOR);
 // 公开访问文件夹
 define('PUBILC_PATH', ROOT_PATH . 'public' . DIRECTORY_SEPARATOR);
-// 上传文件存储
-
-// 上传文件存储路径
-define('UPLOAD_STORAGE_PATH', PUBILC_PATH . 'upload' . DIRECTORY_SEPARATOR);
 
 // CERTIFICATE 文件路径
 define('CA_ROOT_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR . 'cacert.pem');

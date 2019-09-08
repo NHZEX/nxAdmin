@@ -12,9 +12,8 @@ use app\Facade\WebConv;
 use app\Model\AdminRole;
 use app\Model\AdminUser;
 use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\Exception;
-use think\exception\DbException;
 use think\facade\View;
 use think\Response;
 use Tp\Model\Exception\ModelException;
@@ -45,6 +44,7 @@ class Manager extends Base
     /**
      * 主页
      * @return mixed
+     * @throws \Exception
      */
     public function index()
     {
@@ -60,17 +60,17 @@ class Manager extends Base
     }
 
     /**
-     * @param int $page
-     * @param int $limit
+     * @param int    $page
+     * @param int    $limit
      * @param string $type
      * @return Response
-     * @throws Exception
-     * @throws DbException
+     * @throws DataNotFoundException
+     * @throws ModelNotFoundException
      */
     public function table(int $page = 1, int $limit = 1, string $type = 'system')
     {
         if (!isset(self::FILTER_TYPE[WebConv::getUserGenre()][$type])) {
-            return self::showMsg(CODE_COM_PARAM);
+            return self::showMsg(CODE_COM_PARAM, '无效的筛选参数');
         }
         $genre = self::FILTER_TYPE_MAPPING[$type];
         $result = (new AdminUser())->hidden(['password', 'delete_time'])
@@ -89,8 +89,9 @@ class Manager extends Base
      * @param string|null $type
      * @return string
      * @throws DataNotFoundException
-     * @throws DbException
      * @throws ModelNotFoundException
+     * @throws DbException
+     * @throws \Exception
      */
     public function pageEdit(?int $base_pkid = null, ?string $type = null)
     {
@@ -155,7 +156,7 @@ class Manager extends Base
         if ($csrf->isUpdate()) {
             $action = $this->request->param('action', false);
             [$pkid, $lock_version] = $this->parseCsrfToken($csrf);
-            $au = AdminUser::getOptimisticVer($pkid, $lock_version);
+            $au = AdminUser::findOptimisticVer($pkid, $lock_version);
             if (false === $au instanceof AdminUser) {
                 return self::showMsg(CODE_COM_DATA_NOT_EXIST, '数据不存在');
             }

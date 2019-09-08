@@ -440,6 +440,7 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
 
     return $string;
 }
+
 /**
  * Env获取
  * @param string $key

@@ -43,7 +43,7 @@ class Validate extends Middleware
     public function handle(Request $request, Closure $next)
     {
         $currClass = $this->getCurrentDispatchClass($request);
-        $currAction = $request->action();
+        $currAction = $request->action(true);
 
         $validate_cfg = array_change_key_case($this->mapping[$currClass] ?? [])[$currAction] ?? false;
         if (is_array($validate_cfg)) {
