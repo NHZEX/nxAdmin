@@ -262,7 +262,7 @@ abstract class FeaturesManage
                 } else {
                     $verifyNew[$rule[0]] = $rule[1];
                 }
-            };
+            }
             $verify = $verifyNew;
         }
         foreach ($verify as $rule => $param) {

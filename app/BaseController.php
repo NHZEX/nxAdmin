@@ -17,6 +17,7 @@ use think\App;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
+use think\response\View;
 use think\Validate;
 
 /**
@@ -105,41 +106,6 @@ abstract class BaseController
     }
 
     /**
-     * 操作错误跳转
-     * @param  mixed   $msg 提示信息
-     * @param  string  $url 跳转的URL地址
-     * @param  mixed   $data 返回的数据
-     * @param  int $wait 跳转等待时间
-     * @param  array   $header 发送的Header信息
-     * @return void
-     */
-    protected function error($msg = '', string $url = null, $data = '', int $wait = 3, array $header = []): Response
-    {
-        if (is_null($url)) {
-            $url = request()->isAjax() ? '' : 'javascript:history.back(-1);';
-        } elseif ($url) {
-            $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : app('route')->buildUrl($url);
-        }
-
-        $result = [
-            'code' => 0,
-            'msg'  => $msg,
-            'data' => $data,
-            'url'  => $url,
-            'wait' => $wait,
-        ];
-
-        $type = (request()->isJson() || request()->isAjax()) ? 'json' : 'html';
-        if ('html' == strtolower($type)) {
-            $response = Response::create('/dispatch_jump', 'view')->assign($result);
-        } else {
-            $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
-        }
-
-        throw new HttpResponseException($response);
-    }
-
-    /**
      * 返回封装后的API数据到客户端
      * @param  mixed   $data 要返回的数据
      * @param  int $code 返回的code
@@ -165,14 +131,13 @@ abstract class BaseController
 
     /**
      * 操作成功跳转
-     * @param  mixed     $msg 提示信息
-     * @param  string    $url 跳转的URL地址
-     * @param  mixed     $data 返回的数据
-     * @param  int   $wait 跳转等待时间
-     * @param  array     $header 发送的Header信息
-     * @return void
+     * @param mixed  $msg    提示信息
+     * @param string $url    跳转的URL地址
+     * @param mixed  $data   返回的数据
+     * @param int    $wait   跳转等待时间
+     * @param array  $header 发送的Header信息
      */
-    protected function success($msg = '', string $url = null, $data = '', int $wait = 3, array $header = []): Response
+    protected function success($msg = '', string $url = null, $data = '', int $wait = 3, array $header = [])
     {
         if (is_null($url) && isset($_SERVER["HTTP_REFERER"])) {
             $url = $_SERVER["HTTP_REFERER"];
@@ -180,8 +145,40 @@ abstract class BaseController
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : app('route')->buildUrl($url);
         }
 
+        $this->jump(1, $msg, $url, $data, $wait, $header);
+    }
+
+    /**
+     * 操作错误跳转
+     * @param mixed  $msg    提示信息
+     * @param string $url    跳转的URL地址
+     * @param mixed  $data   返回的数据
+     * @param int    $wait   跳转等待时间
+     * @param array  $header 发送的Header信息
+     */
+    protected function error($msg = '', string $url = null, $data = '', int $wait = 3, array $header = [])
+    {
+        if (is_null($url)) {
+            $url = request()->isAjax() ? '' : 'javascript:history.back(-1);';
+        } elseif ($url) {
+            $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : app('route')->buildUrl($url);
+        }
+
+        $this->jump(0, $msg, $url, $data, $wait, $header);
+    }
+
+    /**
+     * @param             $code
+     * @param string      $msg
+     * @param string|null $url
+     * @param string      $data
+     * @param int         $wait
+     * @param array       $header
+     */
+    protected function jump($code, $msg = '', $url = null, $data = '', int $wait = 3, array $header = [])
+    {
         $result = [
-            'code' => 1,
+            'code' => $code,
             'msg'  => $msg,
             'data' => $data,
             'url'  => $url,
@@ -189,11 +186,16 @@ abstract class BaseController
         ];
 
         $type = (request()->isJson() || request()->isAjax()) ? 'json' : 'html';
-        // 把跳转模板的渲染下沉，这样在 response_send 行为里通过getData()获得的数据是一致性的格式
         if ('html' == strtolower($type)) {
-            $response = Response::create('/dispatch_jump', 'view')->assign($result);
+            /** @var View $response */
+            $response = Response::create('/dispatch_jump', 'view');
+            $response->assign($result);
         } else {
-            $response = Response::create($result, $type)->header($header)->options(['jump_template' => app('config')->get('app.dispatch_error_tmpl')]);
+            $response = Response::create($result, $type)
+                ->header($header)
+                ->options([
+                    'jump_template' => app('config')->get('app.dispatch_error_tmpl')
+                ]);
         }
 
         throw new HttpResponseException($response);

@@ -19,7 +19,6 @@ use think\db\exception\PDOException;
 
 class EnvManage extends FeaturesManage
 {
-
     const MYSQL_VER_LIMIT = '5.7.22-log';
     const REDIS_VER_LIMIT = '4.0.8';
 
@@ -176,7 +175,7 @@ class EnvManage extends FeaturesManage
             if (isset($dbPreset[$group])) {
                 $dbPreset[$group]['form'][$name][0] = $value;
             }
-        };
+        }
 
         foreach ($dbPreset as $name => $info) {
             $this->output->writeln(" > 配置库: {$info['desc']}({$name})");
@@ -213,7 +212,7 @@ class EnvManage extends FeaturesManage
         foreach ($this->envExtract($configName, 2) as $data) {
             [, $name, $value] = $data;
             $redisPreset[$name][0] = $value;
-        };
+        }
 
         $result = $this->showFormsInput($redisPreset);
         // 测试配置
@@ -240,7 +239,7 @@ class EnvManage extends FeaturesManage
         foreach ($this->envExtract('SESSION', 2) as $data) {
             [, $name, $value] = $data;
             $cachePreset[$name][0] = $value;
-        };
+        }
 
         $config = [];
         if ($this->output->confirm($this->input, '是否复用Redis配置', true)) {
@@ -251,7 +250,7 @@ class EnvManage extends FeaturesManage
                 $config["redis_{$name}"] = $value;
                 // 移除已经赋值的输入表项
                 unset($cachePreset["redis_{$name}"]);
-            };
+            }
         }
 
         $config = $config + $this->showFormsInput($cachePreset);
@@ -309,7 +308,7 @@ class EnvManage extends FeaturesManage
         } catch (\PDOException $exception) {
             $address = empty($testConfig['dsn'])
                 ? "{$testConfig['hostname']}:{$testConfig['hostport']}"
-                :  $testConfig['dsn'];
+                : $testConfig['dsn'];
             $message = "数据库连接[$address]异常：{$exception->getMessage()}";
             throw new ConfigInvalidException($message, $exception->getCode(), $exception);
         }
@@ -340,7 +339,6 @@ class EnvManage extends FeaturesManage
             $message = "Redis连接[{$config['host']}:{$config['port']}]异常：{$exception->getMessage()}";
             throw new ConfigInvalidException($message, $exception->getCode(), $exception);
         }
-
 
         $redis_version = Redis::instance()->getServerVersion();
         if (version_compare($redis_version, self::REDIS_VER_LIMIT, '<')) {
