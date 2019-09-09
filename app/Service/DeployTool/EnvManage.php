@@ -131,10 +131,10 @@ class EnvManage extends FeaturesManage
     /**
      * 校验输入是否正确
      * @param Closure $closure
-     * @param string  $message
+     * @param string  $template
      * @throws Exception
      */
-    protected function checkInput(Closure $closure, string $message)
+    protected function checkInput(Closure $closure, string $template)
     {
         $count = (int) $this->input->getOption('max-retry');
         while (true) {
@@ -146,7 +146,7 @@ class EnvManage extends FeaturesManage
                     // 防止死循环
                     sleep(1);
                     // 打印错误信息
-                    $message = str_replace('%s', $error->getMessage(), $message);
+                    $message = str_replace('%s', $error->getMessage(), $template);
                     $this->output->writeln("<highlight>{$message}</highlight>");
                 } else {
                     throw $error;
