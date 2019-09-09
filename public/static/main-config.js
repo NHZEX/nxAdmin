@@ -58,7 +58,7 @@ let paths = {
     , 'kitmessage': 'libs/kit/js/message'
 
     , 'iview': 'libs/iview/iview'
-    , 'iview-css': 'libs/iview/css/iview'
+    , 'iview-css': 'libs/iview/styles/iview'
     , 'vue': 'libs/vue/vue'
 
     , 'moment': 'libs/moment/moment'
