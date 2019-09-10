@@ -11,8 +11,8 @@ namespace app\controller\admin;
 use app\Logic\SystemMenu as SystemMenuLogic;
 use app\Model\SystemMenu;
 use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\exception\DbException;
 use think\facade\App;
 use think\facade\View;
 use think\Response;
@@ -32,6 +32,12 @@ class Menu extends Base
         return View::fetch();
     }
 
+    /**
+     * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
     public function table()
     {
         $result = (new SystemMenu())->select();
@@ -94,6 +100,9 @@ class Menu extends Base
 
     /**
      * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function export()
     {

@@ -19,6 +19,7 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\View;
+use think\model\Collection;
 use think\Response;
 use Throwable;
 use Tp\Model\Exception\ModelException;
@@ -58,7 +59,6 @@ class Role extends Base
 
     /**
      * 主页表单
-     * @param int    $page
      * @param int    $limit
      * @param string $type
      * @return Response
@@ -66,7 +66,7 @@ class Role extends Base
      * @throws DbException
      * @throws ModelNotFoundException
      */
-    public function table(int $page = 1, int $limit = 1, string $type = 'system')
+    public function table(int $limit = 1, string $type = 'system')
     {
         if (!isset(self::FILTER_TYPE[WebConv::getUserGenre()][$type])) {
             return self::showMsg(CODE_COM_PARAM, '无效的筛选参数');
@@ -75,7 +75,8 @@ class Role extends Base
 
         $result = (new AdminRole())
             ->where('genre', $genre)
-            ->paginate2($limit, $page, false);
+            ->paginate($limit, false);
+        /** @var Collection $collection */
         $collection = $result->getCollection();
         if (!$collection->isEmpty()) {
             $collection->append(['genre_desc', 'status_desc']);

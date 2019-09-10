@@ -11,8 +11,8 @@ namespace app\controller\admin;
 use app\Logic\Permission as PermissionLogic;
 use app\Model\Permission as PermissionModel;
 use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\exception\DbException;
 use think\facade\App;
 use think\facade\Db;
 use think\facade\View;
@@ -25,7 +25,6 @@ class Permission extends Base
     /**
      * 首页
      * User: Johnson
-     * @return mixed
      */
     public function node()
     {
@@ -92,6 +91,9 @@ class Permission extends Base
 
     /**
      * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function exportNodes()
     {

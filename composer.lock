@@ -845,16 +845,16 @@
         },
         {
             "name": "nhzex/n-helper",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/n-helper.git",
-                "reference": "6ace1e45641b1fbd030366422e3ff7e976f69f92"
+                "reference": "849c435951f9dd792ee38dba0b06b8f354267988"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/n-helper/zipball/6ace1e45641b1fbd030366422e3ff7e976f69f92",
-                "reference": "6ace1e45641b1fbd030366422e3ff7e976f69f92",
+                "url": "https://api.github.com/repos/NHZEX/n-helper/zipball/849c435951f9dd792ee38dba0b06b8f354267988",
+                "reference": "849c435951f9dd792ee38dba0b06b8f354267988",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -888,7 +888,8 @@
                 },
                 "files": [
                     "src/bootstrap.php",
-                    "src/debug_helper.php"
+                    "src/debug_helper.php",
+                    "src/reflection_helper.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -902,7 +903,7 @@
                 }
             ],
             "description": "助手",
-            "time": "2019-09-02T07:54:01+00:00"
+            "time": "2019-09-10T03:32:50+00:00"
         },
         {
             "name": "nhzex/think-blade",
@@ -2533,12 +2534,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "ecd62899fade5fc269bf1d328fc6251ed21249c2"
+                "reference": "a5b60d693fecbc69b0ef1e7155a915179c249a02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/ecd62899fade5fc269bf1d328fc6251ed21249c2",
-                "reference": "ecd62899fade5fc269bf1d328fc6251ed21249c2",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/a5b60d693fecbc69b0ef1e7155a915179c249a02",
+                "reference": "a5b60d693fecbc69b0ef1e7155a915179c249a02",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2593,7 +2594,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-09-04T14:24:34+00:00"
+            "time": "2019-09-09T13:43:08+00:00"
         },
         {
             "name": "topthink/think-helper",
