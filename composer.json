@@ -30,25 +30,28 @@
         "ext-posix": "*",
         "ext-redis": "^4.3.0 || ^5.0",
         "ext-simplexml": "*",
+        "ext-sockets": "*",
+        "ext-swoole": "^4.4.5",
         "ext-zip": "*",
         "ext-zlib": "*",
         "guzzlehttp/guzzle": "^6.3",
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
         "nhzex/n-helper": "^1.0",
-        "nhzex/think-blade": "^4.0.1",
+        "nhzex/think-blade": "4.0.x-dev",
         "robmorgan/phinx": "^0.11",
         "rybakit/msgpack": "^0.5.4",
         "symfony/finder": "^4.3",
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-dumper": "^4.2",
         "symfony/var-exporter": "^4.2",
-        "topthink/framework": "6.0.x-dev#a5b60d693fecbc69b0ef1e7155a915179c249a02",
+        "topthink/framework": "6.0.x-dev#9744571904a008bff8567d5fc929ed161cad0f8b",
         "topthink/think-orm": "^2.0.23",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8"
+        "phpunit/phpunit": "^8",
+        "swoft/swoole-ide-helper": "~4.4.0"
     },
     "autoload": {
         "psr-4": {

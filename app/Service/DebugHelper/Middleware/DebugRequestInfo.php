@@ -10,23 +10,29 @@ use think\Response;
 
 class DebugRequestInfo
 {
+    protected $app;
+
+    public function __construct(App $app)
+    {
+        $this->app = $app;
+    }
+
     /**
      * @param Request $request
      * @param Closure $next
-     * @param App     $app
      * @return Response|string
      */
-    public function handle(Request $request, Closure $next, App $app)
+    public function handle(Request $request, Closure $next)
     {
         // 记录路由和请求信息
         $appName = $request->app() ?: 'empty';
         $controller = $request->controller(true);
-        $class = $app->parseClass('controller', $controller);
+        $class = $this->app->parseClass('controller', $controller);
         $action = $request->action();
-        $app->log->record("dispatch: {$appName}-{$class}-{$action}", 'route');
+        $this->app->log->record("dispatch: {$appName}-{$class}-{$action}", 'route');
         // $app->log->info('[ ROUTE ] ' . var_export($request->rule()->__debugInfo(), true));
-        $app->log->record('header: ' . var_export($request->header(), true), 'request');
-        $app->log->record('param: ' . var_export($request->param(), true), 'request');
+        $this->app->log->record('header: ' . var_export($request->header(), true), 'request');
+        $this->app->log->record('param: ' . var_export($request->param(), true), 'request');
         return $next($request);
     }
 }
