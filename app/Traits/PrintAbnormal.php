@@ -8,7 +8,7 @@
 
 namespace app\Traits;
 
-use think\exception\PDOException;
+use think\db\exception\PDOException;
 use think\facade\Log;
 use Throwable;
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4f1b2d8520d3cd6ab2b45729e2079d83",
+    "content-hash": "1ecbe3a52bf3a2ba49cfb221f9c60182",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -981,12 +981,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/tp-swoole.git",
-                "reference": "74c21291fcd414a6322e48a0258a4c3c54f9f6dc"
+                "reference": "356f02f38fdecafd635bc6eba732a3faa058098a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/74c21291fcd414a6322e48a0258a4c3c54f9f6dc",
-                "reference": "74c21291fcd414a6322e48a0258a4c3c54f9f6dc",
+                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/356f02f38fdecafd635bc6eba732a3faa058098a",
+                "reference": "356f02f38fdecafd635bc6eba732a3faa058098a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1002,6 +1002,8 @@
                 "ext-pdo": "*",
                 "ext-sockets": "*",
                 "ext-swoole": "~4.4",
+                "nhzex/n-helper": "^1.1",
+                "nhzex/zsw-core": "dev-master",
                 "open-smf/connection-pool": "~1.0",
                 "php": "~7.2.10",
                 "psr/log": "^1.1",
@@ -1044,7 +1046,57 @@
                     "email": "auooru@outlook.com"
                 }
             ],
-            "time": "2019-09-07T10:36:23+00:00"
+            "time": "2019-09-17T06:15:57+00:00"
+        },
+        {
+            "name": "nhzex/zsw-core",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/zsw-core.git",
+                "reference": "a2f2a09869b757291439a6b8af997abc28d1c816"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/zsw-core/zipball/a2f2a09869b757291439a6b8af997abc28d1c816",
+                "reference": "a2f2a09869b757291439a6b8af997abc28d1c816",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-swoole": "~4.4",
+                "php": "~7.1",
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.2",
+                "phpunit/phpunit": "^8.3",
+                "swoole/ide-helper": "^4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "unzxin\\zswCore\\": "src/"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@163.com"
+                }
+            ],
+            "description": "zx swoole core",
+            "time": "2019-09-17T06:07:41+00:00"
         },
         {
             "name": "open-smf/connection-pool",
@@ -4423,6 +4475,7 @@
     "stability-flags": {
         "nhzex/think-blade": 20,
         "nhzex/tp-swoole": 20,
+        "nhzex/zsw-core": 20,
         "topthink/framework": 20
     },
     "prefer-stable": false,
