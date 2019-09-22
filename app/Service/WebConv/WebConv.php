@@ -75,7 +75,7 @@ class WebConv implements Serializable
     {
         return serialize([
             'sessionId' => $this->app->session->getId(),
-            'sessionData' => $this->app->session->get(),
+            'sessionData' => $this->app->session->all(),
             'verifyResult' => $this->verifyResult,
         ]);
     }
@@ -224,7 +224,7 @@ class WebConv implements Serializable
         }
         $curr_time = time();
         try {
-            if (empty($this->app->session->get())) {
+            if (empty($this->app->session->all())) {
                 throw new BusinessResultSuccess('会话不存在');
             }
             if ($curr_time > $this->app->session->get(self::CONV_ACCESS_TIME)) {

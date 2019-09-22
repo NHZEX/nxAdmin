@@ -21,9 +21,9 @@ return [
     'type'         => BladeDriver::class,
     // 默认模板渲染规则 1 解析为小写+下划线 2 全部转换小写 3 保持操作方法
     'auto_rule'    => 1,
-    // 模板基础路径
-    'view_base'    => root_path('view'),
-    // 模板路径
+    // 视图目录名
+    'view_dir_name'=> 'view',
+    // 应用模板路径
     'view_path'    => '',
     // 模板后缀
     'view_suffix'  => 'blade.php',
