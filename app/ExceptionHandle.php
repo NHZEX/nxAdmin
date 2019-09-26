@@ -42,6 +42,10 @@ class ExceptionHandle extends Handle
         ValidateException::class,
     ];
 
+    protected $ignoreHttpCode = [
+        404, 200, 201, 202, 204, 301, 302, 303, 304, 307
+    ];
+
     /**
      * 记录异常信息（包括日志或者其它方式记录）
      *
@@ -51,10 +55,10 @@ class ExceptionHandle extends Handle
      */
     public function report(Throwable $exception): void
     {
-        // 不对[http-404]进行高级记录
-        // 不对降级异常进行高级记录
+        // 不对Http进行扩展记录
+        // 不对降级异常进行扩展记录
         if (false === $exception instanceof ExceptionRecordDown
-            && !($exception instanceof HttpException && $exception->getStatusCode() === 404)
+            && !$this->ignoreHttpException($exception)
         ) {
             try {
                 ExceptionLogs::push($exception);
@@ -68,5 +72,20 @@ class ExceptionHandle extends Handle
         self::printAbnormalToLog($exception);
         // 交由系统处理
         parent::report($exception);
+    }
+
+    /**
+     * @param Throwable $exception
+     * @return bool
+     */
+    protected function ignoreHttpException(Throwable $exception)
+    {
+        if ($exception instanceof HttpException && in_array($exception->getStatusCode(), $this->ignoreHttpCode)) {
+            return true;
+        }
+        if ($exception instanceof HttpResponseException) {
+            return true;
+        }
+        return false;
     }
 }

@@ -1,15 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/12/18
- * Time: 10:03
- */
+
+use app\Server\DeployInfo;
+
 return [
     // 登陆验证码
     'login'   => true,
     // 验证码加密密钥
-    'seKey'    => \app\Server\DeployInfo::getSecuritySalt() ?? 'null',
+    'seKey'    => DeployInfo::getSecuritySalt() ?? 'null',
     // 验证码过期时间（s）
     'expire'   => 120,
     // 验证码图片高度
