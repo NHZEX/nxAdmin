@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": "~7.2.10",
+        "php": "~7.2.20 || ~7.3.8",
         "ext-bcmath": "*",
         "ext-curl": "*",
         "ext-exif": "*",
@@ -38,7 +38,7 @@
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
         "nhzex/n-helper": "^1.0",
-        "nhzex/think-blade": "4.0.x-dev",
+        "nhzex/think-blade": "^4.0.1",
         "nhzex/tp-swoole": "2.0.x-dev",
         "nhzex/zsw-core": "dev-master",
         "open-smf/connection-pool": "~1.0",
@@ -87,7 +87,6 @@
         "sort-packages": true,
         "optimize-autoloader": false,
         "platform": {
-            "php": "7.2.10"
         }
     },
     "repositories": {

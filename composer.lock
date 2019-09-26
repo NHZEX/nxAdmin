@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1ecbe3a52bf3a2ba49cfb221f9c60182",
+    "content-hash": "bd2bb60dc61f1b76de637a5149acdb31",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -911,12 +911,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-blade.git",
-                "reference": "c58b9130006be2139e19d5c76836c570287344b3"
+                "reference": "324096e1987c75ffbac3437d4247164840984fa4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/c58b9130006be2139e19d5c76836c570287344b3",
-                "reference": "c58b9130006be2139e19d5c76836c570287344b3",
+                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/324096e1987c75ffbac3437d4247164840984fa4",
+                "reference": "324096e1987c75ffbac3437d4247164840984fa4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -937,7 +937,7 @@
             },
             "require-dev": {
                 "doctrine/inflector": "^1.1",
-                "phpunit/phpunit": "^8",
+                "phpunit/phpunit": "^7|^8",
                 "ramsey/uuid": "^3.7",
                 "symfony/var-dumper": "^4.3",
                 "topthink/think-template": "^2.0"
@@ -973,7 +973,7 @@
                 }
             ],
             "description": "Use Laravel Blade templates without the full Laravel framework",
-            "time": "2019-09-11T16:41:05+00:00"
+            "time": "2019-09-23T02:37:24+00:00"
         },
         {
             "name": "nhzex/tp-swoole",

@@ -61,8 +61,8 @@ let paths = {
     , 'iview-css': 'libs/iview/styles/iview'
     , 'vue': 'libs/vue/vue'
 
-    , 'moment': 'libs/moment/moment'
-    , 'form-create': 'libs/form-create/form-create',
+    , 'moment': 'libs/moment/2.24.0/moment'
+    , 'form-create': 'libs/form-create/form-create'
 };
 
 //非调试模式需要替换成min.js
@@ -72,7 +72,8 @@ let product_paths = {
 
     , 'iview': 'libs/iview/iview.min'
     , 'vue': 'libs/vue/vue.min'
-    , 'form-create': 'libs/form-create/form-create.min',
+    , 'form-create': 'libs/form-create/form-create.min'
+    , 'moment': 'libs/moment/2.24.0/moment.min'
 };
 
 //如果为非调试模式

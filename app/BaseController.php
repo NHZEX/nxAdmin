@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace app;
 
+use Psr\Log\LoggerInterface;
 use think\App;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
@@ -33,9 +34,15 @@ abstract class BaseController
 
     /**
      * 应用实例
-     * @var \think\App
+     * @var App
      */
     protected $app;
+
+    /**
+     * 日志实例
+     * @var LoggerInterface
+     */
+    protected $log;
 
     /**
      * 是否批量验证
@@ -58,6 +65,7 @@ abstract class BaseController
     {
         $this->app     = $app;
         $this->request = $this->app->request;
+        $this->log     = $this->app->log;
 
         // 控制器初始化
         $this->initialize();
@@ -89,6 +97,7 @@ abstract class BaseController
                 list($validate, $scene) = explode('.', $validate);
             }
             $class = false !== strpos($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
+            /** @var Validate $v */
             $v     = new $class();
             if (!empty($scene)) {
                 $v->scene($scene);

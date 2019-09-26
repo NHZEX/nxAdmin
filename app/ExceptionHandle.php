@@ -55,8 +55,8 @@ class ExceptionHandle extends Handle
      */
     public function report(Throwable $exception): void
     {
-        // 不对Http进行高级记录
-        // 不对降级异常进行高级记录
+        // 不对Http进行扩展记录
+        // 不对降级异常进行扩展记录
         if (false === $exception instanceof ExceptionRecordDown
             && !$this->ignoreHttpException($exception)
         ) {
