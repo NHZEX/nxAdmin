@@ -14,7 +14,18 @@ use app\Service\Swoole\ServiceHealthCheck;
 use think\facade\App;
 
 return [
-    'hot_reload' => env_get('SERVER_HOT_RELOAD', false),
+    'hot_reload' => [
+        'enable'  => env_get('SERVER_HOT_RELOAD', false),
+        'name'    => ['*.php'],
+        'notName' => [],
+        'include' => [
+            app_path(),
+            root_path('extend'),
+            root_path('vendor/topthink'),
+            root_path('vendor/nhzex')
+        ],
+        'exclude' => [],
+    ],
     'enable_coroutine' => true,
     'plugins' => [
     ],
@@ -32,7 +43,9 @@ return [
     ],
     'health' => ServiceHealthCheck::class,
     'memory_limit' => '512M',
-    'resolveLogger' => null,
+    'resolveLogger' => function () {
+        return \app()->log;
+    },
     'server' => [
         'listen' => env_get('SERVER_HTTP_LISTEN', '0.0.0.0:9501'), // 监听
         'mode' => SWOOLE_PROCESS, // 运行模式 默认为SWOOLE_PROCESS
@@ -40,10 +53,10 @@ return [
         'options' => [
             'daemonize' => false,
             'dispatch_mode' => 2,
-            'worker_num' => 4,
+            'worker_num' => env_get('SERVER_WORKER_NUM', 4),
             'enable_coroutine' => true,
 
-            'task_worker_num' => 2,
+            'task_worker_num' => env_get('SERVER_TASK_WORKER_NUM', 2),
             'task_enable_coroutine' => true,
 
             'pid_file' => App::getRuntimePath() . 'swoole.pid',

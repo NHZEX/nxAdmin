@@ -15,6 +15,7 @@ namespace app;
 use app\Exception\ExceptionRecordDown;
 use app\Model\ExceptionLogs;
 use app\Traits\PrintAbnormal;
+use Swoole\Coroutine;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\Handle;
@@ -68,10 +69,29 @@ class ExceptionHandle extends Handle
                 self::printAbnormalToLog($newException);
             }
         }
+        // 显示协程异常明细
+        $this->handleCoroutine($exception->getMessage());
         // 打印异常日志
         self::printAbnormalToLog($exception);
         // 交由系统处理
         parent::report($exception);
+    }
+
+    public function handleCoroutine(string $message)
+    {
+        if (!preg_match_all('/coroutine#(\d+)/m', $message, $matches)) {
+            return;
+        }
+
+        $cids = $matches[1];
+        foreach ($cids as $cid) {
+            if (Coroutine::exists($cid)) {
+                echo "Coroutine {$cid}: \n";
+                dump(Coroutine::getBackTrace($cid, DEBUG_BACKTRACE_IGNORE_ARGS, 5));
+            } else {
+                echo "Coroutine {$cid}, does not exist.\n";
+            }
+        }
     }
 
     /**

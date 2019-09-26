@@ -40,7 +40,6 @@
         "nhzex/n-helper": "^1.0",
         "nhzex/think-blade": "^4.0.1",
         "nhzex/tp-swoole": "2.0.x-dev",
-        "nhzex/zsw-core": "dev-master",
         "open-smf/connection-pool": "~1.0",
         "robmorgan/phinx": "^0.11",
         "rybakit/msgpack": "^0.5.4",
