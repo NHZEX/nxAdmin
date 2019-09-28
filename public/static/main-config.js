@@ -394,16 +394,16 @@ function loadMultiVueComponent(vue, axios, list, done) {
             return;
         }
         let param = list[tag];
-        if (_.isString(param)) {
-            loadVueComponent(tag, param);
-        }
+        loadVueComponent(tag, param);
     }
-    let t = setInterval(() => {
-        if (0 === loadVueComponentCount) {
-            clearInterval(t);
-            done();
-        }
-    }, 10);
+    if (done) {
+        let t = setInterval(() => {
+            if (0 === loadVueComponentCount) {
+                clearInterval(t);
+                done();
+            }
+        }, 10);
+    }
 
     function loadVueComponent(tag, url) {
         loadVueComponentCount += 1;
