@@ -14,7 +14,6 @@
 // | 会话设置
 // +----------------------------------------------------------------------
 
-use app\Server\DeployInfo;
 use think\session\driver\Cache;
 
 return [
@@ -29,5 +28,5 @@ return [
     // SESSION 超时(2小时)
     'expire'         => (int) env_get('SESSION_EXPIRE', 7200),
     // Memcached And Redis SESSION KEY 的前缀
-    'prefix'   => DeployInfo::getMixingPrefix() . ':sess:',
+    'prefix'   => '',
 ];
