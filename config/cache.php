@@ -63,7 +63,7 @@ return [
             // 驱动方式
             'type'       =>  'redis',
             // 缓存前缀
-            'prefix'     => DeployInfo::getMixingPrefix() . ':cache:',
+            'prefix'     => DeployInfo::getMixingPrefix() . ':sess:',
             // 缓存有效期 0表示永久缓存
             'expire'     => 0,
             // 缓存标签前缀
