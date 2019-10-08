@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "09c38fa582d98e0d5218abb5ca15061c",
+    "content-hash": "f7e002238067e99c34b70837c325270f",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -844,6 +844,93 @@
             "time": "2019-07-03T07:42:01+00:00"
         },
         {
+            "name": "monolog/monolog",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "68545165e19249013afd1d6f7485aecff07a2d22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/68545165e19249013afd1d6f7485aecff07a2d22",
+                "reference": "68545165e19249013afd1d6f7485aecff07a2d22",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "^7.2",
+                "psr/log": "^1.0.1"
+            },
+            "provide": {
+                "psr/log-implementation": "1.0.0"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php": "^2.4.9 || ^3.0",
+                "doctrine/couchdb": "~1.0@dev",
+                "elasticsearch/elasticsearch": "^6.0",
+                "graylog2/gelf-php": "^1.4.2",
+                "jakub-onderka/php-parallel-lint": "^0.9",
+                "php-amqplib/php-amqplib": "~2.4",
+                "php-console/php-console": "^3.1.3",
+                "phpspec/prophecy": "^1.6.1",
+                "phpunit/phpunit": "^8.3",
+                "predis/predis": "^1.1",
+                "rollbar/rollbar": "^1.3",
+                "ruflin/elastica": ">=0.90 <3.0",
+                "swiftmailer/swiftmailer": "^5.3|^6.0"
+            },
+            "suggest": {
+                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
+                "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+                "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
+                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-mbstring": "Allow to work properly with unicode symbols",
+                "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
+                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
+                "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
+                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
+                "php-console/php-console": "Allow sending log messages to Google Chrome",
+                "rollbar/rollbar": "Allow sending log messages to Rollbar",
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Monolog\\": "src/Monolog"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be",
+                    "homepage": "http://seld.be"
+                }
+            ],
+            "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
+            "homepage": "http://github.com/Seldaek/monolog",
+            "keywords": [
+                "log",
+                "logging",
+                "psr-3"
+            ],
+            "time": "2019-08-30T09:56:44+00:00"
+        },
+        {
             "name": "nhzex/n-helper",
             "version": "1.1.3",
             "source": {
@@ -981,12 +1068,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/tp-swoole.git",
-                "reference": "7da34e8b3aa1d620603470026ca0c2c160780910"
+                "reference": "114fc2f2999908f923886acca87c1d3f8e44c324"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/7da34e8b3aa1d620603470026ca0c2c160780910",
-                "reference": "7da34e8b3aa1d620603470026ca0c2c160780910",
+                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/114fc2f2999908f923886acca87c1d3f8e44c324",
+                "reference": "114fc2f2999908f923886acca87c1d3f8e44c324",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1002,8 +1089,9 @@
                 "ext-pdo": "*",
                 "ext-sockets": "*",
                 "ext-swoole": "~4.4",
+                "monolog/monolog": "^2.0",
                 "nhzex/n-helper": "^1.1",
-                "nhzex/zsw-core": "^1.1",
+                "nhzex/zsw-core": "^1.2",
                 "open-smf/connection-pool": "~1.0",
                 "php": "~7.2.20 || ~7.3.8",
                 "psr/log": "^1.1",
@@ -1046,20 +1134,20 @@
                     "email": "auooru@outlook.com"
                 }
             ],
-            "time": "2019-09-26T10:11:53+00:00"
+            "time": "2019-09-30T03:39:28+00:00"
         },
         {
             "name": "nhzex/zsw-core",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/zsw-core.git",
-                "reference": "982328253a511a6d3755a00113ab47a39b3c7621"
+                "reference": "bbd6b86dce8663f168080837e479940fcdb86b04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/zsw-core/zipball/982328253a511a6d3755a00113ab47a39b3c7621",
-                "reference": "982328253a511a6d3755a00113ab47a39b3c7621",
+                "url": "https://api.github.com/repos/NHZEX/zsw-core/zipball/bbd6b86dce8663f168080837e479940fcdb86b04",
+                "reference": "bbd6b86dce8663f168080837e479940fcdb86b04",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1070,9 +1158,11 @@
             },
             "require": {
                 "ext-sockets": "*",
-                "ext-swoole": "~4.4",
+                "ext-swoole": "^4.4.6",
+                "nhzex/n-helper": "^1.1",
                 "php": "~7.1",
-                "psr/container": "^1.0"
+                "psr/container": "^1.0",
+                "psr/log": "^1.1"
             },
             "require-dev": {
                 "mockery/mockery": "^1.2",
@@ -1097,7 +1187,7 @@
                 }
             ],
             "description": "zx swoole core",
-            "time": "2019-09-26T05:51:34+00:00"
+            "time": "2019-09-29T07:35:51+00:00"
         },
         {
             "name": "open-smf/connection-pool",
@@ -4336,16 +4426,16 @@
         },
         {
             "name": "swoft/swoole-ide-helper",
-            "version": "v4.4.6",
+            "version": "v4.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoft-cloud/swoole-ide-helper.git",
-                "reference": "febf5e2845a060e1c42969cdd892f8353797d37b"
+                "reference": "0e4b21fd8d47c4047a421fcea809850a8da707b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoft-cloud/swoole-ide-helper/zipball/febf5e2845a060e1c42969cdd892f8353797d37b",
-                "reference": "febf5e2845a060e1c42969cdd892f8353797d37b",
+                "url": "https://api.github.com/repos/swoft-cloud/swoole-ide-helper/zipball/0e4b21fd8d47c4047a421fcea809850a8da707b5",
+                "reference": "0e4b21fd8d47c4047a421fcea809850a8da707b5",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4366,7 +4456,7 @@
                 "swoft",
                 "swoole"
             ],
-            "time": "2019-09-21T16:15:33+00:00"
+            "time": "2019-09-26T09:15:01+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -4495,6 +4585,7 @@
         "ext-redis": "^4.3.0 || ^5.0",
         "ext-simplexml": "*",
         "ext-sockets": "*",
+        "ext-swoole": "^4.4.6",
         "ext-zip": "*",
         "ext-zlib": "*"
     },
