@@ -26,7 +26,8 @@
                 initLevel:"1",
                 toolbarScroll: '#toolbarDiv',
                 checkbar: true,
-                checkbarType: 'all',
+                checkbarType: 'no-all',
+                checkbarData: 'halfChoose',
                 success: dataFormat,
             });
 
@@ -39,20 +40,26 @@
                     if(item.hasOwnProperty('children')) {
                         insertChecked(arrData[index]['children']);
                     }
-                    arrData[index]['checkArr'] = {type: '0', isChecked: '0'};
+                    arrData[index]['checkArr'] = checkIDs.includes(arrData[index].id) ? '1' : '0';
+
+                    if (item.hasOwnProperty('children') && arrData[index]['children'].length) {
+                        let isAll = arrData[index]['children'].reduce((accumulator, currentValue) => {
+                            return accumulator && '0' !== currentValue['checkArr'];
+                        }, true);
+                        if ('0' !== arrData[index]['checkArr']) {
+                            arrData[index]['checkArr'] = isAll ? '1' : '2';
+                            arrData[index]['spread'] = true;
+                        } else {
+                            arrData[index]['spread'] = false;
+                        }
+                    }
                 });
             }
-
-            //选中已有的
-            dtree.chooseDataInit(treeIns, checkIDs.join(','));
 
             //选中事件
             dtree.on(`chooseDone(${treeID})`,function(obj){
                 let checkParams = obj.checkbarParams;
-                let saveIDs = [];
-                $.each(checkParams, (i, item)=>{
-                    saveIDs.push(item.nodeId);
-                });
+                let saveIDs = checkParams.map(x => x.nodeId);
 
                 axios.post("{{ $url_save }}",
                     {ids: saveIDs})
