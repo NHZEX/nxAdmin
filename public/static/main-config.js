@@ -162,7 +162,7 @@ require.config({
 
 });
 
-const regex_csrf = /\/(csrf|csrf_update)\/(\w+)/;
+const regex_csrf = /[\/?]?(csrf|csrf_update)[\/=](\w+)/;
 const isVue = getParameterByName('isVue')
     || getParameterByName('isvue')
     || -1 !== window.location.href.indexOf('/isVue/1')

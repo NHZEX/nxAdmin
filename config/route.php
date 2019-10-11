@@ -20,7 +20,7 @@ return [
     // URL伪静态后缀
     'url_html_suffix'       => 'html',
     // URL普通方式参数 用于自动生成
-    'url_common_param'      => false,
+    'url_common_param'      => true,
     // 是否开启路由延迟解析
     'url_lazy_route'        => false,
     // 是否强制使用路由
@@ -43,8 +43,6 @@ return [
     'controller_suffix'     => false,
     // 默认的路由变量规则
     'default_route_pattern' => '[\w\.]+',
-    // 是否自动转换URL中的控制器和操作名
-    'url_convert'           => true,
     // 是否开启请求缓存 true自动缓存 支持设置请求缓存规则
     'request_cache'         => false,
     // 请求缓存有效期
