@@ -1,6 +1,5 @@
 <?php
 
-
 use Tp\Db\Query;
 
 return [
