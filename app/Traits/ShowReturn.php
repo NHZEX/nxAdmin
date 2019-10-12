@@ -52,15 +52,14 @@ trait ShowReturn
     /**
      * 统一返回 跳转
      * @param string $url
-     * @param array  $params
      * @param array  $header
      * @return Response
      */
-    protected static function show302(string $url, array $params = [], array $header = []): Response
+    protected static function show302(string $url, array $header = []): Response
     {
         /** @var Redirect $redirect */
-        $redirect = Response::create($url, 'redirect', 302);
-        return $redirect->params($params)->header($header);
+        $redirect = Response::create(url($url), 'redirect', 302);
+        return $redirect->header($header);
     }
 
     /**

@@ -9,7 +9,7 @@
 namespace app\Model;
 
 use Basis\IP;
-use think\facade\Request;
+use think\App;
 use Throwable;
 
 /**
@@ -54,18 +54,9 @@ class ExceptionLogs extends Base
         $cli = is_cli() ? 'cli' : 'other';
         $sapi = PHP_SAPI;
 
-        $request = Request::instance();
-        $route_info = "route:{$request->app()}/{$request->controller()}/{$request->action()}";
-        if ($route_info === 'route://') {
-            $dispatch = $request->dispatch();
-            if (is_array($dispatch) && isset($dispatch['type'])) {
-                if ('module' === $dispatch['type']) {
-                    $route_info = 'route:' . join('/', $dispatch['module']);
-                } else {
-                    $route_info = "{$dispatch['type']}:other";
-                }
-            }
-        }
+        $request = App::getInstance()->request;
+        $http = App::getInstance()->http;
+        $route_info = "route:{$http->getName()}/{$request->controller()}/{$request->action()}";
 
         $that->request_ip = IP::getIp(true);
         $that->request_url = "{$request->host()}{$request->baseUrl()}";

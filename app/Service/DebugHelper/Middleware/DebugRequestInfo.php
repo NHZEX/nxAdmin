@@ -25,7 +25,7 @@ class DebugRequestInfo
     public function handle(Request $request, Closure $next)
     {
         // 记录路由和请求信息
-        $appName = $request->app() ?: 'empty';
+        $appName = $this->app->http->getName() ?: 'empty';
         $controller = $request->controller(true);
         $class = $this->app->parseClass('controller', $controller);
         $action = $request->action();

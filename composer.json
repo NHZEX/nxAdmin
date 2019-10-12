@@ -46,12 +46,13 @@
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-dumper": "^4.2",
         "symfony/var-exporter": "^4.2",
-        "topthink/framework": "6.0.x-dev#9744571904a008bff8567d5fc929ed161cad0f8b",
-        "topthink/think-orm": "^2.0.23",
+        "topthink/framework": "6.0.x-dev#8a4f1d2279341f1809e4f17decd711f0d5039f93",
+        "topthink/think-orm": "2.0.x-dev#01f530a70a31b461557937ea75a7713862418b32",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^8",
+        "topthink/think-trace": "^1.1",
         "swoft/swoole-ide-helper": "~4.4.0"
     },
     "autoload": {

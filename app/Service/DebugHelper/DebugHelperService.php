@@ -21,7 +21,7 @@ class DebugHelperService extends Service
                 ini_set('xdebug.var_display_max_children', '256');
                 ini_set('xdebug.var_display_max_data', '1024');
             }
-            $this->app->middleware->add(DebugRequestInfo::class);
+            $this->app->middleware->add(DebugRequestInfo::class, 'controller');
         }
     }
 

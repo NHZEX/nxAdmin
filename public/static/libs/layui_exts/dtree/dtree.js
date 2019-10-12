@@ -1191,7 +1191,6 @@ layui.define(['jquery','layer','form'], function(exports) {
 	DTree.prototype.autoHeight = function(){
 		var _this = this;
 		var height = _this.height;
-			console.log(height);
 		if(height != "") {
 			if(_this.elem == _this.toolbarScroll){
 				_this.obj.parent().css("height", height + "px");

@@ -73,7 +73,8 @@
             // 保存修改
             $('#btn-save').on('click', () => {
                 layer.load(2);
-                let data = tree_grid.getCheckedColumn(treeId, 'hash');
+                let checkList = tree_grid.checkStatus(treeId);
+                let data = checkList.data.map(x => x.hash);
                 axios.post('{{ $url_save }}', {id: roleID, hashArr: data})
                     .then((res) => {
                         layer.closeAll('loading');

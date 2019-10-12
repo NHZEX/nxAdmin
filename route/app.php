@@ -11,15 +11,20 @@
 // +----------------------------------------------------------------------
 
 use think\facade\Route;
+use think\Response;
 
 Route::get('upload', function () {
-    return \think\Response::create('404 Not Found', 'html', 404);
+    return Response::create('404 Not Found', 'html', 404);
 });
 Route::get('static', function () {
-    return \think\Response::create('404 Not Found', 'html', 404);
+    return Response::create('404 Not Found', 'html', 404);
 });
 Route::get('storage', function () {
-    return \think\Response::create('404 Not Found', 'html', 404);
+    return Response::create('404 Not Found', 'html', 404);
 });
+
+Route::group('admin.login', function () {
+    Route::get('captcha/:_', 'captcha');
+})->prefix('admin.login/');
 
 return [];
