@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0c85f69fe1a96243fea3144ef132df61",
+    "content-hash": "7fda08aa84b71e9466bc2cde0260a32e",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1061,6 +1061,186 @@
             ],
             "description": "Use Laravel Blade templates without the full Laravel framework",
             "time": "2019-09-23T02:37:24+00:00"
+        },
+        {
+            "name": "nhzex/tp-swoole",
+            "version": "2.1.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/tp-swoole.git",
+                "reference": "1516867d650856d26e125aa80f5d3fc22d3fb495"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/1516867d650856d26e125aa80f5d3fc22d3fb495",
+                "reference": "1516867d650856d26e125aa80f5d3fc22d3fb495",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-pcntl": "*",
+                "ext-pdo": "*",
+                "ext-sockets": "*",
+                "ext-swoole": "~4.4",
+                "monolog/monolog": "^2.0",
+                "nhzex/n-helper": "^1.1",
+                "nhzex/zsw-core": "^1.2",
+                "open-smf/connection-pool": "~1.0",
+                "php": "~7.2.20 || ~7.3.8",
+                "psr/log": "^1.1",
+                "symfony/finder": "^4.3",
+                "symfony/var-dumper": "^4.3",
+                "topthink/framework": "6.0.x-dev#768f12f01daa0bd96ef4ad8771d80fb6fec137c8",
+                "topthink/think-helper": "^3.0",
+                "topthink/think-orm": "2.0.x-dev#01f530a70a31b461557937ea75a7713862418b32"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8",
+                "swoft/swoole-ide-helper": "~4.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [
+                        "HZEX\\TpSwoole\\Service"
+                    ],
+                    "config": {
+                        "swoole": "src/Config/swoole.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HZEX\\TpSwoole\\": "src"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ],
+            "time": "2019-10-12T10:32:52+00:00"
+        },
+        {
+            "name": "nhzex/zsw-core",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/zsw-core.git",
+                "reference": "a5553f67fa1fed23b4bf2d4501db4d4f349ccae1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/zsw-core/zipball/a5553f67fa1fed23b4bf2d4501db4d4f349ccae1",
+                "reference": "a5553f67fa1fed23b4bf2d4501db4d4f349ccae1",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-sockets": "*",
+                "ext-swoole": "^4.4.6",
+                "nhzex/n-helper": "^1.1",
+                "php": "~7.1",
+                "psr/container": "^1.0",
+                "psr/log": "^1.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.2",
+                "phpunit/phpunit": "^8.3",
+                "swoole/ide-helper": "^4.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "unzxin\\zswCore\\": "src/"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@163.com"
+                }
+            ],
+            "description": "zx swoole core",
+            "time": "2019-10-10T10:18:48+00:00"
+        },
+        {
+            "name": "open-smf/connection-pool",
+            "version": "v1.0.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/open-smf/connection-pool.git",
+                "reference": "efea7c1e86adb48cb47e06c71cff4ac1096ce21c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/open-smf/connection-pool/zipball/efea7c1e86adb48cb47e06c71cff4ac1096ce21c",
+                "reference": "efea7c1e86adb48cb47e06c71cff4ac1096ce21c",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-swoole": ">=4.2.9",
+                "php": ">=7.0.0"
+            },
+            "suggest": {
+                "ext-redis": "A PHP extension for Redis."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Smf\\ConnectionPool\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Xie Biao",
+                    "email": "hhxsv5@sina.com"
+                }
+            ],
+            "description": "A common connection pool based on Swoole is usually used as the database connection pool.",
+            "homepage": "https://github.com/open-smf/connection-pool",
+            "keywords": [
+                "connection-pool",
+                "database-connection-pool",
+                "swoole"
+            ],
+            "time": "2019-05-28T03:47:27+00:00"
         },
         {
             "name": "opis/closure",

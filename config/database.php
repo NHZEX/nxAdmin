@@ -1,7 +1,5 @@
 <?php
 
-
-use HZEX\TpSwoole\Coroutine\Db\Connector\Mysql;
 use Tp\Db\Query;
 
 return [
@@ -23,7 +21,7 @@ return [
     'connections' => [
         'main' => [
             // 数据库类型
-            'type'            => Mysql::class,
+            'type'            => 'mysql', // Mysql::class
             // 服务器地址
             'hostname'        => env_get('DB_MAIN_HOSTNAME', '127.0.0.1'),
             // 端口
