@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/12/4
- * Time: 19:20
- */
 
 use think\facade\Env;
 

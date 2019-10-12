@@ -41,7 +41,7 @@
         "nhzex/tp-swoole": "2.0.x-dev",
         "open-smf/connection-pool": "~1.0",
         "robmorgan/phinx": "^0.11",
-        "rybakit/msgpack": "^0.5.4",
+        "rybakit/msgpack": "^0.6.1",
         "symfony/finder": "^4.3",
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-dumper": "^4.2",
