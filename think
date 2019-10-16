@@ -18,9 +18,10 @@ use HZEX\TpSwoole\VirtualContainer;
 require __DIR__ . '/vendor/autoload.php';
 
 // 应用初始化
-if (class_exists('\\Co')) {
+if (exist_swoole()) {
     $app = new VirtualContainer();
 } else {
     $app = new App();
 }
+/** @noinspection PhpUnhandledExceptionInspection */
 $app->console->run();

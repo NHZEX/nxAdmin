@@ -26,7 +26,7 @@ return [
         ],
         'redis' => [
             // 驱动方式
-            'type'       =>  \Tp\Cache\Driver\Redis::class,
+            'type'       =>  'redis',
             // 缓存前缀
             'prefix'     => DeployInfo::getMixingPrefix() . ':cache:',
             // 缓存有效期 0表示永久缓存

@@ -11,7 +11,6 @@
 
 use app\Service\Swoole\DestroyRedisConnection;
 use app\Service\Swoole\ServiceHealthCheck;
-use think\facade\App;
 
 return [
     'hot_reload' => [
@@ -44,7 +43,7 @@ return [
     'health' => ServiceHealthCheck::class,
     'memory_limit' => '512M',
     'resolveLogger' => function () {
-        return \app()->log;
+        return app()->log;
     },
     'server' => [
         'listen' => env_get('SERVER_HTTP_LISTEN', '0.0.0.0:9501'), // 监听
@@ -59,15 +58,15 @@ return [
             'task_worker_num' => env_get('SERVER_TASK_WORKER_NUM', 2),
             'task_enable_coroutine' => true,
 
-            'pid_file' => App::getRuntimePath() . 'swoole.pid',
-            'log_file' => App::getRuntimePath() . 'swoole.log',
+            'pid_file' => runtime_path() . 'swoole.pid',
+            'log_file' => runtime_path() . 'swoole.log',
 
             // 启用Http响应压缩
             'http_compression' => true,
             // 启用静态文件处理
             'enable_static_handler' => true,
             // 设置静态文件根目录
-            'document_root' => App::getRootPath() . 'public',
+            'document_root' => root_path() . 'public',
             // 设置静态处理器的路径
             'static_handler_locations' => ['/static', '/upload', '/favicon.ico', '/robots.txt'],
 
@@ -95,5 +94,32 @@ return [
         // 'route_file' => base_path() . 'websocket.php',
         'ping_interval' => 25000,
         'ping_timeout' => 60000,
+    ],
+    // 追踪器 (调试)
+    'tracker'          => env_get('SERVER_TRACKER', false),
+    // 日志记录
+    'log'              => [
+        'console' => true,
+        'channel' => [
+            // 日志保存目录
+            'path'      => env_get('LOG_FILE_PATH', '') ?: runtime_path('log'),
+            // 日志文件名
+            'filename'  => 'server.log',
+            // 最大日志文件数量
+            'max_files' => 7,
+        ],
+    ],
+    // 连接池
+    'pool'       => [
+        'db'    => [
+            'enable'        => true,
+            'max_active'    => 3,
+            'max_wait_time' => 5,
+        ],
+        'cache' => [
+            'enable'        => true,
+            'max_active'    => 5,
+            'max_wait_time' => 5,
+        ],
     ],
 ];

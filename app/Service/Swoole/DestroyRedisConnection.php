@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace app\Service\Swoole;
 
 use app\Service\Redis\RedisProvider;
-use HZEX\TpSwoole\Container\Destroy\DestroyContract;
+use HZEX\TpSwoole\Contract\ContractDestroyInterface;
 use think\Container;
 
-class DestroyRedisConnection implements DestroyContract
+class DestroyRedisConnection implements ContractDestroyInterface
 {
 
     /**

@@ -9,7 +9,8 @@
 namespace app\Service\Redis;
 
 use Co;
-use HZEX\TpSwoole\Worker\ConnectionPool;
+use HZEX\TpSwoole\Plugins\ConnectionPool;
+use RedisException;
 use Smf\ConnectionPool\BorrowConnectionTimeoutException;
 use Smf\ConnectionPool\ConnectionPool as SmfConnectionPool;
 use think\Config;
@@ -71,6 +72,7 @@ class RedisProvider
 
     /**
      * @return bool
+     * @throws RedisException
      */
     protected function boot()
     {
@@ -129,6 +131,7 @@ class RedisProvider
      * @param $arguments
      * @return mixed
      * @throws BorrowConnectionTimeoutException
+     * @throws RedisException
      */
     public function __call($name, $arguments)
     {
