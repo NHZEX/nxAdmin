@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 
 use app\Service\Swoole\DestroyRedisConnection;
+use app\Service\Swoole\Plugins\RpcServer;
 use app\Service\Swoole\ServiceHealthCheck;
 
 return [
@@ -27,6 +28,7 @@ return [
     ],
     'enable_coroutine' => true,
     'plugins' => [
+        RpcServer::class,
     ],
     'tasks' => [],
     'resetters' => [],
