@@ -12,16 +12,9 @@
 
 namespace think;
 
-// 加载基础文件
-use HZEX\TpSwoole\VirtualContainer;
-
 require __DIR__ . '/vendor/autoload.php';
 
 // 应用初始化
-if (exist_swoole()) {
-    $app = new VirtualContainer();
-} else {
-    $app = new App();
-}
+$app = new App();
 /** @noinspection PhpUnhandledExceptionInspection */
 $app->console->run();
