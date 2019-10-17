@@ -102,6 +102,7 @@ class RedisProvider
         if (false === $result) {
             return false;
         } else {
+            $this->handler2->initScript();
             return true;
         }
     }

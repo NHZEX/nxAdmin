@@ -28,7 +28,7 @@ class Login extends Base
         $jump_url = $this->request->header('Referer', false);
         // 如果验证成功直接跳转到主页
         if (WebConv::verify()) {
-            return self::show302($jump_url ?: '@admin.main');
+            return self::show302($jump_url ?: url('@admin.main'));
         } else {
             if ((new AdminUser())->testRemember()) {
                 $this->success('自动登陆成功', $jump_url ?: '@admin.main');
