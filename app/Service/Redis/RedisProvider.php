@@ -8,6 +8,7 @@
 
 namespace app\Service\Redis;
 
+use RedisException;
 use think\Config;
 
 /**
@@ -54,6 +55,7 @@ class RedisProvider
 
     /**
      * @return bool
+     * @throws RedisException
      */
     protected function boot()
     {
@@ -83,10 +85,17 @@ class RedisProvider
         if (false === $result) {
             return false;
         } else {
+            $this->handler2->initScript();
             return true;
         }
     }
 
+    /**
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     * @throws RedisException
+     */
     public function __call($name, $arguments)
     {
         if (false === $this->init) {

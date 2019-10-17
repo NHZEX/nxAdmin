@@ -160,7 +160,8 @@ class Captcha
                 $py = $A * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
                 $i  = (int) ($this->fontSize / 5);
                 while ($i > 0) {
-                    imagesetpixel($this->im, $px + $i, $py + $i, $this->color); // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
+                    // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
+                    imagesetpixel($this->im, $px + $i, $py + $i, $this->color);
                     $i--;
                 }
             }

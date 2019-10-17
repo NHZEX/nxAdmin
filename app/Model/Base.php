@@ -28,7 +28,7 @@ use Tp\Model\Traits\TransactionExtension;
  * @method Query2 whereExp(string $field, string $condition, array $bind = [], string $logic = 'AND') static 字段表达式查询
  * @method Query2 when($condition, Closure|array $query, Closure|array $otherwise = null) static 条件查询
  * @method Query2 join(mixed $join, mixed $condition = null, string $type = 'INNER', array $bind = []) static JOIN查询
- * @method Query2 view(mixed $join, mixed $field = null, mixed $on = null, string $type = 'INNER', array $bind = []) static 视图查询
+ * @method Query2 view(mixed $join, mixed $field=null, mixed $on=null, string $type='INNER', array $bind=[]) static 视图查询
  * @method Query2 with(array|string $with) static 关联预载入
  * @method Query2 count(string $field) static Count统计查询
  * @method Query2 min(string $field, bool $force = true) static Min统计查询

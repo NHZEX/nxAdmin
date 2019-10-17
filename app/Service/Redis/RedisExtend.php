@@ -10,6 +10,11 @@ namespace app\Service\Redis;
 
 use Redis;
 
+/**
+ * Class RedisExtend
+ * @package app\Service\Redis
+ * TODO 处理 evalSha 错误问题
+ */
 class RedisExtend extends Redis
 {
     private const SCRIPT_SERIAL_INC = <<<'LUA'
@@ -38,9 +43,9 @@ LUA;
      * 初始化LUA脚本
      * @author NHZEXG
      */
-    public function __initScript()
+    public function initScript()
     {
-        $this->lua_sha1['serial_inc'] = $this->script('load', self::SCRIPT_SERIAL_INC);
+        $this->lua_sha1['serial_incserial_inc'] = $this->script('load', self::SCRIPT_SERIAL_INC);
         $this->lua_sha1['release_lock'] = $this->script('load', self::SCRIPT_RELEASE_LOCK);
     }
 
@@ -109,6 +114,19 @@ LUA;
         } else {
             return $this->evalSha($this->lua_sha1['release_lock'], [$lock_name, $lock_id], 1);
         }
+    }
+
+    /**
+     * 值相等并删除
+     * @param string $name
+     * @param string $lock_id
+     * @author NHZEXG
+     * @return int|mixed
+     */
+    public function valueEqualWithDel(string $name, string $lock_id)
+    {
+        $result = $this->evalSha($this->lua_sha1['release_lock'], [$name, $lock_id], 1);
+        return (bool) $result;
     }
 
     public function getServerVersion() :string

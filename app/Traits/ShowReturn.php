@@ -58,7 +58,7 @@ trait ShowReturn
     protected static function show302(string $url, array $header = []): Response
     {
         /** @var Redirect $redirect */
-        $redirect = Response::create(url($url), 'redirect', 302);
+        $redirect = Response::create($url, 'redirect', 302);
         return $redirect->header($header);
     }
 
