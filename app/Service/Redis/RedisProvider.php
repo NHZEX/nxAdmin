@@ -114,7 +114,7 @@ class RedisProvider
     {
         /** @var ConnectionPool $pools */
         $pools = app()->make(ConnectionPool::class);
-        $this->pools = $pools->requestRedis([
+        $this->pools = $pools->requestCustomize(new RedisConnector(), [
             'host'     => $this->config['host'],
             'port'     => (int) $this->config['port'],
             'database' => (int) $this->config['select'],

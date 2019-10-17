@@ -12,7 +12,7 @@ RUN cd /opt/ops-server \
     && chmod +x ./think ./phinx_cli.php ./docker-php-entrypoint \
     && (rm -r runtime/* .env || true) \
     && ([ "${CN}" = "0" ] || composer config repo.packagist composer https://php.cnpkg.org) \
-    && composer install --no-progress --no-dev -o \
+    && composer install --no-cache --no-progress --no-dev -o \
     && composer clearcache
 
 EXPOSE 9501/tcp 9502/tcp

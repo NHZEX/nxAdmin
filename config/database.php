@@ -21,7 +21,7 @@ return [
     'connections' => [
         'main' => [
             // 数据库类型
-            'type'            => 'mysql', // Mysql::class
+            'type'            => 'mysql',
             // 服务器地址
             'hostname'        => env_get('DB_MAIN_HOSTNAME', '127.0.0.1'),
             // 端口

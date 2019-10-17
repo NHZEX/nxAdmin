@@ -42,9 +42,6 @@ return [
     ],
     'health' => ServiceHealthCheck::class,
     'memory_limit' => '512M',
-    'resolveLogger' => function () {
-        return app()->log;
-    },
     'server' => [
         'listen' => env_get('SERVER_HTTP_LISTEN', '0.0.0.0:9501'), // 监听
         'mode' => SWOOLE_PROCESS, // 运行模式 默认为SWOOLE_PROCESS

@@ -663,16 +663,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.56",
+            "version": "1.0.57",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "90e3f83cb10ef6b058d70f95267030e7a6236518"
+                "reference": "0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/90e3f83cb10ef6b058d70f95267030e7a6236518",
-                "reference": "90e3f83cb10ef6b058d70f95267030e7a6236518",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a",
+                "reference": "0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -749,7 +749,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-10-12T13:05:59+00:00"
+            "time": "2019-10-16T21:01:05+00:00"
         },
         {
             "name": "league/flysystem-cached-adapter",
@@ -1064,12 +1064,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/tp-swoole.git",
-                "reference": "bc7a5a87c7bee4b9e357f51f6078cb22aea14854"
+                "reference": "2be040c63929edc4602623a1b225969e33736159"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/42537c87f774387829411279dfef04079e8769c1",
-                "reference": "bc7a5a87c7bee4b9e357f51f6078cb22aea14854",
+                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/2be040c63929edc4602623a1b225969e33736159",
+                "reference": "2be040c63929edc4602623a1b225969e33736159",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1093,9 +1093,9 @@
                 "psr/log": "^1.1",
                 "symfony/finder": "^4.3",
                 "symfony/var-dumper": "^4.3",
-                "topthink/framework": "6.0.x-dev#768f12f01daa0bd96ef4ad8771d80fb6fec137c8",
+                "topthink/framework": "6.0.x-dev#6217ae4a9e9beb0c7426e427b535d14f1fe4ab90",
                 "topthink/think-helper": "^3.0",
-                "topthink/think-orm": "2.0.x-dev#01f530a70a31b461557937ea75a7713862418b32"
+                "topthink/think-orm": "2.0.x-dev#8ef883759fc94512bf5c62468c8dc0d8dc176afe"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8",
@@ -1130,7 +1130,7 @@
                     "email": "auooru@outlook.com"
                 }
             ],
-            "time": "2019-10-16T10:03:50+00:00"
+            "time": "2019-10-16T10:56:02+00:00"
         },
         {
             "name": "nhzex/zsw-core",
