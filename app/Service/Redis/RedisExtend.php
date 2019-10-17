@@ -45,7 +45,7 @@ LUA;
      */
     public function initScript()
     {
-        $this->lua_sha1['serial_incserial_inc'] = $this->script('load', self::SCRIPT_SERIAL_INC);
+        $this->lua_sha1['serial_inc'] = $this->script('load', self::SCRIPT_SERIAL_INC);
         $this->lua_sha1['release_lock'] = $this->script('load', self::SCRIPT_RELEASE_LOCK);
     }
 
