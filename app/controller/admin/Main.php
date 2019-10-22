@@ -28,12 +28,13 @@ class Main extends Base
 {
     /**
      * 主页框架
-     * @param Env     $env
+     * @param Env $env
      * @return mixed
      * @throws DataNotFoundException
      * @throws DbException
      * @throws JsonException
      * @throws ModelNotFoundException
+     * @throws Exception
      */
     public function index(Env $env)
     {

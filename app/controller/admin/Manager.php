@@ -14,7 +14,6 @@ use app\Model\AdminUser;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
-use think\facade\View;
 use think\model\Collection;
 use think\Response;
 use Tp\Model\Exception\ModelException;
@@ -49,7 +48,7 @@ class Manager extends Base
      */
     public function index()
     {
-        View::assign([
+        $this->view->assign([
             'url_table' => url('table'),
             'url_page_edit' => url('pageEdit'),
             'url_change_password' => url('changePassword'),
@@ -57,7 +56,7 @@ class Manager extends Base
             'url_delete' => url('delete'),
             'manager_types' => self::FILTER_TYPE[WebConv::getUserGenre()],
         ]);
-        return View::fetch();
+        return $this->view->fetch();
     }
 
     /**
@@ -114,7 +113,7 @@ class Manager extends Base
             $params['csrf'] = $this->generateCsrfTokenSimple();
         }
 
-        View::assign([
+        $this->view->assign([
             'url_save' => url('save', $params),
             'url_upload' => url('@upload/image'),
             'genre_list' => $genres ?? [],
@@ -123,7 +122,7 @@ class Manager extends Base
             'edit_data' => $au ?? false,
         ]);
 
-        return View::fetch('edit');
+        return $this->view->fetch('edit');
     }
 
     /**
@@ -147,7 +146,10 @@ class Manager extends Base
 
     /**
      * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
      * @throws ModelException
+     * @throws ModelNotFoundException
      */
     public function save()
     {

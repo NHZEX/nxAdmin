@@ -12,7 +12,6 @@ use app\Facade\WebConv;
 use app\Logic\AdminUser;
 use Captcha\Captcha;
 use Exception;
-use think\facade\View;
 use think\Response;
 
 class Login extends Base
@@ -41,7 +40,7 @@ class Login extends Base
         $loginToken = get_rand_str(32);
 
         // 生成主页请求URL
-        View::assign([
+        $this->view->assign([
             'url_login' => url('login', ['_' => crc32($loginToken)], false),
             'url_check' => url('check', [], false),
             'url_captcha' => url('captcha', ['_' => $loginToken], false),
@@ -52,7 +51,7 @@ class Login extends Base
         ]);
 
         // 模板渲染
-        return View::fetch();
+        return $this->view->fetch();
     }
 
     /**

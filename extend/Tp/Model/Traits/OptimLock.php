@@ -9,6 +9,9 @@
 namespace Tp\Model\Traits;
 
 use InvalidArgumentException;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\Model;
 use Tp\Db\Query;
 use Tp\Model\Exception\ModelException;
@@ -27,24 +30,14 @@ trait OptimLock
     private $lockVersion = null;
 
     /**
-     * @param int $id
-     * @param int $lock_version
-     * @return Model|OptimLock|null
-     * @throws ModelException
-     * @deprecated
-     * @see findOptimisticVer
-     */
-    public static function getOptimisticVer(int $id, int $lock_version)
-    {
-        return static::findOptimisticVer($id, $lock_version);
-    }
-
-    /**
      * 使用特定锁查询一条数据
      * @param int $id
      * @param int $lock_version
      * @return static|Model|null
      * @throws ModelException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public static function findOptimisticVer(int $id, int $lock_version)
     {

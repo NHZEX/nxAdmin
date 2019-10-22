@@ -30,7 +30,6 @@ class ScanningNode
     }
 
     /**
-     * User: Johnson
      * @param string $father_controller_dir   // 待搜索的控制器目录
      * @param array  $father_controller_names // 以得知的父级控制器名称组
      * @return Generator

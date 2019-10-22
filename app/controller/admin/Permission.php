@@ -1,7 +1,6 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Johnson
  * Date: 2019/1/17
  * Time: 14:54
  */
@@ -10,12 +9,12 @@ namespace app\controller\admin;
 
 use app\Logic\Permission as PermissionLogic;
 use app\Model\Permission as PermissionModel;
+use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\App;
 use think\facade\Db;
-use think\facade\View;
 use think\model\Collection;
 use think\Response;
 use Throwable;
@@ -24,18 +23,18 @@ class Permission extends Base
 {
     /**
      * 首页
-     * User: Johnson
+     * @throws Exception
      */
     public function node()
     {
-        View::assign([
+        $this->view->assign([
             'url_table' => url('nodeList'),
             'url_update' => url('update'),
             'url_generate' => url('generateNodes'),
             'url_save_flags' => url('saveFlags'),
             'url_export' => url('exportNodes'),
         ]);
-        return View::fetch();
+        return $this->view->fetch();
     }
 
     /**
@@ -63,7 +62,6 @@ class Permission extends Base
 
     /**
      * 修改别名、注释
-     * User: Johnson
      * @param null $id
      * @return Response
      */
@@ -76,7 +74,6 @@ class Permission extends Base
 
     /**
      * 重新生成节点
-     * User: Johnson
      * @throws Throwable
      */
     public function generateNodes()
@@ -106,7 +103,6 @@ class Permission extends Base
 
     /**
      * 批量修改标识操作
-     * User: Johnson
      * @return Response
      * @throws Throwable
      */

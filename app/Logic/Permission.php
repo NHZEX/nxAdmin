@@ -1,7 +1,6 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Johnson
  * Date: 2019/1/16
  * Time: 17:26
  */
@@ -96,7 +95,6 @@ class Permission
 
     /**
      * 计算节点信息
-     * User: Johnson
      * @param string $class_name
      * @param string $action
      * @return PermissionNode
