@@ -10,6 +10,7 @@ namespace app\controller\admin;
 
 use app\Exception\JsonException;
 use app\Facade\WebConv;
+use app\Logic\Permission;
 use app\Logic\SystemMenu;
 use app\Model\AdminUser;
 use Exception;
@@ -17,6 +18,7 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Env;
+use think\Response;
 
 /**
  * Class Main
@@ -45,6 +47,7 @@ class Main extends Base
                 'mainpage' => url('sysinfo'),
                 'basic_info' => url('@admin.manager/pageEdit', ['base_pkid' => WebConv::getConvUser()->id]),
                 'logout' => url('@admin.login/logout'),
+                'clear_cache' => url('clearCache'),
             ],
         ]);
 
@@ -106,5 +109,16 @@ class Main extends Base
     public function sysinfo()
     {
         return $this->view->fetch();
+    }
+
+    /**
+     * 清理缓存
+     * @return Response
+     */
+    public function clearCache()
+    {
+        SystemMenu::refreshCache();
+        Permission::refreshCache();
+        return self::showSucceed();
     }
 }
