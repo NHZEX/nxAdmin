@@ -8,7 +8,6 @@
 
 namespace app\controller\admin;
 
-use app\Exception\JsonException;
 use app\Facade\WebConv;
 use app\Logic\AdminUser;
 use Captcha\Captcha;
@@ -73,7 +72,6 @@ class Login extends Base
      * 产生一个验证码
      * @param string|null $_
      * @return Captcha
-     * @throws JsonException
      */
     public function captcha(string $_ = null)
     {

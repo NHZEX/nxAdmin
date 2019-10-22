@@ -9,9 +9,7 @@
 namespace Captcha;
 
 use app\Exception\BusinessResult;
-use app\Exception\JsonException;
-use app\Facade\Redis;
-use Basis\IP;
+use think\facade\Cache;
 use think\Response;
 
 /**
@@ -320,10 +318,7 @@ class Captcha
     private function codeHash($code)
     {
         $code = strtoupper($code);
-
-        $code = hash('md5', $code);
-        $key = hash('md5', $this->seKey);
-        $result = hash_hmac('sha1', $code, $key);
+        $result = hash_hmac('sha1', $code, $this->seKey);
         return $result;
     }
 
@@ -365,19 +360,18 @@ class Captcha
     /**
      * 保存验证码到 redis
      * @param string $ctoken
-     * @throws JsonException
      */
     public function saveToRedis(string $ctoken)
     {
-        $ua = request()->header('User-Agent');
+        $require = request();
+        $ua = $require->header('User-Agent');
         $pack = [
             'hash_code' => $this->getCode(),
-            'access_ip' => IP::getIp(),
-            'access_ip_2' => IP::getIp(true),
+            'access_ip' => $require->ip(),
             'expire_time' => time() + $this->expire,
             'ua_sign' => md5($ua),
         ];
-        Redis::instance()->set("captcha:ctoken_{$ctoken}", json_encode_throw_on_error($pack), $this->expire);
+        Cache::set("captcha:ctoken_{$ctoken}", $pack, $this->expire);
     }
 
     /**
@@ -389,19 +383,17 @@ class Captcha
      */
     public function checkToRedis(string $ctoken, string $code)
     {
-        $redis = Redis::instance();
         $captcha_key = "captcha:ctoken_{$ctoken}";
         try {
-            $pack = $redis->get($captcha_key);
+            $pack = Cache::get($captcha_key);
             if (!$pack) {
                 throw new BusinessResult('验证码失效.');
             }
-            $pack = json_decode_throw_on_error($pack);
 
             if (!isset($pack['expire_time']) || time() > $pack['expire_time']) {
                 throw new BusinessResult('验证码失效..');
             }
-            if (!isset($pack['access_ip']) || IP::getIp() !== $pack['access_ip']) {
+            if (!isset($pack['access_ip']) || request()->ip() !== $pack['access_ip']) {
                 throw new BusinessResult('验证码无效.');
             }
             $ua = request()->header('User-Agent');
@@ -412,14 +404,11 @@ class Captcha
                 throw new BusinessResult('验证码错误.');
             }
         } catch (BusinessResult $result) {
-            $redis->del($captcha_key);
+            Cache::delete($captcha_key);
             $this->message = $result->getMessage();
             return false;
-        } catch (JsonException $exception) {
-            $this->message = "解码失败: {$exception->getMessage()}";
-            return false;
         }
-        $redis->del($captcha_key);
+        Cache::delete($captcha_key);
         return true;
     }
 }
