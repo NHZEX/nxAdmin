@@ -40,7 +40,9 @@ class Menu extends Base
      */
     public function table()
     {
-        $result = (new SystemMenu())->select();
+        $result = (new SystemMenu())
+            ->order(['pid' => 'asc', 'sort' => 'desc'])
+            ->select();
 
         if (!$result->isEmpty()) {
             $result->append(['status_desc']);
