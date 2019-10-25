@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3010afd81fd0c06d5470d3c53ee07936",
+    "content-hash": "833743f1b5b5beb6586493fea78b1ada",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -386,16 +386,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "6.3.3",
+            "version": "6.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba"
+                "reference": "0895c932405407fd3a7368b6910c09a24d26db11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/407b0cb880ace85c9b63c5f9551db498cb2d50ba",
-                "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/0895c932405407fd3a7368b6910c09a24d26db11",
+                "reference": "0895c932405407fd3a7368b6910c09a24d26db11",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -405,14 +405,15 @@
                 ]
             },
             "require": {
+                "ext-json": "*",
                 "guzzlehttp/promises": "^1.0",
-                "guzzlehttp/psr7": "^1.4",
+                "guzzlehttp/psr7": "^1.6.1",
                 "php": ">=5.5"
             },
             "require-dev": {
                 "ext-curl": "*",
                 "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0",
-                "psr/log": "^1.0"
+                "psr/log": "^1.1"
             },
             "suggest": {
                 "psr/log": "Required for using the Log middleware"
@@ -424,12 +425,12 @@
                 }
             },
             "autoload": {
-                "files": [
-                    "src/functions_include.php"
-                ],
                 "psr-4": {
                     "GuzzleHttp\\": "src/"
-                }
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -453,7 +454,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2018-04-22T15:46:56+00:00"
+            "time": "2019-10-23T15:58:00+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -663,16 +664,16 @@
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.55",
+            "version": "1.0.57",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "33c91155537c6dc899eacdc54a13ac6303f156e6"
+                "reference": "0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/33c91155537c6dc899eacdc54a13ac6303f156e6",
-                "reference": "33c91155537c6dc899eacdc54a13ac6303f156e6",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a",
+                "reference": "0e9db7f0b96b9f12dcf6f65bc34b72b1a30ea55a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -749,7 +750,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2019-08-24T11:17:19+00:00"
+            "time": "2019-10-16T21:01:05+00:00"
         },
         {
             "name": "league/flysystem-cached-adapter",
@@ -845,16 +846,16 @@
         },
         {
             "name": "nhzex/n-helper",
-            "version": "1.1.3",
+            "version": "v1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/n-helper.git",
-                "reference": "43832bd2005fd49575603835b8c3ebf02dccaf2b"
+                "reference": "58211bb436fb825219fc8e674bc73f7bf8ded456"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/n-helper/zipball/43832bd2005fd49575603835b8c3ebf02dccaf2b",
-                "reference": "43832bd2005fd49575603835b8c3ebf02dccaf2b",
+                "url": "https://api.github.com/repos/NHZEX/n-helper/zipball/58211bb436fb825219fc8e674bc73f7bf8ded456",
+                "reference": "58211bb436fb825219fc8e674bc73f7bf8ded456",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -874,11 +875,7 @@
                 "symfony/var-exporter": "^4.2"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.1",
-                "topthink/framework": "^5.1.35"
-            },
-            "suggest": {
-                "topthink/framework": "think命令行扩展支持"
+                "phpunit/phpunit": "^7|^8"
             },
             "type": "library",
             "autoload": {
@@ -903,20 +900,20 @@
                 }
             ],
             "description": "助手",
-            "time": "2019-09-20T03:52:31+00:00"
+            "time": "2019-10-14T08:17:42+00:00"
         },
         {
             "name": "nhzex/think-blade",
-            "version": "v4.0.2",
+            "version": "v4.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-blade.git",
-                "reference": "324096e1987c75ffbac3437d4247164840984fa4"
+                "reference": "de8565ec52d80c17a6762ffb5e326cf7d223ac9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/324096e1987c75ffbac3437d4247164840984fa4",
-                "reference": "324096e1987c75ffbac3437d4247164840984fa4",
+                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/de8565ec52d80c17a6762ffb5e326cf7d223ac9f",
+                "reference": "de8565ec52d80c17a6762ffb5e326cf7d223ac9f",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -932,7 +929,7 @@
                 "php": ">=7.1",
                 "symfony/debug": "^4.2",
                 "symfony/finder": "^4.2",
-                "topthink/framework": "6.0.x-dev",
+                "topthink/framework": "~6.0.0",
                 "topthink/think-helper": "^3.1.1"
             },
             "require-dev": {
@@ -973,20 +970,20 @@
                 }
             ],
             "description": "Use Laravel Blade templates without the full Laravel framework",
-            "time": "2019-09-23T02:37:24+00:00"
+            "time": "2019-10-24T02:40:08+00:00"
         },
         {
             "name": "opis/closure",
-            "version": "3.4.0",
+            "version": "3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/opis/closure.git",
-                "reference": "60a97fff133b1669a5b1776aa8ab06db3f3962b7"
+                "reference": "e79f851749c3caa836d7ccc01ede5828feb762c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opis/closure/zipball/60a97fff133b1669a5b1776aa8ab06db3f3962b7",
-                "reference": "60a97fff133b1669a5b1776aa8ab06db3f3962b7",
+                "url": "https://api.github.com/repos/opis/closure/zipball/e79f851749c3caa836d7ccc01ede5828feb762c7",
+                "reference": "e79f851749c3caa836d7ccc01ede5828feb762c7",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1040,7 +1037,7 @@
                 "serialization",
                 "serialize"
             ],
-            "time": "2019-09-02T21:07:33+00:00"
+            "time": "2019-10-19T18:38:51+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -2406,16 +2403,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "6.0.x-dev",
+            "version": "v6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "6217ae4a9e9beb0c7426e427b535d14f1fe4ab90"
+                "reference": "79c555aab0313d1a33ddcdb3c395f2c47f37f597"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/6217ae4a9e9beb0c7426e427b535d14f1fe4ab90",
-                "reference": "6217ae4a9e9beb0c7426e427b535d14f1fe4ab90",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/79c555aab0313d1a33ddcdb3c395f2c47f37f597",
+                "reference": "79c555aab0313d1a33ddcdb3c395f2c47f37f597",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2470,7 +2467,7 @@
                 "orm",
                 "thinkphp"
             ],
-            "time": "2019-10-14T14:00:20+00:00"
+            "time": "2019-10-23T23:28:43+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -2519,16 +2516,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "2.0.x-dev",
+            "version": "v2.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "8ef883759fc94512bf5c62468c8dc0d8dc176afe"
+                "reference": "02affaaccade2cdd8bbb2d2f5d15e46113e6eb50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/8ef883759fc94512bf5c62468c8dc0d8dc176afe",
-                "reference": "8ef883759fc94512bf5c62468c8dc0d8dc176afe",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/02affaaccade2cdd8bbb2d2f5d15e46113e6eb50",
+                "reference": "02affaaccade2cdd8bbb2d2f5d15e46113e6eb50",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2566,7 +2563,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2019-10-11T01:34:19+00:00"
+            "time": "2019-10-23T02:16:50+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -4205,59 +4202,6 @@
             "time": "2019-06-13T22:48:21+00:00"
         },
         {
-            "name": "topthink/think-trace",
-            "version": "v1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/top-think/think-trace.git",
-                "reference": "b7833d473fdab607d6a827fdbf481f0f3f627f69"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-trace/zipball/b7833d473fdab607d6a827fdbf481f0f3f627f69",
-                "reference": "b7833d473fdab607d6a827fdbf481f0f3f627f69",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "topthink/framework": "^6.0.0"
-            },
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [
-                        "think\\trace\\Service"
-                    ],
-                    "config": {
-                        "trace": "src/config.php"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "think\\trace\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "liu21st",
-                    "email": "liu21st@gmail.com"
-                }
-            ],
-            "description": "thinkphp debug trace",
-            "time": "2019-10-02T13:12:00+00:00"
-        },
-        {
             "name": "webmozart/assert",
             "version": "1.5.0",
             "source": {
@@ -4316,10 +4260,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "topthink/framework": 20,
-        "topthink/think-orm": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
