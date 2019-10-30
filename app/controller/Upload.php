@@ -47,7 +47,6 @@ class Upload extends AdminBase
 
     /**
      * 上传多个图片
-     * User: Johnson
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -72,7 +71,6 @@ class Upload extends AdminBase
     }
 
     /**
-     * User: Johnson
      * @param UploadedFile $file
      * @return array|Response
      * @throws DataNotFoundException

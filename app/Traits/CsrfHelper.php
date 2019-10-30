@@ -8,10 +8,9 @@
 
 namespace app\Traits;
 
-use app\Facade\Redis;
-use app\Server\DeployInfo;
 use app\Struct\CsrfStruct;
 use Hashids\Hashids;
+use think\facade\Cache;
 use think\facade\Request;
 use think\facade\Session;
 
@@ -89,9 +88,8 @@ trait CsrfHelper
 
     private function addToken(string $token, string $tokenKey, int $timeOut = 3600)
     {
-        $prefix = DeployInfo::getMixingPrefix();
-        $key = "{$prefix}_token:{$tokenKey}:{$token}";
-        return Redis::instance()->set($key, 1, $timeOut);
+        $key = "token:{$tokenKey}:{$token}";
+        return Cache::set($key, 1, $timeOut);
     }
 
     /**
@@ -121,8 +119,7 @@ trait CsrfHelper
      */
     private function verifyToken(string $token, string $tokenKey)
     {
-        $prefix = DeployInfo::getMixingPrefix();
-        $key = "{$prefix}_token:{$tokenKey}:{$token}";
-        return Redis::instance()->del($key) > 0;
+        $key = "token:{$tokenKey}:{$token}";
+        return Cache::delete($key);
     }
 }

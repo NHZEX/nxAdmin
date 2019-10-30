@@ -37,12 +37,18 @@
                 </p>
             </div>
         </div>
-
         <div class="layui-form-item">
             <label class="layui-form-label">菜单图标</label>
             <div class="layui-input-block">
                 <input placeholder="请输入图标代码" type="text" name="icon" value="" class="layui-input">
                 <p class="help-block color-desc"><b>选填</b>，设置菜单选项前置图标</p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">菜单排序</label>
+            <div class="layui-input-block">
+                <input placeholder="请输入" type="number" name="sort" value="0" min="-32768" max="32767" class="layui-input">
+                <p class="help-block color-desc"><b>选填</b>，设置菜单在同级下的排序</p>
             </div>
         </div>
         <div class="hr-line-dashed"></div>

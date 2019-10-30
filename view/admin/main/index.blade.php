@@ -29,11 +29,11 @@
         <div class="layui-logo kit-logo-mobile">M</div>
         <ul class="layui-nav layui-layout-left kit-nav">
             <li class="layui-nav-item"><a href="javascript:;">控制台</a></li>
-            <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
-                <dl class="layui-nav-child">
-                </dl>
-            </li>
+{{--            <li class="layui-nav-item">--}}
+{{--                <a href="javascript:;">其它系统</a>--}}
+{{--                <dl class="layui-nav-child">--}}
+{{--                </dl>--}}
+{{--            </li>--}}
         </ul>
         <ul class="layui-nav layui-layout-right kit-nav">
             <li class="layui-nav-item">
@@ -61,9 +61,8 @@
                          onerror="imageError(this)"> {{ $user['nickname'] }}
                 </a>
                 <dl class="layui-nav-child">
-                    <dd><a href="javascript:;" id="basic_info"><span>基本资料</span></a>
-                    </dd>
-                    <dd><a href="javascript:;" kit-target><span>安全设置</span></a></dd>
+                    <dd><a href="javascript:;" id="basic_info"><span>基本资料</span></a></dd>
+                    <dd><a href="javascript:;" id="clear_cache"><span>清除缓存</span></a></dd>
                 </dl>
             </li>
             <li class="layui-nav-item"><a href="{{ $url['logout'] }}"><i class="fa fa-sign-out" aria-hidden="true"></i>
@@ -103,9 +102,7 @@
 <script type="text/javascript" src="/static/require/require.min.js"></script>
 <script type="text/javascript" src="/static/main-config.js?_v={{ RESOURCE_VERSION }}&debug={{ app()->isDebug() }}"></script>
 <script>
-    {{--window.menu = JSON.parse('{!! $webmenu !!}');--}}
-    {{--window.mainUrl = '{{ $url['mainpage'] }}';--}}
-    require(['jquery', 'layui', 'kitapp', 'kitmessage', 'helper'], function ($, layui, kitapp, kitmessage, helper) {
+    require(['jquery', 'layui', 'kitapp', 'kitmessage', 'helper', 'axios'], function ($, layui, kitapp, kitmessage, helper, axios) {
         // （新）主入口
         kitapp.set({
             data: Object({!! $webmenu !!}),
@@ -123,8 +120,16 @@
             helper.formModal()
                 .load('{{ $url['basic_info'] }}', [], '基本资料', '500px')
                 .end(() => {
-
+                    $(this).parents('dd').removeClass('layui-this');
                 });
+            return false;
+        });
+        $('#clear_cache').on('click', function () {
+            axios.get('{{ $url['clear_cache'] }}').then(() => {
+                layui.layer.msg('清除缓存成功');
+                $(this).parents('dd').removeClass('layui-this');
+            });
+            return false;
         });
         let setSkin = function (value) {
                 layui.data('kit_skin', {

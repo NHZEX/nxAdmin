@@ -10,26 +10,30 @@ namespace app\controller\admin;
 
 use app\Logic\SystemMenu as SystemMenuLogic;
 use app\Model\SystemMenu;
+use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\App;
-use think\facade\View;
 use think\Response;
 use Tp\Model\Exception\ModelException;
 
 class Menu extends Base
 {
+    /**
+     * @return string
+     * @throws Exception
+     */
     public function index()
     {
-        View::assign([
+        $this->view->assign([
             'url_table' => url('table'),
             'url_page_edit' => url('edit'),
             'url_delete' => url('delete'),
             'url_export' => url('export'),
         ]);
 
-        return View::fetch();
+        return $this->view->fetch();
     }
 
     /**
@@ -40,7 +44,9 @@ class Menu extends Base
      */
     public function table()
     {
-        $result = (new SystemMenu())->select();
+        $result = (new SystemMenu())
+            ->order(['pid' => 'asc', 'sort' => 'desc'])
+            ->select();
 
         if (!$result->isEmpty()) {
             $result->append(['status_desc']);
@@ -57,6 +63,7 @@ class Menu extends Base
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      * @throws DbException
+     * @throws Exception
      */
     public function edit(?int $pkid = null)
     {
@@ -68,18 +75,21 @@ class Menu extends Base
             $params['csrf'] = $this->generateCsrfTokenSimple();
         }
 
-        View::assign([
+        $this->view->assign([
             'edit_data' => $data ?? false,
             'url_save' => url('save', $params ?? []),
             'menu_data' => SystemMenu::getTextTree(),
             'node_data' => \app\Logic\Permission::queryNodeFlagsIsMenu(),
         ]);
-        return View::fetch();
+        return $this->view->fetch();
     }
 
     /**
      * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
      * @throws ModelException
+     * @throws ModelNotFoundException
      */
     public function save()
     {
@@ -87,7 +97,7 @@ class Menu extends Base
         $csrf = $this->getRequestCsrfToken();
         if ($csrf->isUpdate()) {
             [$pkid, $lock_version] = $this->parseCsrfToken($csrf);
-            $data = SystemMenu::getOptimisticVer($pkid, $lock_version);
+            $data = SystemMenu::findOptimisticVer($pkid, $lock_version);
             if (false === $data instanceof SystemMenu) {
                 return self::showMsg(CODE_COM_DATA_NOT_EXIST, '数据不存在');
             }

@@ -8,7 +8,6 @@
 
 namespace app\Model;
 
-use Basis\IP;
 use think\App;
 use Throwable;
 
@@ -58,7 +57,7 @@ class ExceptionLogs extends Base
         $http = App::getInstance()->http;
         $route_info = "route:{$http->getName()}/{$request->controller()}/{$request->action()}";
 
-        $that->request_ip = IP::getIp(true);
+        $that->request_ip = $request->ip();
         $that->request_url = "{$request->host()}{$request->baseUrl()}";
         $that->request_route = $route_info;
         $that->request_method = $request->method();

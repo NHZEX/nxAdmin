@@ -8,8 +8,13 @@
 
 namespace app\Logic;
 
+use app\Exception\JsonException;
 use app\Model\AdminRole as AdminRoleModel;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\facade\Cache;
+use Tp\Db\Query as Query2;
 
 class AdminRole extends Base
 {
@@ -18,7 +23,7 @@ class AdminRole extends Base
     /**
      * 刷新缓存
      * @param AdminRoleModel $data
-     * @throws \app\Exception\JsonException
+     * @throws JsonException
      */
     public static function refreshCache(AdminRoleModel $data)
     {
@@ -49,7 +54,7 @@ class AdminRole extends Base
      * @param int  $roleId
      * @param bool $force
      * @return array
-     * @throws \app\Exception\JsonException
+     * @throws JsonException
      */
     public static function queryExt(int $roleId, bool $force = false): array
     {
@@ -68,7 +73,7 @@ class AdminRole extends Base
      * 获取角色授权菜单数据
      * @param int $roleID
      * @return array
-     * @throws \app\Exception\JsonException
+     * @throws JsonException
      */
     public static function getExtMenu(int $roleID): array
     {
@@ -79,7 +84,7 @@ class AdminRole extends Base
      * 获取角色授权权限数据
      * @param int $roleID
      * @return array
-     * @throws \app\Exception\JsonException
+     * @throws JsonException
      */
     public static function getExtPermission(int $roleID)
     {
@@ -88,13 +93,16 @@ class AdminRole extends Base
 
     /**
      * 保存角色菜单
-     * User: Johnson
      * @param       $roleID
      * @param array $menuHashs
-     * @throws \app\Exception\JsonException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws JsonException
+     * @throws ModelNotFoundException
      */
     public static function saveMenu($roleID, array $menuHashs)
     {
+        /** @var AdminRoleModel|Query2 $role */
         $role = AdminRoleModel::find($roleID);
         $role->setJsonData('ext', AdminRoleModel::EXT_MENU, $menuHashs);
         $role->save();
@@ -103,13 +111,16 @@ class AdminRole extends Base
 
     /**
      * 保存角色权限
-     * User: Johnson
      * @param int   $roleID
      * @param array $hashArr
-     * @throws \app\Exception\JsonException
+     * @throws JsonException
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public static function savePermission(int $roleID, array $hashArr)
     {
+        /** @var AdminRoleModel|Query2 $role */
         $role = AdminRoleModel::find($roleID);
         $role->setJsonData('ext', AdminRoleModel::EXT_PERMISSION, $hashArr);
         $role->save();
@@ -120,7 +131,7 @@ class AdminRole extends Base
      * @param int    $roleId
      * @param string $hash
      * @return bool|int|mixed|string
-     * @throws \app\Exception\JsonException
+     * @throws JsonException
      */
     public static function isPermissionAllowed(int $roleId, string $hash)
     {

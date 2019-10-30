@@ -14,7 +14,6 @@ abstract class Base extends Validate
 {
     /**
      * 判断是否为整数
-     * User: Johnson
      * @param $value
      * @return bool
      */

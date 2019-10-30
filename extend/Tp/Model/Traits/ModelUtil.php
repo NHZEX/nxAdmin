@@ -43,7 +43,6 @@ trait ModelUtil
 
     /**
      * 自定义查询集合
-     * User: Johnson
      * @param array  $data
      * @param array  $query
      * @param string $mapName

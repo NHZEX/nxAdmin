@@ -1,7 +1,6 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Johnson
  * Date: 2019/1/16
  * Time: 16:14
  */
@@ -90,7 +89,6 @@ class Permission extends Base
 
     /**
      * 登录标识获取器
-     * User: Johnson
      * @return mixed
      */
     public function getLoginFlagAttr()
@@ -100,7 +98,6 @@ class Permission extends Base
 
     /**
      * 权限标识获取器
-     * User: Johnson
      * @return mixed
      */
     public function getPermissionFlagAttr()
@@ -110,7 +107,6 @@ class Permission extends Base
 
     /**
      * 菜单标识获取器
-     * User: Johnson
      * @return mixed
      */
     public function getMenuFlagAttr()

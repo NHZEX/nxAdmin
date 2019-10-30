@@ -12,10 +12,9 @@ use app\Exception\BusinessResult;
 use app\Facade\WebConv;
 use app\Model\AdminUser as AdminUserModel;
 use app\Traits\PrintAbnormal;
-use Basis\IP;
 use RuntimeException;
-use think\Exception;
-use think\exception\DbException;
+use think\db\exception\DbException;
+use think\facade\Request;
 
 class AdminUser extends Base
 {
@@ -28,9 +27,8 @@ class AdminUser extends Base
      * 用户登陆 邮箱或用户名
      * @param string $username
      * @param string $password
-     * @param bool $rememberme
+     * @param bool   $rememberme
      * @return bool
-     * @throws Exception
      */
     public function loginNameWaitEmail(string $username, string $password, bool $rememberme = false)
     {
@@ -55,10 +53,10 @@ class AdminUser extends Base
         try {
             switch ($type) {
                 case self::LOGIN_TYPE_NAME:
-                    $user = (new AdminUserModel)->where('username', $username)->find();
+                    $user = (new AdminUserModel())->where('username', $username)->find();
                     break;
                 case self::LOGIN_TYPE_EMAIL:
-                    $user = (new AdminUserModel)->where('email', $username)->find();
+                    $user = (new AdminUserModel())->where('email', $username)->find();
                     break;
                 default:
                     throw new RuntimeException("无法处理的类型：{$type}");
@@ -74,7 +72,7 @@ class AdminUser extends Base
             }
 
             $user->last_login_time = time();
-            $user->last_login_ip = IP::getIp(true);
+            $user->last_login_ip = Request::ip();
             if ($user->save()) {
                 // 创建会话
                 WebConv::createSession($user, $rememberme);

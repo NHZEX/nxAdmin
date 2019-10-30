@@ -37,7 +37,7 @@
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
         "nhzex/n-helper": "^1.0",
-        "nhzex/think-blade": "^4.0.1",
+        "nhzex/think-blade": "^4.2.0",
         "nhzex/tp-swoole": "2.1.x-dev",
         "open-smf/connection-pool": "~1.0",
         "robmorgan/phinx": "^0.11",
@@ -46,8 +46,8 @@
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-dumper": "^4.2",
         "symfony/var-exporter": "^4.2",
-        "topthink/framework": "6.0.x-dev#6217ae4a9e9beb0c7426e427b535d14f1fe4ab90",
-        "topthink/think-orm": "2.0.x-dev#8ef883759fc94512bf5c62468c8dc0d8dc176afe",
+        "topthink/framework": "~6.0.0",
+        "topthink/think-orm": "~2.0.27",
         "vlucas/phpdotenv": "^3.3"
     },
     "require-dev": {
@@ -83,7 +83,7 @@
     "config": {
         "preferred-install": "dist",
         "sort-packages": true,
-        "optimize-autoloader": false,
+        "optimize-autoloader": true,
         "platform": {
         }
     },

@@ -62,9 +62,7 @@ class Role extends Base
      * @param int    $limit
      * @param string $type
      * @return Response
-     * @throws DataNotFoundException
      * @throws DbException
-     * @throws ModelNotFoundException
      */
     public function table(int $limit = 1, string $type = 'system')
     {
@@ -117,6 +115,9 @@ class Role extends Base
 
     /**
      * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function save()
     {
@@ -141,7 +142,6 @@ class Role extends Base
 
     /**
      * 权限分配
-     * User: Johnson
      * @param null $id
      * @return mixed
      * @throws JsonException
@@ -161,7 +161,6 @@ class Role extends Base
 
     /**
      * 保存角色权限
-     * User: Johnson
      * @return Response
      * @throws Throwable
      */
@@ -174,13 +173,12 @@ class Role extends Base
 
     /**
      * 跳转到菜单分配子页面
-     * User: Johnson
      * @param int $id
      * @return mixed
      * @throws DataNotFoundException
+     * @throws DbException
      * @throws JsonException
      * @throws ModelNotFoundException
-     * @throws DbException
      * @throws Exception
      */
     public function menu($id = 0)
@@ -201,9 +199,11 @@ class Role extends Base
 
     /**
      * 保存菜单权限
-     * User: Johnson
      * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
      * @throws JsonException
+     * @throws ModelNotFoundException
      */
     public function saveMenu()
     {
