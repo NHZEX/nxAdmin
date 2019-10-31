@@ -17,6 +17,8 @@ use think\db\exception\ModelNotFoundException;
 use think\model\Collection;
 use think\Response;
 use Tp\Model\Exception\ModelException;
+use function view;
+use function view_current;
 
 class Manager extends Base
 {
@@ -44,11 +46,10 @@ class Manager extends Base
     /**
      * 主页
      * @return mixed
-     * @throws \Exception
      */
     public function index()
     {
-        $this->view->assign([
+        return view_current([
             'url_table' => url('table'),
             'url_page_edit' => url('pageEdit'),
             'url_change_password' => url('changePassword'),
@@ -56,7 +57,6 @@ class Manager extends Base
             'url_delete' => url('delete'),
             'manager_types' => self::FILTER_TYPE[WebConv::getUserGenre()],
         ]);
-        return $this->view->fetch();
     }
 
     /**
@@ -90,7 +90,6 @@ class Manager extends Base
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      * @throws DbException
-     * @throws \Exception
      */
     public function pageEdit(?int $base_pkid = null, ?string $type = null)
     {
@@ -113,7 +112,7 @@ class Manager extends Base
             $params['csrf'] = $this->generateCsrfTokenSimple();
         }
 
-        $this->view->assign([
+        return view('edit', [
             'url_save' => url('save', $params),
             'url_upload' => url('@upload/image'),
             'genre_list' => $genres ?? [],
@@ -121,8 +120,6 @@ class Manager extends Base
             'status_list' => AdminUser::STATUS_DICT,
             'edit_data' => $au ?? false,
         ]);
-
-        return $this->view->fetch('edit');
     }
 
     /**

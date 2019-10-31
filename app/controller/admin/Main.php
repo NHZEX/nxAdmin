@@ -13,12 +13,12 @@ use app\Facade\WebConv;
 use app\Logic\Permission;
 use app\Logic\SystemMenu;
 use app\Model\AdminUser;
-use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Env;
 use think\Response;
+use function view_current;
 
 /**
  * Class Main
@@ -34,11 +34,10 @@ class Main extends Base
      * @throws DbException
      * @throws JsonException
      * @throws ModelNotFoundException
-     * @throws Exception
      */
     public function index(Env $env)
     {
-        $this->view->assign([
+        return view_current([
             'info' => [
                 'title' => $env->get('system.web_title'),
             ],
@@ -51,8 +50,6 @@ class Main extends Base
                 'clear_cache' => url('clearCache'),
             ],
         ]);
-
-        return $this->view->fetch();
     }
 
     /**
@@ -105,11 +102,10 @@ class Main extends Base
     /**
      * 系统信息页面
      * @return string
-     * @throws Exception
      */
     public function sysinfo()
     {
-        return $this->view->fetch();
+        return view_current();
     }
 
     /**

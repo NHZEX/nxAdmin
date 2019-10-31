@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "eaf29b967e967690dc88594a5269b343",
+    "content-hash": "5ec3dd70f73da0bcc17ec39f3741f59e",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -933,16 +933,16 @@
         },
         {
             "name": "nhzex/n-helper",
-            "version": "v1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/n-helper.git",
-                "reference": "58211bb436fb825219fc8e674bc73f7bf8ded456"
+                "reference": "e0a07b88b5bcbbe0f298b424c0262dfacc770a20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/n-helper/zipball/58211bb436fb825219fc8e674bc73f7bf8ded456",
-                "reference": "58211bb436fb825219fc8e674bc73f7bf8ded456",
+                "url": "https://api.github.com/repos/NHZEX/n-helper/zipball/e0a07b88b5bcbbe0f298b424c0262dfacc770a20",
+                "reference": "e0a07b88b5bcbbe0f298b424c0262dfacc770a20",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -987,7 +987,7 @@
                 }
             ],
             "description": "助手",
-            "time": "2019-10-14T08:17:42+00:00"
+            "time": "2019-10-30T06:50:31+00:00"
         },
         {
             "name": "nhzex/think-blade",
@@ -1062,16 +1062,16 @@
         },
         {
             "name": "nhzex/tp-swoole",
-            "version": "2.1.x-dev",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/tp-swoole.git",
-                "reference": "61df13150e70d2cfae187618b393a075912125f0"
+                "reference": "2bd82064cff73f470911b4f5995b2d3c9314ca5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/61df13150e70d2cfae187618b393a075912125f0",
-                "reference": "61df13150e70d2cfae187618b393a075912125f0",
+                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/2bd82064cff73f470911b4f5995b2d3c9314ca5e",
+                "reference": "2bd82064cff73f470911b4f5995b2d3c9314ca5e",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1088,16 +1088,15 @@
                 "ext-sockets": "*",
                 "ext-swoole": "~4.4",
                 "monolog/monolog": "^2.0",
-                "nhzex/n-helper": "^1.1",
+                "nhzex/n-helper": "^1.1.5",
                 "nhzex/zsw-core": "^1.2",
                 "open-smf/connection-pool": "~1.0",
                 "php": "~7.2.20 || ~7.3.8",
                 "psr/log": "^1.1",
                 "symfony/finder": "^4.3",
                 "symfony/var-dumper": "^4.3",
-                "topthink/framework": "6.0.x-dev#6217ae4a9e9beb0c7426e427b535d14f1fe4ab90",
-                "topthink/think-helper": "^3.0",
-                "topthink/think-orm": "2.0.x-dev#8ef883759fc94512bf5c62468c8dc0d8dc176afe"
+                "topthink/framework": "~6.0.0",
+                "topthink/think-orm": "~2.0.27"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8",
@@ -1132,7 +1131,7 @@
                     "email": "auooru@outlook.com"
                 }
             ],
-            "time": "2019-10-17T06:55:10+00:00"
+            "time": "2019-10-31T09:44:03+00:00"
         },
         {
             "name": "nhzex/zsw-core",
@@ -4425,16 +4424,16 @@
         },
         {
             "name": "swoft/swoole-ide-helper",
-            "version": "v4.4.7",
+            "version": "v4.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoft-cloud/swoole-ide-helper.git",
-                "reference": "0e4b21fd8d47c4047a421fcea809850a8da707b5"
+                "reference": "dfbe372cca6baccd362bc276aa07c5d65b2c1b36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoft-cloud/swoole-ide-helper/zipball/0e4b21fd8d47c4047a421fcea809850a8da707b5",
-                "reference": "0e4b21fd8d47c4047a421fcea809850a8da707b5",
+                "url": "https://api.github.com/repos/swoft-cloud/swoole-ide-helper/zipball/dfbe372cca6baccd362bc276aa07c5d65b2c1b36",
+                "reference": "dfbe372cca6baccd362bc276aa07c5d65b2c1b36",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4455,7 +4454,7 @@
                 "swoft",
                 "swoole"
             ],
-            "time": "2019-09-26T09:15:01+00:00"
+            "time": "2019-10-17T09:54:14+00:00"
         },
         {
             "name": "theseer/tokenizer",
@@ -4562,9 +4561,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "nhzex/tp-swoole": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

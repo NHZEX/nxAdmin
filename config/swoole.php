@@ -21,7 +21,7 @@ return [
             app_path(),
             root_path('extend'),
             root_path('vendor/topthink'),
-            root_path('vendor/nhzex')
+            root_path('vendor/nhzex'),
         ],
         'exclude' => [],
     ],
@@ -83,9 +83,6 @@ return [
     ],
     'websocket' => [
         'enabled' => false,
-        // 'host' => '0.0.0.0', // 监听地址
-        // 'port' => 9502, // 监听端口
-        // 'sock_type' => SWOOLE_TCP, // sock type 默认为SWOOLE_SOCK_TCP
         // 'handler' => WebSocket::class,
         // 'parser' => Parser::class,
         // 'route_file' => base_path() . 'websocket.php',
@@ -115,7 +112,7 @@ return [
         ],
         'cache' => [
             'enable'        => true,
-            'max_active'    => 5,
+            'max_active'    => 3,
             'max_wait_time' => 5,
         ],
     ],
