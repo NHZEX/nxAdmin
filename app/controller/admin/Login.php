@@ -11,15 +11,14 @@ namespace app\controller\admin;
 use app\Facade\WebConv;
 use app\Logic\AdminUser;
 use Captcha\Captcha;
-use Exception;
 use think\Response;
+use function view_current;
 
 class Login extends Base
 {
     /**
      * @param string|null $jump
      * @return mixed
-     * @throws Exception
      */
     public function index(?string $jump = null)
     {
@@ -39,8 +38,8 @@ class Login extends Base
 
         $loginToken = get_rand_str(32);
 
-        // 生成主页请求URL
-        $this->view->assign([
+        // 模板渲染
+        return view_current([
             'url_login' => url('login', ['_' => crc32($loginToken)], false),
             'url_check' => url('check', [], false),
             'url_captcha' => url('captcha', ['_' => $loginToken], false),
@@ -49,9 +48,6 @@ class Login extends Base
             'login_token' => $loginToken,
             'auto_login_name' => 'login_time',
         ]);
-
-        // 模板渲染
-        return $this->view->fetch();
     }
 
     /**
