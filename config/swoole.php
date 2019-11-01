@@ -79,8 +79,6 @@ return [
     'resetters'    => [],
     // 清除实例 (创建容器时执行)
     'instances'    => [],
-    // 共享实例 (允许容器间共享的实例)
-    'penetrates'   => [],
     // 自定义插件
     'plugins'      => [],
     // 自定义进程类
