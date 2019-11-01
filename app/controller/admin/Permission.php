@@ -9,7 +9,6 @@ namespace app\controller\admin;
 
 use app\Logic\Permission as PermissionLogic;
 use app\Model\Permission as PermissionModel;
-use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -18,23 +17,22 @@ use think\facade\Db;
 use think\model\Collection;
 use think\Response;
 use Throwable;
+use function view_current;
 
 class Permission extends Base
 {
     /**
      * 首页
-     * @throws Exception
      */
     public function node()
     {
-        $this->view->assign([
+        return view_current([
             'url_table' => url('nodeList'),
             'url_update' => url('update'),
             'url_generate' => url('generateNodes'),
             'url_save_flags' => url('saveFlags'),
             'url_export' => url('exportNodes'),
         ]);
-        return $this->view->fetch();
     }
 
     /**

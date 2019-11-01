@@ -12,6 +12,22 @@
 use think\db\exception\BindParamException;
 use think\facade\Db;
 use think\facade\Request;
+use think\Response;
+use think\response\View;
+
+/**
+ * 渲染模板输出
+ * @param array    $vars     模板变量
+ * @param int      $code     状态码
+ * @param callable $filter   内容过滤
+ * @return View
+ */
+function view_current($vars = [], $code = 200, $filter = null): View
+{
+    /** @var View $view */
+    $view = Response::create('', 'view', $code);
+    return $view->assign($vars)->filter($filter);
+}
 
 /**
  * @param array|object $data

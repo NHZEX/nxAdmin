@@ -10,30 +10,27 @@ namespace app\controller\admin;
 
 use app\Logic\SystemMenu as SystemMenuLogic;
 use app\Model\SystemMenu;
-use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\App;
 use think\Response;
 use Tp\Model\Exception\ModelException;
+use function view_current;
 
 class Menu extends Base
 {
     /**
      * @return string
-     * @throws Exception
      */
     public function index()
     {
-        $this->view->assign([
+        return view_current([
             'url_table' => url('table'),
             'url_page_edit' => url('edit'),
             'url_delete' => url('delete'),
             'url_export' => url('export'),
         ]);
-
-        return $this->view->fetch();
     }
 
     /**
@@ -63,7 +60,6 @@ class Menu extends Base
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      * @throws DbException
-     * @throws Exception
      */
     public function edit(?int $pkid = null)
     {
@@ -75,13 +71,12 @@ class Menu extends Base
             $params['csrf'] = $this->generateCsrfTokenSimple();
         }
 
-        $this->view->assign([
+        return view_current([
             'edit_data' => $data ?? false,
             'url_save' => url('save', $params ?? []),
             'menu_data' => SystemMenu::getTextTree(),
             'node_data' => \app\Logic\Permission::queryNodeFlagsIsMenu(),
         ]);
-        return $this->view->fetch();
     }
 
     /**
