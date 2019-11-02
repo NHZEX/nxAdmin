@@ -36,6 +36,9 @@ class Authorize extends Middleware
      */
     public function handle(Request $request, Closure $next)
     {
+        // 跳过权限验证
+        return $next($request);
+
         $webConv = WebConv::instance();
 
         //获取调度类
