@@ -22,7 +22,7 @@ trait PrintAbnormal
      */
     protected static function printAbnormalToLog(Throwable $e, ?string $type = null) :string
     {
-        // 打印而外POD异常信息
+        // 打印额外的POD异常信息
         if ($e instanceof PDOException) {
             $db_info = $e->getData();
             if (isset($db_info['Database Config'])) {
