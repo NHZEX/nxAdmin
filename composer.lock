@@ -1062,16 +1062,16 @@
         },
         {
             "name": "nhzex/tp-swoole",
-            "version": "v2.1.1",
+            "version": "v2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/tp-swoole.git",
-                "reference": "ed6d148267f7bc771e58e662c2ead08bad323b40"
+                "reference": "56b8fda5f37ac8d9ab841ff52d1775cab0d8646d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/ed6d148267f7bc771e58e662c2ead08bad323b40",
-                "reference": "ed6d148267f7bc771e58e662c2ead08bad323b40",
+                "url": "https://api.github.com/repos/NHZEX/tp-swoole/zipball/56b8fda5f37ac8d9ab841ff52d1775cab0d8646d",
+                "reference": "56b8fda5f37ac8d9ab841ff52d1775cab0d8646d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1131,7 +1131,7 @@
                     "email": "auooru@outlook.com"
                 }
             ],
-            "time": "2019-11-01T03:39:39+00:00"
+            "time": "2019-11-03T12:53:47+00:00"
         },
         {
             "name": "nhzex/zsw-core",
