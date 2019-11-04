@@ -32,6 +32,7 @@
         "ext-sockets": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
+        "doctrine/annotations": "^1.8",
         "guzzlehttp/guzzle": "^6.3",
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",

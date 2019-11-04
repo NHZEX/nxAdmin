@@ -56,19 +56,26 @@ class ControllerScan
     public function nodeTree()
     {
         $tree = [];
+        $count = 1;
+
         foreach ($this->scanning() as $controller) {
             $nodes = [];
             $controllerPath = strtolower(str_replace('\\', '.', $controller['baseName']));
+            $parent = $count++;
             foreach ($controller['action'] as $action) {
                 $nodes[] = [
+                    'id'   => $count++,
+                    'pid'  => $parent,
                     'name' => $controllerPath . '/' . strtolower($action['name']),
                     'docs' =>  $action['docs'],
                 ];
             }
             $tree[] = [
+                'id'   => $parent,
+                'pid'  => 0,
                 'name' => $controllerPath,
                 'docs' => $controller['docs'],
-                'nodes' => $nodes,
+                'children' => $nodes,
             ];
         }
         return $tree;
@@ -143,6 +150,8 @@ class ControllerScan
      */
     public static function parseDoc(string $doc): ?array
     {
+        // TODO 注解重构
+        // @Auth(name="用户管理", login=true, acl=true)
         static $doc_regular = '/\*\s\$(name|desc)([\S\s]+?)$/m';
 
         if (preg_match_all($doc_regular, $doc, $match_doc, PREG_SET_ORDER)) {

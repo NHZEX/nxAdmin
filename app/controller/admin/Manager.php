@@ -11,6 +11,7 @@ namespace app\controller\admin;
 use app\Facade\WebConv;
 use app\Model\AdminRole;
 use app\Model\AdminUser;
+use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -45,6 +46,7 @@ class Manager extends Base
 
     /**
      * 主页
+     * @Auth("user.page")
      * @return mixed
      */
     public function index()
@@ -60,6 +62,7 @@ class Manager extends Base
     }
 
     /**
+     * @Auth("user.info")
      * @param int    $limit
      * @param string $type
      * @return Response
@@ -84,6 +87,7 @@ class Manager extends Base
     }
 
     /**
+     * @Auth("user.page")
      * @param int|null    $base_pkid
      * @param string|null $type
      * @return string
@@ -123,6 +127,7 @@ class Manager extends Base
     }
 
     /**
+     * @Auth("user.password")
      * @param int|null $pkid
      * @return Response
      * @throws DataNotFoundException
@@ -142,6 +147,7 @@ class Manager extends Base
     }
 
     /**
+     * @Auth("user.update")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -177,6 +183,7 @@ class Manager extends Base
 
     /**
      * 删除用户
+     * @Auth("user.del")
      * @param null $id
      * @return Response
      */

@@ -30,6 +30,40 @@ function view_current($vars = [], $code = 200, $filter = null): View
 }
 
 /**
+ * @param array  $tree
+ * @param string|array $name
+ * @param string $key
+ * @param int    $level
+ * @return array
+ */
+function tree_to_table(array $tree, $name = ['name', '__name'], string $key = 'children', int $level = 0)
+{
+    if (is_array($name)) {
+        [$nameKey, $newNameKey] = $name;
+    } elseif (strpos($name, '|') > 0) {
+        [$nameKey, $newNameKey] = explode('|', $name);
+    } else {
+        $nameKey = $name;
+        $newNameKey = '__' . $name;
+    }
+    $data = [];
+    foreach ($tree as $item) {
+        $item['__level'] = $level;
+        // └
+        $item[$newNameKey] = str_repeat('&nbsp;&nbsp;&nbsp;├&nbsp;&nbsp;', $level) . ($item[$nameKey] ?? '');
+        if (isset($item[$key])) {
+            $children = $item[$key];
+            unset($item[$key]);
+            $data[] = $item;
+            $data = array_merge($data, tree_to_table($children, $name, $key, $level + 1));
+        } else {
+            $data[] = $item;
+        }
+    }
+    return $data;
+}
+
+/**
  * @param array|object $data
  * @return string
  * @throws \app\Exception\JsonException
