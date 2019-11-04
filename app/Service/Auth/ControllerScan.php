@@ -56,19 +56,26 @@ class ControllerScan
     public function nodeTree()
     {
         $tree = [];
+        $count = 1;
+
         foreach ($this->scanning() as $controller) {
             $nodes = [];
             $controllerPath = strtolower(str_replace('\\', '.', $controller['baseName']));
+            $parent = $count++;
             foreach ($controller['action'] as $action) {
                 $nodes[] = [
+                    'id'   => $count++,
+                    'pid'  => $parent,
                     'name' => $controllerPath . '/' . strtolower($action['name']),
                     'docs' =>  $action['docs'],
                 ];
             }
             $tree[] = [
+                'id'   => $parent,
+                'pid'  => 0,
                 'name' => $controllerPath,
                 'docs' => $controller['docs'],
-                'nodes' => $nodes,
+                'children' => $nodes,
             ];
         }
         return $tree;

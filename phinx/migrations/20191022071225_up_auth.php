@@ -12,6 +12,7 @@ class UpPermission extends AbstractMigration
      */
     public function up()
     {
+        $this->table('permission')->drop();
         $admin_role = $this->table('permission', B::table()->comment('系统权限')->unsigned()->d());
         $admin_role
             ->addColumn(B::unsignedInteger('pid')->comment('父关联')->d())

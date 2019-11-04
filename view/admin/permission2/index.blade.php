@@ -3,7 +3,16 @@
 @section('content')
     <div id="app" style="margin: 5px">
         @verbatim
-            <i-table size="small" border :loading="loading" :columns="columns" :data="data">
+            <div style="margin-bottom: 5px">
+                <i-button type="primary" size="large" @click="edit()">添加权限</i-button>
+                <i-button type="info" size="large" :loading="loading"
+                          @click="render()">
+                    <span v-if="!loading">刷新</span>
+                    <span v-else>Loading...</span>
+                </i-button>
+            </div>
+            <edit ref="edit"></edit>
+            <i-table size="small" :loading="loading" :columns="columns" :data="data">
                 <template slot-scope="{ row, index }" slot="action">
                     <i-button type="primary" size="small" @click="edit(row.id)">编辑</i-button>
                     <poptip
@@ -26,7 +35,9 @@
         ], (_, axios, iview, Vue) => {
             let v;
 
-            const vueComponent = {};
+            const vueComponent = {
+                'edit': '{{ url('edit')->build() }}'
+            };
 
             Vue.use(iview);
 
@@ -38,7 +49,6 @@
                     loading: false,
                     columns: [
                         {title: '排序', key: 'sort', width: 90},
-                        {title: '图标', key: 'icon', width: 80},
                         {title: '权限', key: 'name'},
                         {title: '备注', key: 'remarks', width: 200},
                         {title: '操作', slot: 'action', width: 200},
@@ -52,6 +62,9 @@
                 methods: {
                     render() {
 
+                    },
+                    edit() {
+                        this.$refs['edit'].open()
                     },
                 },
                 watch: {
