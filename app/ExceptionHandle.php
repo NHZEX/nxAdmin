@@ -57,19 +57,20 @@ class ExceptionHandle extends Handle
     {
         // 不对Http进行扩展记录
         // 不对降级异常进行扩展记录
-        if (false === $exception instanceof ExceptionRecordDown
-            && !$this->ignoreHttpException($exception)
-        ) {
-            try {
-                ExceptionLogs::push($exception);
-            } catch (Throwable $throwable) {
-                $newException = new ExceptionRecordDown('异常日志降级', 0, $throwable);
-                // 打印记录异常
-                self::printAbnormalToLog($newException);
+        if (!$this->ignoreHttpException($exception)) {
+            if (false === $exception instanceof ExceptionRecordDown) {
+                try {
+                    ExceptionLogs::push($exception);
+                } catch (Throwable $throwable) {
+                    $newException = new ExceptionRecordDown('异常日志降级', 0, $throwable);
+                    // 打印记录异常
+                    self::printAbnormalToLog($newException);
+                }
+            } else {
+                // 打印异常日志
+                self::printAbnormalToLog($exception);
             }
         }
-        // 打印异常日志
-        self::printAbnormalToLog($exception);
         // 交由系统处理
         parent::report($exception);
     }
