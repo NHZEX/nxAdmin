@@ -150,6 +150,8 @@ class ControllerScan
      */
     public static function parseDoc(string $doc): ?array
     {
+        // TODO 注解重构
+        // @Auth(name="用户管理", login=true, acl=true)
         static $doc_regular = '/\*\s\$(name|desc)([\S\s]+?)$/m';
 
         if (preg_match_all($doc_regular, $doc, $match_doc, PREG_SET_ORDER)) {

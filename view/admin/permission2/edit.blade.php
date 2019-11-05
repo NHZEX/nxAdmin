@@ -8,10 +8,11 @@
     >
         <tabs v-model="tabName">
             <tab-pane :label="title" name="permission">
-                <i-form ref="FormItem" :model="formData" :rules="formRule" :label-width="90">
-                    <form-item prop="pid" label="父节点">
+                <i-form ref="FormItem" :model="formData" :rules="formRule" :disabled="formDisabled" :label-width="90">
+                    <form-item prop="pid" label="父权限">
                         <i-select v-model.number="formData.pid">
-                            <i-option :value="0">正常</i-option>
+                            <i-option :value="0" :key="0" >根节点</i-option>
+                            <i-option v-for="item in permissions" :value="item.id" :key="item.id" :label="item.name">{{item.name}}</i-option>
                         </i-select>
                     </form-item>
                     <form-item prop="name" label="权限名称">
@@ -28,14 +29,12 @@
                                 </template>
                             </i-table>
                         </div>
-
                     </form-item>
-                    <form-item prop="remarks" label="备注">
-                        <i-input v-model="formData.remarks" type="textarea" placeholder="Enter something..." ></i-input>
+                    <form-item prop="desc" label="描述">
+                        <i-input v-model="formData.desc" :maxlength="256" show-word-limit type="textarea" placeholder="Enter something..." ></i-input>
                     </form-item>
                     <form-item>
                         <i-button type="primary" :loading="loading" @click="submit()">提交</i-button>
-                        <i-button @click="reset()" style="margin-left: 8px">重置</i-button>
                     </form-item>
                 </i-form>
             </tab-pane>
@@ -62,6 +61,12 @@
             });
         }
         return {
+            props: {
+                permissions: {
+                    type: Array,
+                    required: true,
+                },
+            },
             data: function () {
                 return {
                     tabName: 'permission',
@@ -70,6 +75,7 @@
                     title: '',
                     isChange: false,
                     isEdit: false,
+                    formDisabled: false,
                     formData: {
                         id: 0,
                         pid: 0,
@@ -99,15 +105,22 @@
                         {title: '节点', slot: 'raw-html', key: '__name'},
                         {title: '注解', key: 'remarks'},
                     ],
-                    nodeData: pretreatNodeData(Object(@json($node, JSON_UNESCAPED_UNICODE))),
+                    nodeData: pretreatNodeData(Object(@json($node_tree, JSON_UNESCAPED_UNICODE))),
                 }
             },
             methods: {
                 onVisibleChange(visible) {
                     if (false === visible) {
-                        // this.reset();
-                        this.$emit('on-close', this.isChange);
+                        this.reset();
+                        this.$emit('close', this.isChange);
                     }
+                },
+                reset() {
+                    // 重置表单
+                    this.loading = false;
+                    this.$refs['FormItem'].resetFields();
+                    this.controlData = [];
+                    this.formData.id = 0;
                 },
                 open(id) {
                     this.tabName = 'permission';
@@ -115,7 +128,24 @@
                     this.isChange = false;
                     this.isEdit = _.isFinite(id);
                     this.title = this.isEdit ? '编辑权限' : '添加权限';
-                    // this.render(id);
+                    if (this.isEdit) {
+                        this.render(id);
+                    }
+                },
+                render(id) {
+                    this.formDisabled = true;
+                    axios.get('{{url('get')}}', {
+                        params: {
+                            id: id,
+                        }
+                    }).then(res => {
+                        this.formData = res.data.data;
+                        this.applyControlSelected(this.formData.control.split(','));
+                    }).catch((err) => {
+                        console.warn(err);
+                    }).then(() => {
+                        this.formDisabled = false;
+                    });
                 },
                 delControl(row) {
                     let index = _.findIndex(this.nodeData, {id: row.id});
@@ -123,6 +153,16 @@
                         this.nodeData[index]._checked = false;
                     }
                     this.syncControlSelected(this.nodeData.filter(x => x._checked));
+                },
+                applyControlSelected(control) {
+                    let selection = [];
+                    this.nodeData.map(x => {
+                        x._checked = control.includes('node@' + x.name);
+                        if (x._checked) {
+                            selection.push(x);
+                        }
+                    });
+                    this.syncControlSelected(selection);
                 },
                 controlSelectionChange(selection) {
                     let ids = selection.map(x => {
