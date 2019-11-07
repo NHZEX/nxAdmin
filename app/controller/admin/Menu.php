@@ -10,6 +10,7 @@ namespace app\controller\admin;
 
 use app\Logic\SystemMenu as SystemMenuLogic;
 use app\Model\SystemMenu;
+use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -21,6 +22,7 @@ use function view_current;
 class Menu extends Base
 {
     /**
+     * @Auth("menu.page")
      * @return string
      */
     public function index()
@@ -34,6 +36,7 @@ class Menu extends Base
     }
 
     /**
+     * @Auth("menu.info")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -55,6 +58,7 @@ class Menu extends Base
     }
 
     /**
+     * @Auth("menu.page")
      * @param int|null $pkid
      * @return mixed
      * @throws DataNotFoundException
@@ -80,6 +84,7 @@ class Menu extends Base
     }
 
     /**
+     * @Auth("menu.save")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -104,6 +109,7 @@ class Menu extends Base
     }
 
     /**
+     * @Auth("menu.export")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -118,6 +124,11 @@ class Menu extends Base
         return self::showMsg(CODE_SUCCEED);
     }
 
+    /**
+     * @Auth("menu.del")
+     * @param null $pkid
+     * @return Response
+     */
     public function delete($pkid = null)
     {
         SystemMenu::destroy($pkid);

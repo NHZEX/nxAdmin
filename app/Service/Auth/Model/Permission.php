@@ -10,7 +10,8 @@ use think\Model;
  * @package app\Service\Auth\Model
  *
  * @property int    $id      节点id
- * @property int    $pid     父节点id
+ * @property int    $sort    节点排序
+ * @property string $pid     父节点id
  * @property string $name    权限名称
  * @property string $control 授权内容
  * @property string $desc    权限描述
