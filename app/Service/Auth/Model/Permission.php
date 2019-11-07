@@ -23,11 +23,11 @@ class Permission extends Model
     /**
      * 获取文本树
      * @param array|null $data
-     * @param int        $index
+     * @param string     $index
      * @param int        $level
      * @return array
      */
-    public static function getTextTree(?array $data = null, int $index = 0, int $level = 0)
+    public static function getTextTree(?array $data = null, string $index = '__ROOT__', int $level = 0)
     {
         if (null === $data) {
             $data = (new static())
@@ -37,9 +37,9 @@ class Permission extends Model
         $tree = [];
         foreach ($data as $id => $menu) {
             if ($menu['pid'] === $index) {
-                $menu['name'] = str_repeat('   ├  ', $level) . $menu['name'];
+                $menu['__name'] = str_repeat('   ├  ', $level) . $menu['name'];
                 $tree[] = $menu;
-                $tree = array_merge($tree, self::getTextTree($data, $id, $level + 1));
+                $tree = array_merge($tree, self::getTextTree($data, $menu['name'], $level + 1));
             }
         }
 

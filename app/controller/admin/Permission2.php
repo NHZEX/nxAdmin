@@ -27,7 +27,7 @@ class Permission2 extends Base
 
     public function permissionTree()
     {
-        return self::showSucceed(PermissionModel::getTextTree(null, 0, 1));
+        return self::showSucceed(PermissionModel::getTextTree(null, '__ROOT__', 1));
     }
 
     /**

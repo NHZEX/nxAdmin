@@ -52,7 +52,7 @@
                     loading: false,
                     columns: [
                         {title: '排序', slot: 'sort', key: 'sort', width: 100},
-                        {title: '权限', key: 'name'},
+                        {title: '权限', key: '__name'},
                         {title: '注释', key: 'desc', width: 300},
                         {title: '操作', slot: 'action', width: 200},
                     ],
