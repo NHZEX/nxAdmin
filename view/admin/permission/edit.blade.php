@@ -9,11 +9,8 @@
         <tabs v-model="tabName">
             <tab-pane :label="title" name="permission">
                 <i-form ref="FormItem" :model="formData" :rules="formRule" :disabled="formDisabled" :label-width="90">
-                    <form-item prop="pid" label="父权限">
-                        <i-select v-model.number="formData.pid">
-                            <i-option :value="0" :key="0" >根节点</i-option>
-                            <i-option v-for="item in permissions" :value="item.id" :key="item.id" :label="item.name">{{item.name}}</i-option>
-                        </i-select>
+                    <form-item prop="pid" label="父节点">
+                        <i-input v-model="formData.pid" :readonly="isEdit" placeholder="Enter something..." ></i-input>
                     </form-item>
                     <form-item prop="name" label="权限名称">
                         <i-input v-model="formData.name" placeholder="Enter something..."></i-input>
@@ -25,7 +22,7 @@
                                      max-height="350" :show-header="false"
                             >
                                 <template slot-scope="{ row, index }" slot="action">
-                                    <i-button type="error" size="small" @click="delControl(row)">移除</i-button>
+                                    <i-button type="error" size="small" @click="delControl(row)" disabled>移除</i-button>
                                 </template>
                             </i-table>
                         </div>
@@ -55,7 +52,8 @@
     (function () {
         function pretreatNodeData(data) {
             return data.map(x => {
-                x['_disabled'] = 0 === x['__level'];
+                // x['_disabled'] = 0 === x['__level'];
+                x['_disabled'] = true;
                 x['_checked'] = false;
                 return x;
             });
@@ -78,18 +76,11 @@
                     formDisabled: false,
                     formData: {
                         id: 0,
-                        pid: 0,
+                        pid: '',
                         name: '',
-                        control: '',
+                        control: {},
                     },
                     formRule: {
-                        server_name: [
-                            {required: true, trigger: 'blur'},
-                        ],
-                        server_ip: [
-                            {required: true, trigger: 'blur'},
-                            {pattern: /^((25[0-5]|2[0-4]\d|[01]?\d\d?)($|(?!\.$)\.)){4}$/, message: '不是有效的ipv4地址', trigger: 'blur'},
-                        ],
                     },
                     controlLoading: false,
                     controlColumns: [
@@ -140,7 +131,7 @@
                         }
                     }).then(res => {
                         this.formData = res.data.data;
-                        this.applyControlSelected(this.formData.control.split(','));
+                        this.applyControlSelected(this.formData.control.allow);
                     }).catch((err) => {
                         console.warn(err);
                     }).then(() => {
@@ -180,7 +171,7 @@
                     });
                 },
                 submit() {
-                    this.formData.control = this.controlData.map(x => x.name).join(',');
+                    this.formData.control.allow = this.controlData.map(x => x.name);
                     this.$refs['FormItem'].validate((valid) => {
                         if (!valid) {
                             this.$Message.error('表单数据存在无效值');

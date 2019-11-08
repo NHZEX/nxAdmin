@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace app\Service\Auth;
 
 use app\Service\Auth\Annotation\Auth;
+use app\Service\Auth\Exception\AuthException;
 use Doctrine\Common\Annotations\Reader;
 use ReflectionClass;
 use ReflectionException;
@@ -22,7 +23,7 @@ use function substr;
  * @property App    $app
  * @property Reader $reader
  */
-trait InteractsWithAuth
+trait InteractsWithScanAuth
 {
     protected $baseDir;
     protected $controllerLayer;
@@ -30,39 +31,47 @@ trait InteractsWithAuth
 
     protected $namespaces = 'app\\';
 
+    protected $permissions = [];
     protected $nodes = [];
+    protected $controllers = [];
 
     /**
-     * @throws ReflectionException
+     * @return int
+     * @throws AuthException
      */
-    public function scanAuthAnnotation()
+    public function scanAuthAnnotation(): int
     {
         $this->baseDir         = $this->app->getBasePath();
         $this->controllerLayer = $this->app->config->get('route.controller_layer');
-        $this->apps = ['test'];
+        $this->apps = [];
 
         $dirs = array_map(function ($app) {
             return $this->baseDir . $app . DIRECTORY_SEPARATOR . $this->controllerLayer;
         }, $this->apps);
         $dirs[] = $this->baseDir . $this->controllerLayer . DS;
 
-        return $this->sancAuthAnnotation($dirs);
+        return $this->scanAnnotation($dirs);
     }
 
     /**
      * @param $dirs
-     * @return array
-     * @throws ReflectionException
+     * @return int
+     * @throws AuthException
      */
-    protected function sancAuthAnnotation($dirs)
+    protected function scanAnnotation($dirs): int
     {
-        $permissions = [];
+        $this->permissions = [];
         $this->nodes = [];
+        $this->controllers = [];
 
         foreach ($this->scanning($dirs) as $file) {
             /** @var SplFileInfo $file */
             $class = $this->parseClassName($file);
-            $refClass = new ReflectionClass($class);
+            try {
+                $refClass = new ReflectionClass($class);
+            } catch (ReflectionException $e) {
+                throw new AuthException('load class fail: ' . $class, 0, $e);
+            }
             if ($refClass->isAbstract() || $refClass->isTrait()) {
                 continue;
             }
@@ -85,29 +94,34 @@ trait InteractsWithAuth
                 if ($refMethod->isStatic()) {
                     continue;
                 }
-                if (0 === strpos($refMethod->getName(), '_')) {
+                $methodName = $refMethod->getName();
+                if (0 === strpos($methodName, '_')) {
                     continue;
                 }
 
-                $nodeUrl = $controllerUrl . '/' . strtolower($refMethod->getName());
-                $methodPath = $class . '::' . $refMethod->getName();
+                $nodeUrl = $controllerUrl . '/' . strtolower($methodName);
+                $methodPath = $class . '::' . $methodName;
                 // $nodeDesc = $refMethod->getDocComment();
 
                 /** @var Auth $auth */
                 if ($auth = $this->reader->getMethodAnnotation($refMethod, Auth::class)) {
                     if (empty($auth->value)) {
-                        $permissions['login'][$methodPath] = $class;
-                    } else {
-                        $authStr = $this->parseAuth($auth->value, $controllerUrl, $refMethod->getName());
-                        $permissions[$authStr][$methodPath] = $nodeUrl;
+                        throw new AuthException('annotation value not empty: ' . $methodPath);
                     }
+                    $authStr = $this->parseAuth($auth->value, $controllerUrl, $methodName);
+                    $this->permissions[$authStr][$methodPath] = $nodeUrl;
+                    // 记录节点控制信息
+                    $this->nodes['node@' . $nodeUrl] = [
+                        'class' => $methodPath,
+                        'policy' => $auth->policy,
+                    ];
                 }
 
-                $this->nodes[$class][$refMethod->getName()] = $nodeUrl;
+                $this->controllers[$class][$methodName] = $nodeUrl;
             }
         }
 
-        return $permissions;
+        return count($this->permissions);
     }
 
     protected function parseAuth($auth, $controllerUrl, $methodName)
@@ -116,6 +130,22 @@ trait InteractsWithAuth
             return str_replace('/', '.', $controllerUrl) . '.' . strtolower($methodName);
         }
         return $auth;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+    /**
+     * @return array
+     */
+    public function getControllers(): array
+    {
+        return $this->controllers;
     }
 
     /**

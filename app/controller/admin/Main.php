@@ -13,6 +13,7 @@ use app\Facade\WebConv;
 use app\Logic\Permission;
 use app\Logic\SystemMenu;
 use app\Model\AdminUser;
+use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -28,6 +29,7 @@ class Main extends Base
 {
     /**
      * 主页框架
+     * @Auth()
      * @param Env $env
      * @return mixed
      * @throws DataNotFoundException
@@ -101,6 +103,7 @@ class Main extends Base
 
     /**
      * 系统信息页面
+     * @Auth()
      * @return string
      */
     public function sysinfo()
@@ -110,6 +113,7 @@ class Main extends Base
 
     /**
      * 清理缓存
+     * @Auth(policy="userType:admin")
      * @return Response
      */
     public function clearCache()

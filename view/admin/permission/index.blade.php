@@ -5,14 +5,19 @@
         @verbatim
             <div style="margin-bottom: 5px">
                 <i-button type="primary" size="large" @click="edit()">添加权限</i-button>
-                <i-button type="info" size="large" :loading="loading"
+                <i-button type="info" size="large" :loading="loading.render"
                           @click="render()">
-                    <span v-if="!loading">刷新</span>
+                    <span v-if="!loading.render">刷新</span>
+                    <span v-else>Loading...</span>
+                </i-button>
+                <i-button type="info" size="large" :loading="loading.scan"
+                          @click="scan()">
+                    <span v-if="!loading.scan">扫描权限</span>
                     <span v-else>Loading...</span>
                 </i-button>
             </div>
             <edit ref="edit" :permissions="data" @close="editClose"></edit>
-            <i-table size="small" :loading="loading" :columns="columns" :data="data">
+            <i-table size="small" :loading="loading.render" :columns="columns" :data="data">
                 <template slot-scope="{ row, index, column }" slot="sort">
                     <i-input size="small" placeholder="0" v-model.number="data[index][column.key]" type="number"></i-input>
                 </template>
@@ -49,7 +54,10 @@
             window.vue = v = new Vue({
                 el: '#app',
                 data: {
-                    loading: false,
+                    loading: {
+                        render: false,
+                        scan: false,
+                    },
                     columns: [
                         {title: '排序', slot: 'sort', key: 'sort', width: 100},
                         {title: '权限', key: '__name'},
@@ -60,7 +68,7 @@
                 },
                 methods: {
                     render() {
-                        this.loading = true;
+                        this.loading.render = true;
                         axios.get('{{url('permissionTree')}}', {
                             params: {}
                         }).then((res) => {
@@ -74,7 +82,7 @@
                             this.data = [];
 
                         }).then(() => {
-                            this.loading = false;
+                            this.loading.render = false;
                         });
                     },
                     edit(id) {
@@ -105,6 +113,23 @@
                         }).then(() => {
                             row.__del_loading = false;
                             this.render();
+                        });
+                    },
+                    scan() {
+                        this.loading.scan = true;
+                        axios.get('{{url('scan')}}', {
+                            params: {}
+                        }).then((res) => {
+                            this.$Notice.success({
+                                title: '操作请求成功',
+                                desc: `权限已经重新扫描`,
+                                duration: 6,
+                            });
+                            this.render();
+                        }).catch((error) => {
+                            console.dir(error);
+                        }).then(() => {
+                            this.loading.scan = false;
                         });
                     }
                 },

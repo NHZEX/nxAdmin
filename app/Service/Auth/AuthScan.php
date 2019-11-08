@@ -10,7 +10,10 @@ use think\App;
 
 class AuthScan
 {
-    use InteractsWithAuth;
+    use InteractsWithScanAuth;
+    use InteractsWithSyncModel;
+
+    const ROOT_NODE = '__ROOT__';
 
     /**
      * @var App

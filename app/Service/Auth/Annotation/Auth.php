@@ -13,4 +13,17 @@ use Doctrine\Common\Annotations\Annotation;
  */
 final class Auth extends Annotation
 {
+    /**
+     * 定义权限分配
+     *
+     * @var string
+     */
+    public $value = 'login';
+
+    /**
+     * 定义策略
+     *
+     * @var string
+     */
+    public $policy = '';
 }

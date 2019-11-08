@@ -79,7 +79,7 @@ class Menu extends Base
             'edit_data' => $data ?? false,
             'url_save' => url('save', $params ?? []),
             'menu_data' => SystemMenu::getTextTree(),
-            'node_data' => \app\Logic\Permission::queryNodeFlagsIsMenu(),
+            'node_data' => [],
         ]);
     }
 
