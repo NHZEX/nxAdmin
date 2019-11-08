@@ -10,6 +10,7 @@ namespace app\Model;
 
 use app\Exception\AccessControl;
 use app\Facade\WebConv;
+use app\Service\Auth\Contracts\Authenticatable;
 use RuntimeException;
 use think\Model;
 use think\model\concern\SoftDelete;
@@ -45,9 +46,9 @@ use Tp\Model\Exception\ModelException;
  * @property int            $delete_time 删除时间
  * @property int            $sign_out_time 退出登陆时间
  */
-class AdminUser extends Base
+class AdminUser extends Base implements Authenticatable
 {
-    use SoftDelete;
+    use SoftDelete, \app\Service\Auth\Traits\Authenticatable;
 
     protected $table = 'admin_user';
     protected $pk = 'id';
