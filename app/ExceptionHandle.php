@@ -61,6 +61,7 @@ class ExceptionHandle extends Handle
             if (false === $exception instanceof ExceptionRecordDown) {
                 try {
                     ExceptionLogs::push($exception);
+                    self::printAbnormalToLog($exception);
                 } catch (Throwable $throwable) {
                     $newException = new ExceptionRecordDown('异常日志降级', 0, $throwable);
                     // 打印记录异常
