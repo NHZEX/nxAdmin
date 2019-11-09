@@ -38,18 +38,6 @@ class ThinkOrmUserProvider implements UserProvider
     }
 
     /**
-     * Create a new instance of the model.
-     *
-     * @return Model
-     */
-    public function createModel()
-    {
-        $class = '\\' . ltrim($this->model, '\\');
-
-        return new $class;
-    }
-
-    /**
      * Retrieve a user by their unique identifier.
      *
      * @param mixed $identifier
@@ -74,22 +62,37 @@ class ThinkOrmUserProvider implements UserProvider
      */
     public function retrieveByToken($identifier, $token)
     {
-        // TODO: Implement retrieveByToken() method.
+        $model = $this->createModel();
+
+        /** @var Authenticatable|Model $retrievedModel */
+        $retrievedModel = $model->where($model->getAuthIdentifierName(), $identifier)->find();
+
+        if (! $retrievedModel) {
+            return null;
+        }
+
+        $rememberToken = $retrievedModel->getRememberToken();
+
+        return $rememberToken && hash_equals($rememberToken, $token)
+            ? $retrievedModel : null;
     }
 
     /**
      * Update the "remember me" token for the given user in storage.
      *
-     * @param Authenticatable $user
+     * @param Authenticatable|Model $user
      * @param string          $token
      * @return void
      */
     public function updateRememberToken(Authenticatable $user, $token)
     {
-        // TODO: Implement updateRememberToken() method.
+        // TODO 需要确认工作是否正常
+        $user->setRememberToken($token);
+        $user->save();
     }
 
     /**
+     * 通过给定的凭据检索用户
      * Retrieve a user by the given credentials.
      *
      * @param array $credentials
@@ -133,6 +136,30 @@ class ThinkOrmUserProvider implements UserProvider
         $plain = $credentials['password'];
 
         return $this->hasher->check($plain, $user->getAuthPassword());
+    }
+
+
+    /**
+     * Create a new instance of the model.
+     *
+     * @return Model|Authenticatable
+     */
+    public function createModel()
+    {
+        $class = '\\' . ltrim($this->model, '\\');
+
+        return new $class;
+    }
+
+
+    /**
+     * Gets the hasher implementation.
+     *
+     * @return Hasher
+     */
+    public function getHasher()
+    {
+        return $this->hasher;
     }
 
     /**

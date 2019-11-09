@@ -3,6 +3,10 @@
 use app\Model\AdminUser;
 
 return [
+    'defaults' => [
+        'guard' => 'web',
+    ],
+
     'guards' => [
         'web' => [
             'driver' => 'session',

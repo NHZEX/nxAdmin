@@ -105,6 +105,11 @@ function json_decode_throw_on_error(string $json): array
     return $data;
 }
 
+function return_raw_value($x)
+{
+    return $x;
+}
+
 /**
  * Base64 Url安全编码
  * @param $data

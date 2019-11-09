@@ -44,8 +44,8 @@ interface Guard
     /**
      * Set the current user.
      *
-     * @param  mixed  $user
+     * @param  Authenticatable  $user
      * @return void
      */
-    public function setUser($user);
+    public function setUser(Authenticatable $user);
 }
