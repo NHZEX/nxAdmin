@@ -10,6 +10,7 @@ namespace app\controller\admin;
 
 use app\Facade\WebConv;
 use app\Logic\AdminUser;
+use app\Service\Auth;
 use Captcha\Captcha;
 use think\Response;
 use function view_current;
@@ -84,9 +85,7 @@ class Login extends Base
      * @param AdminUser $adminUser
      * @return Response
      */
-    public function login(
-        AdminUser $adminUser
-    ) {
+    public function login(AdminUser $adminUser, Auth $auth) {
         $param = $this->request->param();
 
         // 获取令牌
@@ -105,21 +104,22 @@ class Login extends Base
         ['account' => $account, 'password' => $password, 'lasting' => $rememberme] = $param;
 
         // 执行登陆操作
-        if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme)) {
+        if ($auth->attempt(['username' => $account, 'password' => $password], $rememberme)) {
             $this->app->cookie->set('login_time', time() + 10);
             return self::showMsg(CODE_SUCCEED);
         } else {
-            return self::showMsg(CODE_CONV_LOGIN, $adminUser->getErrorMessage());
+            return self::showMsg(CODE_CONV_LOGIN, $auth->getMessage());
         }
     }
 
     /**
      * 退出登陆
+     * @param Auth $auth
      */
-    public function logout()
+    public function logout(Auth $auth)
     {
+        $auth->logout();
         $this->app->cookie->delete('login_time');
-        WebConv::destroy(true);
         $this->success('退出登陆', '@admin.login');
     }
 }
