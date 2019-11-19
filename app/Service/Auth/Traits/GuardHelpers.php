@@ -7,6 +7,11 @@ use app\Service\Auth\Contracts\Authenticatable;
 use app\Service\Auth\Contracts\UserProvider;
 use app\Service\Auth\Exception\AuthenticationException;
 
+/**
+ * Trait GuardHelpers
+ * @package app\Service\Auth\Traits
+ * @method Authenticatable user()
+ */
 trait GuardHelpers
 {
     /**

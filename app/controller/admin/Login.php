@@ -83,9 +83,11 @@ class Login extends Base
     /**
      * 登陆
      * @param AdminUser $adminUser
+     * @param Auth      $auth
      * @return Response
      */
-    public function login(AdminUser $adminUser, Auth $auth) {
+    public function login(AdminUser $adminUser, Auth $auth)
+    {
         $param = $this->request->param();
 
         // 获取令牌

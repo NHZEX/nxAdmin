@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace app\Service\Auth\Guard;
 
-use app\Service\Auth\Contracts\Authenticatable;
-use app\Service\Auth\Contracts\StatefulGuard;
-use app\Service\Auth\Contracts\UserProvider;
+use app\Service\Auth\Contracts\Authenticatable as AuthenticatableContracts;
+use app\Service\Auth\Contracts\StatefulGuard as StatefulGuardContracts;
+use app\Service\Auth\Contracts\UserProvider as UserProviderContracts;
 use app\Service\Auth\Recaller;
 use app\Service\Auth\Traits\GuardEvents;
 use app\Service\Auth\Traits\GuardHelpers;
@@ -14,7 +14,7 @@ use think\helper\Str;
 use think\Request;
 use think\Session;
 
-class SessionGuard implements StatefulGuard
+class SessionGuard implements StatefulGuardContracts
 {
     use GuardHelpers, GuardEvents;
 
@@ -30,7 +30,7 @@ class SessionGuard implements StatefulGuard
     /**
      * The user we last attempted to retrieve.
      *
-     * @var Authenticatable
+     * @var AuthenticatableContracts
      */
     protected $lastAttempted;
 
@@ -77,11 +77,11 @@ class SessionGuard implements StatefulGuard
     /**
      * Create a new authentication guard.
      *
-     * @param string       $name
-     * @param UserProvider $provider
-     * @param Session      $session
+     * @param string                $name
+     * @param UserProviderContracts $provider
+     * @param Session               $session
      */
-    public function __construct(string $name, UserProvider $provider, Session $session)
+    public function __construct(string $name, UserProviderContracts $provider, Session $session)
     {
         $this->name = $name;
         $this->session = $session;
@@ -91,7 +91,7 @@ class SessionGuard implements StatefulGuard
     /**
      * Get the currently authenticated user.
      *
-     * @return Authenticatable
+     * @return AuthenticatableContracts
      */
     public function user()
     {
@@ -215,7 +215,7 @@ class SessionGuard implements StatefulGuard
      * Log the given user ID into the application without sessions or cookies.
      *
      * @param  mixed  $id
-     * @return Authenticatable|false
+     * @return AuthenticatableContracts|false
      */
     public function onceUsingId($id)
     {
@@ -242,40 +242,6 @@ class SessionGuard implements StatefulGuard
     }
 
     /**
-     * Attempt to authenticate using HTTP Basic Auth.
-     *
-     * @param  string  $field
-     * @param  array  $extraConditions
-     */
-    public function basic($field = 'email', $extraConditions = [])
-    {
-        // TODO 未实现
-    }
-
-    /**
-     * Perform a stateless HTTP Basic login attempt.
-     *
-     * @param  string  $field
-     * @param  array  $extraConditions
-     */
-    public function onceBasic($field = 'email', $extraConditions = [])
-    {
-        // TODO 未实现
-    }
-
-    /**
-     * Attempt to authenticate using basic authentication.
-     *
-     * @param  $request
-     * @param  string  $field
-     * @param  array  $extraConditions
-     */
-    protected function attemptBasic($request, $field, $extraConditions = [])
-    {
-        // TODO 未实现
-    }
-
-    /**
      * 尝试使用给定的凭据对用户进行身份验证
      * Attempt to authenticate a user using the given credentials.
      *
@@ -288,6 +254,8 @@ class SessionGuard implements StatefulGuard
         $this->fireAttemptEvent($credentials, $remember);
 
         $this->lastAttempted = $user = $this->provider->retrieveByCredentials($credentials);
+
+        // 验证用户是否允许访问
 
         // If an implementation of UserInterface was returned, we'll ask the provider
         // to validate the user against the given credentials, and if they are in
@@ -342,11 +310,11 @@ class SessionGuard implements StatefulGuard
      * 将用户登录到应用程序
      * Log a user into the application.
      *
-     * @param Authenticatable $user
-     * @param bool  $remember
+     * @param AuthenticatableContracts $user
+     * @param bool                     $remember
      * @return void
      */
-    public function login(Authenticatable $user, $remember = false)
+    public function login(AuthenticatableContracts $user, $remember = false)
     {
         $this->updateSession($user->getAuthIdentifier());
 
@@ -385,10 +353,10 @@ class SessionGuard implements StatefulGuard
      * 如果尚不存在，请为用户创建一个新的“记住我”令牌。
      * Create a new "remember me" token for the user if one doesn't already exist.
      *
-     * @param  Authenticatable  $user
+     * @param AuthenticatableContracts $user
      * @return void
      */
-    protected function ensureRememberTokenIsSet(Authenticatable $user)
+    protected function ensureRememberTokenIsSet(AuthenticatableContracts $user)
     {
         if (empty($user->getRememberToken())) {
             $this->cycleRememberToken($user);
@@ -399,10 +367,10 @@ class SessionGuard implements StatefulGuard
      * 将记住我 Token 保存到 Cookie
      * Queue the recaller cookie into the cookie jar.
      *
-     * @param  Authenticatable  $user
+     * @param AuthenticatableContracts $user
      * @return void
      */
-    protected function queueRecallerCookie(Authenticatable $user)
+    protected function queueRecallerCookie(AuthenticatableContracts $user)
     {
         $this->cookie->set(
             $this->getRecallerName(),
@@ -459,10 +427,10 @@ class SessionGuard implements StatefulGuard
      * 刷新记住我令牌
      * Refresh the "remember me" token for the user.
      *
-     * @param  Authenticatable  $user
+     * @param AuthenticatableContracts $user
      * @return void
      */
-    protected function cycleRememberToken(Authenticatable $user)
+    protected function cycleRememberToken(AuthenticatableContracts $user)
     {
         $user->setRememberToken($token = Str::random(60));
 
@@ -511,7 +479,7 @@ class SessionGuard implements StatefulGuard
     /**
      * Get the last user we attempted to authenticate.
      *
-     * @return Authenticatable
+     * @return AuthenticatableContracts
      */
     public function getLastAttempted()
     {
@@ -562,7 +530,7 @@ class SessionGuard implements StatefulGuard
     /**
      * Return the currently cached user.
      *
-     * @return Authenticatable|null
+     * @return AuthenticatableContracts|null
      */
     public function getUser()
     {
@@ -572,10 +540,10 @@ class SessionGuard implements StatefulGuard
     /**
      * Set the current user.
      *
-     * @param  Authenticatable  $user
+     * @param AuthenticatableContracts $user
      * @return $this
      */
-    public function setUser(Authenticatable $user)
+    public function setUser(AuthenticatableContracts $user)
     {
         $this->user = $user;
 
