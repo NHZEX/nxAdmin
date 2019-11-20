@@ -106,6 +106,7 @@ class Login extends Base
         ['account' => $account, 'password' => $password, 'lasting' => $rememberme] = $param;
 
         // 执行登陆操作
+        // $adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme);
         if ($auth->attempt(['username' => $account, 'password' => $password], $rememberme)) {
             $this->app->cookie->set('login_time', time() + 10);
             return self::showMsg(CODE_SUCCEED);

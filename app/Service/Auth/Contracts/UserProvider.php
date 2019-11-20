@@ -47,4 +47,12 @@ interface UserProvider
      * @return bool
      */
     public function validateCredentials(Authenticatable $user, array $credentials);
+
+
+    /**
+     * 允许对数据进行访问
+     * @param Authenticatable $user
+     * @return bool
+     */
+    public function isAccessible(Authenticatable $user);
 }

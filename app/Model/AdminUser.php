@@ -56,6 +56,10 @@ class AdminUser extends Base implements AuthenticatableContracts
 
     protected $readonly = ['genre'];
 
+    protected $hidden = [
+        'remember', 'password'
+    ];
+
     const STATUS_NORMAL = 0;
     const STATUS_DISABLE = 1;
     const STATUS_DICT = [
@@ -180,6 +184,16 @@ class AdminUser extends Base implements AuthenticatableContracts
                 throw new ModelException("该邮箱 {$data->email} 已经存在");
             }
         }
+    }
+
+    public function isSuperAdmin()
+    {
+        return self::GENRE_SUPER_ADMIN === $this->genre;
+    }
+
+    public function isAdmin()
+    {
+        return self::GENRE_ADMIN === $this->genre;
     }
 
     /**

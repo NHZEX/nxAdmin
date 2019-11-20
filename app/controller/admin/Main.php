@@ -13,6 +13,7 @@ use app\Facade\WebConv;
 use app\Logic\Permission;
 use app\Logic\SystemMenu;
 use app\Model\AdminUser;
+use app\Service\Auth as AuthService;
 use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -30,24 +31,24 @@ class Main extends Base
     /**
      * 主页框架
      * @Auth()
-     * @param Env $env
+     * @param Env  $env
      * @return mixed
      * @throws DataNotFoundException
      * @throws DbException
      * @throws JsonException
      * @throws ModelNotFoundException
      */
-    public function index(Env $env)
+    public function index(Env $env, AuthService $auth)
     {
         return view_current([
             'info' => [
                 'title' => $env->get('system.web_title'),
             ],
             'webmenu' => $this->getMenuToJson(),
-            'user' => WebConv::getConvUser(),
+            'user' => $auth->user(),
             'url' => [
                 'mainpage' => url('sysinfo'),
-                'basic_info' => url('@admin.manager/pageEdit', ['base_pkid' => WebConv::getConvUser()->id]),
+                'basic_info' => url('@admin.manager/pageEdit', ['base_pkid' => $auth->id()]),
                 'logout' => url('@admin.login/logout'),
                 'clear_cache' => url('clearCache'),
             ],

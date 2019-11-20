@@ -8,16 +8,13 @@
 
 namespace app\Middleware;
 
-use app\controller\AdminBase;
 use app\Exception\JsonException;
-use app\Facade\WebConv;
 use app\Logic\AdminRole;
-use app\Logic\Permission as PermissionLogic;
 use app\Model\AdminUser as AdminUserModel;
 use app\Model\Permission as PermissionModel;
+use app\Service\Auth;
 use app\Traits\ShowReturn;
 use Closure;
-use ReflectionClass;
 use ReflectionException;
 use think\Request;
 use think\Response;
@@ -36,46 +33,39 @@ class Authorize extends Middleware
      */
     public function handle(Request $request, Closure $next)
     {
+        $nodeName = $this->getNodeName($request);
+
+        if (null === $nodeName) {
+            return $next($request);
+        }
+
+        /** @var Auth\Permission $permission */
+        $permission = $this->app->make(Auth\Permission::class);
+        $nodeControl = $permission->queryNode($nodeName);
+
+        if (null === $nodeControl) {
+            return $next($request);
+        }
+
+        /** @var Auth $auth */
+        $auth = $this->app->make(Auth::class);
+
+        // 分析控制器是否继承AdminBase 使用 is_subclass_of 替代
+        // 会话权限判断
+        if (true !== $auth->check()) {
+            $this->app->cookie->delete('login_time');
+            return $this->jump($request, '需重新登录:');
+        }
+
+        /** @var AdminUserModel $user */
+        $user = $auth->user();
+        // 超级管理员跳过权限限制
+        if ($user->isSuperAdmin()) {
+            return $next($request);
+        }
+
         // 跳过权限验证
         return $next($request);
-
-        $webConv = WebConv::instance();
-
-        //获取调度类
-        $transfer_class = self::getCurrentDispatchClass($request);
-        $action = $request->action(false);
-
-        if (null === $transfer_class) {
-            return $next($request);
-        }
-
-        // 计算节点Hash
-        $node = PermissionLogic::computeNode($transfer_class, $action);
-        // 获取节点标识
-        $flag = PermissionLogic::getFlagByHash($node->hash);
-        // 忽略权限控制
-        if (($flag & PermissionModel::FLAG_LOGIN) === 0) {
-            return $next($request);
-        }
-
-        // 分析控制器是否继承AdminBase
-        $r = new ReflectionClass($transfer_class);
-        $tc = $r->newInstanceWithoutConstructor();
-        if (false === $tc instanceof AdminBase) {
-            return $next($request);
-        }
-        unset($r, $tc);
-
-        // 会话权限判断
-        if (true !== $webConv->verify()) {
-            $this->app->cookie->delete('login_time');
-            return $this->jump($request, '需重新登录:' . $webConv->getErrorMessage());
-        }
-
-        //超级管理员跳过权限限制
-        if ($webConv->getUserGenre() === AdminUserModel::GENRE_SUPER_ADMIN) {
-            return $next($request);
-        }
 
         //角色权限验证
         if (($flag & PermissionModel::FLAG_PERMISSION) > 0) {

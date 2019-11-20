@@ -26,6 +26,11 @@ class ThinkOrmUserProvider implements UserProvider
     protected $hasher;
 
     /**
+     * @var int|false
+     */
+    protected $cache = 180;
+
+    /**
      * Create a new database user provider.
      *
      * @param Hasher $hasher
@@ -38,6 +43,16 @@ class ThinkOrmUserProvider implements UserProvider
     }
 
     /**
+     * 数据提供者是否可访问
+     * @param Authenticatable $user
+     * @return bool|void
+     */
+    public function isAccessible(Authenticatable $user)
+    {
+        // TODO: Implement isAccessible() method.
+    }
+
+    /**
      * Retrieve a user by their unique identifier.
      *
      * @param mixed $identifier
@@ -45,12 +60,20 @@ class ThinkOrmUserProvider implements UserProvider
      */
     public function retrieveById($identifier)
     {
+        // TODO provider 是否准许进行本次数据提供
         /** @var Model|Authenticatable $model */
         $model = $this->createModel();
 
-        return $model
-            ->where($model->getAuthIdentifierName(), $identifier)
+        $model = $model
+            ->where($model->getAuthIdentifierName(), '=', $identifier)
+            ->cache($this->cache)
             ->find();
+
+        if (null !== $model) {
+            $this->isAccessible($model);
+        }
+
+        return $model;
     }
 
     /**
@@ -65,30 +88,21 @@ class ThinkOrmUserProvider implements UserProvider
         $model = $this->createModel();
 
         /** @var Authenticatable|Model $retrievedModel */
-        $retrievedModel = $model->where($model->getAuthIdentifierName(), $identifier)->find();
+        $retrievedModel = $model
+            ->where($model->getAuthIdentifierName(), $identifier)
+            ->cache($this->cache)
+            ->find();
 
         if (! $retrievedModel) {
             return null;
         }
 
+        $this->isAccessible($retrievedModel);
+
         $rememberToken = $retrievedModel->getRememberToken();
 
         return $rememberToken && hash_equals($rememberToken, $token)
             ? $retrievedModel : null;
-    }
-
-    /**
-     * Update the "remember me" token for the given user in storage.
-     *
-     * @param Authenticatable|Model $user
-     * @param string          $token
-     * @return void
-     */
-    public function updateRememberToken(Authenticatable $user, $token)
-    {
-        // TODO 需要确认工作是否正常
-        $user->setRememberToken($token);
-        $user->save();
     }
 
     /**
@@ -121,7 +135,28 @@ class ThinkOrmUserProvider implements UserProvider
             }
         }
 
-        return $query->find();
+        /** @var Authenticatable|Model $model */
+        $model = $query->cache($this->cache)->find();
+
+        if (null !== $model) {
+            $this->isAccessible($model);
+        }
+
+        return $model;
+    }
+
+    /**
+     * Update the "remember me" token for the given user in storage.
+     *
+     * @param Authenticatable|Model $user
+     * @param string          $token
+     * @return void
+     */
+    public function updateRememberToken(Authenticatable $user, $token)
+    {
+        // TODO 需要确认工作是否正常
+        $user->setRememberToken($token);
+        $user->save();
     }
 
     /**
@@ -147,8 +182,7 @@ class ThinkOrmUserProvider implements UserProvider
     public function createModel()
     {
         $class = '\\' . ltrim($this->model, '\\');
-
-        return new $class;
+        return new $class();
     }
 
 

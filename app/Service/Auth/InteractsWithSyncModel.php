@@ -42,7 +42,6 @@ trait InteractsWithSyncModel
                 $this->fillCustomize()
             );
             $data = array_values($data);
-            dump($this->fillCustomize());
 
             foreach ($data as &$item) {
                 $item['id'] = $this->increase++;
