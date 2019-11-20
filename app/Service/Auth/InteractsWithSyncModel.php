@@ -15,6 +15,11 @@ use function explode;
 use function implode;
 use function ksort;
 
+/**
+ * Trait InteractsWithSyncModel
+ * @package app\Service\Auth
+ * @property \app\Service\Auth\Permission $permission
+ */
 trait InteractsWithSyncModel
 {
     private $increase = 1;
@@ -51,6 +56,8 @@ trait InteractsWithSyncModel
             Permission::where('id', '>', '0')->delete();
             Permission::insertAll($data);
         });
+
+        $this->permission->refresh();
     }
 
     /**

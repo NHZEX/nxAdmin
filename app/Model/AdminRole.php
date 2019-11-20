@@ -10,8 +10,8 @@ namespace app\Model;
 
 use app\Exception\AccessControl;
 use app\Exception\JsonException;
-use app\Facade\WebConv;
 use app\Logic\AdminRole as AdminRoleLogic;
+use app\Service\Auth\Facade\Auth;
 use think\Model;
 use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
@@ -129,11 +129,11 @@ class AdminRole extends Base
     {
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
         $dataId = $data->getOrigin('id');
-        if (null === $dataGenre || null === WebConv::getUserGenre()) {
+        $auth = Auth::instance();
+        if (null === $dataGenre || null === ($accessGenre = $auth->user()->genre)) {
             return;
         }
-        $accessGenre = WebConv::getUserGenre();
-        $accessId = WebConv::getUserId();
+        $accessId = $auth->id();
         $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
         if (false === in_array($dataGenre, $genreControl)) {
             throw new AccessControl('当前登陆的用户无该数据的操作权限');

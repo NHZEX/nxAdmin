@@ -26,6 +26,11 @@ class AuthScan
     protected $reader;
 
     /**
+     * @var Permission
+     */
+    protected $permission;
+
+    /**
      * AuthScan constructor.
      * @param App $app
      * @throws AnnotationException
@@ -35,5 +40,7 @@ class AuthScan
         $this->app = $app;
 
         $this->reader = new AnnotationReader();
+
+        $this->permission = new Permission();
     }
 }

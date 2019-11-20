@@ -35,10 +35,25 @@ abstract class Middleware
     abstract public function handle(Request $request, Closure $next);
 
     /**
+     * 获取节点名称
+     * @param Request $request
+     * @return string
+     */
+    protected function getNodeName(Request $request): ?string
+    {
+        if (empty($request->controller() . $request->action())) {
+            return null;
+        }
+        $appName = $this->app->http->getName();
+        $appName = $appName ? ($appName . '/') : '';
+        return $appName . $request->controller(true) . '/' . $request->action(true);
+    }
+
+    /**
      * @param Request $request
      * @return mixed
      */
-    protected function getCurrentDispatchClass(Request $request) :?string
+    protected function getControllerClassName(Request $request) :?string
     {
         $controller = Util::toSnakeCase($request->controller());
         $transfer_class = $this->app->parseClass('controller', $controller);

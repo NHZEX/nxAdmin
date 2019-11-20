@@ -101,15 +101,15 @@ class SystemMenu extends Base
     {
         $menus = self::queryMenus();
         if (null !== $roleId) {
-            $menuIds = AdminRole::getExtMenu($roleId);
-            $menus = self::filterById($menuIds, $menus);
+            $nodes = AdminRole::queryPermission($roleId);
+            $menus = self::filterByNode($nodes, $menus);
         }
         return $menus;
     }
 
     /**
      * 菜单树过滤
-     * @param array $allowIds
+     * @param array $allowNodes
      * @param array $menus
      * @return array
      * @throws JsonException
@@ -117,7 +117,7 @@ class SystemMenu extends Base
      * @throws ModelNotFoundException
      * @throws DbException
      */
-    public static function filterById(array $allowIds, array $menus)
+    public static function filterByNode(array $allowNodes, array $menus)
     {
         $newMenus = [];
         foreach ($menus as $key => $menu) {
@@ -126,10 +126,10 @@ class SystemMenu extends Base
             isset($menu['children']) || $menu['children'] = [];
             // 如果菜单子级不为空则过滤子级
             if (!empty($menu['children'])) {
-                $result = self::filterById($allowIds, $menu['children']);
+                $result = self::filterByNode($allowNodes, $menu['children']);
             }
             // 当前菜单是允许访问且（不存在子级或子级不能被过滤掉）
-            if (in_array($menu['id'], $allowIds) && (empty($menu['children']) || !empty($result))) {
+            if (!empty($result) || (isset($allowNodes[$menu['node']]) && (empty($menu['children'])))) {
                 $menu['children'] = $result;
                 $newMenus[] = $menu;
             }

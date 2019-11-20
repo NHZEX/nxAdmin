@@ -20,6 +20,7 @@ use function substr;
  *
  * Class NodesManage
  * @package app\Service\Auth
+ * @deprecated
  */
 class ControllerScan
 {

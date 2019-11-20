@@ -2,8 +2,8 @@
 
 namespace Tp\Model\Traits;
 
-use app\Facade\WebConv;
 use app\Model\AdminUser;
+use app\Service\Auth\Facade\Auth;
 use think\Model;
 use think\model\relation\BelongsTo;
 
@@ -28,17 +28,17 @@ trait RecordUser
      */
     protected static function recodeUser(Model $data)
     {
-        $conv = WebConv::instance();
-        if ($data->recordUser && $conv->lookVerify()) {
+        $conv = Auth::instance();
+        if ($data->recordUser && $conv->check()) {
             // 缺乏必要的字段锁定设置
             if (false === array_search($data->createBy, $data->readonly)) {
                 $data->readonly[] = $data->createBy;
             }
             $fields = array_flip($data->getTableFields());
             isset($fields[$data->createBy]) &&
-            $data[$data->createBy] = $conv->getUserId();
+            $data[$data->createBy] = $conv->id();
             isset($fields[$data->updateBy]) &&
-            $data[$data->updateBy] = $conv->getUserId();
+            $data[$data->updateBy] = $conv->id();
         }
     }
 

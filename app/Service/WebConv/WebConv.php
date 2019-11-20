@@ -15,6 +15,7 @@ use think\Config;
 /**
  * Class WebConv
  * @package app\Service\WebConv
+ * @deprecated
  */
 class WebConv implements Serializable
 {

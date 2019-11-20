@@ -11,6 +11,7 @@ namespace app\controller\admin;
 use app\Logic\SystemMenu as SystemMenuLogic;
 use app\Model\SystemMenu;
 use app\Service\Auth\Annotation\Auth;
+use app\Service\Auth\Model\Permission as PermissionModel;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -22,7 +23,7 @@ use function view_current;
 class Menu extends Base
 {
     /**
-     * @Auth("menu.page")
+     * @Auth("menu.info")
      * @return string
      */
     public function index()
@@ -58,12 +59,12 @@ class Menu extends Base
     }
 
     /**
-     * @Auth("menu.page")
-     * @param int|null $pkid
+     * @Auth("menu.info")
+     * @param int|null       $pkid
      * @return mixed
      * @throws DataNotFoundException
-     * @throws ModelNotFoundException
      * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function edit(?int $pkid = null)
     {
@@ -75,10 +76,13 @@ class Menu extends Base
             $params['csrf'] = $this->generateCsrfTokenSimple();
         }
 
+        $permGenre = [PermissionModel::GENRE_GROUP, PermissionModel::GENRE_CUSTOMIZE, PermissionModel::GENRE_NODE];
+
         return view_current([
             'edit_data' => $data ?? false,
             'url_save' => url('save', $params ?? []),
             'menu_data' => SystemMenu::getTextTree(),
+            'permission' => PermissionModel::getTextTree(null, '__ROOT__', 1, $permGenre),
             'node_data' => [],
         ]);
     }

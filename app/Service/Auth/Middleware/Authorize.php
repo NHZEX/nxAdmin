@@ -1,90 +1,89 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2019/1/8
- * Time: 17:58
- */
+declare(strict_types=1);
 
-namespace app\Middleware;
+namespace app\Service\Auth\Middleware;
 
-use app\controller\AdminBase;
-use app\Exception\JsonException;
-use app\Facade\WebConv;
-use app\Logic\AdminRole;
-use app\Logic\Permission as PermissionLogic;
-use app\Model\AdminUser as AdminUserModel;
-use app\Model\Permission as PermissionModel;
-use app\Traits\ShowReturn;
+use app\Service\Auth\AuthGuard;
+use app\Service\Auth\Permission;
 use Closure;
-use ReflectionClass;
-use ReflectionException;
+use think\App;
 use think\Request;
 use think\Response;
 use think\response\View;
 
-class Authorize extends Middleware
+class Authorize
 {
-    use ShowReturn;
+    /**
+     * @var App
+     */
+    private $app;
+    /**
+     * @var AuthGuard
+     */
+    private $auth;
+    /**
+     * @var Permission
+     */
+    private $permission;
+
+    public function __construct(App $app, AuthGuard $auth, Permission $permission)
+    {
+        $this->app = $app;
+        $this->auth = $auth;
+        $this->permission = $permission;
+    }
 
     /**
-     * @param Request $request
+     * @param Request  $request
      * @param Closure $next
-     * @return response
-     * @throws JsonException
-     * @throws ReflectionException
+     * @return Response|string
      */
     public function handle(Request $request, Closure $next)
     {
-        // 跳过权限验证
-        return $next($request);
+        $nodeName = $this->getNodeName($request);
 
-        $webConv = WebConv::instance();
-
-        //获取调度类
-        $transfer_class = self::getCurrentDispatchClass($request);
-        $action = $request->action(false);
-
-        if (null === $transfer_class) {
+        if (null === $nodeName) {
             return $next($request);
         }
 
-        // 计算节点Hash
-        $node = PermissionLogic::computeNode($transfer_class, $action);
-        // 获取节点标识
-        $flag = PermissionLogic::getFlagByHash($node->hash);
-        // 忽略权限控制
-        if (($flag & PermissionModel::FLAG_LOGIN) === 0) {
-            return $next($request);
-        }
+        $nodeControl = $this->permission->queryNode($nodeName);
 
-        // 分析控制器是否继承AdminBase
-        $r = new ReflectionClass($transfer_class);
-        $tc = $r->newInstanceWithoutConstructor();
-        if (false === $tc instanceof AdminBase) {
+        if (null === $nodeControl) {
             return $next($request);
         }
-        unset($r, $tc);
 
         // 会话权限判断
-        if (true !== $webConv->verify()) {
+        if (true !== $this->auth->check()) {
             $this->app->cookie->delete('login_time');
-            return $this->jump($request, '需重新登录:' . $webConv->getErrorMessage());
+            return $this->jump($request, '请重新登录');
         }
 
-        //超级管理员跳过权限限制
-        if ($webConv->getUserGenre() === AdminUserModel::GENRE_SUPER_ADMIN) {
+        // 超级管理员跳过权限限制
+        if ($this->auth->user()->isSuperAdmin()) {
             return $next($request);
         }
 
-        //角色权限验证
-        if (($flag & PermissionModel::FLAG_PERMISSION) > 0) {
-            if (false === AdminRole::isPermissionAllowed($webConv->getRoleId(), $node->hash)) {
-                return Response::create('权限不足', '', 403);
-            }
+        // 权限判定
+        if (!$this->auth->can('node@' . $nodeName)) {
+            return Response::create('权限不足', 'html', 403);
         }
 
         return $next($request);
+    }
+
+    /**
+     * 获取节点名称
+     * @param Request $request
+     * @return string
+     */
+    protected function getNodeName(Request $request): ?string
+    {
+        if (empty($request->controller() . $request->action())) {
+            return null;
+        }
+        $appName = $this->app->http->getName();
+        $appName = $appName ? ($appName . '/') : '';
+        return $appName . $request->controller(true) . '/' . $request->action(true);
     }
 
     /**
@@ -103,7 +102,7 @@ class Authorize extends Middleware
                 '/admin.login?' . http_build_query(['jump' => $jump])
             );
         } else {
-            return Response::create($message, '', 401)
+            return Response::create($message, 'html', 401)
                 ->header([
                     'Soft-Location' => $this->app->route->buildUrl('@admin.login')
                 ]);

@@ -60,7 +60,8 @@
         },
         "files": [
             "app/constant.php",
-            "app/status_code.php"
+            "app/status_code.php",
+            "app/log_func.php"
         ]
     },
     "autoload-dev": {

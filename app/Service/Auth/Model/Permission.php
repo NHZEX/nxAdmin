@@ -15,7 +15,7 @@ use think\Model;
  * @property int    $genre   节点类型
  * @property string $pid     父节点id
  * @property string $name    权限名称
- * @property string $control 授权内容
+ * @property array  $control 授权内容
  * @property string $desc    权限描述
  */
 class Permission extends Model
@@ -48,26 +48,75 @@ class Permission extends Model
     }
 
     /**
+     * @param array $genre
+     * @return array
+     */
+    public static function sortPermission(array $genre)
+    {
+        return (new static())
+            ->whereIn('genre', $genre)
+            ->order(['genre' => 'asc', 'pid' => 'asc', 'sort' => 'desc'])
+            ->column('id,pid,sort,name,desc,control', 'id');
+    }
+
+    /**
+     * 获取树
+     * @param array|null $data
+     * @param string     $index
+     * @param int        $level
+     * @param array      $genre
+     * @return array
+     */
+    public static function getTree(
+        ?array $data = null,
+        string $index = '__ROOT__',
+        int $level = 0,
+        array $genre = [self::GENRE_GROUP, self::GENRE_CUSTOMIZE]
+    ) :array {
+        if (null === $data) {
+            $data = self::sortPermission($genre);
+        }
+        $tree = [];
+        foreach ($data as $id => $permission) {
+            if ($permission['pid'] === $index) {
+                $permission['id'] = $permission['name'];
+                $permission['title'] = $permission['name'];
+                $permission['spread'] = true;
+                $permission['valid'] = !empty($permission['control']);
+                unset($permission['control']);
+                unset($permission['name']);
+                $permission['children'] = self::getTree($data, $permission['id'], $level + 1);
+                $tree[] = $permission;
+            }
+        }
+        return $tree;
+    }
+
+    /**
      * 获取文本树
      * @param array|null $data
      * @param string     $index
      * @param int        $level
+     * @param array      $genre
      * @return array
      */
-    public static function getTextTree(?array $data = null, string $index = '__ROOT__', int $level = 0)
-    {
+    public static function getTextTree(
+        ?array $data = null,
+        string $index = '__ROOT__',
+        int $level = 0,
+        array $genre = [self::GENRE_GROUP, self::GENRE_CUSTOMIZE]
+    ) :array {
         if (null === $data) {
-            $data = (new static())
-                ->whereIn('genre', [self::GENRE_GROUP, self::GENRE_CUSTOMIZE])
-                ->order(['pid' => 'asc', 'sort' => 'desc'])
-                ->column('id,pid,sort,name,desc', 'id');
+            $data = self::sortPermission($genre);
         }
         $tree = [];
-        foreach ($data as $id => $menu) {
-            if ($menu['pid'] === $index) {
-                $menu['__name'] = str_repeat('   ├  ', $level) . $menu['name'];
-                $tree[] = $menu;
-                $tree = array_merge($tree, self::getTextTree($data, $menu['name'], $level + 1));
+        foreach ($data as $id => $permission) {
+            if ($permission['pid'] === $index) {
+                $permission['__name'] = str_repeat('   ├  ', $level) . $permission['name'];
+                $permission['valid'] = !empty($permission['control']);
+                unset($permission['control']);
+                $tree[] = $permission;
+                $tree = array_merge($tree, self::getTextTree($data, $permission['name'], $level + 1));
             }
         }
 

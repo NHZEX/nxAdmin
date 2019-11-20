@@ -9,7 +9,8 @@
 namespace app\Model;
 
 use app\Exception\AccessControl;
-use app\Facade\WebConv;
+use app\Service\Auth\Contracts\Authenticatable as AuthenticatableContracts;
+use app\Service\Auth\Facade\Auth;
 use RuntimeException;
 use think\Model;
 use think\model\concern\SoftDelete;
@@ -45,7 +46,7 @@ use Tp\Model\Exception\ModelException;
  * @property int            $delete_time 删除时间
  * @property int            $sign_out_time 退出登陆时间
  */
-class AdminUser extends Base
+class AdminUser extends Base implements AuthenticatableContracts
 {
     use SoftDelete;
 
@@ -53,6 +54,10 @@ class AdminUser extends Base
     protected $pk = 'id';
 
     protected $readonly = ['genre'];
+
+    protected $hidden = [
+        'remember', 'password'
+    ];
 
     const STATUS_NORMAL = 0;
     const STATUS_DISABLE = 1;
@@ -133,14 +138,19 @@ class AdminUser extends Base
         if ($data->isDisableAccessControl()) {
             return;
         }
+        $auth = Auth::instance();
+        if (!$auth->check()) {
+            return;
+        }
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
 
         $dataId = $data->getOrigin('id');
-        if (null === $dataGenre || null === WebConv::getUserGenre()) {
+
+        if (null === $dataGenre || null === $auth->user()->genre) {
             return;
         }
-        $accessGenre = WebConv::getUserGenre();
-        $accessId = WebConv::getUserId();
+        $accessGenre = $auth->user()->genre;
+        $accessId = $auth->user()->id;
         $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
         // 控制当前用户的组间访问
         if (false === in_array($dataGenre, $genreControl)) {
@@ -178,6 +188,30 @@ class AdminUser extends Base
                 throw new ModelException("该邮箱 {$data->email} 已经存在");
             }
         }
+    }
+
+    public function isSuperAdmin()
+    {
+        return self::GENRE_SUPER_ADMIN === $this->genre;
+    }
+
+    public function isAdmin()
+    {
+        return self::GENRE_ADMIN === $this->genre;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        return $this->remember;
+    }
+
+    public function updateRememberToken(string $token)
+    {
+        $this->remember = $token;
+        $this->save();
     }
 
     /**

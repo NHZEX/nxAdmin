@@ -3,35 +3,46 @@ declare(strict_types=1);
 
 namespace app\controller\admin;
 
+use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthScan;
-use app\Service\Auth\ControllerScan;
 use app\Service\Auth\Model\Permission as PermissionModel;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Response;
+use think\response\View;
 
 class Permission extends Base
 {
+    /**
+     * @Auth("permission.info")
+     * @return View
+     */
     public function index()
     {
         return view_current();
     }
 
-
-    public function edit(ControllerScan $scan)
+    /**
+     * @Auth("permission.info")
+     * @return View
+     */
+    public function edit()
     {
-        return view_current([
-            'node_tree' => tree_to_table($scan->nodeTree()),
-        ]);
+        return view_current();
     }
 
+    /**
+     * @Auth("permission.info")
+     * @return Response
+     */
     public function permissionTree()
     {
         return self::showSucceed(PermissionModel::getTextTree(null, '__ROOT__', 1));
     }
 
     /**
+     * @Auth("permission.info")
      * @param $id
      * @return Response
      * @throws DataNotFoundException
@@ -40,10 +51,19 @@ class Permission extends Base
      */
     public function get($id)
     {
-        return self::showSucceed(PermissionModel::find($id));
+        /** @var PermissionModel $info */
+        $info = PermissionModel::find($id);
+        if ($info->control && isset($info->control['allow'])) {
+            $allow = PermissionModel::whereIn('name', $info->control['allow'])
+                ->field(['name', 'desc'])
+                ->select();
+            $info['allow'] = $allow;
+        }
+        return self::showSucceed($info);
     }
 
     /**
+     * @Auth("permission.save")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -65,6 +85,11 @@ class Permission extends Base
         return self::showMsg(CODE_SUCCEED);
     }
 
+    /**
+     * @Auth("permission.del")
+     * @param $id
+     * @return Response
+     */
     public function del($id)
     {
         PermissionModel::destroy($id);
@@ -73,6 +98,7 @@ class Permission extends Base
 
     /**
      * 扫描权限
+     * @Auth("permission.scan")
      * @param AuthScan $authScan
      * @return Response
      */
@@ -83,9 +109,17 @@ class Permission extends Base
     }
 
     /**
+     * @Auth("permission.lasting")
      * 持久化权限
+     * @param \app\Service\Auth\Permission $permission
+     * @return Response
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
-    public function lasting()
+    public function lasting(\app\Service\Auth\Permission $permission)
     {
+        $permission->export();
+        return self::showSucceed();
     }
 }

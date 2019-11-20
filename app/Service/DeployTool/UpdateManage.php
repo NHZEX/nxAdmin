@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace app\Service\DeployTool;
 
-use app\Logic\Permission;
 use app\Logic\SystemMenu;
 use app\Model\System;
+use app\Service\Auth\Permission;
 use Exception;
 use Phinx\PhinxMigrate2;
 use Symfony\Component\Console\Application as SymfonyApplication;
@@ -59,7 +59,6 @@ class UpdateManage extends FeaturesManage
      */
     public function actionMigrate(Output $output): bool
     {
-        // TODO 环境检查
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
             return false;
@@ -114,7 +113,6 @@ class UpdateManage extends FeaturesManage
      */
     public function actionData(Output $output): bool
     {
-        // TODO 环境检查
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
             return false;
@@ -135,7 +133,7 @@ class UpdateManage extends FeaturesManage
     protected function updateNodes(Output $output): bool
     {
         $output->writeln('> 更新权限节点...');
-        $result = Permission::importNodes($this->deploy->isDryRun(), $message);
+        $result = (new Permission())->import($this->deploy->isDryRun(), $message);
         $output->writeln('  权限数据: ' . $message);
         return $result;
     }

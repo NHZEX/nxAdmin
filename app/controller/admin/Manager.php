@@ -8,10 +8,10 @@
 
 namespace app\controller\admin;
 
-use app\Facade\WebConv;
 use app\Model\AdminRole;
 use app\Model\AdminUser;
 use app\Service\Auth\Annotation\Auth;
+use app\Service\Auth\AuthGuard;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -46,10 +46,11 @@ class Manager extends Base
 
     /**
      * 主页
-     * @Auth("user.page")
+     * @Auth("user.info")
+     * @param AuthGuard $authGuard
      * @return mixed
      */
-    public function index()
+    public function index(AuthGuard $authGuard)
     {
         return view_current([
             'url_table' => url('table'),
@@ -57,20 +58,21 @@ class Manager extends Base
             'url_change_password' => url('changePassword'),
             'url_save' => url('save'),
             'url_delete' => url('delete'),
-            'manager_types' => self::FILTER_TYPE[WebConv::getUserGenre()],
+            'manager_types' => self::FILTER_TYPE[$authGuard->user()->genre],
         ]);
     }
 
     /**
      * @Auth("user.info")
-     * @param int    $limit
-     * @param string $type
+     * @param AuthGuard $authGuard
+     * @param int       $limit
+     * @param string    $type
      * @return Response
      * @throws DbException
      */
-    public function table(int $limit = 1, string $type = 'system')
+    public function table(AuthGuard $authGuard, int $limit = 1, string $type = 'system')
     {
-        if (!isset(self::FILTER_TYPE[WebConv::getUserGenre()][$type])) {
+        if (!isset(self::FILTER_TYPE[$authGuard->user()->genre][$type])) {
             return self::showMsg(CODE_COM_PARAM, '无效的筛选参数');
         }
         $genre = self::FILTER_TYPE_MAPPING[$type];
@@ -87,15 +89,16 @@ class Manager extends Base
     }
 
     /**
-     * @Auth("user.page")
+     * @Auth("user.info")
+     * @param AuthGuard   $authGuard
      * @param int|null    $base_pkid
      * @param string|null $type
      * @return string
      * @throws DataNotFoundException
-     * @throws ModelNotFoundException
      * @throws DbException
+     * @throws ModelNotFoundException
      */
-    public function pageEdit(?int $base_pkid = null, ?string $type = null)
+    public function pageEdit(AuthGuard $authGuard, ?int $base_pkid = null, ?string $type = null)
     {
         if ($base_pkid) {
             /** @var AdminUser $au */
@@ -110,7 +113,7 @@ class Manager extends Base
             $genre_role = self::FILTER_TYPE_MAPPING_ROLE[$type];
             $genres = array_intersect_key(AdminUser::GENRE_DICT, array_flip($genre));
 
-            if (!WebConv::isSuperAdmin()) {
+            if (!$authGuard->user()->isSuperAdmin()) {
                 unset($genres[AdminUser::GENRE_SUPER_ADMIN]);
             }
             $params['csrf'] = $this->generateCsrfTokenSimple();
@@ -147,14 +150,15 @@ class Manager extends Base
     }
 
     /**
-     * @Auth("user.update")
+     * @Auth("user.save")
+     * @param AuthGuard $authGuard
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelException
      * @throws ModelNotFoundException
      */
-    public function save()
+    public function save(AuthGuard $authGuard)
     {
         $input = $this->request->param();
         $csrf = $this->getRequestCsrfToken();
@@ -170,7 +174,7 @@ class Manager extends Base
                 $input = [];
             }
             // 如果没有传输用户类型，则自动赋值
-            isset($input['genre']) || $input['genre'] = WebConv::getUserGenre();
+            isset($input['genre']) || $input['genre'] = $authGuard->user()->genre;
         } else {
             $au = new AdminUser();
             $au->password = $input['password'];

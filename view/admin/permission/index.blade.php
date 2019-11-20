@@ -5,14 +5,14 @@
         @verbatim
             <div style="margin-bottom: 5px">
                 <i-button type="primary" size="large" @click="edit()">添加权限</i-button>
-                <i-button type="info" size="large" :loading="loading.render"
-                          @click="render()">
-                    <span v-if="!loading.render">刷新</span>
-                    <span v-else>Loading...</span>
-                </i-button>
                 <i-button type="info" size="large" :loading="loading.scan"
                           @click="scan()">
                     <span v-if="!loading.scan">扫描权限</span>
+                    <span v-else>Loading...</span>
+                </i-button>
+                <i-button type="info" size="large" :loading="loading.lasting"
+                          @click="lasting()">
+                    <span v-if="!loading.lasting">导出权限</span>
                     <span v-else>Loading...</span>
                 </i-button>
             </div>
@@ -55,6 +55,7 @@
                 el: '#app',
                 data: {
                     loading: {
+                        lasting: false,
                         render: false,
                         scan: false,
                     },
@@ -130,6 +131,22 @@
                             console.dir(error);
                         }).then(() => {
                             this.loading.scan = false;
+                        });
+                    },
+                    lasting() {
+                        this.loading.lasting = true;
+                        axios.get('{{url('lasting')}}', {
+                            params: {}
+                        }).then((res) => {
+                            this.$Notice.success({
+                                title: '操作请求成功',
+                                desc: `权限已经导出`,
+                                duration: 6,
+                            });
+                        }).catch((error) => {
+                            console.dir(error);
+                        }).then(() => {
+                            this.loading.lasting = false;
                         });
                     }
                 },
