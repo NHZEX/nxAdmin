@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace app\Service\Auth;
 
-use app\Logic\AdminRole;
 use app\Model\AdminUser as AdminUserModel;
 use app\Server\DeployInfo;
+use app\Service\Auth\Access\Gate;
 use app\Service\Auth\Traits\GuardHelpers;
+use think\Container;
 use think\Cookie as CookieJar;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -18,6 +19,11 @@ use function HZEX\Crypto\encrypt_data;
 class AuthGuard
 {
     use GuardHelpers;
+
+    /**
+     * @var Container
+     */
+    protected $container;
 
     /**
      * The session used by the guard.
@@ -52,13 +58,9 @@ class AuthGuard
      */
     protected $user;
 
-    /**
-     * @var array
-     */
-    protected $permissions;
-
-    public function __construct(Session $session, CookieJar $cookie)
+    public function __construct(Container $container, Session $session, CookieJar $cookie)
     {
+        $this->container = $container;
         $this->session = $session;
         $this->cookie  = $cookie;
     }
@@ -101,23 +103,6 @@ class AuthGuard
     }
 
     /**
-     * @return array|null
-     */
-    public function permissions(): ?array
-    {
-        if ($this->loggedOut) {
-            return null;
-        }
-        if (!$this->user()) {
-            return null;
-        }
-        if (!$this->permissions) {
-            $this->permissions = AdminRole::queryPermission($this->user()->role_id);
-        }
-        return $this->permissions;
-    }
-
-    /**
      * 获取当前经过身份验证的用户的ID
      * Get the ID for the currently authenticated user.
      *
@@ -133,16 +118,11 @@ class AuthGuard
     }
 
     /**
-     * @param $name
-     * @return bool
+     * @return Gate
      */
-    public function can($name): bool
+    public function gate()
     {
-        if ($this->loggedOut) {
-            return false;
-        }
-        $permissions = $this->permissions();
-        return $permissions && isset($permissions[$name]);
+        return $this->container->make(Gate::class);
     }
 
     /**

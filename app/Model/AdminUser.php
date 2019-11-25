@@ -83,6 +83,8 @@ class AdminUser extends Base implements AuthenticatableContracts
     const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
     const PWD_HASH_OPTIONS = ['cost' => 10];
 
+    protected $permissions = [];
+
     /**
      * @param AdminUser|Model $model
      * @return mixed|void
@@ -198,6 +200,17 @@ class AdminUser extends Base implements AuthenticatableContracts
     public function isAdmin()
     {
         return self::GENRE_ADMIN === $this->genre;
+    }
+
+    /**
+     * @return array
+     */
+    public function permissions(): ?array
+    {
+        if (empty($this->permissions)) {
+            $this->permissions = \app\Logic\AdminRole::queryPermission($this->role_id);
+        }
+        return $this->permissions;
     }
 
     /**

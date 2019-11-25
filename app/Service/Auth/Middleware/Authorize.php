@@ -64,7 +64,7 @@ class Authorize
         }
 
         // 权限判定
-        if (!$this->auth->can('node@' . $nodeName)) {
+        if (!$this->auth->gate()->check('node@' . $nodeName, $request)) {
             return Response::create('权限不足', 'html', 403);
         }
 
