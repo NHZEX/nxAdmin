@@ -9,6 +9,7 @@
 namespace app\Logic;
 
 use app\Model\AdminRole as AdminRoleModel;
+use app\Service\Auth\Permission;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -28,6 +29,7 @@ class AdminRole extends Base
     {
         self::queryExt($data->id, true);
         self::queryPermission($data->id, true);
+        self::queryPermission(-1, true);
     }
 
     /**
@@ -70,15 +72,20 @@ class AdminRole extends Base
         if (!$force && Cache::has($key)) {
             $data = Cache::get($key);
         } else {
-            $ext = self::queryExt($roleId);
-            $data = $ext['permission'] ?? [];
-            $allPermission = (new \app\Service\Auth\Permission())->all();
-            foreach ($data as $permission) {
-                if (isset($allPermission[$permission]) && isset($allPermission[$permission]['allow'])) {
-                    $data = array_merge($data, $allPermission[$permission]['allow']);
+            if (-1 === $roleId) {
+                $data = array_keys((new Permission())->all());
+                $data = array_flip($data);
+            } else {
+                $ext = self::queryExt($roleId);
+                $data = $ext['permission'] ?? [];
+                $allPermission = (new Permission())->all();
+                foreach ($data as $permission) {
+                    if (isset($allPermission[$permission]) && isset($allPermission[$permission]['allow'])) {
+                        $data = array_merge($data, $allPermission[$permission]['allow']);
+                    }
                 }
+                $data = array_flip($data);
             }
-            $data = array_flip($data);
             Cache::set($key, $data);
         }
         return $data;

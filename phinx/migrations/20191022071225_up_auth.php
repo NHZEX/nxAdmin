@@ -19,7 +19,7 @@ class UpAuth extends AbstractMigration
             ->addColumn(B::smallInteger('sort')->comment('节点排序')->d())
             ->addColumn(B::string('name', 128)->ccAscii()->comment('权限名称')->d())
             ->addColumn(B::string('pid', 128)->ccAscii()->comment('父关联')->d())
-            ->addColumn(B::json('control')->comment('授权内容')->d())
+            ->addColumn(B::json('control')->nullable(true)->comment('授权内容')->d())
             ->addColumn(B::string('desc', 512)->comment('权限描述')->d())
             ->create();
 

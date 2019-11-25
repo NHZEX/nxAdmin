@@ -150,7 +150,7 @@ class Manager extends Base
     }
 
     /**
-     * @Auth("user.save")
+     * @Auth("user.edit")
      * @param AuthGuard $authGuard
      * @return Response
      * @throws DataNotFoundException

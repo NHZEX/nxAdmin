@@ -112,7 +112,7 @@ class Role extends Base
     }
 
     /**
-     * @Auth("role.save")
+     * @Auth("role.edit")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -159,7 +159,7 @@ class Role extends Base
 
     /**
      * 保存角色权限
-     * @Auth("role.save")
+     * @Auth("role.edit")
      * @return Response
      * @throws Throwable
      */

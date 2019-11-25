@@ -88,7 +88,7 @@ class Menu extends Base
     }
 
     /**
-     * @Auth("menu.save")
+     * @Auth("menu.edit")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException

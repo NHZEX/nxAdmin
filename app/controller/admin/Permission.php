@@ -63,7 +63,7 @@ class Permission extends Base
     }
 
     /**
-     * @Auth("permission.save")
+     * @Auth("permission.edit")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException

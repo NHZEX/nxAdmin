@@ -208,7 +208,8 @@ class AdminUser extends Base implements AuthenticatableContracts
     public function permissions(): ?array
     {
         if (empty($this->permissions)) {
-            $this->permissions = \app\Logic\AdminRole::queryPermission($this->role_id);
+            $roleId = $this->isSuperAdmin() ? -1 : $this->role_id;
+            $this->permissions = \app\Logic\AdminRole::queryPermission($roleId);
         }
         return $this->permissions;
     }

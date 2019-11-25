@@ -14,9 +14,11 @@
                     <button class="layui-btn" id="btn-refresh">
                         <i class="layui-icon layui-icon-refresh"></i>刷新
                     </button>
-                    <button class="layui-btn layui-btn-normal" id="btn-add">
-                        <i class="layui-icon layui-icon-add-1"></i>添加
-                    </button>
+                    @can('role.edit')
+                        <button class="layui-btn layui-btn-normal" id="btn-add">
+                            <i class="layui-icon layui-icon-add-1"></i>添加
+                        </button>
+                    @endcan
                 </div>
                 <table id="table-main" lay-filter="table-node"></table>
             </div>
@@ -26,9 +28,13 @@
 @endsection
 @section('javascript')
     <script type="text/html" id="table-toolbar-tool">
+        @can('role.edit')
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
         <a class="layui-btn layui-btn-xs" lay-event="permission">权限分配</a>
+        @endcan
+        @can('role.del')
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+        @endcan
     </script>
     <script>
         let table_where = {
@@ -97,11 +103,12 @@
                     layer.load(2);
 
                     let params = {};
+                    let title = pk_id ? '编辑角色' : '新建角色';
                     pk_id && (params.base_pkid = pk_id);
                     type && (params.type = type);
 
                     helper.formModal()
-                        .load('{{ $url_page_edit }}', params, '编辑窗口', '500px')
+                        .load('{{ $url_page_edit }}', params, title, '500px')
                         .end(() => {
                             tableIns.refresh();
                         });
@@ -118,7 +125,7 @@
                             //弹出页面
                             layer.open({
                                 type: 1,
-                                title: name + '权限分配',
+                                title: '权限分配 (' + name + ')',
                                 area: ['380px', '90%'],
                                 content: res.data
                                 , end: function () {

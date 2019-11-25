@@ -8,6 +8,7 @@ use app\Service\Auth\Access\Gate;
 use app\Service\Auth\Middleware\Authorize;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\Reader;
+use HZEX\Blade\Register;
 use think\App;
 use think\Service;
 
@@ -28,6 +29,7 @@ class AuthService extends Service
         $this->app->middleware->add(Authorize::class, 'route');
         // 注册鉴权类
         $this->registerAccessGate();
+        $this->registeBladeExtension();
 
         // TODO: this method is deprecated and will be removed in doctrine/annotations 2.0
         AnnotationRegistry::registerLoader('class_exists');
@@ -39,6 +41,7 @@ class AuthService extends Service
 
     protected function registerAccessGate()
     {
+        $this->app->bind('auth.gate', Gate::class);
         $this->app->bind(Gate::class, function (App $app) {
             $gate = (new Gate($app, function () use ($app) {
                 return $app->make('auth')->user();
@@ -54,10 +57,28 @@ class AuthService extends Service
             return isset($user->permissions()[$uri]);
         });
         $gate->before(function (AdminUser $user, string $uri) use ($gate) {
-            if (!$gate->has($uri)) {
+            if (!$gate->has($uri) && isset($this->app->make(Permission::class)->all()[$uri])) {
                 return isset($user->permissions()[$uri]);
             }
             return null;
+        });
+    }
+
+    protected function registeBladeExtension()
+    {
+        /** @var Register $register */
+        $register = $this->app->make(Register::class);
+        $register->directive('allows', function ($parameter) {
+            return "<?php echo app('auth')->gate()->allows({$parameter}) ? 'true' : 'false' ?>";
+        });
+        $register->directive('denies', function ($parameter) {
+            return "<?php echo app('auth')->gate()->denies({$parameter}) ? 'true' : 'false' ?>";
+        });
+        $register->directive('check', function ($parameter) {
+            return "<?php echo app('auth')->gate()->check({$parameter}) ? 'true' : 'false' ?>";
+        });
+        $register->directive('any', function ($parameter) {
+            return "<?php echo app('auth')->gate()->any({$parameter}) ? 'true' : 'false' ?>";
         });
     }
 }

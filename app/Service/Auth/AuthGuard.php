@@ -76,6 +76,16 @@ class AuthGuard
     }
 
     /**
+     * Determine if the current user is a guest.
+     *
+     * @return bool
+     */
+    public function guest()
+    {
+        return !$this->check();
+    }
+
+    /**
      * @return AdminUserModel|null
      */
     public function user(): ?AdminUserModel

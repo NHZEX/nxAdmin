@@ -947,16 +947,16 @@
         },
         {
             "name": "nhzex/think-blade",
-            "version": "v4.3.0",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-blade.git",
-                "reference": "06aa230faa94c11dd64545752e9f4b9e8c567731"
+                "reference": "7324a40b2815015107c0fce4a23967ef1465aea1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/think-blade/zipball/06aa230faa94c11dd64545752e9f4b9e8c567731",
-                "reference": "06aa230faa94c11dd64545752e9f4b9e8c567731",
+                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/think-blade/zipball/7324a40b2815015107c0fce4a23967ef1465aea1",
+                "reference": "7324a40b2815015107c0fce4a23967ef1465aea1",
                 "shasum": ""
             },
             "require": {
@@ -1008,7 +1008,12 @@
                 }
             ],
             "description": "Use Laravel Blade templates without the full Laravel framework",
-            "time": "2019-11-22T08:56:15+00:00"
+            "keywords": [
+                "blade",
+                "thinkphp",
+                "thinkphp6"
+            ],
+            "time": "2019-11-26T09:31:48+00:00"
         },
         {
             "name": "opis/closure",

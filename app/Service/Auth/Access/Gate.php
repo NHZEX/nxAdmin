@@ -5,6 +5,7 @@ namespace app\Service\Auth\Access;
 
 use app\Service\Auth\Exception\AuthorizationException;
 use think\Container;
+use think\exception\FuncNotFoundException;
 
 class Gate
 {
@@ -187,11 +188,12 @@ class Gate
     public function raw($ability, $arguments = [])
     {
         $user = $this->resolveUser();
+        $arguments = is_array($arguments) ? $arguments : (array) $arguments;
 
         $result = $this->callBeforeCallbacks($user, $ability, $arguments);
 
         if (null === $result) {
-            $result = $this->callAuthCallback($user, $ability, (array) $arguments);
+            $result = $this->callAuthCallback($user, $ability, $arguments);
         }
 
         return $this->callAfterCallbacks($user, $ability, $arguments, $result);
@@ -206,7 +208,11 @@ class Gate
     protected function callAuthCallback($user, $ability, array $arguments)
     {
         array_unshift($arguments, $user);
-        return $this->container->invoke($this->abilities[$this->getAlias($ability)], $arguments);
+        try {
+            return $this->container->invoke($this->abilities[$this->getAlias($ability)], $arguments);
+        } catch (FuncNotFoundException $exception) {
+            return null;
+        }
     }
 
     /**
