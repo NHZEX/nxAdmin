@@ -5,5 +5,4 @@ namespace app\Service\Auth;
 
 trait RememberToken
 {
-
 }
