@@ -10,6 +10,7 @@ namespace app\Model;
 
 use app\Exception\AccessControl;
 use app\Service\Auth\Contracts\Authenticatable as AuthenticatableContracts;
+use app\Service\Auth\Contracts\ProviderlSelfCheck;
 use app\Service\Auth\Facade\Auth;
 use RuntimeException;
 use think\Model;
@@ -46,7 +47,7 @@ use Tp\Model\Exception\ModelException;
  * @property int            $delete_time 删除时间
  * @property int            $sign_out_time 退出登陆时间
  */
-class AdminUser extends Base implements AuthenticatableContracts
+class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfCheck
 {
     use SoftDelete;
 
@@ -226,6 +227,19 @@ class AdminUser extends Base implements AuthenticatableContracts
     {
         $this->remember = $token;
         $this->save();
+    }
+
+    public function valid(&$message): bool
+    {
+        if (self::STATUS_NORMAL !== $this->status) {
+            $message = "用户状态 [{$this->status_desc}]";
+            return false;
+        }
+        if ($this->role_id && $this->role && AdminRole::STATUS_NORMAL !== $this->role->status) {
+            $message = "角色状态 [{$this->role->status_desc}]";
+            return false;
+        }
+        return true;
     }
 
     /**

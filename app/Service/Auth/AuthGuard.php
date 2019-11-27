@@ -6,6 +6,8 @@ namespace app\Service\Auth;
 use app\Model\AdminUser as AdminUserModel;
 use app\Server\DeployInfo;
 use app\Service\Auth\Access\Gate;
+use app\Service\Auth\Contracts\ProviderlSelfCheck;
+use app\Service\Auth\Traits\EventHelpers;
 use app\Service\Auth\Traits\GuardHelpers;
 use think\Container;
 use think\Cookie as CookieJar;
@@ -18,7 +20,7 @@ use function HZEX\Crypto\encrypt_data;
 
 class AuthGuard
 {
-    use GuardHelpers;
+    use GuardHelpers, EventHelpers;
 
     /**
      * @var Container
@@ -102,11 +104,15 @@ class AuthGuard
 
         if (null !== $id && $this->user = $this->retrieveById($id)) {
             $this->session->set($this->getName('data.access_time'), time());
+
+            $this->triggerAuthenticatedEvent($this->user);
         }
 
         if (null === $this->user && null !== ($this->user = $this->validRememberToken())) {
             $this->createRememberToken($this->user);
             $this->updateSession($this->user->id);
+
+            $this->triggerLoginEvent($this->user, true);
         }
 
         return $this->user;
@@ -144,6 +150,14 @@ class AuthGuard
         try {
             /** @var AdminUserModel $result */
             $result = (new AdminUserModel())->find($id);
+            if ($result &&
+                $result instanceof ProviderlSelfCheck &&
+                !$result->valid($message)
+            ) {
+                $this->logout();
+                $this->setMessage($message);
+                return null;
+            }
             return $result;
         } catch (DataNotFoundException | ModelNotFoundException | DbException $e) {
             return null;
@@ -158,6 +172,8 @@ class AuthGuard
             $this->ensureRememberTokenIsSet($user);
             $this->createRememberToken($user);
         }
+
+        $this->triggerLoginEvent($user, $rememberme);
 
         $this->setUser($user);
     }
@@ -251,10 +267,17 @@ class AuthGuard
 
     /**
      * @param AdminUserModel $user
+     * @return AuthGuard
      */
-    public function setUser(AdminUserModel $user): void
+    public function setUser(AdminUserModel $user)
     {
         $this->user = $user;
+
+        $this->loggedOut = false;
+
+        $this->triggerAuthenticatedEvent($user);
+
+        return $this;
     }
 
     /**

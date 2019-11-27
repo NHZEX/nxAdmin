@@ -54,11 +54,11 @@ class Authorize
 
         // 会话权限判断
         if (true !== $this->auth->check()) {
-            $this->app->cookie->delete('login_time');
-            return $this->jump($request, '请重新登录');
+            $msg = $this->auth->getMessage();
+            $msg = empty($msg) ? '会话无效' : ('会话无效: ' . $msg);
+            return $this->jump($request, $msg);
         }
-
-        // 超级管理员跳过权限限制
+        // 超级管理员跳过鉴权
         if ($this->auth->user()->isSuperAdmin()) {
             return $next($request);
         }
