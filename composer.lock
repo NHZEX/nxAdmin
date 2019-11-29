@@ -900,7 +900,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/n-helper/zipball/d747ce3d88332c6456a7f088cc1777cf5a2bb329",
+                "url": "https://api.github.com/repos/NHZEX/n-helper/zipball/d747ce3d88332c6456a7f088cc1777cf5a2bb329",
                 "reference": "d747ce3d88332c6456a7f088cc1777cf5a2bb329",
                 "shasum": ""
             },
@@ -932,7 +932,7 @@
                     "src/Crypto/crypto_func.php"
                 ]
             },
-            "notification-url": "https://repo.packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -955,7 +955,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/think-blade/zipball/7324a40b2815015107c0fce4a23967ef1465aea1",
+                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/7324a40b2815015107c0fce4a23967ef1465aea1",
                 "reference": "7324a40b2815015107c0fce4a23967ef1465aea1",
                 "shasum": ""
             },
@@ -997,7 +997,7 @@
                     "Illuminate\\View\\": "lib/view"
                 }
             },
-            "notification-url": "https://repo.packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -2409,16 +2409,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.27",
+            "version": "v2.0.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "02affaaccade2cdd8bbb2d2f5d15e46113e6eb50"
+                "reference": "ff5f112f5559497222f2716385b5a709ab82741b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/02affaaccade2cdd8bbb2d2f5d15e46113e6eb50",
-                "reference": "02affaaccade2cdd8bbb2d2f5d15e46113e6eb50",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/ff5f112f5559497222f2716385b5a709ab82741b",
+                "reference": "ff5f112f5559497222f2716385b5a709ab82741b",
                 "shasum": ""
             },
             "require": {
@@ -2450,7 +2450,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2019-10-23T02:16:50+00:00"
+            "time": "2019-11-17T07:53:45+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
