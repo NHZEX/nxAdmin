@@ -9,6 +9,7 @@ use app\Service\Auth\Access\Gate;
 use app\Service\Auth\Contracts\ProviderlSelfCheck;
 use app\Service\Auth\Traits\EventHelpers;
 use app\Service\Auth\Traits\GuardHelpers;
+use think\Config;
 use think\Container;
 use think\Cookie as CookieJar;
 use think\db\exception\DataNotFoundException;
@@ -60,11 +61,29 @@ class AuthGuard
      */
     protected $user;
 
-    public function __construct(Container $container, Session $session, CookieJar $cookie)
+    /**
+     * @var array
+     */
+    protected $config = [
+        'remember' => [
+            'name'   => 'remember',
+            'expire' => 604800,
+        ],
+    ];
+
+    /**
+     * AuthGuard constructor.
+     * @param Container $container
+     * @param Config    $config
+     * @param Session   $session
+     * @param CookieJar $cookie
+     */
+    public function __construct(Container $container, Config $config, Session $session, CookieJar $cookie)
     {
         $this->container = $container;
         $this->session = $session;
         $this->cookie  = $cookie;
+        $this->config = array_merge($this->config, $config->get('auth', []));
     }
 
     /**
@@ -103,8 +122,6 @@ class AuthGuard
         $id = $this->session->get($this->getName());
 
         if (null !== $id && $this->user = $this->retrieveById($id)) {
-            $this->session->set($this->getName('data.access_time'), time());
-
             $this->triggerAuthenticatedEvent($this->user);
         }
 
@@ -219,7 +236,7 @@ class AuthGuard
     protected function createRememberToken(AdminUserModel $user)
     {
         $salt  = DeployInfo::getSecuritySalt();
-        $expired = 604800; // 7 day
+        $expired = $this->config['remember']['expire'];
         $timeout = time() + $expired;
         $password = hash('crc32', $user->password);
         $token = "{$user->id}|{$user->getRememberToken()}|{$password}|{$timeout}";
@@ -299,6 +316,6 @@ class AuthGuard
      */
     public function getRecallerName()
     {
-        return 'remember_' . sha1(static::class);
+        return $this->config['remember']['name'];
     }
 }
