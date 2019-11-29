@@ -6,6 +6,6 @@ class Index extends Base
 {
     public function index()
     {
-        $this->error('等待跳转 ~~~', '@index', '', 86400);
+        return $this->success('welcome', '@index', '', 86400);
     }
 }

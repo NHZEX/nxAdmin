@@ -7,7 +7,7 @@ use think\session\driver\Cache;
 
 return [
     // session name
-    'name'           => 'one',
+    'name'           => 'sess',
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
     // 驱动方式 支持file cache
@@ -18,4 +18,8 @@ return [
     'expire'         => (int) env_get('SESSION_EXPIRE', 7200),
     // 前缀
     'prefix'         => '',
+    // Cookie
+    'cookie'         => [
+        'httponly' => true,
+    ],
 ];

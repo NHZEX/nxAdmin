@@ -13,6 +13,7 @@ use app\Service\WebConv\WebConv as WebConvService;
 
 /**
  * Class WebConv
+ * @deprecated
  * @package app\Facade
  * @method WebConvService instance() static
  * @method WebConvService createSession(AdminUserModel $user, bool $rememberme = false) static
@@ -32,6 +33,6 @@ class WebConv extends Base
 {
     protected static function getFacadeClass()
     {
-        return 'webconv';
+        return WebConvService::class;
     }
 }

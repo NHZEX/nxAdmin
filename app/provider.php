@@ -13,10 +13,8 @@
 
 use app\ExceptionHandle;
 use app\Request;
-use app\Service\WebConv\WebConv;
 
 return [
     'think\Request' => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
-    'webconv' => WebConv::class,
 ];

@@ -48,4 +48,6 @@ return [
     'default_jsonp_handler' => 'jsonpReturn',
     // 默认JSONP处理方法
     'var_jsonp_handler'     => 'callback',
+    // 路由中间件
+    'middleware'            => [],
 ];

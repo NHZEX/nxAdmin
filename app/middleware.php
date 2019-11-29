@@ -5,7 +5,7 @@
  * Time: 10:54
  */
 
-use think\middleware\SessionInit;
+use app\Service\Auth\Middleware\SessionInit;
 
 return [
     SessionInit::class,

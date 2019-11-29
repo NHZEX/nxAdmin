@@ -30,8 +30,4 @@ abstract class AdminBase extends BaseController
 
         $this->view = $view;
     }
-
-    public function initialize()
-    {
-    }
 }

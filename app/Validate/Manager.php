@@ -10,8 +10,8 @@
 namespace app\Validate;
 
 use app\controller\admin\Manager as ManagerController;
-use app\Facade\WebConv;
 use app\Model\AdminUser;
+use app\Service\Auth\Facade\Auth;
 use think\Request;
 
 class Manager extends Base implements VailAsk
@@ -69,7 +69,7 @@ class Manager extends Base implements VailAsk
         if (!is_string($value)) {
             return "{$desc} 数据类型错误";
         }
-        $isVali = isset(ManagerController::FILTER_TYPE[WebConv::getUserGenre()][$value]);
+        $isVali = isset(ManagerController::FILTER_TYPE[Auth::user()->genre][$value]);
         return $isVali ?: "{$desc} 内容无效: {$value}";
     }
 

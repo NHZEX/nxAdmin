@@ -10,6 +10,8 @@ namespace app\controller\admin;
 
 use app\Logic\SystemMenu as SystemMenuLogic;
 use app\Model\SystemMenu;
+use app\Service\Auth\Annotation\Auth;
+use app\Service\Auth\Model\Permission as PermissionModel;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -21,6 +23,7 @@ use function view_current;
 class Menu extends Base
 {
     /**
+     * @Auth("menu.info")
      * @return string
      */
     public function index()
@@ -34,6 +37,7 @@ class Menu extends Base
     }
 
     /**
+     * @Auth("menu.info")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -55,11 +59,12 @@ class Menu extends Base
     }
 
     /**
-     * @param int|null $pkid
+     * @Auth("menu.info")
+     * @param int|null       $pkid
      * @return mixed
      * @throws DataNotFoundException
-     * @throws ModelNotFoundException
      * @throws DbException
+     * @throws ModelNotFoundException
      */
     public function edit(?int $pkid = null)
     {
@@ -71,15 +76,19 @@ class Menu extends Base
             $params['csrf'] = $this->generateCsrfTokenSimple();
         }
 
+        $permGenre = [PermissionModel::GENRE_GROUP, PermissionModel::GENRE_CUSTOMIZE, PermissionModel::GENRE_NODE];
+
         return view_current([
             'edit_data' => $data ?? false,
             'url_save' => url('save', $params ?? []),
             'menu_data' => SystemMenu::getTextTree(),
-            'node_data' => \app\Logic\Permission::queryNodeFlagsIsMenu(),
+            'permission' => PermissionModel::getTextTree(null, '__ROOT__', 1, $permGenre),
+            'node_data' => [],
         ]);
     }
 
     /**
+     * @Auth("menu.edit")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -104,6 +113,7 @@ class Menu extends Base
     }
 
     /**
+     * @Auth("menu.export")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -118,6 +128,11 @@ class Menu extends Base
         return self::showMsg(CODE_SUCCEED);
     }
 
+    /**
+     * @Auth("menu.del")
+     * @param null $pkid
+     * @return Response
+     */
     public function delete($pkid = null)
     {
         SystemMenu::destroy($pkid);

@@ -9,8 +9,8 @@
 namespace app\Logic;
 
 use app\Exception\BusinessResult;
-use app\Facade\WebConv;
 use app\Model\AdminUser as AdminUserModel;
+use app\Service\Auth\AuthGuard;
 use app\Traits\PrintAbnormal;
 use RuntimeException;
 use think\db\exception\DbException;
@@ -22,6 +22,16 @@ class AdminUser extends Base
 
     const LOGIN_TYPE_NAME = 'username';
     const LOGIN_TYPE_EMAIL = 'email';
+
+    /**
+     * @var AuthGuard
+     */
+    protected $auth;
+
+    public function __construct(AuthGuard $authGuard)
+    {
+        $this->auth = $authGuard;
+    }
 
     /**
      * 用户登陆 邮箱或用户名
@@ -75,7 +85,7 @@ class AdminUser extends Base
             $user->last_login_ip = Request::ip();
             if ($user->save()) {
                 // 创建会话
-                WebConv::createSession($user, $rememberme);
+                $this->auth->login($user, $rememberme);
             } else {
                 throw new BusinessResult('登录信息更新失败，请重试');
             }
@@ -85,21 +95,6 @@ class AdminUser extends Base
         } catch (DbException $e) {
             throw new RuntimeException('数据库访问异常', 0, $e);
         }
-        return true;
-    }
-
-    /**
-     * @return bool
-     */
-    public function testRemember()
-    {
-        $user = WebConv::decodeRememberToken();
-        if (false === $user instanceof AdminUserModel) {
-            return false;
-        }
-        $user->last_login_time = time();
-        $user->save();
-        WebConv::createSession($user, true);
         return true;
     }
 }

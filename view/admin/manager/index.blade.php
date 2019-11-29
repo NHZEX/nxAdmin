@@ -13,9 +13,11 @@
                 <button class="layui-btn" id="btn-refresh">
                     <i class="layui-icon layui-icon-refresh"></i>刷新
                 </button>
+                @can('user.edit')
                 <button class="layui-btn layui-btn-normal" id="btn-add">
                     <i class="layui-icon layui-icon-add-1"></i>添加
                 </button>
+                @endcan
             </div>
             <table id="table-main" lay-filter="table-node"></table>
         </div>
@@ -27,8 +29,12 @@
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="password">更改密码</a>
 </script>
 <script type="text/html" id="table-toolbar-tool">
+    @can('user.edit')
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    @endcan
+    @can('user.del')
     <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+    @endcan
 </script>
 <script type="text/html" id="window-change-password">
     <form class="layui-form layui-form-pane" style="margin:10px" lay-filter="form-change-password" id="form-change-password">

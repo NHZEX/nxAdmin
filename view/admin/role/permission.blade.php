@@ -1,87 +1,104 @@
-<div class="layui-layer-content" style="margin: 10px;display: flex">
-    <div>
-        <table id="table-permission" lay-filter="table-permission"></table>
+<div style="margin: 5px">
+    <div class="layui-btn-container">
+        <button type="button" class="layui-btn layui-btn-sm" id="btn-save">保存权限</button>
     </div>
+    <div id="permission"></div>
 </div>
-<script type="text/html" id="table-permission-toolbar">
-    <div style="width: 140%;display:flex">
-        <strong>可选权限</strong>
-        <button style="margin-left: 5px" class="layui-btn layui-btn-normal" id="open-all-tree">
-            <i class="layui-icon layui-icon-add-1"></i>展开/折叠全部
-        </button>
-        <button class="layui-btn" id="btn-save">
-            <i class="layui-icon"></i>保存修改
-        </button>
-    </div>
-</script>
 <script>
     require([
         'jquery', 'axios', 'layui', 'helper'
     ], function (
-        $, axios, layui, helper
+        $, axios, layui
     ) {
-        layui.use(['form', 'layer', 'table', 'treeGrid'], function () {
+        layui.use(['layer', 'dtree'], function () {
             let $ = layui.jquery,
-                form = layui.form,
                 layer = layui.layer,
-                tree_grid = layui.treeGrid;
+                dtree = layui.dtree;
 
             let roleID = '{{ $role_id }}';
-            let hashArr = Object({!! $hashArr !!});
+            let selected = Object(@json($selected));
 
-            let treeId = 'table-permission';
-            tree_grid.render({
-                id: treeId,
-                elem: '#' + treeId,
-                url: '{{ $url_table }}',
-                cellMinWidth: 100,
-                height: 'full-60',
-                idField: 'id',
-                treeId: 'id',
-                treeUpId: 'pid',
-                treeShowName: 'nkey',
-                isFilter: false,
-                iconOpen: false,
-                isOpenDefault: false,
-                isPage: false,
-                loading: true,
-                method: 'post',
-                toolbar: '#table-permission-toolbar',
-                where: {queryMap: {flags: 'permission'}},
-                cols: [[
-                    {type: 'checkbox'}
-                    , {field: 'id', width: 100, title: 'id'}
-                    , {field: 'nkey', width: 350, title: '节点命名'}
-                    , {field: 'alias_name', width: 150, title: '别名'}
-                    , {field: 'class_name', width: 300, title: '类名'}
-                    , {field: 'description', width: 200, title: '注释'}
-                ]],
-                done: () => {
-                    //选中已有的权限
-                    tree_grid.setCheckStatus(treeId, "hash", hashArr.join(","));
+            //渲染
+            let data = [{
+                'id': '__ROOT__',
+                'title': '权限根',
+                'spread': true,
+                'children': Object(@json($permission))
+            }];
+
+            let formatter = {
+                title: function(data) {
+                    let s = data.title;
+                    if (data.children){
+                        if (data.desc) {
+                            s += ' <span style=\'color:blue\'>(' + data.desc + ')</span>';
+                        }
+                    }
+                    return s;
                 }
+            };
+
+            dtree.render({
+                elem: "#permission",
+                checkbar: true,
+                checkbarType: 'no-all',
+                checkbarData: 'halfChoose',
+                success: insertChecked,
+                data: data, // 使用data加载
+                formatter: formatter,
             });
 
-            form.render();
-            // 打开或折叠全部节点
-            $('#open-all-tree').on('click', () => {
-                let treedata = tree_grid.getDataTreeList(treeId);
-                tree_grid.treeOpenAll(treeId, !treedata[0][tree_grid.config.cols.isOpen]);
-                return false;
-            });
+            // 从树形结构推导父级选中状态
+            function insertChecked(arrData){
+                Array.isArray(arrData) && arrData.forEach(function (item, i) {
+                    if(item.hasOwnProperty('children')) {
+                        insertChecked(arrData[i]['children']);
+                    }
+                    arrData[i].basicData = {
+                        'valid': arrData[i]['valid'],
+                        'node': arrData[i]['id'],
+                    };
+                    let length = arrData[i]['children'].length;
+                    if (item.hasOwnProperty('children') && length) {
+                        let count = arrData[i]['children'].reduce((accumulator, currentValue) => {
+                            return '0' !== currentValue['checkArr'] ? accumulator + 1 : accumulator;
+                        }, 0);
+                        if (!arrData[i]['checkArr']) {
+                            arrData[i]['checkArr'] = (0 === count ? '0' : (count === length ? '1' : '2'));
+                            arrData[i]['spread'] = true;
+                        } else {
+                            arrData[i]['spread'] = false;
+                        }
+                        if ('__ROOT__' === arrData[i]['id']) {
+                            arrData[i]['spread'] = true;
+                        }
+                    } else {
+                        arrData[i]['checkArr'] = selected.includes(arrData[i].id) ? '1' : '0';
+                    }
+                });
+            }
 
             // 保存修改
             $('#btn-save').on('click', () => {
+                let list = dtree.getCheckbarNodesParam('permission');
                 layer.load(2);
-                let checkList = tree_grid.checkStatus(treeId);
-                let data = checkList.data.map(x => x.hash);
-                axios.post('{{ $url_save }}', {id: roleID, hashArr: data})
+                let data = list.filter(x => {
+                    return JSON.parse(x.basicData).valid;
+                }).map(x => x.nodeId);
+                axios.post('{{ $url_save }}', {id: roleID, permission: data})
                     .then((res) => {
+                        if (0 === res.data.code) {
+                            layer.msg('保存成功');
+                        }
+                    })
+                    .catch((e) => {
+                        console.warn(e);
+                    })
+                    .then(() => {
                         layer.closeAll('loading');
                     });
                 return false;
             });
         });
     });
-
 </script>

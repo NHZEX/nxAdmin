@@ -8,8 +8,8 @@
 
 namespace app\controller;
 
-use app\Facade\WebConv;
 use app\Logic\Attachment;
+use app\Service\Auth\Facade\Auth;
 use app\Traits\ShowReturn;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -80,7 +80,7 @@ class Upload extends AdminBase
     private function uploadImage(UploadedFile $file)
     {
         $attachment = new Attachment();
-        if (false === $annex = $attachment->uploadImage($file, WebConv::getConvUser())) {
+        if (false === $annex = $attachment->uploadImage($file, Auth::user())) {
             return self::showMsg(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
         }
         return [
