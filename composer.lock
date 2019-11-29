@@ -900,7 +900,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/n-helper/zipball/d747ce3d88332c6456a7f088cc1777cf5a2bb329",
+                "url": "https://api.github.com/repos/NHZEX/n-helper/zipball/d747ce3d88332c6456a7f088cc1777cf5a2bb329",
                 "reference": "d747ce3d88332c6456a7f088cc1777cf5a2bb329",
                 "shasum": ""
             },
@@ -932,7 +932,7 @@
                     "src/Crypto/crypto_func.php"
                 ]
             },
-            "notification-url": "https://repo.packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -955,7 +955,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/think-blade/zipball/7324a40b2815015107c0fce4a23967ef1465aea1",
+                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/7324a40b2815015107c0fce4a23967ef1465aea1",
                 "reference": "7324a40b2815015107c0fce4a23967ef1465aea1",
                 "shasum": ""
             },
@@ -997,7 +997,7 @@
                     "Illuminate\\View\\": "lib/view"
                 }
             },
-            "notification-url": "https://repo.packagist.org/downloads/",
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -2189,16 +2189,16 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v4.3.6",
+            "version": "v4.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "d5b4e2d334c1d80e42876c7d489896cfd37562f2"
+                "reference": "097aa4c02954dabe9d508229be86213723973ac0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/d5b4e2d334c1d80e42876c7d489896cfd37562f2",
-                "reference": "d5b4e2d334c1d80e42876c7d489896cfd37562f2",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/097aa4c02954dabe9d508229be86213723973ac0",
+                "reference": "097aa4c02954dabe9d508229be86213723973ac0",
                 "shasum": ""
             },
             "require": {
@@ -2245,7 +2245,7 @@
                 "instantiate",
                 "serialize"
             ],
-            "time": "2019-08-22T07:33:08+00:00"
+            "time": "2019-11-11T12:48:54+00:00"
         },
         {
             "name": "symfony/yaml",
