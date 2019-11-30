@@ -7,7 +7,7 @@ use app\Server\DeployInfo;
 
 return [
     // 默认缓存驱动
-    'default' => env_get('cache.driver', 'file'),
+    'default' => env('CACHE_DRIVER', 'file'),
     // 缓存连接方式配置
     'stores'  => [
         'file' => [
@@ -36,17 +36,17 @@ return [
             // 序列化机制 例如 ['serialize', 'unserialize']
             'serialize'  => [],
             // Redis Host
-            'host'       => env_get('REDIS_HOST', '127.0.0.1'),
+            'host'       => env('REDIS_HOST', '127.0.0.1'),
             // Redis Port
-            'port'       => (int) env_get('REDIS_PORT', 6379),
+            'port'       => (int) env('REDIS_PORT', 6379),
             // Redis Password
-            'password'   => env_get('REDIS_PASSWORD', ''),
+            'password'   => env('REDIS_PASSWORD', ''),
             // Redis Select
-            'select'     => (int) env_get('REDIS_SELECT', 0),
+            'select'     => (int) env('REDIS_SELECT', 0),
             // Redis Timeout
-            'timeout'    => (int) env_get('REDIS_TIMEOUT', 3),
+            'timeout'    => (int) env('REDIS_TIMEOUT', 3),
             // Redis Persistent
-            'persistent' => (bool) env_get('REDIS_PERSISTENT', false),
+            'persistent' => (bool) env('REDIS_PERSISTENT', false),
         ],
         'session' => [
             // 驱动方式
@@ -60,17 +60,17 @@ return [
             // 序列化机制 例如 ['serialize', 'unserialize']
             'serialize'  => ['\return_raw_value', '\return_raw_value'],
             // Redis Host
-            'host'       => env_get('SESSION_REDIS_HOST', '127.0.0.1'),
+            'host'       => env('SESSION_REDIS_HOST', '127.0.0.1'),
             // Redis Port
-            'port'       => (int) env_get('SESSION_REDIS_PORT', 6379),
+            'port'       => (int) env('SESSION_REDIS_PORT', 6379),
             // Redis Password
-            'password'   => env_get('SESSION_REDIS_PASSWORD', ''),
+            'password'   => env('SESSION_REDIS_PASSWORD', ''),
             // Redis Select
-            'select'     => (int) env_get('SESSION_REDIS_SELECT', 0),
+            'select'     => (int) env('SESSION_REDIS_SELECT', 0),
             // Redis Timeout
-            'timeout'    => (int) env_get('SESSION_REDIS_TIMEOUT', 3),
+            'timeout'    => (int) env('SESSION_REDIS_TIMEOUT', 3),
             // Redis Persistent
-            'persistent' => (bool) env_get('SESSION_REDIS_PERSISTENT', false),
+            'persistent' => (bool) env('SESSION_REDIS_PERSISTENT', false),
         ]
         // 更多的缓存连接
     ],

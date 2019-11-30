@@ -1,15 +1,5 @@
 <?php
 
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006-2016 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: 流年 <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-use think\db\exception\BindParamException;
 use think\facade\Db;
 use think\facade\Request;
 use think\Response;
@@ -411,8 +401,6 @@ function repair_local_imgs_url_domain($urls): array
  * 查询当前链接 mysql 版本
  * @param string $connect
  * @return string
- * @throws BindParamException
- * @throws \think\db\exception\PDOException
  */
 function query_mysql_version(string $connect = null)
 {
@@ -430,12 +418,10 @@ function query_mysql_version(string $connect = null)
  * @param string $database
  * @param string $connect
  * @return bool
- * @throws BindParamException
- * @throws \think\db\exception\PDOException
  */
 function query_mysql_exist_database(string $database, string $connect = null)
 {
-    /** @noinspection SqlResolve SqlNoDataSourceInspection SqlDialectInspection */
+    /** @noinspection SqlResolve SqlNoDataSourceInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
         $list = Db::connect($connect, true)->query($sql);
@@ -502,6 +488,7 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
  * @param        $default
  * @param mixed  ...$argv
  * @return mixed
+ * @deprecated
  */
 function env_get(string $key, $default, ...$argv)
 {

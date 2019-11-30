@@ -15,7 +15,7 @@ return [
     // 存储连接标识 当type使用cache的时候有效
     'store'          => 'session',
     // SESSION 超时(2小时)
-    'expire'         => (int) env_get('SESSION_EXPIRE', 7200),
+    'expire'         => (int) env('SESSION_EXPIRE', 7200),
     // 前缀
     'prefix'         => '',
     // Cookie

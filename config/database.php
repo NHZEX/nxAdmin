@@ -23,15 +23,15 @@ return [
             // 数据库类型
             'type'            => 'mysql',
             // 服务器地址
-            'hostname'        => env_get('DB_MAIN_HOSTNAME', '127.0.0.1'),
+            'hostname'        => env('DB_MAIN_HOSTNAME', '127.0.0.1'),
             // 端口
-            'hostport'        => env_get('DB_MAIN_HOSTPORT', '3306'),
+            'hostport'        => env('DB_MAIN_HOSTPORT', '3306'),
             // 数据库名
-            'database'        => env_get('DB_MAIN_DATABASE', ''),
+            'database'        => env('DB_MAIN_DATABASE', ''),
             // 用户名
-            'username'        => env_get('DB_MAIN_USERNAME', 'root'),
+            'username'        => env('DB_MAIN_USERNAME', 'root'),
             // 密码
-            'password'        => env_get('DB_MAIN_PASSWORD', ''),
+            'password'        => env('DB_MAIN_PASSWORD', ''),
             // 连接dsn
             'dsn'             => '',
             // 数据库连接参数
