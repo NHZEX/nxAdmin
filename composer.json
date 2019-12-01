@@ -38,6 +38,7 @@
         "matomo/ini": "^2.0",
         "nhzex/n-helper": "^1.0",
         "nhzex/think-blade": "^4.2.0",
+        "nhzex/think-phinx": "^1.0.0",
         "robmorgan/phinx": "^0.11",
         "rybakit/msgpack": "^0.6.1",
         "symfony/finder": "^4.3",
@@ -86,5 +87,9 @@
         }
     },
     "repositories": {
+        "phinx": {
+            "type": "vcs",
+            "url": "https://github.com/NHZEX/think-phinx.git"
+        }
     }
 }

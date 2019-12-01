@@ -10,11 +10,11 @@ use think\Facade;
 /**
  * Class Auth
  * @package app\Service\Auth\Facade
- * @method AuthGuard instance()
- * @method int|string id()
- * @method AdminUser user()
- * @method bool check()
- * @method bool can(string $name)
+ * @method AuthGuard instance() static
+ * @method int|string id() static
+ * @method AdminUser user() static
+ * @method bool check() static
+ * @method bool can(string $name) static
  */
 class Auth extends Facade
 {
