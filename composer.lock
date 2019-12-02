@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7825c7ef275dea9dc87c0d365f672d54",
+    "content-hash": "e6ffa91eb15ca620dbad4d1984bd3ae5",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1017,16 +1017,16 @@
         },
         {
             "name": "nhzex/think-phinx",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-phinx.git",
-                "reference": "4acb47705438893c001374ba2886db6dfa72c840"
+                "reference": "2ed254dea5df2ccda0c850dd851c5901294248b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/4acb47705438893c001374ba2886db6dfa72c840",
-                "reference": "4acb47705438893c001374ba2886db6dfa72c840",
+                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/think-phinx/zipball/2ed254dea5df2ccda0c850dd851c5901294248b7",
+                "reference": "2ed254dea5df2ccda0c850dd851c5901294248b7",
                 "shasum": ""
             },
             "require": {
@@ -1037,7 +1037,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "^7",
-                "symfony/var-dumper": "^5.0"
+                "symfony/var-dumper": "^5.0|^4.0"
             },
             "type": "library",
             "extra": {
@@ -1056,11 +1056,7 @@
                 },
                 "files": []
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Test\\Phinx\\": "tests"
-                }
-            },
+            "notification-url": "https://repo.packagist.org/downloads/",
             "license": [
                 "Apache-2.0"
             ],
@@ -1075,11 +1071,7 @@
                 "thinkphp",
                 "thinkphp6"
             ],
-            "support": {
-                "source": "https://github.com/NHZEX/think-phinx/tree/master",
-                "issues": "https://github.com/NHZEX/think-phinx/issues"
-            },
-            "time": "2019-12-01T10:24:36+00:00"
+            "time": "2019-12-02T10:08:16+00:00"
         },
         {
             "name": "opis/closure",
@@ -1601,16 +1593,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "f08e1c48e1f05d07c32f2d8599ed539e62105beb"
+                "reference": "7aa5817f1b7a8ed377752b90fcc47dfb3c67b40c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/config/zipball/f08e1c48e1f05d07c32f2d8599ed539e62105beb",
-                "reference": "f08e1c48e1f05d07c32f2d8599ed539e62105beb",
+                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/config/zipball/7aa5817f1b7a8ed377752b90fcc47dfb3c67b40c",
+                "reference": "7aa5817f1b7a8ed377752b90fcc47dfb3c67b40c",
                 "shasum": ""
             },
             "require": {
@@ -1661,20 +1653,20 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-16T15:22:42+00:00"
+            "time": "2019-12-01T10:50:45+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "35d9077f495c6d184d9930f7a7ecbd1ad13c7ab8"
+                "reference": "f0aea3df20d15635b3cb9730ca5eea1c65b7f201"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/console/zipball/35d9077f495c6d184d9930f7a7ecbd1ad13c7ab8",
-                "reference": "35d9077f495c6d184d9930f7a7ecbd1ad13c7ab8",
+                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/console/zipball/f0aea3df20d15635b3cb9730ca5eea1c65b7f201",
+                "reference": "f0aea3df20d15635b3cb9730ca5eea1c65b7f201",
                 "shasum": ""
             },
             "require": {
@@ -1737,20 +1729,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-13T07:39:40+00:00"
+            "time": "2019-12-01T10:06:17+00:00"
         },
         {
             "name": "symfony/debug",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "b24b791f817116b29e52a63e8544884cf9a40757"
+                "reference": "b8600a1d7d20b0e80906398bb1f50612fa074a8e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/debug/zipball/b24b791f817116b29e52a63e8544884cf9a40757",
-                "reference": "b24b791f817116b29e52a63e8544884cf9a40757",
+                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/debug/zipball/b8600a1d7d20b0e80906398bb1f50612fa074a8e",
+                "reference": "b8600a1d7d20b0e80906398bb1f50612fa074a8e",
                 "shasum": ""
             },
             "require": {
@@ -1793,20 +1785,20 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-10T17:54:30+00:00"
+            "time": "2019-11-28T13:33:56+00:00"
         },
         {
             "name": "symfony/filesystem",
-            "version": "v5.0.0",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
-                "reference": "0bf75c37a71ff41f718b14b9f5a0a7d6a7dd9b84"
+                "reference": "1d71f670bc5a07b9ccc97dc44f932177a322d4e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/filesystem/zipball/0bf75c37a71ff41f718b14b9f5a0a7d6a7dd9b84",
-                "reference": "0bf75c37a71ff41f718b14b9f5a0a7d6a7dd9b84",
+                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/filesystem/zipball/1d71f670bc5a07b9ccc97dc44f932177a322d4e6",
+                "reference": "1d71f670bc5a07b9ccc97dc44f932177a322d4e6",
                 "shasum": ""
             },
             "require": {
@@ -1843,11 +1835,11 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "https://symfony.com",
-            "time": "2019-11-18T17:27:11+00:00"
+            "time": "2019-11-26T23:25:11+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -2184,16 +2176,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "eade2890f8b0eeb279b6cf41b50a10007294490f"
+                "reference": "0a89a1dbbedd9fb2cfb2336556dec8305273c19a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/var-dumper/zipball/eade2890f8b0eeb279b6cf41b50a10007294490f",
-                "reference": "eade2890f8b0eeb279b6cf41b50a10007294490f",
+                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/var-dumper/zipball/0a89a1dbbedd9fb2cfb2336556dec8305273c19a",
+                "reference": "0a89a1dbbedd9fb2cfb2336556dec8305273c19a",
                 "shasum": ""
             },
             "require": {
@@ -2256,20 +2248,20 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-11-12T14:51:11+00:00"
+            "time": "2019-11-28T13:33:56+00:00"
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "72feb69a33def8f761e612360588e40bac98caad"
+                "reference": "e566070effe60b8d16b99e958cdbd92aa2e470cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/var-exporter/zipball/72feb69a33def8f761e612360588e40bac98caad",
-                "reference": "72feb69a33def8f761e612360588e40bac98caad",
+                "url": "https://github-api-proxy.cnpkg.org/repos/symfony/var-exporter/zipball/e566070effe60b8d16b99e958cdbd92aa2e470cb",
+                "reference": "e566070effe60b8d16b99e958cdbd92aa2e470cb",
                 "shasum": ""
             },
             "require": {
@@ -2316,11 +2308,11 @@
                 "instantiate",
                 "serialize"
             ],
-            "time": "2019-11-13T07:39:40+00:00"
+            "time": "2019-12-01T08:39:58+00:00"
         },
         {
             "name": "symfony/yaml",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
