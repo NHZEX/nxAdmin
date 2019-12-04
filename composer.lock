@@ -1017,26 +1017,26 @@
         },
         {
             "name": "nhzex/think-phinx",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-phinx.git",
-                "reference": "2ed254dea5df2ccda0c850dd851c5901294248b7"
+                "reference": "58aeacbeced6e338aa67e320228d7882e33b1c32"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/think-phinx/zipball/2ed254dea5df2ccda0c850dd851c5901294248b7",
-                "reference": "2ed254dea5df2ccda0c850dd851c5901294248b7",
+                "url": "https://github-api-proxy.cnpkg.org/repos/NHZEX/think-phinx/zipball/58aeacbeced6e338aa67e320228d7882e33b1c32",
+                "reference": "58aeacbeced6e338aa67e320228d7882e33b1c32",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1",
                 "robmorgan/phinx": "~0.11.1",
                 "topthink/framework": "^6.0",
-                "topthink/think-orm": "^2.0"
+                "topthink/think-orm": "^2.0.27"
             },
             "require-dev": {
-                "phpunit/phpunit": "^7",
+                "phpunit/phpunit": "^8|^7",
                 "symfony/var-dumper": "^5.0|^4.0"
             },
             "type": "library",
@@ -1046,7 +1046,7 @@
                         "HZEX\\Phinx\\Service"
                     ],
                     "config": {
-                        "phinx": "src/config/phinx.php"
+                        "phinx": "config/phinx.php"
                     }
                 }
             },
@@ -1054,7 +1054,9 @@
                 "psr-4": {
                     "HZEX\\Phinx\\": "src"
                 },
-                "files": []
+                "files": [
+                    "src/helper.php"
+                ]
             },
             "notification-url": "https://repo.packagist.org/downloads/",
             "license": [
@@ -1071,7 +1073,7 @@
                 "thinkphp",
                 "thinkphp6"
             ],
-            "time": "2019-12-02T10:08:16+00:00"
+            "time": "2019-12-03T06:07:14+00:00"
         },
         {
             "name": "opis/closure",
