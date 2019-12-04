@@ -8,7 +8,7 @@ use HZEX\TpSwoole\Tp\Log\Driver\SocketLog;
 
 return [
     // 默认日志记录通道
-    'default'      => env_get('LOG_CHANNEL', 'file'),
+    'default'      => env('LOG_CHANNEL', 'file'),
     // 日志记录级别
     'level'        => [],
     // 日志类型记录的通道 ['error'=>'email',...]
@@ -23,15 +23,15 @@ return [
             // 日志记录方式
             'type'           => 'File',
             // 日志保存目录
-            'path'           => env_get('LOG_FILE_PATH', runtime_path('log')),
+            'path'           => env('LOG_FILE_PATH', runtime_path('log')),
             // 单文件日志写入
             'single'         => true,
             // 独立日志级别
             'apart_level'    => [],
             // 最大日志文件数量
-            'max_files'      => env_get('LOG_FILE_MAX_FILES', 30),
+            'max_files'      => env('LOG_FILE_MAX_FILES', 30),
             // 日志文件大小限制
-            'file_size'      => env_get('LOG_FILE_FILE_SIZE', 4194304),
+            'file_size'      => env('LOG_FILE_FILE_SIZE', 4194304),
             // 使用JSON格式记录
             'json'           => false,
             // 日志处理
@@ -52,9 +52,9 @@ return [
             // 是否显示加载的文件列表
             'show_included_files' => false,
             // 日志强制记录到配置的 client_id
-            'force_client_ids' => explode(',', env_get('LOG_REMOTE_FORCE_CLIENT', 'develop')),
+            'force_client_ids' => explode(',', env('LOG_REMOTE_FORCE_CLIENT', 'develop')),
             // 限制允许读取日志的 client_id
-            'allow_client_ids' => explode(',', env_get('LOG_REMOTE_ALLOW_CLIENT', 'develop')),
+            'allow_client_ids' => explode(',', env('LOG_REMOTE_ALLOW_CLIENT', 'develop')),
             // 日志处理
             'processor'      => null,
             // 关闭通道日志写入

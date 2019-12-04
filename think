@@ -12,9 +12,9 @@
 
 namespace think;
 
-require __DIR__ . '/vendor/autoload.php';
+// 加载基础文件
+require __DIR__ . '/bootstrap.php';
 
 // 应用初始化
-$app = new App();
 /** @noinspection PhpUnhandledExceptionInspection */
-$app->console->run();
+(new App())->console->run();

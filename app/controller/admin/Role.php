@@ -8,12 +8,11 @@
 
 namespace app\controller\admin;
 
-use app\Exception\JsonException;
-use app\Facade\WebConv;
 use app\Logic\AdminRole as AdminRoleLogic;
-use app\Logic\SystemMenu;
 use app\Model\AdminRole;
 use app\Model\AdminUser;
+use app\Service\Auth\Annotation\Auth;
+use app\Service\Auth\AuthGuard;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -40,9 +39,11 @@ class Role extends Base
 
     /**
      * 主页
+     * @Auth("role.info")
+     * @param AuthGuard $authGuard
      * @return mixed
      */
-    public function index()
+    public function index(AuthGuard $authGuard)
     {
         return view_current([
             'url_table' => url('table'),
@@ -50,21 +51,22 @@ class Role extends Base
             'url_update' => url('update'),
             'url_delete' => url('delete'),
             'url_permission' => url('permission'),
-            'url_menu' => url('menu'),
-            'manager_types' => self::FILTER_TYPE[WebConv::getUserGenre()],
+            'manager_types' => self::FILTER_TYPE[$authGuard->user()->genre],
         ]);
     }
 
     /**
      * 主页表单
-     * @param int    $limit
-     * @param string $type
+     * @Auth("role.info")
+     * @param AuthGuard $authGuard
+     * @param int       $limit
+     * @param string    $type
      * @return Response
      * @throws DbException
      */
-    public function table(int $limit = 1, string $type = 'system')
+    public function table(AuthGuard $authGuard, int $limit = 1, string $type = 'system')
     {
-        if (!isset(self::FILTER_TYPE[WebConv::getUserGenre()][$type])) {
+        if (!isset(self::FILTER_TYPE[$authGuard->user()->genre][$type])) {
             return self::showMsg(CODE_COM_PARAM, '无效的筛选参数');
         }
         $genre = self::FILTER_TYPE_MAPPING[$type];
@@ -81,6 +83,7 @@ class Role extends Base
     }
 
     /**
+     * @Auth("role.info")
      * @param int|null    $base_pkid
      * @param string|null $type
      * @return string
@@ -109,6 +112,7 @@ class Role extends Base
     }
 
     /**
+     * @Auth("role.edit")
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
@@ -137,75 +141,38 @@ class Role extends Base
 
     /**
      * 权限分配
+     * @Auth("role.info")
      * @param null $id
      * @return mixed
-     * @throws JsonException
      */
     public function permission($id = null)
     {
-        $hashArr = AdminRoleLogic::getExtPermission($id);
+        $permission = AdminRoleLogic::getExtPermission($id);
         return view_current([
-            'hashArr' => json_encode_throw_on_error($hashArr),
+            'selected' => $permission,
+            'permission' => \app\Service\Auth\Model\Permission::getTree(),
             'role_id' => $id,
-            'url_table' => url('@admin.permission/nodeList'),
+            'url_table' => url('admin.permission/nodeList'),
             'url_save' => url('savePermission'),
         ]);
     }
 
     /**
      * 保存角色权限
+     * @Auth("role.edit")
      * @return Response
      * @throws Throwable
      */
     public function savePermission()
     {
         $param = $this->request->param();
-        AdminRoleLogic::savePermission($param['id'], $param['hashArr']);
-        return self::showMsg(CODE_SUCCEED);
-    }
-
-    /**
-     * 跳转到菜单分配子页面
-     * @param int $id
-     * @return mixed
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws JsonException
-     * @throws ModelNotFoundException
-     */
-    public function menu($id = 0)
-    {
-        $response = [
-            'parentId' => 'pid'
-        ];
-        $menuIds = AdminRoleLogic::getExtMenu($id);
-
-        return view('public/dtree', [
-            'url_save' => url('saveMenu', ['id' => $id]),
-            'data' => json_encode_throw_on_error(SystemMenu::obtainMenus()),
-            'check_ids' => json_encode_throw_on_error($menuIds),
-            'response' => json_encode_throw_on_error($response),
-        ]);
-    }
-
-    /**
-     * 保存菜单权限
-     * @return Response
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws JsonException
-     * @throws ModelNotFoundException
-     */
-    public function saveMenu()
-    {
-        $param = $this->request->param();
-        // 保存选中的HASH
-        AdminRoleLogic::saveMenu($param['id'], $param['ids']);
+        AdminRoleLogic::savePermission($param['id'], $param['permission']);
         return self::showMsg(CODE_SUCCEED);
     }
 
     /**
      * 删除用户
+     * @Auth("role.del")
      * @param null $id
      * @return Response
      */

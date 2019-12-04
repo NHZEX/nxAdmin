@@ -55,7 +55,6 @@ abstract class BaseController
      * @var array
      */
     protected $middleware = [
-        'authorize',
         'validate',
         'exception',
     ];
@@ -149,6 +148,7 @@ abstract class BaseController
      * @param mixed  $data   返回的数据
      * @param int    $wait   跳转等待时间
      * @param array  $header 发送的Header信息
+     * @return Response|View
      */
     protected function success($msg = '', string $url = null, $data = '', int $wait = 3, array $header = [])
     {
@@ -158,7 +158,7 @@ abstract class BaseController
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : app('route')->buildUrl($url);
         }
 
-        $this->jump(1, $msg, $url, $data, $wait, $header);
+        return $this->jump(1, $msg, $url, $data, $wait, $header);
     }
 
     /**
@@ -168,6 +168,7 @@ abstract class BaseController
      * @param mixed  $data   返回的数据
      * @param int    $wait   跳转等待时间
      * @param array  $header 发送的Header信息
+     * @return Response|View
      */
     protected function error($msg = '', string $url = null, $data = '', int $wait = 3, array $header = [])
     {
@@ -177,7 +178,7 @@ abstract class BaseController
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : app('route')->buildUrl($url);
         }
 
-        $this->jump(0, $msg, $url, $data, $wait, $header);
+        return $this->jump(0, $msg, $url, $data, $wait, $header);
     }
 
     /**
@@ -187,6 +188,7 @@ abstract class BaseController
      * @param string      $data
      * @param int         $wait
      * @param array       $header
+     * @return Response|View
      */
     protected function jump($code, $msg = '', $url = null, $data = '', int $wait = 3, array $header = [])
     {
@@ -211,6 +213,6 @@ abstract class BaseController
                 ]);
         }
 
-        throw new HttpResponseException($response);
+        return $response;
     }
 }

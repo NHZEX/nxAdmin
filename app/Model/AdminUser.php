@@ -9,7 +9,9 @@
 namespace app\Model;
 
 use app\Exception\AccessControl;
-use app\Facade\WebConv;
+use app\Service\Auth\Contracts\Authenticatable as AuthenticatableContracts;
+use app\Service\Auth\Contracts\ProviderlSelfCheck;
+use app\Service\Auth\Facade\Auth;
 use RuntimeException;
 use think\Model;
 use think\model\concern\SoftDelete;
@@ -45,7 +47,7 @@ use Tp\Model\Exception\ModelException;
  * @property int            $delete_time 删除时间
  * @property int            $sign_out_time 退出登陆时间
  */
-class AdminUser extends Base
+class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfCheck
 {
     use SoftDelete;
 
@@ -53,6 +55,10 @@ class AdminUser extends Base
     protected $pk = 'id';
 
     protected $readonly = ['genre'];
+
+    protected $hidden = [
+        'remember', 'password'
+    ];
 
     const STATUS_NORMAL = 0;
     const STATUS_DISABLE = 1;
@@ -77,6 +83,8 @@ class AdminUser extends Base
     ];
     const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
     const PWD_HASH_OPTIONS = ['cost' => 10];
+
+    protected $permissions = [];
 
     /**
      * @param AdminUser|Model $model
@@ -133,14 +141,19 @@ class AdminUser extends Base
         if ($data->isDisableAccessControl()) {
             return;
         }
+        $auth = Auth::instance();
+        if (!$auth->check()) {
+            return;
+        }
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
 
         $dataId = $data->getOrigin('id');
-        if (null === $dataGenre || null === WebConv::getUserGenre()) {
+
+        if (null === $dataGenre || null === $auth->user()->genre) {
             return;
         }
-        $accessGenre = WebConv::getUserGenre();
-        $accessId = WebConv::getUserId();
+        $accessGenre = $auth->user()->genre;
+        $accessId = $auth->user()->id;
         $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
         // 控制当前用户的组间访问
         if (false === in_array($dataGenre, $genreControl)) {
@@ -178,6 +191,55 @@ class AdminUser extends Base
                 throw new ModelException("该邮箱 {$data->email} 已经存在");
             }
         }
+    }
+
+    public function isSuperAdmin()
+    {
+        return self::GENRE_SUPER_ADMIN === $this->genre;
+    }
+
+    public function isAdmin()
+    {
+        return self::GENRE_ADMIN === $this->genre;
+    }
+
+    /**
+     * @return array
+     */
+    public function permissions(): ?array
+    {
+        if (empty($this->permissions)) {
+            $roleId = $this->isSuperAdmin() ? -1 : $this->role_id;
+            $this->permissions = \app\Logic\AdminRole::queryPermission($roleId);
+        }
+        return $this->permissions;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRememberToken()
+    {
+        return $this->remember;
+    }
+
+    public function updateRememberToken(string $token)
+    {
+        $this->remember = $token;
+        $this->save();
+    }
+
+    public function valid(&$message): bool
+    {
+        if (self::STATUS_NORMAL !== $this->status) {
+            $message = "用户状态 [{$this->status_desc}]";
+            return false;
+        }
+        if ($this->role_id && $this->role && AdminRole::STATUS_NORMAL !== $this->role->status) {
+            $message = "角色状态 [{$this->role->status_desc}]";
+            return false;
+        }
+        return true;
     }
 
     /**

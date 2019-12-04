@@ -6,27 +6,28 @@
     </div>
 @endsection
 @section('javascript')
-    <script type="text/html" id="table-toolbar-tool">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-xs" lay-event="apk_classify">apk分类</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>
     <script type="text/html" id="table-main-toolbar">
         <div style="display:flex;">
             <button class="layui-btn" id="btn-refresh">
                 <i class="layui-icon layui-icon-refresh"></i>刷新
             </button>
+            @can('menu.edit')
             <button class="layui-btn layui-btn-normal" id="btn-add">
                 <i class="layui-icon layui-icon-add-1"></i>添加
             </button>
+            @endcan
             <button class="layui-btn" id="btn-export">
                 <i class="layui-icon"></i>导出菜单
             </button>
         </div>
     </script>
     <script type="text/html" id="table-toolbar">
+        @can('menu.edit')
         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        @endcan
+        @can('menu.del')
         <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+        @endcan
     </script>
     <script>
         require([

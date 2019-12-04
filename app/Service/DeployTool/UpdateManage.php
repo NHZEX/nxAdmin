@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace app\Service\DeployTool;
 
-use app\Logic\Permission;
 use app\Logic\SystemMenu;
 use app\Model\System;
+use app\Service\Auth\Permission;
 use Exception;
-use Phinx\PhinxMigrate2;
-use Symfony\Component\Console\Application as SymfonyApplication;
-use Symfony\Component\Console\Input\ArgvInput as SymfonyArgvInput;
+use ReflectionException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use think\console\Input;
 use think\console\Output;
+use function HuangZx\ref_get_prop;
 
 class UpdateManage extends FeaturesManage
 {
@@ -59,14 +59,12 @@ class UpdateManage extends FeaturesManage
      */
     public function actionMigrate(Output $output): bool
     {
-        // TODO 环境检查
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
             return false;
         }
 
-        /** @noinspection PhpIncludeInspection */
-        $config = require $this->app->getRootPath() . 'phinx.php';
+        $config = $this->app->config->get('phinx', []);
         $verbosity = empty($this->deploy->getVerbosity()) ? null : "-{$this->deploy->getVerbosity()}";
 
         $output->writeln('> 执行数据迁移...');
@@ -89,13 +87,8 @@ class UpdateManage extends FeaturesManage
         }
 
         // 执行数据迁移
-        $phinx = new SymfonyApplication();
-        $phinx->add(new PhinxMigrate2());
-        $argv = ['.', 'migrate', $verbosity, $this->deploy->isDryRun() ? '--dry-run' : null];
-        $argv = array_filter($argv);
-        $argvInput = new SymfonyArgvInput($argv);
-        $phinx->setAutoExit(false);
-        $exitCode = $phinx->run($argvInput);
+        $argv = [$verbosity, $this->deploy->isDryRun() ? '--dry-run' : null];
+        $output = $this->call('migrate:run', $argv, $exitCode);
         if ($exitCode !== 0) {
             $output->writeln('  数据迁移: <error>数据迁移异常</error>');
             return false;
@@ -108,13 +101,38 @@ class UpdateManage extends FeaturesManage
     }
 
     /**
+     * @param string $command
+     * @param array  $parameters
+     * @param int    $exitCode
+     * @param string $driver
+     * @return Output
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function call(string $command, array $parameters = [], &$exitCode = 0, string $driver = 'console')
+    {
+        array_unshift($parameters, $command);
+
+        $input  = new Input($parameters);
+        $output = new Output($driver);
+
+        $original = ref_get_prop($this->app->console, 'autoExit')->getValue();
+
+        $this->app->console->setCatchExceptions(false);
+        $this->app->console->setAutoExit(false);
+        $exitCode = $this->app->console->find($command)->run($input, $output);
+        $this->app->console->setAutoExit($original);
+
+        return $output;
+    }
+
+    /**
      * @param Output $output
      * @return bool
      * @throws Exception
      */
     public function actionData(Output $output): bool
     {
-        // TODO 环境检查
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
             return false;
@@ -135,7 +153,7 @@ class UpdateManage extends FeaturesManage
     protected function updateNodes(Output $output): bool
     {
         $output->writeln('> 更新权限节点...');
-        $result = Permission::importNodes($this->deploy->isDryRun(), $message);
+        $result = (new Permission())->import($this->deploy->isDryRun(), $message);
         $output->writeln('  权限数据: ' . $message);
         return $result;
     }

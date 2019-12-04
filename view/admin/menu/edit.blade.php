@@ -17,23 +17,34 @@
             <label class="layui-form-label label-required">菜单标题</label>
             <div class="layui-input-block">
                 <input type="text" name="title" required value="" title="菜单标题" placeholder="请输入菜单名称" class="layui-input">
-                <p class="help-block color-desc"><b>必填</b>，请填写菜单名称（如：系统管理），建议字符不要太长，一般4-6个汉字</p>
+                <p class="help-block color-desc"><b>必填</b>，请填写菜单名称（如：系统管理）</p>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label label-required">菜单链接</label>
             <div class="layui-input-block">
                 <div class="layui-input-inline" style="width: 100%; ">
-                    <div class="layui-input-inline" style="width: 83%; margin-right: 0">
-                        <input type="text" name="url" autocomplete="off" required="required" title="请输入菜单链接" placeholder="请输入菜单链接" value="#" class="layui-input typeahead">
-                    </div>
-                    <div class="layui-input-inline " style="width: 15%; margin-right: 0; float: right">
-                        <input type="text" name="node" readonly autocomplete="off" placeholder="节点识别码" class="layui-input">
-                    </div>
+                    <input type="text" name="url" autocomplete="off" required="required" title="请输入菜单链接" placeholder="请输入菜单链接" value="#" class="layui-input typeahead">
                 </div>
                 <p class="help-block color-desc">
-                    <b>必填</b>，请填写系统节点（如：admin/user/index），节点加入权限管理时菜单才会自动隐藏，非规则内的不会隐藏；
+                    <b>必填</b>，请填写系统节点（如：admin/user/index）；
                     <br>正常情况下，在输入的时候会有自动提示。如果是上级菜单时，请填写"#"符号，不要填写地址或节点地址
+                </p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">关联权限</label>
+            <div class="layui-input-block">
+                <div class="layui-input-inline" style="width: 100%; ">
+                    <select name="node" class="layui-select full-width" lay-ignore>
+                        <option selected value="">不关联</option>
+                        @foreach($permission as $val)
+                            <option value="{{ $val['name'] }}">{!! $val['__name'] !!}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <p class="help-block color-desc">
+                    <b>选填</b>
                 </p>
             </div>
         </div>

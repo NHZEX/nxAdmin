@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": "~7.2.20 || ~7.3.8",
+        "php": "~7.2.10 || ~7.3.3",
         "ext-bcmath": "*",
         "ext-curl": "*",
         "ext-exif": "*",
@@ -33,12 +33,14 @@
         "ext-swoole": "^4.4.6",
         "ext-zip": "*",
         "ext-zlib": "*",
+        "doctrine/annotations": "^1.8",
         "guzzlehttp/guzzle": "^6.3",
         "hashids/hashids": "^3.0",
         "matomo/ini": "^2.0",
         "nhzex/n-helper": "^1.0",
         "nhzex/think-blade": "^4.2.0",
         "nhzex/tp-swoole": "~2.1.0",
+        "nhzex/think-phinx": "^1.0.1",
         "open-smf/connection-pool": "~1.0",
         "robmorgan/phinx": "^0.11",
         "rybakit/msgpack": "^0.6.1",
@@ -63,7 +65,8 @@
         },
         "files": [
             "app/constant.php",
-            "app/status_code.php"
+            "app/status_code.php",
+            "app/log_func.php"
         ]
     },
     "autoload-dev": {

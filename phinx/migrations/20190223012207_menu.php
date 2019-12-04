@@ -1,7 +1,7 @@
 <?php
 namespace DbMigrations;
 
-use Phinx\Blueprint as B;
+use HZEX\Phinx\Schema;
 use Phinx\Migration\AbstractMigration;
 
 class Menu extends AbstractMigration
@@ -33,19 +33,23 @@ class Menu extends AbstractMigration
      */
     public function change()
     {
-        $permission = $this->table('system_menu', B::table()->comment('系统菜单')->unsigned()->d());
-        $permission
-            ->addColumn(B::unsignedInteger('pid')->comment('父关联')->d())
-            ->addColumn(B::smallInteger('sort')->comment('菜单排序')->d())
-            ->addColumn(B::status()->comment('菜单状态')->d())
-            ->addColumn(B::string('node', 8)->ccAscii()->comment('关联节点')->d())
-            ->addColumn(B::string('title', 64)->comment('菜单标题')->d())
-            ->addColumn(B::string('icon', 64)->comment('菜单图标')->d())
-            ->addColumn(B::string('url', 256)->comment('菜单地址')->d())
-            ->addColumn(B::lockVersion()->d())
-            ->addColumn(B::createTime()->d())
-            ->addColumn(B::updateTime()->d())
-            ->addColumn(B::deleteTime()->d())
-            ->create();
+        Schema::cxt($this, function () {
+            Schema::create('system_menu', function (Schema\Blueprint $blueprint) {
+                $blueprint->comment = '系统菜单';
+                $blueprint->unsigned = true;
+
+                $blueprint->unsignedInteger('pid')->comment('父关联');
+                $blueprint->smallInteger('sort')->comment('菜单排序');
+                $blueprint->status()->comment('菜单状态');
+                $blueprint->string('node', 8)->ccAscii()->comment('关联节点');
+                $blueprint->string('title', 64)->comment('菜单标题');
+                $blueprint->string('icon', 64)->comment('菜单图标');
+                $blueprint->string('url', 256)->comment('菜单地址');
+                $blueprint->lockVersion();
+                $blueprint->createTime();
+                $blueprint->updateTime();
+                $blueprint->deleteTime();
+            });
+        });
     }
 }

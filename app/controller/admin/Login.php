@@ -8,33 +8,33 @@
 
 namespace app\controller\admin;
 
-use app\Facade\WebConv;
 use app\Logic\AdminUser;
+use app\Service\Auth\AuthGuard;
 use Captcha\Captcha;
 use think\Response;
+use think\response\View;
 use function view_current;
 
 class Login extends Base
 {
     /**
+     * @param AuthGuard   $auth
      * @param string|null $jump
-     * @return mixed
+     * @return Response|View
      */
-    public function index(?string $jump = null)
+    public function index(AuthGuard $auth, ?string $jump = null)
     {
         $jump_url = $this->request->header('Referer', false);
         // 如果验证成功直接跳转到主页
-        if (WebConv::verify()) {
+        if ($auth->check()) {
             return self::show302($jump_url ?: url('@admin.main'));
-        } else {
-            if ((new AdminUser())->testRemember()) {
-                $this->success('自动登陆成功', $jump_url ?: '@admin.main');
-            }
         }
 
         // 生成登陆成功后跳转目的地（url传入/主页）
         $jump_url = $jump ? rawurldecode($jump) : ($jump_url ?: url('@admin.main'));
-        false !== strpos($jump_url, 'admin.login/logout') && $jump_url = url('@admin.main');
+        if (strpos($jump_url, 'logout') > 0) {
+            $jump_url = url('@admin.main');
+        }
 
         $loginToken = get_rand_str(32);
 
@@ -52,11 +52,12 @@ class Login extends Base
 
     /**
      * 会话有效性检查
+     * @param AuthGuard $auth
      * @return Response
      */
-    public function check()
+    public function check(AuthGuard $auth)
     {
-        if (WebConv::verify()) {
+        if ($auth->check()) {
             return self::showMsg(CODE_SUCCEED);
         } else {
             return self::showMsg(CODE_CONV_VERIFY);
@@ -84,9 +85,8 @@ class Login extends Base
      * @param AdminUser $adminUser
      * @return Response
      */
-    public function login(
-        AdminUser $adminUser
-    ) {
+    public function login(AdminUser $adminUser)
+    {
         $param = $this->request->param();
 
         // 获取令牌
@@ -115,11 +115,15 @@ class Login extends Base
 
     /**
      * 退出登陆
+     * @param AuthGuard $auth
+     * @return Response|View
      */
-    public function logout()
+    public function logout(AuthGuard $auth)
     {
-        $this->app->cookie->delete('login_time');
-        WebConv::destroy(true);
-        $this->success('退出登陆', '@admin.login');
+        if ($auth->check()) {
+            $this->app->cookie->delete('login_time');
+            $auth->logout();
+        }
+        return $this->success('退出登陆', '@admin.login/index');
     }
 }

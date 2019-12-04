@@ -1,15 +1,5 @@
 <?php
 
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006-2016 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: 流年 <liu21st@gmail.com>
-// +----------------------------------------------------------------------
-use think\db\exception\BindParamException;
 use think\facade\Db;
 use think\facade\Request;
 use think\Response;
@@ -27,6 +17,40 @@ function view_current($vars = [], $code = 200, $filter = null): View
     /** @var View $view */
     $view = Response::create('', 'view', $code);
     return $view->assign($vars)->filter($filter);
+}
+
+/**
+ * @param array  $tree
+ * @param string|array $name
+ * @param string $key
+ * @param int    $level
+ * @return array
+ */
+function tree_to_table(array $tree, $name = ['name', '__name'], string $key = 'children', int $level = 0)
+{
+    if (is_array($name)) {
+        [$nameKey, $newNameKey] = $name;
+    } elseif (strpos($name, '|') > 0) {
+        [$nameKey, $newNameKey] = explode('|', $name);
+    } else {
+        $nameKey = $name;
+        $newNameKey = '__' . $name;
+    }
+    $data = [];
+    foreach ($tree as $item) {
+        $item['__level'] = $level;
+        // └
+        $item[$newNameKey] = str_repeat('&nbsp;&nbsp;&nbsp;├&nbsp;&nbsp;', $level) . ($item[$nameKey] ?? '');
+        if (isset($item[$key])) {
+            $children = $item[$key];
+            unset($item[$key]);
+            $data[] = $item;
+            $data = array_merge($data, tree_to_table($children, $name, $key, $level + 1));
+        } else {
+            $data[] = $item;
+        }
+    }
+    return $data;
 }
 
 /**
@@ -69,6 +93,11 @@ function json_decode_throw_on_error(string $json): array
     }
 
     return $data;
+}
+
+function return_raw_value($x)
+{
+    return $x;
 }
 
 /**
@@ -372,8 +401,6 @@ function repair_local_imgs_url_domain($urls): array
  * 查询当前链接 mysql 版本
  * @param string $connect
  * @return string
- * @throws BindParamException
- * @throws \think\db\exception\PDOException
  */
 function query_mysql_version(string $connect = null)
 {
@@ -391,12 +418,10 @@ function query_mysql_version(string $connect = null)
  * @param string $database
  * @param string $connect
  * @return bool
- * @throws BindParamException
- * @throws \think\db\exception\PDOException
  */
 function query_mysql_exist_database(string $database, string $connect = null)
 {
-    /** @noinspection SqlResolve SqlNoDataSourceInspection SqlDialectInspection */
+    /** @noinspection SqlResolve SqlNoDataSourceInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
         $list = Db::connect($connect, true)->query($sql);
@@ -463,6 +488,7 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
  * @param        $default
  * @param mixed  ...$argv
  * @return mixed
+ * @deprecated
  */
 function env_get(string $key, $default, ...$argv)
 {

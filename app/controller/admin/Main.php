@@ -9,10 +9,10 @@
 namespace app\controller\admin;
 
 use app\Exception\JsonException;
-use app\Facade\WebConv;
-use app\Logic\Permission;
 use app\Logic\SystemMenu;
-use app\Model\AdminUser;
+use app\Service\Auth\Annotation\Auth;
+use app\Service\Auth\AuthGuard;
+use app\Service\Auth\Permission;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -28,24 +28,26 @@ class Main extends Base
 {
     /**
      * 主页框架
-     * @param Env $env
+     * @Auth()
+     * @param Env       $env
+     * @param AuthGuard $authGuard
      * @return mixed
      * @throws DataNotFoundException
      * @throws DbException
      * @throws JsonException
      * @throws ModelNotFoundException
      */
-    public function index(Env $env)
+    public function index(Env $env, AuthGuard $authGuard)
     {
         return view_current([
             'info' => [
                 'title' => $env->get('system.web_title'),
             ],
-            'webmenu' => $this->getMenuToJson(),
-            'user' => WebConv::getConvUser(),
+            'webmenu' => $this->getMenuToJson($authGuard),
+            'user' => $authGuard->user(),
             'url' => [
                 'mainpage' => url('sysinfo'),
-                'basic_info' => url('@admin.manager/pageEdit', ['base_pkid' => WebConv::getConvUser()->id]),
+                'basic_info' => url('@admin.manager/pageEdit', ['base_pkid' => $authGuard->id()]),
                 'logout' => url('@admin.login/logout'),
                 'clear_cache' => url('clearCache'),
             ],
@@ -53,19 +55,21 @@ class Main extends Base
     }
 
     /**
+     * @param AuthGuard $authGuard
      * @return string
-     * @throws JsonException
      * @throws DataNotFoundException
      * @throws DbException
+     * @throws JsonException
      * @throws ModelNotFoundException
      */
-    private function getMenuToJson()
+    private function getMenuToJson(AuthGuard $authGuard)
     {
+        $user = $authGuard->user();
         //超级管理员不限制菜单
-        if (WebConv::getUserGenre() === AdminUser::GENRE_SUPER_ADMIN) {
+        if ($user->isSuperAdmin()) {
             $menus = SystemMenu::obtainMenus();
         } else {
-            $menus = SystemMenu::obtainMenus(WebConv::getRoleId());
+            $menus = SystemMenu::obtainMenus($user->role_id);
         }
         return json_encode_throw_on_error($menus);
     }
@@ -101,6 +105,7 @@ class Main extends Base
 
     /**
      * 系统信息页面
+     * @Auth()
      * @return string
      */
     public function sysinfo()
@@ -110,12 +115,14 @@ class Main extends Base
 
     /**
      * 清理缓存
+     * @Auth(policy="userType:admin")
+     * @param Permission $permission
      * @return Response
      */
-    public function clearCache()
+    public function clearCache(Permission $permission)
     {
         SystemMenu::refreshCache();
-        Permission::refreshCache();
+        $permission->refresh();
         return self::showSucceed();
     }
 }

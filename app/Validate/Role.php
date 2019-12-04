@@ -11,11 +11,11 @@ class Role extends Base
 {
     protected $rule = [
         'id' => 'require|isPositiveInteger',
-        'hashArr' => 'require|array',
+        'permission' => 'require|array',
     ];
 
     protected $scene = [
         'toPermission' => ['id'],
-        'permission' => ['id', 'hashArr'],
+        'permission' => ['id', 'permission'],
     ];
 }
