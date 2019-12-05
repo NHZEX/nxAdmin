@@ -34,8 +34,6 @@ class RedisProvider
         'persistent' => 1,
     ];
 
-    protected $isSwoole = false;
-
     /**
      * 存储实例
      * @var RedisProvider[]
@@ -54,7 +52,6 @@ class RedisProvider
     public function __construct(Config $config)
     {
         $this->config = $config->get('redis') + $this->config;
-        $this->isSwoole = exist_swoole();
     }
 
     public function setConfig(array $cfg, $reconnect = false)
@@ -137,7 +134,7 @@ class RedisProvider
     public function __call($name, $arguments)
     {
         if (false === $this->init) {
-            if (false === $this->isSwoole || -1 === Co::getCid()) {
+            if (false === HZEX_SWOOLE_ENABLE || -1 === Co::getCid()) {
                 $this->init = $this->boot();
             } else {
                 $this->init = $this->bootPool();
@@ -164,7 +161,7 @@ class RedisProvider
     public function closeLink()
     {
         if ($this->init) {
-            if (false === $this->isSwoole || -1 === Co::getCid()) {
+            if (false === HZEX_SWOOLE_ENABLE || -1 === Co::getCid()) {
                 $this->handler2->close();
             } else {
                 $this->pools->return($this->handler2);

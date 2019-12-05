@@ -18,7 +18,9 @@ class DestroyRedisConnection implements ContractDestroyInterface
     public function handle(Container $container): void
     {
         /** @var RedisProvider $redis */
-        $redis = $container->make(RedisProvider::class);
-        $redis->closeLink();
+        if ($container->exists(RedisProvider::class)) {
+            $redis = $container->make(RedisProvider::class);
+            $redis->closeLink();
+        }
     }
 }

@@ -48,7 +48,7 @@ return [
             // 日志记录方式
             'type'           => SocketLog::class,
             // socket服务器地址
-            'host'           => env_get('LOG_REMOTE_HOST', '127.0.0.1'),
+            'host'           => env('LOG_REMOTE_HOST', '127.0.0.1'),
             // 是否显示加载的文件列表
             'show_included_files' => false,
             // 日志强制记录到配置的 client_id

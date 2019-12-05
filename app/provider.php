@@ -12,9 +12,7 @@
 // 应用容器绑定定义
 
 use app\ExceptionHandle;
-use app\Request;
 
 return [
-    'think\Request' => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
 ];

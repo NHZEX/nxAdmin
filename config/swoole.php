@@ -14,14 +14,14 @@ use app\Service\Swoole\ServiceHealthCheck;
 
 return [
     'server'       => [
-        'listen'    => env_get('SERVER_HTTP_LISTEN', '0.0.0.0:9501'), // 监听
+        'listen'    => env('SERVER_HTTP_LISTEN', '0.0.0.0:9501'), // 监听
         'mode'      => SWOOLE_PROCESS, // 运行模式 默认为SWOOLE_PROCESS
         'sock_type' => SWOOLE_TCP, // sock type 默认为SWOOLE_SOCK_TCP
         'options'   => [
             'daemonize'                => false,
             'dispatch_mode'            => 2,
-            'worker_num'               => env_get('SERVER_WORKER_NUM', 4),
-            'task_worker_num'          => env_get('SERVER_TASK_WORKER_NUM', 2),
+            'worker_num'               => env('SERVER_WORKER_NUM', 4),
+            'task_worker_num'          => env('SERVER_TASK_WORKER_NUM', 2),
             // 运行时文件
             'pid_file'                 => runtime_path() . 'swoole.pid',
             'log_file'                 => runtime_path() . 'swoole.log',
@@ -57,7 +57,7 @@ return [
         'ping_timeout'  => 60000,
     ],
     'hot_reload'   => [
-        'enable'  => env_get('SERVER_HOT_RELOAD', false),
+        'enable'  => env('SERVER_HOT_RELOAD', false),
         'name'    => ['*.php'],
         'notName' => [],
         'include' => [
@@ -101,13 +101,13 @@ return [
     // 运行内存限制
     'memory_limit' => '512M',
     // 追踪器 (调试)
-    'tracker'      => env_get('SERVER_TRACKER', false),
+    'tracker'      => env('SERVER_TRACKER', false),
     // 日志记录
     'log'          => [
         'console' => true,
         'channel' => [
             // 日志保存目录
-            'path'      => env_get('LOG_FILE_PATH', '') ?: runtime_path('log'),
+            'path'      => env('LOG_FILE_PATH', '') ?: runtime_path('log'),
             // 日志文件名
             'filename'  => 'server.log',
             // 最大日志文件数量
