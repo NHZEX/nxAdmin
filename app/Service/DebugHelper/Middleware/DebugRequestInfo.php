@@ -26,10 +26,9 @@ class DebugRequestInfo
     {
         // 记录路由和请求信息
         $appName = $this->app->http->getName() ?: 'empty';
-        $controller = $request->controller(true);
-        $class = $this->app->parseClass('controller', $controller);
-        $action = $request->action();
-        $this->app->log->record("dispatch: {$appName}-{$class}-{$action}", 'route');
+        $controller = $request->controller() ?: 'unknown';
+        $action = $request->action() ?: 'unknown';
+        $this->app->log->record("dispatch: {$appName}-{$controller}-{$action}", 'route');
         // $app->log->info('[ ROUTE ] ' . var_export($request->rule()->__debugInfo(), true));
         $this->app->log->record('header: ' . var_export($request->header(), true), 'request');
         $this->app->log->record('param: ' . var_export($request->param(), true), 'request');
