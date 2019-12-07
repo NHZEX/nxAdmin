@@ -13,24 +13,20 @@ use think\facade\Env;
 
 class EnvStruct extends BaseProperty
 {
-    protected const PREFIX = ['DB_', 'REDIS_', 'CACHE_', 'LOG_', 'SESSION_', 'SERVER_'];
-
-    public static function read()
-    {
-        $preg = join('|', self::PREFIX);
+    public static function read(
+        $prefixs = ['DB_', 'REDIS_', 'CACHE_', 'LOG_', 'SESSION_', 'SERVER_']
+    ) {
+        $preg = join('|', $prefixs);
         $preg = "/^({$preg})/";
 
         $that = new self();
         $data = Env::get();
 
         foreach ($data as $key => $value) {
-            if ($that->offsetExists($key)) {
+            if (isset($that->$key)
+                || preg_match($preg, $key)
+            ) {
                 $that->$key = $value;
-                continue;
-            }
-            if (preg_match($preg, $key)) {
-                $that->$key = $value;
-                continue;
             }
         }
 
@@ -38,7 +34,6 @@ class EnvStruct extends BaseProperty
     }
 
     public $APP_DEBUG = 0;
-    public $APP_TRACE = 0;
 
     public $SYSTEM_WEB_TITLE = SYSTEM_NAME;
 
