@@ -1,12 +1,10 @@
 <?php
 
-use app\Server\DeployInfo;
-
 return [
     // 登陆验证码
     'login'   => true,
     // 验证码加密密钥
-    'seKey'    => DeployInfo::getSecuritySalt() ?? 'null',
+    'seKey'    => env('DEPLOY_SECURITY_SALT') ?? 'null',
     // 验证码过期时间（s）
     'expire'   => 120,
     // 验证码图片高度

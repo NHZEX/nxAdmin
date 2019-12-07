@@ -3,8 +3,6 @@
 // | 缓存设置
 // +----------------------------------------------------------------------
 
-use app\Server\DeployInfo;
-
 return [
     // 默认缓存驱动
     'default' => env('CACHE_DRIVER', 'file'),
@@ -28,7 +26,7 @@ return [
             // 驱动方式
             'type'       => 'redis',
             // 缓存前缀
-            'prefix'     => DeployInfo::getMixingPrefix() . ':cache:',
+            'prefix'     => env('DEPLOY_MIXING_PREFIX') . ':cache:',
             // 缓存有效期 0表示永久缓存
             'expire'     => 0,
             // 缓存标签前缀
@@ -52,7 +50,7 @@ return [
             // 驱动方式
             'type'       =>  'redis',
             // 缓存前缀
-            'prefix'     => DeployInfo::getMixingPrefix() . ':sess:',
+            'prefix'     => env('DEPLOY_MIXING_PREFIX') . ':sess:',
             // 缓存有效期 0表示永久缓存
             'expire'     => 0,
             // 缓存标签前缀

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace app\Service\Auth;
 
 use app\Model\AdminUser as AdminUserModel;
-use app\Server\DeployInfo;
 use app\Service\Auth\Access\Gate;
 use app\Service\Auth\Contracts\ProviderlSelfCheck;
 use app\Service\Auth\Traits\EventHelpers;
@@ -235,7 +234,7 @@ class AuthGuard
      */
     protected function createRememberToken(AdminUserModel $user)
     {
-        $salt  = DeployInfo::getSecuritySalt();
+        $salt  = env('DEPLOY_SECURITY_SALT');
         $expired = $this->config['remember']['expire'];
         $timeout = time() + $expired;
         $password = hash('crc32', $user->password);
@@ -257,7 +256,7 @@ class AuthGuard
         if (empty($secret)) {
             return null;
         }
-        $salt  = DeployInfo::getSecuritySalt();
+        $salt  = env('DEPLOY_SECURITY_SALT');
         $token = decrypt_data(base64_decode($secret), $salt, 'aes-128-ctr');
         if (empty($token) || 4 > count($remember = explode('|', $token))) {
             return null;

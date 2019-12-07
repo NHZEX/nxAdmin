@@ -5,17 +5,15 @@ declare(strict_types=1);
 namespace app\Service\DeployTool;
 
 use app\Facade\Redis;
-use app\Server\DeployInfo;
 use app\Service\DeployTool\Exception\ConfigInvalidException;
 use app\Service\DeployTool\Exception\InputException;
 use app\Service\DeployTool\Struct\EnvStruct;
 use Closure;
 use Exception;
+use PDOException;
 use RedisException;
 use think\console\Input;
 use think\console\Output;
-use think\db\exception\BindParamException;
-use think\db\exception\PDOException;
 
 class EnvManage extends FeaturesManage
 {
@@ -157,10 +155,8 @@ class EnvManage extends FeaturesManage
 
     /**
      * 输入数据库配置
-     * @throws BindParamException
      * @throws ConfigInvalidException
      * @throws InputException
-     * @throws PDOException
      */
     protected function configDataBase()
     {
@@ -291,9 +287,7 @@ class EnvManage extends FeaturesManage
      * TODO 扩展更多连接类型支持
      * @param string $connections
      * @param array  $testConfig
-     * @throws BindParamException
      * @throws ConfigInvalidException
-     * @throws PDOException
      */
     protected function testMysql(string $connections, array $testConfig)
     {
@@ -305,7 +299,7 @@ class EnvManage extends FeaturesManage
         // 检查mysql版本
         try {
             $mysql_ver = query_mysql_version($connections);
-        } catch (\PDOException $exception) {
+        } catch (PDOException $exception) {
             $address = empty($testConfig['dsn'])
                 ? "{$testConfig['hostname']}:{$testConfig['hostport']}"
                 : $testConfig['dsn'];
