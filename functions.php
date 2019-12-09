@@ -1,7 +1,7 @@
 <?php
 # 优先级最高, 请谨慎使用助手函数
 
-use think\facade\Env;
+use think\App;
 
 if (!function_exists('env')) {
     /**
@@ -13,6 +13,10 @@ if (!function_exists('env')) {
      */
     function env(string $name = null, $default = null)
     {
-        return Env::get($name, $default);
+        if (App::getInstance()->exists('env')) {
+            return App::getInstance()->env->get($name, $default);
+        } else {
+            throw new RuntimeException('env instance not loaded');
+        }
     }
 }
