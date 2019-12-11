@@ -111,8 +111,7 @@ class Permission
             $nodes_data = '[]';
         }
         $date = date('c');
-        $contents = "<?php /** @noinspection ALL - For disable PhpStorm check */\n";
-        $contents .= "//export date: {$date}\nreturn {$nodes_data};\n";
+        $contents = "<?php\n//export date: {$date}\nreturn {$nodes_data};\n";
         file_put_contents($nodes_dir . '/nodes.php', $contents);
         return true;
     }
