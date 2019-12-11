@@ -8,7 +8,8 @@
 
 namespace app\Service\Redis;
 
-use RedisException;
+use app\Service\Redis\Connections\PhpRedisConnection;
+use RuntimeException;
 use think\Config;
 
 /**
@@ -18,89 +19,56 @@ use think\Config;
  */
 class RedisProvider
 {
-    protected $init = false;
-
     /** @var array 配置 */
-    protected $config = [
-        'host' => '127.0.0.1',
-        'port' => '6379',
-        'password' => '',
-        'select' => 0,
-        'timeout' => 1,
-        'persistent' => 1,
-    ];
+    protected $config = [];
 
-    /** @var RedisExtend */
-    protected $handler2 = null;
+    /**
+     * The Redis connections.
+     *
+     * @var PhpRedisConnection[]
+     */
+    protected $connections;
 
     public function __construct(Config $config)
     {
         $this->config = $config->get('redis') + $this->config;
     }
 
-    public function setConfig(array $cfg, $reconnect = false)
-    {
-        $this->config = $cfg + $this->config;
-        if ($reconnect && $this->handler2 instanceof RedisExtend) {
-            $this->handler2->close();
-            $this->handler2 = null;
-            $this->init = false;
-        }
-    }
-
-    public function getConfig()
-    {
-        return $this->config;
-    }
-
     /**
-     * @return bool
-     * @throws RedisException
+     * @param null $name
+     * @return PhpRedisConnection
      */
-    protected function boot()
+    public function connection($name = null)
     {
-        $this->handler2 = new RedisExtend();
-
-        if ($this->config['persistent']) {
-            $result = $this->handler2->pconnect($this->config['host'], $this->config['port'], $this->config['timeout']);
-        } else {
-            $result = $this->handler2->connect($this->config['host'], $this->config['port'], $this->config['timeout']);
-        }
-        if (false === $result) {
-            return false;
+        $default = $name ?? $this->config['default'];
+        if (!isset($this->config['connections'][$default])) {
+            throw new RuntimeException("invalid connection: {$default}");
         }
 
-        if (!empty($this->config['password'])) {
-            $this->handler2->auth($this->config['password']);
+        if (!isset($this->connections[$default])) {
+            $this->connections[$default] = new PhpRedisConnection($this->config['connections'][$default]);
         }
 
-        $result = '+PONG' === $this->handler2->ping();
-        if (false === $result) {
-            return false;
+        return $this->connections[$default];
+    }
+
+    public function destroy($name = null)
+    {
+        $default = $name ?? $this->config['default'];
+        if (!isset($this->config['connections'][$default])) {
+            throw new RuntimeException("invalid connection: {$default}");
         }
 
-        if (0 != $this->config['select']) {
-            $result = $this->handler2->select($this->config['select']);
-        }
-        if (false === $result) {
-            return false;
-        } else {
-            $this->handler2->initScript();
-            return true;
-        }
+        unset($this->connections[$default]);
     }
 
     /**
      * @param $name
      * @param $arguments
      * @return mixed
-     * @throws RedisException
      */
     public function __call($name, $arguments)
     {
-        if (false === $this->init) {
-            $this->init = $this->boot();
-        }
-        return $this->handler2->$name(...$arguments);
+        return $this->connection()->command($name, $arguments);
     }
 }

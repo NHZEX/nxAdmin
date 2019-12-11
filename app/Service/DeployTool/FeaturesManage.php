@@ -14,6 +14,7 @@ use think\console\Output;
 use think\console\output\Ask;
 use think\console\output\Question;
 use think\helper\Str;
+use function array_pad;
 
 abstract class FeaturesManage
 {
@@ -126,7 +127,7 @@ abstract class FeaturesManage
         $data = [];
         // 处理输入错误
         foreach ($info as $key => $input) {
-            [$value, $desc, $type, $verify] = $input;
+            [$value, $desc, $type, $verify] = array_pad($input, 4, null);
             if (empty($type)) {
                 $data[$key] = $value;
                 continue;
@@ -144,7 +145,7 @@ abstract class FeaturesManage
                     $result = '';
                     break;
                 default:
-                    throw new InputException('无法处理的输入类型');
+                    throw new InputException("无法处理的输入类型: {$key} => {$type}");
             }
 
             $data[$key] = $result;

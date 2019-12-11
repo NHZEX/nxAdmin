@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace app\Service\DeployTool;
 
-use app\Facade\Redis;
 use app\Service\DeployTool\Exception\ConfigInvalidException;
 use app\Service\DeployTool\Exception\InputException;
 use app\Service\DeployTool\Struct\EnvStruct;
+use app\Service\Redis\Connections\PhpRedisConnection;
 use Closure;
 use Exception;
 use PDOException;
@@ -323,10 +323,10 @@ class EnvManage extends FeaturesManage
      */
     protected function testRedis(array $config)
     {
-        Redis::setConfig($config, true);
+        $redis = new PhpRedisConnection($config);
 
         try {
-            if (!Redis::instance()->ping()) {
+            if (!$redis->ping()) {
                 throw new ConfigInvalidException('Redis测试失败');
             }
         } catch (RedisException $exception) {
@@ -334,7 +334,7 @@ class EnvManage extends FeaturesManage
             throw new ConfigInvalidException($message, $exception->getCode(), $exception);
         }
 
-        $redis_version = Redis::instance()->getServerVersion();
+        $redis_version = $redis->getServerVersion();
         if (version_compare($redis_version, self::REDIS_VER_LIMIT, '<')) {
             $errmsg = "当前连接Redis版本：{$redis_version}，最小限制版本：" . self::REDIS_VER_LIMIT;
             throw new ConfigInvalidException($errmsg);
