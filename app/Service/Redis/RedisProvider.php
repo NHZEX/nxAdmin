@@ -15,7 +15,7 @@ use think\Config;
 /**
  * Class RedisProxy
  * @package app\server
- * @mixin RedisExtend
+ * @mixin PhpRedisConnection
  */
 class RedisProvider
 {

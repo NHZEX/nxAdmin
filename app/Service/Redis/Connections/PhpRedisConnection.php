@@ -40,6 +40,14 @@ class PhpRedisConnection
     }
 
     /**
+     * @return array
+     */
+    public function getConnectionConfig()
+    {
+        return $this->config;
+    }
+
+    /**
      * @return RedisExtend
      */
     public function connection()
