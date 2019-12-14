@@ -63,6 +63,8 @@ let paths = {
 
     , 'moment': 'libs/moment/2.24.0/moment'
     , 'form-create': 'libs/form-create/form-create'
+
+    , 'download': 'libs/zx/download'
 };
 
 //非调试模式需要替换成min.js
@@ -369,7 +371,7 @@ if (isVue) {
     });
 }
 
-function getParameterByName(name, url) {
+function getParameterByName (name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
     let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -379,49 +381,93 @@ function getParameterByName(name, url) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
+// 已经加载的组件
+window.loadVueComponents = {};
+
 /**
- * 异步加载Vue模板
+ * 异步加载Vue组件
  * @param vue
  * @param axios
  * @param list
  * @param done
  */
-function loadMultiVueComponent(vue, axios, list, done) {
-    let loadVueComponentCount = 0;
-
-    for (let tag in list) {
-        if (!list.hasOwnProperty(tag)) {
-            return;
-        }
-        let param = list[tag];
-        loadVueComponent(tag, param);
+function loadMultiVueComponent (vue, axios, list, done) {
+    if (window.isDebug) {
+        console.info('load-multi-vue-component', list);
     }
-    if (done) {
-        let t = setInterval(() => {
-            if (0 === loadVueComponentCount) {
-                clearInterval(t);
-                done();
+    function isEmptyObject(obj) {
+        for (let prop in obj) {
+            if(obj.hasOwnProperty(prop)) {
+                return false;
             }
-        }, 10);
+        }
+        return false;
     }
-
-    function loadVueComponent(tag, url) {
-        loadVueComponentCount += 1;
+    let lmvc = function load(vue, axios, done) {
+        this.loadCount = 0;
+        this.vue = vue;
+        this.axios = axios;
+        this.done = done;
+    };
+    lmvc.prototype.start = function (list) {
+        for (let tag in list) {
+            if (!list.hasOwnProperty(tag)) {
+                return;
+            }
+            let param = list[tag];
+            this.loadVueComponent(tag, param);
+        }
+        if (this.done) {
+            let t = setInterval(() => {
+                if (0 === this.loadCount) {
+                    clearInterval(t);
+                    this.done();
+                }
+            }, 50);
+        }
+    };
+    lmvc.prototype.loadVueComponent = function (tag, url) {
+        if (window.loadVueComponents.hasOwnProperty(tag)) {
+            if (window.loadVueComponents[tag] !== url) {
+                throw 'components [' + tag + '] existed, duplicate definition: ' + url;
+            }
+            return;
+        } else {
+            window.loadVueComponents[tag] = url;
+        }
+        this.loadCount += 1;
         const compile = /([\S\s]+?)<script>([\S\s]+?)<\/script>/gu;
-        vue.component(tag, function (resolve, reject) {
-            axios.get(url)
+        this.vue.component(tag, (resolve, reject) => {
+            let done = (components, template) => {
+                components.template = template;
+                if (window.isDebug) {
+                    console.info('load-vue-component', tag, components);
+                }
+                if (components.hasOwnProperty('vueComponent') && !isEmptyObject(components.vueComponent)) {
+                    loadMultiVueComponent(vue, axios, components.vueComponent, () => {
+                    });
+                    delete components.vueComponent;
+                }
+                this.loadCount--;
+                resolve(components);
+            };
+            this.axios.get(url)
                 .then((res) => {
                     let page = res.data;
                     let result = compile.exec(page);
+                    // Function(`"use strict"; return (${result[2]})`)();
                     let code = `"use strict"; ${result[2]}`;
                     let component = eval(code);
-                    // let component = Function(`"use strict"; return (${result[2]})`)();
-                    component.template = result[1];
-                    if (window.isDebug) {
-                        console.info('load-vue-component', tag, component);
+
+                    if (component instanceof Promise) {
+                        component.then((value) => {
+                            done(value, result[1]);
+                        }).catch((err) => {
+                            throw err;
+                        })
+                    } else {
+                        done(component, result[1]);
                     }
-                    loadVueComponentCount--;
-                    resolve(component)
                 })
                 .catch((error) => {
                     console.info('load-vue-component-error', tag);
@@ -429,7 +475,8 @@ function loadMultiVueComponent(vue, axios, list, done) {
                     reject(error)
                 });
         });
-    }
+    };
+    (new lmvc(vue, axios, done)).start(list);
 }
 
 /**
@@ -439,7 +486,7 @@ function loadMultiVueComponent(vue, axios, list, done) {
  * @param {String} prop
  * @return {Number}
  */
-function monitorWindowsHeightResize(actualResizeHandler, dom = window, prop = 'innerHeight') {
+function monitorWindowsHeightResize (actualResizeHandler, dom = window, prop = 'innerHeight') {
     let lastHeight = dom[prop];
 
     return setInterval(() => {
