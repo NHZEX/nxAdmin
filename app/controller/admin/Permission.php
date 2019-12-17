@@ -25,15 +25,6 @@ class Permission extends Base
 
     /**
      * @Auth("permission.info")
-     * @return View
-     */
-    public function edit()
-    {
-        return view_current();
-    }
-
-    /**
-     * @Auth("permission.info")
      * @return Response
      */
     public function permissionTree()

@@ -1,5 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 /.idea
+/.vscode
+/.history
 /node_modules
 /vendor
 /public/dist

@@ -1,5 +1,5 @@
-<?php /** @noinspection ALL - For disable PhpStorm check */
-//export date: 2019-11-25T14:43:52+08:00
+<?php
+//export date: 2019-12-17T12:02:59+08:00
 return [
     [
         'id' => 1,
@@ -88,7 +88,7 @@ return [
         'sort' => 0,
         'name' => 'permission.info',
         'pid' => 'permission',
-        'control' => '{"allow": ["node@admin.permission/index", "node@admin.permission/edit", "node@admin.permission/permissiontree", "node@admin.permission/get"]}',
+        'control' => '{"allow": ["node@admin.permission/index", "node@admin.permission/permissiontree", "node@admin.permission/get"]}',
         'desc' => '查看权限',
     ],
     [
@@ -374,22 +374,13 @@ return [
         'id' => 42,
         'genre' => 2,
         'sort' => 0,
-        'name' => 'node@admin.permission/edit',
-        'pid' => 'node@admin.permission',
-        'control' => '{"class": "app\\\\controller\\\\admin\\\\Permission::edit", "policy": ""}',
-        'desc' => '',
-    ],
-    [
-        'id' => 43,
-        'genre' => 2,
-        'sort' => 0,
         'name' => 'node@admin.permission/get',
         'pid' => 'node@admin.permission',
         'control' => '{"class": "app\\\\controller\\\\admin\\\\Permission::get", "policy": ""}',
         'desc' => '',
     ],
     [
-        'id' => 44,
+        'id' => 43,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.permission/index',
@@ -398,7 +389,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 45,
+        'id' => 44,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.permission/lasting',
@@ -407,7 +398,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 46,
+        'id' => 45,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.permission/permissiontree',
@@ -416,7 +407,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 47,
+        'id' => 46,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.permission/save',
@@ -425,7 +416,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 48,
+        'id' => 47,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.permission/scan',
@@ -434,7 +425,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 49,
+        'id' => 48,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.role',
@@ -443,7 +434,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 50,
+        'id' => 49,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.role/delete',
@@ -452,7 +443,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 51,
+        'id' => 50,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.role/index',
@@ -461,7 +452,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 52,
+        'id' => 51,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.role/pageedit',
@@ -470,7 +461,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 53,
+        'id' => 52,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.role/permission',
@@ -479,7 +470,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 54,
+        'id' => 53,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.role/save',
@@ -488,7 +479,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 55,
+        'id' => 54,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.role/savepermission',
@@ -497,7 +488,7 @@ return [
         'desc' => '',
     ],
     [
-        'id' => 56,
+        'id' => 55,
         'genre' => 2,
         'sort' => 0,
         'name' => 'node@admin.role/table',

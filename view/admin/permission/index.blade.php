@@ -44,11 +44,10 @@
             let v;
 
             const vueComponent = {
-                'edit': '{{ url('edit')->build() }}'
+                'edit': '/page/admin/permission/edit.vue'
             };
 
             Vue.use(iview);
-
             loadMultiVueComponent(Vue, axios, vueComponent, () => {});
 
             window.vue = v = new Vue({
@@ -76,7 +75,7 @@
                 methods: {
                     render() {
                         this.loading.render = true;
-                        axios.get('{{url('permissionTree')}}', {
+                        axios.get('/admin.permission/permissionTree', {
                             params: {}
                         }).then((res) => {
                             this.data = res.data.data.map((v) => {
@@ -103,7 +102,7 @@
                     del(index) {
                         let row = this.data[index];
                         row.__del_loading = true;
-                        axios.get('{{url('del')}}', {
+                        axios.get('/admin.permission/del', {
                             params: {
                                 id: row.id,
                             }
@@ -124,7 +123,7 @@
                     },
                     scan() {
                         this.loading.scan = true;
-                        axios.get('{{url('scan')}}', {
+                        axios.get('/admin.permission/scan', {
                             params: {}
                         }).then((res) => {
                             this.$Notice.success({
@@ -141,7 +140,7 @@
                     },
                     lasting() {
                         this.loading.lasting = true;
-                        axios.get('{{url('lasting')}}', {
+                        axios.get('/admin.permission/lasting', {
                             params: {}
                         }).then((res) => {
                             this.$Notice.success({

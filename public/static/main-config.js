@@ -437,6 +437,7 @@ function loadMultiVueComponent (vue, axios, list, done) {
         }
         this.loadCount += 1;
         const compile = /([\S\s]+?)<script>([\S\s]+?)<\/script>/gu;
+        const vueCompile = /export default (\{[\S\s]+\});?/gu;
         this.vue.component(tag, (resolve, reject) => {
             let done = (components, template) => {
                 components.template = template;
@@ -444,20 +445,50 @@ function loadMultiVueComponent (vue, axios, list, done) {
                     console.info('load-vue-component', tag, components);
                 }
                 if (components.hasOwnProperty('vueComponent') && !isEmptyObject(components.vueComponent)) {
-                    loadMultiVueComponent(vue, axios, components.vueComponent, () => {
-                    });
+                    components._components = components.vueComponent;
                     delete components.vueComponent;
+                }
+                if (components.hasOwnProperty('_components') && !isEmptyObject(components._components)) {
+                    loadMultiVueComponent(vue, axios, components._components, () => {});
+                    delete components._components;
                 }
                 this.loadCount--;
                 resolve(components);
+            };
+            let vueParsing = (code) => {
+                let result = vueCompile.exec(code);
+                let vueData = eval(`(function () {return ${result[1]};})()`);
+
+                if (vueData.hasOwnProperty('_require') && !isEmptyObject(vueData._require)) {
+                    let _require = vueData._require;
+                    let libs = [];
+                    let args = [];
+                    for (let lib in _require) {
+                        if (_require.hasOwnProperty(lib)) {
+                            libs.push(`'${lib}'`);
+                            args.push(_require[lib]);
+                        }
+                    }
+                    let _code = `new Promise((resolve, reject) => {
+                        require([${libs.join(', ')}], (${args.join(', ')}) => {
+                          resolve(${result[1]});
+                        });
+                      });`;
+                    vueData = eval(_code);
+                }
+                return vueData;
             };
             this.axios.get(url)
                 .then((res) => {
                     let page = res.data;
                     let result = compile.exec(page);
-                    // Function(`"use strict"; return (${result[2]})`)();
-                    let code = `"use strict"; ${result[2]}`;
-                    let component = eval(code);
+                    let component;
+                    if (url.endsWith('.vue')) {
+                        component = vueParsing(result[2]);
+                    } else {
+                        // Function(`"use strict"; return (${result[2]})`)();
+                        component = eval(`"use strict"; ${result[2]}`);
+                    }
 
                     if (component instanceof Promise) {
                         component.then((value) => {

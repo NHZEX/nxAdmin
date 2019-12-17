@@ -5,7 +5,7 @@
             return factory(Qs)
         });
     } else {
-        window.Download = factory();
+        window.download = factory();
     }
 })(function (Qs) {
     let communication = {};
