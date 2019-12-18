@@ -93,12 +93,13 @@ trait ShowReturn
      * @param string|int $code
      * @param string     $msg
      * @param array      $header
+     * @param int        $http_code
      * @return Response
      * @author NHZEXG
      */
-    protected static function showMsg($code = '', string $msg = '', array $header = []): Response
+    protected static function showMsg($code = '', string $msg = '', array $header = [], $http_code = 200): Response
     {
-        return self::showReturn($code, null, $msg, false, $header);
+        return self::showReturn($code, null, $msg, false, $header, $http_code);
     }
 
     /**
