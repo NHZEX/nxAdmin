@@ -65,13 +65,13 @@ trait ShowReturn
     /**
      * 统一返回 HTTP状态
      * @param string|int $code
-     * @param string     $msg
+     * @param string     $data
      * @param array      $header
      * @return Response
      */
-    protected static function showHttpCode($code, string $msg = '', array $header = []): Response
+    protected static function showHttpCode($code, string $data = '', array $header = []): Response
     {
-        return Response::create($msg, 'html', $code)
+        return Response::create($data, 'html', $code)
             ->header($header);
     }
 
