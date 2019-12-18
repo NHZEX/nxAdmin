@@ -4,6 +4,7 @@ use think\facade\Db;
 use think\facade\Request;
 use think\Response;
 use think\response\View;
+use Tp\Response\Stream as ResponseStream;
 
 /**
  * 渲染模板输出
@@ -51,6 +52,17 @@ function tree_to_table(array $tree, $name = ['name', '__name'], string $key = 'c
         }
     }
     return $data;
+}
+
+/**
+ * @param resource    $stream
+ * @param string|null $contentType
+ * @param int         $code
+ * @return ResponseStream
+ */
+function resp_stream($stream, ?string $contentType, int $code = 200): ResponseStream
+{
+    return Response::create($stream, $code, ResponseStream::class)->contentType($contentType);
 }
 
 /**
