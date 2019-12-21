@@ -1,38 +1,43 @@
-<modal
-        v-model="display"
-        :footer-hide="true"
-        title="编辑权限"
-        width="600"
-        @on-visible-change="onVisibleChange"
-        :styles="{top: '20px'}"
->
-    <i-form ref="FormItem" :model="formData" :rules="formRule" :disabled="formDisabled" :label-width="90">
-        <form-item prop="pid" label="父节点">
-            <i-input v-model="formData.pid" :readonly="isEdit" placeholder="Enter something..." ></i-input>
-        </form-item>
-        <form-item prop="name" label="权限名称">
-            <i-input v-model="formData.name" placeholder="Enter something..."></i-input>
-        </form-item>
-        <form-item prop="control" label="授权控制">
-            <div >
-                <i-table border size="small"
-                         :loading="controlLoading" :columns="controlColumns" :data="controlData"
-                         max-height="350" :show-header="false"
-                >
-                </i-table>
-            </div>
-        </form-item>
-        <form-item prop="desc" label="描述">
-            <i-input v-model="formData.desc" :maxlength="256" show-word-limit type="textarea" placeholder="Enter something..." ></i-input>
-        </form-item>
-        <form-item>
-            <i-button type="primary" :loading="loading" @click="submit()">提交</i-button>
-        </form-item>
-    </i-form>
-</modal>
+<span>
+    <span @click="visible = true">
+        <slot></slot>
+    </span>
+    <modal v-model="visible" :footer-hide="true" :title="this.isEdit ? '编辑权限' : '添加权限'" width="600"
+           @on-visible-change="onDisplay" :styles="{top: '20px'}"
+    >
+        <i-form ref="FormItem" :model="formData" :rules="formRule" :disabled="formDisabled" :label-width="90">
+            <form-item prop="pid" label="父节点">
+                <i-input v-model="formData.pid" :readonly="isEdit" placeholder="Enter something..."/>
+            </form-item>
+            <form-item prop="name" label="权限名称">
+                <i-input v-model="formData.name" placeholder="Enter something..."/>
+            </form-item>
+            <form-item prop="control" label="授权控制">
+                <div >
+                    <i-table border size="small"
+                             :loading="controlLoading" :columns="controlColumns" :data="controlData"
+                             max-height="350" :show-header="false"
+                    >
+                    </i-table>
+                </div>
+            </form-item>
+            <form-item prop="desc" label="描述">
+                <i-input v-model="formData.desc" :maxlength="256" show-word-limit type="textarea" placeholder="Enter something..."/>
+            </form-item>
+            <form-item>
+                <i-button type="primary" :loading="loading" @click="submit()">提交</i-button>
+            </form-item>
+        </i-form>
+    </modal>
+</span>
 <script>
     export default {
         props: {
+            id: {
+                type: Number,
+                default: 0,
+
+            },
             permissions: {
                 type: Array,
                 required: true,
@@ -40,14 +45,10 @@
         },
         data: function () {
             return {
-                tabName: 'permission',
                 loading: false,
-                display: false,
-                isChange: false,
-                isEdit: false,
+                visible: false,
                 formDisabled: false,
                 formData: {
-                    id: 0,
                     pid: '',
                     name: '',
                     control: {},
@@ -59,15 +60,20 @@
                     {title: '节点', key: 'name', width: 280},
                     {title: '注解', key: 'desc'},
                 ],
-                controlData: [
-                ],
+                controlData: [],
+            }
+        },
+        computed: {
+            isEdit() {
+                return !!this.id;
             }
         },
         methods: {
-            onVisibleChange(visible) {
-                if (false === visible) {
+            onDisplay(visible) {
+                if (visible) {
+                    this.render();
+                } else {
                     this.reset();
-                    this.$emit('close', this.isChange);
                 }
             },
             reset() {
@@ -75,23 +81,15 @@
                 this.loading = false;
                 this.$refs['FormItem'].resetFields();
                 this.controlData = [];
-                this.formData.id = 0;
             },
-            open(id) {
-                this.tabName = 'permission';
-                this.display = true;
-                this.isChange = false;
-                this.isEdit = _.isFinite(id);
-                this.title = this.isEdit ? '编辑权限' : '添加权限';
-                if (this.isEdit) {
-                    this.render(id);
+            render() {
+                if (0 === this.id) {
+                    return;
                 }
-            },
-            render(id) {
                 this.formDisabled = true;
                 axios.get('/admin.permission/get', {
                     params: {
-                        id: id,
+                        id: this.id,
                     }
                 }).then(res => {
                     this.formData = res.data.data;
@@ -112,24 +110,26 @@
                         return;
                     }
 
-                    this.isChange = true;
                     this.loading = true;
 
-                    axios.post('/admin.permission/save', this.formData)
-                .then(res => {
-                        res.data.code;
-                        this.$Notice.success({
-                            title: '操作请求成功',
-                            desc: `${this.isEdit ? '更新' : '添加'}权限: ${this.formData.name}`,
-                            duration: 6,
-                        });
+                    if (this.isEdit) {
+                        this.formData.id = this.id;
+                    }
+
+                    axios.post('/admin.permission/save', this.formData).then(res => {
+                        if (0 === res.data.code) {
+                            this.$Notice.success({
+                                title: '操作请求成功',
+                                desc: `${this.isEdit ? '更新' : '添加'}权限: ${this.formData.name}`,
+                                duration: 6,
+                            });
+                            this.$emit('on-submit-success', true);
+                        }
+                    }).catch(err => {
+                        console.warn(err);
+                    }).finally(() => {
+                        this.loading = false;
                     })
-                        .catch(err => {
-                            console.warn(err)
-                        })
-                        .then(() => {
-                            this.loading = false;
-                        })
                 });
             }
         }
