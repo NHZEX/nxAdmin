@@ -165,7 +165,8 @@ require.config({
 });
 
 const regex_csrf = /[\/?]?(csrf|csrf_update)[\/=](\w+)/;
-const isVue = getParameterByName('isVue')
+const isVue = '1' === args['vue']
+    || getParameterByName('isVue')
     || getParameterByName('isvue')
     || -1 !== window.location.href.indexOf('/isVue/1')
     || -1 !== window.location.href.indexOf('/isvue/1');
@@ -384,6 +385,104 @@ function getParameterByName (name, url) {
 // 已经加载的组件
 window.loadVueComponents = {};
 
+function loadVueComponent2(axios, uri) {
+    const compile = /([\S\s]+?)<script>([\S\s]+?)<\/script>/gu;
+    const vueCompile = /export default (\{[\S\s]+\});?/gu;
+
+    if (window.isDebug) {
+        console.info('load-vue-component2', uri);
+    }
+
+    function isEmptyObject(obj) {
+        for (let prop in obj) {
+            if(obj.hasOwnProperty(prop)) {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    function loadComponent(axios, url) {
+        return (resolve, reject) => {
+            let done = (components, template) => {
+                components.template = template;
+                if (window.isDebug) {
+                    console.info('lazy-vue-component', url, components);
+                }
+                if (components.hasOwnProperty('vueComponent') && !isEmptyObject(components.vueComponent)) {
+                    components._components = components.vueComponent;
+                    delete components.vueComponent;
+                }
+                if (components.hasOwnProperty('_components') && !isEmptyObject(components._components)) {
+                    if (!components.hasOwnProperty('components')) {
+                        components.components = {};
+                    }
+                    for (let tag in components._components) {
+                        if (!components._components.hasOwnProperty(tag)) {
+                            continue;
+                        }
+                        components.components[tag] = loadVueComponent2(axios, components._components[tag]);
+                    }
+                    delete components._components;
+                }
+                resolve(components);
+            };
+            let vueParsing = (code) => {
+                let result = vueCompile.exec(code);
+                let vueData = eval(`(function () {return ${result[1]};})()`);
+
+                if (vueData.hasOwnProperty('_require') && !isEmptyObject(vueData._require)) {
+                    let _require = vueData._require;
+                    let libs = [];
+                    let args = [];
+                    for (let lib in _require) {
+                        if (_require.hasOwnProperty(lib)) {
+                            libs.push(`'${lib}'`);
+                            args.push(_require[lib]);
+                        }
+                    }
+                    let _code = `new Promise((resolve, reject) => {
+                        require([${libs.join(', ')}], (${args.join(', ')}) => {
+                          resolve(${result[1]});
+                        });
+                      });`;
+                    vueData = eval(_code);
+                }
+                return vueData;
+            };
+            axios.get(url)
+                .then((res) => {
+                    let page = res.data;
+                    let result = compile.exec(page);
+                    let component;
+                    if (url.endsWith('.vue')) {
+                        component = vueParsing(result[2]);
+                    } else {
+                        // Function(`"use strict"; return (${result[2]})`)();
+                        component = eval(`"use strict"; ${result[2]}`);
+                    }
+
+                    if (component instanceof Promise) {
+                        component.then((value) => {
+                            done(value, result[1]);
+                        }).catch((err) => {
+                            throw err;
+                        })
+                    } else {
+                        done(component, result[1]);
+                    }
+                })
+                .catch((error) => {
+                    console.info('load-vue-component-error', url);
+                    console.error(error);
+                    reject(error)
+                });
+        };
+    }
+
+    return loadComponent(axios, uri);
+}
+
 /**
  * 异步加载Vue组件
  * @param vue
@@ -410,6 +509,9 @@ function loadMultiVueComponent (vue, axios, list, done) {
         this.done = done;
     };
     lmvc.prototype.start = function (list) {
+        if (false === vue) {
+            return this.loadVueComponent(false, list);
+        }
         for (let tag in list) {
             if (!list.hasOwnProperty(tag)) {
                 return;
@@ -427,18 +529,20 @@ function loadMultiVueComponent (vue, axios, list, done) {
         }
     };
     lmvc.prototype.loadVueComponent = function (tag, url) {
-        if (window.loadVueComponents.hasOwnProperty(tag)) {
-            if (window.loadVueComponents[tag] !== url) {
-                throw 'components [' + tag + '] existed, duplicate definition: ' + url;
+        if (tag !== false) {
+            if (window.loadVueComponents.hasOwnProperty(tag)) {
+                if (window.loadVueComponents[tag] !== url) {
+                    throw 'components [' + tag + '] existed, duplicate definition: ' + url;
+                }
+                return;
+            } else {
+                window.loadVueComponents[tag] = url;
             }
-            return;
-        } else {
-            window.loadVueComponents[tag] = url;
+            this.loadCount += 1;
         }
-        this.loadCount += 1;
         const compile = /([\S\s]+?)<script>([\S\s]+?)<\/script>/gu;
         const vueCompile = /export default (\{[\S\s]+\});?/gu;
-        this.vue.component(tag, (resolve, reject) => {
+        let promiseCall = (resolve, reject) => {
             let done = (components, template) => {
                 components.template = template;
                 if (window.isDebug) {
@@ -505,9 +609,14 @@ function loadMultiVueComponent (vue, axios, list, done) {
                     console.error(error);
                     reject(error)
                 });
-        });
+        };
+        if (false === this.vue) {
+            return promiseCall;
+        } else {
+            this.vue.component(tag, promiseCall);
+        }
     };
-    (new lmvc(vue, axios, done)).start(list);
+    return (new lmvc(vue, axios, done)).start(list);
 }
 
 /**

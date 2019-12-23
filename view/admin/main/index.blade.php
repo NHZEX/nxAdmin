@@ -22,6 +22,14 @@
     //呈现loading效果
     document.write(loadingHtml);
 </script>
+<script type="text/javascript">
+    function imageError(img, nullimg) {
+        nullimg || (nullimg = '/static/image/none.png');
+        img.src = nullimg;
+        img.title = '图片未找到.';
+        img.onerror = null;
+    }
+</script>
 <body class="kit-theme">
 <div class="layui-layout layui-layout-admin kit-layout-admin">
     <div class="layui-header">
@@ -78,12 +86,36 @@
             </ul>
         </div>
     </div>
+    @verbatim
     <div class="layui-body" id="container">
-        <!-- 内容主体区域 -->
-        <div style="padding: 15px;"><i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#xe63e;</i>
-            请稍等...
+        <div class="layui-tab layui-tab-card kit-tab">
+            <ul class="layui-tab-title" style="width: calc(100% - 119px)">
+                <li v-for="item in list" :key="item.id" :class="{'layui-this': item.id === current}" @click.stop="current = item.id">
+                    <i class="layui-icon layui-icon-home"></i> {{item.title}}
+                    <i v-if="item.id > 0" @click.stop="close(item.id)" class="layui-icon layui-unselect layui-tab-close layui-icon layui-icon-close"></i>
+                </li>
+            </ul>
+            <div class="kit-tab-refresh" style="right: 59px;" @click="refresh"><i class="fa fa-refresh"></i></div>
+            <div class="kit-tab-tool" style="right: 0;" @click="toolShow = !toolShow">操作&nbsp;<i class="fa fa-caret-down"></i></div>
+            <div class="kit-tab-tool-body layui-anim layui-anim-upbit" v-show="toolShow">
+                <ul>
+                    <li class="kit-item" @click="refresh">刷新当前选项卡</li>
+                    <li class="kit-line"></li>
+                    <li class="kit-item" @click="close(current)">关闭当前选项卡</li>
+                    <li class="kit-item" @click="close(current, true)">关闭其他选项卡</li>
+                    <li class="kit-line"></li>
+                    <li class="kit-item" @click="close(true)">关闭所有选项卡</li>
+                </ul>
+            </div>
+            <div class="layui-tab-content">
+                <div v-for="item in list" :key="item.id" :class="{'layui-tab-item': true, 'layui-show': item.id === current}">
+                    <component v-if="item.uri.endsWith('.vue')" :is="item.template"></component>
+                    <iframe v-else :ref="'tab-c' + item.id" :src="item.uri"  :style="{height: boxHeight + 'px'}"></iframe>
+                </div>
+            </div>
         </div>
     </div>
+    @endverbatim
 
     <div class="layui-footer">
         <!-- 底部固定区域 -->
@@ -91,16 +123,8 @@
         <a href="http://kit.zhengjinfan.cn/">kit.zhengjinfan.cn/</a> MIT license
     </div>
 </div>
-<script type="text/javascript">
-    function imageError(img, nullimg) {
-        nullimg || (nullimg = '/static/image/none.png');
-        img.src = nullimg;
-        img.title = '图片未找到.';
-        img.onerror = null;
-    }
-</script>
 <script type="text/javascript" src="/static/require/require.min.js"></script>
-<script type="text/javascript" src="/static/main-config.js?_v={{ RESOURCE_VERSION }}&debug={{ app()->isDebug() }}"></script>
+<script type="text/javascript" src="/static/main-config.js?_v={{ RESOURCE_VERSION }}&debug={{ app()->isDebug() }}&vue=1"></script>
 <script>
     require(['jquery', 'layui', 'kitapp', 'kitmessage', 'helper', 'axios'], function ($, layui, kitapp, kitmessage, helper, axios) {
         // （新）主入口

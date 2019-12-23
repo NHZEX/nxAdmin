@@ -345,7 +345,7 @@ button {
     right: 10px;
     width: 150px;
     border: 1px solid #e2e2e2;
-    display: none;
+    /*display: none;*/
     background-color: white;
     z-index: 999;
 }

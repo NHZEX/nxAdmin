@@ -41,7 +41,7 @@
                 mainUrl: tmpConfig.mainUrl,
                 elem: '#container',
                 onSwitch: function(data) { //选项卡切换时触发
-                    kitnavbar.clicked(data.layId); //navbar菜单被选中
+                    kitnavbar.clicked(String(data.id)); //navbar菜单被选中
                 },
                 closeBefore: function(data) { //关闭选项卡之前触发
                     return true; //返回true则关闭
@@ -52,7 +52,7 @@
                 elem:'#navbarContainer', // 查找id='navbarContainer'的容器，用于写入模板内容
                 data: tmpConfig.data,
             }).render(function(data) {
-                kittab.tabAdd(data); // tab 加载数据
+                kittab.vue.open(data);
             });
         }
 
