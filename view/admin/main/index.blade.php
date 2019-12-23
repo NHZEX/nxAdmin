@@ -109,8 +109,8 @@
             </div>
             <div class="layui-tab-content">
                 <div v-for="item in list" :key="item.id" :class="{'layui-tab-item': true, 'layui-show': item.id === current}">
-                    <component v-if="item.uri.endsWith('.vue')" :is="item.template"></component>
-                    <iframe v-else :ref="'tab-c' + item.id" :src="item.uri"  :style="{height: boxHeight + 'px'}"></iframe>
+                    <component v-if="item.uri.endsWith('.vue')" :is="item.template" :style="{height: boxHeight + 'px'}"></component>
+                    <iframe v-else :ref="'tab-c' + item.id" :src="item.uri" :style="{height: boxHeight + 'px'}"></iframe>
                 </div>
             </div>
         </div>
