@@ -19,6 +19,7 @@ let paths = {
     , 'crc32': 'libs/crc32/crc32.min'
     , 'lodash': 'libs/lodash/lodash.min'
     , 'require-css': '/static/require/css.min'
+    , 'qs': 'libs/qs/qs'
 
     , 'bootstrap': 'libs/bootstrap3/js/bootstrap.min'
     , 'bootstrap.typeahead': 'libs/bootstrap3/js/bootstrap3-typeahead.min'
@@ -175,10 +176,13 @@ if (window.isDebug) {
     console.info('isVue', isVue);
 }
 
-// axiosHandle csrf
-require(['axios'], function (axios) {
+// axios global handle
+require(['axios', 'qs'], function (axios, Qs) {
     // 全局默认设置
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    axios.defaults.paramsSerializer = function (params) {
+        return Qs.stringify(params, {arrayFormat: 'brackets'})
+    };
 
     /**
      * 动态获取CSRF令牌
@@ -509,9 +513,6 @@ function loadMultiVueComponent (vue, axios, list, done) {
         this.done = done;
     };
     lmvc.prototype.start = function (list) {
-        if (false === vue) {
-            return this.loadVueComponent(false, list);
-        }
         for (let tag in list) {
             if (!list.hasOwnProperty(tag)) {
                 return;
@@ -529,20 +530,18 @@ function loadMultiVueComponent (vue, axios, list, done) {
         }
     };
     lmvc.prototype.loadVueComponent = function (tag, url) {
-        if (tag !== false) {
-            if (window.loadVueComponents.hasOwnProperty(tag)) {
-                if (window.loadVueComponents[tag] !== url) {
-                    throw 'components [' + tag + '] existed, duplicate definition: ' + url;
-                }
-                return;
-            } else {
-                window.loadVueComponents[tag] = url;
+        if (window.loadVueComponents.hasOwnProperty(tag)) {
+            if (window.loadVueComponents[tag] !== url) {
+                throw 'components [' + tag + '] existed, duplicate definition: ' + url;
             }
-            this.loadCount += 1;
+            return;
+        } else {
+            window.loadVueComponents[tag] = url;
         }
+        this.loadCount += 1;
         const compile = /([\S\s]+?)<script>([\S\s]+?)<\/script>/gu;
         const vueCompile = /export default (\{[\S\s]+\});?/gu;
-        let promiseCall = (resolve, reject) => {
+        this.vue.component(tag, (resolve, reject) => {
             let done = (components, template) => {
                 components.template = template;
                 if (window.isDebug) {
@@ -609,14 +608,9 @@ function loadMultiVueComponent (vue, axios, list, done) {
                     console.error(error);
                     reject(error)
                 });
-        };
-        if (false === this.vue) {
-            return promiseCall;
-        } else {
-            this.vue.component(tag, promiseCall);
-        }
+        });
     };
-    return (new lmvc(vue, axios, done)).start(list);
+    (new lmvc(vue, axios, done)).start(list);
 }
 
 /**
