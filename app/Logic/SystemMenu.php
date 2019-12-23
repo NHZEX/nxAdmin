@@ -19,6 +19,8 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\App;
 use think\facade\Cache;
+use function strlen;
+use function strpos;
 
 /**
  * Class SystemMenu
@@ -42,7 +44,7 @@ class SystemMenu extends Base
             $menus = SystemMenuModel::getArrayTree();
             // 初始化菜单URL
             array_walk_recursive($menus, function (&$value, $key) {
-                if ('url' === $key && !empty($value) && $value !== '#') {
+                if ('url' === $key && !empty($value) && $value !== '#' && 0 !== strpos($value, '/')) {
                     $value = (string) url($value, [], true, false);
                 }
             });
