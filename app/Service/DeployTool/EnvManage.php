@@ -168,7 +168,7 @@ class EnvManage extends FeaturesManage
         // 载入数据库配置
         foreach ($this->envExtract($configName, 3) as $data) {
             [$group, $name, $value] = $data;
-            if (isset($dbPreset[$group])) {
+            if (isset($dbPreset[$group]) && isset($dbPreset[$group]['form'][$name])) {
                 $dbPreset[$group]['form'][$name][0] = $value;
             }
         }
