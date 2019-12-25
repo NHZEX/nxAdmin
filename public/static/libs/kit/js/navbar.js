@@ -8,13 +8,13 @@
 (function(Navbar) {
     if (typeof define === 'function' && define.amd) {
         // 支持 AMD
-        define(['jquery', 'layui', 'artTemplate', 'layer', 'layelement'], Navbar);
+        define(['jquery', 'layui', 'artTemplate', 'layelement'], Navbar);
     } else {
         throw Error('not support, missing amd dependence')
     }
 })(function($, layui, template) {
     var doc = $(document),
-        layer = layui.layer,
+        // layer = layui.layer,
         element = layui.element;
     var tplRender = template.compile([
         '{{ each data item index }}',
@@ -134,13 +134,13 @@
                 tipsId = undefined;
             if (defaults.showTips) {
 
-                // a的鼠标经过浮动提示
-                that.hover(function () {
-                    tipsId = layer.tips($(this).children('span').text(), this);
-                }, function () {
-                    if (tipsId)
-                        layer.close(tipsId);
-                });
+                // // a的鼠标经过浮动提示
+                // that.hover(function () {
+                //     tipsId = layer.tips($(this).children('span').text(), this);
+                // }, function () {
+                //     if (tipsId)
+                //         layer.close(tipsId);
+                // });
             }
 
             // 有data-options属性的dom元素
@@ -188,7 +188,7 @@
         var that = this,
             configData = that.config,
             menuData = [];
-        var navbarLoadIndex = layer.load(2);
+        // var navbarLoadIndex = layer.load(2);
         if (!that.hasElem())
             return that;
         var elemDom = that.getElem();
@@ -207,7 +207,7 @@
                 that.bind(function(data) {
                     typeof callback === 'function' && callback(data); // 将初始化时的callback也付给点击时调用
                 });
-                navbarLoadIndex && layer.close(navbarLoadIndex);
+                // navbarLoadIndex && layer.close(navbarLoadIndex);
             }
         }, 50);
 

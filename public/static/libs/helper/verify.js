@@ -527,7 +527,7 @@
             }
             if (allpass) {
                 if (type === 'radio') {
-                    that.gFormItem
+                    that._gFormItem
                         .filter(`[type=radio][name=${input.name}].${MARK_VALIDATE_ERROR}`)
                         .each(function (index, input) {
                             that.hideError(input);

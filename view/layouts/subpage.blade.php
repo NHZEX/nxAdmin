@@ -35,3 +35,4 @@
     </script>
     @yield('content')
 </div>
+@yield('javascript')

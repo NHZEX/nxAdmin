@@ -40,7 +40,7 @@ input.layui-form-danger2:hover,
 
 /* iview */
 .ivu-table td.table-column-isometric {
-    font-family: Menlo, Consolas, "Source Code Pro", Monaco, 'Courier New', "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    font-family: "Source Code Pro", Consolas, 'Courier New', Monaco, Menlo, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", Arial, sans-serif;
 }
 
 /* 移除应用内容窗口的边框 */

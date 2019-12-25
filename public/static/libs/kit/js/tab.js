@@ -13,10 +13,9 @@
         throw Error('not support, missing amd dependence')
     }
 })(function ($, Vue, axios, _, iview) {
-    var doc = $(document),
-        win = $(window);
+    let win = $(window);
 
-    var Tab = {
+    let Tab = {
         config: {
             elem: undefined,
             mainUrl: 'main.html',
@@ -31,7 +30,7 @@
      * @param options
      */
     Tab.set = function (options) {
-        var that = this;
+        let that = this;
         $.extend(true, that.config, options);
         return that;
     };
@@ -39,7 +38,7 @@
      * 渲染选项卡
      */
     Tab.render = function () {
-        var that = this,
+        let that = this,
             configData = that.config;
         if (configData.elem === undefined) {
             layui.hint().error('Tab error:请配置选择卡容器.');
@@ -146,12 +145,12 @@
                     }
                 },
                 winResize: function () {
-                    win.on('resize', () => {
+                    win.on('resize.main-tab', () => {
                         this.boxHeight = $(this.$el).height() - 48;
                     }).resize();
                 },
                 winHashChange() {
-                    win.on('hashchange', (e) => {
+                    win.on('hashchange.main-tab', (e) => {
                         console.log('hashchange', e);
                     });
                 },

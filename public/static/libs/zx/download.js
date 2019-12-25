@@ -13,9 +13,12 @@
     function Class() {
     }
 
-    Class.prototype.url = function (url, target) {
+    Class.prototype.url = function (url, params, target) {
         // target: _self 当前页面, 新的页面 _blank
         target = (typeof target !== 'undefined') ? target : '_self';
+        if (params) {
+            url = url + '?' + Qs.stringify(params);
+        }
         window.open(url, target)
     };
     Class.prototype.blob = function (content, filename) {

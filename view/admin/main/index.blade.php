@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/static/libs/font-awesome/css/font-awesome.min.css" media="all"/>
     <link rel="stylesheet" href="/static/libs/kit/css/themes/default.css" media="all" id="skin" kit-skin/>
     <link rel="stylesheet" href="/static/css/main-loading.css"/>
+    <link rel="stylesheet" href="/static/css/layui.fork.css"/>
 </head>
 <script>
     /* 来源: https://blog.csdn.net/qq576777915/article/details/78693240 */
@@ -89,7 +90,7 @@
     @verbatim
     <div class="layui-body" id="container">
         <div class="layui-tab layui-tab-card kit-tab">
-            <ul class="layui-tab-title" style="width: calc(100% - 119px)">
+            <ul class="no-layui-tab-title" style="width: calc(100% - 119px)">
                 <li v-for="item in list" :key="item.id" :class="{'layui-this': item.id === current}" @click.stop="current = item.id">
                     <i class="layui-icon layui-icon-home"></i> {{item.title}}
                     <i v-if="item.id > 0" @click.stop="close(item.id)" class="layui-icon layui-unselect layui-tab-close layui-icon layui-icon-close"></i>
@@ -126,7 +127,8 @@
 <script type="text/javascript" src="/static/require/require.min.js"></script>
 <script type="text/javascript" src="/static/main-config.js?_v={{ RESOURCE_VERSION }}&debug={{ app()->isDebug() }}&vue=1"></script>
 <script>
-    require(['jquery', 'layui', 'kitapp', 'kitmessage', 'helper', 'axios'], function ($, layui, kitapp, kitmessage, helper, axios) {
+    // , 'helper' helper
+    require(['jquery', 'layui', 'kitapp', 'kitmessage', 'axios'], function ($, layui, kitapp, kitmessage, axios) {
         // （新）主入口
         kitapp.set({
             data: Object({!! $webmenu !!}),
@@ -141,11 +143,11 @@
         });
 
         $('#basic_info').on('click', function () {
-            helper.formModal()
-                .load('{{ $url['basic_info'] }}', [], '基本资料', '500px')
-                .end(() => {
-                    $(this).parents('dd').removeClass('layui-this');
-                });
+            // helper.formModal()
+            //     .load('{{ $url['basic_info'] }}', [], '基本资料', '500px')
+            //     .end(() => {
+            //         $(this).parents('dd').removeClass('layui-this');
+            //     });
             return false;
         });
         $('#clear_cache').on('click', function () {
