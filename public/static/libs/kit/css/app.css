@@ -376,6 +376,13 @@ button {
     z-index: 2;
 }
 
+.kit-tab .no-layui-tab-title {
+    width: calc(100% - 71px);
+    padding-right: 0;
+    position: absolute;
+    z-index: 2;
+}
+
 .kit-tab .layui-tab-content {
     padding: 0;
     position: relative;
