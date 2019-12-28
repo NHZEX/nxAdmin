@@ -34,9 +34,12 @@ class SessionInit
     {
         // Session初始化
         $varSessionId = $this->app->config->get('session.var_session_id');
+        $headerSessionId = $this->app->config->get('session.var_header', 'X-TOKEN');
         $cookieName   = $this->session->getName();
 
-        if ($varSessionId && $request->request($varSessionId)) {
+        if ($xToken = $request->header($headerSessionId)) {
+            $sessionId = $xToken;
+        } elseif ($varSessionId && $request->request($varSessionId)) {
             $sessionId = $request->request($varSessionId);
         } else {
             $sessionId = $request->cookie($cookieName);

@@ -45,9 +45,8 @@
         "symfony/polyfill-php73": "^1.10",
         "symfony/var-dumper": "^4.2",
         "symfony/var-exporter": "^4.2",
-        "topthink/framework": "~6.0.0",
-        "topthink/think-orm": "~2.0.27",
-        "vlucas/phpdotenv": "^3.3"
+        "topthink/framework": "~6.0.1",
+        "topthink/think-orm": "~2.0.27"
     },
     "require-dev": {
         "phpunit/phpunit": "^8"

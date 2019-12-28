@@ -1,7 +1,7 @@
 
 //从script传递的内容
 let scripts = document.getElementsByTagName("script");
-let scriptArgs = scripts[ scripts.length - 1 ].src.split("?")[1].split("&");
+let scriptArgs = scripts[scripts.length - 1].src.split("?")[1].split("&");
 let args = {};
 for (let index in scriptArgs) {
     let tmp = scriptArgs[index].split("=");
@@ -19,6 +19,7 @@ let paths = {
     , 'crc32': 'libs/crc32/crc32.min'
     , 'lodash': 'libs/lodash/lodash.min'
     , 'require-css': '/static/require/css.min'
+    , 'qs': 'libs/qs/qs'
 
     , 'bootstrap': 'libs/bootstrap3/js/bootstrap.min'
     , 'bootstrap.typeahead': 'libs/bootstrap3/js/bootstrap3-typeahead.min'
@@ -87,7 +88,7 @@ if (!window.isDebug) {
 
 // noinspection JSFileReferences
 require.config({
-    baseUrl: '//'+window.location.host + '/static'
+    baseUrl: '//' + window.location.host + '/static'
     , waitSeconds: 30
     , paths: paths
     , shim: {
@@ -165,7 +166,8 @@ require.config({
 });
 
 const regex_csrf = /[\/?]?(csrf|csrf_update)[\/=](\w+)/;
-const isVue = getParameterByName('isVue')
+const isVue = '1' === args['vue']
+    || getParameterByName('isVue')
     || getParameterByName('isvue')
     || -1 !== window.location.href.indexOf('/isVue/1')
     || -1 !== window.location.href.indexOf('/isvue/1');
@@ -174,10 +176,13 @@ if (window.isDebug) {
     console.info('isVue', isVue);
 }
 
-// axiosHandle csrf
-require(['axios'], function (axios) {
+// axios global handle
+require(['axios', 'qs'], function (axios, Qs) {
     // 全局默认设置
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+    axios.defaults.paramsSerializer = function (params) {
+        return Qs.stringify(params, {arrayFormat: 'brackets'})
+    };
 
     /**
      * 动态获取CSRF令牌
@@ -220,9 +225,9 @@ if (isVue) {
         // 响应拦截器
         axios.interceptors.response.use(function (response) {
             // Do something with response data
-            if(response.data && response.data.hasOwnProperty('code') && 0 !== response.data.code) {
-                let message = '['+response.data.code+'] '+response.data.msg;
-                if(window.vue) {
+            if (response.data && response.data.hasOwnProperty('code') && 0 !== response.data.code) {
+                let message = '[' + response.data.code + '] ' + response.data.msg;
+                if (window.vue) {
                     window.vue.$Notice.error({
                         title: '操作请求错误',
                         desc: message,
@@ -236,25 +241,26 @@ if (isVue) {
 
             return response;
         }, function (error) {
-            let call = () => {}, message;
+            let call = () => {
+            }, message;
 
             // Do something with response error
-            message = '[HTTP-'+error.response.status+'] '+error.response.statusText;
+            message = '[HTTP-' + error.response.status + '] ' + error.response.statusText;
 
             if (error.config['close_error_handle']) {
                 return Promise.reject(error);
             }
 
-            if(401 === error.response.status) {
-                message = '[HTTP-'+error.response.status+'] '+(error.response.data ? error.response.data : error.response.statusText);
+            if (401 === error.response.status) {
+                message = '[HTTP-' + error.response.status + '] ' + (error.response.data ? error.response.data : error.response.statusText);
                 call = function () {
-                    if(error.response.headers['soft-location']) {
+                    if (error.response.headers['soft-location']) {
                         window.location.href = error.response.headers['soft-location'];
                     }
                 }
             }
-            if(403 === error.response.status) {
-                message = '[HTTP-'+error.response.status+'] 你没有权限访问此内容';
+            if (403 === error.response.status) {
+                message = '[HTTP-' + error.response.status + '] 你没有权限访问此内容';
             }
 
             if (window.vue) {
@@ -279,9 +285,9 @@ if (isVue) {
 
         $(document).ajaxSend(function (event, jqxhr, ajaxOptions) {
             // 处理CSRF令牌
-            if(ajaxOptions.type.toLowerCase() === 'put' || ajaxOptions.type.toLowerCase() === 'post') {
+            if (ajaxOptions.type.toLowerCase() === 'put' || ajaxOptions.type.toLowerCase() === 'post') {
                 let csrf_token;
-                if(!jqxhr.getResponseHeader('XSRF-Token') && (csrf_token = regex_csrf.exec(ajaxOptions.url))) {
+                if (!jqxhr.getResponseHeader('XSRF-Token') && (csrf_token = regex_csrf.exec(ajaxOptions.url))) {
                     jqxhr.setRequestHeader(
                         'XSRF-Token',
                         csrf_token[2] + ('csrf_update' === csrf_token[1] ? '.update' : '.default')
@@ -293,24 +299,32 @@ if (isVue) {
         });
 
         // noinspection JSUnusedLocalSymbols
-        $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
             layer.closeAll('loading');
-            if(401 === jqxhr.status) {
-                layer.msg('['+jqxhr.status+'] '+jqxhr.responseText, {icon: 5, time: 3000, zIndex: 33554431}, function () {
+            if (401 === jqxhr.status) {
+                layer.msg('[' + jqxhr.status + '] ' + jqxhr.responseText, {
+                    icon: 5,
+                    time: 3000,
+                    zIndex: 33554431
+                }, function () {
                     let location = jqxhr.getResponseHeader('Soft-Location');
-                    if(location) {
+                    if (location) {
                         window.location.href = location;
                     }
                 })
-            } else if(403 === jqxhr.status) {
-                layer.msg('['+jqxhr.status+'] 你没有权限访问此内容', {icon: 5, time: 3000, zIndex: 33554431})
+            } else if (403 === jqxhr.status) {
+                layer.msg('[' + jqxhr.status + '] 你没有权限访问此内容', {icon: 5, time: 3000, zIndex: 33554431})
             } else {
-                !settings.silent && layer.msg('['+jqxhr.status+'] '+jqxhr.statusText, {icon: 5, time: 3000, zIndex: 33554431});
+                !settings.silent && layer.msg('[' + jqxhr.status + '] ' + jqxhr.statusText, {
+                    icon: 5,
+                    time: 3000,
+                    zIndex: 33554431
+                });
             }
             return false;
         });
 
-        $(document).ajaxSuccess(function(event, XMLHttpRequest, ajaxOptions) {
+        $(document).ajaxSuccess(function (event, XMLHttpRequest, ajaxOptions) {
         });
     });
 
@@ -319,11 +333,11 @@ if (isVue) {
         // 响应拦截器
         axios.interceptors.response.use(function (response) {
             // Do something with response data
-            if(response.data.hasOwnProperty('code') && 0 !== response.data.code) {
-                if(layer) {
+            if (response.data.hasOwnProperty('code') && 0 !== response.data.code) {
+                if (layer) {
                     layer.closeAll('loading');
-                    let message = '['+response.data.code+'] '+response.data.msg;
-                    if(response.config.layer_elem) {
+                    let message = '[' + response.data.code + '] ' + response.data.msg;
+                    if (response.config.layer_elem) {
                         layer.tips(message, $(response.config.layer_elem), {
                             tips: [2, '#FF5722']
                             , zIndex: 33554431
@@ -339,30 +353,31 @@ if (isVue) {
             return response;
         }, function (error) {
             // Do something with response error
-            let message = '[HTTP-'+error.response.status+'] '+error.response.statusText;
-            if(layer) {
+            let message = '[HTTP-' + error.response.status + '] ' + error.response.statusText;
+            if (layer) {
                 layer.closeAll('loading')
             }
-            let call = function () {};
-            if(401 === error.response.status) {
-                message = '[HTTP-'+error.response.status+'] '+(error.response.data ? error.response.data : error.response.statusText);
+            let call = function () {
+            };
+            if (401 === error.response.status) {
+                message = '[HTTP-' + error.response.status + '] ' + (error.response.data ? error.response.data : error.response.statusText);
                 call = function () {
-                    if(error.response.headers['soft-location']) {
+                    if (error.response.headers['soft-location']) {
                         window.location.href = error.response.headers['soft-location'];
                     }
                 }
             }
-            if(403 === error.response.status) {
-                message = '[HTTP-'+error.response.status+'] 你没有权限访问此内容';
+            if (403 === error.response.status) {
+                message = '[HTTP-' + error.response.status + '] 你没有权限访问此内容';
             }
 
-            if(error.config.layer_elem) {
+            if (error.config.layer_elem) {
                 layer.tips(message, $(error.config.layer_elem), {
                     tips: [2, '#CC0000']
                     , zIndex: 33554431
                     , end: call
                 })
-            } else if(!error.config.silent) {
+            } else if (!error.config.silent) {
                 layer.msg(message, {icon: 5, time: 3000, zIndex: 33554431}, call)
             }
 
@@ -371,7 +386,7 @@ if (isVue) {
     });
 }
 
-function getParameterByName (name, url) {
+function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, '\\$&');
     let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
@@ -391,18 +406,20 @@ window.loadVueComponents = {};
  * @param list
  * @param done
  */
-function loadMultiVueComponent (vue, axios, list, done) {
+function loadMultiVueComponent(vue, axios, list, done) {
     if (window.isDebug) {
         console.info('load-multi-vue-component', list);
     }
+
     function isEmptyObject(obj) {
         for (let prop in obj) {
-            if(obj.hasOwnProperty(prop)) {
+            if (obj.hasOwnProperty(prop)) {
                 return false;
             }
         }
         return false;
     }
+
     let lmvc = function load(vue, axios, done) {
         this.loadCount = 0;
         this.vue = vue;
@@ -449,7 +466,8 @@ function loadMultiVueComponent (vue, axios, list, done) {
                     delete components.vueComponent;
                 }
                 if (components.hasOwnProperty('_components') && !isEmptyObject(components._components)) {
-                    loadMultiVueComponent(vue, axios, components._components, () => {});
+                    loadMultiVueComponent(vue, axios, components._components, () => {
+                    });
                     delete components._components;
                 }
                 this.loadCount--;
@@ -517,7 +535,7 @@ function loadMultiVueComponent (vue, axios, list, done) {
  * @param {String} prop
  * @return {Number}
  */
-function monitorWindowsHeightResize (actualResizeHandler, dom = window, prop = 'innerHeight') {
+function monitorWindowsHeightResize(actualResizeHandler, dom = window, prop = 'innerHeight') {
     let lastHeight = dom[prop];
 
     return setInterval(() => {

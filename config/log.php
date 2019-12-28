@@ -4,6 +4,19 @@
 // | 日志设置
 // +----------------------------------------------------------------------
 
+use think\App;
+
+// 格式日志头
+$formatHead = function ($uir, App $app) {
+    $runtime     = round(microtime(true) - $app->getBeginTime(), 10);
+    $time_str    = ' [运行时间：' . number_format($runtime, 6) . 's]';
+    $memory_use  = number_format((memory_get_usage() - $app->getBeginMem()) / 1024, 2);
+    $memory_peak = number_format(memory_get_peak_usage() / 1024, 2);
+    $memory_str  = ' [内存消耗：' . $memory_use . 'kb，峰值：' . $memory_peak . 'kb]';
+    $file_load   = ' [文件加载：' . count(get_included_files()) . ']';
+    return $uir  . $time_str . $memory_str . $file_load;
+};
+
 return [
     // 默认日志记录通道
     'default'      => env('LOG_CHANNEL', 'file'),
@@ -44,9 +57,11 @@ return [
         // 其它日志通道配置
         'remote' => [
             // 日志记录方式
-            'type'           => Socket::class,
-            // socket服务器地址
-            'host'           => env_get('LOG_REMOTE_HOST', '127.0.0.1'),
+            'type'           => 'socket',
+            // 服务器地址
+            'host'           => env('LOG_REMOTE_HOST', '127.0.0.1'),
+            // 服务器端口
+            'port'           => env('LOG_REMOTE_PORT', 1116),
             // 是否显示加载的文件列表
             'show_included_files' => false,
             // 日志强制记录到配置的 client_id
@@ -61,6 +76,10 @@ return [
             'format'         => '[%s][%s] %s',
             // 是否实时写入
             'realtime_write' => false,
+            // 默认展开节点
+            'expand_level'   => ['debug'],
+            // 自定义日志头
+            'format_head'    => $formatHead,
         ],
     ],
 ];

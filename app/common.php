@@ -19,6 +19,11 @@ function view_current($vars = [], $code = 200, $filter = null): View
     return $view->assign($vars)->filter($filter);
 }
 
+function db_transaction(callable $callback, string $name = null)
+{
+    return Db::connect($name)->transaction($callback);
+}
+
 /**
  * @param array  $tree
  * @param string|array $name

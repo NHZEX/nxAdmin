@@ -10,6 +10,8 @@ return [
     'name'           => 'sess',
     // SESSION_ID的提交变量,解决flash上传跨域
     'var_session_id' => '',
+    // 从请求头中获取 session id
+    'var_header' => 'X-TOKEN',
     // 驱动方式 支持file cache
     'type'           => Cache::class,
     // 存储连接标识 当type使用cache的时候有效

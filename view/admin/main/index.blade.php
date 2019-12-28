@@ -22,6 +22,14 @@
     //呈现loading效果
     document.write(loadingHtml);
 </script>
+<script type="text/javascript">
+    function imageError(img, nullimg) {
+        nullimg || (nullimg = '/static/image/none.png');
+        img.src = nullimg;
+        img.title = '图片未找到.';
+        img.onerror = null;
+    }
+</script>
 <body class="kit-theme">
 <div class="layui-layout layui-layout-admin kit-layout-admin">
     <div class="layui-header">
@@ -91,14 +99,6 @@
         <a href="http://kit.zhengjinfan.cn/">kit.zhengjinfan.cn/</a> MIT license
     </div>
 </div>
-<script type="text/javascript">
-    function imageError(img, nullimg) {
-        nullimg || (nullimg = '/static/image/none.png');
-        img.src = nullimg;
-        img.title = '图片未找到.';
-        img.onerror = null;
-    }
-</script>
 <script type="text/javascript" src="/static/require/require.min.js"></script>
 <script type="text/javascript" src="/static/main-config.js?_v={{ RESOURCE_VERSION }}&debug={{ app()->isDebug() }}"></script>
 <script>

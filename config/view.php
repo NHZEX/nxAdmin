@@ -15,5 +15,5 @@ return [
     // 模板文件名分隔符
     'view_depr'    => DIRECTORY_SEPARATOR,
     // 编译缓存
-    'tpl_cache'     => true,
+    'tpl_cache'     => !app()->isDebug(),
 ];

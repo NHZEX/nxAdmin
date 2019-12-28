@@ -50,6 +50,8 @@ use Tp\Model\Traits\TransactionExtension;
  * @method mixed findOrEmpty(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 不存在则返回空模型
  * @method ThinkModel withAttr($name, callable $callback = null) 设置数据字段获取器
  * @method Query2 wherePk($op, $condition = null) static 指定主键查询条件
+ *
+ * @method mixed transaction(callable $callback) static
  */
 abstract class Base extends ThinkModel
 {

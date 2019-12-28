@@ -9,6 +9,7 @@
 namespace app\controller\admin;
 
 use app\Exception\JsonException;
+use app\Logic\AdminRole;
 use app\Logic\SystemMenu;
 use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthGuard;
@@ -18,6 +19,8 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Env;
 use think\Response;
+use function config;
+use function env;
 use function view_current;
 
 /**
@@ -26,6 +29,32 @@ use function view_current;
  */
 class Main extends Base
 {
+    /**
+     * 基本系统设置
+     */
+    public function config()
+    {
+        return self::showSucceed([
+            'webTitle' => env('SYSTEM_WEB_TITLE'),
+            'loginCaptcha' => config('captcha.login'),
+        ]);
+    }
+
+    /**
+     * 获取用户信息
+     * @Auth()
+     * @return Response
+     */
+    public function userInfo()
+    {
+        $user = \app\Service\Auth\Facade\Auth::user();
+        $role_id = $user->isSuperAdmin() ? -1 : $user->role_id;
+        return self::showSucceed([
+            'user' => $user,
+            'permission' => AdminRole::queryPermission($role_id),
+        ]);
+    }
+
     /**
      * 主页框架
      * @Auth()

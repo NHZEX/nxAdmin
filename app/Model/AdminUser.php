@@ -365,7 +365,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * 验证比吗是否正确
+     * 验证密码是否正确
      * @param string $password
      * @return bool
      */

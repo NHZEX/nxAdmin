@@ -10,9 +10,13 @@ namespace app\controller\admin;
 
 use app\Logic\AdminUser;
 use app\Service\Auth\AuthGuard;
+use app\Service\Auth\Facade\Auth;
 use Captcha\Captcha;
+use think\facade\Session;
 use think\Response;
 use think\response\View;
+use function env;
+use function hash_hmac;
 use function view_current;
 
 class Login extends Base
@@ -67,7 +71,7 @@ class Login extends Base
     /**
      * 产生一个验证码
      * @param string|null $_
-     * @return Captcha
+     * @return Response
      */
     public function captcha(string $_ = null)
     {
@@ -107,7 +111,10 @@ class Login extends Base
         // 执行登陆操作
         if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme)) {
             $this->app->cookie->set('login_time', time() + 10);
-            return self::showMsg(CODE_SUCCEED);
+            return self::showSucceed([
+                'uuid' => hash_hmac('sha1', Auth::id(), env('DEPLOY_SECURITY_SALT')),
+                'token' => Session::getId(),
+            ]);
         } else {
             return self::showMsg(CODE_CONV_LOGIN, $adminUser->getErrorMessage());
         }
@@ -123,6 +130,9 @@ class Login extends Base
         if ($auth->check()) {
             $this->app->cookie->delete('login_time');
             $auth->logout();
+        }
+        if ($this->request->isAjax()) {
+            return self::showSucceed();
         }
         return $this->success('退出登陆', '@admin.login/index');
     }
