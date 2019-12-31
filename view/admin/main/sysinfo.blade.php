@@ -60,7 +60,7 @@
         </tr>
         <tr>
             <td>路径缓存</td>
-            <td>{{ ini_get('realpath_cache_size') }}</td>
+            <td>{{ ini_get('realpath_cache_size') }} ({{ realpath_cache_size() }})</td>
         </tr>
         </tbody>
     </table>
