@@ -156,7 +156,7 @@ trait OptimLock
      */
     protected function checkResult($result): void
     {
-        if (!$result) {
+        if (!$result && !empty($this->optimLock)) {
             throw new ModelException('The object being updated is outdated.', CODE_MODEL_OPTIMISTIC_LOCK);
         }
     }
