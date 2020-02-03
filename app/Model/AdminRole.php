@@ -11,7 +11,6 @@ namespace app\Model;
 use app\Exception\AccessControl;
 use app\Exception\JsonException;
 use app\Logic\AdminRole as AdminRoleLogic;
-use app\Service\Auth\Facade\Auth;
 use think\Model;
 use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
@@ -21,7 +20,7 @@ use Tp\Model\Traits\MysqlJson;
  *
  * @package app\common\model
  * @property int $id
- * @property int $genre 类型 1=系统 2=酒店
+ * @property int $genre 类型 1=系统 2=代理商
  * @property int $status 状态 0=正常 1=禁用
  * @property int $create_time 创建时间
  * @property int $update_time 更新时间
@@ -127,21 +126,21 @@ class AdminRole extends Base
      */
     protected static function checkAccessControl(Model $data)
     {
-        $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
-        $dataId = $data->getOrigin('id');
-        $auth = Auth::instance();
-        if (null === $dataGenre || null === ($accessGenre = $auth->user()->genre)) {
-            return;
-        }
-        $accessId = $auth->id();
-        $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
-        if (false === in_array($dataGenre, $genreControl)) {
-            throw new AccessControl('当前登陆的用户无该数据的操作权限');
-        }
-        // 当前数据存在ID且数据ID与访问ID不一致 且 当前权限组不具备全组访问权限
-        if ((null !== $dataId && $dataId !== $accessId) && false === in_array('*', $genreControl)) {
-            throw new AccessControl('当前登陆的用户无该数据的操作权限');
-        }
+        // $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
+        // $dataId = $data->getOrigin('id');
+        // $auth = Auth::instance();
+        // if (null === $dataGenre || null === ($accessGenre = $auth->user()->genre)) {
+        //     return;
+        // }
+        // $accessId = $auth->id();
+        // $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
+        // if (false === in_array($dataGenre, $genreControl)) {
+        //     throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        // }
+        // // 当前数据存在ID且数据ID与访问ID不一致 且 当前权限组不具备全组访问权限
+        // if ((null !== $dataId && $dataId !== $accessId) && false === in_array('*', $genreControl)) {
+        //     throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        // }
     }
 
     /**

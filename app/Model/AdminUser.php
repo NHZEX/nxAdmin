@@ -57,7 +57,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     protected $readonly = ['genre'];
 
     protected $hidden = [
-        'remember', 'password'
+        'remember', 'password', 'delete_time'
     ];
 
     const STATUS_NORMAL = 0;
@@ -249,6 +249,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     protected function beRoleName()
     {
         return $this->belongsTo(AdminRole::class, 'role_id', 'id')
+            ->field(['id', 'name'])
             ->bind([
                 'role_name' => 'name',
             ]);

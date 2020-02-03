@@ -5,9 +5,11 @@
  * Time: 10:54
  */
 
+use app\Service\Auth\Middleware\AllowCrossDomain;
 use app\Service\Auth\Middleware\SessionInit;
 
 return [
+    AllowCrossDomain::class,
     SessionInit::class,
     // 全局请求缓存
     // \think\middleware\CheckRequestCache::class,
