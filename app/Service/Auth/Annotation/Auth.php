@@ -26,4 +26,11 @@ final class Auth extends Annotation
      * @var string
      */
     public $policy = '';
+
+    /**
+     * 功能注解
+     *
+     * @var string
+     */
+    public $desc = '';
 }

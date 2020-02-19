@@ -3,12 +3,10 @@ declare(strict_types=1);
 
 namespace app\Service\Auth;
 
-use app\Service\Auth\Model\Permission;
 use RuntimeException;
-use think\Collection;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
+use SplFileObject;
+use Symfony\Component\VarExporter\Exception\ExceptionInterface;
+use Symfony\Component\VarExporter\VarExporter;
 use function array_pop;
 use function count;
 use function explode;
@@ -18,7 +16,7 @@ use function ksort;
 /**
  * Trait InteractsWithSyncModel
  * @package app\Service\Auth
- * @property \app\Service\Auth\Permission $permission
+ * @property Permission $permission
  */
 trait InteractsWithSyncModel
 {
@@ -31,88 +29,88 @@ trait InteractsWithSyncModel
     {
         $this->scanAuthAnnotation();
 
-        $groupControl = function (array $control) {
-            // 处理control
-            $control_array = [];
-            foreach ($control as $key => $x) {
-                $control_array[$key] = 'node@' . $x;
-            }
-            return ['allow' => array_values($control_array)];
-        };
+        $original = [];
 
-        Permission::transaction(function () use ($groupControl) {
-            $data = array_merge(
-                $this->fillPermission('group', $this->getPermissions(), $groupControl),
-                $this->fillPermission('node', $this->getNodes()),
-                $this->fillCustomize()
+        $output = [
+            'features'   => $this->getNodes(),
+            'permission' => $this->fillPermission($this->getPermissions(), $original),
+            'permission2features' => [],
+            'features2permission' => [],
+        ];
+
+        $permission2features = &$output['permission2features'];
+        foreach ($output['permission'] as $permission => $data) {
+            $permission2features[$permission] = array_merge(
+                $permission2features[$permission] ?? [],
+                $data['allow'] ?? []
             );
-            $data = array_values($data);
-            dump($this->fillCustomize());
+        }
 
-            foreach ($data as &$item) {
-                $item['id'] = $this->increase++;
+        $features2permission = &$output['features2permission'];
+        foreach ($output['permission2features'] as $permission => $features) {
+            foreach ($features as $feature) {
+                if (isset($features2permission[$feature])) {
+                    throw new RuntimeException('features mapping permission only one');
+                }
+                $features2permission[$feature] = $permission;
             }
+        }
 
-            Permission::where('id', '>', '0')->delete();
-            Permission::insertAll($data);
-        });
+        $this->export($output);
+    }
 
-        $this->permission->refresh();
+    public function export(array $data)
+    {
+        $filename = app_path() . 'auth_storage.php';
+
+        if (is_file($filename) && is_readable($filename)) {
+            $sf = new SplFileObject($filename, 'r');
+            $sf->seek(2);
+            [, $lastHash] = explode(':', $sf->current() ?: ':');
+            $lastHash = trim($lastHash);
+            $contents = $sf->fread($sf->getSize() - $sf->ftell());
+            if ($lastHash !== md5($contents)) {
+                unset($lastHash);
+            }
+        }
+
+        try {
+            $nodes_data = VarExporter::export($data);
+        } catch (ExceptionInterface $e) {
+            $nodes_data = '[]';
+        }
+
+        $contents = "return {$nodes_data};\n";
+        $hash = md5($contents);
+
+        if (isset($lastHash) && $lastHash === $hash) {
+            return true;
+        }
+
+        $date = date('c');
+        $info = "// update date: {$date}\n// hash: {$hash}";
+
+        $tempname = stream_get_meta_data($tf = tmpfile())['uri'];
+        fwrite($tf, "<?php\n{$info}\n{$contents}");
+        copy($tempname, $filename);
+
+        return true;
     }
 
     /**
+     * @param array $data
+     * @param array $original
      * @return array
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
      */
-    protected function fillCustomize()
+    protected function fillPermission(array $data, array $original): array
     {
-        $result = Permission::scope('customize')->hidden(['id'])->select();
-        $result = array_map(function ($v) {
-            return [
-                'sort' => $v['sort'],
-                'genre' => $v['genre'],
-                'pid' => $v['pid'],
-                'name' => $v['name'],
-                'control' => json_encode($v['control'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
-                'desc' => $v['desc'],
-            ];
-        }, $result->toArray());
-
-        return $result;
-    }
-
-    /**
-     * @param string        $scope
-     * @param array         $data
-     * @param callable|null $handleControl
-     * @return array|false|Collection
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
-     */
-    protected function fillPermission(string $scope, array $data, ?callable $handleControl = null)
-    {
-        $genre = [
-            'group' => Permission::GENRE_GROUP,
-            'node' => Permission::GENRE_NODE,
-        ];
-        $delimiter = [
-            'group' => '.',
-            'node' => '/',
-        ];
-        $original = Permission::scope($scope)->hidden(['id'])->select();
-        $original = array_combine($original->column('name'), $original->toArray());
-
         $result = [];
+        $original = $original['permission'] ?? [];
         foreach ($data as $permission => $control) {
             // 填充父节点
-            $pid = $this->fillParent($result, $original, $permission, $genre[$scope], $delimiter[$scope]);
-            // 处理control
-            $control = $handleControl ? $handleControl($control) : $control;
+            $pid = $this->fillParent($result, $original, $permission);
             // 生成插入数据
-            if (isset($original[$permission]) && !empty($original[$permission]['control'])) {
+            if (isset($original[$permission])) {
                 $sort = $original[$permission]['sort'];
                 $desc = $original[$permission]['desc'];
             } else {
@@ -120,12 +118,11 @@ trait InteractsWithSyncModel
                 $desc = '';
             }
             $result[$permission] = [
-                'sort' => $sort,
-                'genre' => $genre[$scope],
                 'pid' => $pid,
                 'name' => $permission,
-                'control' => json_encode($control, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
+                'sort' => $sort,
                 'desc' => $desc,
+                'allow' => array_values($control),
             ];
         }
 
@@ -133,17 +130,17 @@ trait InteractsWithSyncModel
         return $result;
     }
 
+
     /**
      * 填充父节点
      * @param array  $data
      * @param array  $original
      * @param string $permission
-     * @param int    $genre
-     * @param string $delimiter
      * @return string
      */
-    protected function fillParent(array &$data, array $original, string $permission, int $genre, string $delimiter)
+    protected function fillParent(array &$data, array $original, string $permission)
     {
+        $delimiter = '.';
         $parents = explode($delimiter, $permission) ?: [];
         if (1 === count($parents)) {
             return self::ROOT_NODE;
@@ -157,9 +154,6 @@ trait InteractsWithSyncModel
             $parent = implode($delimiter, $parents) ?: self::ROOT_NODE;
 
             if (isset($original[$curr])) {
-                if (!empty($original[$curr]['control'])) {
-                    throw new RuntimeException('父节点不允许分配权限: ' . $curr);
-                }
                 $sort = $original[$curr]['sort'];
                 $desc = $original[$curr]['desc'];
             } else {
@@ -167,12 +161,11 @@ trait InteractsWithSyncModel
                 $desc = '';
             }
             $data[$curr] = [
-                'sort' => $sort,
-                'genre' => $genre,
                 'pid' => $parent,
                 'name' => $curr,
-                'control' => null,
+                'sort' => $sort,
                 'desc' => $desc,
+                'allow' => null,
             ];
         }
 

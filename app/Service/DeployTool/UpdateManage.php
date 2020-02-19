@@ -5,7 +5,6 @@ namespace app\Service\DeployTool;
 
 use app\Logic\SystemMenu;
 use app\Model\System;
-use app\Service\Auth\Permission;
 use Exception;
 use ReflectionException;
 use Symfony\Component\Finder\Finder;
@@ -138,24 +137,7 @@ class UpdateManage extends FeaturesManage
             return false;
         }
 
-        $result1 = $this->updateNodes($output);
-        $result2 = $this->updateMenu($output);
-
-        return $result1 && $result2;
-    }
-
-    /**
-     * 更新权限节点
-     * @param Output $output
-     * @return bool
-     * @throws Exception
-     */
-    protected function updateNodes(Output $output): bool
-    {
-        $output->writeln('> 更新权限节点...');
-        $result = (new Permission())->import($this->deploy->isDryRun(), $message);
-        $output->writeln('  权限数据: ' . $message);
-        return $result;
+        return $this->updateMenu($output);
     }
 
     /**

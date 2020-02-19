@@ -70,23 +70,31 @@ class AdminRole extends Base
     {
         $key = self::$CACHE_ROLE . ':' . $roleId . ':permission';
         if (!$force && Cache::has($key)) {
-            $data = Cache::get($key);
+            $allowPermission = Cache::get($key);
         } else {
-            if (-1 === $roleId) {
-                $data = array_keys((new Permission())->all());
-                $data = array_flip($data);
-            } else {
+            $permission = Permission::getInstance();
+            $allowPermission = $permission->allPermission();
+            if (-1 !== $roleId) {
                 $ext = self::queryExt($roleId);
-                $data = $ext['permission'] ?? [];
-                $allPermission = (new Permission())->all();
-                foreach ($data as $permission) {
-                    if (isset($allPermission[$permission]) && isset($allPermission[$permission]['allow'])) {
-                        $data = array_merge($data, $allPermission[$permission]['allow']);
-                    }
-                }
-                $data = array_flip($data);
+
+                $permission = array_flip($ext['permission'] ?? []);
+                $allowPermission = array_intersect_key($permission, $allowPermission);
             }
-            Cache::set($key, $data);
+            Cache::set($key, $allowPermission);
+        }
+        return $allowPermission;
+    }
+
+    /**
+     * @param int  $roleId
+     * @param bool $force
+     * @return array
+     */
+    public static function queryOnlyPermission(int $roleId, bool $force = false): array
+    {
+        $data = [];
+        foreach (self::queryPermission($roleId, $force) as $key => $v) {
+            $data[$key] = null;
         }
         return $data;
     }

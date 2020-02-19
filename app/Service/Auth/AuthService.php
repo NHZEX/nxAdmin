@@ -57,8 +57,9 @@ class AuthService extends Service
             return isset($user->permissions()[$uri]);
         });
         $gate->before(function (AdminUser $user, string $uri) use ($gate) {
-            if (!$gate->has($uri) && isset($this->app->make(Permission::class)->all()[$uri])) {
-                return isset($user->permissions()[$uri]);
+            if (!$gate->has($uri) && Permission::getInstance()->contain($uri)) {
+                $uri = Permission::getInstance()->getPermissionByFeature($uri) ?? $uri;
+                return $user->allowPermission($uri);
             }
             return null;
         });

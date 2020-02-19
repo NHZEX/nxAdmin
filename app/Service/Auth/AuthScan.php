@@ -41,6 +41,6 @@ class AuthScan
 
         $this->reader = new AnnotationReader();
 
-        $this->permission = new Permission();
+        $this->permission = Permission::getInstance();
     }
 }

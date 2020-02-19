@@ -203,10 +203,15 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return self::GENRE_ADMIN === $this->genre;
     }
 
+    public function allowPermission(string $permission): bool
+    {
+        return isset($this->permissions()[$permission]);
+    }
+
     /**
      * @return array
      */
-    public function permissions(): ?array
+    public function permissions(): array
     {
         if (empty($this->permissions)) {
             $roleId = $this->isSuperAdmin() ? -1 : $this->role_id;

@@ -48,7 +48,7 @@ class Authorize
             return $next($request);
         }
 
-        $nodeControl = $this->permission->queryNode($nodeName);
+        $nodeControl = $this->permission->queryFeature('node@' . $nodeName);
 
         if (null === $nodeControl) {
             return $next($request);

@@ -109,11 +109,13 @@ trait InteractsWithScanAuth
                         throw new AuthException('annotation value not empty: ' . $methodPath);
                     }
                     $authStr = $this->parseAuth($auth->value, $controllerUrl, $methodName);
-                    $this->permissions[$authStr][$methodPath] = $nodeUrl;
+                    $features = "node@{$nodeUrl}";
+                    $this->permissions[$authStr][$methodPath] = $features;
                     // 记录节点控制信息
-                    $this->nodes['node@' . $nodeUrl] = [
-                        'class' => $methodPath,
+                    $this->nodes[$features] = [
+                        'class'  => $methodPath,
                         'policy' => $auth->policy,
+                        'desc'   => $auth->desc,
                     ];
                 }
 
