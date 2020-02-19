@@ -7,15 +7,46 @@ use think\App;
 
 class Permission
 {
+    /**
+     * @var AuthStorage
+     */
+    protected $storage = null;
+
     public static function getInstance(): Permission
     {
         return App::getInstance()->make(Permission::class);
     }
 
     /**
-     * @var AuthStorage
+     * 获取树
+     * @param array|null $data
+     * @param string     $index
+     * @param int        $level
+     * @return array
      */
-    protected $storage = null;
+    public function getTree(
+        string $index = '__ROOT__',
+        int $level = 0,
+        ?array $data = null
+    ) :array {
+        if (null === $data) {
+            $data = array_merge([], $this->loadStorage()->permission);
+            usort($data, function ($a, $b) {
+                return $a['sort'] <=> $b['sort'];
+            });
+        }
+        $tree = [];
+        foreach ($data as $permission) {
+            if ($permission['pid'] === $index) {
+                $permission['title'] = $permission['name'];
+                $permission['spread'] = true;
+                $permission['valid'] = !empty($permission['allow']);
+                $permission['children'] = $this->getTree($permission['title'], $level + 1, $data);
+                $tree[] = $permission;
+            }
+        }
+        return $tree;
+    }
 
     protected function loadStorage(): AuthStorage
     {
