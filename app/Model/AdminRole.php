@@ -167,11 +167,20 @@ class AdminRole extends Base
     }
 
     /**
-     * @param int $genre
-     * @return iterable
+     * 获取角色列表
+     * todo 权限列表需要输出过滤
+     * @return array
      */
-    public static function selectOption(int $genre): iterable
+    public static function selectOption()
     {
-        return (new self())->where('genre', $genre)->field(['id', 'name'])->cursor();
+        $result = [];
+        foreach (self::cursor() as $item) {
+            $result[] = [
+                'value' => $item['id'],
+                'text'  => "[{$item['genreDesc']}] {$item['name']}",
+                'type'  => $item['genre'],
+            ];
+        }
+        return $result;
     }
 }
