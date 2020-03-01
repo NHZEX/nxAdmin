@@ -41,6 +41,9 @@ class AdminRole extends Base
     protected $table = 'admin_role';
     protected $pk = 'id';
     protected $readonly = ['genre'];
+    protected $type = [
+        'ext' => 'json',
+    ];
 
     const STATUS_NORMAL = 0;
     const STATUS_DISABLE = 1;
