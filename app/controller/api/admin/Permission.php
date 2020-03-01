@@ -2,12 +2,18 @@
 
 namespace app\controller\api\admin;
 
+use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthScan;
 use app\Service\Auth\Permission as AuthPermission;
 use think\Response;
 
 class Permission extends Base
 {
+    /**
+     * @Auth("permission.info")
+     * @param AuthPermission $permission
+     * @return Response
+     */
     public function index(AuthPermission $permission)
     {
         $data = $permission->getTree('__ROOT__', 1);
@@ -16,6 +22,7 @@ class Permission extends Base
     }
 
     /**
+     * @Auth("permission.info")
      * @param                $id
      * @param AuthPermission $permission
      * @return Response
@@ -43,6 +50,7 @@ class Permission extends Base
 
     /**
      * 扫描权限
+     * @Auth("permission.scan")
      * @param AuthScan $authScan
      * @return Response
      */

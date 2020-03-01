@@ -1,6 +1,6 @@
 <?php
-// update date: 2020-02-19T23:32:42+08:00
-// hash: faea72856644b63ebbceed9af2b4df9c
+// update date: 2020-03-01T23:49:26+08:00
+// hash: 1aeb55410127c7e60db9e6aeb9511f82
 return [
     'features' => [
         'node@admin.main/userinfo' => [
@@ -153,6 +153,71 @@ return [
             'policy' => '',
             'desc' => '',
         ],
+        'node@api.admin.permission/index' => [
+            'class' => 'app\\controller\\api\\admin\\Permission::index',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.permission/read' => [
+            'class' => 'app\\controller\\api\\admin\\Permission::read',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.permission/scan' => [
+            'class' => 'app\\controller\\api\\admin\\Permission::scan',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.roles/index' => [
+            'class' => 'app\\controller\\api\\admin\\Roles::index',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.roles/select' => [
+            'class' => 'app\\controller\\api\\admin\\Roles::select',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.roles/read' => [
+            'class' => 'app\\controller\\api\\admin\\Roles::read',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.roles/save' => [
+            'class' => 'app\\controller\\api\\admin\\Roles::save',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.roles/update' => [
+            'class' => 'app\\controller\\api\\admin\\Roles::update',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.roles/delete' => [
+            'class' => 'app\\controller\\api\\admin\\Roles::delete',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.users/index' => [
+            'class' => 'app\\controller\\api\\admin\\Users::index',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.users/read' => [
+            'class' => 'app\\controller\\api\\admin\\Users::read',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.users/save' => [
+            'class' => 'app\\controller\\api\\admin\\Users::save',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.users/update' => [
+            'class' => 'app\\controller\\api\\admin\\Users::update',
+            'policy' => '',
+            'desc' => '',
+        ],
     ],
     'permission' => [
         'login' => [
@@ -246,6 +311,8 @@ return [
                 'node@admin.permission/index',
                 'node@admin.permission/permissiontree',
                 'node@admin.permission/get',
+                'node@api.admin.permission/index',
+                'node@api.admin.permission/read',
             ],
         ],
         'permission.lasting' => [
@@ -264,6 +331,7 @@ return [
             'desc' => '重建权限',
             'allow' => [
                 'node@admin.permission/scan',
+                'node@api.admin.permission/scan',
             ],
         ],
         'role' => [
@@ -280,6 +348,7 @@ return [
             'desc' => '删除角色',
             'allow' => [
                 'node@admin.role/delete',
+                'node@api.admin.roles/delete',
             ],
         ],
         'role.edit' => [
@@ -290,6 +359,8 @@ return [
             'allow' => [
                 'node@admin.role/save',
                 'node@admin.role/savepermission',
+                'node@api.admin.roles/save',
+                'node@api.admin.roles/update',
             ],
         ],
         'role.info' => [
@@ -302,6 +373,9 @@ return [
                 'node@admin.role/table',
                 'node@admin.role/pageedit',
                 'node@admin.role/permission',
+                'node@api.admin.roles/index',
+                'node@api.admin.roles/select',
+                'node@api.admin.roles/read',
             ],
         ],
         'user' => [
@@ -318,6 +392,7 @@ return [
             'desc' => '删除用户',
             'allow' => [
                 'node@admin.manager/delete',
+                'node@api.admin.users/update',
             ],
         ],
         'user.edit' => [
@@ -327,6 +402,7 @@ return [
             'desc' => '编辑角色',
             'allow' => [
                 'node@admin.manager/save',
+                'node@api.admin.users/save',
             ],
         ],
         'user.info' => [
@@ -338,6 +414,8 @@ return [
                 'node@admin.manager/index',
                 'node@admin.manager/table',
                 'node@admin.manager/pageedit',
+                'node@api.admin.users/index',
+                'node@api.admin.users/read',
             ],
         ],
         'user.password' => [
@@ -383,38 +461,51 @@ return [
             'node@admin.permission/index',
             'node@admin.permission/permissiontree',
             'node@admin.permission/get',
+            'node@api.admin.permission/index',
+            'node@api.admin.permission/read',
         ],
         'permission.lasting' => [
             'node@admin.permission/lasting',
         ],
         'permission.scan' => [
             'node@admin.permission/scan',
+            'node@api.admin.permission/scan',
         ],
         'role' => [],
         'role.del' => [
             'node@admin.role/delete',
+            'node@api.admin.roles/delete',
         ],
         'role.edit' => [
             'node@admin.role/save',
             'node@admin.role/savepermission',
+            'node@api.admin.roles/save',
+            'node@api.admin.roles/update',
         ],
         'role.info' => [
             'node@admin.role/index',
             'node@admin.role/table',
             'node@admin.role/pageedit',
             'node@admin.role/permission',
+            'node@api.admin.roles/index',
+            'node@api.admin.roles/select',
+            'node@api.admin.roles/read',
         ],
         'user' => [],
         'user.del' => [
             'node@admin.manager/delete',
+            'node@api.admin.users/update',
         ],
         'user.edit' => [
             'node@admin.manager/save',
+            'node@api.admin.users/save',
         ],
         'user.info' => [
             'node@admin.manager/index',
             'node@admin.manager/table',
             'node@admin.manager/pageedit',
+            'node@api.admin.users/index',
+            'node@api.admin.users/read',
         ],
         'user.password' => [
             'node@admin.manager/changepassword',
@@ -436,20 +527,33 @@ return [
         'node@admin.permission/index' => 'permission.info',
         'node@admin.permission/permissiontree' => 'permission.info',
         'node@admin.permission/get' => 'permission.info',
+        'node@api.admin.permission/index' => 'permission.info',
+        'node@api.admin.permission/read' => 'permission.info',
         'node@admin.permission/lasting' => 'permission.lasting',
         'node@admin.permission/scan' => 'permission.scan',
+        'node@api.admin.permission/scan' => 'permission.scan',
         'node@admin.role/delete' => 'role.del',
+        'node@api.admin.roles/delete' => 'role.del',
         'node@admin.role/save' => 'role.edit',
         'node@admin.role/savepermission' => 'role.edit',
+        'node@api.admin.roles/save' => 'role.edit',
+        'node@api.admin.roles/update' => 'role.edit',
         'node@admin.role/index' => 'role.info',
         'node@admin.role/table' => 'role.info',
         'node@admin.role/pageedit' => 'role.info',
         'node@admin.role/permission' => 'role.info',
+        'node@api.admin.roles/index' => 'role.info',
+        'node@api.admin.roles/select' => 'role.info',
+        'node@api.admin.roles/read' => 'role.info',
         'node@admin.manager/delete' => 'user.del',
+        'node@api.admin.users/update' => 'user.del',
         'node@admin.manager/save' => 'user.edit',
+        'node@api.admin.users/save' => 'user.edit',
         'node@admin.manager/index' => 'user.info',
         'node@admin.manager/table' => 'user.info',
         'node@admin.manager/pageedit' => 'user.info',
+        'node@api.admin.users/index' => 'user.info',
+        'node@api.admin.users/read' => 'user.info',
         'node@admin.manager/changepassword' => 'user.password',
     ],
 ];

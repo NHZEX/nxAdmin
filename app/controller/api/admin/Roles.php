@@ -3,6 +3,7 @@
 namespace app\controller\api\admin;
 
 use app\Model\AdminRole;
+use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -15,6 +16,7 @@ use think\Response;
 class Roles extends Base
 {
     /**
+     * @Auth("role.info")
      * @param int $limit
      * @return Response
      * @throws DbException
@@ -28,6 +30,7 @@ class Roles extends Base
     }
 
     /**
+     * @Auth("role.info")
      * @return Response
      */
     public function select()
@@ -36,6 +39,7 @@ class Roles extends Base
     }
 
     /**
+     * @Auth("role.info")
      * @param int $id
      * @return Response
      * @throws DbException
@@ -52,6 +56,7 @@ class Roles extends Base
     }
 
     /**
+     * @Auth("role.edit")
      * @return Response
      */
     public function save()
@@ -61,6 +66,7 @@ class Roles extends Base
     }
 
     /**
+     * @Auth("role.edit")
      * @param $id
      * @return Response
      * @throws DataNotFoundException
@@ -79,6 +85,7 @@ class Roles extends Base
     }
 
     /**
+     * @Auth("role.del")
      * @param $id
      * @return Response
      */

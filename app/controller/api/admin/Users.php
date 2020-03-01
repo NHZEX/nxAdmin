@@ -3,6 +3,7 @@
 namespace app\controller\api\admin;
 
 use app\Model\AdminUser;
+use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -15,6 +16,7 @@ use think\Response;
 class Users extends Base
 {
     /**
+     * @Auth("user.info")
      * @param int $limit
      * @return Response
      * @throws DbException
@@ -32,6 +34,7 @@ class Users extends Base
     }
 
     /**
+     * @Auth("user.info")
      * @param int $id
      * @return Response
      * @throws DbException
@@ -48,6 +51,7 @@ class Users extends Base
     }
 
     /**
+     * @Auth("user.edit")
      * @return Response
      */
     public function save()
@@ -58,6 +62,7 @@ class Users extends Base
     }
 
     /**
+     * @Auth("user.del")
      * @param int $id
      * @return Response
      * @throws DataNotFoundException
