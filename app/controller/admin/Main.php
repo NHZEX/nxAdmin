@@ -13,7 +13,6 @@ use app\Logic\AdminRole;
 use app\Logic\SystemMenu;
 use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthGuard;
-use app\Service\Auth\Permission;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -51,7 +50,7 @@ class Main extends Base
         $role_id = $user->isSuperAdmin() ? -1 : $user->role_id;
         return self::showSucceed([
             'user' => $user,
-            'permission' => AdminRole::queryPermission($role_id),
+            'permission' => AdminRole::queryOnlyPermission($role_id),
         ]);
     }
 
@@ -145,13 +144,11 @@ class Main extends Base
     /**
      * 清理缓存
      * @Auth(policy="userType:admin")
-     * @param Permission $permission
      * @return Response
      */
-    public function clearCache(Permission $permission)
+    public function clearCache()
     {
         SystemMenu::refreshCache();
-        $permission->refresh();
         return self::showSucceed();
     }
 }

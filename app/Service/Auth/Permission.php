@@ -68,6 +68,16 @@ class Permission
         return $this->loadStorage()->features[$node] ?? null;
     }
 
+    /**
+     * 查询权限
+     * @param string $name
+     * @return array|null
+     */
+    public function queryPermission(string $name): ?array
+    {
+        return $this->loadStorage()->permission[$name] ?? null;
+    }
+
     public function getPermissionByFeature($feature): ?string
     {
         return $this->loadStorage()->fe2pe[$feature] ?? null;

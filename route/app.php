@@ -44,6 +44,10 @@ $r->group('api', function () use ($r) {
     $r->group('admin', function () use ($r) {
         $r->resource('users', 'users');
         $r->resource('roles', 'roles');
+        $r->resource('permission', 'permission')->pattern([
+            'id' => '[\w\.]+'
+        ]);
+        $r->get('permission/scan', 'permission/scan');
     })->prefix('api.admin.')->pattern([
         'id' => '\d+',
         'name' => '\w+',
