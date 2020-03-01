@@ -48,7 +48,7 @@ class Permission
         return $tree;
     }
 
-    protected function loadStorage(): AuthStorage
+    protected function loadStorage(): ?AuthStorage
     {
         if (empty($this->storage)) {
             $filename = app_path() . 'auth_storage.php';
@@ -56,6 +56,14 @@ class Permission
             $this->storage = new AuthStorage(require_once $filename);
         }
         return $this->storage;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasStorage(): bool
+    {
+        return $this->loadStorage() !== null;
     }
 
     /**

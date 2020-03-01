@@ -38,6 +38,17 @@ trait InteractsWithSyncModel
             'features2permission' => [],
         ];
 
+        $permission = Permission::getInstance();
+        if ($permission->hasStorage()) {
+            foreach ($output['permission'] as $key => $item) {
+                if ($info = $permission->queryPermission($key)) {
+                    $item['sort'] = $info['sort'];
+                    $item['desc'] = $info['desc'];
+                    $output['permission'][$key] = $item;
+                }
+            }
+        }
+
         $permission2features = &$output['permission2features'];
         foreach ($output['permission'] as $permission => $data) {
             $permission2features[$permission] = array_merge(
