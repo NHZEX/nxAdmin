@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "php": "~7.2.10 || ~7.3.3",
+        "php": "~7.2.10|~7.3.3",
         "ext-bcmath": "*",
         "ext-curl": "*",
         "ext-exif": "*",
@@ -27,7 +27,7 @@
         "ext-openssl": "*",
         "ext-pdo": "*",
         "ext-posix": "*",
-        "ext-redis": "^4.3.0 || ^5.0",
+        "ext-redis": "^4.3.0|^5.0",
         "ext-simplexml": "*",
         "ext-sockets": "*",
         "ext-zip": "*",
@@ -40,10 +40,10 @@
         "nhzex/think-phinx": "^1.0.1",
         "robmorgan/phinx": "^0.11",
         "rybakit/msgpack": "^0.7",
-        "symfony/finder": "^4.3",
+        "symfony/finder": "^4.2|^5.0",
         "symfony/polyfill-php73": "^1.10",
-        "symfony/var-dumper": "^4.2",
-        "symfony/var-exporter": "^4.2",
+        "symfony/var-dumper": "^4.2|^5.0",
+        "symfony/var-exporter": "^4.2|^5.0",
         "topthink/framework": "~6.0.1",
         "topthink/think-orm": "~2.0.27"
     },
