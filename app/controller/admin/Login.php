@@ -70,15 +70,15 @@ class Login extends Base
 
     /**
      * 产生一个验证码
+     * @param Captcha     $captcha
      * @param string|null $_
      * @return Response
      */
-    public function captcha(string $_ = null)
+    public function captcha(Captcha $captcha, string $_ = null)
     {
         if (!$_) {
             abort(401);
         }
-        $captcha = new Captcha($this->app->config->get('captcha'));
         $captcha->entry();
         $captcha->saveToRedis($_);
         return $captcha->send();
@@ -87,9 +87,10 @@ class Login extends Base
     /**
      * 登陆
      * @param AdminUser $adminUser
+     * @param Captcha   $captcha
      * @return Response
      */
-    public function login(AdminUser $adminUser)
+    public function login(AdminUser $adminUser, Captcha $captcha)
     {
         $param = $this->request->param();
 
@@ -97,8 +98,7 @@ class Login extends Base
         $ctoken = $param['#'];
 
         // 验证码校验
-        if ($this->app->config->get('captcha.login')) {
-            $captcha = new Captcha($this->app->config->get('captcha'));
+        if ($captcha->login) {
             if (!$captcha->checkToRedis($ctoken, $param['captcha'] ?? '0000')) {
                 return self::showMsg(CODE_COM_CAPTCHA, $captcha->getMessage());
             }

@@ -9,6 +9,7 @@
 namespace Captcha;
 
 use app\Exception\BusinessResult;
+use think\Config;
 use think\facade\Cache;
 use think\Response;
 
@@ -16,6 +17,7 @@ use think\Response;
  * Class Captcha
  * @package app\common\captcha
  *
+ * @property bool $login
  * @property string $seKey
  * @property string $codeSet
  * @property int $expire
@@ -35,32 +37,33 @@ class Captcha
     private $message = null;
 
     protected $config = [
-        'seKey' => 'ThinkPHP.CN',
+        'login' => true,
         // 验证码加密密钥
-        'codeSet' => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
+        'seKey' => 'ThinkPHP.CN',
         // 验证码字符集合
-        'expire' => 1800,
+        'codeSet' => '2345678abcdefhijkmnpqrstuvwxyzABCDEFGHJKLMNPQRTUVWXY',
         // 验证码过期时间（s）
-        'useImgBg' => false,
+        'expire' => 1800,
         // 使用背景图片
-        'fontSize' => 25,
+        'useImgBg' => false,
         // 验证码字体大小(px)
-        'useCurve' => true,
+        'fontSize' => 25,
         // 是否画混淆曲线
-        'useNoise' => true,
+        'useCurve' => true,
         // 是否添加杂点
-        'imageH' => 0,
+        'useNoise' => true,
         // 验证码图片高度
-        'imageW' => 0,
+        'imageH' => 0,
         // 验证码图片宽度
-        'length' => 5,
+        'imageW' => 0,
         // 验证码位数
-        'fontttf' => '',
+        'length' => 5,
         // 验证码字体，不设置随机获取
-        'bg' => [243, 251, 254],
+        'fontttf' => '',
         // 背景颜色
-        'reset' => true,
+        'bg' => [243, 251, 254],
         // 验证成功后是否重置
+        'reset' => true,
     ];
 
     private $im = null; // 验证码图片实例
@@ -73,11 +76,15 @@ class Captcha
     /**
      * 架构方法 设置参数
      * @access public
-     * @param  array $config 配置参数
+     * @param Config     $config
+     * @param array|null $option
      */
-    public function __construct($config = [])
+    public function __construct(Config $config, ?array $option = null)
     {
-        $this->config = array_merge($this->config, $config);
+        if (empty($option)) {
+            $option = $config->get('captcha');
+        }
+        $this->config = array_merge($this->config, $option);
         $this->background_path = __DIR__ . '/assets/bgs/';
         $this->tff_path = __DIR__ . '/assets/';
     }
@@ -130,55 +137,48 @@ class Captcha
     /**
      * 画一条由两条连在一起构成的随机正弦函数曲线作干扰线(你可以改成更帅的曲线函数)
      *
-     *      高中的数学公式咋都忘了涅，写出来
-     *        正弦型函数解析式：y=Asin(ωx+φ)+b
-     *      各常数值对函数图像的影响：
-     *        A：决定峰值（即纵向拉伸压缩的倍数）
-     *        b：表示波形在Y轴的位置关系或纵向移动距离（上加下减）
-     *        φ：决定波形与X轴位置关系或横向移动距离（左加右减）
-     *        ω：决定周期（最小正周期T=2π/∣ω∣）
+     * 高中的数学公式咋都忘了涅，写出来
+     *   正弦型函数解析式：y=Asin(ωx+φ)+b
+     * 各常数值对函数图像的影响：
+     *   A：决定峰值（即纵向拉伸压缩的倍数）
+     *   b：表示波形在Y轴的位置关系或纵向移动距离（上加下减）
+     *   φ：决定波形与X轴位置关系或横向移动距离（左加右减）
+     *   ω：决定周期（最小正周期T=2π/∣ω∣）
      */
     private function writeCurve()
     {
-        /** @noinspection PhpUnusedLocalVariableInspection */
         $px = $py = 0;
 
-        // 曲线前部分
         $A = mt_rand(1, $this->imageH / 2); // 振幅
-        $b = mt_rand(-$this->imageH / 4, $this->imageH / 4); // Y轴方向偏移量
-        $f = mt_rand(-$this->imageH / 4, $this->imageH / 4); // X轴方向偏移量
+
         $T = mt_rand($this->imageH, $this->imageW * 2); // 周期
         $w = (2 * M_PI) / $T;
 
+        // 曲线前部分
+        $b = mt_rand(-$this->imageH / 4, $this->imageH / 4); // Y轴方向偏移量
+        $f = mt_rand(-$this->imageH / 4, $this->imageH / 4); // X轴方向偏移量
         $px1 = 0; // 曲线横坐标起始位置
         $px2 = mt_rand($this->imageW / 2, $this->imageW * 0.8); // 曲线横坐标结束位置
 
-        for ($px = $px1; $px <= $px2; $px = $px + 1) {
-            if (0 != $w) {
-                $py = $A * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
-                $i  = (int) ($this->fontSize / 5);
-                while ($i > 0) {
-                    // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
-                    imagesetpixel($this->im, $px + $i, $py + $i, $this->color);
-                    $i--;
-                }
-            }
-        }
+        $this->drawCurve($A, $px1, $px2, $w, $f, $b);
 
         // 曲线后部分
-        $A   = mt_rand(1, $this->imageH / 2); // 振幅
-        $f   = mt_rand(-$this->imageH / 4, $this->imageH / 4); // X轴方向偏移量
-        $T   = mt_rand($this->imageH, $this->imageW * 2); // 周期
-        $w   = (2 * M_PI) / $T;
         $b   = $py - $A * sin($w * $px + $f) - $this->imageH / 2;
+        $f   = mt_rand(-$this->imageH / 4, $this->imageH / 4); // X轴方向偏移量
         $px1 = $px2;
         $px2 = $this->imageW;
 
+        $this->drawCurve($A, $px1, $px2, $w, $f, $b);
+    }
+
+    private function drawCurve(int $amplitude, int $px1, int $px2, float $w, float $f, float $b)
+    {
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if (0 != $w) {
-                $py = $A * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
+                $py = $amplitude * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
                 $i  = (int) ($this->fontSize / 5);
                 while ($i > 0) {
+                    // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
                     imagesetpixel($this->im, $px + $i, $py + $i, $this->color);
                     $i--;
                 }
@@ -229,7 +229,7 @@ class Captcha
 
         $gb = $bgs[array_rand($bgs)];
 
-        list($width, $height) = @getimagesize($gb);
+        [$width, $height] = @getimagesize($gb);
         // Resample
         $bgImage = @imagecreatefromjpeg($gb);
         @imagecopyresampled($this->im, $bgImage, 0, 0, 0, 0, $this->imageW, $this->imageH, $width, $height);
@@ -240,9 +240,9 @@ class Captcha
      * 输出验证码并把验证码的
      * @access public
      * @param string $code 要生成验证码的标识
-     * @return Response
+     * @return string
      */
-    public function entry(&$code = '')
+    public function entry(&$code = ''): string
     {
         // 图片宽(px)
         $this->imageW || $this->imageW = $this->length * $this->fontSize * 1.5 + $this->length * $this->fontSize / 2;
@@ -318,11 +318,10 @@ class Captcha
     private function codeHash($code)
     {
         $code = strtoupper($code);
-        $result = hash_hmac('sha1', $code, $this->seKey);
-        return $result;
+        return hash_hmac('sha1', $code, $this->seKey);
     }
 
-    public function send()
+    public function send(): Response
     {
         $head = [
             'Content-Length' => strlen($this->codeContent),
@@ -344,8 +343,7 @@ class Captcha
      */
     public function check($code, $hashCode)
     {
-        $result = $this->codeHash($code) === $hashCode;
-        return $result;
+        return $this->codeHash($code) === $hashCode;
     }
 
     /**
