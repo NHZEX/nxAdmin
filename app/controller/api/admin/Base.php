@@ -7,10 +7,8 @@
 
 namespace app\controller\api\admin;
 
-use app\BaseController;
-use app\Traits\ShowReturn2;
+use app\controller\api\Base as ApiBase;
 
-abstract class Base extends BaseController
+abstract class Base extends ApiBase
 {
-    use ShowReturn2;
 }

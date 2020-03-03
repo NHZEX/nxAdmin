@@ -1,13 +1,8 @@
 <?php
-// update date: 2020-03-03T16:25:31+08:00
-// hash: 784a6bdbbca4d2ea65467beea348165f
+// update date: 2020-03-04T00:20:27+08:00
+// hash: b63402768dbda2bb3df4e8a421529404
 return [
     'features' => [
-        'node@admin.main/userinfo' => [
-            'class' => 'app\\controller\\admin\\Main::userInfo',
-            'policy' => '',
-            'desc' => '',
-        ],
         'node@admin.main/index' => [
             'class' => 'app\\controller\\admin\\Main::index',
             'policy' => '',
@@ -15,6 +10,11 @@ return [
         ],
         'node@admin.main/sysinfo' => [
             'class' => 'app\\controller\\admin\\Main::sysinfo',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.auth/userinfo' => [
+            'class' => 'app\\controller\\api\\admin\\Auth::userInfo',
             'policy' => '',
             'desc' => '',
         ],
@@ -83,6 +83,11 @@ return [
             'policy' => '',
             'desc' => '',
         ],
+        'node@api.system/sysinfo' => [
+            'class' => 'app\\controller\\api\\System::sysinfo',
+            'policy' => '',
+            'desc' => '',
+        ],
     ],
     'permission' => [
         'login' => [
@@ -91,9 +96,10 @@ return [
             'sort' => 0,
             'desc' => '用户登录后授予的权限',
             'allow' => [
-                'node@admin.main/userinfo',
                 'node@admin.main/index',
                 'node@admin.main/sysinfo',
+                'node@api.admin.auth/userinfo',
+                'node@api.system/sysinfo',
             ],
         ],
         'permission' => [
@@ -197,9 +203,10 @@ return [
     ],
     'permission2features' => [
         'login' => [
-            'node@admin.main/userinfo',
             'node@admin.main/index',
             'node@admin.main/sysinfo',
+            'node@api.admin.auth/userinfo',
+            'node@api.system/sysinfo',
         ],
         'permission' => [],
         'permission.info' => [
@@ -235,9 +242,10 @@ return [
         ],
     ],
     'features2permission' => [
-        'node@admin.main/userinfo' => 'login',
         'node@admin.main/index' => 'login',
         'node@admin.main/sysinfo' => 'login',
+        'node@api.admin.auth/userinfo' => 'login',
+        'node@api.system/sysinfo' => 'login',
         'node@api.admin.permission/index' => 'permission.info',
         'node@api.admin.permission/read' => 'permission.info',
         'node@api.admin.permission/scan' => 'permission.scan',

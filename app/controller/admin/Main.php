@@ -8,13 +8,9 @@
 
 namespace app\controller\admin;
 
-use app\Logic\AdminRole;
 use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthGuard;
 use think\Env;
-use think\Response;
-use function config;
-use function env;
 use function view_current;
 
 /**
@@ -23,32 +19,6 @@ use function view_current;
  */
 class Main extends Base
 {
-    /**
-     * 基本系统设置
-     */
-    public function config()
-    {
-        return self::showSucceed([
-            'webTitle' => env('SYSTEM_WEB_TITLE'),
-            'loginCaptcha' => config('captcha.login'),
-        ]);
-    }
-
-    /**
-     * 获取用户信息
-     * @Auth()
-     * @return Response
-     */
-    public function userInfo()
-    {
-        $user = \app\Service\Auth\Facade\Auth::user();
-        $role_id = $user->isSuperAdmin() ? -1 : $user->role_id;
-        return self::showSucceed([
-            'user' => $user,
-            'permission' => AdminRole::queryOnlyPermission($role_id),
-        ]);
-    }
-
     /**
      * 主页框架
      * @Auth()
