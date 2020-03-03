@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace app\Service\DeployTool;
 
-use app\Logic\SystemMenu;
 use app\Model\System;
 use Exception;
 use ReflectionException;
@@ -136,23 +135,6 @@ class UpdateManage extends FeaturesManage
             $output->writeln('> 运行环境不正常');
             return false;
         }
-
-        return $this->updateMenu($output);
-    }
-
-    /**
-     * 更新菜单节点
-     * @param Output $output
-     * @return bool
-     * @throws Exception
-     */
-    protected function updateMenu(Output $output): bool
-    {
-        $output->writeln('> 更新菜单节点...');
-        // 虚拟当前请求
-        $this->app->request->setSubDomain('/');
-        $result = SystemMenu::import($this->deploy->isDryRun(), $message);
-        $output->writeln('  菜单数据: ' . $message);
-        return $result;
+        return true;
     }
 }

@@ -8,14 +8,9 @@
 
 namespace app\controller\admin;
 
-use app\Exception\JsonException;
 use app\Logic\AdminRole;
-use app\Logic\SystemMenu;
 use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthGuard;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 use think\Env;
 use think\Response;
 use function config;
@@ -60,10 +55,6 @@ class Main extends Base
      * @param Env       $env
      * @param AuthGuard $authGuard
      * @return mixed
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws JsonException
-     * @throws ModelNotFoundException
      */
     public function index(Env $env, AuthGuard $authGuard)
     {
@@ -71,7 +62,7 @@ class Main extends Base
             'info' => [
                 'title' => $env->get('system.web_title'),
             ],
-            'webmenu' => $this->getMenuToJson($authGuard),
+            'webmenu' => '{}',
             'user' => $authGuard->user(),
             'url' => [
                 'mainpage' => url('sysinfo'),
@@ -83,55 +74,6 @@ class Main extends Base
     }
 
     /**
-     * @param AuthGuard $authGuard
-     * @return string
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws JsonException
-     * @throws ModelNotFoundException
-     */
-    private function getMenuToJson(AuthGuard $authGuard)
-    {
-        $user = $authGuard->user();
-        //超级管理员不限制菜单
-        if ($user->isSuperAdmin()) {
-            $menus = SystemMenu::obtainMenus();
-        } else {
-            $menus = SystemMenu::obtainMenus($user->role_id);
-        }
-        return json_encode_throw_on_error($menus);
-    }
-
-    /**
-     * 菜单结构生成器
-     * @param array $list
-     * @param string $id
-     * @return array
-     */
-    protected function menu($list = [], $id = 'R')
-    {
-        if (false === is_array($list)) {
-            return [];
-        }
-        $menu = [];
-
-        foreach ($list as $key => $item) {
-            $id .= "-$key";
-            $children = isset($item['children']) ? $this->menu($item['children'], $id) : [];
-
-            $menu[] = [
-                'id' => $id,
-                'title' => $item['title'],
-                'icon' => $item['icon'],
-                'spread' => $item['spread'] ?? false,
-                'url' => $item['url'] ?? null,
-                'children' => $children,
-            ];
-        }
-        return $menu;
-    }
-
-    /**
      * 系统信息页面
      * @Auth()
      * @return string
@@ -139,16 +81,5 @@ class Main extends Base
     public function sysinfo()
     {
         return view_current();
-    }
-
-    /**
-     * 清理缓存
-     * @Auth(policy="userType:admin")
-     * @return Response
-     */
-    public function clearCache()
-    {
-        SystemMenu::refreshCache();
-        return self::showSucceed();
     }
 }
