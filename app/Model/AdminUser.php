@@ -54,10 +54,15 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     protected $table = 'admin_user';
     protected $pk = 'id';
 
-    protected $readonly = ['genre'];
+    protected $readonly = [
+        'genre',
+        'create_time',
+    ];
 
     protected $hidden = [
-        'remember', 'password', 'delete_time'
+        'remember',
+        'password',
+        'delete_time',
     ];
 
     const STATUS_NORMAL = 0;

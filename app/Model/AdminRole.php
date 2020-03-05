@@ -40,7 +40,12 @@ class AdminRole extends Base
 
     protected $table = 'admin_role';
     protected $pk = 'id';
-    protected $readonly = ['genre'];
+
+    protected $readonly = [
+        'genre',
+        'create_time',
+    ];
+
     protected $type = [
         'ext' => 'json',
     ];

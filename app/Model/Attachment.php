@@ -39,6 +39,10 @@ class Attachment extends Base
     protected $table = 'attachment';
     protected $pk = 'id';
 
+    protected $readonly = [
+        'create_time',
+    ];
+
     const DRIVER_LOCAL = 'local';
     const DRIVER_QINIU = 'qiniu';
     const DRIVER_DICT = [
