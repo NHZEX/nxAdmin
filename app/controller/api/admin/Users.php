@@ -8,6 +8,10 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Response;
+use function func\reply\reply_create;
+use function func\reply\reply_not_found;
+use function func\reply\reply_succeed;
+use function func\reply\reply_table;
 
 /**
  * Class Users
@@ -30,7 +34,7 @@ class Users extends Base
             ->append(['status_desc', 'genre_desc', 'avatar_data'])
             ->paginate($limit);
 
-        return self::showTable($result);
+        return reply_table($result);
     }
 
     /**
@@ -45,9 +49,9 @@ class Users extends Base
     {
         $result = AdminUser::find($id);
         if (empty($result)) {
-            return self::showCode(404);
+            return reply_not_found();
         }
-        return self::showJson($result);
+        return reply_succeed($result);
     }
 
     /**
@@ -58,7 +62,7 @@ class Users extends Base
     {
         AdminUser::create($this->request->param());
 
-        return self::showCode(204);
+        return reply_create();
     }
 
     /**
@@ -78,11 +82,11 @@ class Users extends Base
         /** @var AdminUser $result */
         $result = AdminUser::find($id);
         if (empty($result)) {
-            return self::showCode(404);
+            return reply_not_found();
         }
         $result->save($this->request->param());
 
-        return self::showSucceed();
+        return reply_succeed();
     }
 
     /**
@@ -93,6 +97,6 @@ class Users extends Base
     {
         AdminUser::destroy($id);
 
-        return self::showSucceed();
+        return reply_succeed();
     }
 }

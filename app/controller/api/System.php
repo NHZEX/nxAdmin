@@ -6,6 +6,8 @@ use app\Service\Auth\Annotation\Auth;
 use Captcha\Captcha;
 use think\App;
 use think\Response;
+use function func\reply\reply_bad;
+use function func\reply\reply_succeed;
 
 class System extends Base
 {
@@ -14,7 +16,7 @@ class System extends Base
      */
     public function config()
     {
-        return self::showJson([
+        return reply_succeed([
             'webTitle' => env('SYSTEM_WEB_TITLE'),
             'loginCaptcha' => config('captcha.login'),
         ]);
@@ -27,7 +29,7 @@ class System extends Base
      */
     public function sysinfo(App $app)
     {
-        return self::showJson([
+        return reply_succeed([
             'cms_version' => ['CMS 系统版本', '1.0.0'],
             'tp_version' => ['ThinkPHP 版本', $app->version()],
             'sys_version' => ['服务器系统', php_uname()],
@@ -52,7 +54,7 @@ class System extends Base
     public function captcha(Captcha $captcha, string $token = null)
     {
         if (!$token) {
-            return self::showCode(400);
+            return reply_bad();
         }
 
         $captcha->entry();

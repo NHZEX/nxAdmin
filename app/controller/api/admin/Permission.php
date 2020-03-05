@@ -6,6 +6,8 @@ use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthScan;
 use app\Service\Auth\Permission as AuthPermission;
 use think\Response;
+use function func\reply\reply_bad;
+use function func\reply\reply_succeed;
 
 class Permission extends Base
 {
@@ -18,7 +20,7 @@ class Permission extends Base
     {
         $data = $permission->getTree('__ROOT__', 1);
 
-        return self::showJson($data);
+        return reply_succeed($data);
     }
 
     /**
@@ -30,7 +32,7 @@ class Permission extends Base
     public function read($id, AuthPermission $permission)
     {
         if (($info = $permission->queryPermission($id)) === null) {
-            return self::showCode(404);
+            return reply_bad();
         }
 
         $allow = [];
@@ -45,7 +47,7 @@ class Permission extends Base
         }
         $info['allow'] = $allow;
 
-        return self::showJson($info);
+        return reply_succeed($info);
     }
 
     /**
@@ -57,6 +59,6 @@ class Permission extends Base
     public function scan(AuthScan $authScan)
     {
         $authScan->refresh();
-        return self::showSucceed();
+        return reply_succeed();
     }
 }

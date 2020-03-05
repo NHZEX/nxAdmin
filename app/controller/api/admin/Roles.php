@@ -8,6 +8,10 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Response;
+use function func\reply\reply_create;
+use function func\reply\reply_not_found;
+use function func\reply\reply_succeed;
+use function func\reply\reply_table;
 
 /**
  * Class Roles
@@ -26,7 +30,7 @@ class Roles extends Base
         // todo 数据访问限制
         $result = (new AdminRole())->db()->append(['genre_desc', 'status_desc'])->paginate($limit);
 
-        return self::showTable($result);
+        return reply_table($result);
     }
 
     /**
@@ -35,7 +39,7 @@ class Roles extends Base
      */
     public function select()
     {
-        return self::showJson(AdminRole::selectOption());
+        return reply_succeed(AdminRole::selectOption());
     }
 
     /**
@@ -50,9 +54,9 @@ class Roles extends Base
     {
         $result = AdminRole::find($id);
         if (empty($result)) {
-            return self::showCode(404);
+            return reply_not_found();
         }
-        return self::showJson($result);
+        return reply_succeed($result);
     }
 
     /**
@@ -62,7 +66,7 @@ class Roles extends Base
     public function save()
     {
         AdminRole::create($this->request->param() + ['ext' => '{}'], ['genre', 'name', 'status', 'ext']);
-        return self::showCode(201);
+        return reply_create();
     }
 
     /**
@@ -78,10 +82,10 @@ class Roles extends Base
         /** @var AdminRole $data */
         $data = AdminRole::find($id);
         if (empty($data)) {
-            return self::showCode(404);
+            return reply_not_found();
         }
         $data->save($this->request->param());
-        return self::showCode(200);
+        return reply_succeed();
     }
 
     /**
@@ -92,6 +96,6 @@ class Roles extends Base
     public function delete($id)
     {
         AdminRole::destroy($id);
-        return self::showCode(200);
+        return reply_succeed();
     }
 }

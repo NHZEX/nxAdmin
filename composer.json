@@ -60,6 +60,7 @@
         "files": [
             "app/constant.php",
             "app/status_code.php",
+            "app/reply_func.php",
             "app/log_func.php"
         ]
     },

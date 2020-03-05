@@ -17,14 +17,12 @@
 
 const CODE_SUCCEED = 0;
 const CODE_ERROE = 1;
+const CODE_EXCEPTION = 2;
 
 const CODE_COM_CAPTCHA = 1001;          // 全局:验证码
 const CODE_COM_PARAM = 1002;            // 全局:输入参数
-const CODE_COM_DATA_NOT_EXIST = 1003;   // 全局:数据不存在
 const CODE_COM_UNABLE_PROCESS = 1004;   // 全局:无法处理
 const CODE_COM_CSRF_INVALID = 1006;     // 全局:CSRF无效
-const CODE_COM_REQUEST_INVALID = 1007;  // 全局:请求无效
-const CODE_COM_VERIFY_FAILURE = 1007;   // 全局:验证失败
 
 const CODE_MODEL_TRANSACTION = 1201;    // 模型:事务
 const CODE_MODEL_OPTIMISTIC_LOCK = 1202; // 模型:乐观锁
@@ -39,6 +37,7 @@ const CODE_CONV_ACCESS_CONTROL = 1106;  // 会话:被访问控制阻止
 const CODE_DICT = [
     CODE_SUCCEED => 'succeed',
     CODE_ERROE => 'error',
+    CODE_EXCEPTION => 'server exception',
 
     CODE_COM_CAPTCHA => '验证码错误',
 
