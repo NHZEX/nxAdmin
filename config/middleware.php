@@ -1,6 +1,5 @@
 <?php
 
-use app\Middleware\Exception;
 use app\Middleware\Validate;
 
 //中间件配置
@@ -9,8 +8,6 @@ return [
     'alias'    => [
         // 请求验证
         'validate' => Validate::class,
-        // 异常响应
-        'exception' => Exception::class,
     ],
     //优先级设置，此数组中的中间件会按照数组中的顺序优先执行
     'priority' => [],

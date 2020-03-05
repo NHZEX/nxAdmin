@@ -58,7 +58,6 @@ abstract class BaseController
      */
     protected $middleware = [
         'validate',
-        'exception',
     ];
 
     /**

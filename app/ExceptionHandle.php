@@ -21,7 +21,10 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
+use think\Response;
 use Throwable;
+use Tp\Model\Exception\ModelException;
+use function func\reply\reply_bad;
 
 /**
  * 应用异常处理类
@@ -89,5 +92,15 @@ class ExceptionHandle extends Handle
             return true;
         }
         return false;
+    }
+
+    public function render($request, Throwable $e): Response
+    {
+        // 捕获乐观锁错误
+        if ($e instanceof ModelException && $e->getCode() === CODE_MODEL_OPTIMISTIC_LOCK) {
+            return reply_bad($e->getCode(), $e->getMessage());
+        }
+        // 渲染其他异常
+        return parent::render($request, $e);
     }
 }
