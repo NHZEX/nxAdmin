@@ -5,16 +5,18 @@
 // +----------------------------------------------------------------------
 
 use think\App;
+use think\Request;
 
 // 格式日志头
-$formatHead = function ($uir, App $app) {
+$formatHead = function ($uir, App $app, Request $request) {
+    $uri_method  = " [{$request->method()}]";
     $runtime     = round(microtime(true) - $app->getBeginTime(), 10);
     $time_str    = ' [运行时间：' . number_format($runtime, 6) . 's]';
     $memory_use  = number_format((memory_get_usage() - $app->getBeginMem()) / 1024, 2);
     $memory_peak = number_format(memory_get_peak_usage() / 1024, 2);
     $memory_str  = ' [内存消耗：' . $memory_use . 'kb，峰值：' . $memory_peak . 'kb]';
     $file_load   = ' [文件加载：' . count(get_included_files()) . ']';
-    return $uir  . $time_str . $memory_str . $file_load;
+    return $uir . $uri_method . $time_str . $memory_str . $file_load;
 };
 
 return [
