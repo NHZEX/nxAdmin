@@ -58,11 +58,12 @@ class SessionInit
 
         $response->setSession($this->session);
 
-        $this->app->cookie->set(
-            $cookieName,
-            $this->session->getId(),
-            $this->app->config->get('session.cookie', [])
-        );
+        // 不需要设置cookie
+        // $this->app->cookie->set(
+        //     $cookieName,
+        //     $this->session->getId(),
+        //     $this->app->config->get('session.cookie', [])
+        // );
 
         return $response;
     }
