@@ -65,7 +65,7 @@ class Roles extends Base
      */
     public function save()
     {
-        AdminRole::create($this->request->param() + ['ext' => '{}'], ['genre', 'name', 'status', 'ext']);
+        AdminRole::create($this->getFilterInput());
         return reply_create();
     }
 
@@ -84,7 +84,7 @@ class Roles extends Base
         if (empty($data)) {
             return reply_not_found();
         }
-        $data->save($this->request->param());
+        $data->save($this->getFilterInput());
         return reply_succeed();
     }
 

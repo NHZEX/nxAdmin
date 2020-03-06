@@ -7,22 +7,19 @@
  */
 
 use app\controller;
-use app\Validate as validator;
+use app\Validate as Validate;
 
 return [
-    controller\admin\Login::class => [
-        'login' => [false, validator\Login::class],
+    controller\api\admin\Auth::class => [
+        'login' => [false, Validate\Login::class],
     ],
 
-    controller\admin\Manager::class => [
-        'pageedit' => [false, validator\Manager::class, 'pageedit'],
-        'save' => [true, validator\Manager::class, '?'],
-        'delete' => [true, validator\Manager::class, 'delete'],
+    controller\api\admin\Users::class => [
+        'save'   => [false, Validate\Admin\User::class, 'save'],
+        'update' => [false, Validate\Admin\User::class, 'update'],
     ],
-    controller\admin\Role::class => [
-        'save' => [true, null, null],
-        'permission' => [false, validator\Role::class, 'toPermission'],
-        'savepermission' => [false, validator\Role::class, 'permission'],
+    controller\api\admin\Roles::class => [
+        'save'   => [false, Validate\Admin\Role::class, null],
+        'update' => [false, Validate\Admin\Role::class, null],
     ],
-    // TODO 菜单验证器
 ];

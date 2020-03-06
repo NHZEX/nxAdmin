@@ -12,6 +12,7 @@ use function func\reply\reply_create;
 use function func\reply\reply_not_found;
 use function func\reply\reply_succeed;
 use function func\reply\reply_table;
+use function trim;
 
 /**
  * Class Users
@@ -60,7 +61,7 @@ class Users extends Base
      */
     public function save()
     {
-        AdminUser::create($this->request->param());
+        AdminUser::create($this->getFilterInput());
 
         return reply_create();
     }
@@ -75,16 +76,17 @@ class Users extends Base
      */
     public function update(int $id)
     {
-        $data = $this->request->param();
-        if (isset($data['password']) && empty(trim($data['password']))) {
-            unset($data['password']);
-        }
         /** @var AdminUser $result */
         $result = AdminUser::find($id);
         if (empty($result)) {
             return reply_not_found();
         }
-        $result->save($this->request->param());
+
+        $data = $this->getFilterInput();
+        if (isset($data['password']) && empty(trim($data['password']))) {
+            unset($data['password']);
+        }
+        $result->save($data);
 
         return reply_succeed();
     }

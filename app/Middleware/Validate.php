@@ -9,15 +9,16 @@
 namespace app\Middleware;
 
 use app\Traits\CsrfHelper;
-use app\Traits\ShowReturn;
+use app\Validate\Base;
+use app\Validate\VailAsk;
 use Closure;
 use think\App;
 use think\Request;
 use think\Response;
+use function func\reply\reply_bad;
 
 class Validate extends Middleware
 {
-    use ShowReturn;
     use CsrfHelper;
 
     /** @var array 验证器映射 */
@@ -53,27 +54,30 @@ class Validate extends Middleware
 
             // 验证输入数据
             if ($validate_class && class_exists($validate_class)) {
-                /** @var \think\Validate $v */
+                /** @var \think\Validate|Base $v */
                 $v = new $validate_class();
                 if ($validate_scene) {
                     // 询问当前使用何种场景
-                    if ('?' === $validate_scene && method_exists($validate_class, 'askScene')) {
-                        $validate_scene = call_user_func([$validate_class, 'askScene'], $request) ?: false;
+                    if ('?' === $validate_scene && $validate_class instanceof VailAsk) {
+                        $validate_scene = $validate_class->askScene($request) ?: false;
                     }
                     // 选中将使用的验证场景
                     $validate_scene && $v->scene($validate_scene);
                 }
                 if (false === $v->check($request->param())) {
                     $message = is_array($v->getError()) ? join(',', $v->getError()) : $v->getError();
-                    return self::showMsg(CODE_COM_PARAM, $message);
+                    return reply_bad(CODE_COM_PARAM, $message);
                 }
+                $request->withMiddleware([
+                    'allow_input_fields' => $v->getRuleKeys(),
+                ]);
             }
 
             // 验证CSRF令牌
             if ($validate_csrf) {
                 $csrf_update = $request->header(CSRF_TOKEN, false);
                 if (false === $this->verifyCsrfToken($csrf_update)) {
-                    return self::showMsg(CODE_COM_CSRF_INVALID, '令牌无效，请重新访问编辑页面');
+                    return reply_bad(CODE_COM_CSRF_INVALID, '令牌无效，请重新访问编辑页面');
                 }
             }
         }
