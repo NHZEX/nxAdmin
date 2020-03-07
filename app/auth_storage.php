@@ -1,6 +1,6 @@
 <?php
-// update date: 2020-03-04T00:20:27+08:00
-// hash: b63402768dbda2bb3df4e8a421529404
+// update date: 2020-03-07T16:57:32+08:00
+// hash: 50b458a02e02c56251ab55ec67be8cda
 return [
     'features' => [
         'node@admin.main/index' => [
@@ -13,8 +13,8 @@ return [
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.auth/userinfo' => [
-            'class' => 'app\\controller\\api\\admin\\Auth::userInfo',
+        'node@api.admin.index/userinfo' => [
+            'class' => 'app\\controller\\api\\admin\\Index::userInfo',
             'policy' => '',
             'desc' => '',
         ],
@@ -98,7 +98,7 @@ return [
             'allow' => [
                 'node@admin.main/index',
                 'node@admin.main/sysinfo',
-                'node@api.admin.auth/userinfo',
+                'node@api.admin.index/userinfo',
                 'node@api.system/sysinfo',
             ],
         ],
@@ -205,7 +205,7 @@ return [
         'login' => [
             'node@admin.main/index',
             'node@admin.main/sysinfo',
-            'node@api.admin.auth/userinfo',
+            'node@api.admin.index/userinfo',
             'node@api.system/sysinfo',
         ],
         'permission' => [],
@@ -244,7 +244,7 @@ return [
     'features2permission' => [
         'node@admin.main/index' => 'login',
         'node@admin.main/sysinfo' => 'login',
-        'node@api.admin.auth/userinfo' => 'login',
+        'node@api.admin.index/userinfo' => 'login',
         'node@api.system/sysinfo' => 'login',
         'node@api.admin.permission/index' => 'permission.info',
         'node@api.admin.permission/read' => 'permission.info',

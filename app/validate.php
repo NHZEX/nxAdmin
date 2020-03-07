@@ -10,7 +10,7 @@ use app\controller;
 use app\Validate as Validate;
 
 return [
-    controller\api\admin\Auth::class => [
+    controller\api\admin\Index::class => [
         'login' => [false, Validate\Login::class],
     ],
 

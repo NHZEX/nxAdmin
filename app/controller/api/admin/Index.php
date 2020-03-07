@@ -4,6 +4,7 @@ namespace app\controller\api\admin;
 
 use app\Logic\AdminRole;
 use app\Logic\AdminUser;
+use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthGuard;
 use app\Service\Auth\Facade\Auth as AuthFacade;
 use Captcha\Captcha;
@@ -14,7 +15,7 @@ use function func\reply\reply_bad;
 use function func\reply\reply_succeed;
 use function hash_hmac;
 
-class Auth extends Base
+class Index extends Base
 {
     /**
      * 登陆
@@ -67,7 +68,7 @@ class Auth extends Base
 
     /**
      * 获取用户信息
-     * @\app\Service\Auth\Annotation\Auth()
+     * @Auth()
      * @return Response
      */
     public function userInfo()
