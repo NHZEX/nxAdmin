@@ -143,15 +143,8 @@ function reply_bad(?int $code = null, ?string $msg = null, ?array $data = null, 
     if (400 > $httpCode || $httpCode > 499) {
         throw new RuntimeException('http code only 400 ~ 499');
     }
-    $code = $code ?? CODE_ERROE;
-    $content = [
-        'message' => $msg ?: (CODE_DICT[$code] ?? 'unknown'),
-        'errno'   => $code,
-    ];
-    if ($data) {
-        $content += $data;
-    }
-    return reply_json($content, $httpCode);
+
+    return reply_message($code, $msg, $data, $httpCode);
 }
 
 /**
@@ -167,9 +160,23 @@ function reply_error(?int $code = null, ?string $msg = null, ?array $data = null
     if (500 > $httpCode || $httpCode > 599) {
         throw new RuntimeException('http code only 500 ~ 599');
     }
+
+    return reply_message($code, $msg, $data, $httpCode);
+}
+
+/**
+ * 响应通用消息结构
+ * @param int|null    $code
+ * @param string|null $msg
+ * @param array|null  $data
+ * @param int         $httpCode
+ * @return Response
+ */
+function reply_message(?int $code, ?string $msg, ?array $data, int $httpCode)
+{
     $code = $code ?? CODE_ERROE;
     $content = [
-        'message' => $msg ?: (CODE_DICT[$code] ?? 'unknown'),
+        'message' => $msg ?: strerror($code),
         'errno'   => $code,
     ];
     if ($data) {
@@ -221,4 +228,14 @@ function reply_json($data = [], int $code = 200, array $header = [], array $opti
             'json_encode_param' => JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
         ]);
     return $json;
+}
+
+/**
+ * 将错误码转换为错误消息
+ * @param int $code
+ * @return mixed|string
+ */
+function strerror(int $code)
+{
+    return (CODE_DICT[$code] ?? 'unknown');
 }
