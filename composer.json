@@ -52,10 +52,10 @@
     },
     "autoload": {
         "psr-4": {
-            "app\\": "app"
-        },
-        "psr-0": {
-            "": "extend"
+            "app\\": "app",
+            "Captcha\\": "extend/Captcha",
+            "Guzzle\\": "extend/Guzzle",
+            "Tp\\": "extend/Tp"
         },
         "files": [
             "app/constant.php",
