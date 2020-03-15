@@ -12,7 +12,7 @@ class Role extends Base
         'genre'  => 'require|number',
         'status' => 'require|number',
         'name'   => 'require|length:3,64',
-        'ext'    => 'require|array',
+        'ext'    => 'array',
         'lock_version' => 'require|number',
     ];
 }
