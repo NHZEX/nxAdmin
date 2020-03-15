@@ -8,6 +8,7 @@
 
 namespace app\Model;
 
+use app\Traits\Model\ModelEvent;
 use Closure;
 use Generator;
 use think\db\Query;
@@ -15,7 +16,6 @@ use think\Model as ThinkModel;
 use think\model\Collection;
 use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
-use Tp\Model\Traits\RecordUser;
 use Tp\Model\Traits\TransactionExtension;
 
 /**
@@ -34,23 +34,24 @@ abstract class Base extends ThinkModel
     use ModelUtil;
     use TransactionExtension;
     use OptimLock;
-    use RecordUser;
+    use ModelEvent;
 
-    protected $readonly = ['create_by'];
+    public const EVENT_AFTER_READ = 'AfterRead';
+    public const EVENT_BEFORE_INSERT = 'BeforeInsert';
+    public const EVENT_AFTER_INSERT = 'AfterInsert';
+    public const EVENT_BEFORE_UPDATE = 'BeforeUpdate';
+    public const EVENT_AFTER_UPDATE = 'AfterUpdate';
+    public const EVENT_BEFORE_WRITE = 'BeforeWrite';
+    public const EVENT_AFTER_WRITE = 'AfterWrite';
+    public const EVENT_BEFORE_DELETE = 'BeforeDelete';
+    public const EVENT_AFTER_DELETE = 'AfterDelete';
+    public const EVENT_BEFORE_RESTORE = 'BeforeRestore';
+    public const EVENT_AFTER_RESTORE = 'AfterRestore';
+
     /** @var int 软删除字段默认值 */
     protected $defaultSoftDelete = 0;
     /** @var bool 自动写入时间戳 */
     protected $autoWriteTimestamp = true;
-
-    public static function onBeforeInsert(ThinkModel $model)
-    {
-        self::recodeUser($model);
-    }
-
-    public static function onBeforeUpdate(ThinkModel $model)
-    {
-        self::recodeUser($model);
-    }
 
     /**
      * 是否关闭数据访问控制

@@ -87,7 +87,6 @@ class AdminRole extends Base
         if (empty($model->description)) {
             $model->setAttr('description', '');
         }
-        self::recodeUser($model);
     }
 
     /**
@@ -98,7 +97,6 @@ class AdminRole extends Base
     public static function onBeforeUpdate(Model $model)
     {
         self::checkAccessControl($model);
-        self::recodeUser($model);
     }
 
     /**

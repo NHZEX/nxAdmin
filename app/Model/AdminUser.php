@@ -111,7 +111,6 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
         // 令牌填充
         $model->remember = get_rand_str(16);
-        self::recodeUser($model);
     }
 
     /**
@@ -124,7 +123,6 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
-        self::recodeUser($model);
     }
 
     /**
