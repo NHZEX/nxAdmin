@@ -28,6 +28,9 @@ use Tp\Model\Traits\TransactionExtension;
  * @method ThinkModel withAttr($name, callable $callback = null) 设置数据字段获取器
  *
  * @method mixed transaction(callable $callback) static
+ * @method void startTrans() static
+ * @method void commit() static
+ * @method void rollback() static
  */
 abstract class Base extends ThinkModel
 {
