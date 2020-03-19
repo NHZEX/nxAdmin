@@ -15,7 +15,7 @@ class User extends Base
         'username' => 'require|length:3,64',
         'nickname' => 'require|length:3,64',
         'password' => 'require|length:6,64',
-        'lock_version' => 'require|number',
+        'lock_version' => 'number',
     ];
 
     // 验证字段描述

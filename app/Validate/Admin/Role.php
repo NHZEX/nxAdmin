@@ -13,6 +13,6 @@ class Role extends Base
         'status' => 'require|number',
         'name'   => 'require|length:3,64',
         'ext'    => 'array',
-        'lock_version' => 'require|number',
+        'lock_version' => 'number',
     ];
 }
