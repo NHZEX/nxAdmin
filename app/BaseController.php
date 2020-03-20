@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace app;
 
+use app\Traits\ControllerHelper;
 use app\Traits\JumpHelper;
 use Psr\Log\LoggerInterface;
 use think\App;
@@ -20,6 +21,7 @@ use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
 use think\Validate;
+use function is_array;
 
 /**
  * 控制器基础类
@@ -27,6 +29,7 @@ use think\Validate;
 abstract class BaseController
 {
     use JumpHelper;
+    use ControllerHelper;
 
     /**
      * Request实例

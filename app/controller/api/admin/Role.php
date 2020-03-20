@@ -27,8 +27,14 @@ class Role extends Base
      */
     public function index(int $limit = 1)
     {
+        $where = $this->buildWhere($this->request->param(), [
+            ['genre', '='],
+        ]);
         // todo 数据访问限制
-        $result = (new AdminRole())->db()->append(['genre_desc', 'status_desc'])->paginate($limit);
+        $result = (new AdminRole())
+            ->where($where)
+            ->append(['genre_desc', 'status_desc'])
+            ->paginate($limit);
 
         return reply_table($result);
     }

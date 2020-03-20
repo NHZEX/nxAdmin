@@ -28,9 +28,13 @@ class User extends Base
      */
     public function index(int $limit = 1)
     {
+        $where = $this->buildWhere($this->request->param(), [
+            ['genre', '='],
+            ['role_id', '='],
+        ]);
         // todo 数据访问限制
         $result = (new AdminUser())
-            ->db()
+            ->where($where)
             ->with(['beRoleName'])
             ->append(['status_desc', 'genre_desc', 'avatar_data'])
             ->paginate($limit);
