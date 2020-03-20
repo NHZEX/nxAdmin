@@ -1,9 +1,9 @@
-<div data-main id="find-{{ urlHash(null) }}"
+<div data-main id="find-{{ url_hash(null) }}"
      data-layer-index="null"
      data-edit-data="{{ json_encode_throw_on_error($edit_data ?? null) }}"
 >
     <script data-window-{{ \think\facade\Request::time() }}>
-        const URL_HASH = '{{ urlHash(null) }}';
+        const URL_HASH = '{{ url_hash(null) }}';
         let currScript, mainDiv, layerDiv;
         // 初始化数据交互
         window['swap'] || (window['swap'] = {});

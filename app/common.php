@@ -146,12 +146,12 @@ function parse_user_agent(string $ua)
 }
 
 /**
- * urlHash
+ * url_hash
  * @param string $url
  * @param string $prefix
  * @return string
  */
-function urlHash(?string $url, string $prefix = 'page-'): string
+function url_hash(?string $url, string $prefix = 'page-'): string
 {
     if (null === $url) {
         $url = Request::baseUrl();
@@ -258,144 +258,6 @@ function is_assoc2(array $arr)
         return false;
     }
     return array_keys($arr) !== range(0, count($arr) - 1);
-}
-
-/**
- * 数组是否存在字符串键
- * @param array $arr
- * @return bool
- */
-function has_string_keys(array $arr)
-{
-    foreach ($arr as $key => $value) {
-        if (is_string($key)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function array_sign(array $data, string $algo = 'md5', ?string $hmac_key = null)
-{
-    // 排序
-    ksort($data);
-    // url编码并生成query字符串
-    $code = http_build_query($data);
-    // 生成签名
-    if ($hmac_key) {
-        $sign = hash_hmac($algo, $code, $hmac_key);
-    } else {
-        $sign = hash($algo, $code);
-    }
-    return $sign;
-}
-
-/**
- * 规范化输出图片地址
- * @param $url
- * @return string|null
- */
-function repair_local_img_url_domain($url): ?string
-{
-    static $domain;
-    static $isSsl;
-    if (null === $domain) {
-        $request = request();
-        $domain = $request->domain();
-        $isSsl = $request->isSsl();
-    }
-
-    if (empty($url)) {
-        return null;
-    }
-
-    if (0 === strpos($url, '//')) {
-        return ($isSsl ? 'https:' : 'http:') . $url;
-    }
-    if (0 === strpos($url, '/')) {
-        return $domain . $url;
-    }
-    if (0 !== strpos($url, 'http')) {
-        return $domain . '/' . $url;
-    }
-    return $url;
-}
-
-/**
- * 规范化输出图片地址s json
- * @param $urls
- * @param null $key
- * @return array
- */
-function repair_local_imgs_url_domain_json($urls, $key = null)
-{
-    static $domain;
-    static $isSsl;
-
-    $urls = json_decode($urls, true);
-    if (!is_array($urls)) {
-        return [];
-    }
-
-    if (!empty($key) && (!isset($urls[$key]) || !is_array($urls = $urls[$key]))) {
-        return [];
-    }
-
-    if (null === $domain) {
-        $request = request();
-        $domain = $request->domain();
-        $isSsl = $request->isSsl();
-    }
-
-    $urls = array_filter($urls, function ($val) {
-        return !empty($val) && is_string($val);
-    });
-    return array_map(function ($val) use ($domain, $isSsl) {
-        if (0 === strpos($val, '//')) {
-            return ($isSsl ? 'https:' : 'http:') . $val;
-        }
-        if (0 === strpos($val, '/')) {
-            return $domain . $val;
-        }
-        if (0 !== strpos($val, 'http')) {
-            return $domain . '/' . $val;
-        }
-        return $val;
-    }, $urls);
-}
-
-/**
- * 规范化输出图片地址s
- * @param $urls
- * @return array
- */
-function repair_local_imgs_url_domain($urls): array
-{
-    static $domain;
-    static $isSsl;
-    if (!is_array($urls)) {
-        return [];
-    }
-    if (null === $domain) {
-        $request = request();
-        $domain = $request->domain();
-        $isSsl = $request->isSsl();
-    }
-    return array_map(function ($val) use ($domain, $isSsl) {
-        if (empty($val)) {
-            return '';
-        }
-        if (0 === strpos($val, '//')) {
-            return ($isSsl ? 'https:' : 'http:') . $val;
-        }
-        if (0 === strpos($val, '/')) {
-            return $domain . $val;
-        }
-        if (0 !== strpos($val, 'http')) {
-            return $domain . '/' . $val;
-        }
-        return $val;
-    }, $urls);
 }
 
 /**
