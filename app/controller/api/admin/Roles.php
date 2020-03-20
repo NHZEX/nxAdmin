@@ -39,7 +39,7 @@ class Roles extends Base
      */
     public function select()
     {
-        return reply_succeed(AdminRole::selectOption());
+        return reply_succeed(AdminRole::buildOption());
     }
 
     /**

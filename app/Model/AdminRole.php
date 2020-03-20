@@ -169,19 +169,18 @@ class AdminRole extends Base
 
     /**
      * 获取角色列表
-     * todo 权限列表需要输出过滤
+     * @param array|null    $argv
+     * @param callable|null $where
      * @return array
      */
-    public static function selectOption()
+    public static function buildOption(array $argv = null, callable $where = null): array
     {
-        $result = [];
-        foreach (self::cursor() as $item) {
-            $result[] = [
-                'value' => $item['id'],
-                'text'  => "[{$item['genreDesc']}] {$item['name']}",
-                'type'  => $item['genre'],
-            ];
-        }
-        return $result;
+        return parent::buildOption([
+           'id',
+            function ($item) {
+                return "[{$item['genreDesc']}] {$item['name']}";
+            },
+           'type' => 'genre',
+        ]);
     }
 }

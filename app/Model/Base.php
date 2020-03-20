@@ -17,6 +17,11 @@ use think\model\Collection;
 use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
 use Tp\Model\Traits\TransactionExtension;
+use function call_user_func;
+use function count;
+use function is_callable;
+use function is_numeric;
+use function is_string;
 
 /**
  * Class Base
@@ -51,6 +56,8 @@ abstract class Base extends ThinkModel
     public const EVENT_BEFORE_RESTORE = 'BeforeRestore';
     public const EVENT_AFTER_RESTORE = 'AfterRestore';
 
+    const BUILD_OPTION_ARGV = ['id', 'name'];
+
     /** @var int 软删除字段默认值 */
     protected $defaultSoftDelete = 0;
     /** @var bool 自动写入时间戳 */
@@ -81,5 +88,57 @@ abstract class Base extends ThinkModel
                 $query->field($field);
             }
         };
+    }
+
+    /**
+     * 生成选项列表
+     * @param array|null    $argv
+     * @param callable|null $where
+     * @return array
+     */
+    public static function buildOption(array $argv = null, callable $where = null): array
+    {
+        if ($argv === null) {
+            $argv = static::BUILD_OPTION_ARGV;
+        }
+        if (count($argv) < 2) {
+            return [];
+        }
+
+        $model = [];
+        foreach ($argv as $k => $v) {
+            if (is_numeric($k)) {
+                if ($k === 0) {
+                    $model['value'] = $v;
+                } elseif ($k === 1) {
+                    $model['label'] = $v;
+                } else {
+                    if (!is_string($v)) {
+                        continue;
+                    }
+                    $model[$v] = $v;
+                }
+            } else {
+                $model[$k] = $v;
+            }
+        }
+
+        $self = new static();
+        if ($where) {
+            $self->where($where);
+        }
+        $result = [];
+        foreach ($self->cursor() as $item) {
+            $tmp = [];
+            foreach ($model as $k => $v) {
+                if (is_callable($v)) {
+                    $tmp[$k] = call_user_func($v, $item);
+                } else {
+                    $tmp[$k] = $item->getAttr($v);
+                }
+            }
+            $result[] = $tmp;
+        }
+        return $result;
     }
 }
