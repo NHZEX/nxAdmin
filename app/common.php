@@ -62,7 +62,6 @@ function tree_to_table(array $tree, $name = ['name', '__name'], string $key = 'c
  * @param array|object $data
  * @return string
  * @throws \app\Exception\JsonException
- * @author NHZEXG
  */
 function json_encode_throw_on_error($data): string
 {
@@ -83,7 +82,6 @@ function json_encode_throw_on_error($data): string
  * @param string $json
  * @return array
  * @throws \app\Exception\JsonException
- * @author NHZEXG
  */
 function json_decode_throw_on_error(string $json): array
 {
@@ -173,7 +171,6 @@ function is_cli()
 
 /**
  * 生成 uuid v4
- * @author NHZEXG
  * @return string|false
  * @link https://stackoverflow.com/a/15875555/10242420
  */
@@ -294,7 +291,6 @@ function array_sign(array $data, string $algo = 'md5', ?string $hmac_key = null)
 /**
  * 规范化输出图片地址
  * @param $url
- * @author NHZEXG
  * @return string|null
  */
 function repair_local_img_url_domain($url): ?string
@@ -328,7 +324,6 @@ function repair_local_img_url_domain($url): ?string
  * @param $urls
  * @param null $key
  * @return array
- * @author NHZEXG
  */
 function repair_local_imgs_url_domain_json($urls, $key = null)
 {
@@ -370,7 +365,6 @@ function repair_local_imgs_url_domain_json($urls, $key = null)
 /**
  * 规范化输出图片地址s
  * @param $urls
- * @author NHZEXG
  * @return array
  */
 function repair_local_imgs_url_domain($urls): array

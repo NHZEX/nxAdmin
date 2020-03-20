@@ -151,7 +151,6 @@ class AdminRole extends Base
 
     /**
      * 获取虚拟列 类型描述
-     * @author NHZEXG
      * @return mixed|string
      */
     protected function getGenreDescAttr()
@@ -161,7 +160,6 @@ class AdminRole extends Base
 
     /**
      * 获取虚拟列 状态描述
-     * @author NHZEXG
      * @return mixed|string
      */
     protected function getStatusDescAttr()

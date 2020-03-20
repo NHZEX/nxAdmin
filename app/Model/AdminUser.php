@@ -274,7 +274,6 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     /**
      * 获取器 虚拟列 类型描述
-     * @author NHZEXG
      * @return mixed|string
      */
     protected function getGenreDescAttr()
@@ -331,7 +330,6 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     /**
      * 获取虚拟列 状态描述
-     * @author NHZEXG
      * @return mixed|string
      */
     protected function getStatusDescAttr()

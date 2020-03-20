@@ -41,7 +41,6 @@ LUA;
 
     /**
      * 初始化LUA脚本
-     * @author NHZEXG
      */
     public function initScript()
     {
@@ -51,7 +50,6 @@ LUA;
 
     /**
      * 查询LUA是否存在
-     * @author NHZEXG
      */
     public function existLuaSerialInc()
     {
@@ -61,7 +59,6 @@ LUA;
     /**
      * 序列号自增
      * @param string $serial
-     * @author NHZEXG
      * @return int
      */
     public function serialInc(string $serial)
@@ -74,7 +71,6 @@ LUA;
      * @param string $name
      * @param int $retry_timeout
      * @param int $lock_timeout
-     * @author NHZEXG
      * @return bool|string
      */
     public function acquireLock(string $name, int $retry_timeout = 0, int $lock_timeout = 1000)
@@ -103,7 +99,6 @@ LUA;
      * @param string $name
      * @param string $lock_id
      * @param bool $force
-     * @author NHZEXG
      * @return int|mixed
      */
     public function releaseLock(string $name, string $lock_id, $force = false)
@@ -120,7 +115,6 @@ LUA;
      * 值相等并删除
      * @param string $name
      * @param string $lock_id
-     * @author NHZEXG
      * @return int|mixed
      */
     public function valueEqualWithDel(string $name, string $lock_id)

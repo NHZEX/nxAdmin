@@ -18,7 +18,6 @@ trait PrintAbnormal
      * @param Throwable $e
      * @param null|string $type
      * @return string
-     * @author NHZEXG
      */
     protected static function printAbnormalToLog(Throwable $e, ?string $type = null) :string
     {
