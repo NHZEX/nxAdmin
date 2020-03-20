@@ -9,7 +9,6 @@
 namespace app\Model;
 
 use app\Exception\AccessControl;
-use app\Exception\JsonException;
 use app\Logic\AdminRole as AdminRoleLogic;
 use think\Model;
 use think\model\concern\SoftDelete;
@@ -111,7 +110,6 @@ class AdminRole extends Base
 
     /**
      * @param AdminRole $model
-     * @throws JsonException
      */
     public static function onAfterInsert(AdminRole $model)
     {

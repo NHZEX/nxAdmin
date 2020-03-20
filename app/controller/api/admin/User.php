@@ -2,7 +2,7 @@
 
 namespace app\controller\api\admin;
 
-use app\Model\AdminRole;
+use app\Model\AdminUser;
 use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -12,15 +12,16 @@ use function func\reply\reply_create;
 use function func\reply\reply_not_found;
 use function func\reply\reply_succeed;
 use function func\reply\reply_table;
+use function trim;
 
 /**
- * Class Roles
+ * Class User
  * @package app\controller\api\admin
  */
-class Roles extends Base
+class User extends Base
 {
     /**
-     * @Auth("role.info")
+     * @Auth("user.info")
      * @param int $limit
      * @return Response
      * @throws DbException
@@ -28,22 +29,17 @@ class Roles extends Base
     public function index(int $limit = 1)
     {
         // todo 数据访问限制
-        $result = (new AdminRole())->db()->append(['genre_desc', 'status_desc'])->paginate($limit);
+        $result = (new AdminUser())
+            ->db()
+            ->with(['beRoleName'])
+            ->append(['status_desc', 'genre_desc', 'avatar_data'])
+            ->paginate($limit);
 
         return reply_table($result);
     }
 
     /**
-     * @Auth("role.info")
-     * @return Response
-     */
-    public function select()
-    {
-        return reply_succeed(AdminRole::buildOption());
-    }
-
-    /**
-     * @Auth("role.info")
+     * @Auth("user.info")
      * @param int $id
      * @return Response
      * @throws DbException
@@ -52,7 +48,7 @@ class Roles extends Base
      */
     public function read(int $id)
     {
-        $result = AdminRole::find($id);
+        $result = AdminUser::find($id);
         if (empty($result)) {
             return reply_not_found();
         }
@@ -60,42 +56,49 @@ class Roles extends Base
     }
 
     /**
-     * @Auth("role.edit")
+     * @Auth("user.edit")
      * @return Response
      */
     public function save()
     {
-        AdminRole::create($this->getFilterInput());
+        AdminUser::create($this->getFilterInput());
+
         return reply_create();
     }
 
     /**
-     * @Auth("role.edit")
-     * @param $id
+     * @Auth("user.del")
+     * @param int $id
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
      */
-    public function update($id)
+    public function update(int $id)
     {
-        /** @var AdminRole $data */
-        $data = AdminRole::find($id);
-        if (empty($data)) {
+        /** @var AdminUser $result */
+        $result = AdminUser::find($id);
+        if (empty($result)) {
             return reply_not_found();
         }
-        $data->save($this->getFilterInput());
+
+        $data = $this->getFilterInput();
+        if (isset($data['password']) && empty(trim($data['password']))) {
+            unset($data['password']);
+        }
+        $result->save($data);
+
         return reply_succeed();
     }
 
     /**
-     * @Auth("role.del")
-     * @param $id
+     * @param int $id
      * @return Response
      */
-    public function delete($id)
+    public function delete(int $id)
     {
-        AdminRole::destroy($id);
+        AdminUser::destroy($id);
+
         return reply_succeed();
     }
 }

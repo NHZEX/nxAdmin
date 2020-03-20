@@ -1,6 +1,6 @@
 <?php
-// update date: 2020-03-07T16:57:32+08:00
-// hash: 50b458a02e02c56251ab55ec67be8cda
+// update date: 2020-03-20T14:12:22+08:00
+// hash: c0db4ec6d7acce4e78180acd795c5554
 return [
     'features' => [
         'node@admin.main/index' => [
@@ -33,53 +33,53 @@ return [
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.roles/index' => [
-            'class' => 'app\\controller\\api\\admin\\Roles::index',
+        'node@api.admin.role/index' => [
+            'class' => 'app\\controller\\api\\admin\\Role::index',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.roles/select' => [
-            'class' => 'app\\controller\\api\\admin\\Roles::select',
+        'node@api.admin.role/select' => [
+            'class' => 'app\\controller\\api\\admin\\Role::select',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.roles/read' => [
-            'class' => 'app\\controller\\api\\admin\\Roles::read',
+        'node@api.admin.role/read' => [
+            'class' => 'app\\controller\\api\\admin\\Role::read',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.roles/save' => [
-            'class' => 'app\\controller\\api\\admin\\Roles::save',
+        'node@api.admin.role/save' => [
+            'class' => 'app\\controller\\api\\admin\\Role::save',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.roles/update' => [
-            'class' => 'app\\controller\\api\\admin\\Roles::update',
+        'node@api.admin.role/update' => [
+            'class' => 'app\\controller\\api\\admin\\Role::update',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.roles/delete' => [
-            'class' => 'app\\controller\\api\\admin\\Roles::delete',
+        'node@api.admin.role/delete' => [
+            'class' => 'app\\controller\\api\\admin\\Role::delete',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.users/index' => [
-            'class' => 'app\\controller\\api\\admin\\Users::index',
+        'node@api.admin.user/index' => [
+            'class' => 'app\\controller\\api\\admin\\User::index',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.users/read' => [
-            'class' => 'app\\controller\\api\\admin\\Users::read',
+        'node@api.admin.user/read' => [
+            'class' => 'app\\controller\\api\\admin\\User::read',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.users/save' => [
-            'class' => 'app\\controller\\api\\admin\\Users::save',
+        'node@api.admin.user/save' => [
+            'class' => 'app\\controller\\api\\admin\\User::save',
             'policy' => '',
             'desc' => '',
         ],
-        'node@api.admin.users/update' => [
-            'class' => 'app\\controller\\api\\admin\\Users::update',
+        'node@api.admin.user/update' => [
+            'class' => 'app\\controller\\api\\admin\\User::update',
             'policy' => '',
             'desc' => '',
         ],
@@ -141,7 +141,7 @@ return [
             'sort' => 3,
             'desc' => '删除角色',
             'allow' => [
-                'node@api.admin.roles/delete',
+                'node@api.admin.role/delete',
             ],
         ],
         'role.edit' => [
@@ -150,8 +150,8 @@ return [
             'sort' => 2,
             'desc' => '编辑角色',
             'allow' => [
-                'node@api.admin.roles/save',
-                'node@api.admin.roles/update',
+                'node@api.admin.role/save',
+                'node@api.admin.role/update',
             ],
         ],
         'role.info' => [
@@ -160,9 +160,9 @@ return [
             'sort' => 1,
             'desc' => '查看角色',
             'allow' => [
-                'node@api.admin.roles/index',
-                'node@api.admin.roles/select',
-                'node@api.admin.roles/read',
+                'node@api.admin.role/index',
+                'node@api.admin.role/select',
+                'node@api.admin.role/read',
             ],
         ],
         'user' => [
@@ -178,7 +178,7 @@ return [
             'sort' => 4,
             'desc' => '删除用户',
             'allow' => [
-                'node@api.admin.users/update',
+                'node@api.admin.user/update',
             ],
         ],
         'user.edit' => [
@@ -187,7 +187,7 @@ return [
             'sort' => 2,
             'desc' => '编辑角色',
             'allow' => [
-                'node@api.admin.users/save',
+                'node@api.admin.user/save',
             ],
         ],
         'user.info' => [
@@ -196,8 +196,8 @@ return [
             'sort' => 1,
             'desc' => '查看角色',
             'allow' => [
-                'node@api.admin.users/index',
-                'node@api.admin.users/read',
+                'node@api.admin.user/index',
+                'node@api.admin.user/read',
             ],
         ],
     ],
@@ -218,27 +218,27 @@ return [
         ],
         'role' => [],
         'role.del' => [
-            'node@api.admin.roles/delete',
+            'node@api.admin.role/delete',
         ],
         'role.edit' => [
-            'node@api.admin.roles/save',
-            'node@api.admin.roles/update',
+            'node@api.admin.role/save',
+            'node@api.admin.role/update',
         ],
         'role.info' => [
-            'node@api.admin.roles/index',
-            'node@api.admin.roles/select',
-            'node@api.admin.roles/read',
+            'node@api.admin.role/index',
+            'node@api.admin.role/select',
+            'node@api.admin.role/read',
         ],
         'user' => [],
         'user.del' => [
-            'node@api.admin.users/update',
+            'node@api.admin.user/update',
         ],
         'user.edit' => [
-            'node@api.admin.users/save',
+            'node@api.admin.user/save',
         ],
         'user.info' => [
-            'node@api.admin.users/index',
-            'node@api.admin.users/read',
+            'node@api.admin.user/index',
+            'node@api.admin.user/read',
         ],
     ],
     'features2permission' => [
@@ -249,15 +249,15 @@ return [
         'node@api.admin.permission/index' => 'permission.info',
         'node@api.admin.permission/read' => 'permission.info',
         'node@api.admin.permission/scan' => 'permission.scan',
-        'node@api.admin.roles/delete' => 'role.del',
-        'node@api.admin.roles/save' => 'role.edit',
-        'node@api.admin.roles/update' => 'role.edit',
-        'node@api.admin.roles/index' => 'role.info',
-        'node@api.admin.roles/select' => 'role.info',
-        'node@api.admin.roles/read' => 'role.info',
-        'node@api.admin.users/update' => 'user.del',
-        'node@api.admin.users/save' => 'user.edit',
-        'node@api.admin.users/index' => 'user.info',
-        'node@api.admin.users/read' => 'user.info',
+        'node@api.admin.role/delete' => 'role.del',
+        'node@api.admin.role/save' => 'role.edit',
+        'node@api.admin.role/update' => 'role.edit',
+        'node@api.admin.role/index' => 'role.info',
+        'node@api.admin.role/select' => 'role.info',
+        'node@api.admin.role/read' => 'role.info',
+        'node@api.admin.user/update' => 'user.del',
+        'node@api.admin.user/save' => 'user.edit',
+        'node@api.admin.user/index' => 'user.info',
+        'node@api.admin.user/read' => 'user.info',
     ],
 ];

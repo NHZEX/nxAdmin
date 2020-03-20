@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/12/19
- * Time: 11:31
- */
+
 const SYSTEM_NAME = 'nxAdmin';
 const RESOURCE_VERSION = '1.0';
 const CSRF_TOKEN = 'XSRF-Token';
@@ -19,3 +14,12 @@ define('PUBILC_PATH', ROOT_PATH . 'public' . DIRECTORY_SEPARATOR);
 // CERTIFICATE 文件路径
 define('CA_ROOT_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR . 'cacert.pem');
 define('CA_ROOT_CHECKSUM_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . 'cacert.pem.sha256');
+
+const ROUTE_DEFAULT_RESTFULL = [
+    'index'  => ['get', '', 'index'],
+    'select' => ['get', '/select', 'select'],
+    'read'   => ['get', '/<id>', 'read'],
+    'save'   => ['post', '', 'save'],
+    'update' => ['put', '/<id>', 'update'],
+    'delete' => ['delete', '/<id>', 'delete'],
+];

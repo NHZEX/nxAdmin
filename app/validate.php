@@ -14,11 +14,11 @@ return [
         'login' => [false, Validate\Login::class],
     ],
 
-    controller\api\admin\Users::class => [
+    controller\api\admin\User::class => [
         'save'   => [false, Validate\Admin\User::class, 'save'],
         'update' => [false, Validate\Admin\User::class, 'update'],
     ],
-    controller\api\admin\Roles::class => [
+    controller\api\admin\Role::class => [
         'save'   => [false, Validate\Admin\Role::class, null],
         'update' => [false, Validate\Admin\Role::class, null],
     ],

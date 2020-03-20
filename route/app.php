@@ -42,12 +42,14 @@ $r->group('admin.login', function () use ($r) {
 
 $r->group('api', function () use ($r) {
     $r->group('admin', function () use ($r) {
-        $r->resource('users', 'users');
-        $r->resource('roles', 'roles');
-        $r->resource('permission', 'permission')->pattern([
+        $r->resource('users', 'user');
+        $r->resource('roles', 'role');
+
+        roule_resource('permission', 'permission', [
+            'scan' => ['get', 'scan', 'scan'],
+        ])->pattern([
             'id' => '[\w\.]+'
         ]);
-        $r->get('permission/scan', 'permission/scan');
     })->prefix('api.admin.')->pattern([
         'id' => '\d+',
         'name' => '\w+',

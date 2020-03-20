@@ -1,9 +1,11 @@
 <?php
 
+use think\facade\App;
 use think\facade\Db;
 use think\facade\Request;
 use think\Response;
 use think\response\View;
+use think\route\Resource;
 
 /**
  * 渲染模板输出
@@ -420,7 +422,7 @@ function query_mysql_version(string $connect = null)
  */
 function query_mysql_exist_database(string $database, string $connect = null)
 {
-    /** @noinspection SqlResolve SqlNoDataSourceInspection */
+    /** @noinspection SqlNoDataSourceInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
         $list = Db::connect($connect, true)->query($sql);
@@ -494,4 +496,19 @@ function env_get(string $key, $default, ...$argv)
     $key = sprintf($key, ...$argv);
     /** @noinspection PhpMethodParametersCountMismatchInspection */
     return app('env')->get($key, $default);
+}
+
+/**
+ * @param string $rule
+ * @param string $route
+ * @param array  $ruleModel
+ * @return Resource
+ */
+function roule_resource(string $rule, string $route, array $ruleModel = [])
+{
+    $r = App::getInstance()->route;
+    $r->rest($ruleModel + ROUTE_DEFAULT_RESTFULL, true);
+    $result = $r->resource($rule, $route);
+    $r->rest(ROUTE_DEFAULT_RESTFULL, true);
+    return $result;
 }
