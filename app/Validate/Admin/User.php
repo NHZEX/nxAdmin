@@ -32,8 +32,12 @@ class User extends Base
         'save'   => [
             'genre', 'username', 'nickname', 'password', 'role_id', 'status',
         ],
-        'update' => [
-            'nickname', 'role_id', 'status', 'password',
-        ],
     ];
+
+    protected function sceneUpdate()
+    {
+        $this
+            ->only(['nickname', 'role_id', 'status', 'password'])
+            ->remove('password', 'require');
+    }
 }
