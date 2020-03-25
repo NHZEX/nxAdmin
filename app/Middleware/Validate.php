@@ -58,8 +58,8 @@ class Validate extends Middleware
                 $v = new $validate_class();
                 if ($validate_scene) {
                     // 询问当前使用何种场景
-                    if ('?' === $validate_scene && $validate_class instanceof VailAsk) {
-                        $validate_scene = $validate_class->askScene($request) ?: false;
+                    if ('?' === $validate_scene && $v instanceof VailAsk) {
+                        $validate_scene = $v->askScene($request) ?: false;
                     }
                     // 选中将使用的验证场景
                     $validate_scene && $v->scene($validate_scene);
