@@ -37,6 +37,7 @@ abstract class Base extends Validate
     {
         $rules = $this->rule;
 
+        // 如果thinkphp同意调整场景优先级，质量将需要跟着调整
         if ($this->currentScene) {
             $this->getScene($this->currentScene);
         }

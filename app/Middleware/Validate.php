@@ -64,7 +64,11 @@ class Validate extends Middleware
                     // 选中将使用的验证场景
                     $validate_scene && $v->scene($validate_scene);
                 }
-                if (false === $v->check($request->param())) {
+                $input = $request->param();
+                if ($files = $request->file()) {
+                    $input += $files;
+                }
+                if (false === $v->check($input)) {
                     $message = is_array($v->getError()) ? join(',', $v->getError()) : $v->getError();
                     return reply_bad(CODE_COM_PARAM, $message);
                 }
