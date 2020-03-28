@@ -127,7 +127,7 @@ function reply_succeed($data = '', int $code = 200, array $header = [])
     } elseif ($code === 204) {
         $data = '';
     }
-    return reply_text($data, $code, $header);
+    return reply_text((string) $data, $code, $header);
 }
 
 /**
