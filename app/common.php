@@ -277,6 +277,26 @@ function query_mysql_version(string $connect = null)
 }
 
 /**
+ * 查询数据库版本
+ * @param string $connect
+ * @param bool   $driver
+ * @return string
+ */
+function db_version(?string $connect = null, bool $driver = false): string
+{
+    /** @var PDO $pdo */
+    $connect = ($connect ? Db::connect($connect, true) : Db::connect())->getConnection();
+    ((
+        function () {
+            $this->initConnect();
+        }
+    )->bindTo($connect, $connect))();
+    $pdo = $connect->getPdo();
+    $prefix = $driver ? ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ') : '';
+    return $prefix . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
+}
+
+/**
  * 查询当前链接 mysql 是否存在指定库
  * @param string $database
  * @param string $connect
