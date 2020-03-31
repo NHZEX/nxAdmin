@@ -44,10 +44,8 @@ class Attachment extends Base
     ];
 
     const DRIVER_LOCAL = 'local';
-    const DRIVER_QINIU = 'qiniu';
     const DRIVER_DICT = [
         self::DRIVER_LOCAL => '/upload/',
-        self::DRIVER_QINIU => '//pic.dev.ozxh.wang/'
     ];
 
     /**
