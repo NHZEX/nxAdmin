@@ -44,7 +44,7 @@ class Index extends Base
         // 执行登陆操作
         if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme)) {
             return reply_succeed([
-                'uuid' => hash_hmac('sha1', AuthFacade::id(), env('DEPLOY_SECURITY_SALT')),
+                'uuid' => hash_hmac('sha1', (string) AuthFacade::id(), env('DEPLOY_SECURITY_SALT')),
                 'token' => Session::getId(),
             ]);
         } else {

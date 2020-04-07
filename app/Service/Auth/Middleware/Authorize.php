@@ -8,6 +8,7 @@ use app\Service\Auth\Permission;
 use app\Traits\JumpHelper;
 use Closure;
 use think\App;
+use think\facade\Session;
 use think\Request;
 use think\Response;
 
@@ -56,21 +57,31 @@ class Authorize
 
         // 会话权限判断
         if (true !== $this->auth->check()) {
+            $this->auth->logout();
             $msg = $this->auth->getMessage();
             $msg = empty($msg) ? '会话无效' : ('会话无效: ' . $msg);
             return $this->failJump($request, $msg);
         }
         // 超级管理员跳过鉴权
         if ($this->auth->user()->isSuperAdmin()) {
-            return $next($request);
+            $response = $next($request);
+        } else {
+            // 权限判定
+            if (!$this->auth->gate()->check('node@' . $nodeName, $request)) {
+                $response = Response::create('权限不足', 'html', 403);
+            } else {
+                $response = $next($request);
+            }
+        }
+        // 使用记住我恢复登录状态
+        if ($this->auth->viaRemember()) {
+            $response->header([
+                'X-Uuid' => hash_hmac('sha1', (string) $this->auth->id(), env('DEPLOY_SECURITY_SALT')),
+                'X-Token' => Session::getId(),
+            ]);
         }
 
-        // 权限判定
-        if (!$this->auth->gate()->check('node@' . $nodeName, $request)) {
-            return Response::create('权限不足', 'html', 403);
-        }
-
-        return $next($request);
+        return $response;
     }
 
     /**

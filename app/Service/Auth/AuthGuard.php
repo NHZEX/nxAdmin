@@ -187,6 +187,8 @@ class AuthGuard
         if ($rememberme) {
             $this->ensureRememberTokenIsSet($user);
             $this->createRememberToken($user);
+        } else {
+            $this->clearupRememberToken();
         }
 
         $this->triggerLoginEvent($user, $rememberme);
@@ -206,10 +208,20 @@ class AuthGuard
         $this->session->regenerate();
     }
 
+    /**
+     * Determine if the user was authenticated via "remember me" cookie.
+     *
+     * @return bool
+     */
+    public function viaRemember()
+    {
+        return $this->viaRemember;
+    }
+
     public function logout()
     {
         $this->session->delete($this->getName());
-        $this->cookie->delete($this->getRecallerName());
+        $this->clearupRememberToken();
 
         $user = $this->user();
 
@@ -245,6 +257,11 @@ class AuthGuard
             'expire' => $expired,
             'httponly' => true,
         ]);
+    }
+
+    protected function clearupRememberToken()
+    {
+        $this->cookie->delete($this->getRecallerName());
     }
 
     /**
