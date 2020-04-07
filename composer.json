@@ -37,6 +37,7 @@
         "hashids/hashids": "^3.0",
         "nhzex/n-helper": "^1.0",
         "nhzex/think-blade": "^4.2.0",
+        "nhzex/think-cors": "^1.0",
         "nhzex/think-phinx": "^1.0.1",
         "robmorgan/phinx": "^0.11",
         "rybakit/msgpack": "^0.7",
@@ -85,6 +86,6 @@
         "platform": {
         }
     },
-    "repositories": {
-    }
+    "repositories": [
+    ]
 }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "571611ac883497d73bc680e3b2f0b6e9",
+    "content-hash": "7fa3fbe778e2d1b5f9be389c17447f82",
     "packages": [
         {
             "name": "cakephp/cache",
@@ -1091,6 +1091,68 @@
                 "thinkphp6"
             ],
             "time": "2020-03-02T08:10:33+00:00"
+        },
+        {
+            "name": "nhzex/think-cors",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/think-cors.git",
+                "reference": "4b8014f2306edf7fe8833250e3ce48d4f9bc09d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/4b8014f2306edf7fe8833250e3ce48d4f9bc09d8",
+                "reference": "4b8014f2306edf7fe8833250e3ce48d4f9bc09d8",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": "^7.1",
+                "topthink/framework": "^6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8|^7|^9",
+                "symfony/var-dumper": "^5.0|^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [],
+                    "config": {
+                        "cors": "config/cors.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HZEX\\Think\\Cors\\": "src"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ],
+            "keywords": [
+                "cors",
+                "thinkphp",
+                "thinkphp6"
+            ],
+            "time": "2020-04-09T18:06:59+00:00"
         },
         {
             "name": "nhzex/think-phinx",

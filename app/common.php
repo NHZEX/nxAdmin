@@ -394,3 +394,27 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
     $r->rest(ROUTE_DEFAULT_RESTFULL, true);
     return $result;
 }
+
+if (!function_exists('str_starts_with')) {
+    /**
+     * @param string $haystack
+     * @param string $needle
+     * @return bool
+     */
+    function str_starts_with(string $haystack, string $needle): bool
+    {
+        return substr_compare($haystack, $needle, 0, strlen($needle)) === 0;
+    }
+}
+
+if (!function_exists('str_ends_with')) {
+    /**
+     * @param string $haystack
+     * @param string $needle
+     * @return bool
+     */
+    function str_ends_with(string $haystack, string $needle): bool
+    {
+        return substr_compare($haystack, $needle, -strlen($needle)) === 0;
+    }
+}
