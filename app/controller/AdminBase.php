@@ -8,13 +8,17 @@
 
 namespace app\controller;
 
-use app\BaseController;
 use app\Traits\CsrfHelper;
 use app\Traits\ShowReturn;
 use think\App;
 use think\View;
 
-abstract class AdminBase extends BaseController
+/**
+ * @deprecated
+ * Class AdminBase
+ * @package app\controller
+ */
+abstract class AdminBase extends Base
 {
     use ShowReturn;
     use CsrfHelper;

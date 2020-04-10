@@ -9,9 +9,7 @@
 namespace app\controller;
 
 use app\BaseController;
-use app\Traits\ShowReturn;
 
 abstract class Base extends BaseController
 {
-    use ShowReturn;
 }
