@@ -19,27 +19,25 @@ trait PrintAbnormal
      * @param null|string $type
      * @return string
      */
-    protected static function printAbnormalToLog(Throwable $e, ?string $type = null) :string
+    protected static function printException(Throwable $e, ?string $type = null) :string
     {
         // 打印额外的POD异常信息
         if (app()->isDebug() && $e instanceof PDOException) {
-            $db_info = $e->getData();
-            if (isset($db_info['Database Config'])) {
-                Log::record($db_info['Database Config'], 'db-config');
-                unset($db_info['Database Config']);
-            }
-            Log::record($db_info, 'critical');
+            $sqlInfo = $e->getData();
+            unset($sqlInfo['Database Config']);
+            $errinfo = json_encode($sqlInfo, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+            Log::record("SQL ERROR: {$errinfo}", 'critical');
         }
         // 打印通用异常信息
         $msg = '';
         $trace = $e;
         do {
-            $msg .= 'ExceptionClass: \\' . get_class($trace) . "\n";
-            $msg .= "{$trace->getFile()}:{$trace->getLine()}\n";
-            $msg .= "StackTrace: [{$trace->getCode()}] {$trace->getMessage()}\n";
+            $msg .= 'Class: \\' . get_class($trace) . "\n";
+            $msg .= "Error: [{$trace->getCode()}] {$trace->getMessage()}\n";
+            $msg .= "File : {$trace->getFile()}:{$trace->getLine()}\n";
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());
-        $msg .= '----------';
+        $msg .= '----END----';
         Log::record($msg, $type ?? 'critical');
 
         return $msg;

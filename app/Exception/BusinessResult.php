@@ -27,10 +27,4 @@ class BusinessResult extends ExceptionManager
     {
         return "[#{$this->code}] {$this->message}";
     }
-
-    public function abortMsg(array $header = [])
-    {
-        self::printAbnormalToLog($this, 'rbus');
-        return self::showMsg($this->code, $this->__toString(), $header);
-    }
 }

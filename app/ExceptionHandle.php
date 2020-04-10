@@ -12,7 +12,7 @@
 
 namespace app;
 
-use app\Exception\ExceptionRecordDown;
+use app\Exception\ExceptionIgnoreRecord;
 use app\Model\ExceptionLogs;
 use app\Traits\PrintAbnormal;
 use think\db\exception\DataNotFoundException;
@@ -61,18 +61,18 @@ class ExceptionHandle extends Handle
         // 不对Http进行扩展记录
         // 不对降级异常进行扩展记录
         if (!$this->ignoreHttpException($exception)) {
-            if (false === $exception instanceof ExceptionRecordDown) {
+            if (false === $exception instanceof ExceptionIgnoreRecord) {
                 try {
                     ExceptionLogs::push($exception);
-                    self::printAbnormalToLog($exception);
+                    self::printException($exception);
                 } catch (Throwable $throwable) {
-                    $newException = new ExceptionRecordDown('异常日志降级', 0, $throwable);
+                    $newException = new ExceptionIgnoreRecord('异常日志记录发生错误', 0, $throwable);
                     // 打印记录异常
-                    self::printAbnormalToLog($newException);
+                    self::printException($newException);
                 }
             } else {
                 // 打印异常日志
-                self::printAbnormalToLog($exception);
+                self::printException($exception);
             }
         }
         // 交由系统处理

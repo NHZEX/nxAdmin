@@ -11,10 +11,10 @@ namespace app\Exception;
 use Exception;
 
 /**
- * 异常记录降级
+ * 忽略异常记录
  * Class ExceptionRecordDown
  * @package app\exception
  */
-class ExceptionRecordDown extends Exception
+class ExceptionIgnoreRecord extends Exception
 {
 }

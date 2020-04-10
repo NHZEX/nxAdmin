@@ -11,15 +11,12 @@ namespace app\Logic;
 use app\Exception\BusinessResult;
 use app\Model\AdminUser as AdminUserModel;
 use app\Service\Auth\AuthGuard;
-use app\Traits\PrintAbnormal;
 use RuntimeException;
 use think\db\exception\DbException;
 use think\facade\Request;
 
 class AdminUser extends Base
 {
-    use PrintAbnormal;
-
     const LOGIN_TYPE_NAME = 'username';
     const LOGIN_TYPE_EMAIL = 'email';
 
