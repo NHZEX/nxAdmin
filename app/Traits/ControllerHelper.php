@@ -3,7 +3,10 @@ declare(strict_types=1);
 
 namespace app\Traits;
 
+use Closure;
+use think\db\Query;
 use think\Request;
+use function array_key_first;
 use function array_merge;
 use function count;
 use function is_array;
@@ -89,5 +92,28 @@ trait ControllerHelper
             }
         }
         return $data;
+    }
+
+    /**
+     * 组合筛选条件 (支持闭包)
+     * @param array $input
+     * @param array $where
+     * @return Closure
+     * @see buildWhere
+     */
+    public function buildWhereClosure(array $input, array $where): Closure
+    {
+        return function (Query $query) use ($input, $where) {
+            $tableName = $query->getTable();
+            $tableName = is_array($tableName) ? $tableName[array_key_first($tableName)] : $tableName;
+
+            $where = $this->buildWhere($input, $where);
+            $output = [];
+            foreach ($where as $value) {
+                $value[0] = "{$tableName}.{$value[0]}";
+                $output[] = $value;
+            }
+            $query->where($output);
+        };
     }
 }

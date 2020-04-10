@@ -81,7 +81,8 @@ abstract class Base extends ThinkModel
     public static function subQuery(Closure $closure, ?string $field)
     {
         return function (Query $query) use ($closure, $field) {
-            $query->table((new static())->getTable());
+            $tableName = (new static())->getTable();
+            $query->table($tableName);
             $closure($query);
 
             if (!empty($field)) {
