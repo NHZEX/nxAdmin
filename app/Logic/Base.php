@@ -8,14 +8,8 @@
 
 namespace app\Logic;
 
-use app\Traits\PrintAbnormal;
-use Tp\Model\Traits\TransactionExtension;
-
 abstract class Base
 {
-    use PrintAbnormal;
-    use TransactionExtension;
-
     // 错误信息
     protected $errorMessage = null;
 

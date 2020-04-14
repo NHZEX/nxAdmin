@@ -64,6 +64,14 @@ abstract class Base extends ThinkModel
     protected $autoWriteTimestamp = true;
 
     /**
+     * @return string
+     */
+    public static function getTableName(): string
+    {
+        return (new static())->getTable();
+    }
+
+    /**
      * 是否关闭数据访问控制
      * @return bool
      */
@@ -81,8 +89,7 @@ abstract class Base extends ThinkModel
     public static function subQuery(Closure $closure, ?string $field)
     {
         return function (Query $query) use ($closure, $field) {
-            $tableName = (new static())->getTable();
-            $query->table($tableName);
+            $query->table(static::getTableName());
             $closure($query);
 
             if (!empty($field)) {
