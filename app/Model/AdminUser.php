@@ -63,6 +63,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         'remember',
         'password',
         'delete_time',
+        'role'
     ];
 
     const STATUS_NORMAL = 0;

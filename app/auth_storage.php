@@ -1,18 +1,8 @@
 <?php
-// update date: 2020-03-20T14:12:22+08:00
-// hash: c0db4ec6d7acce4e78180acd795c5554
+// update date: 2020-04-14T19:18:48+08:00
+// hash: 93fd40bfc4e584bc520dd5c5ca5a8320
 return [
     'features' => [
-        'node@admin.main/index' => [
-            'class' => 'app\\controller\\admin\\Main::index',
-            'policy' => '',
-            'desc' => '',
-        ],
-        'node@admin.main/sysinfo' => [
-            'class' => 'app\\controller\\admin\\Main::sysinfo',
-            'policy' => '',
-            'desc' => '',
-        ],
         'node@api.admin.index/userinfo' => [
             'class' => 'app\\controller\\api\\admin\\Index::userInfo',
             'policy' => '',
@@ -83,6 +73,11 @@ return [
             'policy' => '',
             'desc' => '',
         ],
+        'node@api.admin.user/delete' => [
+            'class' => 'app\\controller\\api\\admin\\User::delete',
+            'policy' => '',
+            'desc' => '',
+        ],
         'node@api.system/sysinfo' => [
             'class' => 'app\\controller\\api\\System::sysinfo',
             'policy' => '',
@@ -96,8 +91,6 @@ return [
             'sort' => 0,
             'desc' => '用户登录后授予的权限',
             'allow' => [
-                'node@admin.main/index',
-                'node@admin.main/sysinfo',
                 'node@api.admin.index/userinfo',
                 'node@api.system/sysinfo',
             ],
@@ -178,7 +171,7 @@ return [
             'sort' => 4,
             'desc' => '删除用户',
             'allow' => [
-                'node@api.admin.user/update',
+                'node@api.admin.user/delete',
             ],
         ],
         'user.edit' => [
@@ -188,6 +181,7 @@ return [
             'desc' => '编辑角色',
             'allow' => [
                 'node@api.admin.user/save',
+                'node@api.admin.user/update',
             ],
         ],
         'user.info' => [
@@ -203,8 +197,6 @@ return [
     ],
     'permission2features' => [
         'login' => [
-            'node@admin.main/index',
-            'node@admin.main/sysinfo',
             'node@api.admin.index/userinfo',
             'node@api.system/sysinfo',
         ],
@@ -231,10 +223,11 @@ return [
         ],
         'user' => [],
         'user.del' => [
-            'node@api.admin.user/update',
+            'node@api.admin.user/delete',
         ],
         'user.edit' => [
             'node@api.admin.user/save',
+            'node@api.admin.user/update',
         ],
         'user.info' => [
             'node@api.admin.user/index',
@@ -242,8 +235,6 @@ return [
         ],
     ],
     'features2permission' => [
-        'node@admin.main/index' => 'login',
-        'node@admin.main/sysinfo' => 'login',
         'node@api.admin.index/userinfo' => 'login',
         'node@api.system/sysinfo' => 'login',
         'node@api.admin.permission/index' => 'permission.info',
@@ -255,8 +246,9 @@ return [
         'node@api.admin.role/index' => 'role.info',
         'node@api.admin.role/select' => 'role.info',
         'node@api.admin.role/read' => 'role.info',
-        'node@api.admin.user/update' => 'user.del',
+        'node@api.admin.user/delete' => 'user.del',
         'node@api.admin.user/save' => 'user.edit',
+        'node@api.admin.user/update' => 'user.edit',
         'node@api.admin.user/index' => 'user.info',
         'node@api.admin.user/read' => 'user.info',
     ],

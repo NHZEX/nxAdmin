@@ -71,7 +71,7 @@ class User extends Base
     }
 
     /**
-     * @Auth("user.del")
+     * @Auth("user.edit")
      * @param int $id
      * @return Response
      * @throws DataNotFoundException
@@ -96,6 +96,7 @@ class User extends Base
     }
 
     /**
+     * @Auth("user.del")
      * @param int $id
      * @return Response
      */

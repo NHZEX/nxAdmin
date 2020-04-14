@@ -15,6 +15,8 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\Cache;
 use Tp\Db\Query as Query2;
+use function count;
+use function explode;
 
 class AdminRole extends Base
 {
@@ -94,7 +96,13 @@ class AdminRole extends Base
     {
         $data = [];
         foreach (self::queryPermission($roleId, $force) as $key => $v) {
-            $data[$key] = null;
+            $layer = explode('.', $key);
+            if (count($layer) > 1) {
+                for ($i = count($layer) - 2; $i >= 0; $i--) {
+                    $data[$layer[$i]] = true;
+                }
+            }
+            $data[$key] = true;
         }
         return $data;
     }
