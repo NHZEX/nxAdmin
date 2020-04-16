@@ -10,18 +10,17 @@ namespace app\controller;
 
 use app\Logic\Attachment;
 use app\Service\Auth\Facade\Auth;
-use app\Traits\ShowReturn;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\File;
 use think\file\UploadedFile;
 use think\Response;
+use function func\reply\reply_bad;
+use function func\reply\reply_succeed;
 
-class Upload extends AdminBase
+class Upload extends Base
 {
-    use ShowReturn;
-
     /**
      * @return Response
      * @throws DataNotFoundException
@@ -33,15 +32,15 @@ class Upload extends AdminBase
         $field = $this->request->param('field');
         $files = $this->request->file($field);
         if (is_array($files)) {
-            return self::showMsg(CODE_COM_PARAM, '无法处理提交');
+            return reply_bad(CODE_COM_PARAM, '无法处理提交');
         }
         if ($files instanceof File) {
-            return self::showData(
-                CODE_SUCCEED,
-                $this->uploadImage($files)
-            );
+            if (($result = $this->uploadImage($files)) instanceof Response) {
+                return $result;
+            }
+            return reply_succeed($result);
         } else {
-            return self::showMsg(CODE_COM_PARAM);
+            return reply_bad(CODE_COM_PARAM, '无法处理提交');
         }
     }
 
@@ -57,17 +56,19 @@ class Upload extends AdminBase
         /** @var File[] $files */
         $files = $this->request->file();
         if (!is_array($files)) {
-            return self::showMsg(CODE_COM_PARAM, '无法处理提交');
+            return reply_bad(CODE_COM_PARAM, '无法处理提交');
         }
         $returnData = [];
         foreach ($files as $key => $file) {
             if (false === ($file instanceof File)) {
-                return self::showMsg(CODE_COM_PARAM, '无法处理提交');
+                return reply_bad(CODE_COM_PARAM, '无法处理提交');
             }
-            $imageInfo = $this->uploadImage($file);
+            if (($imageInfo = $this->uploadImage($file)) instanceof Response) {
+                return $imageInfo;
+            }
             $returnData[$key] = $imageInfo;
         }
-        return self::showData(CODE_SUCCEED, $returnData);
+        return reply_succeed($returnData);
     }
 
     /**
@@ -81,7 +82,7 @@ class Upload extends AdminBase
     {
         $attachment = new Attachment();
         if (false === $annex = $attachment->uploadImage($file, Auth::user())) {
-            return self::showMsg(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
+            return reply_bad(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
         }
         return [
             'path' => "{$annex->path}#{$annex->driver}",
