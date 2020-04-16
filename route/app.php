@@ -36,9 +36,17 @@ $r->get('storage', function () {
     return Response::create('404 Not Found', 'html', 404);
 });
 
-$r->group('admin.login', function () use ($r) {
-    $r->get('captcha/:_', 'captcha');
-})->prefix('admin.login/');
+$r->group('api/system', function () use ($r) {
+    $r->get('config', 'config');
+    $r->get('sysinfo', 'sysinfo');
+    $r->get('captcha', 'captcha');
+})->prefix('api.system/');
+
+$r->group('api/admin', function () use ($r) {
+    $r->post('login', 'login');
+    $r->get('logout', 'logout');
+    $r->get('user-info', 'userInfo');
+})->prefix('api.admin.index/');
 
 $r->group('api', function () use ($r) {
     $r->group('admin', function () use ($r) {
