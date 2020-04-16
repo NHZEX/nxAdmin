@@ -111,7 +111,7 @@ class AdminRole extends Base
     /**
      * @param AdminRole $model
      */
-    public static function onAfterInsert(AdminRole $model)
+    public static function onAfterWrite(AdminRole $model)
     {
         AdminRoleLogic::refreshCache($model);
     }
