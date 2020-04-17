@@ -13,7 +13,6 @@ use think\Response;
 use think\response\View;
 use function func\reply\reply_bad;
 use function func\reply\reply_succeed;
-use function hash_hmac;
 
 class Index extends Base
 {
@@ -44,8 +43,9 @@ class Index extends Base
         // 执行登陆操作
         if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme)) {
             return reply_succeed([
-                'uuid' => hash_hmac('sha1', (string) AuthFacade::id(), env('DEPLOY_SECURITY_SALT')),
+                'uuid' => $adminUser->getAuth()->getHashId(),
                 'token' => Session::getId(),
+                'recallerSign' => $adminUser->getAuth()->getRecallerSign(),
             ]);
         } else {
             return reply_bad(CODE_CONV_LOGIN, $adminUser->getErrorMessage());

@@ -76,8 +76,9 @@ class Authorize
         // 使用记住我恢复登录状态
         if ($this->auth->viaRemember()) {
             $response->header([
-                'X-Uuid' => hash_hmac('sha1', (string) $this->auth->id(), env('DEPLOY_SECURITY_SALT')),
+                'X-Uuid' => $this->auth->getHashId(),
                 'X-Token' => Session::getId(),
+                'X-Recaller-Sign' => $this->auth->getRecallerSign(),
             ]);
         }
 

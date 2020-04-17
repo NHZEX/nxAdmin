@@ -31,6 +31,14 @@ class AdminUser extends Base
     }
 
     /**
+     * @return AuthGuard
+     */
+    public function getAuth(): AuthGuard
+    {
+        return $this->auth;
+    }
+
+    /**
      * 用户登陆 邮箱或用户名
      * @param string $username
      * @param string $password
