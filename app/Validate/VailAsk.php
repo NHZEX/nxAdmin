@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Auoor
- * Date: 2019/3/23
- * Time: 23:29
- */
 
 namespace app\Validate;
 

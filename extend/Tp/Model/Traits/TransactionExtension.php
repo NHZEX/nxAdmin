@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/11/7
- * Time: 12:01
- */
 
 namespace Tp\Model\Traits;
 
@@ -16,7 +10,6 @@ trait TransactionExtension
 {
     /**
      * 当前是否在一个事务内
-     * @author NHZEXG
      * @return bool
      */
     public static function theTransaction()
@@ -36,7 +29,6 @@ trait TransactionExtension
 
     /**
      * 当前是否在一个事务内
-     * @author NHZEXGinTransaction
      * @return bool
      */
     public function inTransaction() :bool
@@ -46,7 +38,6 @@ trait TransactionExtension
 
     /**
      * 不再事务中执行将直接抛出异常
-     * @author NHZEXG
      * @throws ModelException
      */
     public static function theTransactionTryFail() :void
@@ -58,7 +49,6 @@ trait TransactionExtension
 
     /**
      * 不再事务中执行将直接抛出异常
-     * @author NHZEXG
      * @throws ModelException
      */
     public function inTransactionTryFail() :void

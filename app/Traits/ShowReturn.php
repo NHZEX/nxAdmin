@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/4/19
- * Time: 14:47
- */
 
 namespace app\Traits;
 
@@ -28,7 +22,6 @@ trait ShowReturn
      * @param string $msg
      * @param array  $header
      * @return Response
-     * @author NHZEXG
      */
     protected static function show403($code = '', $msg = '', array $header = []): Response
     {
@@ -42,7 +35,6 @@ trait ShowReturn
      * @param string $msg
      * @param array  $header
      * @return Response
-     * @author NHZEXG
      */
     protected static function show401($code = '', $msg = '', array $header = []): Response
     {
@@ -95,7 +87,6 @@ trait ShowReturn
      * @param array      $header
      * @param int        $http_code
      * @return Response
-     * @author NHZEXG
      */
     protected static function showMsg($code = '', string $msg = '', array $header = [], $http_code = 200): Response
     {
@@ -120,7 +111,6 @@ trait ShowReturn
      * @param string    $msg
      * @param array     $header
      * @return Response
-     * @author NHZEXG
      */
     protected static function showException(Throwable $exception, ?string $msg = null, $header = []): Response
     {

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Auoor
- * Date: 2019/3/31
- * Time: 10:33
- */
 
 use app\controller;
 use app\Validate as Validate;

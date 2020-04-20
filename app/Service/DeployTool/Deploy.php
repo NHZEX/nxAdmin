@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/12/14
- * Time: 15:45
- */
 
 namespace app\Service\DeployTool;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/12/26
- * Time: 13:38
- */
 
 namespace Tp;
 

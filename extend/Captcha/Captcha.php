@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/10/22
- * Time: 18:19
- */
 
 namespace Captcha;
 

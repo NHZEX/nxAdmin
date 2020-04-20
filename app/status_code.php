@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/12/19
- * Time: 10:57
- */
 
 /**
  * 错误代码分配

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2019/3/7
- * Time: 18:28
- */
 
 namespace app\Logic;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2019/1/28
- * Time: 14:26
- */
 
 namespace app\Service\Redis;
 

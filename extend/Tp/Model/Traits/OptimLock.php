@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2019/1/2
- * Time: 10:04
- */
 
 namespace Tp\Model\Traits;
 

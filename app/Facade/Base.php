@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2019/2/22
- * Time: 13:40
- */
 
 namespace app\Facade;
 

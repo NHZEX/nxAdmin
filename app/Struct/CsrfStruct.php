@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2019/1/28
- * Time: 17:23
- */
 
 namespace app\Struct;
 

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: NHZEXG
- * Date: 2018/12/21
- * Time: 19:39
- */
 
 namespace Guzzle\Psr7;
 
