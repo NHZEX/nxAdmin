@@ -6,6 +6,7 @@ namespace app\Service\Auth;
 use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\Exception\AuthException;
 use Doctrine\Common\Annotations\Reader;
+use Generator;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
@@ -158,16 +159,18 @@ trait InteractsWithScanAuth
         return $this->nodes;
     }
 
-    protected function scanning($dirs)
+    /**
+     * @param $dirs
+     * @return Generator
+     */
+    protected function scanning($dirs): Generator
     {
         $finder = new Finder();
         $finder->files()->in($dirs)->name('*.php');
         if (!$finder->hasResults()) {
             return;
         }
-        foreach ($finder as $file) {
-            yield $file;
-        }
+        yield from $finder;
     }
 
     /**

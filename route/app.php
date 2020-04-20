@@ -56,7 +56,7 @@ $r->group('api', function () use ($r) {
         roule_resource('permission', 'permission', [
             'scan' => ['get', 'scan', 'scan'],
         ])->pattern([
-            'id' => '[\w\.]+'
+            'id' => '[\w\.\-]+'
         ]);
     })->prefix('api.admin.')->pattern([
         'id' => '\d+',
