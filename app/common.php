@@ -286,11 +286,10 @@ function db_version(?string $connect = null, bool $driver = false): string
 {
     /** @var PDO $pdo */
     $connect = ($connect ? Db::connect($connect, true) : Db::connect())->getConnection();
-    ((
-        function () {
-            $this->initConnect();
-        }
-    )->bindTo($connect, $connect))();
+    $initConnect = function () {
+        $this->initConnect();
+    };
+    $initConnect->call($connect);
     $pdo = $connect->getPdo();
     $prefix = $driver ? ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ') : '';
     return $prefix . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
