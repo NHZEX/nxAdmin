@@ -6,13 +6,15 @@ use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthScan;
 use app\Service\Auth\Permission as AuthPermission;
 use think\Response;
+use function array_merge;
 use function func\reply\reply_bad;
+use function func\reply\reply_not_found;
 use function func\reply\reply_succeed;
 
 class Permission extends Base
 {
     /**
-     * @Auth("permission.info")
+     * @Auth("admin.permission.info")
      * @param AuthPermission $permission
      * @return Response
      */
@@ -24,7 +26,7 @@ class Permission extends Base
     }
 
     /**
-     * @Auth("permission.info")
+     * @Auth("admin.permission.info")
      * @param                $id
      * @param AuthPermission $permission
      * @return Response
@@ -51,8 +53,37 @@ class Permission extends Base
     }
 
     /**
+     * @Auth("admin.permission.edit")
+     * @param          $id
+     * @param AuthScan $authScan
+     * @return Response
+     */
+    public function update($id, AuthScan $authScan)
+    {
+        $input = $this->request->only(['sort', 'desc']);
+
+        if (empty($input)) {
+            return reply_bad();
+        }
+
+        $perm = AuthPermission::getInstance();
+
+        if (!$perm->queryPermission($id)) {
+            return reply_not_found();
+        }
+
+        $permissions = $perm->getPermission();
+        $permissions[$id] = array_merge($permissions[$id], $input);
+        $perm->setPermission($permissions);
+
+        $authScan->export($perm->getStorage()->toArray());
+
+        return reply_succeed();
+    }
+
+    /**
      * 扫描权限
-     * @Auth("permission.scan")
+     * @Auth("admin.permission.scan")
      * @param AuthScan $authScan
      * @return Response
      */

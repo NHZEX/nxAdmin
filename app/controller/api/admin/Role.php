@@ -20,7 +20,7 @@ use function func\reply\reply_table;
 class Role extends Base
 {
     /**
-     * @Auth("role.info")
+     * @Auth("admin.role.info")
      * @param int $limit
      * @return Response
      * @throws DbException
@@ -40,7 +40,7 @@ class Role extends Base
     }
 
     /**
-     * @Auth("role.info")
+     * @Auth("admin.role.info")
      * @return Response
      */
     public function select()
@@ -49,7 +49,7 @@ class Role extends Base
     }
 
     /**
-     * @Auth("role.info")
+     * @Auth("admin.role.info")
      * @param int $id
      * @return Response
      * @throws DbException
@@ -66,7 +66,7 @@ class Role extends Base
     }
 
     /**
-     * @Auth("role.edit")
+     * @Auth("admin.role.add")
      * @return Response
      */
     public function save()
@@ -76,7 +76,7 @@ class Role extends Base
     }
 
     /**
-     * @Auth("role.edit")
+     * @Auth("admin.role.edit")
      * @param $id
      * @return Response
      * @throws DataNotFoundException
@@ -95,7 +95,7 @@ class Role extends Base
     }
 
     /**
-     * @Auth("role.del")
+     * @Auth("admin.role.del")
      * @param $id
      * @return Response
      */

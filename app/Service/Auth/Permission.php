@@ -67,6 +67,33 @@ class Permission
     }
 
     /**
+     * @return AuthStorage
+     */
+    public function getStorage(): AuthStorage
+    {
+        return $this->storage;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPermission(): array
+    {
+        return $this->loadStorage()->permission;
+    }
+
+    /**
+     * @param array $permission
+     * @return void
+     */
+    public function setPermission(array $permission): void
+    {
+        $this->loadStorage()->permission = $permission;
+
+        return;
+    }
+
+    /**
      * 查询节点
      * @param string $node
      * @return array|null

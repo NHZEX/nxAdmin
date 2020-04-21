@@ -16,4 +16,14 @@ class AuthStorage
     public $permission = [];
     public $pe2fe = [];
     public $fe2pe = [];
+
+    public function toArray()
+    {
+        return [
+            'features' => $this->features,
+            'permission' => $this->permission,
+            'permission2features' => $this->pe2fe,
+            'features2permission' => $this->fe2pe,
+        ];
+    }
 }

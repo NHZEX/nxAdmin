@@ -21,7 +21,7 @@ use function trim;
 class User extends Base
 {
     /**
-     * @Auth("user.info")
+     * @Auth("admin.user.info")
      * @param int $limit
      * @return Response
      * @throws DbException
@@ -43,7 +43,7 @@ class User extends Base
     }
 
     /**
-     * @Auth("user.info")
+     * @Auth("admin.user.info")
      * @param int $id
      * @return Response
      * @throws DbException
@@ -60,7 +60,7 @@ class User extends Base
     }
 
     /**
-     * @Auth("user.edit")
+     * @Auth("admin.user.add")
      * @return Response
      */
     public function save()
@@ -71,7 +71,7 @@ class User extends Base
     }
 
     /**
-     * @Auth("user.edit")
+     * @Auth("admin.user.edit")
      * @param int $id
      * @return Response
      * @throws DataNotFoundException
@@ -96,7 +96,7 @@ class User extends Base
     }
 
     /**
-     * @Auth("user.del")
+     * @Auth("admin.user.del")
      * @param int $id
      * @return Response
      */

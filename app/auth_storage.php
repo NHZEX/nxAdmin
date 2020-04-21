@@ -1,6 +1,6 @@
 <?php
-// update date: 2020-04-14T19:18:48+08:00
-// hash: 93fd40bfc4e584bc520dd5c5ca5a8320
+// update date: 2020-04-21T17:55:13+08:00
+// hash: b0a029f32d93a172451d41fd37e52165
 return [
     'features' => [
         'node@api.admin.index/userinfo' => [
@@ -15,6 +15,11 @@ return [
         ],
         'node@api.admin.permission/read' => [
             'class' => 'app\\controller\\api\\admin\\Permission::read',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@api.admin.permission/update' => [
+            'class' => 'app\\controller\\api\\admin\\Permission::update',
             'policy' => '',
             'desc' => '',
         ],
@@ -85,6 +90,137 @@ return [
         ],
     ],
     'permission' => [
+        'admin' => [
+            'pid' => '__ROOT__',
+            'name' => 'admin',
+            'sort' => '1',
+            'desc' => 'ADMIN',
+            'allow' => null,
+        ],
+        'admin.permission' => [
+            'pid' => 'admin',
+            'name' => 'admin.permission',
+            'sort' => '300',
+            'desc' => '后台权限',
+            'allow' => null,
+        ],
+        'admin.permission.edit' => [
+            'pid' => 'admin.permission',
+            'name' => 'admin.permission.edit',
+            'sort' => '3002',
+            'desc' => '编辑权限',
+            'allow' => [
+                'node@api.admin.permission/update',
+            ],
+        ],
+        'admin.permission.info' => [
+            'pid' => 'admin.permission',
+            'name' => 'admin.permission.info',
+            'sort' => '3001',
+            'desc' => '查看权限',
+            'allow' => [
+                'node@api.admin.permission/index',
+                'node@api.admin.permission/read',
+            ],
+        ],
+        'admin.permission.scan' => [
+            'pid' => 'admin.permission',
+            'name' => 'admin.permission.scan',
+            'sort' => '3005',
+            'desc' => '扫描权限',
+            'allow' => [
+                'node@api.admin.permission/scan',
+            ],
+        ],
+        'admin.role' => [
+            'pid' => 'admin',
+            'name' => 'admin.role',
+            'sort' => '200',
+            'desc' => '后台角色',
+            'allow' => null,
+        ],
+        'admin.role.add' => [
+            'pid' => 'admin.role',
+            'name' => 'admin.role.add',
+            'sort' => '2002',
+            'desc' => '添加角色',
+            'allow' => [
+                'node@api.admin.role/save',
+            ],
+        ],
+        'admin.role.del' => [
+            'pid' => 'admin.role',
+            'name' => 'admin.role.del',
+            'sort' => '2004',
+            'desc' => '删除角色',
+            'allow' => [
+                'node@api.admin.role/delete',
+            ],
+        ],
+        'admin.role.edit' => [
+            'pid' => 'admin.role',
+            'name' => 'admin.role.edit',
+            'sort' => '2003',
+            'desc' => '编辑角色',
+            'allow' => [
+                'node@api.admin.role/update',
+            ],
+        ],
+        'admin.role.info' => [
+            'pid' => 'admin.role',
+            'name' => 'admin.role.info',
+            'sort' => '2001',
+            'desc' => '角色信息',
+            'allow' => [
+                'node@api.admin.role/index',
+                'node@api.admin.role/select',
+                'node@api.admin.role/read',
+            ],
+        ],
+        'admin.user' => [
+            'pid' => 'admin',
+            'name' => 'admin.user',
+            'sort' => '100',
+            'desc' => '后台用户',
+            'allow' => null,
+        ],
+        'admin.user.add' => [
+            'pid' => 'admin.user',
+            'name' => 'admin.user.add',
+            'sort' => '1002',
+            'desc' => '添加用户',
+            'allow' => [
+                'node@api.admin.user/save',
+            ],
+        ],
+        'admin.user.del' => [
+            'pid' => 'admin.user',
+            'name' => 'admin.user.del',
+            'sort' => '1004',
+            'desc' => '删除用户',
+            'allow' => [
+                'node@api.admin.user/delete',
+            ],
+        ],
+        'admin.user.edit' => [
+            'pid' => 'admin.user',
+            'name' => 'admin.user.edit',
+            'sort' => '1003',
+            'desc' => '编辑用户',
+            'allow' => [
+                'node@api.admin.user/update',
+            ],
+        ],
+        'admin.user.info' => [
+            'pid' => 'admin.user',
+            'name' => 'admin.user.info',
+            'sort' => '1001',
+            'desc' => '查看用户',
+            'allow' => [
+                'node@api.admin.user/index',
+                'node@api.admin.user/read',
+            ],
+        ],
         'login' => [
             'pid' => '__ROOT__',
             'name' => 'login',
@@ -95,161 +231,71 @@ return [
                 'node@api.system/sysinfo',
             ],
         ],
-        'permission' => [
-            'pid' => '__ROOT__',
-            'name' => 'permission',
-            'sort' => 0,
-            'desc' => '权限',
-            'allow' => null,
-        ],
-        'permission.info' => [
-            'pid' => 'permission',
-            'name' => 'permission.info',
-            'sort' => 0,
-            'desc' => '查看权限',
-            'allow' => [
-                'node@api.admin.permission/index',
-                'node@api.admin.permission/read',
-            ],
-        ],
-        'permission.scan' => [
-            'pid' => 'permission',
-            'name' => 'permission.scan',
-            'sort' => 0,
-            'desc' => '重建权限',
-            'allow' => [
-                'node@api.admin.permission/scan',
-            ],
-        ],
-        'role' => [
-            'pid' => '__ROOT__',
-            'name' => 'role',
-            'sort' => 0,
-            'desc' => '角色',
-            'allow' => null,
-        ],
-        'role.del' => [
-            'pid' => 'role',
-            'name' => 'role.del',
-            'sort' => 3,
-            'desc' => '删除角色',
-            'allow' => [
-                'node@api.admin.role/delete',
-            ],
-        ],
-        'role.edit' => [
-            'pid' => 'role',
-            'name' => 'role.edit',
-            'sort' => 2,
-            'desc' => '编辑角色',
-            'allow' => [
-                'node@api.admin.role/save',
-                'node@api.admin.role/update',
-            ],
-        ],
-        'role.info' => [
-            'pid' => 'role',
-            'name' => 'role.info',
-            'sort' => 1,
-            'desc' => '查看角色',
-            'allow' => [
-                'node@api.admin.role/index',
-                'node@api.admin.role/select',
-                'node@api.admin.role/read',
-            ],
-        ],
-        'user' => [
-            'pid' => '__ROOT__',
-            'name' => 'user',
-            'sort' => 0,
-            'desc' => '用户',
-            'allow' => null,
-        ],
-        'user.del' => [
-            'pid' => 'user',
-            'name' => 'user.del',
-            'sort' => 4,
-            'desc' => '删除用户',
-            'allow' => [
-                'node@api.admin.user/delete',
-            ],
-        ],
-        'user.edit' => [
-            'pid' => 'user',
-            'name' => 'user.edit',
-            'sort' => 2,
-            'desc' => '编辑角色',
-            'allow' => [
-                'node@api.admin.user/save',
-                'node@api.admin.user/update',
-            ],
-        ],
-        'user.info' => [
-            'pid' => 'user',
-            'name' => 'user.info',
-            'sort' => 1,
-            'desc' => '查看角色',
-            'allow' => [
-                'node@api.admin.user/index',
-                'node@api.admin.user/read',
-            ],
-        ],
     ],
     'permission2features' => [
-        'login' => [
-            'node@api.admin.index/userinfo',
-            'node@api.system/sysinfo',
+        'admin' => [],
+        'admin.permission' => [],
+        'admin.permission.edit' => [
+            'node@api.admin.permission/update',
         ],
-        'permission' => [],
-        'permission.info' => [
+        'admin.permission.info' => [
             'node@api.admin.permission/index',
             'node@api.admin.permission/read',
         ],
-        'permission.scan' => [
+        'admin.permission.scan' => [
             'node@api.admin.permission/scan',
         ],
-        'role' => [],
-        'role.del' => [
+        'admin.role' => [],
+        'admin.role.add' => [
+            'node@api.admin.role/save',
+        ],
+        'admin.role.del' => [
             'node@api.admin.role/delete',
         ],
-        'role.edit' => [
-            'node@api.admin.role/save',
+        'admin.role.edit' => [
             'node@api.admin.role/update',
         ],
-        'role.info' => [
+        'admin.role.info' => [
             'node@api.admin.role/index',
             'node@api.admin.role/select',
             'node@api.admin.role/read',
         ],
-        'user' => [],
-        'user.del' => [
+        'admin.user' => [],
+        'admin.user.add' => [
+            'node@api.admin.user/save',
+        ],
+        'admin.user.del' => [
             'node@api.admin.user/delete',
         ],
-        'user.edit' => [
-            'node@api.admin.user/save',
+        'admin.user.edit' => [
             'node@api.admin.user/update',
         ],
-        'user.info' => [
+        'admin.user.info' => [
             'node@api.admin.user/index',
             'node@api.admin.user/read',
         ],
+        'login' => [
+            'node@api.admin.index/userinfo',
+            'node@api.system/sysinfo',
+        ],
     ],
     'features2permission' => [
+        'node@api.admin.permission/update' => 'admin.permission.edit',
+        'node@api.admin.permission/index' => 'admin.permission.info',
+        'node@api.admin.permission/read' => 'admin.permission.info',
+        'node@api.admin.permission/scan' => 'admin.permission.scan',
+        'node@api.admin.role/save' => 'admin.role.add',
+        'node@api.admin.role/delete' => 'admin.role.del',
+        'node@api.admin.role/update' => 'admin.role.edit',
+        'node@api.admin.role/index' => 'admin.role.info',
+        'node@api.admin.role/select' => 'admin.role.info',
+        'node@api.admin.role/read' => 'admin.role.info',
+        'node@api.admin.user/save' => 'admin.user.add',
+        'node@api.admin.user/delete' => 'admin.user.del',
+        'node@api.admin.user/update' => 'admin.user.edit',
+        'node@api.admin.user/index' => 'admin.user.info',
+        'node@api.admin.user/read' => 'admin.user.info',
         'node@api.admin.index/userinfo' => 'login',
         'node@api.system/sysinfo' => 'login',
-        'node@api.admin.permission/index' => 'permission.info',
-        'node@api.admin.permission/read' => 'permission.info',
-        'node@api.admin.permission/scan' => 'permission.scan',
-        'node@api.admin.role/delete' => 'role.del',
-        'node@api.admin.role/save' => 'role.edit',
-        'node@api.admin.role/update' => 'role.edit',
-        'node@api.admin.role/index' => 'role.info',
-        'node@api.admin.role/select' => 'role.info',
-        'node@api.admin.role/read' => 'role.info',
-        'node@api.admin.user/delete' => 'user.del',
-        'node@api.admin.user/save' => 'user.edit',
-        'node@api.admin.user/update' => 'user.edit',
-        'node@api.admin.user/index' => 'user.info',
-        'node@api.admin.user/read' => 'user.info',
     ],
 ];
