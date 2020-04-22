@@ -65,6 +65,9 @@ class Permission extends Base
         if (empty($input)) {
             return reply_bad();
         }
+        if ($input['sort']) {
+            $input['sort'] = (int) $input['sort'];
+        }
 
         $perm = AuthPermission::getInstance();
 

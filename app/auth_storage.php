@@ -1,6 +1,6 @@
 <?php
-// update date: 2020-04-21T17:55:13+08:00
-// hash: b0a029f32d93a172451d41fd37e52165
+// update date: 2020-04-22T10:26:58+08:00
+// hash: 1666b0b26c5839ecf5fe203998e07f91
 return [
     'features' => [
         'node@api.admin.index/userinfo' => [
@@ -93,21 +93,21 @@ return [
         'admin' => [
             'pid' => '__ROOT__',
             'name' => 'admin',
-            'sort' => '1',
+            'sort' => 1,
             'desc' => 'ADMIN',
             'allow' => null,
         ],
         'admin.permission' => [
             'pid' => 'admin',
             'name' => 'admin.permission',
-            'sort' => '300',
+            'sort' => 300,
             'desc' => '后台权限',
             'allow' => null,
         ],
         'admin.permission.edit' => [
             'pid' => 'admin.permission',
             'name' => 'admin.permission.edit',
-            'sort' => '3002',
+            'sort' => 3002,
             'desc' => '编辑权限',
             'allow' => [
                 'node@api.admin.permission/update',
@@ -116,7 +116,7 @@ return [
         'admin.permission.info' => [
             'pid' => 'admin.permission',
             'name' => 'admin.permission.info',
-            'sort' => '3001',
+            'sort' => 3001,
             'desc' => '查看权限',
             'allow' => [
                 'node@api.admin.permission/index',
@@ -126,7 +126,7 @@ return [
         'admin.permission.scan' => [
             'pid' => 'admin.permission',
             'name' => 'admin.permission.scan',
-            'sort' => '3005',
+            'sort' => 3005,
             'desc' => '扫描权限',
             'allow' => [
                 'node@api.admin.permission/scan',
@@ -135,14 +135,14 @@ return [
         'admin.role' => [
             'pid' => 'admin',
             'name' => 'admin.role',
-            'sort' => '200',
+            'sort' => 200,
             'desc' => '后台角色',
             'allow' => null,
         ],
         'admin.role.add' => [
             'pid' => 'admin.role',
             'name' => 'admin.role.add',
-            'sort' => '2002',
+            'sort' => 2002,
             'desc' => '添加角色',
             'allow' => [
                 'node@api.admin.role/save',
@@ -151,7 +151,7 @@ return [
         'admin.role.del' => [
             'pid' => 'admin.role',
             'name' => 'admin.role.del',
-            'sort' => '2004',
+            'sort' => 2004,
             'desc' => '删除角色',
             'allow' => [
                 'node@api.admin.role/delete',
@@ -160,7 +160,7 @@ return [
         'admin.role.edit' => [
             'pid' => 'admin.role',
             'name' => 'admin.role.edit',
-            'sort' => '2003',
+            'sort' => 2003,
             'desc' => '编辑角色',
             'allow' => [
                 'node@api.admin.role/update',
@@ -169,7 +169,7 @@ return [
         'admin.role.info' => [
             'pid' => 'admin.role',
             'name' => 'admin.role.info',
-            'sort' => '2001',
+            'sort' => 2001,
             'desc' => '角色信息',
             'allow' => [
                 'node@api.admin.role/index',
@@ -180,14 +180,14 @@ return [
         'admin.user' => [
             'pid' => 'admin',
             'name' => 'admin.user',
-            'sort' => '100',
+            'sort' => 100,
             'desc' => '后台用户',
             'allow' => null,
         ],
         'admin.user.add' => [
             'pid' => 'admin.user',
             'name' => 'admin.user.add',
-            'sort' => '1002',
+            'sort' => 1002,
             'desc' => '添加用户',
             'allow' => [
                 'node@api.admin.user/save',
@@ -196,7 +196,7 @@ return [
         'admin.user.del' => [
             'pid' => 'admin.user',
             'name' => 'admin.user.del',
-            'sort' => '1004',
+            'sort' => 1004,
             'desc' => '删除用户',
             'allow' => [
                 'node@api.admin.user/delete',
@@ -205,7 +205,7 @@ return [
         'admin.user.edit' => [
             'pid' => 'admin.user',
             'name' => 'admin.user.edit',
-            'sort' => '1003',
+            'sort' => 1003,
             'desc' => '编辑用户',
             'allow' => [
                 'node@api.admin.user/update',
@@ -214,7 +214,7 @@ return [
         'admin.user.info' => [
             'pid' => 'admin.user',
             'name' => 'admin.user.info',
-            'sort' => '1001',
+            'sort' => 1001,
             'desc' => '查看用户',
             'allow' => [
                 'node@api.admin.user/index',

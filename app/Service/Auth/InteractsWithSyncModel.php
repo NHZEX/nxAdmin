@@ -29,11 +29,9 @@ trait InteractsWithSyncModel
     {
         $this->scanAuthAnnotation();
 
-        $original = [];
-
         $output = [
             'features'   => $this->getNodes(),
-            'permission' => $this->fillPermission($this->getPermissions(), $original),
+            'permission' => $this->fillPermission($this->getPermissions(), []),
             'permission2features' => [],
             'features2permission' => [],
         ];
@@ -42,7 +40,7 @@ trait InteractsWithSyncModel
         if ($permission->hasStorage()) {
             foreach ($output['permission'] as $key => $item) {
                 if ($info = $permission->queryPermission($key)) {
-                    $item['sort'] = $info['sort'];
+                    $item['sort'] = (int) $info['sort'];
                     $item['desc'] = $info['desc'];
                     $output['permission'][$key] = $item;
                 }
