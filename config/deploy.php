@@ -7,7 +7,7 @@ return [
             'desc' => '主数据库',
             'type' => 'mysql',
             'form' => [
-                'hostname' => ['127.0.0.1', '地址', 'text', 'require|ip'],
+                'hostname' => ['127.0.0.1', '地址', 'text', 'require'],
                 'hostport' => [3306, '端口', 'int', 'integer|between:1,65535'],
                 'database' => ['db', '库名', 'text', 'require'],
                 'username' => ['root', '用户', 'text', 'require'],
@@ -18,7 +18,7 @@ return [
     ],
     // Redis配置
     'redis' => [
-        'host' => ['127.0.0.1', '地址', 'text', 'require|ip'],
+        'host' => ['127.0.0.1', '地址', 'text', 'require'],
         'port' => [6379, '端口', 'int', 'integer|between:1,65535'],
         'password' => ['', '密码', 'text', null],
         'select' => [0, '库名', 'int', 'integer|egt:0'],
@@ -28,7 +28,7 @@ return [
     // 会话配置
     'session' => [
         'expire' => [7200, '会话超时', 'int', 'require|integer'],
-        'redis_host' => ['127.0.0.1', 'Redis主机', 'text', 'require|ip'],
+        'redis_host' => ['127.0.0.1', 'Redis主机', 'text', 'require'],
         'redis_port' => [6379, 'Redis端口', 'int', 'integer|between:1,65535'],
         'redis_password' => ['', 'Redis密码', 'text', null],
         'redis_select' => [0, 'Redis库名', 'int', 'integer|egt:0'],
