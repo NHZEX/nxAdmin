@@ -3,7 +3,6 @@
 namespace app\Middleware;
 
 use Closure;
-use HZEX\Util;
 use think\App;
 use think\exception\HttpException;
 use think\Request;
@@ -49,12 +48,15 @@ abstract class Middleware
      */
     protected function getControllerClassName(Request $request) :?string
     {
-        $controller = Util::toSnakeCase($request->controller());
-        $transfer_class = $this->app->parseClass('controller', $controller);
-        if (!class_exists($transfer_class)) {
-            throw new HttpException(404, 'controller not exists:' . $transfer_class);
+        $suffix = $this->app->route->config('controller_suffix') ? 'Controller' : '';
+        $controllerLayer = $this->app->route->config('controller_layer') ?: 'controller';
+
+        $name = $request->controller();
+        $class = $this->app->parseClass($controllerLayer, $name . $suffix);
+        if (!class_exists($class)) {
+            throw new HttpException(404, 'controller not exists:' . $class);
         }
 
-        return $transfer_class;
+        return $class;
     }
 }
