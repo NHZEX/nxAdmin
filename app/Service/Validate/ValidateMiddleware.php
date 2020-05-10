@@ -1,17 +1,17 @@
 <?php
 
-namespace app\Middleware;
+namespace app\Service\Validate;
 
+use app\Middleware\Middleware;
 use app\Traits\CsrfHelper;
-use app\Validate\Base;
-use app\Validate\VailAsk;
 use Closure;
 use think\App;
 use think\Request;
 use think\Response;
+use think\Validate;
 use function func\reply\reply_bad;
 
-class Validate extends Middleware
+class ValidateMiddleware extends Middleware
 {
     use CsrfHelper;
 
@@ -37,26 +37,33 @@ class Validate extends Middleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $currClass = $this->getControllerClassName($request);
-        $currAction = $request->action(true);
+        $controllerClass = $this->getControllerClassName($request);
+        $controllerAction = $request->action(true);
 
-        $validate_cfg = array_change_key_case($this->mapping[$currClass] ?? [])[$currAction] ?? false;
-        if (is_array($validate_cfg)) {
-            // 获取验证配置
-            $validate_cfg = array_pad($validate_cfg, 3, null);
-            [$validate_csrf, $validate_class, $validate_scene] = $validate_cfg;
+        if (!isset($this->mapping[$controllerClass])) {
+            return $next($request);
+        }
+        $validateCfg = array_change_key_case($this->mapping[$controllerClass])[$controllerAction] ?? false;
+        if (is_array($validateCfg)) {
+            // 解析验证配置
+            $validateCfg = array_pad($validateCfg, 3, null);
+            if (is_string($validateCfg[0])) {
+                [$validateClass, $validateScene] = $validateCfg;
+            } else {
+                [$validate_csrf, $validateClass, $validateScene] = $validateCfg;
+            }
 
             // 验证输入数据
-            if ($validate_class && class_exists($validate_class)) {
-                /** @var \think\Validate|Base $v */
-                $v = new $validate_class();
-                if ($validate_scene) {
-                    // 询问当前使用何种场景
-                    if ('?' === $validate_scene && $v instanceof VailAsk) {
-                        $validate_scene = $v->askScene($request) ?: false;
+            if ($validateClass && class_exists($validateClass)) {
+                /** @var Validate|ValidateBase $v */
+                $v = new $validateClass();
+                if ($validateScene) {
+                    // 自行决定使用何种场景
+                    if ('?' === $validateScene && $v instanceof AskSceneInterface) {
+                        $validateScene = $v->askScene($request) ?: false;
                     }
-                    // 选中将使用的验证场景
-                    $validate_scene && $v->scene($validate_scene);
+                    // 选中验证场景
+                    $validateScene && $v->scene($validateScene);
                 }
                 $input = $request->param();
                 if ($files = $request->file()) {
@@ -71,8 +78,8 @@ class Validate extends Middleware
                 ]);
             }
 
-            // 验证CSRF令牌
-            if ($validate_csrf) {
+            // 验证CSRF令牌 todo 待重构
+            if ($validate_csrf ?? false) {
                 $csrf_update = $request->header(CSRF_TOKEN, false);
                 if (false === $this->verifyCsrfToken($csrf_update)) {
                     return reply_bad(CODE_COM_CSRF_INVALID, '令牌无效，请重新访问编辑页面');

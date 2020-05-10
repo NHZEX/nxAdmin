@@ -1,13 +1,13 @@
 <?php
 
-namespace app\Validate;
+namespace app\Service\Validate;
 
 use think\Validate;
 use function explode;
 use function in_array;
 use function strpos;
 
-abstract class Base extends Validate
+abstract class ValidateBase extends Validate
 {
     /**
      * 判断是否为整数
@@ -31,7 +31,7 @@ abstract class Base extends Validate
     {
         $rules = $this->rule;
 
-        // 如果thinkphp同意调整场景优先级，质量将需要跟着调整
+        // 如果thinkphp同意调整场景优先级，应该不用在加载场景
         if ($this->currentScene) {
             $this->getScene($this->currentScene);
         }

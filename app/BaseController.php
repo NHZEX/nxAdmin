@@ -59,9 +59,7 @@ abstract class BaseController
      * 控制器中间件
      * @var array
      */
-    protected $middleware = [
-        'validate',
-    ];
+    protected $middleware = [];
 
     /**
      * 构造方法

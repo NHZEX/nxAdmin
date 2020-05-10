@@ -1,10 +1,10 @@
 <?php
 
-namespace app\Validate;
+namespace app\Service\Validate;
 
 use think\Request;
 
-interface VailAsk
+interface AskSceneInterface
 {
     /**
      * 询问当前应当使用何种场景
