@@ -38,7 +38,7 @@
         "hashids/hashids": "^3.0",
         "nhzex/n-helper": "^1.0",
         "nhzex/think-blade": "^4.2.0",
-        "nhzex/think-cors": "^1.0",
+        "nhzex/think-cors": "^2.0",
         "nhzex/think-phinx": "^1.1.0",
         "rybakit/msgpack": "^0.7",
         "symfony/finder": "^4.2|^5.0",
@@ -88,5 +88,9 @@
         }
     },
     "repositories": [
+        {
+            "type": "path",
+            "url": "../think-cors"
+        }
     ]
 }
