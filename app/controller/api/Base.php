@@ -3,9 +3,9 @@
 namespace app\controller\api;
 
 use app\BaseController;
-use app\Traits\ValidateFilter;
+use app\Service\Validate\ValidateFilterTrait;
 
 class Base extends BaseController
 {
-    use ValidateFilter;
+    use ValidateFilterTrait;
 }

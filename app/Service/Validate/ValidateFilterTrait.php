@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace app\Traits;
+namespace app\Service\Validate;
 
 use think\Request;
 
@@ -10,7 +10,7 @@ use think\Request;
  * @package app\Traits
  * @property Request $request
  */
-trait ValidateFilter
+trait ValidateFilterTrait
 {
     /** @var array */
     private $allowInputFields;
