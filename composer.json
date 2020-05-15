@@ -88,9 +88,5 @@
         }
     },
     "repositories": [
-        {
-            "type": "path",
-            "url": "../think-cors"
-        }
     ]
 }
