@@ -12,7 +12,10 @@ return [
         'X-Requested-With', 'X-CSRF-TOKEN', 'X-Token', 'X-Recaller-Sign'
     ],
 
-    'exposed_headers' => ['X-Token', 'X-Uuid', 'X-Recaller-Sign'],
+    'exposed_headers' => [
+        'Content-Disposition',
+        'X-Token', 'X-Uuid', 'X-Recaller-Sign'
+    ],
 
     'max_age' => 0,
 
