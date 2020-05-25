@@ -4,6 +4,7 @@ namespace app\Model;
 
 use think\App;
 use Throwable;
+use function substr;
 
 /**
  * 系统异常日志
@@ -71,7 +72,7 @@ class ExceptionLogs extends Base
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());
 
-        $that->trace_info = $msg;
+        $that->trace_info = substr($msg, 0, 65535);
 
         return $that->save();
     }
