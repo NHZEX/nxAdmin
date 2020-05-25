@@ -173,15 +173,15 @@ function is_cli()
 
 /**
  * 生成 uuid v4
- * @return string|false
+ * @return string|null
  * @link https://stackoverflow.com/a/15875555/10242420
  */
-function uuidv4()
+function uuidv4(): ?string
 {
     try {
         $data = random_bytes(16);
     } catch (Exception $e) {
-        return false;
+        return null;
     }
 
     $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
