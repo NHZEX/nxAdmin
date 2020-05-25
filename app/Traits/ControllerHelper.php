@@ -6,12 +6,16 @@ namespace app\Traits;
 use Closure;
 use think\db\Query;
 use think\Request;
+use function app;
+use function array_filter;
 use function array_key_first;
 use function array_merge;
 use function count;
+use function explode;
 use function is_array;
 use function is_callable;
 use function is_int;
+use function str_contains;
 
 /**
  * Trait ControllerHelper
@@ -27,7 +31,7 @@ trait ControllerHelper
      */
     public function buildParam(array $mapping)
     {
-        $data = [];
+        $data  = [];
         $input = $this->request->param();
         foreach ($mapping as $name => $alias) {
             if (is_int($name)) {
@@ -53,7 +57,7 @@ trait ControllerHelper
         foreach ($where as $key => $item) {
             if (count($item) >= 2) {
                 [$whereField, $op] = $item;
-                $inputField = $whereField;
+                $inputField  = $whereField;
                 $inputFields = [];
 
                 if (isset($item['find'])) {
@@ -81,7 +85,7 @@ trait ControllerHelper
                             continue;
                         }
                     }
-                    $parse = $item[2] ?? null;
+                    $parse  = $item[2] ?? null;
                     $data[] = [
                         $whereField,
                         $op,
@@ -107,7 +111,7 @@ trait ControllerHelper
             $tableName = $query->getTable();
             $tableName = is_array($tableName) ? $tableName[array_key_first($tableName)] : $tableName;
 
-            $where = $this->buildWhere($input, $where);
+            $where  = $this->buildWhere($input, $where);
             $output = [];
             foreach ($where as $value) {
                 $value[0] = "{$tableName}.{$value[0]}";
@@ -115,5 +119,32 @@ trait ControllerHelper
             }
             $query->where($output);
         };
+    }
+
+    /**
+     * @param array  $input
+     * @param string $orderField
+     * @return array [<string>$key => <string>$order]
+     */
+    public function buildOrder(?array $input = null, string $orderField = '_sort'): ?array
+    {
+        if ($input === null) {
+            $sort = app()->request->param($orderField);
+        } else {
+            $sort = $input[$orderField] ?? null;
+        }
+        if (empty($sort) || !str_contains($sort, ':')) {
+            return null;
+        }
+        $sort = array_filter(explode(':', $sort, 2));
+        if (count($sort) !== 2) {
+            return null;
+        }
+        if ($sort[1] !== 'asc' && $sort[1] !== 'desc') {
+            return null;
+        }
+        return [
+            $sort[0] => $sort[1],
+        ];
     }
 }
