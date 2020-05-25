@@ -113,7 +113,7 @@ class Permission
         return $this->loadStorage()->permission[$name] ?? null;
     }
 
-    public function getPermissionByFeature($feature): ?string
+    public function getPermissionsByFeature($feature): ?array
     {
         return $this->loadStorage()->fe2pe[$feature] ?? null;
     }

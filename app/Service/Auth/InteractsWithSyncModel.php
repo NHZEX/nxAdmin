@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace app\Service\Auth;
 
-use RuntimeException;
 use SplFileObject;
 use Symfony\Component\VarExporter\Exception\ExceptionInterface;
 use Symfony\Component\VarExporter\VarExporter;
@@ -58,10 +57,7 @@ trait InteractsWithSyncModel
         $features2permission = &$output['features2permission'];
         foreach ($output['permission2features'] as $permission => $features) {
             foreach ($features as $feature) {
-                if (isset($features2permission[$feature])) {
-                    throw new RuntimeException('features mapping permission only one');
-                }
-                $features2permission[$feature] = $permission;
+                $features2permission[$feature][$permission] = true;
             }
         }
 
@@ -174,7 +170,7 @@ trait InteractsWithSyncModel
                 'name' => $curr,
                 'sort' => $sort,
                 'desc' => $desc,
-                'allow' => null,
+                'allow' => $data[$curr]['allow'] ?? null,
             ];
         }
 

@@ -58,8 +58,14 @@ class AuthService extends Service
         });
         $gate->before(function (AdminUser $user, string $uri) use ($gate) {
             if (!$gate->has($uri) && Permission::getInstance()->contain($uri)) {
-                $uri = Permission::getInstance()->getPermissionByFeature($uri) ?? $uri;
-                return $user->allowPermission($uri);
+                $permissions = Permission::getInstance()->getPermissionsByFeature($uri) ?? $uri;
+                foreach ($permissions as $permission => $true) {
+                    if ($user->allowPermission($permission)) {
+                        // 权限授予
+                        return true;
+                    }
+                }
+                return false;
             }
             return null;
         });

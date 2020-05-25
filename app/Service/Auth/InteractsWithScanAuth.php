@@ -102,10 +102,11 @@ trait InteractsWithScanAuth
 
                 $nodeUrl = $controllerUrl . '/' . strtolower($methodName);
                 $methodPath = $class . '::' . $methodName;
-                // $nodeDesc = $refMethod->getDocComment();
-
-                /** @var Auth $auth */
-                if ($auth = $this->reader->getMethodAnnotation($refMethod, Auth::class)) {
+                $annotations = $this->reader->getMethodAnnotations($refMethod);
+                foreach ($annotations as $auth) {
+                    if (!$auth instanceof Auth) {
+                        continue;
+                    }
                     if (empty($auth->value)) {
                         throw new AuthException('annotation value not empty: ' . $methodPath);
                     }

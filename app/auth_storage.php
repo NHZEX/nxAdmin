@@ -1,6 +1,6 @@
 <?php
-// update date: 2020-04-22T10:26:58+08:00
-// hash: 1666b0b26c5839ecf5fe203998e07f91
+// update date: 2020-05-25T11:56:16+08:00
+// hash: a658ec323c9ac9b0a78898b4e2bb1fb2
 return [
     'features' => [
         'node@api.admin.index/userinfo' => [
@@ -182,7 +182,9 @@ return [
             'name' => 'admin.user',
             'sort' => 100,
             'desc' => '后台用户',
-            'allow' => null,
+            'allow' => [
+                'node@api.admin.role/select',
+            ],
         ],
         'admin.user.add' => [
             'pid' => 'admin.user',
@@ -260,7 +262,9 @@ return [
             'node@api.admin.role/select',
             'node@api.admin.role/read',
         ],
-        'admin.user' => [],
+        'admin.user' => [
+            'node@api.admin.role/select',
+        ],
         'admin.user.add' => [
             'node@api.admin.user/save',
         ],
@@ -280,22 +284,57 @@ return [
         ],
     ],
     'features2permission' => [
-        'node@api.admin.permission/update' => 'admin.permission.edit',
-        'node@api.admin.permission/index' => 'admin.permission.info',
-        'node@api.admin.permission/read' => 'admin.permission.info',
-        'node@api.admin.permission/scan' => 'admin.permission.scan',
-        'node@api.admin.role/save' => 'admin.role.add',
-        'node@api.admin.role/delete' => 'admin.role.del',
-        'node@api.admin.role/update' => 'admin.role.edit',
-        'node@api.admin.role/index' => 'admin.role.info',
-        'node@api.admin.role/select' => 'admin.role.info',
-        'node@api.admin.role/read' => 'admin.role.info',
-        'node@api.admin.user/save' => 'admin.user.add',
-        'node@api.admin.user/delete' => 'admin.user.del',
-        'node@api.admin.user/update' => 'admin.user.edit',
-        'node@api.admin.user/index' => 'admin.user.info',
-        'node@api.admin.user/read' => 'admin.user.info',
-        'node@api.admin.index/userinfo' => 'login',
-        'node@api.system/sysinfo' => 'login',
+        'node@api.admin.permission/update' => [
+            'admin.permission.edit' => true,
+        ],
+        'node@api.admin.permission/index' => [
+            'admin.permission.info' => true,
+        ],
+        'node@api.admin.permission/read' => [
+            'admin.permission.info' => true,
+        ],
+        'node@api.admin.permission/scan' => [
+            'admin.permission.scan' => true,
+        ],
+        'node@api.admin.role/save' => [
+            'admin.role.add' => true,
+        ],
+        'node@api.admin.role/delete' => [
+            'admin.role.del' => true,
+        ],
+        'node@api.admin.role/update' => [
+            'admin.role.edit' => true,
+        ],
+        'node@api.admin.role/index' => [
+            'admin.role.info' => true,
+        ],
+        'node@api.admin.role/select' => [
+            'admin.role.info' => true,
+            'admin.user' => true,
+        ],
+        'node@api.admin.role/read' => [
+            'admin.role.info' => true,
+        ],
+        'node@api.admin.user/save' => [
+            'admin.user.add' => true,
+        ],
+        'node@api.admin.user/delete' => [
+            'admin.user.del' => true,
+        ],
+        'node@api.admin.user/update' => [
+            'admin.user.edit' => true,
+        ],
+        'node@api.admin.user/index' => [
+            'admin.user.info' => true,
+        ],
+        'node@api.admin.user/read' => [
+            'admin.user.info' => true,
+        ],
+        'node@api.admin.index/userinfo' => [
+            'login' => true,
+        ],
+        'node@api.system/sysinfo' => [
+            'login' => true,
+        ],
     ],
 ];

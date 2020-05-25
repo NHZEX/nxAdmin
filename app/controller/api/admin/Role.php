@@ -41,6 +41,7 @@ class Role extends Base
 
     /**
      * @Auth("admin.role.info")
+     * @Auth("admin.user")
      * @return Response
      */
     public function select()
@@ -85,7 +86,6 @@ class Role extends Base
      */
     public function update($id)
     {
-        /** @var AdminRole $data */
         $data = AdminRole::find($id);
         if (empty($data)) {
             return reply_not_found();
