@@ -162,7 +162,7 @@ abstract class FeaturesManage
     protected function envExtract(string $envPrefix, int $segments): Generator
     {
         if ($segments <= 1) {
-            return null;
+            return;
         }
         $envPrefix = strtoupper($envPrefix);
         foreach ($this->env as $key => $value) {
