@@ -12,6 +12,7 @@ use think\console\Table;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use function hash;
 
 class UserManage extends FeaturesManage
 {
@@ -176,7 +177,7 @@ class UserManage extends FeaturesManage
         $au = new AdminUser();
         $au->genre = AdminUser::GENRE_SUPER_ADMIN;
         $au->username = $au->nickname = $admin_username;
-        $au->password = $admin_password;
+        $au->password = hash('sha256', $admin_password);
         $au->role_id = 0;
         if ($this->deploy->isDryRun()) {
             $creatde_sql = $au->fetchSql(true)->insert($au->getData());
