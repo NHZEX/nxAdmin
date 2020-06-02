@@ -74,7 +74,10 @@ class Index extends Base
     public function userInfo()
     {
         $user = AuthFacade::user();
-        $user->hidden(['role', 'password', 'remember', 'last_login_ip']);
+        $user->hidden([
+            'role', 'password', 'remember', 'last_login_ip',
+            'delete_time', 'group_id', 'lock_version', 'signup_ip',
+        ]);
         $role_id = $user->isSuperAdmin() ? -1 : $user->role_id;
         return reply_succeed([
             'user' => $user,
