@@ -32,7 +32,6 @@ class User extends Base
             ['genre', '='],
             ['role_id', '='],
         ]);
-        // todo 数据访问限制
         $result = (new AdminUser())
             ->where($where)
             ->with(['beRoleName'])

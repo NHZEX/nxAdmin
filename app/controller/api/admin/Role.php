@@ -30,7 +30,7 @@ class Role extends Base
         $where = $this->buildWhere($this->request->param(), [
             ['genre', '='],
         ]);
-        // todo 数据访问限制
+
         $result = (new AdminRole())
             ->where($where)
             ->append(['genre_desc', 'status_desc'])

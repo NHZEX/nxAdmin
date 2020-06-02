@@ -7,10 +7,13 @@ use app\Service\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use app\Service\Auth\Contracts\ProviderlSelfCheck;
 use app\Service\Auth\Facade\Auth;
 use RuntimeException;
+use think\db\Query;
 use think\Model;
 use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Tp\Model\Exception\ModelException;
+use function array_keys;
+use function count;
 
 /**
  * Class AdminUser
@@ -60,6 +63,8 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         'role'
     ];
 
+    protected $globalScope = ['accessControl'];
+
     const STATUS_NORMAL = 0;
     const STATUS_DISABLE = 1;
     const STATUS_DICT = [
@@ -77,9 +82,13 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     ];
 
     const ACCESS_CONTROL = [
-        self::GENRE_SUPER_ADMIN => ['*', self::GENRE_SUPER_ADMIN, self::GENRE_ADMIN, self::GENRE_AGENT],
-        self::GENRE_ADMIN => ['*', self::GENRE_ADMIN, self::GENRE_AGENT],
-        self::GENRE_AGENT => [self::GENRE_AGENT],
+        self::GENRE_SUPER_ADMIN => [
+            self::GENRE_SUPER_ADMIN => 'rw',
+            self::GENRE_ADMIN => 'rw',
+            self::GENRE_AGENT => 'rw'
+        ],
+        self::GENRE_ADMIN => [self::GENRE_ADMIN => 'r', self::GENRE_AGENT => 'rw', 'self' => 'rw'],
+        self::GENRE_AGENT => ['self' => 'r'],
     ];
     const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
     const PWD_HASH_OPTIONS = ['cost' => 10];
@@ -130,37 +139,54 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         self::checkAccessControl($model);
     }
 
+    public function scopeAccessControl(Query $query)
+    {
+        if (empty($user = Auth::user())) {
+            return;
+        }
+        if ($user->isSuperAdmin()) {
+            return;
+        }
+
+        if (isset(self::ACCESS_CONTROL[$user->genre])) {
+            $genreControl = self::ACCESS_CONTROL[$user->genre];
+            if (count($genreControl) === 1 && isset($genreControl['self'])) {
+                $query->where('id', $user->id);
+            } else {
+                $query->whereIn('genre', array_keys($genreControl));
+            }
+        } else {
+            $query->where('genre', '=', null);
+        }
+    }
+
     /**
      * @param self $data
      * @throws AccessControl
      */
     protected static function checkAccessControl(AdminUser $data)
     {
-        if ($data->isDisableAccessControl()) {
+        if (empty($user = Auth::user())) {
             return;
         }
-        $auth = Auth::instance();
-        if (!$auth->check()) {
+        if ($user->isSuperAdmin()) {
             return;
         }
+
         $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
-
-        $dataId = $data->getOrigin('id');
-
-        if (null === $dataGenre || null === $auth->user()->genre) {
+        $genreControl = self::ACCESS_CONTROL[$user->genre] ?? [];
+        if (empty($genreControl)) {
+            throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        }
+        if (isset($genreControl['self'])
+            && $genreControl['self'] === 'rw'
+            && $user->id === $data->getOrigin('id')
+        ) {
+            return;
+        } elseif (isset($genreControl[$dataGenre]) && $genreControl[$dataGenre] === 'rw') {
             return;
         }
-        $accessGenre = $auth->user()->genre;
-        $accessId = $auth->user()->id;
-        $genreControl = self::ACCESS_CONTROL[$accessGenre] ?? [];
-        // 控制当前用户的组间访问
-        if (false === in_array($dataGenre, $genreControl)) {
-            throw new AccessControl('当前登陆的用户无该数据的操作权限');
-        }
-        // 当前数据存在ID且数据ID与访问ID不一致 且 当前权限组不具备全组访问权限
-        if ((null !== $dataId && $dataId !== $accessId) && false === in_array('*', $genreControl)) {
-            throw new AccessControl('当前登陆的用户无该数据的操作权限');
-        }
+        throw new AccessControl('当前登陆的用户无该数据的操作权限');
     }
 
     /**
@@ -191,6 +217,11 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         }
     }
 
+    public static function notAccessControl()
+    {
+        return self::withoutGlobalScope(['accessControl']);
+    }
+
     public function isSuperAdmin()
     {
         return self::GENRE_SUPER_ADMIN === $this->genre;
@@ -199,6 +230,11 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     public function isAdmin()
     {
         return self::GENRE_ADMIN === $this->genre;
+    }
+
+    public function isAgent()
+    {
+        return self::GENRE_AGENT === $this->genre;
     }
 
     public function allowPermission(string $permission): bool

@@ -12,6 +12,7 @@
 
 namespace app;
 
+use app\Exception\AccessControl;
 use app\Exception\ExceptionIgnoreRecord;
 use app\Model\ExceptionLogs;
 use app\Traits\PrintAbnormal;
@@ -91,6 +92,12 @@ class ExceptionHandle extends Handle
         if ($exception instanceof HttpResponseException) {
             return true;
         }
+        if ($exception instanceof ModelException && $exception->getCode() === CODE_MODEL_OPTIMISTIC_LOCK) {
+            return true;
+        }
+        if ($exception instanceof AccessControl) {
+            return true;
+        }
         return false;
     }
 
@@ -98,7 +105,11 @@ class ExceptionHandle extends Handle
     {
         // 捕获乐观锁错误
         if ($e instanceof ModelException && $e->getCode() === CODE_MODEL_OPTIMISTIC_LOCK) {
-            return reply_bad($e->getCode(), $e->getMessage());
+            return reply_bad($e->getCode(), $e->getMessage(), null, 403);
+        }
+        // 捕获访问控制异常
+        if ($e instanceof AccessControl) {
+            return reply_bad($e->getCode(), $e->getMessage(), null, 403);
         }
         // 渲染其他异常
         return parent::render($request, $e);

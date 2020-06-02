@@ -12,6 +12,8 @@ use think\Facade;
  * @package app\Service\Auth\Facade
  * @method AuthGuard instance() static
  * @method int|string id() static
+ * @method int userGenre() static
+ * @method int userRoleId() static
  * @method AdminUser user() static
  * @method bool check() static
  * @method bool can(string $name) static

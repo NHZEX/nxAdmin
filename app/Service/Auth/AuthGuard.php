@@ -134,6 +134,7 @@ class AuthGuard
         if (null === $this->user && null !== ($this->user = $this->validRememberToken())) {
             $this->createRememberToken($this->user);
             $this->updateSession($this->user->id);
+            $this->attachUserInfo($this->user);
 
             $this->triggerLoginEvent($this->user, true);
         }
@@ -154,6 +155,30 @@ class AuthGuard
         }
 
         return $this->session->get($this->getName());
+    }
+
+    /**
+     * @return int|null
+     */
+    public function userGenre()
+    {
+        if ($this->loggedOut) {
+            return null;
+        }
+
+        return $this->session->get($this->getName('genre'));
+    }
+
+    /**
+     * @return int|null
+     */
+    public function userRoleId()
+    {
+        if ($this->loggedOut) {
+            return null;
+        }
+
+        return $this->session->get($this->getName('role_id'));
     }
 
     /**
@@ -180,7 +205,7 @@ class AuthGuard
     {
         try {
             /** @var AdminUserModel $result */
-            $result = (new AdminUserModel())->find($id);
+            $result = AdminUserModel::notAccessControl()->find($id);
             if ($result &&
                 $result instanceof ProviderlSelfCheck &&
                 !$result->valid($message)
@@ -198,6 +223,7 @@ class AuthGuard
     public function login(AdminUserModel $user, bool $rememberme = false)
     {
         $this->updateSession($user->id);
+        $this->attachUserInfo($user);
 
         if ($rememberme) {
             $this->ensureRememberTokenIsSet($user);
@@ -221,6 +247,12 @@ class AuthGuard
     {
         $this->session->set($this->getName(), $id);
         $this->session->regenerate();
+    }
+
+    protected function attachUserInfo(AdminUserModel $user)
+    {
+        $this->session->set($this->getName('genre'), $user->genre);
+        $this->session->set($this->getName('role_id'), $user->role_id);
     }
 
     /**
