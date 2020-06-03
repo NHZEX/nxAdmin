@@ -77,7 +77,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
      */
     public static function onBeforeInsert(AdminRole $model)
     {
-         self::checkAccessControl($model);
+        self::checkAccessControl($model);
 
         if (empty($model->ext)) {
             $model->setAttr('ext', '{}');
@@ -157,7 +157,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
      * @param callable|null $where
      * @return array
      */
-    public static function buildOption(?array $argv = NULL, callable $where = null): array
+    public static function buildOption(?array $argv = null, callable $where = null): array
     {
         return parent::buildOption([
            'id',
