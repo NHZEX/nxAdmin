@@ -157,7 +157,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
      * @param callable|null $where
      * @return array
      */
-    public static function buildOption(array $argv = null, callable $where = null): array
+    public static function buildOption(?array $argv = NULL, callable $where = null): array
     {
         return parent::buildOption([
            'id',
@@ -165,6 +165,6 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
                 return "[{$item['genreDesc']}] {$item['name']}";
             },
            'type' => 'genre',
-        ]);
+        ], $where);
     }
 }

@@ -35,6 +35,7 @@ trait ModelAccessLimit
             if (count($genreControl) === 1 && isset($genreControl['self'])) {
                 $query->where('id', $this->getAllowAccessTarget());
             } else {
+                unset($genreControl['self']);
                 $query->whereIn('genre', array_keys($genreControl));
             }
         } else {

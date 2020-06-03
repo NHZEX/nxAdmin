@@ -7,6 +7,7 @@ use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\db\Query;
 use think\Response;
 use function func\reply\reply_create;
 use function func\reply\reply_not_found;
@@ -42,11 +43,20 @@ class Role extends Base
     /**
      * @Auth("admin.role.info")
      * @Auth("admin.user")
+     * @param int $genre
      * @return Response
      */
-    public function select()
+    public function select($genre = 0)
     {
-        return reply_succeed(AdminRole::buildOption());
+        if (empty($genre)) {
+            $where = null;
+        } else {
+            $where = function (Query $query) use ($genre) {
+                $query->where('genre', '=', $genre);
+            };
+        }
+        $result = AdminRole::buildOption(null, $where);
+        return reply_succeed($result);
     }
 
     /**
