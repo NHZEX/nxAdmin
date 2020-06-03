@@ -5,11 +5,9 @@ namespace app\Model;
 use app\Exception\AccessControl;
 use app\Logic\AdminRole as AdminRoleLogic;
 use app\Service\Auth\Facade\Auth;
-use think\db\Query;
+use app\Traits\Model\ModelAccessLimit;
 use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
-use function array_keys;
-use function count;
 
 /**
  * Class AdminRole
@@ -29,10 +27,11 @@ use function count;
  * @property string $description 角色描述
  * @property mixed ext 权限
  */
-class AdminRole extends Base
+class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 {
     use SoftDelete;
     use MysqlJson;
+    use ModelAccessLimit;
 
     protected $table = 'admin_role';
     protected $pk = 'id';
@@ -124,55 +123,14 @@ class AdminRole extends Base
         AdminRoleLogic::destroyCache($model);
     }
 
-    public function scopeAccessControl(Query $query)
+    public function getAccessControl(int $genre): ?array
     {
-        $genre = Auth::userGenre();
-        if (AdminUser::GENRE_SUPER_ADMIN === $genre) {
-            return;
-        }
-
-        if (isset(self::ACCESS_CONTROL[$genre])) {
-            $genreControl = self::ACCESS_CONTROL[$genre];
-            if (count($genreControl) === 1 && isset($genreControl['self'])) {
-                $query->where('id', Auth::userRoleId());
-            } else {
-                $query->whereIn('genre', array_keys($genreControl));
-            }
-        } else {
-            $query->where('genre', '=', null);
-        }
+        return self::ACCESS_CONTROL[$genre] ?? null;
     }
 
-    /**
-     * @param AdminRole $data
-     * @throws AccessControl
-     */
-    protected static function checkAccessControl(AdminRole $data)
+    public function getAllowAccessTarget()
     {
-        if (empty($user = Auth::user())) {
-            return;
-        }
-        if ($user->isSuperAdmin()) {
-            return;
-        }
-
-        $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
-        if (null === $dataGenre) {
-            return;
-        }
-        $genreControl = self::ACCESS_CONTROL[$user->genre] ?? [];
-        if (empty($genreControl)) {
-            throw new AccessControl('当前登陆的用户无该数据的操作权限');
-        }
-        if (isset($genreControl['self'])
-            && $genreControl['self'] === 'rw'
-            && $user->role_id === $data->getOrigin('id')
-        ) {
-            return;
-        } elseif (isset($genreControl[$dataGenre]) && $genreControl[$dataGenre] === 'rw') {
-            return;
-        }
-        throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        return Auth::userRoleId();
     }
 
     /**

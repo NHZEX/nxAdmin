@@ -6,14 +6,12 @@ use app\Exception\AccessControl;
 use app\Service\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use app\Service\Auth\Contracts\ProviderlSelfCheck;
 use app\Service\Auth\Facade\Auth;
+use app\Traits\Model\ModelAccessLimit;
 use RuntimeException;
-use think\db\Query;
 use think\Model;
 use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Tp\Model\Exception\ModelException;
-use function array_keys;
-use function count;
 
 /**
  * Class AdminUser
@@ -44,9 +42,10 @@ use function count;
  * @property int            $delete_time 删除时间
  * @property int            $sign_out_time 退出登陆时间
  */
-class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfCheck
+class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfCheck, \app\Contracts\ModelAccessLimit
 {
     use SoftDelete;
+    use ModelAccessLimit;
 
     protected $table = 'admin_user';
     protected $pk = 'id';
@@ -139,54 +138,14 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         self::checkAccessControl($model);
     }
 
-    public function scopeAccessControl(Query $query)
+    public function getAccessControl(int $genre): ?array
     {
-        if (empty($user = Auth::user())) {
-            return;
-        }
-        if ($user->isSuperAdmin()) {
-            return;
-        }
-
-        if (isset(self::ACCESS_CONTROL[$user->genre])) {
-            $genreControl = self::ACCESS_CONTROL[$user->genre];
-            if (count($genreControl) === 1 && isset($genreControl['self'])) {
-                $query->where('id', $user->id);
-            } else {
-                $query->whereIn('genre', array_keys($genreControl));
-            }
-        } else {
-            $query->where('genre', '=', null);
-        }
+        return self::ACCESS_CONTROL[$genre] ?? null;
     }
 
-    /**
-     * @param self $data
-     * @throws AccessControl
-     */
-    protected static function checkAccessControl(AdminUser $data)
+    public function getAllowAccessTarget()
     {
-        if (empty($user = Auth::user())) {
-            return;
-        }
-        if ($user->isSuperAdmin()) {
-            return;
-        }
-
-        $dataGenre = $data->getOrigin('genre') ?? $data->getData('genre');
-        $genreControl = self::ACCESS_CONTROL[$user->genre] ?? [];
-        if (empty($genreControl)) {
-            throw new AccessControl('当前登陆的用户无该数据的操作权限');
-        }
-        if (isset($genreControl['self'])
-            && $genreControl['self'] === 'rw'
-            && $user->id === $data->getOrigin('id')
-        ) {
-            return;
-        } elseif (isset($genreControl[$dataGenre]) && $genreControl[$dataGenre] === 'rw') {
-            return;
-        }
-        throw new AccessControl('当前登陆的用户无该数据的操作权限');
+        return Auth::id();
     }
 
     /**
