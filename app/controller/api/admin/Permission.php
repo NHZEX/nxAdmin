@@ -4,6 +4,7 @@ namespace app\controller\api\admin;
 
 use app\Service\Auth\Annotation\Auth;
 use app\Service\Auth\AuthScan;
+use app\Service\Auth\Facade\Auth as AuthFacade;
 use app\Service\Auth\Permission as AuthPermission;
 use think\Response;
 use function array_merge;
@@ -60,6 +61,10 @@ class Permission extends Base
      */
     public function update($id, AuthScan $authScan)
     {
+        if (!$this->allowAccess()) {
+            return reply_bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
+        }
+
         $input = $this->request->only(['sort', 'desc']);
 
         if (empty($input)) {
@@ -92,7 +97,15 @@ class Permission extends Base
      */
     public function scan(AuthScan $authScan)
     {
+        if (!$this->allowAccess()) {
+            return reply_bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
+        }
         $authScan->refresh();
         return reply_succeed();
+    }
+
+    private function allowAccess()
+    {
+        return $this->app->isDebug() && AuthFacade::check() && AuthFacade::user()->isSuperAdmin();
     }
 }
