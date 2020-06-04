@@ -70,7 +70,7 @@ class Permission extends Base
         if (empty($input)) {
             return reply_bad();
         }
-        if ($input['sort']) {
+        if (!empty($input['sort'])) {
             $input['sort'] = (int) $input['sort'];
         }
 
