@@ -27,40 +27,6 @@ function db_transaction(callable $callback, string $name = null)
 }
 
 /**
- * @param array  $tree
- * @param string|array $name
- * @param string $key
- * @param int    $level
- * @return array
- */
-function tree_to_table(array $tree, $name = ['name', '__name'], string $key = 'children', int $level = 0)
-{
-    if (is_array($name)) {
-        [$nameKey, $newNameKey] = $name;
-    } elseif (strpos($name, '|') > 0) {
-        [$nameKey, $newNameKey] = explode('|', $name);
-    } else {
-        $nameKey = $name;
-        $newNameKey = '__' . $name;
-    }
-    $data = [];
-    foreach ($tree as $item) {
-        $item['__level'] = $level;
-        // └
-        $item[$newNameKey] = str_repeat('&nbsp;&nbsp;&nbsp;├&nbsp;&nbsp;', $level) . ($item[$nameKey] ?? '');
-        if (isset($item[$key])) {
-            $children = $item[$key];
-            unset($item[$key]);
-            $data[] = $item;
-            $data = array_merge($data, tree_to_table($children, $name, $key, $level + 1));
-        } else {
-            $data[] = $item;
-        }
-    }
-    return $data;
-}
-
-/**
  * @param array|object $data
  * @return string
  * @throws \app\Exception\JsonException
@@ -304,6 +270,7 @@ function db_version(?string $connect = null, bool $driver = false): string
 function query_mysql_exist_database(string $database, string $connect = null)
 {
     /** @noinspection SqlNoDataSourceInspection */
+    /** @noinspection SqlDialectInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
         $list = Db::connect($connect, true)->query($sql);
@@ -419,6 +386,7 @@ if (!function_exists('str_starts_with')) {
      * @param string $haystack
      * @param string $needle
      * @return bool
+     * @deprecated
      */
     function str_starts_with(string $haystack, string $needle): bool
     {
@@ -431,6 +399,7 @@ if (!function_exists('str_ends_with')) {
      * @param string $haystack
      * @param string $needle
      * @return bool
+     * @deprecated
      */
     function str_ends_with(string $haystack, string $needle): bool
     {
