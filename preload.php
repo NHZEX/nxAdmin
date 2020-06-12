@@ -20,9 +20,7 @@ require_once ROOT_DIR . '/preload/Preloader.php';
         ROOT_DIR . '/vendor/nhzex',
         ROOT_DIR . '/vendor/rybakit',
         ROOT_DIR . '/vendor/psr',
-        ROOT_DIR . '/vendor/doctrine',
-        ROOT_DIR . '/vendor/symfony/var-dumper',
-        ROOT_DIR . '/vendor/symfony/var-exporter'
+        ROOT_DIR . '/vendor/doctrine'
     )
     ->ignore()
     ->load();

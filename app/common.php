@@ -394,6 +394,26 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
     return $result;
 }
 
+function preload_statistics()
+{
+    if (!extension_loaded('Zend OPcache') || !function_exists('opcache_get_status')) {
+        return 'opcache does not exist';
+    }
+    /** @noinspection PhpComposerExtensionStubsInspection */
+    $status = opcache_get_status(false);
+    if (!isset($status['preload_statistics'])) {
+        return 'opcache preload not activated';
+    }
+    $status = $status['preload_statistics'];
+    return sprintf(
+        'mem: %.2fMB, function: %d, class: %d, script: %d',
+        $status['memory_consumption'] / 1024 / 1024,
+        count($status['functions']),
+        count($status['classes']),
+        count($status['scripts'])
+    );
+}
+
 if (!function_exists('str_starts_with')) {
     /**
      * @param string $haystack

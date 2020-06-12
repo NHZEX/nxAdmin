@@ -42,6 +42,7 @@ class System extends Base
             'upload_max_filesize' => ['上传限制', ini_get('upload_max_filesize')],
             'post_max_size' => ['POST限制', ini_get('post_max_size')],
             'realpath_cache_size' => ['路径缓存', realpath_cache_size()],
+            'preload_statistics' => ['预加载', preload_statistics()]
         ]);
     }
 
