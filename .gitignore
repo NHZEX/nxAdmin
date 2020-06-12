@@ -8,4 +8,4 @@
 /.env
 /.php_cs.cache
 /yarn-error.log
-/test.php
+/test*.php
