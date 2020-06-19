@@ -82,6 +82,7 @@ class AdminUser extends Base
 
             $user->last_login_time = time();
             $user->last_login_ip = Request::ip();
+            $user->withoutWriteAccessLimit();
             if ($user->save()) {
                 // 创建会话
                 $this->auth->login($user, $rememberme);

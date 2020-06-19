@@ -18,6 +18,14 @@ use function count;
  */
 trait ModelAccessLimit
 {
+    protected $withoutAccessLimit = false;
+
+    public function withoutWriteAccessLimit()
+    {
+        $this->withoutAccessLimit = true;
+        return $this;
+    }
+
     public function scopeAccessControl(Query $query)
     {
         if (!$this instanceof \app\Contracts\ModelAccessLimit) {
@@ -50,6 +58,9 @@ trait ModelAccessLimit
     protected static function checkAccessControl($data)
     {
         if (!$data instanceof \app\Contracts\ModelAccessLimit) {
+            return;
+        }
+        if ($data->withoutAccessLimit) {
             return;
         }
         if (empty($id = Auth::id())) {
