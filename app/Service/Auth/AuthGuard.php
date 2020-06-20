@@ -96,6 +96,14 @@ class AuthGuard
     }
 
     /**
+     * @return string
+     */
+    public function getSecuritySalt(): string
+    {
+        return env('DEPLOY_SECURITY_SALT');
+    }
+
+    /**
      * Determine if the current user is authenticated.
      *
      * @return bool
@@ -189,7 +197,11 @@ class AuthGuard
      */
     public function getHashId()
     {
-        return hash_hmac('sha1', (string) $this->id(), env('DEPLOY_SECURITY_SALT'));
+        return hash_hmac(
+            'sha1',
+            (string) $this->id(),
+            $this->getSecuritySalt() . $this->getAuthorization()->getMachine()
+        );
     }
 
     /**
@@ -300,7 +312,7 @@ class AuthGuard
         if (empty($machineCode)) {
             return;
         }
-        $salt  = env('DEPLOY_SECURITY_SALT');
+        $salt  = $this->getSecuritySalt();
         $expired = $this->config['remember']['expire'];
         $timeout = time() + $expired;
         $password = hash('crc32', $user->password);
@@ -336,7 +348,7 @@ class AuthGuard
         if (empty($secretBytes)) {
             return null;
         }
-        $salt  = env('DEPLOY_SECURITY_SALT');
+        $salt  = $this->getSecuritySalt();
         $secretSign = substr($secretBytes, -32);
         $secretCiphertext = substr($secretBytes, 0, -32);
         if ($secretSign !== hash_hmac('sha256', $secretCiphertext, $machineCode . $salt, true)) {
