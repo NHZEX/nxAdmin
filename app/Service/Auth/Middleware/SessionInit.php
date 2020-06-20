@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace app\Service\Auth\Middleware;
 
+use app\Service\Auth\ParseAuthorization;
 use Closure;
 use think\App;
 use think\Request;
@@ -37,7 +38,12 @@ class SessionInit
         $headerSessionId = $this->app->config->get('session.var_header', 'X-TOKEN');
         $cookieName   = $this->session->getName();
 
-        if ($xToken = $request->header($headerSessionId)) {
+        /** @var ParseAuthorization $token */
+        $token = $this->app->make(ParseAuthorization::class);
+
+        if ($xToken = $token->getToken()) {
+            $sessionId = $xToken;
+        } elseif ($xToken = $request->header($headerSessionId)) {
             $sessionId = $xToken;
         } elseif ($varSessionId && $request->request($varSessionId)) {
             $sessionId = $request->request($varSessionId);

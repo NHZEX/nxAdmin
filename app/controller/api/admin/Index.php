@@ -45,7 +45,6 @@ class Index extends Base
             return reply_succeed([
                 'uuid' => $adminUser->getAuth()->getHashId(),
                 'token' => Session::getId(),
-                'recallerSign' => $adminUser->getAuth()->getRecallerSign(),
             ]);
         } else {
             return reply_bad(CODE_CONV_LOGIN, $adminUser->getErrorMessage());

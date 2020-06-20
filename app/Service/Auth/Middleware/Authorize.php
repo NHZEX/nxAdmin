@@ -78,7 +78,6 @@ class Authorize
             $response->header([
                 'X-Uuid' => $this->auth->getHashId(),
                 'X-Token' => Session::getId(),
-                'X-Recaller-Sign' => $this->auth->getRecallerSign(),
             ]);
         }
 

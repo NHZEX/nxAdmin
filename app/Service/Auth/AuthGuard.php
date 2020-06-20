@@ -63,11 +63,6 @@ class AuthGuard
     protected $user;
 
     /**
-     * @var string|null
-     */
-    protected $recallerSign;
-
-    /**
      * @var array
      */
     protected $config = [
@@ -90,6 +85,14 @@ class AuthGuard
         $this->session = $session;
         $this->cookie  = $cookie;
         $this->config = array_merge($this->config, $config->get('auth', []));
+    }
+
+    /**
+     * @return ParseAuthorization
+     */
+    public function getAuthorization(): ParseAuthorization
+    {
+        return $this->container->make(ParseAuthorization::class);
     }
 
     /**
@@ -288,37 +291,32 @@ class AuthGuard
     }
 
     /**
-     * @return string|null
-     */
-    public function getRecallerSign(): ?string
-    {
-        return $this->recallerSign;
-    }
-
-    /**
      * @param AdminUserModel $user
      * @return void
      */
     protected function createRememberToken(AdminUserModel $user)
     {
+        $machineCode = $this->getAuthorization()->getMachine();
+        if (empty($machineCode)) {
+            return;
+        }
         $salt  = env('DEPLOY_SECURITY_SALT');
         $expired = $this->config['remember']['expire'];
         $timeout = time() + $expired;
         $password = hash('crc32', $user->password);
         $token = "{$user->id}|{$user->getRememberToken()}|{$password}|{$timeout}";
         $secret = encrypt_data($token, $salt, 'aes-128-ctr');
-        $secret = base64_encode($secret);
+        $sign = hash_hmac('sha256', $secret, $machineCode . $salt, true);
+        $secret = base64_encode($secret . $sign);
         $this->cookie->set($this->getRecallerName(), $secret, [
          'expire' => $expired,
          'httponly' => true,
         ]);
-        $this->recallerSign = hash_hmac('sha1', "remember|$secret", $salt);
     }
 
     protected function clearupRememberToken()
     {
         $this->cookie->delete($this->getRecallerName());
-        $this->recallerSign = null;
     }
 
     /**
@@ -326,16 +324,25 @@ class AuthGuard
      */
     protected function validRememberToken(): ?AdminUserModel
     {
+        $machineCode = $this->getAuthorization()->getMachine();
+        if (empty($machineCode)) {
+            return null;
+        }
         $secret = $this->cookie->get($this->getRecallerName());
-        $recallerSign = $this->container->request->header('X-Recaller-Sign');
-        if (empty($secret) && empty($recallerSign)) {
+        if (empty($secret)) {
+            return null;
+        }
+        $secretBytes = base64_decode($secret);
+        if (empty($secretBytes)) {
             return null;
         }
         $salt  = env('DEPLOY_SECURITY_SALT');
-        if ($recallerSign !== hash_hmac('sha1', "remember|{$secret}", $salt)) {
+        $secretSign = substr($secretBytes, -32);
+        $secretCiphertext = substr($secretBytes, 0, -32);
+        if ($secretSign !== hash_hmac('sha256', $secretCiphertext, $machineCode . $salt, true)) {
             return null;
         }
-        $token = decrypt_data(base64_decode($secret), $salt, 'aes-128-ctr');
+        $token = decrypt_data($secretCiphertext, $salt, 'aes-128-ctr');
         if (empty($token) || 4 > count($remember = explode('|', $token))) {
             return null;
         }

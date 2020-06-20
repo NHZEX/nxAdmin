@@ -9,12 +9,12 @@ return [
 
     'allowed_headers' => [
         'Authorization', 'Content-Type', 'If-Match', 'If-Modified-Since', 'If-None-Match', 'If-Unmodified-Since',
-        'X-Requested-With', 'X-CSRF-TOKEN', 'X-Token', 'X-Recaller-Sign'
+        'X-Requested-With', 'X-CSRF-TOKEN', 'X-Token'
     ],
 
     'exposed_headers' => [
         'Content-Disposition',
-        'X-Token', 'X-Uuid', 'X-Recaller-Sign'
+        'X-Token', 'X-Uuid'
     ],
 
     'max_age' => 0,
