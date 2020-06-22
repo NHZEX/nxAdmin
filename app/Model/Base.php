@@ -5,6 +5,7 @@ namespace app\Model;
 use app\Traits\Model\ModelEvent;
 use app\Traits\Model\ModelHelper;
 use Generator;
+use think\db\Query;
 use think\Model as ThinkModel;
 use think\model\Collection;
 use Tp\Model\Traits\ModelUtil;
@@ -19,6 +20,8 @@ use Tp\Model\Traits\TransactionExtension;
  * @method Collection|$this[] select(mixed $data = null) static 查询多个记录
  * @method Generator|$this[] cursor($data = null) static 游标查询
  * @method ThinkModel withAttr($name, callable $callback = null) 设置数据字段获取器
+ *
+ * @method Query fieldRaw(string $field)
  *
  * @method mixed transaction(callable $callback) static
  * @method void startTrans() static

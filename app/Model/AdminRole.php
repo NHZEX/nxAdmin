@@ -69,6 +69,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 
     const EXT_PERMISSION = 'permission';
     const EXT_MENU = 'menu';
+    const EXT_AGENT = 'agent';
 
     /**
      * @param AdminRole $model

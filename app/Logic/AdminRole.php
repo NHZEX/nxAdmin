@@ -112,6 +112,16 @@ class AdminRole extends Base
     }
 
     /**
+     * 获取角色授权权限数据
+     * @param int $roleID
+     * @return array
+     */
+    public static function getExtAgent(int $roleID)
+    {
+        return self::queryExt($roleID)[AdminRoleModel::EXT_AGENT] ?? [];
+    }
+
+    /**
      * 保存角色权限
      * @param int   $roleID
      * @param array $hashArr
