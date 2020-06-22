@@ -13,8 +13,10 @@
 
 use app\ExceptionHandle;
 use app\Request;
+use HZEX\Think\EnvLoader;
 
 return [
+    'env' => EnvLoader::class,
     'think\Request' => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
 ];

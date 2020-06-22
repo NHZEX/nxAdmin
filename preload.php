@@ -15,12 +15,16 @@ require_once ROOT_DIR . '/preload/Preloader.php';
 
 (new Preloader())
     ->paths(
-        ROOT_DIR . '/vendor/topthink',
-        ROOT_DIR . '/vendor/hashids',
-        ROOT_DIR . '/vendor/nhzex',
-        ROOT_DIR . '/vendor/rybakit',
-        ROOT_DIR . '/vendor/psr',
-        ROOT_DIR . '/vendor/doctrine'
+        ...[
+            ROOT_DIR . '/vendor/topthink',
+            ROOT_DIR . '/vendor/hashids',
+            ROOT_DIR . '/vendor/nhzex',
+            ROOT_DIR . '/vendor/rybakit',
+            ROOT_DIR . '/vendor/psr',
+            ROOT_DIR . '/vendor/doctrine',
+            ROOT_DIR . '/vendor/vlucas/phpdotenv',
+            ROOT_DIR . '/vendor/oscarotero/env',
+        ]
     )
     ->ignore()
     ->load();
