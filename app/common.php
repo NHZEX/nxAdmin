@@ -270,7 +270,6 @@ function db_version(?string $connect = null, bool $driver = false): string
 function query_mysql_exist_database(string $database, string $connect = null)
 {
     /** @noinspection SqlNoDataSourceInspection */
-    /** @noinspection SqlDialectInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
         $list = Db::connect($connect, true)->query($sql);
@@ -379,30 +378,4 @@ function preload_statistics()
         count($status['classes']),
         count($status['scripts'])
     );
-}
-
-if (!function_exists('str_starts_with')) {
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     * @deprecated
-     */
-    function str_starts_with(string $haystack, string $needle): bool
-    {
-        return substr_compare($haystack, $needle, 0, strlen($needle)) === 0;
-    }
-}
-
-if (!function_exists('str_ends_with')) {
-    /**
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     * @deprecated
-     */
-    function str_ends_with(string $haystack, string $needle): bool
-    {
-        return substr_compare($haystack, $needle, -strlen($needle)) === 0;
-    }
 }
