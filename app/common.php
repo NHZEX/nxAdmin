@@ -1,5 +1,6 @@
 <?php
 
+use think\db\PDOConnection;
 use think\facade\App;
 use think\facade\Db;
 use think\facade\Request;
@@ -250,12 +251,17 @@ function query_mysql_version(string $connect = null)
  */
 function db_version(?string $connect = null, bool $driver = false): string
 {
-    /** @var PDO $pdo */
-    $connect = ($connect ? Db::connect($connect, true) : Db::connect())->getConnection();
+    // 占不支持分布式数据库
+    /** @var PDOConnection $pdo */
+    $connect = ($connect ? Db::connect($connect, true) : Db::connect());
+    if ($connect instanceof \think\db\connector\Mongo) {
+        throw new RuntimeException('not support mongo');
+    }
     $initConnect = function () {
         $this->initConnect();
     };
     $initConnect->call($connect);
+    /** @var PDO $pdo */
     $pdo = $connect->getPdo();
     $prefix = $driver ? ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ') : '';
     return $prefix . $pdo->getAttribute(PDO::ATTR_SERVER_VERSION);
