@@ -34,7 +34,7 @@
         "ext-zip": "*",
         "ext-zlib": "*",
         "doctrine/annotations": "^1.10.2",
-        "guzzlehttp/guzzle": "^6.3",
+        "guzzlehttp/guzzle": "^7.0",
         "hashids/hashids": "^3.0",
         "nhzex/n-helper": "^1.0",
         "nhzex/think-blade": "^4.2.0",
