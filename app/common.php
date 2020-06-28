@@ -251,7 +251,7 @@ function query_mysql_version(string $connect = null)
  */
 function db_version(?string $connect = null, bool $driver = false): string
 {
-    // 占不支持分布式数据库
+    // 暂不支持分布式数据库
     /** @var PDOConnection $pdo */
     $connect = ($connect ? Db::connect($connect, true) : Db::connect());
     if ($connect instanceof \think\db\connector\Mongo) {
