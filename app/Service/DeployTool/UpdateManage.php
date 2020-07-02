@@ -62,21 +62,22 @@ class UpdateManage extends FeaturesManage
             return false;
         }
 
-        $config = $this->app->config->get('phinx', []);
+        $paths = $this->app->config->get('phinx.paths.migrations', []);
         $verbosity = empty($this->deploy->getVerbosity()) ? null : "-{$this->deploy->getVerbosity()}";
 
         $output->writeln('> 执行数据迁移...');
 
-        // 计算迁移版本Hash
-        $config['paths']['migrations'];
         $finder = new Finder();
-        $finder->files()->name('*.php')->in($config['paths']['migrations']);
-        $migrationHash = '';
+        $finder->files()->name('*.php')->in($paths);
+
+        // 计算迁移版本Hash
+        $cxt = hash_init('md5');
         /** @var SplFileInfo $file */
         foreach ($finder as $file) {
-            $migrationHash .= $file->getRealPath() . md5_file($file->getRealPath(), true);
+            hash_update($cxt, $file->getRelativePathname() . "\n");
+            hash_update_file($cxt, $file->getRealPath());
         }
-        $migrationHash = md5($migrationHash);
+        $migrationHash = hash_final($cxt);
 
         // 判断是否需要更新
         if (System::isAvailable() && $migrationHash === System::getLabel('dep_data_migration_ver')) {
@@ -92,7 +93,7 @@ class UpdateManage extends FeaturesManage
             return false;
         }
 
-        // 保存新的数据版本Hash
+        // 保存新的版本Hash
         System::setLabel('dep_data_migration_ver', $migrationHash);
         $output->writeln('  数据迁移: <info>数据迁移成功</info>');
         return true;

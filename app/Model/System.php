@@ -5,7 +5,6 @@ namespace app\Model;
 
 use think\db\exception\BindParamException;
 use think\db\exception\PDOException;
-use think\facade\Db;
 
 /**
  * Class System
@@ -32,11 +31,12 @@ class System extends Base
      */
     public static function isAvailable()
     {
-        $database = DB::getConnection()->getConfig('database');
-        /** @noinspection SqlResolve */
+        $db = app()->db->connect();
+        $database = app()->db->connect()->getConfig('database');
         /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlDialectInspection $sql */
         $sql = "select * from `INFORMATION_SCHEMA`.`TABLES` where TABLE_SCHEMA='{$database}' and TABLE_NAME='system'";
-        return count(Db::query($sql)) > 0;
+        return count($db->query($sql)) > 0;
     }
 
     /**
