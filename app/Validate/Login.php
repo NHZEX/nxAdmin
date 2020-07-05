@@ -12,7 +12,7 @@ use app\Service\Validate\ValidateBase;
 class Login extends ValidateBase
 {
     protected $rule = [
-        'token'    => 'require|length:16,32',
+        'token'    => 'require|min:16',
         'account'  => 'require|length:4,64',
         'password' => 'require|length:4,64',
         'lasting'  => 'boolean',

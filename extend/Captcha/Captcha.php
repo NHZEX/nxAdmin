@@ -3,9 +3,12 @@
 namespace Captcha;
 
 use app\Exception\BusinessResult;
+use app\Facade\Redis;
 use think\Config;
 use think\facade\Cache;
 use think\Response;
+use function HZEX\Crypto\decrypt_data;
+use function HZEX\Crypto\encrypt_data;
 
 /**
  * Class Captcha
@@ -22,7 +25,8 @@ use think\Response;
  * @property int $imageH
  * @property int $imageW
  * @property int $length
- * @property string $fontttf
+ * @property string[] $fontttfs
+ * @property bool $singleFont
  * @property int[] $bg
  * @property string $reset
  */
@@ -53,7 +57,9 @@ class Captcha
         // 验证码位数
         'length' => 5,
         // 验证码字体，不设置随机获取
-        'fontttf' => '',
+        'fontttfs' => '',
+        // 使用单一字体
+        'singleFont' => true,
         // 背景颜色
         'bg' => [243, 251, 254],
         // 验证成功后是否重置
@@ -252,18 +258,17 @@ class Captcha
         // 验证码使用随机字体
         $ttfPath = $this->tff_path . 'ttfs/';
 
-        if (empty($this->fontttf)) {
+        if (empty($this->fontttfs)) {
             $dir = dir($ttfPath);
             $ttfs = [];
             while (false !== ($file = $dir->read())) {
                 if ('.' != $file[0] && substr($file, -4) == '.ttf') {
-                    $ttfs[] = $file;
+                    $ttfs[] = $ttfPath . $file;
                 }
             }
             $dir->close();
-            $this->fontttf = $ttfs[array_rand($ttfs)];
+            $this->fontttfs = $ttfs;
         }
-        $this->fontttf = $ttfPath . $this->fontttf;
 
         if ($this->useImgBg) {
             $this->background();
@@ -276,6 +281,10 @@ class Captcha
         if ($this->useCurve) {
             // 绘干扰线
             $this->writeCurve();
+        }
+
+        if ($this->singleFont) {
+            $selected = mt_rand(0, count($this->fontttfs) - 1);
         }
 
         // 绘验证码
@@ -291,7 +300,7 @@ class Captcha
                 $codeNX,
                 $this->fontSize * 1.6,
                 $this->color,
-                $this->fontttf,
+                isset($selected) ? $this->fontttfs[$selected] : $this->fontttfs[mt_rand(0, count($this->fontttfs) - 1)],
                 $code[$i]
             );
         }
@@ -309,10 +318,10 @@ class Captcha
         return $this->codeContent;
     }
 
-    private function codeHash($code)
+    private function codeHash(string $code)
     {
         $code = strtoupper($code);
-        return hash_hmac('sha1', $code, $this->seKey);
+        return hash_hmac('sha1', $code, $this->seKey, true);
     }
 
     public function send(): Response
@@ -331,11 +340,11 @@ class Captcha
     /**
      * 验证验证码是否正确
      * @access public
-     * @param string $code 用户验证码
+     * @param string $code     用户验证码
      * @param string $hashCode 验证字符串
      * @return bool 用户验证码是否正确
      */
-    public function check($code, $hashCode)
+    public function check(string $code, string $hashCode)
     {
         return $this->codeHash($code) === $hashCode;
     }
@@ -349,8 +358,72 @@ class Captcha
         return $this->code;
     }
 
+    public function generateToken(): string
+    {
+        $require = request();
+        $ua = $require->header('User-Agent');
+        $palyload = [
+            'hc' => $this->getCode(),
+            'ip' => $require->ip(),
+            'ttl' => time() + $this->expire,
+            'ua' => crc32($ua),
+        ];
+
+        $ciphertext = encrypt_data(serialize($palyload), $this->seKey, 'aes-128-gcm', 'captcha');
+
+        return base64_encode($ciphertext);
+    }
+
+    public function verifyToken(string $token, string $code): bool
+    {
+        $this->message = '验证码无效.';
+        $ciphertext = base64_decode($token, true);
+        if (empty($ciphertext)) {
+            return false;
+        }
+        try {
+            $plaintext = decrypt_data($ciphertext, $this->seKey, 'aes-128-gcm', 'captcha');
+        } catch (\RuntimeException $exception) {
+            return false;
+        }
+        $palyload = unserialize($plaintext, [
+            'allowed_classes' => false,
+        ]);
+        if (empty($palyload)) {
+            return false;
+        }
+        $require = request();
+        $redis = Redis::instance();
+        $key = "captcha:blacklist:" . hash('sha1', $token);
+        try {
+            if (!isset($palyload['ttl']) || time() > $palyload['ttl']) {
+                throw new BusinessResult('验证码失效.');
+            }
+            if (!isset($palyload['ip']) || $require->ip() !== $palyload['ip']) {
+                throw new BusinessResult('验证码无效.');
+            }
+            $ua = $require->header('User-Agent');
+            if (!isset($palyload['ua']) || crc32($ua) !== $palyload['ua']) {
+                throw new BusinessResult('验证码无效.');
+            }
+            if (!isset($palyload['hc']) || !$this->check($code, $palyload['hc'])) {
+                throw new BusinessResult('验证码错误.');
+            }
+            if ($redis->exists($key)) {
+                throw new BusinessResult('验证码无效.');
+            }
+        } catch (BusinessResult $result) {
+            $this->message = $result->getMessage();
+            return false;
+        } finally {
+            $redis->setex($key, $this->expire, time() . "|{$require->ip()}");
+        }
+        return true;
+    }
+
     /**
      * 保存验证码到 redis
+     * @deprecated
      * @param string $ctoken
      */
     public function saveToRedis(string $ctoken)
@@ -368,7 +441,7 @@ class Captcha
 
     /**
      * 验证验证码是否正确
-     * @access public
+     * @deprecated
      * @param $ctoken
      * @param string $code 用户验证码
      * @return bool 用户验证码是否正确

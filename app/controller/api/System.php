@@ -6,7 +6,6 @@ use app\Service\Auth\Annotation\Auth;
 use Captcha\Captcha;
 use think\App;
 use think\Response;
-use function func\reply\reply_bad;
 use function func\reply\reply_succeed;
 
 class System extends Base
@@ -47,17 +46,13 @@ class System extends Base
     /**
      * 获取一个验证码
      * @param Captcha $captcha
-     * @param string  $token
      * @return Response
      */
-    public function captcha(Captcha $captcha, string $token = null)
+    public function captcha(Captcha $captcha)
     {
-        if (!$token) {
-            return reply_bad();
-        }
-
         $captcha->entry();
-        $captcha->saveToRedis($token);
-        return $captcha->send();
+        return $captcha->send()->header([
+            'X-Captcha-Token' => $captcha->generateToken(),
+        ]);
     }
 }

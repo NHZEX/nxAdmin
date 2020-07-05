@@ -31,7 +31,7 @@ class Index extends Base
 
         // 验证码校验
         if ($captcha->login) {
-            if (!$captcha->checkToRedis($ctoken, $param['captcha'] ?? '0000')) {
+            if (!$captcha->verifyToken($ctoken, $param['captcha'] ?? '0000')) {
                 return reply_bad(CODE_COM_CAPTCHA, $captcha->getMessage());
             }
         }

@@ -14,7 +14,7 @@ return [
 
     'exposed_headers' => [
         'Content-Disposition',
-        'X-Token', 'X-Uuid'
+        'X-Token', 'X-Uuid', 'X-Captcha-Token'
     ],
 
     'max_age' => 0,
