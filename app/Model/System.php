@@ -3,9 +3,6 @@ declare(strict_types=1);
 
 namespace app\Model;
 
-use think\db\exception\BindParamException;
-use think\db\exception\PDOException;
-
 /**
  * Class System
  * @package app\Model
@@ -26,13 +23,11 @@ class System extends Base
     /**
      * 是否可用
      * @return bool
-     * @throws BindParamException
-     * @throws PDOException
      */
     public static function isAvailable()
     {
         $db = app()->db->connect();
-        $database = app()->db->connect()->getConfig('database');
+        $database = $db->getConfig('database');
         /** @noinspection SqlNoDataSourceInspection */
         /** @noinspection SqlDialectInspection $sql */
         $sql = "select * from `INFORMATION_SCHEMA`.`TABLES` where TABLE_SCHEMA='{$database}' and TABLE_NAME='system'";
