@@ -4,13 +4,17 @@ declare(strict_types=1);
 namespace app\Service\Auth;
 
 use app\Model\AdminUser;
+use app\Model\AdminUser as AdminUserModel;
 use app\Service\Auth\Access\Gate;
+use app\Service\Auth\Listens\LoginEvent;
 use app\Service\Auth\Middleware\Authorize;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\Reader;
 use HZEX\Blade\Register;
 use think\App;
+use think\facade\Request;
 use think\Service;
+use function time;
 
 class AuthService extends Service
 {
@@ -30,6 +34,16 @@ class AuthService extends Service
         // 注册鉴权类
         $this->registerAccessGate();
         $this->registeBladeExtension();
+
+        $this->app->event->listen(LoginEvent::class, function ($args) {
+            [$user, $remember] = $args;
+            /** @var AdminUserModel $user */
+            $user->last_login_time = time();
+            $user->last_login_ip = Request::ip();
+            // todo 记录账号恢复时间
+            $user->withoutWriteAccessLimit();
+            $user->save();
+        });
 
         // TODO: this method is deprecated and will be removed in doctrine/annotations 2.0
         AnnotationRegistry::registerLoader('class_exists');

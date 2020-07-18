@@ -7,7 +7,6 @@ use app\Model\AdminUser as AdminUserModel;
 use app\Service\Auth\AuthGuard;
 use RuntimeException;
 use think\db\exception\DbException;
-use think\facade\Request;
 
 class AdminUser extends Base
 {
@@ -80,15 +79,11 @@ class AdminUser extends Base
                 throw new BusinessResult("账号状态：{$user->status_desc}");
             }
 
-            $user->last_login_time = time();
-            $user->last_login_ip = Request::ip();
-            $user->withoutWriteAccessLimit();
-            if ($user->save()) {
-                // 创建会话
-                $this->auth->login($user, $rememberme);
-            } else {
-                throw new BusinessResult('登录信息更新失败，请重试');
-            }
+            // $user->last_login_time = time();
+            // $user->last_login_ip = Request::ip();
+            // $user->withoutWriteAccessLimit();
+            // 创建会话
+            $this->auth->login($user, $rememberme);
         } catch (BusinessResult $businessResult) {
             $this->errorMessage = $businessResult->getMessage();
             return false;

@@ -26,6 +26,6 @@ trait EventHelpers
     {
         /** @var Event $event */
         $event = $this->container->get('event');
-        $event->trigger(LoginEvent::class, [$user]);
+        $event->trigger(LoginEvent::class, [$user, $remember]);
     }
 }
