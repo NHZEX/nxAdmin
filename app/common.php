@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUnused */
 
 use think\db\PDOConnection;
 use think\facade\App;
@@ -238,7 +238,7 @@ function query_mysql_version(string $connect = null)
     if ($connect) {
         $_version = Db::connect($connect, true)->query($sql);
     } else {
-        $_version = Db::query($sql);
+        $_version = Db::connect()->query($sql);
     }
     return array_pop($_version)['mysqlver'];
 }
@@ -280,7 +280,7 @@ function query_mysql_exist_database(string $database, string $connect = null)
     if ($connect) {
         $list = Db::connect($connect, true)->query($sql);
     } else {
-        $list = Db::query($sql);
+        $list = Db::connect()->query($sql);
     }
     return count($list) > 0;
 }
@@ -290,18 +290,14 @@ function query_mysql_exist_database(string $database, string $connect = null)
  * 排序：SORT_ASC升序 , SORT_DESC降序
  * 示例：$this->multiaArraySort($arr, 'num', SORT_DESC, 'sort', SORT_ASC)
  * @copyright https://blog.csdn.net/qq_35296546/article/details/78812176
+ * @param array $args
  * @return array
- * @throws Exception
  */
-function sortArrByManyField()
+function sort_arr_by_many_field(...$args)
 {
-    $args = func_get_args();
-    if (empty($args)) {
-        return [];
-    }
     $arr = array_shift($args);
     if (!is_array($arr)) {
-        throw new Exception("第一个参数不为数组");
+        throw new InvalidArgumentException("第一个参数不为数组");
     }
     foreach ($args as $key => $field) {
         if (is_string($field)) {
