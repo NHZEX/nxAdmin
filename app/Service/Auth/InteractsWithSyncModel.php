@@ -7,6 +7,7 @@ use SplFileObject;
 use Symfony\Component\VarExporter\Exception\ExceptionInterface;
 use Symfony\Component\VarExporter\VarExporter;
 use function array_pop;
+use function array_values;
 use function count;
 use function explode;
 use function implode;
@@ -122,13 +123,23 @@ trait InteractsWithSyncModel
                 $sort = 0;
                 $desc = '';
             }
-            $result[$permission] = [
-                'pid' => $pid,
-                'name' => $permission,
-                'sort' => $sort,
-                'desc' => $desc,
-                'allow' => array_values($control),
-            ];
+            if (isset($control['desc']) || isset($control['allow'])) {
+                $result[$permission] = [
+                    'pid' => $pid,
+                    'name' => $permission,
+                    'sort' => $control['sort'] ?? $sort,
+                    'desc' => $control['desc'] ?? $desc,
+                    'allow' => $control['allow'] ?? null,
+                ];
+            } else {
+                $result[$permission] = [
+                    'pid' => $pid,
+                    'name' => $permission,
+                    'sort' => $sort,
+                    'desc' => $desc,
+                    'allow' => array_values($control),
+                ];
+            }
         }
 
         ksort($result);

@@ -14,6 +14,7 @@ use SplFileInfo;
 use Symfony\Component\Finder\Finder;
 use think\App;
 use function array_map;
+use function array_merge;
 use function str_replace;
 use function strlen;
 use function substr;
@@ -35,6 +36,12 @@ trait InteractsWithScanAuth
     protected $permissions = [];
     protected $nodes = [];
     protected $controllers = [];
+
+    public function loadDefaultPermissions()
+    {
+        $default = App::getInstance()->config->get('auth.permissions', []);
+        $this->permissions = array_merge($default, $this->permissions);
+    }
 
     /**
      * @return int
@@ -64,6 +71,8 @@ trait InteractsWithScanAuth
         $this->permissions = [];
         $this->nodes = [];
         $this->controllers = [];
+
+        $this->loadDefaultPermissions();
 
         foreach ($this->scanning($dirs) as $file) {
             /** @var SplFileInfo $file */
