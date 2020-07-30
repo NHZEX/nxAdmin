@@ -4,11 +4,12 @@ namespace Captcha;
 
 use app\Exception\BusinessResult;
 use app\Facade\Redis;
+use RuntimeException;
 use think\Config;
 use think\facade\Cache;
 use think\Response;
-use function HZEX\Crypto\decrypt_data;
-use function HZEX\Crypto\encrypt_data;
+use function Zxin\Crypto\decrypt_data;
+use function Zxin\Crypto\encrypt_data;
 
 /**
  * Class Captcha
@@ -383,7 +384,7 @@ class Captcha
         }
         try {
             $plaintext = decrypt_data($ciphertext, $this->seKey, 'aes-128-gcm', 'captcha');
-        } catch (\RuntimeException $exception) {
+        } catch (RuntimeException $exception) {
             return false;
         }
         $palyload = unserialize($plaintext, [

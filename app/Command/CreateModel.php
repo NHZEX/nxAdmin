@@ -2,15 +2,13 @@
 
 namespace app\Command;
 
-use HZEX\Util;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
-use think\db\exception\BindParamException;
-use think\db\exception\PDOException;
 use think\facade\Db;
+use Zxin\Util;
 
 /**
  * 批量创建数据结构到模型
@@ -38,8 +36,6 @@ class CreateModel extends Command
      * @param Input  $input
      * @param Output $output
      * @return int|void|null
-     * @throws BindParamException
-     * @throws PDOException
      */
     public function execute(Input $input, Output $output)
     {
@@ -73,9 +69,9 @@ class CreateModel extends Command
         $database = $config['connections']['main']['database'];
 
         // 加载数据
-        /** @noinspection SqlNoDataSourceInspection SqlDialectInspection SqlResolve */
+        /** @noinspection SqlNoDataSourceInspection */
         $sql = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
-        $tables = Db::query($sql);
+        $tables = $this->app->db->connect()->query($sql);
         $table_names = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
         $existsModels = scandir($export_path);
 
@@ -156,10 +152,10 @@ class CreateModel extends Command
         $build_date = date('Y/m/d');
         $build_time = date('H:i');
 
-        /** @noinspection SqlResolve SqlNoDataSourceInspection SqlDialectInspection */
+        /** @noinspection SqlNoDataSourceInspection */
         $sql = "select * from information_schema.COLUMNS "
             . "where table_name = '{$tableName}' and table_schema = '{$database}'";
-        $table_fields = Db::query($sql);
+        $table_fields = $this->app->db->connect()->query($sql);
 
         $pk_field_name = '';
 

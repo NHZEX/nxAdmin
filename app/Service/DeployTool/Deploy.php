@@ -4,12 +4,12 @@ namespace app\Service\DeployTool;
 
 use app\Service\DeployTool\Struct\EnvStruct;
 use Exception;
-use HZEX\Util;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
+use Zxin\Util;
 
 class Deploy extends Command
 {

@@ -17,8 +17,8 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Session;
 use function hash_hmac;
-use function HZEX\Crypto\decrypt_data;
-use function HZEX\Crypto\encrypt_data;
+use function Zxin\Crypto\decrypt_data;
+use function Zxin\Crypto\encrypt_data;
 
 class AuthGuard
 {

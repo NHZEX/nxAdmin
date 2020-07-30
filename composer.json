@@ -36,7 +36,6 @@
         "doctrine/annotations": "^1.10.2",
         "guzzlehttp/guzzle": "^7.0",
         "hashids/hashids": "^3.0",
-        "nhzex/n-helper": "^1.0",
         "nhzex/think-blade": "^4.2.0",
         "nhzex/think-cors": "^2.0",
         "nhzex/think-env": "^1.0.1",
@@ -48,7 +47,8 @@
         "symfony/var-dumper": "^4.2|^5.1",
         "symfony/var-exporter": "^4.2|^5.1",
         "topthink/framework": "~6.0.3",
-        "topthink/think-orm": "~2.0.33"
+        "topthink/think-orm": "~2.0.33",
+        "zxin/utils": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^8|^9"
