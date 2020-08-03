@@ -8,6 +8,7 @@ use RuntimeException;
 use think\Config;
 use think\facade\Cache;
 use think\Response;
+use function count;
 use function Zxin\Crypto\decrypt_data;
 use function Zxin\Crypto\encrypt_data;
 
@@ -284,7 +285,9 @@ class Captcha
             $this->writeCurve();
         }
 
-        if ($this->singleFont) {
+        if (count($this->fontttfs) === 1) {
+            $selected = 0;
+        } elseif ($this->singleFont) {
             $selected = mt_rand(0, count($this->fontttfs) - 1);
         }
 
