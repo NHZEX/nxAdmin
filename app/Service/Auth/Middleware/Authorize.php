@@ -11,6 +11,7 @@ use think\App;
 use think\facade\Session;
 use think\Request;
 use think\Response;
+use function func\reply\reply_bad;
 
 class Authorize
 {
@@ -107,18 +108,10 @@ class Authorize
      */
     protected function failJump(Request $request, $message)
     {
-        if (!$request->isAjax()) {
-            // 构建跳转数据
-            $jump = rawurlencode($request->url(true));
-            return $this->error(
-                $message,
-                '/admin.login?' . http_build_query(['jump' => $jump])
-            );
+        if ($request->isAjax()) {
+            return reply_bad(null, null, null, 401);
         } else {
-            return Response::create($message, 'html', 401)
-                ->header([
-                    'Soft-Location' => $this->app->route->buildUrl('@admin.login')
-                ]);
+            return $this->error($message, null, null, 3600);
         }
     }
 }
