@@ -138,6 +138,57 @@ class PhpRedisConnection
         return $this->command($method, $parameters);
     }
 
+    /**
+     * @param      $iterator
+     * @param null $pattern
+     * @param int  $count
+     * @return array|bool
+     * @see \Redis::scan
+     */
+    public function scan(&$iterator, $pattern = null, $count = 0)
+    {
+        return $this->command(__FUNCTION__, [&$iterator, $pattern, $count]);
+    }
+
+    /**
+     * @param      $key
+     * @param      $iterator
+     * @param null $pattern
+     * @param int  $count
+     * @return array|bool
+     * @see \Redis::sScan
+     */
+    public function sScan($key, &$iterator, $pattern = null, $count = 0)
+    {
+        return $this->command(__FUNCTION__, [$key, &$iterator, $pattern, $count]);
+    }
+
+    /**
+     * @param      $key
+     * @param      $iterator
+     * @param null $pattern
+     * @param int  $count
+     * @return array
+     * @see \Redis::hScan
+     */
+    public function hScan($key, &$iterator, $pattern = null, $count = 0)
+    {
+        return $this->command(__FUNCTION__, [$key, &$iterator, $pattern, $count]);
+    }
+
+    /**
+     * @param      $key
+     * @param      $iterator
+     * @param null $pattern
+     * @param int  $count
+     * @return array|bool
+     * @see \Redis::zScan
+     */
+    public function zScan($key, &$iterator, $pattern = null, $count = 0)
+    {
+        return $this->command(__FUNCTION__, [$key, &$iterator, $pattern, $count]);
+    }
+
     public function __destruct()
     {
         if (null !== $this->client) {
