@@ -41,6 +41,7 @@ class Init extends AbstractMigration
 
                 $blueprint->string('label', 48)->ccAscii()->comment('标签');
                 $blueprint->string('value', 255)->comment('值');
+                $blueprint->unique('uk_label')->limit(16);
             });
 
             Schema::create('admin_role', function (Schema\Blueprint $blueprint) {
