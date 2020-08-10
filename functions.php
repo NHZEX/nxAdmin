@@ -3,6 +3,9 @@
 
 use think\App;
 
+// 阻止phpunit(~9.3.0)加载全局函数，修复预加载失败
+define('__PHPUNIT_GLOBAL_ASSERT_WRAPPERS__', false);
+
 /**
  * 获取环境变量值
  * @access public
