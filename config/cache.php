@@ -3,6 +3,8 @@
 // | 缓存设置
 // +----------------------------------------------------------------------
 
+use app\Service\Redis\Tp\CacheDriver as RedisCacheDriver;
+
 return [
     // 默认缓存驱动
     'default' => env('CACHE_DRIVER', 'file'),
@@ -24,7 +26,7 @@ return [
         ],
         'redis' => [
             // 驱动方式
-            'type'       => 'redis',
+            'type'       => RedisCacheDriver::class,
             // 缓存前缀
             'prefix'     => env('DEPLOY_MIXING_PREFIX') . ':cache:',
             // 缓存有效期 0表示永久缓存
@@ -33,22 +35,12 @@ return [
             'tag_prefix' => 'tag:',
             // 序列化机制 例如 ['serialize', 'unserialize']
             'serialize'  => [],
-            // Redis Host
-            'host'       => env('REDIS_HOST', '127.0.0.1'),
-            // Redis Port
-            'port'       => (int) env('REDIS_PORT', 6379),
-            // Redis Password
-            'password'   => env('REDIS_PASSWORD', ''),
-            // Redis Select
-            'select'     => (int) env('REDIS_SELECT', 0),
-            // Redis Timeout
-            'timeout'    => (int) env('REDIS_TIMEOUT', 3),
-            // Redis Persistent
-            'persistent' => (bool) env('REDIS_PERSISTENT', false),
+            // 连接名
+            'connection' => 'main',
         ],
         'session' => [
             // 驱动方式
-            'type'       =>  'redis',
+            'type'       =>  RedisCacheDriver::class,
             // 缓存前缀
             'prefix'     => env('DEPLOY_MIXING_PREFIX') . ':sess:',
             // 缓存有效期 0表示永久缓存
@@ -57,18 +49,8 @@ return [
             'tag_prefix' => 'tag:',
             // 序列化机制 例如 ['serialize', 'unserialize']
             'serialize'  => ['\return_raw_value', '\return_raw_value'],
-            // Redis Host
-            'host'       => env('SESSION_REDIS_HOST', '127.0.0.1'),
-            // Redis Port
-            'port'       => (int) env('SESSION_REDIS_PORT', 6379),
-            // Redis Password
-            'password'   => env('SESSION_REDIS_PASSWORD', ''),
-            // Redis Select
-            'select'     => (int) env('SESSION_REDIS_SELECT', 0),
-            // Redis Timeout
-            'timeout'    => (int) env('SESSION_REDIS_TIMEOUT', 3),
-            // Redis Persistent
-            'persistent' => (bool) env('SESSION_REDIS_PERSISTENT', false),
+            // 连接名
+            'connection' => 'session',
         ]
         // 更多的缓存连接
     ],
