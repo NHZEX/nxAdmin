@@ -105,9 +105,9 @@ LUA;
                 break;
             }
             usleep(1000);
-        } while (!$result && (int) (microtime(true) * 1000) < $end);
+        } while ((int) (microtime(true) * 1000) < $end);
 
-        return $result ? $lock_id : $result;
+        return $result ? $lock_id : false;
     }
 
     /**
@@ -157,5 +157,4 @@ LUA;
         }
         throw new Error(sprintf('Call to undefined method %s::%s()', static::class, $name));
     }
-
 }
