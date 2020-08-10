@@ -42,7 +42,7 @@
         "nhzex/think-phinx": "~1.1.1",
         "rybakit/msgpack": "^0.7",
         "symfony/finder": "^4.2|^5.1",
-        "symfony/polyfill-php73": "^1.17",
+        "symfony/polyfill-php74": "^1.18",
         "symfony/polyfill-php80": "^1.17",
         "symfony/var-dumper": "^4.2|^5.1",
         "symfony/var-exporter": "^4.2|^5.1",
