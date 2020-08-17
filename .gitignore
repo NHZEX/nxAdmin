@@ -7,5 +7,6 @@
 /public/dist
 /.env
 /.php_cs.cache
+/.phpunit.result.cache
 /yarn-error.log
 /test*.php
