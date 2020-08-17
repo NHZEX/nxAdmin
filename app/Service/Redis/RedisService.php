@@ -9,7 +9,6 @@ class RedisService extends Service
 {
     public function register()
     {
-        $this->app->bind('redis', RedisProvider::class);
     }
 
     public function boot()

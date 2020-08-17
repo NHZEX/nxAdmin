@@ -10,7 +10,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use think\console\Input;
 use think\console\Output;
-use function HuangZx\ref_get_prop;
+use function Zxin\ref_get_prop;
 
 class UpdateManage extends FeaturesManage
 {

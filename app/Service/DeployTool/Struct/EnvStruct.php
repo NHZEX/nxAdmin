@@ -2,8 +2,8 @@
 
 namespace app\Service\DeployTool\Struct;
 
-use HZEX\DataStruct\BaseProperty;
 use think\facade\Env;
+use Zxin\DataStruct\BaseProperty;
 
 class EnvStruct extends BaseProperty
 {

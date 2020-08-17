@@ -7,13 +7,13 @@ namespace app\Service\DeployTool;
 use app\Service\DeployTool\Exception\ConfigInvalidException;
 use app\Service\DeployTool\Exception\InputException;
 use app\Service\DeployTool\Struct\EnvStruct;
-use app\Service\Redis\Connections\PhpRedisConnection;
 use Closure;
 use Exception;
 use PDOException;
 use RedisException;
 use think\console\Input;
 use think\console\Output;
+use Zxin\Redis\Connections\PhpRedisConnection;
 
 class EnvManage extends FeaturesManage
 {

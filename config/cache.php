@@ -3,7 +3,7 @@
 // | 缓存设置
 // +----------------------------------------------------------------------
 
-use app\Service\Redis\Tp\CacheDriver as RedisCacheDriver;
+use Zxin\Think\Redis\CacheDriver;
 
 return [
     // 默认缓存驱动
@@ -26,7 +26,7 @@ return [
         ],
         'redis' => [
             // 驱动方式
-            'type'       => RedisCacheDriver::class,
+            'type'       => CacheDriver::class,
             // 缓存前缀
             'prefix'     => env('DEPLOY_MIXING_PREFIX') . ':cache:',
             // 缓存有效期 0表示永久缓存
@@ -40,7 +40,7 @@ return [
         ],
         'session' => [
             // 驱动方式
-            'type'       =>  RedisCacheDriver::class,
+            'type'       =>  CacheDriver::class,
             // 缓存前缀
             'prefix'     => env('DEPLOY_MIXING_PREFIX') . ':sess:',
             // 缓存有效期 0表示永久缓存

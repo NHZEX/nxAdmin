@@ -10,8 +10,8 @@ use think\Response;
 use think\response\Redirect;
 use Throwable;
 use Tp\Paginator2;
-use function HuangZx\debug_array;
-use function HuangZx\set_path_cut_len;
+use function Zxin\debug_array;
+use function Zxin\set_path_cut_len;
 
 trait ShowReturn
 {

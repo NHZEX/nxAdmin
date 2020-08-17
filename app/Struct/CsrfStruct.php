@@ -2,7 +2,7 @@
 
 namespace app\Struct;
 
-use HZEX\DataStruct\BaseProperty;
+use Zxin\DataStruct\BaseProperty;
 
 /**
  * 请求令牌数据结构
