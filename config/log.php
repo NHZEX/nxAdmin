@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------
 
 use think\App;
+use Tp\Log\Driver\AsyncSocket;
 
 // 格式日志头
 $formatHead = function ($uir, App $app) {
@@ -12,9 +13,9 @@ $formatHead = function ($uir, App $app) {
     $method      = " [$method]";
     $runtime     = round(microtime(true) - $app->getBeginTime(), 10);
     $time_str    = ' [运行时间：' . number_format($runtime, 6) . 's]';
-    $memory_use  = number_format((memory_get_usage() - $app->getBeginMem()) / 1024, 2);
-    $memory_peak = number_format(memory_get_peak_usage() / 1024, 2);
-    $memory_str  = ' [内存消耗：' . $memory_use . 'kb，峰值：' . $memory_peak . 'kb]';
+    $memory_use  = format_byte(memory_get_usage() - $app->getBeginMem(), 2);
+    $memory_peak = format_byte(memory_get_peak_usage(), 2);
+    $memory_str  = ' [内存消耗：' . $memory_use . '，峰值：' . $memory_peak . ']';
     $file_load   = ' [文件加载：' . count(get_included_files()) . ']';
     return $uir . $method . $time_str . $memory_str . $file_load;
 };
@@ -59,7 +60,7 @@ return [
         // 其它日志通道配置
         'remote' => [
             // 日志记录方式
-            'type'           => 'socket',
+            'type'           => AsyncSocket::class,
             // 服务器地址
             'host'           => env('LOG_REMOTE_HOST', '127.0.0.1'),
             // 服务器端口

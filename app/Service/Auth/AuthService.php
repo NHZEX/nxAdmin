@@ -25,11 +25,13 @@ class AuthService extends Service
     {
         // 注册到容器
         $this->app->bind('auth', AuthGuard::class);
+        $this->app->bind('auth.permission', Permission::class);
         // 注册鉴权中间件
         $this->app->middleware->add(Authorize::class, 'route');
         // 注册鉴权类
         $this->registerAccessGate();
         $this->registeBladeExtension();
+        Permission::getInstance()->loadStorage();
 
         // TODO: this method is deprecated and will be removed in doctrine/annotations 2.0
         AnnotationRegistry::registerLoader('class_exists');

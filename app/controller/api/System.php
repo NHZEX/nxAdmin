@@ -7,6 +7,7 @@ use Captcha\Captcha;
 use think\App;
 use think\Response;
 use function func\reply\reply_succeed;
+use function get_server_software;
 
 class System extends Base
 {
@@ -29,7 +30,7 @@ class System extends Base
     {
         return reply_succeed([
             'sys_version' => ['服务器系统', php_uname()],
-            'server_software' => ['执行环境', $_SERVER['SERVER_SOFTWARE']],
+            'server_software' => ['执行环境', get_server_software()],
             'php_sapi' => ['PHP接口类型', php_sapi_name()],
             'tp_version' => ['ThinkPHP 版本', App::VERSION],
             'php_version' => ['PHP版本', phpversion()],

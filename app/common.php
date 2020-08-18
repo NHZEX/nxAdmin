@@ -1,5 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
+use Swoole\Coroutine;
 use think\db\PDOConnection;
 use think\facade\App;
 use think\facade\Db;
@@ -7,6 +8,7 @@ use think\facade\Request;
 use think\Response;
 use think\response\View;
 use think\route\Resource;
+use think\swoole\pool\Proxy;
 
 /**
  * 渲染模板输出
@@ -260,7 +262,18 @@ function db_version(?string $connect = null, bool $driver = false): string
     $initConnect = function () {
         $this->initConnect();
     };
-    $initConnect->call($connect);
+    if ($connect instanceof Proxy) {
+        $initConnect = function () use ($initConnect) {
+            $connection = $this->getPoolConnection();
+            if ($connection->{$this::KEY_RELEASED}) {
+                throw new RuntimeException("Connection already has been released!");
+            }
+            $initConnect->call($connection);
+        };
+        $initConnect->call($connect);
+    } else {
+        $initConnect->call($connect);
+    }
     /** @var PDO $pdo */
     $pdo = $connect->getPdo();
     $prefix = $driver ? ($pdo->getAttribute(PDO::ATTR_DRIVER_NAME) . ' ') : '';
@@ -380,4 +393,41 @@ function preload_statistics()
         count($status['classes']),
         count($status['scripts'])
     );
+}
+
+function get_server_software()
+{
+    if (is_cli()) {
+        if (class_exists('\Swoole\Coroutine')) {
+            return Coroutine::getCid() === -1 ? 'cli' : ('swoole ' . SWOOLE_VERSION);
+        } else {
+            return 'cli';
+        }
+    } else {
+        return $_SERVER['SERVER_SOFTWARE'];
+    }
+}
+
+/**
+ * @param int $byte
+ * @param int $dec
+ * @return string
+ */
+function format_byte (int $byte, int $dec = 2): string
+{
+    $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB']; //
+    $count = count($units) - 1;
+    $pos  = 0;
+
+    $minus = $byte < 0;
+    $byte = abs($byte);
+
+    while ($byte >= 1024 && $pos < $count) {
+        $byte /= 1024;
+        $pos++;
+    }
+
+    $result = sprintf('%.2f', round($byte * ($minus ? -1 : 1), $dec));
+
+    return "{$result} {$units[$pos]}";
 }

@@ -17,6 +17,11 @@ class Permission
         return App::getInstance()->make(Permission::class);
     }
 
+    public function __construct()
+    {
+        $this->loadStorage();
+    }
+
     /**
      * 获取树
      * @param array|null $data
@@ -48,12 +53,12 @@ class Permission
         return $tree;
     }
 
-    protected function loadStorage(): ?AuthStorage
+    public function loadStorage(): ?AuthStorage
     {
         if (empty($this->storage)) {
             $filename = app_path() . 'auth_storage.php';
             /** @noinspection PhpIncludeInspection */
-            $this->storage = new AuthStorage(require_once $filename);
+            $this->storage = new AuthStorage(require $filename);
         }
         return $this->storage;
     }
@@ -89,8 +94,6 @@ class Permission
     public function setPermission(array $permission): void
     {
         $this->loadStorage()->permission = $permission;
-
-        return;
     }
 
     /**
