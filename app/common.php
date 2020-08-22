@@ -1,6 +1,6 @@
 <?php /** @noinspection PhpUnused */
 
-use Swoole\Coroutine;
+use Swoole\Server;
 use think\db\PDOConnection;
 use think\facade\App;
 use think\facade\Db;
@@ -399,12 +399,12 @@ function get_server_software()
 {
     if (is_cli()) {
         if (class_exists('\Swoole\Coroutine')) {
-            return Coroutine::getCid() === -1 ? 'cli' : ('swoole ' . SWOOLE_VERSION);
+            return \app()->has(Server::class) ? ('swoole/' . SWOOLE_VERSION) : 'cli';
         } else {
             return 'cli';
         }
     } else {
-        return $_SERVER['SERVER_SOFTWARE'];
+        return $_SERVER['SERVER_SOFTWARE'] ?? 'unknown';
     }
 }
 
