@@ -413,7 +413,7 @@ function get_server_software()
  * @param int $dec
  * @return string
  */
-function format_byte (int $byte, int $dec = 2): string
+function format_byte(int $byte, int $dec = 2): string
 {
     $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB']; //
     $count = count($units) - 1;
