@@ -25,7 +25,7 @@ class ParseAuthorization
         if (empty($this->authorization)) {
             return;
         }
-        if (!str_starts_with($this->authorization, 'Bearer AT1')) {
+        if (!str_starts_with($this->authorization, 'Bearer')) {
             return;
         }
 
