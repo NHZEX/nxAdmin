@@ -4,15 +4,15 @@ declare(strict_types=1);
 namespace app\Service\Auth\Facade;
 
 use app\Model\AdminUser;
-use app\Service\Auth\AuthGuard;
 use think\Facade;
+use Zxin\Think\Auth\AuthGuard;
 
 /**
  * Class Auth
  * @package app\Service\Auth\Facade
  * @method AuthGuard instance() static
  * @method int|string id() static
- * @method int userGenre() static
+ * @method int userGenre() static // todo 使用别的方式实现
  * @method int userRoleId() static
  * @method AdminUser user() static
  * @method bool check() static

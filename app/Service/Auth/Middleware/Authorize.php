@@ -3,14 +3,13 @@ declare(strict_types=1);
 
 namespace app\Service\Auth\Middleware;
 
-use app\Service\Auth\AuthGuard;
-use app\Service\Auth\Permission;
 use app\Traits\JumpHelper;
 use Closure;
 use think\App;
-use think\facade\Session;
 use think\Request;
 use think\Response;
+use Zxin\Think\Auth\AuthGuard;
+use Zxin\Think\Auth\Permission;
 use function func\reply\reply_bad;
 
 class Authorize
@@ -78,7 +77,7 @@ class Authorize
         if ($this->auth->viaRemember()) {
             $response->header([
                 'X-Uuid' => $this->auth->getHashId(),
-                'X-Token' => Session::getId(),
+                'X-Token' => $this->app->session->getId(),
             ]);
         }
 

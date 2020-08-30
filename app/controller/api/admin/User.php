@@ -3,11 +3,11 @@
 namespace app\controller\api\admin;
 
 use app\Model\AdminUser;
-use app\Service\Auth\Annotation\Auth;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Response;
+use Zxin\Think\Auth\Annotation\Auth;
 use function func\reply\reply_create;
 use function func\reply\reply_not_found;
 use function func\reply\reply_succeed;

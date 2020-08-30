@@ -4,10 +4,10 @@ namespace app\Logic;
 
 use app\Exception\BusinessResult;
 use app\Model\AdminUser as AdminUserModel;
-use app\Service\Auth\AuthGuard;
 use RuntimeException;
 use think\db\exception\DbException;
 use think\facade\Request;
+use Zxin\Think\Auth\AuthGuard;
 
 class AdminUser extends Base
 {

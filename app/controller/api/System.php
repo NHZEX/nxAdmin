@@ -2,10 +2,10 @@
 
 namespace app\controller\api;
 
-use app\Service\Auth\Annotation\Auth;
 use Captcha\Captcha;
 use think\App;
 use think\Response;
+use Zxin\Think\Auth\Annotation\Auth;
 use function func\reply\reply_succeed;
 
 class System extends Base

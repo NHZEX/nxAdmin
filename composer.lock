@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bcfbd457e94af4d7e0deb82f75086591",
+    "content-hash": "23d26531466f8bba8a518218b48f0c40",
     "packages": [
         {
             "name": "cakephp/core",
@@ -3562,6 +3562,68 @@
                 }
             ],
             "time": "2020-07-14T19:26:25+00:00"
+        },
+        {
+            "name": "zxin/think-auth",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/think-auth.git",
+                "reference": "fb0f12cef3823e234ba09b83af6ece9ee82aa243"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/fb0f12cef3823e234ba09b83af6ece9ee82aa243",
+                "reference": "fb0f12cef3823e234ba09b83af6ece9ee82aa243",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "doctrine/annotations": "^1.10",
+                "ext-json": "*",
+                "ext-redis": "*",
+                "php": "~7.2",
+                "symfony/finder": "^4.2|^5.1",
+                "symfony/polyfill-php80": "^1.18",
+                "topthink/framework": "^6.0.3",
+                "zxin/utils": "^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7|^8",
+                "symfony/var-dumper": "^4.4|^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [],
+                    "config": {
+                        "auth": "config/auth.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zxin\\Think\\Auth\\": "src/"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ],
+            "description": "think auth",
+            "time": "2020-08-29T18:12:36+00:00"
         },
         {
             "name": "zxin/think-redis",
