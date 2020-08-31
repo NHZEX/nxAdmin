@@ -12,8 +12,6 @@ use Zxin\Think\Auth\AuthGuard;
  * @package app\Service\Auth\Facade
  * @method AuthGuard instance() static
  * @method int|string id() static
- * @method int userGenre() static // todo 使用别的方式实现
- * @method int userRoleId() static
  * @method AdminUser user() static
  * @method bool check() static
  * @method bool can(string $name) static
@@ -23,5 +21,15 @@ class Auth extends Facade
     protected static function getFacadeClass()
     {
         return 'auth';
+    }
+
+    public static function userGenre(): int
+    {
+        return self::instance()->__get(__FUNCTION__);
+    }
+
+    public static function userRoleId(): int
+    {
+        return self::instance()->__get(__FUNCTION__);
     }
 }
