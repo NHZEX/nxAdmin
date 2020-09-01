@@ -3,17 +3,16 @@ declare(strict_types=1);
 
 namespace app\Service\Auth;
 
-use Doctrine\Common\Annotations\Reader;
 use HZEX\Blade\Register;
 use think\Service;
 
+/**
+ * @deprecated
+ * Class AuthService
+ * @package app\Service\Auth
+ */
 class AuthService extends Service
 {
-    /**
-     * @var Reader
-     */
-    protected $reader;
-
     /**
      */
     public function register()
