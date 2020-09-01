@@ -50,7 +50,7 @@
         "topthink/think-orm": "~2.0.33",
         "zxin/think-auth": "^1.0",
         "zxin/think-redis": "^1.1.0",
-        "zxin/think-swoole": "~3.0.9.1",
+        "zxin/think-swoole": "~3.0.9.8",
         "zxin/utils": "^2.0"
     },
     "require-dev": {
