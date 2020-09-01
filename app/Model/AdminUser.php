@@ -3,15 +3,15 @@
 namespace app\Model;
 
 use app\Exception\AccessControl;
-use app\Service\Auth\Contracts\Authenticatable as AuthenticatableContracts;
-use app\Service\Auth\Contracts\ProviderlSelfCheck;
-use app\Service\Auth\Facade\Auth;
 use app\Traits\Model\ModelAccessLimit;
 use RuntimeException;
 use think\Model;
 use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Tp\Model\Exception\ModelException;
+use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
+use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
+use Zxin\Think\Auth\Facade\Auth;
 
 /**
  * Class AdminUser
@@ -176,6 +176,14 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         }
     }
 
+    /**
+     * @inheritDoc
+     */
+    public static function getSelfProvider($id)
+    {
+        return AdminUser::notAccessControl()->find($id);
+    }
+
     public static function notAccessControl()
     {
         return self::withoutGlobalScope(['accessControl']);
@@ -196,6 +204,11 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return self::GENRE_AGENT === $this->genre;
     }
 
+    public function getIdentity()
+    {
+        return $this->id;
+    }
+
     public function allowPermission(string $permission): bool
     {
         return isset($this->permissions()[$permission]);
@@ -213,15 +226,28 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return $this->permissions;
     }
 
+    public function attachSessionInfo(): array
+    {
+        return [
+            'user_genre' => $this->genre,
+            'user_role_id' => $this->role_id,
+        ];
+    }
+
+    public function getRememberSecret(): string
+    {
+        return hash('crc32', $this->password);
+    }
+
     /**
      * @return string
      */
-    public function getRememberToken()
+    public function getRememberToken(): string
     {
         return $this->remember;
     }
 
-    public function updateRememberToken(string $token)
+    public function updateRememberToken(string $token): void
     {
         $this->remember = $token;
         $this->save();

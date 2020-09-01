@@ -3,12 +3,12 @@
 namespace app\Logic;
 
 use app\Model\AdminRole as AdminRoleModel;
-use app\Service\Auth\Permission;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\Cache;
 use Tp\Db\Query as Query2;
+use Zxin\Think\Auth\Permission;
 use function count;
 use function explode;
 

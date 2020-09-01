@@ -2,11 +2,11 @@
 
 namespace app\controller\api\admin;
 
-use app\Service\Auth\Annotation\Auth;
-use app\Service\Auth\AuthScan;
 use app\Service\Auth\Facade\Auth as AuthFacade;
-use app\Service\Auth\Permission as AuthPermission;
 use think\Response;
+use Zxin\Think\Auth\Annotation\Auth;
+use Zxin\Think\Auth\AuthScan;
+use Zxin\Think\Auth\Permission as AuthPermission;
 use function array_merge;
 use function func\reply\reply_bad;
 use function func\reply\reply_not_found;

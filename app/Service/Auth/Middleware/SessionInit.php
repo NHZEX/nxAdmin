@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace app\Service\Auth\Middleware;
 
-use app\Service\Auth\ParseAuthorization;
 use Closure;
 use think\App;
 use think\Request;
 use think\Response;
 use think\Session;
+use Zxin\Think\Auth\ParseAuthorization;
 
 class SessionInit
 {

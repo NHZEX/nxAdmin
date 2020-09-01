@@ -48,6 +48,7 @@
         "symfony/var-exporter": "^4.2|^5.1",
         "topthink/framework": "~6.0.3",
         "topthink/think-orm": "~2.0.33",
+        "zxin/think-auth": "^1.0",
         "zxin/think-redis": "^1.1.0",
         "zxin/think-swoole": "~3.0.9.1",
         "zxin/utils": "^2.0"
