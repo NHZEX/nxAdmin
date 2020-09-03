@@ -13,8 +13,10 @@
 namespace think;
 
 // 加载基础文件
+use think\swoole\SafetyContainer;
+
 require __DIR__ . '/bootstrap.php';
 
 // 应用初始化
 /** @noinspection PhpUnhandledExceptionInspection */
-(new App())->console->run();
+(new SafetyContainer())->console->run();

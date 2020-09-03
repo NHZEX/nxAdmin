@@ -4,13 +4,21 @@
 // | 日志设置
 // +----------------------------------------------------------------------
 
+use app\Service\Swoole\SwooleService;
+use Swoole\Coroutine;
 use think\App;
 use Tp\Log\Driver\AsyncSocket;
 
 // 格式日志头
 $formatHead = function ($uir, App $app) {
-    $method      = $app->exists('request') ? $app->request->method() : 'NULL';
-    $method      = " [$method]";
+    $method = $app->exists('request') ? $app->request->method() : 'NULL';
+    if (($cid = Coroutine::getCid()) !== -1) {
+        $wid = SwooleService::getServer()->worker_id;
+        $wid = $wid === -1 ? 'n' : $wid;
+        $method = " [$method] [#{$wid},$cid]";
+    } else {
+        $method = " [$method]";
+    }
     $runtime     = round(microtime(true) - $app->getBeginTime(), 10);
     $time_str    = ' [运行时间：' . number_format($runtime, 6) . 's]';
     $memory_use  = format_byte(memory_get_usage() - $app->getBeginMem(), 2);

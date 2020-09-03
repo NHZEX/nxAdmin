@@ -5,13 +5,13 @@ namespace app\Service\Swoole;
 
 use Swoole\Server;
 use think\Service;
-use function app;
+use think\swoole\GlobalEvent;
+use think\swoole\Manager;
 
 class SwooleService extends Service
 {
     public function register()
     {
-        $this->app->event->subscribe(SwooleEvent::class);
     }
 
     /**
@@ -19,6 +19,14 @@ class SwooleService extends Service
      */
     public static function getServer()
     {
-        return app()->make(Server::class);
+        return Manager::getInstance()->getServer();
+    }
+
+    /**
+     * @return SwooleEvent|GlobalEvent
+     */
+    public static function getEvent(): SwooleEvent
+    {
+        return Manager::getInstance()->getGlobalEvent();
     }
 }

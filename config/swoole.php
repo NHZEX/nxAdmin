@@ -2,6 +2,7 @@
 
 use app\Service\Swoole\ResetApp;
 use app\Service\Swoole\ResetDb;
+use app\Service\Swoole\SwooleEvent;
 use think\swoole\websocket\socketio\Handler;
 use think\swoole\websocket\socketio\Parser;
 
@@ -21,8 +22,11 @@ return [
             'document_root'         => root_path('public'),
             'package_max_length'    => 20 * 1024 * 1024,
             'buffer_output_size'    => 8 * 1024 * 1024,
+            'user'                  => env('SERV_WORKER_USER', null),
+            'group'                 => env('SERV_WORKER_GROUP', null),
         ],
     ],
+    'event' => SwooleEvent::class,
     'websocket'  => [
         'enable'        => false,
         'handler'       => Handler::class,
@@ -67,7 +71,7 @@ return [
     'pool'       => [
         'db'    => [
             'enable'        => true,
-            'max_active'    => 3,
+            'max_active'    => 8,
             'max_wait_time' => 10,
         ],
         'cache' => [
@@ -81,10 +85,13 @@ return [
         'flags'  => SWOOLE_HOOK_ALL,
     ],
     'tables'     => [],
+    'process'    => [
+    ],
     //每个worker里需要预加载以共用的实例
     'concretes'  => [
         'auth.permission',
         'redis',
+        'model.event',
     ],
     //重置器
     'resetters'  => [
