@@ -116,29 +116,6 @@ class Init extends AbstractMigration
                 $blueprint->string('message', 2046)->comment('消息');
                 $blueprint->text('trace_info')->comment('异常堆栈');
             });
-
-            Schema::create('permission', function (Schema\Blueprint $blueprint) {
-                $blueprint->comment = '权限节点';
-                $blueprint->unsigned = true;
-
-                $blueprint->unsignedInteger('pid')->comment('父节点ID');
-                $blueprint->genre()->comment('节点类型');
-                $blueprint->string('nkey', 128)->ccAscii()->comment('节点命名key');
-                $blueprint->string('hash', 8)->ccAscii()->comment('节点命名hash');
-                $blueprint->string('lkey', 64)->ccAscii()->comment('节点逻辑key');
-                $blueprint->unsignedTinyInteger('level')->comment('节点层级');
-                $blueprint->string('action', 32)->ccAscii()->comment('节点方法');
-                $blueprint->smallInteger('sort')->comment('节点排序')->default(255);
-                $blueprint->string('class_name', 255)->ccAscii()->comment('节点类名');
-                $blueprint->string('alias_name', 128)->comment('节点别名');
-                $blueprint->string('description', 255)->comment('节点描述');
-                $blueprint->integer('flags')->comment('选项标识');
-                $blueprint->unique('hash');
-                $blueprint->index(['pid', 'genre']);
-                $blueprint->index(['pid', 'sort']);
-                $blueprint->unique('lkey')->limit(32);
-                $blueprint->unique('nkey')->limit(48);
-            });
         });
     }
 }
