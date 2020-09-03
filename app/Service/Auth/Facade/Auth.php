@@ -20,7 +20,7 @@ class Auth extends Facade
 {
     protected static function getFacadeClass()
     {
-        return 'auth';
+        return AuthGuard::class;
     }
 
     public static function userGenre(): int

@@ -12,12 +12,12 @@ use think\response\Json;
 use Throwable;
 use Tp\Paginator2;
 use function array_map;
-use function HuangZx\debug_array;
-use function HuangZx\set_path_cut_len;
 use function is_array;
 use function is_object;
 use function strlen;
 use function substr;
+use function Zxin\debug_array;
+use function Zxin\set_path_cut_len;
 
 /**
  * 响应请求资源创建成功
@@ -65,9 +65,9 @@ function reply_table(iterable $data = null, int $code = 200): Response
 
 /**
  * 响应请求异常
- * @param Throwable $exception
- * @param string    $msg
- * @param int       $httpCode
+ * @param Throwable   $exception
+ * @param string|null $msg
+ * @param int         $httpCode
  * @return Response
  */
 function reply_exception(Throwable $exception, ?string $msg = null, int $httpCode = 500): Response

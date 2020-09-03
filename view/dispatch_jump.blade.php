@@ -18,6 +18,8 @@
 <body>
 <div class="system-message">
     @php
+    /** @var int $code */
+    /** @var string $msg */
     switch ($code) {
         case 1:
             $tmpstr = strip_tags($msg);
