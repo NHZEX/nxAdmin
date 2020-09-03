@@ -18,11 +18,10 @@ trait ModelEvent
      * @param string   $event
      * @param callable $call
      * @param bool     $first
-     * @return Event
      */
     public static function listen(string $event, callable $call, bool $first = false)
     {
-        return App::getInstance()->event->listen(static::class . '.' . $event, $call, $first);
+        App::getInstance()->make('model.event')->listen(static::class . '.' . $event, $call, $first);
     }
 
     /**
@@ -46,14 +45,14 @@ trait ModelEvent
                 }
             }
             if (self::$event instanceof Event) {
-                $result = self::$event->trigger(static::class . '.' . $event, $this);
+                $result = App::getInstance()->make('model.event')->trigger(static::class . '.' . $event, $this);
                 $result = empty($result) ? true : end($result);
                 if ($result === false) {
                     return false;
                 }
             }
             return true;
-        } /** @noinspection PhpRedundantCatchClauseInspection */ catch (ModelEventException $e) {
+        } catch (ModelEventException $e) {
             return false;
         }
     }

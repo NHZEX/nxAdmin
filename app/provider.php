@@ -14,9 +14,13 @@
 use app\ExceptionHandle;
 use app\Request;
 use HZEX\Think\EnvLoader;
+use Tp\Log\Log;
+use Tp\Model\Event;
 
 return [
     'env' => EnvLoader::class,
+    'log' => Log::class,
     'think\Request' => Request::class,
     'think\exception\Handle' => ExceptionHandle::class,
+    'model.event' =>  Event::class,
 ];
