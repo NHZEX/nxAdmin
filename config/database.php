@@ -27,11 +27,11 @@ return [
             // 端口
             'hostport'        => env('DB_MAIN_HOSTPORT', '3306'),
             // 数据库名
-            'database'        => env('DB_MAIN_DATABASE', ''),
+            'database'        => (string) env('DB_MAIN_DATABASE', ''),
             // 用户名
-            'username'        => env('DB_MAIN_USERNAME', 'root'),
+            'username'        => (string) env('DB_MAIN_USERNAME', 'root'),
             // 密码
-            'password'        => env('DB_MAIN_PASSWORD', ''),
+            'password'        => (string) env('DB_MAIN_PASSWORD', ''),
             // 连接dsn
             'dsn'             => '',
             // 数据库连接参数
