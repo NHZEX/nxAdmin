@@ -4,6 +4,7 @@ namespace app\Model;
 
 use app\Traits\Model\ModelEvent;
 use app\Traits\Model\ModelHelper;
+use app\Traits\QuickHelper;
 use Generator;
 use think\db\Query;
 use think\Model as ThinkModel;
@@ -21,6 +22,7 @@ use Tp\Model\Traits\TransactionExtension;
  * @method Generator|$this[] cursor($data = null) static 游标查询
  * @method ThinkModel withAttr($name, callable $callback = null) 设置数据字段获取器
  *
+ * @method Query field($field)
  * @method Query fieldRaw(string $field)
  *
  * @method mixed transaction(callable $callback) static
@@ -35,6 +37,7 @@ abstract class Base extends ThinkModel
     use TransactionExtension;
     use OptimLock;
     use ModelEvent;
+    use QuickHelper;
 
     public const EVENT_AFTER_READ = 'AfterRead';
     public const EVENT_BEFORE_INSERT = 'BeforeInsert';
