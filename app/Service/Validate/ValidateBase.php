@@ -55,6 +55,12 @@ abstract class ValidateBase extends Validate
                 continue;
             }
 
+            if (isset($this->remove[$key]) && true === $this->remove[$key] && empty($this->append[$key])) {
+                // 字段已经移除 无需验证
+                // todo 规则已全部移除的判断
+                continue;
+            }
+
             $result[] = $key;
         }
 
