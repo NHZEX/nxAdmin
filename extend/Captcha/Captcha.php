@@ -59,7 +59,7 @@ class Captcha
         // 验证码位数
         'length' => 5,
         // 验证码字体，不设置随机获取
-        'fontttfs' => '',
+        'fontttfs' => [],
         // 使用单一字体
         'singleFont' => true,
         // 背景颜色
@@ -72,8 +72,8 @@ class Captcha
     private $color = null;
     private $code;
     private $codeContent;
-    private $background_path = '';
-    private $tff_path = '';
+    private $background_path;
+    private $tff_path;
 
     /**
      * 架构方法 设置参数
@@ -94,10 +94,10 @@ class Captcha
     /**
      * 使用 $this->name 获取配置
      * @access public
-     * @param  string $name 配置名称
+     * @param string $name 配置名称
      * @return mixed    配置值
      */
-    public function __get($name)
+    public function __get(string $name)
     {
         return $this->config[$name];
     }
@@ -105,11 +105,11 @@ class Captcha
     /**
      * 设置验证码配置
      * @access public
-     * @param  string $name 配置名称
-     * @param  string $value 配置值
+     * @param string $name  配置名称
+     * @param string|array|bool|int $value 配置值
      * @return void
      */
-    public function __set($name, $value)
+    public function __set(string $name, $value)
     {
         if (isset($this->config[$name])) {
             $this->config[$name] = $value;
@@ -119,10 +119,10 @@ class Captcha
     /**
      * 检查配置
      * @access public
-     * @param  string $name 配置名称
+     * @param string $name 配置名称
      * @return bool
      */
-    public function __isset($name)
+    public function __isset(string $name)
     {
         return isset($this->config[$name]);
     }
@@ -397,7 +397,7 @@ class Captcha
             return false;
         }
         $require = request();
-        $redis = Redis::instance();
+        $redis = Redis::connection();
         $key = "captcha:blacklist:" . hash('sha1', $token);
         try {
             if (!isset($palyload['ttl']) || time() > $palyload['ttl']) {

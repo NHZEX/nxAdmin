@@ -16,7 +16,7 @@ return [
     // 验证码位数
     'length'   => 4,
     // 验证码字体
-    'fontttf'  => '4.ttf',
+    'fontttfs'  => [],
     // 是否画混淆曲线
     'useCurve' => true,
     // 是否添加杂点
