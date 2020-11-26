@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b690b8871beabfcf1d2f7074e9ac84de",
+    "content-hash": "c3e303bf81649862d420c74e0d664f98",
     "packages": [
         {
             "name": "cakephp/core",
@@ -3588,16 +3588,16 @@
         },
         {
             "name": "zxin/think-auth",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-auth.git",
-                "reference": "9f8e4bdbb8c295d9cab6985c1b23a24318a2b7fc"
+                "reference": "f86fc2dad40f62c7f46336f658806d2643ced273"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/9f8e4bdbb8c295d9cab6985c1b23a24318a2b7fc",
-                "reference": "9f8e4bdbb8c295d9cab6985c1b23a24318a2b7fc",
+                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/f86fc2dad40f62c7f46336f658806d2643ced273",
+                "reference": "f86fc2dad40f62c7f46336f658806d2643ced273",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3648,9 +3648,9 @@
             "description": "think auth",
             "support": {
                 "issues": "https://github.com/NHZEX/think-auth/issues",
-                "source": "https://github.com/NHZEX/think-auth/tree/v1.0.2"
+                "source": "https://github.com/NHZEX/think-auth/tree/v1.0.3"
             },
-            "time": "2020-11-14T19:18:43+00:00"
+            "time": "2020-11-17T10:10:10+00:00"
         },
         {
             "name": "zxin/think-redis",
