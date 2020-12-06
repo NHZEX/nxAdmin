@@ -9,6 +9,7 @@ use Zxin\Think\Auth\AuthGuard;
 
 /**
  * Class Auth
+ * @deprecated
  * @package app\Service\Auth\Facade
  * @method AuthGuard instance() static
  * @method int|string id() static

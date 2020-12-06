@@ -5,7 +5,7 @@ namespace app\Traits\Model;
 
 use app\Exception\AccessControl;
 use app\Model\AdminUser;
-use app\Service\Auth\Facade\Auth;
+use app\Service\Auth\AuthManager;
 use think\db\Query;
 use think\Model;
 use function array_keys;
@@ -31,10 +31,10 @@ trait ModelAccessLimit
         if (!$this instanceof \app\Contracts\ModelAccessLimit) {
             return;
         }
-        if (empty($id = Auth::id())) {
+        if (empty($id = AuthManager::id())) {
             return;
         }
-        $genre = Auth::userGenre();
+        $genre = AuthManager::userGenre();
         if (AdminUser::GENRE_SUPER_ADMIN === $genre) {
             return;
         }
@@ -63,10 +63,10 @@ trait ModelAccessLimit
         if ($data->withoutAccessLimit) {
             return;
         }
-        if (empty($id = Auth::id())) {
+        if (empty($id = AuthManager::id())) {
             return;
         }
-        $genre = Auth::userGenre();
+        $genre = AuthManager::userGenre();
         if (AdminUser::GENRE_SUPER_ADMIN === $genre) {
             return;
         }

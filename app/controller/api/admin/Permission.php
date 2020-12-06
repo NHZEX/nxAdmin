@@ -2,7 +2,7 @@
 
 namespace app\controller\api\admin;
 
-use app\Service\Auth\Facade\Auth as AuthFacade;
+use app\Service\Auth\AuthManager;
 use think\Response;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthScan;
@@ -106,6 +106,6 @@ class Permission extends Base
 
     private function allowAccess()
     {
-        return $this->app->isDebug() && AuthFacade::check() && AuthFacade::user()->isSuperAdmin();
+        return $this->app->isDebug() && AuthManager::check() && AuthManager::user()->isSuperAdmin();
     }
 }

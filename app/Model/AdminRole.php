@@ -4,7 +4,7 @@ namespace app\Model;
 
 use app\Exception\AccessControl;
 use app\Logic\AdminRole as AdminRoleLogic;
-use app\Service\Auth\Facade\Auth;
+use app\Service\Auth\AuthManager;
 use app\Traits\Model\ModelAccessLimit;
 use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
@@ -131,7 +131,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 
     public function getAllowAccessTarget()
     {
-        return Auth::userRoleId();
+        return AuthManager::userRoleId();
     }
 
     /**

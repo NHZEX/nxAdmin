@@ -4,7 +4,7 @@ namespace app\controller\api\admin;
 
 use app\Logic\AdminRole;
 use app\Logic\AdminUser;
-use app\Service\Auth\Facade\Auth as AuthFacade;
+use app\Service\Auth\AuthManager;
 use Captcha\Captcha;
 use think\facade\Session;
 use think\Response;
@@ -72,7 +72,7 @@ class Index extends Base
      */
     public function userInfo()
     {
-        $user = AuthFacade::user();
+        $user = AuthManager::user();
         $user->hidden([
             'role', 'password', 'remember', 'last_login_ip',
             'delete_time', 'group_id', 'lock_version', 'signup_ip',
