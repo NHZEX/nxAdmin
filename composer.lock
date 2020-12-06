@@ -1125,16 +1125,16 @@
         },
         {
             "name": "nhzex/think-cors",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-cors.git",
-                "reference": "3fdf42d855c6b3dcaea9b026748631718ebd7130"
+                "reference": "10608a8c3f3cb9829c8309f8e2d060082f48b96e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/3fdf42d855c6b3dcaea9b026748631718ebd7130",
-                "reference": "3fdf42d855c6b3dcaea9b026748631718ebd7130",
+                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/10608a8c3f3cb9829c8309f8e2d060082f48b96e",
+                "reference": "10608a8c3f3cb9829c8309f8e2d060082f48b96e",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1144,7 +1144,7 @@
                 ]
             },
             "require": {
-                "php": "^7.1",
+                "php": "^7.1|^8.0",
                 "symfony/polyfill-php80": "^1.16",
                 "topthink/framework": "^6.0"
             },
@@ -1184,9 +1184,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-cors/issues",
-                "source": "https://github.com/NHZEX/think-cors/tree/v2.0.1"
+                "source": "https://github.com/NHZEX/think-cors/tree/v2.0.2"
             },
-            "time": "2020-06-11T14:34:46+00:00"
+            "time": "2020-12-06T11:33:44+00:00"
         },
         {
             "name": "nhzex/think-env",
@@ -3599,16 +3599,16 @@
         },
         {
             "name": "zxin/think-auth",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-auth.git",
-                "reference": "f86fc2dad40f62c7f46336f658806d2643ced273"
+                "reference": "94817d5c1f6c0c2dda439ba2d09aa3763d595389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/f86fc2dad40f62c7f46336f658806d2643ced273",
-                "reference": "f86fc2dad40f62c7f46336f658806d2643ced273",
+                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/94817d5c1f6c0c2dda439ba2d09aa3763d595389",
+                "reference": "94817d5c1f6c0c2dda439ba2d09aa3763d595389",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3621,7 +3621,7 @@
                 "doctrine/annotations": "^1.10",
                 "ext-json": "*",
                 "ext-redis": "*",
-                "php": "~7.2",
+                "php": "^7.2|^8.0",
                 "symfony/finder": "^4.2|^5.1",
                 "symfony/polyfill-php80": "^1.18",
                 "topthink/framework": "^6.0.3",
@@ -3659,9 +3659,9 @@
             "description": "think auth",
             "support": {
                 "issues": "https://github.com/NHZEX/think-auth/issues",
-                "source": "https://github.com/NHZEX/think-auth/tree/v1.0.3"
+                "source": "https://github.com/NHZEX/think-auth/tree/v1.0.4"
             },
-            "time": "2020-11-17T10:10:10+00:00"
+            "time": "2020-12-06T12:00:42+00:00"
         },
         {
             "name": "zxin/think-redis",
