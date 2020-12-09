@@ -43,13 +43,14 @@ class Authorize
      */
     public function handle(Request $request, Closure $next)
     {
-        $nodeName = $this->getNodeName($request);
+        $nodeUrl = $this->getNodeName($request);
 
-        if (null === $nodeName) {
+        if (null === $nodeUrl) {
             return $next($request);
         }
+        $nodeUrl = "node@{$nodeUrl}";
 
-        $nodeControl = $this->permission->queryFeature('node@' . $nodeName);
+        $nodeControl = $this->permission->queryFeature($nodeUrl);
 
         if (null === $nodeControl) {
             return $next($request);
@@ -62,16 +63,11 @@ class Authorize
             $msg = empty($msg) ? '会话无效' : ('会话无效: ' . $msg);
             return $this->failJump($request, $msg);
         }
-        // 超级管理员跳过鉴权
-        if ($this->auth->user()->isSuperAdmin()) {
-            $response = $next($request);
+        // 权限判定
+        if (!$this->auth->gate()->check($nodeUrl, $request)) {
+            $response = $this->refuseJump($request, '权限不足');
         } else {
-            // 权限判定
-            if (!$this->auth->gate()->check('node@' . $nodeName, $request)) {
-                $response = Response::create('权限不足', 'html', 403);
-            } else {
-                $response = $next($request);
-            }
+            $response = $next($request);
         }
         // 使用记住我恢复登录状态
         if ($this->auth->viaRemember()) {
@@ -105,12 +101,26 @@ class Authorize
      * @param         $message
      * @return response
      */
-    protected function failJump(Request $request, $message)
+    protected function failJump(Request $request, $message): Response
     {
         if ($request->isAjax()) {
             return reply_bad(null, null, null, 401);
         } else {
             return $this->error($message, null, null, 3600);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param         $message
+     * @return Response
+     */
+    protected function refuseJump(Request $request, $message): Response
+    {
+        if ($request->isAjax()) {
+            return reply_bad(null, $message, null, 403);
+        } else {
+            return Response::create($message, 'html', 403);
         }
     }
 }

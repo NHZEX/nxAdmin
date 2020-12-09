@@ -1,6 +1,6 @@
 <?php
-// update date: 2020-05-25T11:56:16+08:00
-// hash: a658ec323c9ac9b0a78898b4e2bb1fb2
+// update date: 2020-12-10T00:09:26+08:00
+// hash: 5d02d7601ef938b93cd17e5eb57dcab0
 return [
     'features' => [
         'node@api.admin.index/userinfo' => [
@@ -46,17 +46,17 @@ return [
         'node@api.admin.role/save' => [
             'class' => 'app\\controller\\api\\admin\\Role::save',
             'policy' => '',
-            'desc' => '',
+            'desc' => '创建系统用户角色',
         ],
         'node@api.admin.role/update' => [
             'class' => 'app\\controller\\api\\admin\\Role::update',
             'policy' => '',
-            'desc' => '',
+            'desc' => '更改系统用户角色',
         ],
         'node@api.admin.role/delete' => [
             'class' => 'app\\controller\\api\\admin\\Role::delete',
             'policy' => '',
-            'desc' => '',
+            'desc' => '删除系统用户角色',
         ],
         'node@api.admin.user/index' => [
             'class' => 'app\\controller\\api\\admin\\User::index',
@@ -71,17 +71,17 @@ return [
         'node@api.admin.user/save' => [
             'class' => 'app\\controller\\api\\admin\\User::save',
             'policy' => '',
-            'desc' => '',
+            'desc' => '创建系统用户',
         ],
         'node@api.admin.user/update' => [
             'class' => 'app\\controller\\api\\admin\\User::update',
             'policy' => '',
-            'desc' => '',
+            'desc' => '更改系统用户',
         ],
         'node@api.admin.user/delete' => [
             'class' => 'app\\controller\\api\\admin\\User::delete',
             'policy' => '',
-            'desc' => '',
+            'desc' => '删除系统用户',
         ],
         'node@api.system/sysinfo' => [
             'class' => 'app\\controller\\api\\System::sysinfo',
