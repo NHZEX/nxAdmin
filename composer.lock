@@ -3599,16 +3599,16 @@
         },
         {
             "name": "zxin/think-auth",
-            "version": "v1.0.6",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-auth.git",
-                "reference": "cfdd5fef97ff150f99bee1a5af9a90c13c9aed55"
+                "reference": "28ac2a42f8fb7e172a9dfff74d0c917a9d21c50b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/cfdd5fef97ff150f99bee1a5af9a90c13c9aed55",
-                "reference": "cfdd5fef97ff150f99bee1a5af9a90c13c9aed55",
+                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/28ac2a42f8fb7e172a9dfff74d0c917a9d21c50b",
+                "reference": "28ac2a42f8fb7e172a9dfff74d0c917a9d21c50b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3659,9 +3659,9 @@
             "description": "think auth",
             "support": {
                 "issues": "https://github.com/NHZEX/think-auth/issues",
-                "source": "https://github.com/NHZEX/think-auth/tree/v1.0.6"
+                "source": "https://github.com/NHZEX/think-auth/tree/v1.1.0"
             },
-            "time": "2020-12-09T15:58:06+00:00"
+            "time": "2020-12-10T09:25:34+00:00"
         },
         {
             "name": "zxin/think-redis",
