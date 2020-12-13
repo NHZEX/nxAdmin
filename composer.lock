@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44d30ff01ea5421a4b696bf2500b101c",
+    "content-hash": "d4640c62f8181a5a58beba8a2e1ed468",
     "packages": [
         {
             "name": "cakephp/core",
-            "version": "4.1.6",
+            "version": "4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
@@ -70,16 +70,16 @@
         },
         {
             "name": "cakephp/database",
-            "version": "4.1.6",
+            "version": "4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "0b7a2fa5eda7d86e84ceb9f8d4fa6ceadbf027ef"
+                "reference": "1088b6bb2b45f6e84aa2e31636934f5f8c70f229"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/0b7a2fa5eda7d86e84ceb9f8d4fa6ceadbf027ef",
-                "reference": "0b7a2fa5eda7d86e84ceb9f8d4fa6ceadbf027ef",
+                "url": "https://api.github.com/repos/cakephp/database/zipball/1088b6bb2b45f6e84aa2e31636934f5f8c70f229",
+                "reference": "1088b6bb2b45f6e84aa2e31636934f5f8c70f229",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -127,11 +127,11 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/database"
             },
-            "time": "2020-11-02T18:08:55+00:00"
+            "time": "2020-12-05T06:01:57+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "4.1.6",
+            "version": "4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
@@ -195,16 +195,16 @@
         },
         {
             "name": "cakephp/utility",
-            "version": "4.1.6",
+            "version": "4.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
-                "reference": "302c697df8796198eae9429bb7f817cb79e6401c"
+                "reference": "3d1b4a39e85a2b277d1308bae3e6398dd4ed4c57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/utility/zipball/302c697df8796198eae9429bb7f817cb79e6401c",
-                "reference": "302c697df8796198eae9429bb7f817cb79e6401c",
+                "url": "https://api.github.com/repos/cakephp/utility/zipball/3d1b4a39e85a2b277d1308bae3e6398dd4ed4c57",
+                "reference": "3d1b4a39e85a2b277d1308bae3e6398dd4ed4c57",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -256,7 +256,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/utility"
             },
-            "time": "2020-10-19T19:03:43+00:00"
+            "time": "2020-11-28T00:16:31+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -6023,16 +6023,16 @@
         },
         {
             "name": "swoole/ide-helper",
-            "version": "4.5.8",
+            "version": "4.5.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "0ac993cd2b52bae2bd5d42198be9b62085378ac5"
+                "reference": "4ad5772f9db6a6a0fe41068905a0272dcfa5f4d5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/0ac993cd2b52bae2bd5d42198be9b62085378ac5",
-                "reference": "0ac993cd2b52bae2bd5d42198be9b62085378ac5",
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/4ad5772f9db6a6a0fe41068905a0272dcfa5f4d5",
+                "reference": "4ad5772f9db6a6a0fe41068905a0272dcfa5f4d5",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -6061,9 +6061,9 @@
             "description": "IDE help files for Swoole.",
             "support": {
                 "issues": "https://github.com/swoole/ide-helper/issues",
-                "source": "https://github.com/swoole/ide-helper/tree/4.5.8"
+                "source": "https://github.com/swoole/ide-helper/tree/4.5.9"
             },
-            "time": "2020-11-20T18:59:51+00:00"
+            "time": "2020-12-01T00:31:09+00:00"
         },
         {
             "name": "theseer/tokenizer",
