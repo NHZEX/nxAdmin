@@ -2,7 +2,7 @@
 
 return [
     // 登陆验证码
-    'login'   => true,
+    'login'    => (bool) env('CAPTCHA_LOGIN', true),
     // 验证码加密密钥
     'seKey'    => env('DEPLOY_SECURITY_SALT') ?? 'null',
     // 验证码过期时间（s）
@@ -16,7 +16,7 @@ return [
     // 验证码位数
     'length'   => 4,
     // 验证码字体
-    'fontttfs'  => [],
+    'fontttfs' => [],
     // 是否画混淆曲线
     'useCurve' => true,
     // 是否添加杂点
