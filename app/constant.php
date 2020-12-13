@@ -21,5 +21,6 @@ const ROUTE_DEFAULT_RESTFULL = [
     'read'   => ['get', '/<id>', 'read'],
     'save'   => ['post', '', 'save'],
     'update' => ['put', '/<id>', 'update'],
+//    'patch'  => ['patch', '/<id>', 'patch'],
     'delete' => ['delete', '/<id>', 'delete'],
 ];

@@ -16,15 +16,7 @@ use think\Response;
 $r = App::getInstance()->route;
 
 // 重定义资源路由
-$r->rest([
-    'index'  => ['get', '', 'index'],          // 获取资源
-    'select' => ['get', '/select', 'select'],  // 获取资源
-    'read'   => ['get', '/<id>', 'read'],      // 获取资源
-    'save'   => ['post', '', 'save'],          // 创建资源
-    'update' => ['put', '/<id>', 'update'],    // 替换资源
-//    'patch'  => ['patch', '/<id>', 'patch'],
-    'delete' => ['delete', '/<id>', 'delete'], // 删除资源
-], true);
+$r->rest(ROUTE_DEFAULT_RESTFULL, true);
 
 $r->get('upload', function () {
     return Response::create('404 Not Found', 'html', 404);
