@@ -9,6 +9,7 @@ use think\db\exception\ModelNotFoundException;
 use think\db\Query;
 use think\Response;
 use Zxin\Think\Auth\Annotation\Auth;
+use Zxin\Think\Auth\Annotation\AuthNode;
 use function func\reply\reply_create;
 use function func\reply\reply_not_found;
 use function func\reply\reply_succeed;
@@ -78,6 +79,7 @@ class Role extends Base
 
     /**
      * @Auth("admin.role.add")
+     * @AuthNode("创建系统用户角色")
      * @return Response
      */
     public function save()
@@ -88,6 +90,7 @@ class Role extends Base
 
     /**
      * @Auth("admin.role.edit")
+     * @AuthNode("更改系统用户角色")
      * @param $id
      * @return Response
      * @throws DataNotFoundException
@@ -106,6 +109,7 @@ class Role extends Base
 
     /**
      * @Auth("admin.role.del")
+     * @AuthNode("删除系统用户角色")
      * @param $id
      * @return Response
      */

@@ -209,6 +209,11 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return $this->id;
     }
 
+    public function isIgnoreAuthentication(): bool
+    {
+        return $this->isSuperAdmin();
+    }
+
     public function allowPermission(string $permission): bool
     {
         return isset($this->permissions()[$permission]);

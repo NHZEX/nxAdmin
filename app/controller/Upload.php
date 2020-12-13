@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\Logic\Attachment;
-use app\Service\Auth\Facade\Auth;
+use app\Service\Auth\AuthManager;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -75,7 +75,7 @@ class Upload extends Base
     private function uploadImage(UploadedFile $file)
     {
         $attachment = new Attachment();
-        if (false === $annex = $attachment->uploadImage($file, Auth::user())) {
+        if (false === $annex = $attachment->uploadImage($file, AuthManager::user())) {
             return reply_bad(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
         }
         return [

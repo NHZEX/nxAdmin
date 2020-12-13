@@ -2,7 +2,8 @@
 
 namespace app\controller\api\admin;
 
-use app\Service\Auth\Facade\Auth as AuthFacade;
+use app\Service\Auth\AuthManager;
+use think\helper\Arr;
 use think\Response;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthScan;
@@ -57,32 +58,55 @@ class Permission extends Base
      * @Auth("admin.permission.edit")
      * @param          $id
      * @param AuthScan $authScan
+     * @param bool     $batch
      * @return Response
      */
-    public function update($id, AuthScan $authScan)
+    public function update($id, AuthScan $authScan, bool $batch = false)
     {
         if (!$this->allowAccess()) {
             return reply_bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
         }
 
-        $input = $this->request->only(['sort', 'desc']);
+        if ($batch) {
+            $list = $this->request->put('list');
 
-        if (empty($input)) {
-            return reply_bad();
+            if (empty($list) || !is_array($list)) {
+                return reply_bad();
+            }
+
+            $perm = AuthPermission::getInstance();
+            $permissions = $perm->getPermission();
+            foreach ($list as $name => $item) {
+                $item = Arr::only($item, ['sort', 'desc']);
+                if (count($item) === 0 || !isset($permissions[$name])) {
+                    continue;
+                }
+                if (isset($item['sort']) && is_numeric($item['sort'])) {
+                    $item['sort'] = (int) $item['sort'];
+                } else {
+                    unset($item['sort']);
+                }
+                $permissions[$name] = array_merge($permissions[$name], $item);
+            }
+            $perm->setPermission($permissions);
+        } else {
+            $input = $this->request->only(['sort', 'desc']);
+
+            if (empty($input)) {
+                return reply_bad();
+            }
+            if (!empty($input['sort'])) {
+                $input['sort'] = (int) $input['sort'];
+            }
+
+            $perm = AuthPermission::getInstance();
+            if (!$perm->queryPermission($id)) {
+                return reply_not_found();
+            }
+            $permissions = $perm->getPermission();
+            $permissions[$id] = array_merge($permissions[$id], $input);
+            $perm->setPermission($permissions);
         }
-        if (!empty($input['sort'])) {
-            $input['sort'] = (int) $input['sort'];
-        }
-
-        $perm = AuthPermission::getInstance();
-
-        if (!$perm->queryPermission($id)) {
-            return reply_not_found();
-        }
-
-        $permissions = $perm->getPermission();
-        $permissions[$id] = array_merge($permissions[$id], $input);
-        $perm->setPermission($permissions);
 
         $authScan->export($perm->getStorage()->toArray());
 
@@ -106,6 +130,6 @@ class Permission extends Base
 
     private function allowAccess()
     {
-        return $this->app->isDebug() && AuthFacade::check() && AuthFacade::user()->isSuperAdmin();
+        return $this->app->isDebug() && AuthManager::check() && AuthManager::user()->isSuperAdmin();
     }
 }

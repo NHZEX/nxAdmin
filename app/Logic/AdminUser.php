@@ -93,7 +93,7 @@ class AdminUser extends Base
             $this->errorMessage = $businessResult->getMessage();
             return false;
         } catch (DbException $e) {
-            throw new RuntimeException('数据库访问异常', 0, $e);
+            throw new RuntimeException("数据库访问异常：{$e->getMessage()}", 0, $e);
         }
         return true;
     }
