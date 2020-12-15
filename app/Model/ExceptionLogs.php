@@ -33,8 +33,8 @@ class ExceptionLogs extends Base
         'request_info' => 'json'
     ];
 
-    const TYPE_MIXED = 'mixed';
-    const TYPE_HTTP = 'http';
+    public const TYPE_MIXED = 'mixed';
+    public const TYPE_HTTP = 'http';
 
     /**
      * 压入日志

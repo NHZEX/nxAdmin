@@ -11,34 +11,34 @@ use Tp\Model\Traits\ModelUtil;
  * Class Attachment
  *
  * @package app\common\model
- * @property int $id
- * @property int $uid 用户id
- * @property int $status 状态
- * @property string $index 附件索引
- * @property string $real_path 实际路径
- * @property string $path 存储路径
- * @property string $mime 文件mime类型
- * @property mixed $ext 文件类型
- * @property int $size 文件大小
- * @property mixed $sha1 sha1散列值
- * @property string $driver 上传驱动
+ * @property int    $id
+ * @property int    $uid           用户id
+ * @property int    $status        状态
+ * @property string $index         附件索引
+ * @property string $real_path     实际路径
+ * @property string $path          存储路径
+ * @property string $mime          文件mime类型
+ * @property mixed  $ext           文件类型
+ * @property int    $size          文件大小
+ * @property mixed  $sha1          sha1散列值
+ * @property string $driver        上传驱动
  * @property string $raw_file_name 原始文件名
- * @property int $create_time 创建时间
- * @property int $update_time 更新时间
+ * @property int    $create_time   创建时间
+ * @property int    $update_time   更新时间
  */
 class Attachment extends Base
 {
     use ModelUtil;
 
     protected $table = 'attachment';
-    protected $pk = 'id';
+    protected $pk    = 'id';
 
     protected $readonly = [
         'create_time',
     ];
 
-    const DRIVER_LOCAL = 'local';
-    const DRIVER_DICT = [
+    public const DRIVER_LOCAL = 'local';
+    public const DRIVER_DICT  = [
         self::DRIVER_LOCAL => '/upload/',
     ];
 
@@ -132,7 +132,7 @@ class Attachment extends Base
         }
         [$path, $driver] = $path_arr;
 
-        return self::DRIVER_DICT[$driver].$path;
+        return self::DRIVER_DICT[$driver] . $path;
     }
 
     /**
@@ -154,11 +154,11 @@ class Attachment extends Base
 
     /**
      * @param string $index
-     * @param int $userId
+     * @param int    $userId
      * @param string $savePath
      * @param string $fileMime
      * @param string $fileExt
-     * @param int $fileSize
+     * @param int    $fileSize
      * @param string $fileSha1
      * @param string $rawFileName
      * @return Attachment
@@ -173,16 +173,16 @@ class Attachment extends Base
         string $fileSha1,
         string $rawFileName
     ) {
-        $that = new self();
-        $that->status = 0;
-        $that->driver = self::DRIVER_LOCAL;
-        $that->index = $index;
-        $that->uid = $userId;
-        $that->path = $savePath;
-        $that->mime = $fileMime;
-        $that->ext = $fileExt;
-        $that->size = $fileSize;
-        $that->sha1 = $fileSha1;
+        $that                = new self();
+        $that->status        = 0;
+        $that->driver        = self::DRIVER_LOCAL;
+        $that->index         = $index;
+        $that->uid           = $userId;
+        $that->path          = $savePath;
+        $that->mime          = $fileMime;
+        $that->ext           = $fileExt;
+        $that->size          = $fileSize;
+        $that->sha1          = $fileSha1;
         $that->raw_file_name = $rawFileName;
         $that->save();
         return $that;

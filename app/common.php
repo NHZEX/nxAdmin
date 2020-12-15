@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 use Swoole\Server;
 use think\db\PDOConnection;

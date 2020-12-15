@@ -8,7 +8,7 @@ namespace app\Service\DeployTool;
  */
 class EnvFormat
 {
-    const HEADER_DATE = 'date';
+    public const HEADER_DATE = 'date';
 
     /**
      * 写入Env

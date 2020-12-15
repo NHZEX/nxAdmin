@@ -51,7 +51,7 @@ abstract class Base extends ThinkModel
     public const EVENT_BEFORE_RESTORE = 'BeforeRestore';
     public const EVENT_AFTER_RESTORE = 'AfterRestore';
 
-    const BUILD_OPTION_ARGV = ['id', 'name'];
+    public const BUILD_OPTION_ARGV = ['id', 'name'];
 
     /** @var int 软删除字段默认值 */
     protected $defaultSoftDelete = 0;

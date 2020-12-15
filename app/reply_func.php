@@ -1,4 +1,6 @@
-<?php /** @noinspection PhpUnused */
+<?php
+
+/** @noinspection PhpUnused */
 
 namespace func\reply;
 

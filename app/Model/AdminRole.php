@@ -47,29 +47,29 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 
     protected $globalScope = ['accessControl'];
 
-    const STATUS_NORMAL = 0;
-    const STATUS_DISABLE = 1;
-    const STATUS_DICT = [
+    public const STATUS_NORMAL = 0;
+    public const STATUS_DISABLE = 1;
+    public const STATUS_DICT = [
         self::STATUS_NORMAL => '正常',
         self::STATUS_DISABLE => '禁用',
     ];
 
-    const GENRE_SYSTEM = 1;
-    const GENRE_AGENT = 2;
-    const GENRE_DICT = [
+    public const GENRE_SYSTEM = 1;
+    public const GENRE_AGENT = 2;
+    public const GENRE_DICT = [
         self::GENRE_SYSTEM => '系统角色',
         self::GENRE_AGENT => '代理角色',
     ];
 
-    const ACCESS_CONTROL = [
+    public const ACCESS_CONTROL = [
         AdminUser::GENRE_SUPER_ADMIN => [self::GENRE_SYSTEM => 'rw', self::GENRE_AGENT => 'rw'],
         AdminUser::GENRE_ADMIN => [self::GENRE_SYSTEM => 'r', self::GENRE_AGENT => 'rw', 'self' => 'r'],
         AdminUser::GENRE_AGENT => ['self' => 'r'],
     ];
 
-    const EXT_PERMISSION = 'permission';
-    const EXT_MENU = 'menu';
-    const EXT_AGENT = 'agent';
+    public const EXT_PERMISSION = 'permission';
+    public const EXT_MENU = 'menu';
+    public const EXT_AGENT = 'agent';
 
     /**
      * @param AdminRole $model

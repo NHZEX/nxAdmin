@@ -21,7 +21,7 @@ use think\file\UploadedFile;
  */
 class Attachment extends Base
 {
-    const PREFIX_IMAGE = 'images';
+    public const PREFIX_IMAGE = 'images';
 
     private $image_type = [];
 
