@@ -44,5 +44,6 @@
     </rule>
 
     <config name="installed_paths" value="vendor/phpcompatibility/php-compatibility" />
+    <config name="tetsVersion" value="7.3-"/>
     <rule ref="PHPCompatibility"/>
 </ruleset>
