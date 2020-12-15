@@ -10,7 +10,7 @@ use think\console\Output;
 
 class Certificate extends Command
 {
-    const CA_CHECKSUM_URL = 'https://curl.haxx.se/ca/cacert.pem.sha256';
+    public const CA_CHECKSUM_URL = 'https://curl.haxx.se/ca/cacert.pem.sha256';
 
     public function configure()
     {

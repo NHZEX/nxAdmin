@@ -15,7 +15,7 @@ class BusinessResult extends LogicException
 {
     use PrintAbnormal;
 
-    const FLAG_IGNORE_LOG = 0x01;
+    public const FLAG_IGNORE_LOG = 0x01;
 
     protected $flag = 0;
 

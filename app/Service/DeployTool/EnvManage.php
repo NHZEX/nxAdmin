@@ -17,8 +17,8 @@ use Zxin\Redis\Connections\PhpRedisConnection;
 
 class EnvManage extends FeaturesManage
 {
-    const MYSQL_VER_LIMIT = '5.7.22-log';
-    const REDIS_VER_LIMIT = '4.0.8';
+    public const MYSQL_VER_LIMIT = '5.7.22-log';
+    public const REDIS_VER_LIMIT = '4.0.8';
 
     /**
      * 指令列表

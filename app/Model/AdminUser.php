@@ -64,23 +64,23 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     protected $globalScope = ['accessControl'];
 
-    const STATUS_NORMAL = 0;
-    const STATUS_DISABLE = 1;
-    const STATUS_DICT = [
+    public const STATUS_NORMAL = 0;
+    public const STATUS_DISABLE = 1;
+    public const STATUS_DICT = [
         self::STATUS_NORMAL => '正常',
         self::STATUS_DISABLE => '禁用',
     ];
 
-    const GENRE_SUPER_ADMIN = 1;
-    const GENRE_ADMIN = 2;
-    const GENRE_AGENT = 3;
-    const GENRE_DICT = [
+    public const GENRE_SUPER_ADMIN = 1;
+    public const GENRE_ADMIN = 2;
+    public const GENRE_AGENT = 3;
+    public const GENRE_DICT = [
         self::GENRE_SUPER_ADMIN => '超级管理员',
         self::GENRE_ADMIN => '管理员',
         self::GENRE_AGENT => '代理商',
     ];
 
-    const ACCESS_CONTROL = [
+    public const ACCESS_CONTROL = [
         self::GENRE_SUPER_ADMIN => [
             self::GENRE_SUPER_ADMIN => 'rw',
             self::GENRE_ADMIN => 'rw',
@@ -89,8 +89,8 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         self::GENRE_ADMIN => [self::GENRE_ADMIN => 'r', self::GENRE_AGENT => 'rw', 'self' => 'rw'],
         self::GENRE_AGENT => ['self' => 'r'],
     ];
-    const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
-    const PWD_HASH_OPTIONS = ['cost' => 10];
+    public const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
+    public const PWD_HASH_OPTIONS = ['cost' => 10];
 
     protected $permissions = [];
 
@@ -167,7 +167,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         if ($data->hasData('email')
             && $data->getOrigin('email') !== $data->getData('email')
         ) {
-            $isExist = (new static)
+            $isExist = (new static())
                 ->where('email', $data->email)
                 ->limit(1)->count();
             if ($isExist > 0) {
@@ -397,7 +397,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      * @param string $password
      * @return bool
      */
-    public function verifyPassword(string $password) :bool
+    public function verifyPassword(string $password): bool
     {
         $verify_result = password_verify($password, $this->password);
         if ($verify_result) {

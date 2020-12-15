@@ -13,13 +13,13 @@ trait PrintAbnormal
      * @param null|string $type
      * @return string
      */
-    protected static function printException(Throwable $e, ?string $type = null) :string
+    protected static function printException(Throwable $e, ?string $type = null): string
     {
         // 打印额外的POD异常信息
         if (app()->isDebug() && $e instanceof PDOException) {
             $sqlInfo = $e->getData();
             unset($sqlInfo['Database Config']);
-            $errinfo = json_encode($sqlInfo, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
+            $errinfo = json_encode($sqlInfo, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
             Log::record("SQL ERROR: {$errinfo}", 'critical');
         }
         // 打印通用异常信息
@@ -37,7 +37,7 @@ trait PrintAbnormal
         return $msg;
     }
 
-    protected static function formatAbnormalToStr(Throwable $e) :string
+    protected static function formatAbnormalToStr(Throwable $e): string
     {
         $trace = $e;
         $msg = [];
@@ -47,7 +47,7 @@ trait PrintAbnormal
         return join(' > ', $msg);
     }
 
-    protected static function showIncludedFiles() :array
+    protected static function showIncludedFiles(): array
     {
         $list = get_included_files();
         Log::record($list, 'debug');

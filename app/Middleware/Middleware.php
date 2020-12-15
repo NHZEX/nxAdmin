@@ -46,7 +46,7 @@ abstract class Middleware
      * @param Request $request
      * @return mixed
      */
-    protected function getControllerClassName(Request $request) :?string
+    protected function getControllerClassName(Request $request): ?string
     {
         $suffix = $this->app->route->config('controller_suffix') ? 'Controller' : '';
         $controllerLayer = $this->app->route->config('controller_layer') ?: 'controller';

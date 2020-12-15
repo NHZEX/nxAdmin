@@ -11,8 +11,8 @@ use Zxin\Think\Auth\AuthGuard;
 
 class AdminUser extends Base
 {
-    const LOGIN_TYPE_NAME = 'username';
-    const LOGIN_TYPE_EMAIL = 'email';
+    public const LOGIN_TYPE_NAME = 'username';
+    public const LOGIN_TYPE_EMAIL = 'email';
 
     /**
      * @var AuthGuard

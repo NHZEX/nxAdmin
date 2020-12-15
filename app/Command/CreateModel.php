@@ -17,9 +17,9 @@ use Zxin\Util;
  */
 class CreateModel extends Command
 {
-    const FILTE_TABLE = ["_phinxlog"];
+    public const FILTE_TABLE = ["_phinxlog"];
 
-    const OUTPUT_ALIGN = 22;
+    public const OUTPUT_ALIGN = 22;
 
     public function configure()
     {
