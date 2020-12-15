@@ -15,7 +15,7 @@
     <arg name="colors"/>
     <arg name="parallel" value="75"/>
     <!--  -n 忽略警告，-w 打印警告  -->
-    <arg value="sp"/>
+    <arg value="nsp"/>
 
     <!-- Don't hide tokenizer exceptions -->
     <rule ref="Internal.Tokenizer.Exception">
@@ -42,4 +42,7 @@
             </property>
         </properties>
     </rule>
+
+    <config name="installed_paths" value="vendor/phpcompatibility/php-compatibility" />
+    <rule ref="PHPCompatibility"/>
 </ruleset>
