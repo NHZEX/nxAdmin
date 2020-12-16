@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2a5339d4550d3015182a7908ec3704a5",
+    "content-hash": "aeb5b05dffcf48e130e56863f428b382",
     "packages": [
         {
             "name": "cakephp/core",
@@ -3697,6 +3697,71 @@
             ],
             "description": "think redis",
             "time": "2020-08-25T02:06:25+00:00"
+        },
+        {
+            "name": "zxin/think-validate",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/think-validate.git",
+                "reference": "1529bf4deb59e33ee3d5282ddc3a10aa1cb57a33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/think-validate/zipball/1529bf4deb59e33ee3d5282ddc3a10aa1cb57a33",
+                "reference": "1529bf4deb59e33ee3d5282ddc3a10aa1cb57a33",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "doctrine/annotations": "^1.10",
+                "ext-json": "*",
+                "php": "^7.2|^8.0",
+                "symfony/finder": "^4.2|^5.1",
+                "symfony/polyfill-php80": "^1.18",
+                "symfony/var-exporter": "^4.2|^5.2",
+                "topthink/framework": "^6.0.5",
+                "zxin/utils": "^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7|^8",
+                "symfony/var-dumper": "^4.4|^5.0"
+            },
+            "bin": [
+                "validate-dump"
+            ],
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [],
+                    "config": {
+                        "validate": "config/validate.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zxin\\Think\\Validate\\": "src/"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ],
+            "description": "think validate",
+            "time": "2020-12-17T02:42:44+00:00"
         },
         {
             "name": "zxin/utils",
