@@ -4,6 +4,11 @@ namespace app\Service\Validate;
 
 use think\Request;
 
+/**
+ * Interface AskSceneInterface
+ * @package app\Service\Validate
+ * @deprecated
+ */
 interface AskSceneInterface
 {
     /**

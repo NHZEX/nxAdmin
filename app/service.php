@@ -2,7 +2,6 @@
 
 use app\Service\DebugHelper\DebugHelperService;
 use app\Service\DeployTool\DeployServer;
-use app\Service\Validate\ValidateService;
 use HZEX\Think\Cors\Service as CorsService;
 use Zxin\Think\Auth\Service as AuthService;
 
@@ -11,5 +10,6 @@ return [
     AuthService::class,
     DeployServer::class,
     DebugHelperService::class,
-    ValidateService::class,
+    Zxin\Think\Validate\ValidateService::class,
+    //ValidateService::class,
 ];

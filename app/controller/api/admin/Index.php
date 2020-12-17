@@ -11,6 +11,7 @@ use think\Response;
 use think\response\View;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthGuard;
+use Zxin\Think\Validate\Annotation\Validation;
 use function func\reply\reply_bad;
 use function func\reply\reply_succeed;
 
@@ -18,6 +19,7 @@ class Index extends Base
 {
     /**
      * 登陆
+     * @Validation("@Login")
      * @param AdminUser $adminUser
      * @param Captcha   $captcha
      * @return Response
