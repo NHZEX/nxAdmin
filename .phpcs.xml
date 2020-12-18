@@ -22,7 +22,6 @@
         <type>error</type>
     </rule>
 
-    <!-- Include the whole PEAR standard -->
     <rule ref="PSR12">
         <exclude name="PSR12.Files.FileHeader.SpacingAfterBlock"/>
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine"/>

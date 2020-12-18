@@ -27,8 +27,8 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Run phpcs
-        run: composer run -- checkcs
+        run: composer exec -v -- phpcs
 
       - name: Run phpcs (warning)
-        run: composer run -- checkcs-full
+        run: composer exec -v -- phpcs -w
         continue-on-error: true

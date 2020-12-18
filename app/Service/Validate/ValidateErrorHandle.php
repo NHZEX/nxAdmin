@@ -13,7 +13,6 @@ use function join;
 
 class ValidateErrorHandle implements ErrorHandleInterface
 {
-
     public function handle(Request $request, ValidateContext $context): Response
     {
         $validate = $context->getValidate();
