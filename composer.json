@@ -35,7 +35,7 @@
         "ext-zlib": "*",
         "doctrine/annotations": "^1.10.2",
         "guzzlehttp/guzzle": "^7.0",
-        "hashids/hashids": "^3.0",
+        "hashids/hashids": "^4.1",
         "nhzex/think-blade": "^5.0.0",
         "nhzex/think-cors": "^2.0",
         "nhzex/think-env": "^1.0.1",
