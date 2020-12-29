@@ -35,7 +35,7 @@
         "ext-zlib": "*",
         "doctrine/annotations": "^1.10.2",
         "guzzlehttp/guzzle": "^7.0",
-        "hashids/hashids": "^3.0",
+        "hashids/hashids": "^4.0",
         "nhzex/think-blade": "^5.0.0",
         "nhzex/think-cors": "^2.0",
         "nhzex/think-env": "^1.0.1",
@@ -51,7 +51,7 @@
         "topthink/think-orm": "~2.0.34",
         "zxin/think-auth": "^1.1",
         "zxin/think-redis": "^1.1",
-        "zxin/think-validate": "^1.0.3",
+        "zxin/think-validate": "^1.1.0",
         "zxin/utils": "^2.0"
     },
     "require-dev": {
