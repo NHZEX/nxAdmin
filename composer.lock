@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "762a221fdef49aa85295bceddd15d9f2",
+    "content-hash": "f3278ef5a45640f3a6bf4a9798fa00de",
     "packages": [
         {
             "name": "cakephp/core",
@@ -1352,6 +1352,10 @@
                 "database-connection-pool",
                 "swoole"
             ],
+            "support": {
+                "issues": "https://github.com/open-smf/connection-pool/issues",
+                "source": "https://github.com/open-smf/connection-pool"
+            },
             "time": "2020-05-29T05:20:59+00:00"
         },
         {
@@ -4043,6 +4047,9 @@
                 }
             ],
             "description": "Swoole extend for thinkphp",
+            "support": {
+                "source": "https://github.com/NHZEX/think-swoole/tree/v3.0.9.13"
+            },
             "time": "2020-09-07T06:45:15+00:00"
         },
         {
@@ -6270,16 +6277,16 @@
         },
         {
             "name": "swoole/ide-helper",
-            "version": "4.5.9",
+            "version": "4.5.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoole/ide-helper.git",
-                "reference": "4ad5772f9db6a6a0fe41068905a0272dcfa5f4d5"
+                "reference": "11d77b630ec63e426326439bea0c4b0460fb3a00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/4ad5772f9db6a6a0fe41068905a0272dcfa5f4d5",
-                "reference": "4ad5772f9db6a6a0fe41068905a0272dcfa5f4d5",
+                "url": "https://api.github.com/repos/swoole/ide-helper/zipball/11d77b630ec63e426326439bea0c4b0460fb3a00",
+                "reference": "11d77b630ec63e426326439bea0c4b0460fb3a00",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -6306,7 +6313,11 @@
                 }
             ],
             "description": "IDE help files for Swoole.",
-            "time": "2020-12-01T00:31:09+00:00"
+            "support": {
+                "issues": "https://github.com/swoole/ide-helper/issues",
+                "source": "https://github.com/swoole/ide-helper/tree/4.5.10"
+            },
+            "time": "2020-12-27T05:03:52+00:00"
         },
         {
             "name": "theseer/tokenizer",
