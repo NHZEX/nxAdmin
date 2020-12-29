@@ -6,6 +6,7 @@ namespace app\Traits\Model;
 use Exception;
 use TypeError;
 use function class_exists;
+use function get_class;
 use function is_array;
 use function is_callable;
 use function is_string;
@@ -50,17 +51,17 @@ trait ModelAttrObjectCache
 
     /**
      * @param string $funcName
-     * @param        $value
+     * @param object $value
      * @param string $className
      * @return false|string
      * @throws Exception
      */
-    protected function attrObjectCacheSet(string $funcName, $value, string $className)
+    protected function attrObjectCacheSet(string $funcName, object $value, string $className)
     {
         $key = substr($funcName, 3);
 
         if (is_string($className) && class_exists($className)) {
-            $vail = is_subclass_of($value, $className);
+            $vail = get_class($value) === $className || is_subclass_of($value, $className);
         } elseif (is_callable($className)) {
             $vail = $className($value);
         } else {
