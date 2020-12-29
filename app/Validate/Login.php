@@ -7,9 +7,7 @@
 
 namespace app\Validate;
 
-use app\Service\Validate\ValidateBase;
-
-class Login extends ValidateBase
+class Login extends Base
 {
     protected $rule = [
         'token'    => 'require|min:16',

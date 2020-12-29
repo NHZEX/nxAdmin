@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace app\Validate\Admin;
 
-use app\Service\Validate\ValidateBase;
+use app\Validate\Base;
 
-class Role extends ValidateBase
+class Role extends Base
 {
     // todo genre、status 从模型获取有效范围
     protected $rule = [

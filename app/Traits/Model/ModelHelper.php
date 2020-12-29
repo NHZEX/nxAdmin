@@ -9,6 +9,7 @@ use think\db\Query;
 use think\Model;
 use function call_user_func;
 use function count;
+use function is_array;
 use function is_callable;
 use function is_numeric;
 use function is_string;
@@ -88,10 +89,12 @@ trait ModelHelper
         foreach ($self->cursor() as $item) {
             $tmp = [];
             foreach ($model as $k => $v) {
-                if (is_callable($v)) {
+                if ($v instanceof Closure || str_starts_with($v, '\\') || (is_array($v) && is_callable($v))) {
                     $tmp[$k] = call_user_func($v, $item);
-                } else {
+                } elseif (is_string($v)) {
                     $tmp[$k] = $item->getAttr($v);
+                } else {
+                    $tmp[$k] = null;
                 }
             }
             $result[] = $tmp;

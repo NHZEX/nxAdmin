@@ -9,6 +9,7 @@ use think\db\exception\ModelNotFoundException;
 use think\Response;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\Annotation\AuthNode;
+use Zxin\Think\Validate\Annotation\Validation;
 use function func\reply\reply_create;
 use function func\reply\reply_not_found;
 use function func\reply\reply_succeed;
@@ -62,6 +63,7 @@ class User extends Base
     /**
      * @Auth("admin.user.add")
      * @AuthNode("创建系统用户")
+     * @Validation("@Admin.User", scene="_")
      * @return Response
      */
     public function save()
@@ -74,6 +76,7 @@ class User extends Base
     /**
      * @Auth("admin.user.edit")
      * @AuthNode("更改系统用户")
+     * @Validation("@Admin.User", scene="_")
      * @param int $id
      * @return Response
      * @throws DataNotFoundException
