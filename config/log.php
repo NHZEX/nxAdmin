@@ -5,6 +5,7 @@
 // +----------------------------------------------------------------------
 
 use think\App;
+use Tp\Log\SocketDriver;
 
 // 格式日志头
 $formatHead = function ($uir, App $app) {
@@ -59,7 +60,7 @@ return [
         // 其它日志通道配置
         'remote' => [
             // 日志记录方式
-            'type'           => 'socket',
+            'type'           => SocketDriver::class,
             // 服务器地址
             'host'           => env('LOG_REMOTE_HOST', '127.0.0.1'),
             // 服务器端口
@@ -82,6 +83,8 @@ return [
             'expand_level'   => ['debug'],
             // 自定义日志头
             'format_head'    => $formatHead,
+            // 压缩传输
+            'compress'       => (bool) env('LOG_REMOTE_COMPRESS', false),
         ],
     ],
 ];
