@@ -8,6 +8,7 @@ use app\Service\Swoole\SwooleService;
 use Swoole\Coroutine;
 use think\App;
 use Tp\Log\Driver\AsyncSocket;
+use Tp\Log\SocketDriver;
 
 // 格式日志头
 $formatHead = function ($uir, App $app) {
@@ -91,6 +92,8 @@ return [
             'expand_level'   => ['debug'],
             // 自定义日志头
             'format_head'    => $formatHead,
+            // 压缩传输
+            'compress'       => (bool) env('LOG_REMOTE_COMPRESS', false),
         ],
     ],
 ];

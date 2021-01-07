@@ -157,10 +157,10 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         if ($data->hasData('username')
             && $data->getOrigin('username') !== $data->getData('username')
         ) {
-            $isExist = static::withTrashed()
+            $isExist = (new static())
                 ->where('username', $data->username)
-                ->limit(1)->count();
-            if ($isExist > 0) {
+                ->value('id');
+            if ($isExist !== null) {
                 throw new ModelException("该账号 {$data->username} 已经存在");
             }
         }
@@ -169,8 +169,8 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         ) {
             $isExist = (new static())
                 ->where('email', $data->email)
-                ->limit(1)->count();
-            if ($isExist > 0) {
+                ->value('id');
+            if ($isExist !== null) {
                 throw new ModelException("该邮箱 {$data->email} 已经存在");
             }
         }
