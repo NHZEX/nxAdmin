@@ -5,7 +5,7 @@ namespace Tp\Log\Driver;
 
 use Swoole\Coroutine;
 use Swoole\Coroutine\Http\Client;
-use think\log\driver\Socket;
+use Tp\Log\SocketDriver;
 use function curl_error;
 use function curl_exec;
 use function curl_init;
@@ -14,8 +14,10 @@ use function date;
 use function file_put_contents;
 use function runtime_path;
 use function sprintf;
+use function strlen;
+use function zlib_encode;
 
-class AsyncSocket extends Socket
+class AsyncSocket extends SocketDriver
 {
     /** @var Coroutine\Channel */
     private static $workerChannel;
@@ -33,7 +35,7 @@ class AsyncSocket extends Socket
     protected function send($host, $port, $message = '', $address = '/')
     {
         if (Coroutine::getCid() === -1) {
-            return $this->curlSend($host, $port, $message, $address);
+            return parent::send($host, $port, $message, $address);
         } else {
             return $this->asyncSend($host, $port, $message, $address);
         }
@@ -60,14 +62,24 @@ class AsyncSocket extends Socket
         self::$workerId = Coroutine::create(function () use ($client) {
             while (true) {
                 [$address, $message] = self::$workerChannel->pop();
-                $client->setHeaders([
-                    'Content-Type' => 'application/json;charset=UTF-8',
-                ]);
+                $headers = [];
+                if ($this->config['compress'] ?? false && strlen($message) > 128) {
+                    $message = zlib_encode($message, ZLIB_ENCODING_DEFLATE);
+                    $headers['Content-Type'] = 'application/x-compress';
+                } else {
+                    $headers['Content-Type'] = 'application/json; charset=UTF-8';
+                }
+                $client->setHeaders($headers);
                 $client->post($address, $message);
                 if ($client->errCode !== 0) {
-                    $log = sprintf("send log: %s\n  >> %s\n", date('Y-m-dTH:i:s'), $client->errMsg);
+                    $log = sprintf("[%s] send(%s): %s\n", date('Y-m-dTH:i:s'), $address, $client->errMsg);
                 } elseif ($client->getStatusCode() !== 200) {
-                    $log = sprintf("send log: %s\n  >> httpCode: %s\n", date('Y-m-dTH:i:s'), $client->getStatusCode());
+                    $log = sprintf(
+                        "[%s] send(%s): httpCode %s\n",
+                        date('Y-m-dTH:i:s'),
+                        $address,
+                        $client->getStatusCode()
+                    );
                 }
                 if (isset($log)) {
                     file_put_contents(runtime_path() . 'socklog_send_err.log', $log, FILE_APPEND);
