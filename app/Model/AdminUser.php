@@ -135,6 +135,14 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      */
     public static function onBeforeDelete(AdminUser $model)
     {
+        if ($model->isSuperAdmin()
+            && self::where('status', self::STATUS_NORMAL)
+                ->where('genre', self::GENRE_SUPER_ADMIN)
+                ->limit(2)
+                ->count() <= 1
+        ) {
+            throw new ModelException('不允许删除最后一个可用超管，操作被阻止！');
+        }
         self::checkAccessControl($model);
     }
 
