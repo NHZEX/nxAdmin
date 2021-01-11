@@ -33,7 +33,7 @@ return [
     'processor'    => null,
     // 日志通道列表
     'channels'     => [
-        'file' => [
+        'file'   => [
             // 日志记录方式
             'type'           => 'File',
             // 日志保存目录
@@ -60,31 +60,36 @@ return [
         // 其它日志通道配置
         'remote' => [
             // 日志记录方式
-            'type'           => SocketDriver::class,
+            'type'                => SocketDriver::class,
             // 服务器地址
-            'host'           => env('LOG_REMOTE_HOST', '127.0.0.1'),
+            'host'                => env('LOG_REMOTE_HOST', '127.0.0.1'),
             // 服务器端口
-            'port'           => env('LOG_REMOTE_PORT', 1116),
+            'port'                => env('LOG_REMOTE_PORT', 1116),
             // 是否显示加载的文件列表
             'show_included_files' => false,
             // 日志强制记录到配置的 client_id
-            'force_client_ids' => explode(',', env('LOG_REMOTE_FORCE_CLIENT', 'develop')),
+            'force_client_ids'    => explode(',', env('LOG_REMOTE_FORCE_CLIENT', 'develop')),
             // 限制允许读取日志的 client_id
-            'allow_client_ids' => explode(',', env('LOG_REMOTE_ALLOW_CLIENT', 'develop')),
+            'allow_client_ids'    => explode(',', env('LOG_REMOTE_ALLOW_CLIENT', 'develop')),
             // 日志处理
-            'processor'      => null,
+            'processor'           => null,
             // 关闭通道日志写入
-            'close'          => false,
+            'close'               => false,
             // 日志输出格式化
-            'format'         => '[%s][%s] %s',
+            'format'              => '[%s][%s] %s',
             // 是否实时写入
-            'realtime_write' => false,
+            'realtime_write'      => false,
             // 默认展开节点
-            'expand_level'   => ['debug'],
+            'expand_level'        => ['debug'],
             // 自定义日志头
-            'format_head'    => $formatHead,
+            'format_head'         => $formatHead,
+            // CURL 选项
+            'curl_opt'            => [
+                CURLOPT_CONNECTTIMEOUT => 10,
+                CURLOPT_TIMEOUT        => 10,
+            ],
             // 压缩传输
-            'compress'       => (bool) env('LOG_REMOTE_COMPRESS', false),
+            'compress'            => (bool) env('LOG_REMOTE_COMPRESS', false),
         ],
     ],
 ];
