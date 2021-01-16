@@ -25,9 +25,14 @@
     <rule ref="PSR12">
         <exclude name="PSR12.Files.FileHeader.SpacingAfterBlock"/>
         <exclude name="PSR12.ControlStructures.ControlStructureSpacing.FirstExpressionLine"/>
+        <exclude name="PSR2.Classes.PropertyDeclaration.SpacingAfterType"/>
     </rule>
 
     <rule ref="PSR12.Classes.ClassInstantiation.MissingParentheses">
+        <type>warning</type>
+    </rule>
+
+    <rule ref="Generic.Formatting.MultipleStatementAlignment">
         <type>warning</type>
     </rule>
 
