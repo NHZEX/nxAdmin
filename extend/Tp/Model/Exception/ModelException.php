@@ -2,8 +2,8 @@
 
 namespace Tp\Model\Exception;
 
-use think\Exception;
+use RuntimeException;
 
-class ModelException extends Exception
+class ModelException extends RuntimeException
 {
 }

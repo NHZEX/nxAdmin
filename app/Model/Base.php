@@ -13,7 +13,6 @@ use think\model\Collection;
 use Tp\Model\Traits\Attribute;
 use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
-use Tp\Model\Traits\TransactionExtension;
 
 /**
  * Class Base
@@ -36,7 +35,6 @@ abstract class Base extends ThinkModel
 {
     use ModelHelper;
     use ModelUtil;
-    use TransactionExtension;
     use OptimLock;
     use ModelEvent;
     use QuickHelper;
