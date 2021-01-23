@@ -17,18 +17,19 @@ use function substr;
 
 trait ModelAttrObjectCache
 {
-    protected $cacheStorage = [];
+    private $cacheStorage = [];
 
     /**
-     * @param string          $funcName
+     * @param string          $funcname
      * @param mixed           $value
-     * @param string|callable $className
+     * @param string|callable $classname
+     * @param bool            $transformJson
      * @return mixed|null
      * @throws Exception
      */
-    protected function attrObjectCacheGet(string $funcName, $value, $className)
+    protected function attrObjectCacheGet(string $funcname, $value, $classname, bool $transformJson = false)
     {
-        $key = substr($funcName, 3);
+        $key = substr($funcname, 3);
 
         if (isset($this->cacheStorage[$key])) {
             return $this->cacheStorage[$key];
@@ -36,41 +37,55 @@ trait ModelAttrObjectCache
         if (empty($value)) {
             return null;
         }
-        $value = json_decode($value, true);
-        if (!is_array($value)) {
-            return null;
+
+        if ($transformJson) {
+            if (is_string($value)) {
+                $value = json_decode($value, true);
+                if (!is_array($value)) {
+                    return null;
+                }
+            } else {
+                throw new Exception('无法处理的值转换');
+            }
         }
-        if (is_string($className) && class_exists($className)) {
-            return $this->cacheStorage[$key] = (new $className($value));
-        } elseif (is_callable($className)) {
-            return $this->cacheStorage[$key] = $className($value);
+
+        if (is_string($classname) && class_exists($classname)) {
+            return $this->cacheStorage[$key] = new $classname($value);
+        } elseif (is_callable($classname)) {
+            return $this->cacheStorage[$key] = $classname($value);
         } else {
             throw new Exception('无法处理的值转换');
         }
     }
 
     /**
-     * @param string $funcName
-     * @param object $value
-     * @param string $className
+     * @param string          $funcname
+     * @param object          $value
+     * @param string|callable $classname 验证类名或转换方法
+     * @param bool            $transformJson
      * @return false|string
      * @throws Exception
      */
-    protected function attrObjectCacheSet(string $funcName, object $value, string $className)
+    protected function attrObjectCacheSet(string $funcname, object $value, $classname, bool $transformJson = false)
     {
-        $key = substr($funcName, 3);
+        $key = substr($funcname, 3);
 
-        if (is_string($className) && class_exists($className)) {
-            $vail = get_class($value) === $className || is_subclass_of($value, $className);
-        } elseif (is_callable($className)) {
-            $vail = $className($value);
+        if (is_string($classname) && class_exists($classname)) {
+            if (!(get_class($value) === $classname || is_subclass_of($value, $classname))) {
+                throw new TypeError('数据类型错误');
+            }
+        } elseif (is_callable($classname)) {
+            $value = $classname($value);
         } else {
             throw new Exception('无法处理的值转换');
         }
-        if (!$vail) {
-            throw new TypeError('数据类型错误');
-        }
+
         $this->cacheStorage[$key] = $value;
-        return json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        if ($transformJson) {
+            return json_encode($value, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        } else {
+            return $value;
+        }
     }
 }

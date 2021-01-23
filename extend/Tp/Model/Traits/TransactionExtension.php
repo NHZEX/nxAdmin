@@ -6,6 +6,11 @@ use think\Exception;
 use think\facade\App;
 use Tp\Model\Exception\ModelException;
 
+/**
+ * @deprecated
+ * Trait TransactionExtension
+ * @package Tp\Model\Traits
+ */
 trait TransactionExtension
 {
     /**

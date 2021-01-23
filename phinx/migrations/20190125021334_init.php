@@ -113,7 +113,7 @@ class Init extends AbstractMigration
                 $blueprint->string('request_ip', 46)->comment('请求IP');
                 $blueprint->string('mode', 16)->comment('类型');
                 $blueprint->text('request_info')->comment('请求信息');
-                $blueprint->string('message', 2046)->comment('消息');
+                $blueprint->string('message', 2048)->comment('消息');
                 $blueprint->text('trace_info')->comment('异常堆栈');
             });
         });

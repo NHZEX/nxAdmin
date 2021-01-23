@@ -10,9 +10,9 @@ use Generator;
 use think\db\Query;
 use think\Model as ThinkModel;
 use think\model\Collection;
+use Tp\Model\Traits\Attribute;
 use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
-use Tp\Model\Traits\TransactionExtension;
 
 /**
  * Class Base
@@ -35,11 +35,11 @@ abstract class Base extends ThinkModel
 {
     use ModelHelper;
     use ModelUtil;
-    use TransactionExtension;
     use OptimLock;
     use ModelEvent;
     use QuickHelper;
     use ModelAttrObjectCache;
+    use Attribute;
 
     public const EVENT_AFTER_READ = 'AfterRead';
     public const EVENT_BEFORE_INSERT = 'BeforeInsert';
