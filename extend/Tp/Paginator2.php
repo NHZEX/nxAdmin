@@ -11,6 +11,11 @@ use JsonSerializable;
 use Tp\Model\Collection;
 use Traversable;
 
+/**
+ * @deprecated
+ * Class Paginator2
+ * @package Tp
+ */
 class Paginator2 implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
     /**

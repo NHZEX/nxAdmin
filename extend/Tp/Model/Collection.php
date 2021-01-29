@@ -7,6 +7,11 @@
 
 namespace Tp\Model;
 
+/**
+ * @deprecated
+ * Class Collection
+ * @package Tp\Model
+ */
 class Collection extends \think\model\Collection
 {
     /**

@@ -29,6 +29,7 @@ class Query extends \think\db\Query
     }
 
     /**
+     * @deprecated
      * @param int  $limit
      * @param int  $page
      * @param bool $simple
