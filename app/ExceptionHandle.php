@@ -14,6 +14,7 @@ namespace app;
 
 use app\Exception\AccessControl;
 use app\Exception\ExceptionIgnoreRecord;
+use app\Exception\ModelLogicException;
 use app\Model\ExceptionLogs;
 use app\Traits\PrintAbnormal;
 use think\db\exception\DataNotFoundException;
@@ -98,6 +99,9 @@ class ExceptionHandle extends Handle
         if ($exception instanceof AccessControl) {
             return true;
         }
+        if ($exception instanceof ModelLogicException) {
+            return true;
+        }
         return false;
     }
 
@@ -110,6 +114,10 @@ class ExceptionHandle extends Handle
         // 捕获访问控制异常
         if ($e instanceof AccessControl) {
             return reply_bad($e->getCode(), $e->getMessage(), null, 403);
+        }
+        // 模型业务逻辑错误
+        if ($e instanceof ModelLogicException) {
+            return reply_bad($e->getCode(), $e->getMessage());
         }
         // 渲染其他异常
         return parent::render($request, $e);

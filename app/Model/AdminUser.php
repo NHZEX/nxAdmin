@@ -3,12 +3,12 @@
 namespace app\Model;
 
 use app\Exception\AccessControl;
+use app\Exception\ModelLogicException;
 use app\Traits\Model\ModelAccessLimit;
 use RuntimeException;
 use think\Model;
 use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
-use Tp\Model\Exception\ModelException;
 use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
 use Zxin\Think\Auth\Facade\Auth;
@@ -98,7 +98,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      * @param AdminUser|Model $model
      * @return mixed|void
      * @throws AccessControl
-     * @throws ModelException
+     * @throws ModelLogicException
      */
     public static function onBeforeInsert(Model $model)
     {
@@ -120,7 +120,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      * @param AdminUser|Model $model
      * @return mixed|void
      * @throws AccessControl
-     * @throws ModelException
+     * @throws ModelLogicException
      */
     public static function onBeforeUpdate(Model $model)
     {
@@ -141,7 +141,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
                 ->limit(2)
                 ->count() <= 1
         ) {
-            throw new ModelException('不允许删除最后一个可用超管，操作被阻止！');
+            throw new ModelLogicException('不允许删除最后一个可用超管，操作被阻止！');
         }
         self::checkAccessControl($model);
     }
@@ -158,7 +158,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     /**
      * @param self $data
-     * @throws ModelException
+     * @throws ModelLogicException
      */
     protected static function checkUserInputUnique(AdminUser $data)
     {
@@ -169,7 +169,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
                 ->where('username', $data->username)
                 ->value('id');
             if ($isExist !== null) {
-                throw new ModelException("该账号 {$data->username} 已经存在");
+                throw new ModelLogicException("该账号 {$data->username} 已经存在");
             }
         }
         if ($data->hasData('email')
@@ -179,7 +179,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
                 ->where('email', $data->email)
                 ->value('id');
             if ($isExist !== null) {
-                throw new ModelException("该邮箱 {$data->email} 已经存在");
+                throw new ModelLogicException("该邮箱 {$data->email} 已经存在");
             }
         }
     }
