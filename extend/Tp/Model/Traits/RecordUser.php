@@ -3,7 +3,7 @@
 namespace Tp\Model\Traits;
 
 use app\Model\AdminUser;
-use app\Service\Auth\AuthManager;
+use app\Service\Auth\AuthHelper;
 use think\Model;
 use think\model\relation\BelongsTo;
 
@@ -28,7 +28,7 @@ trait RecordUser
      */
     protected static function recodeUser(Model $data)
     {
-        $conv = AuthManager::instance();
+        $conv = AuthHelper::instance();
         if ($data->recordUser && $conv->check()) {
             // 缺乏必要的字段锁定设置
             if (false === array_search($data->createBy, $data->readonly)) {

@@ -4,7 +4,7 @@ namespace app\controller\api\admin;
 
 use app\Logic\AdminRole;
 use app\Logic\AdminUser;
-use app\Service\Auth\AuthManager;
+use app\Service\Auth\AuthHelper;
 use Captcha\Captcha;
 use think\facade\Session;
 use think\Response;
@@ -74,7 +74,7 @@ class Index extends Base
      */
     public function userInfo()
     {
-        $user = AuthManager::user();
+        $user = AuthHelper::user();
         $user->hidden([
             'role', 'password', 'remember', 'last_login_ip',
             'delete_time', 'group_id', 'lock_version', 'signup_ip',

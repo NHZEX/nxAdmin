@@ -3,13 +3,14 @@
 namespace app\Service\Auth;
 
 use app\Model\AdminUser;
+use Zxin\Think\Auth\AuthManager;
 
 /**
  * Class AuthManager
  * @package app\Service\Auth
- * @method AdminUser|null user() static
+ * @method AdminUser user() static
  */
-class AuthManager extends \Zxin\Think\Auth\AuthManager
+class AuthHelper extends AuthManager
 {
     public static function userGenre(): int
     {

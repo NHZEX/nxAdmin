@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\Logic\Attachment;
-use app\Service\Auth\AuthManager;
+use app\Service\Auth\AuthHelper;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -47,7 +47,7 @@ class Upload extends Base
      */
     public function images()
     {
-        /** @var File[] $files */
+        /** @var File[]|UploadedFile[] $files */
         $files = $this->request->file();
         if (!is_array($files)) {
             return reply_bad(CODE_COM_PARAM, '无法处理提交');
@@ -75,7 +75,7 @@ class Upload extends Base
     private function uploadImage(UploadedFile $file)
     {
         $attachment = new Attachment();
-        if (false === $annex = $attachment->uploadImage($file, AuthManager::user())) {
+        if (false === $annex = $attachment->uploadImage($file, AuthHelper::user())) {
             return reply_bad(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
         }
         return [

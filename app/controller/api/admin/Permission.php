@@ -2,7 +2,7 @@
 
 namespace app\controller\api\admin;
 
-use app\Service\Auth\AuthManager;
+use app\Service\Auth\AuthHelper;
 use think\helper\Arr;
 use think\Response;
 use Zxin\Think\Auth\Annotation\Auth;
@@ -130,6 +130,6 @@ class Permission extends Base
 
     private function allowAccess()
     {
-        return $this->app->isDebug() && AuthManager::check() && AuthManager::user()->isSuperAdmin();
+        return $this->app->isDebug() && AuthHelper::check() && AuthHelper::user()->isSuperAdmin();
     }
 }
