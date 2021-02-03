@@ -80,7 +80,7 @@ class Init extends AbstractMigration
                 $blueprint->string('last_login_ip', 46)->ccAscii()->comment('登录ip');
                 $blueprint->string('remember', 16)->ccAscii()->comment('登录ip');
                 $blueprint->lockVersion();
-                $blueprint->unique(['username', 'delete_time'])->name('username');
+                $blueprint->unique(['username', 'delete_time'])->name('idx_username');
             });
 
             Schema::create('attachment', function (Schema\Blueprint $blueprint) {
