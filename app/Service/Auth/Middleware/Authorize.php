@@ -103,10 +103,10 @@ class Authorize
     /**
      * 权限检查失败跳转
      * @param Request $request
-     * @param         $message
+     * @param string  $message
      * @return response
      */
-    protected function failJump(Request $request, $message): Response
+    protected function failJump(Request $request, string $message): Response
     {
         if ($request->isAjax()) {
             return reply_bad(null, null, null, 401);
@@ -117,10 +117,10 @@ class Authorize
 
     /**
      * @param Request $request
-     * @param         $message
+     * @param string  $message
      * @return Response
      */
-    protected function refuseJump(Request $request, $message): Response
+    protected function refuseJump(Request $request, string $message): Response
     {
         if ($request->isAjax()) {
             return reply_bad(null, $message, null, 403);

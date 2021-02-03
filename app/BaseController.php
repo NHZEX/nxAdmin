@@ -62,9 +62,8 @@ abstract class BaseController
     protected $middleware = [];
 
     /**
-     * 构造方法
-     * @access public
-     * @param  App  $app  应用对象
+     * BaseController constructor.
+     * @param App $app
      */
     public function __construct(App $app)
     {

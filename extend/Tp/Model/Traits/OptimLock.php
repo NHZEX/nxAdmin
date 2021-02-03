@@ -145,7 +145,7 @@ trait OptimLock
     }
 
     /**
-     * @param $result
+     * @param int|string $result
      * @throws ModelException
      */
     protected function checkResult($result): void

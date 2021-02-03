@@ -92,7 +92,8 @@ class CreateModel extends Command
                 } elseif (count($name_hits) > 1) {
                     $value = $this->output->choice($this->input, "输入的表名（{$value}）可能是如下匹配: ", $name_hits, null);
                 } else {
-                    $output->error("输入的表名无法满足如何匹配: {$name_hits}");
+                    $output->error("输入的表名无法满足如何匹配: {$value}");
+                    return;
                 }
             }
         }

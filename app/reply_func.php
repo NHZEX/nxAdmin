@@ -39,7 +39,7 @@ function reply_create($data = '', array $header = [])
  * @param array|null  $data
  * @return Response
  */
-function reply_not_found(?int $code = null, ?string $msg = null, ?array $data = null)
+function reply_not_found(?int $code = null, ?string $msg = null, ?array $data = null): Response
 {
     return reply_bad($code, $msg, $data, 404);
 }
@@ -50,7 +50,7 @@ function reply_not_found(?int $code = null, ?string $msg = null, ?array $data = 
  * @param int                        $code
  * @return Response
  */
-function reply_table(iterable $data = null, int $code = 200): Response
+function reply_table($data = null, int $code = 200): Response
 {
     if ($data instanceof Collection) {
         $result = $data->toArray();
@@ -111,12 +111,12 @@ function reply_exception(Throwable $exception, ?string $msg = null, int $httpCod
 
 /**
  * 响应成功
- * @param       $data
- * @param int   $code
- * @param array $header
+ * @param string|int $data
+ * @param int        $code
+ * @param array      $header
  * @return Response
  */
-function reply_succeed($data = '', int $code = 200, array $header = [])
+function reply_succeed($data = '', int $code = 200, array $header = []): Response
 {
     if (200 > $code || $code > 299) {
         throw new RuntimeException('http code only 200 ~ 299');
@@ -137,10 +137,10 @@ function reply_succeed($data = '', int $code = 200, array $header = [])
  * @param int|null    $code
  * @param string|null $msg
  * @param array|null  $data
- * @param int|null    $httpCode
+ * @param int         $httpCode
  * @return Response
  */
-function reply_bad(?int $code = null, ?string $msg = null, ?array $data = null, int $httpCode = 400)
+function reply_bad(?int $code = null, ?string $msg = null, ?array $data = null, int $httpCode = 400): Response
 {
     if (400 > $httpCode || $httpCode > 499) {
         throw new RuntimeException('http code only 400 ~ 499');
@@ -154,10 +154,10 @@ function reply_bad(?int $code = null, ?string $msg = null, ?array $data = null, 
  * @param int|null    $code
  * @param string|null $msg
  * @param array|null  $data
- * @param int|null    $httpCode
+ * @param int         $httpCode
  * @return Response
  */
-function reply_error(?int $code = null, ?string $msg = null, ?array $data = null, int $httpCode = 500)
+function reply_error(?int $code = null, ?string $msg = null, ?array $data = null, int $httpCode = 500): Response
 {
     if (500 > $httpCode || $httpCode > 599) {
         throw new RuntimeException('http code only 500 ~ 599');
@@ -174,9 +174,9 @@ function reply_error(?int $code = null, ?string $msg = null, ?array $data = null
  * @param int         $httpCode
  * @return Response
  */
-function reply_message(?int $code, ?string $msg, ?array $data, int $httpCode)
+function reply_message(?int $code, ?string $msg, ?array $data, int $httpCode): Response
 {
-    $code = $code ?? CODE_ERROE;
+    $code    = $code ?? CODE_ERROE;
     $content = [
         'message' => $msg ?: strerror($code),
         'errno'   => $code,
@@ -235,9 +235,9 @@ function reply_json($data = [], int $code = 200, array $header = [], array $opti
 /**
  * 将错误码转换为错误消息
  * @param int $code
- * @return mixed|string
+ * @return string
  */
-function strerror(int $code)
+function strerror(int $code): string
 {
     return (CODE_DICT[$code] ?? 'unknown');
 }

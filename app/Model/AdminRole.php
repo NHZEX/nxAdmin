@@ -25,7 +25,7 @@ use Tp\Model\Traits\MysqlJson;
  * @property-read string $status_desc 状态描述
  * @property-read string $genre_desc 类型描述
  * @property string $description 角色描述
- * @property mixed ext 权限
+ * @property mixed $ext 权限
  */
 class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 {

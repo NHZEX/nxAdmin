@@ -20,7 +20,7 @@ class Permission extends Base
      * @param AuthPermission $permission
      * @return Response
      */
-    public function index(AuthPermission $permission)
+    public function index(AuthPermission $permission): Response
     {
         $data = $permission->getTree('__ROOT__', 1);
 
@@ -29,11 +29,11 @@ class Permission extends Base
 
     /**
      * @Auth("admin.permission.info")
-     * @param                $id
+     * @param string $id
      * @param AuthPermission $permission
      * @return Response
      */
-    public function read($id, AuthPermission $permission)
+    public function read(string $id, AuthPermission $permission): Response
     {
         if (($info = $permission->queryPermission($id)) === null) {
             return reply_bad();
@@ -56,12 +56,12 @@ class Permission extends Base
 
     /**
      * @Auth("admin.permission.edit")
-     * @param          $id
+     * @param string   $id
      * @param AuthScan $authScan
      * @param bool     $batch
      * @return Response
      */
-    public function update($id, AuthScan $authScan, bool $batch = false)
+    public function update(string $id, AuthScan $authScan, bool $batch = false): Response
     {
         if (!$this->allowAccess()) {
             return reply_bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
@@ -119,7 +119,7 @@ class Permission extends Base
      * @param AuthScan $authScan
      * @return Response
      */
-    public function scan(AuthScan $authScan)
+    public function scan(AuthScan $authScan): Response
     {
         if (!$this->allowAccess()) {
             return reply_bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
@@ -128,7 +128,7 @@ class Permission extends Base
         return reply_succeed();
     }
 
-    private function allowAccess()
+    private function allowAccess(): bool
     {
         return $this->app->isDebug() && AuthHelper::check() && AuthHelper::user()->isSuperAdmin();
     }

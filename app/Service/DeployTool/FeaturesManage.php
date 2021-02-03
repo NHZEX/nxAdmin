@@ -71,11 +71,11 @@ abstract class FeaturesManage
     /**
      * @param Input  $input
      * @param Output $output
-     * @param        $option
+     * @param array|null $option
      * @return bool|int|null
      * @throws Exception
      */
-    public function __invoke(Input $input, Output $output, $option)
+    public function __invoke(Input $input, Output $output, ?array $option)
     {
         $action = array_shift($option);
 
@@ -246,11 +246,11 @@ abstract class FeaturesManage
     }
 
     /**
-     * @param $value
-     * @param $verify
+     * @param string       $value
+     * @param string|array $verify
      * @throws InputException
      */
-    public function checkValue($value, $verify): void
+    public function checkValue(string $value, $verify): void
     {
         $validate = $this->app->validate;
 

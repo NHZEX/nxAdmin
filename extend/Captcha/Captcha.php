@@ -446,11 +446,11 @@ class Captcha
     /**
      * 验证验证码是否正确
      * @deprecated
-     * @param $ctoken
+     * @param string $ctoken
      * @param string $code 用户验证码
      * @return bool 用户验证码是否正确
      */
-    public function checkToRedis(string $ctoken, string $code)
+    public function checkToRedis(string $ctoken, string $code): bool
     {
         $captcha_key = "captcha:ctoken_{$ctoken}";
         try {

@@ -82,7 +82,6 @@ class EnvManage extends FeaturesManage
             // 开发模式预设
             if ($this->deploy->isDevMode()) {
                 $this->env->APP_DEBUG = 1;
-                $this->env->APP_TRACE = 1;
             } else {
                 unset($this->env->DEVELOP_SECURE_DOMAIN_NAME);
             }

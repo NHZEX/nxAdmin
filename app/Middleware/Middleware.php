@@ -44,7 +44,7 @@ abstract class Middleware
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return string|null
      */
     protected function getControllerClassName(Request $request): ?string
     {

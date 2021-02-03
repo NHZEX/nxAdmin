@@ -76,7 +76,7 @@ function return_raw_value($x)
 
 /**
  * Base64 Url安全编码
- * @param $data
+ * @param string $data
  * @return string
  * @link http://php.net/manual/zh/function.base64-encode.php
  */
@@ -87,11 +87,11 @@ function base64url_encode(string $data): string
 
 /**
  * Base64 Url安全解码
- * @param $data
- * @return bool|string
+ * @param string $data
+ * @return false|string
  * @link http://php.net/manual/zh/function.base64-encode.php
  */
-function base64url_decode(string $data): string
+function base64url_decode(string $data)
 {
     if ($remainder = strlen($data) % 4) {
         $data .= str_repeat('=', 4 - $remainder);
@@ -337,7 +337,7 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
 /**
  * Env获取
  * @param string $key
- * @param        $default
+ * @param mixed  $default
  * @param mixed  ...$argv
  * @return mixed
  * @deprecated
@@ -385,9 +385,9 @@ function preload_statistics()
 }
 
 /**
- * @param     $value
- * @param int $options
- * @param int $depth
+ * @param mixed $value
+ * @param int   $options
+ * @param int   $depth
  * @return false|string
  */
 function json_encode_ex($value, int $options = 0, int $depth = 512)
@@ -401,13 +401,13 @@ function json_encode_ex($value, int $options = 0, int $depth = 512)
 }
 
 /**
- * @param      $value
- * @param bool $assoc
- * @param int  $depth
- * @param int  $options
+ * @param string $value
+ * @param bool   $assoc
+ * @param int    $depth
+ * @param int    $options
  * @return mixed
  */
-function json_decode_ex($value, bool $assoc = true, int $depth = 512, int $options = 0)
+function json_decode_ex(string $value, bool $assoc = true, int $depth = 512, int $options = 0)
 {
     if (PHP_VERSION_ID >= 70300) {
         $options |= JSON_THROW_ON_ERROR;

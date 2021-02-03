@@ -45,7 +45,7 @@ class System extends Base
      * 查询一个值
      * @param string      $label
      * @param string|null $default
-     * @return mixed
+     * @return string|null
      */
     public static function getLabel(string $label, string $default = null): ?string
     {

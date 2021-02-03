@@ -44,27 +44,27 @@ class Attachment extends Base
 
     /**
      * 设置器 文件名长度限制
-     * @param $value
+     * @param string $value
      * @return string
      */
-    protected function setRawFileNameAttr($value)
+    protected function setRawFileNameAttr(string $value): string
     {
         return mb_strcut_omit($value, 128);
     }
 
     /**
      * 虚拟列 获取真实访问路径
-     * @return mixed
+     * @return string
      */
-    protected function getRealPathAttr()
+    protected function getRealPathAttr(): string
     {
         return self::DRIVER_DICT[$this->driver] . $this->path;
     }
 
     /**
      * 格式化为请求路径
-     * @param $pic_path
-     * @return mixed|string|null
+     * @param string|string[]|null $pic_path
+     * @return string|string[]|null
      */
     public static function formatAccessPath($pic_path)
     {
@@ -92,8 +92,8 @@ class Attachment extends Base
 
     /**
      * 格式化为上传组件可用路径
-     * @param $pic_path
-     * @return array|string|null
+     * @param string|string[]|null $pic_path
+     * @return string|string[]|null
      */
     public static function formatForItemPath($pic_path)
     {
@@ -124,7 +124,7 @@ class Attachment extends Base
      * @param string $input_path
      * @return null|string
      */
-    public static function parseUrl($input_path): ?string
+    public static function parseUrl(string $input_path): ?string
     {
         $path_arr = explode('#', $input_path);
         if (count($path_arr) !== 2) {
@@ -136,13 +136,13 @@ class Attachment extends Base
     }
 
     /**
-     * @param $fileKey
+     * @param string $fileKey
      * @return false|Attachment
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
      */
-    public static function findFile($fileKey)
+    public static function findFile(string $fileKey)
     {
         /** @var self|null $file */
         $file = (new self())->where('index', $fileKey)->find();

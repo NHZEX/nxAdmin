@@ -329,10 +329,10 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     /**
      * 获取器 获取实际访问路径
-     * @param $value
-     * @return mixed|string|null
+     * @param string|null $value
+     * @return string|string[]|null
      */
-    protected function getAvatarAttr($value)
+    protected function getAvatarAttr(?string $value)
     {
         if ($value) {
             return Attachment::formatAccessPath($value);
@@ -350,7 +350,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * @param $value
+     * @param string|null $value
      */
     protected function setAvatarDataAttr($value)
     {

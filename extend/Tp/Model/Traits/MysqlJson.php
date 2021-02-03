@@ -14,22 +14,22 @@ trait MysqlJson
 {
     /**
      * 生成Json字段查询代码
-     * @param string $field
-     * @param string $path
-     * @param string $alias
+     * @param string      $field
+     * @param string      $path
+     * @param string|null $alias
      * @return string
      */
-    public static function queryJsonField(string $field, string $path, ?string $alias = null)
+    public static function queryJsonField(string $field, string $path, ?string $alias = null): string
     {
         return "`{$field}`->>'$.{$path}'" . ($alias ? " AS {$alias}" : " AS {$path}");
     }
 
     /**
      * 设置JsonData
-     * @param $field
-     * @param $value
-     * @param $path
-     * @return static
+     * @param string     $field
+     * @param string     $path
+     * @param string|int $value
+     * @return $this
      */
     public function setJsonData(string $field, string $path, $value)
     {
@@ -37,7 +37,7 @@ trait MysqlJson
         $value = self::jsonValue($value);
 
         // 写入json数据
-        $raw = new Raw(
+        $raw          = new Raw(
             "JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`), '$.{$path}', {$value})"
         );
         $this->$field = $raw;
@@ -48,7 +48,7 @@ trait MysqlJson
      * 设置JsonData
      * @param string $field
      * @param array  $vs
-     * @return $this|static
+     * @return $this
      */
     public function setJsonDatas(string $field, array $vs)
     {
@@ -60,18 +60,18 @@ trait MysqlJson
         foreach ($vs as $v) {
             [$path, $value] = $v;
             $value = self::jsonValue($value);
-            $sets .= ", '$.{$path}', {$value}";
+            $sets  .= ", '$.{$path}', {$value}";
         }
 
         // 写入json数据
-        $raw = new Raw("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})");
+        $raw          = new Raw("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})");
         $this->$field = $raw;
         return $this;
     }
 
     /**
      * Mysql Json 代码生成
-     * @param $value
+     * @param mixed $value
      * @return string
      */
     protected static function jsonValue($value)
@@ -84,7 +84,7 @@ trait MysqlJson
                 foreach ($value as $key => $v) {
                     $tmp .= "'{$key}', " . self::jsonValue($v) . ',';
                 }
-                $tmp = substr($tmp, 0, strlen($tmp) - 1);
+                $tmp   = substr($tmp, 0, strlen($tmp) - 1);
                 $value = "JSON_OBJECT({$tmp})";
                 unset($tmp);
             } else {

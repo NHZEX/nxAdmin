@@ -60,6 +60,8 @@ trait ModelAccessLimit
         if (!$data instanceof \app\Contracts\ModelAccessLimit) {
             return;
         }
+        /** @noinspection PhpUndefinedFieldInspection */
+        /** @phpstan-ignore-next-line */
         if ($data->withoutAccessLimit) {
             return;
         }
