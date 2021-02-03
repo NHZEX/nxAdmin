@@ -38,7 +38,7 @@ trait CsrfHelper
      * @param int  $pk_id
      * @param int  $lock_version
      * @param bool $enable 使能令牌
-     * @return bool
+     * @return string
      */
     protected function generateCsrfToken(int $pk_id, int $lock_version, bool $enable = true)
     {

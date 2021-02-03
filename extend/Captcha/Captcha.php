@@ -24,8 +24,8 @@ use function Zxin\Crypto\encrypt_data;
  * @property int $fontSize
  * @property bool $useCurve
  * @property bool $useNoise
- * @property int $imageH
- * @property int $imageW
+ * @property float $imageH
+ * @property float $imageW
  * @property int $length
  * @property string[] $fontttfs
  * @property bool $singleFont

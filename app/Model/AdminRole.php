@@ -124,12 +124,19 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
         AdminRoleLogic::destroyCache($model);
     }
 
+    /**
+     * @param int $genre
+     * @return array|null
+     */
     public function getAccessControl(int $genre): ?array
     {
         return self::ACCESS_CONTROL[$genre] ?? null;
     }
 
-    public function getAllowAccessTarget()
+    /**
+     * @return int|null
+     */
+    public function getAllowAccessTarget(): ?int
     {
         return AuthHelper::userRoleId();
     }

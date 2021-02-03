@@ -165,7 +165,7 @@ abstract class FeaturesManage
             return;
         }
         $envPrefix = strtoupper($envPrefix);
-        foreach ($this->env as $key => $value) {
+        foreach ($this->env->toArray() as $key => $value) {
             // 解析三段式常量
             $ekey = explode('_', $key);
             if (count($ekey) < $segments) {
