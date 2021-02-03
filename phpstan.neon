@@ -1,0 +1,10 @@
+parameters:
+    level: 3
+    paths:
+        - app
+        - config
+        - extend
+    scanFiles:
+        - vendor/topthink/framework/src/helper.php
+includes:
+    - phpstan-baseline.neon
