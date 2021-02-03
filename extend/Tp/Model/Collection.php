@@ -12,7 +12,7 @@ namespace Tp\Model;
  * Class Collection
  * @package Tp\Model
  */
-class Collection extends \think\model\Collection
+final class Collection extends \think\model\Collection
 {
     /**
      * 取出第一个key

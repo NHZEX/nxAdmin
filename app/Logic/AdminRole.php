@@ -7,7 +7,6 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\Cache;
-use Tp\Db\Query as Query2;
 use Zxin\Think\Auth\Permission;
 use function count;
 use function explode;
@@ -50,7 +49,7 @@ class AdminRole extends Base
         if (!$force && Cache::has($key)) {
             $ext = Cache::get($key);
         } else {
-            $value = AdminRoleModel::wherePk($roleId)->value('ext', '{}');
+            $value = AdminRoleModel::where('id', $roleId)->value('ext', '{}');
             $ext = json_decode($value, true);
             Cache::set($key, $ext);
         }
@@ -131,7 +130,7 @@ class AdminRole extends Base
      */
     public static function savePermission(int $roleID, array $hashArr)
     {
-        /** @var AdminRoleModel|Query2 $role */
+        /** @var AdminRoleModel $role */
         $role = AdminRoleModel::find($roleID);
         $role->setJsonData('ext', AdminRoleModel::EXT_PERMISSION, $hashArr);
         $role->save();

@@ -4,6 +4,7 @@ namespace app\Model;
 
 use app\Exception\AccessControl;
 use app\Exception\ModelLogicException;
+use app\Service\Auth\AuthHelper;
 use app\Traits\Model\ModelAccessLimit;
 use RuntimeException;
 use think\Model;
@@ -11,7 +12,6 @@ use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
-use Zxin\Think\Auth\Facade\Auth;
 
 /**
  * Class AdminUser
@@ -153,7 +153,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     public function getAllowAccessTarget()
     {
-        return Auth::id();
+        return AuthHelper::id();
     }
 
     /**
@@ -165,7 +165,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         if ($data->hasData('username')
             && $data->getOrigin('username') !== $data->getData('username')
         ) {
-            $isExist = (new static())
+            $isExist = (new self())
                 ->where('username', $data->username)
                 ->value('id');
             if ($isExist !== null) {
@@ -175,7 +175,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         if ($data->hasData('email')
             && $data->getOrigin('email') !== $data->getData('email')
         ) {
-            $isExist = (new static())
+            $isExist = (new self())
                 ->where('email', $data->email)
                 ->value('id');
             if ($isExist !== null) {

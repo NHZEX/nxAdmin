@@ -8,7 +8,7 @@ use Zxin\Think\Auth\AuthManager;
 /**
  * Class AuthManager
  * @package app\Service\Auth
- * @method AdminUser user() static
+ * @method static AdminUser user()
  */
 class AuthHelper extends AuthManager
 {

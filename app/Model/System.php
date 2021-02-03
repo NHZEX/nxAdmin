@@ -85,6 +85,7 @@ class System extends Base
             return "_lock:{$token}:{$ttl}";
         };
         return MainTrans::callback(function () use ($label, $ttl, $generateKey) {
+            $token = null;
             $value = self::where('label', $label)
                 ->lock(true)
                 ->value('value', null);
