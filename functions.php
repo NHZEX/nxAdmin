@@ -8,10 +8,9 @@ define('__PHPUNIT_GLOBAL_ASSERT_WRAPPERS__', false);
 
 /**
  * 获取环境变量值
- * @access public
- * @param string $name    环境变量名（支持二级 .号分割）
- * @param string $default 默认值
- * @return mixed
+ * @param string|null $name
+ * @param mixed       $default
+ * @return string|int|bool|array<string, mixed>|null
  */
 function env(string $name = null, $default = null)
 {

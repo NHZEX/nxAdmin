@@ -151,26 +151,26 @@ class Captcha
     {
         $px = $py = 0;
 
-        $A = mt_rand(1, $this->imageH / 2); // 振幅
+        $A = mt_rand(1, (int) ($this->imageH / 2)); // 振幅
 
-        $T = mt_rand($this->imageH, $this->imageW * 2); // 周期
+        $T = mt_rand((int) ($this->imageH), (int) ($this->imageW * 2)); // 周期
         $w = (2 * M_PI) / $T;
 
         // 曲线前部分
-        $b = mt_rand(-$this->imageH / 4, $this->imageH / 4); // Y轴方向偏移量
-        $f = mt_rand(-$this->imageH / 4, $this->imageH / 4); // X轴方向偏移量
+        $b = mt_rand(-(int) ($this->imageH / 4), (int) ($this->imageH / 4)); // Y轴方向偏移量
+        $f = mt_rand(-(int) ($this->imageH / 4), (int) ($this->imageH / 4)); // X轴方向偏移量
         $px1 = 0; // 曲线横坐标起始位置
-        $px2 = mt_rand($this->imageW / 2, $this->imageW * 0.8); // 曲线横坐标结束位置
+        $px2 = mt_rand((int) ($this->imageW / 2), (int) ($this->imageW * 0.8)); // 曲线横坐标结束位置
 
         $this->drawCurve($A, $px1, $px2, $w, $f, $b);
 
         // 曲线后部分
         $b   = $py - $A * sin($w * $px + $f) - $this->imageH / 2;
-        $f   = mt_rand(-$this->imageH / 4, $this->imageH / 4); // X轴方向偏移量
+        $f   = mt_rand(-(int) ($this->imageH / 4), (int) ($this->imageH / 4)); // X轴方向偏移量
         $px1 = $px2;
         $px2 = $this->imageW;
 
-        $this->drawCurve($A, $px1, $px2, $w, $f, $b);
+        $this->drawCurve($A, (int) $px1, (int) $px2, $w, $f, $b);
     }
 
     private function drawCurve(int $amplitude, int $px1, int $px2, float $w, float $f, float $b)
@@ -181,7 +181,7 @@ class Captcha
                 $i  = (int) ($this->fontSize / 5);
                 while ($i > 0) {
                     // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
-                    imagesetpixel($this->im, $px + $i, $py + $i, $this->color);
+                    imagesetpixel($this->im, $px + $i, (int) ($py + $i), $this->color);
                     $i--;
                 }
             }
@@ -203,8 +203,8 @@ class Captcha
                 imagestring(
                     $this->im,
                     5,
-                    mt_rand(-10, $this->imageW),
-                    mt_rand(-10, $this->imageH),
+                    mt_rand(-10, (int) $this->imageW),
+                    mt_rand(-10, (int) $this->imageH),
                     $codeSet[mt_rand(0, 29)],
                     $noiseColor
                 );
@@ -234,7 +234,18 @@ class Captcha
         [$width, $height] = @getimagesize($gb);
         // Resample
         $bgImage = @imagecreatefromjpeg($gb);
-        @imagecopyresampled($this->im, $bgImage, 0, 0, 0, 0, $this->imageW, $this->imageH, $width, $height);
+        @imagecopyresampled(
+            $this->im,
+            $bgImage,
+            0,
+            0,
+            0,
+            0,
+            (int) $this->imageW,
+            (int) $this->imageH,
+            $width,
+            $height
+        );
         @imagedestroy($bgImage);
     }
 
@@ -251,7 +262,7 @@ class Captcha
         // 图片高(px)
         $this->imageH || $this->imageH = $this->fontSize * 2.5;
         // 建立一幅 $this->imageW x $this->imageH 的图像
-        $this->im = imagecreate($this->imageW, $this->imageH);
+        $this->im = imagecreate((int) $this->imageW, (int) $this->imageH);
         // 设置背景
         imagecolorallocate($this->im, $this->bg[0], $this->bg[1], $this->bg[2]);
 
@@ -296,13 +307,13 @@ class Captcha
         $codeNX = 0; // 验证码第N个字符的左边距
         for ($i = 0; $i < $this->length; $i++) {
             $code[$i] = $this->codeSet[mt_rand(0, strlen($this->codeSet) - 1)];
-            $codeNX += mt_rand($this->fontSize * 1.2, $this->fontSize * 1.6);
+            $codeNX += mt_rand((int) ($this->fontSize * 1.2), (int) ($this->fontSize * 1.6));
             imagettftext(
                 $this->im,
                 $this->fontSize,
                 mt_rand(-40, 40),
                 $codeNX,
-                $this->fontSize * 1.6,
+                (int) ($this->fontSize * 1.6),
                 $this->color,
                 isset($selected) ? $this->fontttfs[$selected] : $this->fontttfs[mt_rand(0, count($this->fontttfs) - 1)],
                 $code[$i]

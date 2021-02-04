@@ -26,9 +26,9 @@ trait MysqlJson
 
     /**
      * 设置JsonData
-     * @param string     $field
-     * @param string     $path
-     * @param string|int $value
+     * @param string           $field
+     * @param string           $path
+     * @param string|int|array $value
      * @return $this
      */
     public function setJsonData(string $field, string $path, $value)
@@ -74,10 +74,12 @@ trait MysqlJson
      * @param mixed $value
      * @return string
      */
-    protected static function jsonValue($value)
+    protected static function jsonValue($value): string
     {
         if (is_numeric($value)) {
+            return (string) $value;
         } elseif (is_bool($value)) {
+            return (string) $value;
         } elseif (is_array($value)) {
             if (is_assoc($value)) {
                 $tmp = '';
