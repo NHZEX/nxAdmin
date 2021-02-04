@@ -4,6 +4,7 @@ namespace Tp\Model\Traits;
 
 use think\db\Raw;
 use think\Model;
+use function array_is_list;
 
 /**
  * Trait OptimLock
@@ -81,7 +82,7 @@ trait MysqlJson
         } elseif (is_bool($value)) {
             return (string) $value;
         } elseif (is_array($value)) {
-            if (is_assoc($value)) {
+            if (array_is_list($value)) {
                 $tmp = '';
                 foreach ($value as $key => $v) {
                     $tmp .= "'{$key}', " . self::jsonValue($v) . ',';
