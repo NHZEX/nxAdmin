@@ -1,0 +1,16 @@
+<?php
+
+namespace think {
+    class Log {
+        /**
+         * @param string      $channel
+         * @param string|null $name
+         * @param mixed       $default
+         * @return mixed
+         */
+        public function getChannelConfig($channel, $name = null, $default = null) {}
+    }
+
+    class Model {
+    }
+}

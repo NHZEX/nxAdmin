@@ -1,10 +1,13 @@
 parameters:
-    level: 3
+    level: 5
     paths:
         - app
         - config
         - extend
     scanFiles:
         - vendor/topthink/framework/src/helper.php
+    stubFiles:
+        - stubs/global_function.stub
+        - stubs/think_class.stub
 includes:
     - phpstan-baseline.neon

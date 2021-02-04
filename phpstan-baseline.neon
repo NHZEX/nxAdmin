@@ -16,6 +16,11 @@ parameters:
 			path: app/Logic/AdminRole.php
 
 		-
+			message: "#^Parameter \\#1 \\$data of static method app\\\\Model\\\\AdminUser\\:\\:checkUserInputUnique\\(\\) expects app\\\\Model\\\\AdminUser, think\\\\Model given\\.$#"
+			count: 2
+			path: app/Model/AdminUser.php
+
+		-
 			message: "#^Call to an undefined method think\\\\Model\\:\\:hasData\\(\\)\\.$#"
 			count: 1
 			path: app/Model/AdminUser.php
