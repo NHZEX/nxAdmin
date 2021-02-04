@@ -17,6 +17,13 @@ use function zlib_encode;
 
 class SocketDriver extends Socket
 {
+    /**
+     * @param string $host
+     * @param int    $port
+     * @param string $message
+     * @param string $address
+     * @return bool|string
+     */
     protected function send($host, $port, $message = '', $address = '/')
     {
         $url = "http://{$host}:{$port}{$address}";

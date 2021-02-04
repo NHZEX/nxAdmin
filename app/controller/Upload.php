@@ -54,7 +54,7 @@ class Upload extends Base
         }
         $returnData = [];
         foreach ($files as $key => $file) {
-            if (false === ($file instanceof File)) {
+            if (!($file instanceof File)) {
                 return reply_bad(CODE_COM_PARAM, '无法处理提交');
             }
             if (($imageInfo = $this->uploadImage($file)) instanceof Response) {

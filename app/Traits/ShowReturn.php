@@ -13,6 +13,11 @@ use Tp\Paginator2;
 use function Zxin\debug_array;
 use function Zxin\set_path_cut_len;
 
+/**
+ * @deprecated use reply_* function
+ * Trait ShowReturn
+ * @package app\Traits
+ */
 trait ShowReturn
 {
     /**

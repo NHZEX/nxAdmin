@@ -46,6 +46,21 @@ parameters:
 			path: app/Model/AdminUser.php
 
 		-
+			message: "#^Right side of && is always true\\.$#"
+			count: 1
+			path: app/Model/AdminUser.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 3
+			path: app/Model/AdminUser.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between array\\<string\\> and 'rw' will always evaluate to false\\.$#"
+			count: 2
+			path: app/Model/AdminUser.php
+
+		-
 			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:where\\(\\)\\.$#"
 			count: 7
 			path: app/Model/System.php
@@ -71,6 +86,46 @@ parameters:
 			path: app/Service/DeployTool/UserManage.php
 
 		-
+			message: "#^Right side of \\|\\| is always false\\.$#"
+			count: 1
+			path: app/controller/Util.php
+
+		-
+			message: "#^Call to function is_null\\(\\) with array\\|string will always evaluate to false\\.$#"
+			count: 1
+			path: app/BaseController.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: app/BaseController.php
+
+		-
+			message: "#^Call to function is_null\\(\\) with array\\|string will always evaluate to false\\.$#"
+			count: 1
+			path: app/Service/Auth/Middleware/Authorize.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 1
+			path: app/Service/Auth/Middleware/Authorize.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 3
+			path: app/Model/AdminRole.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between array\\<string\\> and 'rw' will always evaluate to false\\.$#"
+			count: 2
+			path: app/Model/AdminRole.php
+
+		-
+			message: "#^Result of \\|\\| is always true\\.$#"
+			count: 1
+			path: app/Model/Base.php
+
+		-
 			message: "#^Unsafe usage of new static\\(\\)\\.$#"
 			count: 4
 			path: app/Model/Base.php
@@ -79,6 +134,11 @@ parameters:
 			message: "#^Call to an undefined method app\\\\Model\\\\Base\\:\\:getTableFields\\(\\)\\.$#"
 			count: 1
 			path: app/Model/Base.php
+
+		-
+			message: "#^Right side of \\|\\| is always true\\.$#"
+			count: 1
+			path: app/common.php
 
 		-
 			message: "#^Call to an undefined method think\\\\db\\\\ConnectionInterface\\:\\:query\\(\\)\\.$#"
@@ -114,4 +174,9 @@ parameters:
 			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:find\\(\\)\\.$#"
 			count: 2
 			path: app/controller/api/admin/User.php
+
+		-
+			message: "#^Left side of && is always false\\.$#"
+			count: 1
+			path: extend/Tp/Log/SocketDriver.php
 

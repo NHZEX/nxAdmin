@@ -12,7 +12,6 @@ use think\Paginator;
 use think\Response;
 use think\response\Json;
 use Throwable;
-use Tp\Paginator2;
 use function array_map;
 use function is_array;
 use function is_object;
@@ -54,7 +53,7 @@ function reply_table($data = null, int $code = 200): Response
 {
     if ($data instanceof Collection) {
         $result = $data->toArray();
-    } elseif ($data instanceof Paginator || $data instanceof Paginator2) {
+    } elseif ($data instanceof Paginator) {
         $result = [
             'data'  => $data->getCollection()->toArray(),
             'count' => $data->total(),
@@ -111,9 +110,9 @@ function reply_exception(Throwable $exception, ?string $msg = null, int $httpCod
 
 /**
  * 响应成功
- * @param string|int $data
- * @param int        $code
- * @param array      $header
+ * @param string|int|array|object $data
+ * @param int                     $code
+ * @param array                   $header
  * @return Response
  */
 function reply_succeed($data = '', int $code = 200, array $header = []): Response

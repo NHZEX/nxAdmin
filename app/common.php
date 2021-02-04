@@ -88,15 +88,16 @@ function base64url_encode(string $data): string
 /**
  * Base64 Url安全解码
  * @param string $data
+ * @param bool   $strict
  * @return false|string
  * @link http://php.net/manual/zh/function.base64-encode.php
  */
-function base64url_decode(string $data)
+function base64url_decode(string $data, bool $strict = true)
 {
     if ($remainder = strlen($data) % 4) {
         $data .= str_repeat('=', 4 - $remainder);
     }
-    return base64_decode(strtr($data, '-_', '+/'));
+    return base64_decode(strtr($data, '-_', '+/'), $strict);
 }
 
 /**
@@ -202,6 +203,7 @@ function array_values_recursive(array $arr, ?string $filter_key = null)
 
 /**
  * 是否关联数组
+ * @deprecated use \array_is_list
  * @param array $arr
  * @return bool
  * @link https://github.com/laravel/framework/blob/5.7/src/Illuminate/Support/Arr.php#L357
@@ -214,6 +216,7 @@ function is_assoc(array $arr)
 
 /**
  * 是否关联数组
+ * @deprecated use \array_is_list
  * @param array $arr
  * @return bool
  * @link https://stackoverflow.com/a/173479/10242420
@@ -288,39 +291,12 @@ function query_mysql_exist_database(string $database, string $connect = null)
 }
 
 /**
- * 多维数组指定多字段排序
- * 排序：SORT_ASC升序 , SORT_DESC降序
- * 示例：$this->multiaArraySort($arr, 'num', SORT_DESC, 'sort', SORT_ASC)
- * @copyright https://blog.csdn.net/qq_35296546/article/details/78812176
- * @param array $args
- * @return array
- */
-function sort_arr_by_many_field(...$args)
-{
-    $arr = array_shift($args);
-    if (!is_array($arr)) {
-        throw new InvalidArgumentException("第一个参数不为数组");
-    }
-    foreach ($args as $key => $field) {
-        if (is_string($field)) {
-            $temp = [];
-            foreach ($arr as $index => $val) {
-                $temp[$index] = $val[$field];
-            }
-            $args[$key] = $temp;
-        }
-    }
-    $args[] = &$arr; //引用值
-    call_user_func_array('array_multisort', $args);
-    return array_pop($args);
-}
-
-/**
  * 多字节字符串按照字节长度进行截取
+ * @deprecated
  * @param  string $string 字符串
  * @param  int $length 截取长度
  * @param  string $dot 省略符
- * @param  string $charset 编码
+ * @param  string|null $charset 编码
  * @return string
  */
 function mb_strcut_omit(string $string, int $length, string $dot = '...', ?string $charset = null): string
