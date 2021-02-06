@@ -29,7 +29,7 @@ namespace think\db {
         /**
          * @param string                $field
          * @param string                $op
-         * @param string|int|array|null $range
+         * @param string|int|array<int|string>|null $range
          * @param string                $logic
          * @return $this
          */
