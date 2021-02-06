@@ -7,13 +7,10 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Response;
+use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\Annotation\AuthNode;
 use Zxin\Think\Validate\Annotation\Validation;
-use function func\reply\reply_create;
-use function func\reply\reply_not_found;
-use function func\reply\reply_succeed;
-use function func\reply\reply_table;
 use function trim;
 
 /**
@@ -40,7 +37,7 @@ class User extends Base
             ->append(['status_desc', 'genre_desc', 'avatar_data'])
             ->paginate($limit);
 
-        return reply_table($result);
+        return Reply::table($result);
     }
 
     /**
@@ -55,9 +52,9 @@ class User extends Base
     {
         $result = AdminUser::find($id);
         if (empty($result)) {
-            return reply_not_found();
+            return Reply::notFound();
         }
-        return reply_succeed($result);
+        return Reply::success($result);
     }
 
     /**
@@ -70,7 +67,7 @@ class User extends Base
     {
         AdminUser::create($this->getFilterInput());
 
-        return reply_create();
+        return Reply::create();
     }
 
     /**
@@ -88,7 +85,7 @@ class User extends Base
         /** @var AdminUser $result */
         $result = AdminUser::find($id);
         if (empty($result)) {
-            return reply_not_found();
+            return Reply::notFound();
         }
 
         $data = $this->getFilterInput();
@@ -97,7 +94,7 @@ class User extends Base
         }
         $result->save($data);
 
-        return reply_succeed();
+        return Reply::success();
     }
 
     /**
@@ -110,6 +107,6 @@ class User extends Base
     {
         AdminUser::destroy($id);
 
-        return reply_succeed();
+        return Reply::success();
     }
 }

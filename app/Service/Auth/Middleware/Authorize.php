@@ -8,9 +8,9 @@ use Closure;
 use think\App;
 use think\Request;
 use think\Response;
+use Util\Reply;
 use Zxin\Think\Auth\AuthGuard;
 use Zxin\Think\Auth\Permission;
-use function func\reply\reply_bad;
 
 class Authorize
 {
@@ -109,7 +109,7 @@ class Authorize
     protected function failJump(Request $request, string $message): Response
     {
         if ($request->isAjax()) {
-            return reply_bad(null, null, null, 401);
+            return Reply::bad(null, null, null, 401);
         } else {
             return $this->error($message, null, null, 3600);
         }
@@ -123,7 +123,7 @@ class Authorize
     protected function refuseJump(Request $request, string $message): Response
     {
         if ($request->isAjax()) {
-            return reply_bad(null, $message, null, 403);
+            return Reply::bad(null, $message, null, 403);
         } else {
             return Response::create($message, 'html', 403);
         }

@@ -63,6 +63,7 @@
     "autoload": {
         "psr-4": {
             "app\\": "app",
+            "Util\\": "extend/Util",
             "Captcha\\": "extend/Captcha",
             "Guzzle\\": "extend/Guzzle",
             "Tp\\": "extend/Tp"

@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use app\Traits\CsrfHelper;
-use function func\reply\reply_succeed;
+use Util\Reply;
 
 class Util extends Base
 {
@@ -14,6 +14,6 @@ class Util extends Base
         $token = $this->generateCsrfTokenSimple();
         $this->addCsrfToken($token);
 
-        return reply_succeed()->header(['X-CSRF-Token' => $token]);
+        return Reply::success()->header(['X-CSRF-Token' => $token]);
     }
 }

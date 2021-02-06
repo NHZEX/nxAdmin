@@ -26,7 +26,7 @@ use think\exception\ValidateException;
 use think\Response;
 use Throwable;
 use Tp\Model\Exception\ModelException;
-use function func\reply\reply_bad;
+use Util\Reply;
 
 /**
  * 应用异常处理类
@@ -109,15 +109,15 @@ class ExceptionHandle extends Handle
     {
         // 捕获乐观锁错误
         if ($e instanceof ModelException && $e->getCode() === CODE_MODEL_OPTIMISTIC_LOCK) {
-            return reply_bad($e->getCode(), $e->getMessage(), null, 403);
+            return Reply::bad($e->getCode(), $e->getMessage(), null, 403);
         }
         // 捕获访问控制异常
         if ($e instanceof AccessControl) {
-            return reply_bad($e->getCode(), $e->getMessage(), null, 403);
+            return Reply::bad($e->getCode(), $e->getMessage(), null, 403);
         }
         // 模型业务逻辑错误
         if ($e instanceof ModelLogicException) {
-            return reply_bad($e->getCode(), $e->getMessage());
+            return Reply::bad($e->getCode(), $e->getMessage());
         }
         // 渲染其他异常
         return parent::render($request, $e);

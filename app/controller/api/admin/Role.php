@@ -8,13 +8,10 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\db\Query;
 use think\Response;
+use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\Annotation\AuthNode;
 use Zxin\Think\Validate\Annotation\Validation;
-use function func\reply\reply_create;
-use function func\reply\reply_not_found;
-use function func\reply\reply_succeed;
-use function func\reply\reply_table;
 
 /**
  * Class Role
@@ -39,7 +36,7 @@ class Role extends Base
             ->append(['genre_desc', 'status_desc'])
             ->paginate($limit);
 
-        return reply_table($result);
+        return Reply::table($result);
     }
 
     /**
@@ -58,7 +55,7 @@ class Role extends Base
             };
         }
         $result = AdminRole::buildOption(null, $where);
-        return reply_succeed($result);
+        return Reply::success($result);
     }
 
     /**
@@ -73,9 +70,9 @@ class Role extends Base
     {
         $result = AdminRole::find($id);
         if (empty($result)) {
-            return reply_not_found();
+            return Reply::notFound();
         }
-        return reply_succeed($result);
+        return Reply::success($result);
     }
 
     /**
@@ -87,7 +84,7 @@ class Role extends Base
     public function save(): Response
     {
         AdminRole::create($this->getFilterInput());
-        return reply_create();
+        return Reply::create();
     }
 
     /**
@@ -104,10 +101,10 @@ class Role extends Base
     {
         $data = AdminRole::find($id);
         if (empty($data)) {
-            return reply_not_found();
+            return Reply::notFound();
         }
         $data->save($this->getFilterInput());
-        return reply_succeed();
+        return Reply::success();
     }
 
     /**
@@ -119,6 +116,6 @@ class Role extends Base
     public function delete($id): Response
     {
         AdminRole::destroy($id);
-        return reply_succeed();
+        return Reply::success();
     }
 }

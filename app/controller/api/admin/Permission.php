@@ -5,13 +5,11 @@ namespace app\controller\api\admin;
 use app\Service\Auth\AuthHelper;
 use think\helper\Arr;
 use think\Response;
+use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthScan;
 use Zxin\Think\Auth\Permission as AuthPermission;
 use function array_merge;
-use function func\reply\reply_bad;
-use function func\reply\reply_not_found;
-use function func\reply\reply_succeed;
 
 class Permission extends Base
 {
@@ -24,7 +22,7 @@ class Permission extends Base
     {
         $data = $permission->getTree('__ROOT__', 1);
 
-        return reply_succeed($data);
+        return Reply::success($data);
     }
 
     /**
@@ -36,7 +34,7 @@ class Permission extends Base
     public function read(string $id, AuthPermission $permission): Response
     {
         if (($info = $permission->queryPermission($id)) === null) {
-            return reply_bad();
+            return Reply::bad();
         }
 
         $allow = [];
@@ -51,7 +49,7 @@ class Permission extends Base
         }
         $info['allow'] = $allow;
 
-        return reply_succeed($info);
+        return Reply::success($info);
     }
 
     /**
@@ -64,14 +62,14 @@ class Permission extends Base
     public function update(string $id, AuthScan $authScan, bool $batch = false): Response
     {
         if (!$this->allowAccess()) {
-            return reply_bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
+            return Reply::bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
         }
 
         if ($batch) {
             $list = $this->request->put('list');
 
             if (empty($list) || !is_array($list)) {
-                return reply_bad();
+                return Reply::bad();
             }
 
             $perm = AuthPermission::getInstance();
@@ -93,7 +91,7 @@ class Permission extends Base
             $input = $this->request->only(['sort', 'desc']);
 
             if (empty($input)) {
-                return reply_bad();
+                return Reply::bad();
             }
             if (!empty($input['sort'])) {
                 $input['sort'] = (int) $input['sort'];
@@ -101,7 +99,7 @@ class Permission extends Base
 
             $perm = AuthPermission::getInstance();
             if (!$perm->queryPermission($id)) {
-                return reply_not_found();
+                return Reply::notFound();
             }
             $permissions = $perm->getPermission();
             $permissions[$id] = array_merge($permissions[$id], $input);
@@ -110,7 +108,7 @@ class Permission extends Base
 
         $authScan->export($perm->getStorage()->toArray());
 
-        return reply_succeed();
+        return Reply::success();
     }
 
     /**
@@ -122,10 +120,10 @@ class Permission extends Base
     public function scan(AuthScan $authScan): Response
     {
         if (!$this->allowAccess()) {
-            return reply_bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
+            return Reply::bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
         }
         $authScan->refresh();
-        return reply_succeed();
+        return Reply::success();
     }
 
     private function allowAccess(): bool
