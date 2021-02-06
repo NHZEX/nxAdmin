@@ -23,3 +23,16 @@ namespace think {
         public function header(string $name = '', string $default = null) {}
     }
 }
+
+namespace think\db {
+    class BaseQuery {
+        /**
+         * @param string                $field
+         * @param string                $op
+         * @param string|int|array|null $range
+         * @param string                $logic
+         * @return $this
+         */
+        public function whereTime(string $field, string $op, $range = null, string $logic) {}
+    }
+}
