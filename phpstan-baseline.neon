@@ -1,51 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Call to an undefined method think\\\\db\\\\ConnectionInterface\\:\\:query\\(\\)\\.$#"
-			count: 2
-			path: app/Command/CreateModel.php
-
-		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: app/Logic/AdminRole.php
-
-		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:find\\(\\)\\.$#"
-			count: 1
-			path: app/Logic/AdminRole.php
-
-		-
-			message: "#^Parameter \\#1 \\$data of static method app\\\\Model\\\\AdminUser\\:\\:checkUserInputUnique\\(\\) expects app\\\\Model\\\\AdminUser, think\\\\Model given\\.$#"
-			count: 2
-			path: app/Model/AdminUser.php
-
-		-
-			message: "#^Call to an undefined method think\\\\Model\\:\\:hasData\\(\\)\\.$#"
-			count: 1
-			path: app/Model/AdminUser.php
-
-		-
-			message: "#^Access to an undefined property think\\\\Model\\:\\:\\$last_login_ip\\.$#"
-			count: 1
-			path: app/Model/AdminUser.php
-
-		-
-			message: "#^Access to an undefined property think\\\\Model\\:\\:\\$signup_ip\\.$#"
-			count: 1
-			path: app/Model/AdminUser.php
-
-		-
-			message: "#^Access to an undefined property think\\\\Model\\:\\:\\$remember\\.$#"
-			count: 1
-			path: app/Model/AdminUser.php
-
-		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: app/Model/AdminUser.php
-
-		-
 			message: "#^Method app\\\\Model\\\\AdminUser\\:\\:getAccessControl\\(\\) should return array\\<array\\<string\\>\\>\\|null but returns array\\<int\\|string, string\\>\\|null\\.$#"
 			count: 1
 			path: app/Model/AdminUser.php
@@ -66,26 +21,6 @@ parameters:
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:where\\(\\)\\.$#"
-			count: 7
-			path: app/Model/System.php
-
-		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:insert\\(\\)\\.$#"
-			count: 1
-			path: app/Model/System.php
-
-		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:whereIn\\(\\)\\.$#"
-			count: 1
-			path: app/Model/System.php
-
-		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:where\\(\\)\\.$#"
-			count: 1
-			path: app/Service/DeployTool/UserManage.php
-
-		-
 			message: "#^Call to an undefined method app\\\\Model\\\\AdminUser\\:\\:fetchSql\\(\\)\\.$#"
 			count: 1
 			path: app/Service/DeployTool/UserManage.php
@@ -94,26 +29,6 @@ parameters:
 			message: "#^Right side of \\|\\| is always false\\.$#"
 			count: 1
 			path: app/controller/Util.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with array\\|string will always evaluate to false\\.$#"
-			count: 1
-			path: app/BaseController.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: app/BaseController.php
-
-		-
-			message: "#^Call to function is_null\\(\\) with array\\|string will always evaluate to false\\.$#"
-			count: 1
-			path: app/Service/Auth/Middleware/Authorize.php
-
-		-
-			message: "#^Result of && is always false\\.$#"
-			count: 1
-			path: app/Service/Auth/Middleware/Authorize.php
 
 		-
 			message: "#^Result of && is always false\\.$#"
@@ -146,11 +61,6 @@ parameters:
 			path: app/common.php
 
 		-
-			message: "#^Call to an undefined method think\\\\db\\\\ConnectionInterface\\:\\:query\\(\\)\\.$#"
-			count: 4
-			path: app/common.php
-
-		-
 			message: "#^Variable \\$pdo in PHPDoc tag @var does not match assigned variable \\$connect\\.$#"
 			count: 1
 			path: app/common.php
@@ -161,24 +71,9 @@ parameters:
 			path: app/common.php
 
 		-
-			message: "#^Call to an undefined method think\\\\db\\\\ConnectionInterface\\:\\:getPdo\\(\\)\\.$#"
-			count: 1
-			path: app/common.php
-
-		-
 			message: "#^Function roule_resource\\(\\) should return resource but returns think\\\\route\\\\Resource\\.$#"
 			count: 1
 			path: app/common.php
-
-		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:find\\(\\)\\.$#"
-			count: 2
-			path: app/controller/api/admin/Role.php
-
-		-
-			message: "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:find\\(\\)\\.$#"
-			count: 2
-			path: app/controller/api/admin/User.php
 
 		-
 			message: "#^Left side of && is always false\\.$#"

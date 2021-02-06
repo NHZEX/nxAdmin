@@ -13,4 +13,13 @@ namespace think {
 
     class Model {
     }
+
+    class Request {
+        /**
+         * @param  string      $name
+         * @param  string|null $default
+         * @return string|array<string, string>|null
+         */
+        public function header(string $name = '', string $default = null) {}
+    }
 }

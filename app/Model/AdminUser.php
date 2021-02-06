@@ -7,7 +7,6 @@ use app\Exception\ModelLogicException;
 use app\Service\Auth\AuthHelper;
 use app\Traits\Model\ModelAccessLimit;
 use RuntimeException;
-use think\Model;
 use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
@@ -95,18 +94,18 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     protected $permissions = [];
 
     /**
-     * @param AdminUser|Model $model
+     * @param AdminUser $model
      * @return mixed|void
      * @throws AccessControl
      * @throws ModelLogicException
      */
-    public static function onBeforeInsert(Model $model)
+    public static function onBeforeInsert(AdminUser $model)
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
 
         // 数据填充
-        foreach (['signup_ip' => 0, 'last_login_ip' => 0] as $field => $default) {
+        foreach (['signup_ip' => '', 'last_login_ip' => ''] as $field => $default) {
             if (!$model->hasData($field)) {
                 $model->$field = $default;
             }
@@ -117,12 +116,12 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * @param AdminUser|Model $model
+     * @param AdminUser $model
      * @return mixed|void
      * @throws AccessControl
      * @throws ModelLogicException
      */
-    public static function onBeforeUpdate(Model $model)
+    public static function onBeforeUpdate(AdminUser $model)
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
