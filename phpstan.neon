@@ -1,19 +1,31 @@
 parameters:
     level: 5
     paths:
+#        - app/Model
         - app
-        - config
-        - extend
+#        - config
+#        - extend
     scanFiles:
         - vendor/topthink/framework/src/helper.php
     stubFiles:
         - stubs/global_function.stub
         - stubs/think_class.stub
     ignoreErrors:
-        - "#^Call to an undefined method think\\\\db\\\\ConnectionInterface\\:\\:(query|getPdo)\\(\\)\\.$#"
-        - "#^Call to an undefined method think\\\\model\\\\Relation\\:\\:(bind)\\(\\)\\.$#"
-        - "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:(find|select|insert|field)\\(\\)\\.$#"
-        - "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:where(Not)?(In|Time|Like|Between|BetweenTime|Exists|Exp|Null|FindInSet)?\\(\\)\\.$#"
-        - "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:(with|transaction)\\(\\)\\.$#"
+#        - "#^Call to an undefined method think\\\\db\\\\ConnectionInterface\\:\\:(query|getPdo)\\(\\)\\.$#"
+#        - "#^Call to an undefined method think\\\\model\\\\Relation\\:\\:(bind)\\(\\)\\.$#"
+#        - "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:(find|select|insert|field)\\(\\)\\.$#"
+#        - "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:where(Not)?(In|Time|Like|Between|BetweenTime|Exists|Exp|Null|FindInSet)?\\(\\)\\.$#"
+#        - "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:(with|transaction)\\(\\)\\.$#"
+
 includes:
-    - phpstan-baseline.neon
+#    - phpstan-baseline.neon
+
+services:
+#	-
+#		class: stubs\topthink\ModelForwardsCallsExtension
+#		tags:
+#			- phpstan.broker.methodsClassReflectionExtension
+	-
+		class: stubs\topthink\BuilderModelFindExtension
+		tags:
+			- phpstan.broker.dynamicMethodReturnTypeExtension

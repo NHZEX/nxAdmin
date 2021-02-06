@@ -76,7 +76,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "tests\\": "tests"
+            "tests\\": "tests",
+            "stubs\\topthink\\": "stubs/topthink"
         }
     },
     "scripts": {
