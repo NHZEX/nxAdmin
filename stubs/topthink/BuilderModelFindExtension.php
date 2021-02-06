@@ -13,7 +13,6 @@ use function var_dump;
 
 class BuilderModelFindExtension implements DynamicMethodReturnTypeExtension
 {
-
     public function getClass(): string
     {
         return Model::class;
