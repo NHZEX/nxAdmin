@@ -53,7 +53,7 @@
         "zxin/think-auth": "^1.1",
         "zxin/think-redis": "^1.1",
         "zxin/think-validate": "^1.1",
-        "zxin/utils": "^2.0"
+        "zxin/utils": "^2.1"
     },
     "require-dev": {
         "phpstan/phpstan": "^0.12.71",

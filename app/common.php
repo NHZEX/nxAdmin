@@ -9,6 +9,9 @@ use think\facade\Request;
 use think\Response;
 use think\response\View;
 use think\route\Resource;
+use function Zxin\Str\strcut_omit;
+use function Zxin\Util\base64_urlsafe_decode;
+use function Zxin\Util\base64_urlsafe_encode;
 
 /**
  * 渲染模板输出
@@ -82,7 +85,7 @@ function return_raw_value($x)
  */
 function base64url_encode(string $data): string
 {
-    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    return base64_urlsafe_encode($data);
 }
 
 /**
@@ -94,10 +97,7 @@ function base64url_encode(string $data): string
  */
 function base64url_decode(string $data, bool $strict = true)
 {
-    if ($remainder = strlen($data) % 4) {
-        $data .= str_repeat('=', 4 - $remainder);
-    }
-    return base64_decode(strtr($data, '-_', '+/'), $strict);
+    return base64_urlsafe_decode($data, $strict);
 }
 
 /**
@@ -143,21 +143,13 @@ function is_cli()
 
 /**
  * 生成 uuid v4
- * @return string|null
+ * @deprecated
+ * @return string
  * @link https://stackoverflow.com/a/15875555/10242420
  */
-function uuidv4(): ?string
+function uuidv4(): string
 {
-    try {
-        $data = random_bytes(16);
-    } catch (Exception $e) {
-        return null;
-    }
-
-    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
-    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
-
-    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    return \Zxin\Util\uuidv4();
 }
 
 /**
@@ -166,7 +158,7 @@ function uuidv4(): ?string
  * @param string|null $chars
  * @return string
  */
-function get_rand_str(int $length = 8, ?string $chars = null)
+function get_rand_str(int $length = 8, ?string $chars = null): string
 {
     $chars || $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $text = '';
@@ -210,8 +202,7 @@ function array_values_recursive(array $arr, ?string $filter_key = null)
  */
 function is_assoc(array $arr)
 {
-    $keys = array_keys($arr);
-    return array_keys($keys) !== $keys;
+    return array_is_list($arr);
 }
 
 /**
@@ -223,18 +214,12 @@ function is_assoc(array $arr)
  */
 function is_assoc2(array $arr)
 {
-    if ([] === $arr) {
-        return false;
-    }
-    if (true === isset($arr[0])) {
-        return false;
-    }
-    return array_keys($arr) !== range(0, count($arr) - 1);
+    return array_is_list($arr);
 }
 
 /**
  * 查询当前链接 mysql 版本
- * @param string $connect
+ * @param string|null $connect
  * @return string
  */
 function query_mysql_version(string $connect = null)
@@ -250,8 +235,8 @@ function query_mysql_version(string $connect = null)
 
 /**
  * 查询数据库版本
- * @param string $connect
- * @param bool   $driver
+ * @param string|null $connect
+ * @param bool        $driver
  * @return string
  */
 function db_version(?string $connect = null, bool $driver = false): string
@@ -274,11 +259,11 @@ function db_version(?string $connect = null, bool $driver = false): string
 
 /**
  * 查询当前链接 mysql 是否存在指定库
- * @param string $database
- * @param string $connect
+ * @param string      $database
+ * @param string|null $connect
  * @return bool
  */
-function query_mysql_exist_database(string $database, string $connect = null)
+function query_mysql_exist_database(string $database, string $connect = null): bool
 {
     /** @noinspection SqlNoDataSourceInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
@@ -301,13 +286,7 @@ function query_mysql_exist_database(string $database, string $connect = null)
  */
 function mb_strcut_omit(string $string, int $length, string $dot = '...', ?string $charset = null): string
 {
-    if (strlen($string) > $length) {
-        $charset || $charset = mb_internal_encoding();
-        $dotlen = strlen($dot);
-        return mb_strcut($string, 0, $length - $dotlen, $charset) . $dot;
-    }
-
-    return $string;
+    return strcut_omit($string, $length, $dot, $charset);
 }
 
 /**
@@ -340,7 +319,7 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
     return $result;
 }
 
-function preload_statistics()
+function preload_statistics(): string
 {
     if (!extension_loaded('Zend OPcache') || !function_exists('opcache_get_status')) {
         return 'opcache does not exist';
