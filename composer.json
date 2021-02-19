@@ -49,7 +49,7 @@
         "symfony/var-dumper": "^4.2|^5.1",
         "symfony/var-exporter": "^4.2|^5.1",
         "topthink/framework": "~6.0.7",
-        "topthink/think-orm": "~2.0.36",
+        "topthink/think-orm": "~2.0.37",
         "zxin/think-auth": "^1.1",
         "zxin/think-redis": "^1.1",
         "zxin/think-validate": "^1.1",
