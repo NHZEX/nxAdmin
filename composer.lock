@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b4620297248447622104a40bbbdd6ad2",
+    "content-hash": "11d1e9da3bb77605e06bb177a808960f",
     "packages": [
         {
             "name": "cakephp/core",
@@ -4078,16 +4078,16 @@
         },
         {
             "name": "zxin/utils",
-            "version": "v2.1.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/php-utils.git",
-                "reference": "ea7bce707be047b200d2cef8181eb44a3a3dba82"
+                "reference": "f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/ea7bce707be047b200d2cef8181eb44a3a3dba82",
-                "reference": "ea7bce707be047b200d2cef8181eb44a3a3dba82",
+                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a",
+                "reference": "f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4142,9 +4142,9 @@
             "description": "util tools",
             "support": {
                 "issues": "https://github.com/NHZEX/php-utils/issues",
-                "source": "https://github.com/NHZEX/php-utils/tree/v2.1.0"
+                "source": "https://github.com/NHZEX/php-utils/tree/v2.2.0"
             },
-            "time": "2021-02-04T10:10:29+00:00"
+            "time": "2021-02-20T08:45:23+00:00"
         }
     ],
     "packages-dev": [
