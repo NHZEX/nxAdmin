@@ -6,6 +6,8 @@ use Closure;
 use InvalidArgumentException;
 use think\db\Raw;
 use think\facade\Db;
+use function array_push;
+use function count;
 
 trait ModelUtil
 {

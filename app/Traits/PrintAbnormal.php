@@ -5,6 +5,10 @@ namespace app\Traits;
 use think\db\exception\PDOException;
 use think\facade\Log;
 use Throwable;
+use function get_class;
+use function get_included_files;
+use function join;
+use function json_encode;
 
 trait PrintAbnormal
 {

@@ -1,4 +1,5 @@
 <?php
+
 /** @noinspection PhpRedundantCatchClauseInspection */
 declare(strict_types=1);
 
@@ -14,6 +15,10 @@ use RedisException;
 use think\console\Input;
 use think\console\Output;
 use Zxin\Redis\Connections\PhpRedisConnection;
+use function array_merge;
+use function sleep;
+use function str_replace;
+use function version_compare;
 
 class EnvManage extends FeaturesManage
 {

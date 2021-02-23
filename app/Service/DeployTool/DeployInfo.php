@@ -3,6 +3,8 @@
 namespace app\Service\DeployTool;
 
 use think\App;
+use function crc32;
+use function dechex;
 
 class DeployInfo
 {

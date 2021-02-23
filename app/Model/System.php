@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Model;
@@ -6,6 +7,7 @@ namespace app\Model;
 use app\Service\Transaction\MainTrans;
 use function array_map;
 use function bin2hex;
+use function count;
 use function openssl_random_pseudo_bytes;
 use function str_starts_with;
 use function substr;

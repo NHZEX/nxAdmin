@@ -7,6 +7,8 @@ use Hashids\Hashids;
 use think\facade\Cache;
 use think\facade\Request;
 use think\facade\Session;
+use function explode;
+use function mt_rand;
 
 trait CsrfHelper
 {

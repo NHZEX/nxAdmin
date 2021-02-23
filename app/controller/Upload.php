@@ -10,6 +10,7 @@ use think\db\exception\ModelNotFoundException;
 use think\file\UploadedFile;
 use think\Response;
 use Util\Reply;
+use function is_array;
 
 class Upload extends Base
 {

@@ -1,7 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tp\Model;
+
+use function call_user_func;
 
 class Event
 {

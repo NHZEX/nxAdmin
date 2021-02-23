@@ -21,7 +21,10 @@ use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
 use think\Validate;
+use function explode;
 use function is_array;
+use function strpos;
+use function time;
 
 /**
  * 控制器基础类

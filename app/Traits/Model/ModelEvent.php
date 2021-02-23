@@ -5,6 +5,9 @@ namespace app\Traits\Model;
 use think\App;
 use think\db\exception\ModelEventException;
 use think\Event;
+use function call_user_func;
+use function end;
+use function method_exists;
 
 /**
  * Trait ModelEvent

@@ -27,6 +27,7 @@ use think\Response;
 use Throwable;
 use Tp\Model\Exception\ModelException;
 use Util\Reply;
+use function in_array;
 
 /**
  * 应用异常处理类

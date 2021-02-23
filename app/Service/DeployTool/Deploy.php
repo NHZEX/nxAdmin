@@ -10,6 +10,14 @@ use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
 use Zxin\Util;
+use function count;
+use function file_exists;
+use function filesize;
+use function max;
+use function str_pad;
+use function str_repeat;
+use function strlen;
+use function strpos;
 
 class Deploy extends Command
 {

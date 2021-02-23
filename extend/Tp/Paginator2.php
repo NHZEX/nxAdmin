@@ -10,6 +10,9 @@ use IteratorAggregate;
 use JsonSerializable;
 use Tp\Model\Collection;
 use Traversable;
+use function ceil;
+use function count;
+use function is_object;
 
 /**
  * @deprecated

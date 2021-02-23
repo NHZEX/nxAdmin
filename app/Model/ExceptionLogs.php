@@ -4,6 +4,7 @@ namespace app\Model;
 
 use think\App;
 use Throwable;
+use function get_class;
 use function substr;
 
 /**

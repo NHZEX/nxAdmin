@@ -8,8 +8,11 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\Cache;
 use Zxin\Think\Auth\Permission;
+use function array_flip;
+use function array_intersect_key;
 use function count;
 use function explode;
+use function json_decode;
 
 class AdminRole extends Base
 {

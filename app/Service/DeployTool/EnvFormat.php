@@ -2,6 +2,15 @@
 
 namespace app\Service\DeployTool;
 
+use function date;
+use function file_put_contents;
+use function is_bool;
+use function is_numeric;
+use function is_string;
+use function ksort;
+use function substr;
+use function var_export;
+
 /**
  * Class Ini
  * @package Basis

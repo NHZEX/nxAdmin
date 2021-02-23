@@ -10,6 +10,11 @@ use think\Response;
 use think\response\Redirect;
 use Throwable;
 use Tp\Paginator2;
+use function array_map;
+use function function_exists;
+use function is_array;
+use function strlen;
+use function substr;
 use function Zxin\debug_array;
 use function Zxin\set_path_cut_len;
 

@@ -6,6 +6,10 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use Tp\Model\Traits\ModelUtil;
+use function array_filter;
+use function count;
+use function explode;
+use function is_array;
 
 /**
  * Class Attachment

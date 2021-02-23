@@ -10,6 +10,9 @@ use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthScan;
 use Zxin\Think\Auth\Permission as AuthPermission;
 use function array_merge;
+use function count;
+use function is_array;
+use function is_numeric;
 
 class Permission extends Base
 {

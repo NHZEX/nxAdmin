@@ -39,13 +39,13 @@ function db_transaction(callable $callback, string $name = null)
  */
 function json_encode_throw_on_error($data): string
 {
-    $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    $json = \json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 
-    if (JSON_ERROR_NONE !== $last_error = json_last_error()) {
-        $last_error_msg = json_last_error_msg();
-        json_encode([]);    // 复位错误
+    if (JSON_ERROR_NONE !== $last_error = \json_last_error()) {
+        $last_error_msg = \json_last_error_msg();
+        \json_encode([]);    // 复位错误
         throw new \app\Exception\JsonException(
-            sprintf('Json Encode Fail: %d - %s', $last_error, $last_error_msg)
+            \sprintf('Json Encode Fail: %d - %s', $last_error, $last_error_msg)
         );
     }
 
@@ -59,13 +59,13 @@ function json_encode_throw_on_error($data): string
  */
 function json_decode_throw_on_error(string $json): array
 {
-    $data = json_decode($json, true);
+    $data = \json_decode($json, true);
 
-    if (JSON_ERROR_NONE !== $last_error = json_last_error()) {
-        $last_error_msg = json_last_error_msg();
-        json_decode('[]');    // 复位错误
+    if (JSON_ERROR_NONE !== $last_error = \json_last_error()) {
+        $last_error_msg = \json_last_error_msg();
+        \json_decode('[]');    // 复位错误
         throw new \app\Exception\JsonException(
-            sprintf('Json Decode Fail: %d - %s', $last_error, $last_error_msg)
+            \sprintf('Json Decode Fail: %d - %s', $last_error, $last_error_msg)
         );
     }
 
@@ -108,7 +108,7 @@ function parse_user_agent(string $ua)
 {
     static $preg = '~(?<product>[\w\.]+)\/(?<version>[\w\.]+)\s?(?:\((?<comment>[\w\.]+)\))?~';
 
-    if (preg_match_all($preg, $ua, $m, PREG_SET_ORDER)) {
+    if (\preg_match_all($preg, $ua, $m, PREG_SET_ORDER)) {
         return $m;
     } else {
         return [];
@@ -127,9 +127,9 @@ function url_hash(?string $url, string $prefix = 'page-'): string
         $url = Request::baseUrl();
     }
 
-    $info = parse_url($url);
+    $info = \parse_url($url);
     $url = $info ? ($info['path'] ?? '/') : '/';
-    return $prefix . crc32($url);
+    return $prefix . \crc32($url);
 }
 
 /**
@@ -162,9 +162,9 @@ function get_rand_str(int $length = 8, ?string $chars = null): string
 {
     $chars || $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     $text = '';
-    $chars_max_index = strlen($chars) - 1;
+    $chars_max_index = \strlen($chars) - 1;
     for ($i = 0; $i < $length; $i++) {
-        $text .= $chars[mt_rand(0, $chars_max_index)];
+        $text .= $chars[\mt_rand(0, $chars_max_index)];
     }
     return $text;
 }
@@ -179,15 +179,15 @@ function get_rand_str(int $length = 8, ?string $chars = null): string
 function array_values_recursive(array $arr, ?string $filter_key = null)
 {
     foreach ($arr as $key => $value) {
-        if (is_array($value)) {
+        if (\is_array($value)) {
             $arr[$key] = array_values_recursive($value, $filter_key);
         }
     }
 
     if ($filter_key === null) {
-        $arr = array_values($arr);
+        $arr = \array_values($arr);
     } elseif (isset($arr[$filter_key])) {
-        $arr[$filter_key] = array_values($arr[$filter_key]);
+        $arr[$filter_key] = \array_values($arr[$filter_key]);
     }
 
     return $arr;
@@ -230,7 +230,7 @@ function query_mysql_version(string $connect = null)
     } else {
         $_version = Db::connect()->query($sql);
     }
-    return array_pop($_version)['mysqlver'];
+    return \array_pop($_version)['mysqlver'];
 }
 
 /**
@@ -272,7 +272,7 @@ function query_mysql_exist_database(string $database, string $connect = null): b
     } else {
         $list = Db::connect()->query($sql);
     }
-    return count($list) > 0;
+    return \count($list) > 0;
 }
 
 /**
@@ -299,7 +299,7 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
  */
 function env_get(string $key, $default, ...$argv)
 {
-    $key = sprintf($key, ...$argv);
+    $key = \sprintf($key, ...$argv);
     /** @noinspection PhpMethodParametersCountMismatchInspection */
     return app('env')->get($key, $default);
 }
@@ -321,21 +321,21 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
 
 function preload_statistics(): string
 {
-    if (!extension_loaded('Zend OPcache') || !function_exists('opcache_get_status')) {
+    if (!\extension_loaded('Zend OPcache') || !\function_exists('opcache_get_status')) {
         return 'opcache does not exist';
     }
     /** @noinspection PhpComposerExtensionStubsInspection */
-    $status = opcache_get_status(false);
+    $status = \opcache_get_status(false);
     if (!isset($status['preload_statistics'])) {
         return 'opcache preload not activated';
     }
     $status = $status['preload_statistics'];
-    return sprintf(
+    return \sprintf(
         'mem: %.2fMB, function: %d, class: %d, script: %d',
         $status['memory_consumption'] / 1024 / 1024,
-        count($status['functions']),
-        count($status['classes']),
-        count($status['scripts'])
+        \count($status['functions']),
+        \count($status['classes']),
+        \count($status['scripts'])
     );
 }
 
@@ -352,7 +352,7 @@ function json_encode_ex($value, int $options = 0, int $depth = 512)
     if (PHP_VERSION_ID >= 70300) {
         $options |= JSON_THROW_ON_ERROR;
     }
-    return json_encode($value, $options, $depth);
+    return \json_encode($value, $options, $depth);
 }
 
 /**
@@ -367,5 +367,5 @@ function json_decode_ex(string $value, bool $assoc = true, int $depth = 512, int
     if (PHP_VERSION_ID >= 70300) {
         $options |= JSON_THROW_ON_ERROR;
     }
-    return json_decode($value, $assoc, $depth, $options);
+    return \json_decode($value, $assoc, $depth, $options);
 }

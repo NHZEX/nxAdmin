@@ -7,6 +7,11 @@
 
 namespace Tp\Model;
 
+use function array_key_first;
+use function array_key_last;
+use function krsort;
+use function ksort;
+
 /**
  * @deprecated
  * Class Collection

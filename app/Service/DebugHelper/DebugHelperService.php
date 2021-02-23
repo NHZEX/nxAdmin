@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\DebugHelper;
 
 use app\Service\DebugHelper\Middleware\DebugRequestInfo;
 use think\Service;
+use function extension_loaded;
+use function ini_set;
 
 /**
  * 调试助手服务

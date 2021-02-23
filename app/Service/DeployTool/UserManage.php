@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\DeployTool;
@@ -13,7 +14,11 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\model\Collection;
+use function define;
+use function defined;
 use function hash;
+use function str_repeat;
+use function strlen;
 
 class UserManage extends FeaturesManage
 {

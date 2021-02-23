@@ -8,6 +8,8 @@ use RuntimeException;
 use think\db\exception\DbException;
 use think\facade\Request;
 use Zxin\Think\Auth\AuthGuard;
+use function filter_var;
+use function time;
 
 class AdminUser extends Base
 {

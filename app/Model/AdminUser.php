@@ -11,6 +11,10 @@ use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
+use function hash;
+use function password_hash;
+use function password_needs_rehash;
+use function password_verify;
 
 /**
  * Class AdminUser

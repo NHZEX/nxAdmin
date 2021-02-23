@@ -9,6 +9,21 @@ use think\console\input\Option;
 use think\console\Output;
 use think\facade\Db;
 use Zxin\Util;
+use function array_column;
+use function count;
+use function date;
+use function explode;
+use function file_put_contents;
+use function in_array;
+use function is_dir;
+use function is_string;
+use function max;
+use function realpath;
+use function scandir;
+use function str_pad;
+use function strlen;
+use function strpos;
+use function strrpos;
 
 /**
  * 批量创建数据结构到模型

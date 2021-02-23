@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\DeployTool;
@@ -15,6 +16,16 @@ use think\console\output\Ask;
 use think\console\output\Question;
 use think\helper\Str;
 use function array_pad;
+use function array_shift;
+use function count;
+use function explode;
+use function is_array;
+use function is_numeric;
+use function is_string;
+use function join;
+use function method_exists;
+use function strtolower;
+use function strtoupper;
 
 abstract class FeaturesManage
 {

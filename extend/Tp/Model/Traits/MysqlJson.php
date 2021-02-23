@@ -4,7 +4,15 @@ namespace Tp\Model\Traits;
 
 use think\db\Raw;
 use think\Model;
+use function addslashes;
 use function array_is_list;
+use function array_map;
+use function is_array;
+use function is_bool;
+use function is_numeric;
+use function join;
+use function strlen;
+use function substr;
 
 /**
  * Trait OptimLock

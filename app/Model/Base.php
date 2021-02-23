@@ -13,6 +13,7 @@ use think\model\Collection;
 use Tp\Model\Traits\Attribute;
 use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
+use function defined;
 
 /**
  * Class Base

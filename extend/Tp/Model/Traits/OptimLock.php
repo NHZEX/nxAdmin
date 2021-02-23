@@ -9,6 +9,10 @@ use think\db\exception\ModelNotFoundException;
 use think\Model;
 use Tp\Db\Query;
 use Tp\Model\Exception\ModelException;
+use function array_diff;
+use function array_keys;
+use function count;
+use function is_numeric;
 
 /**
  * Trait OptimLock

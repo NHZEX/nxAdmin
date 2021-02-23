@@ -7,6 +7,20 @@ use think\console\Command;
 use think\console\Input;
 use think\console\input\Option;
 use think\console\Output;
+use function curl_close;
+use function curl_errno;
+use function curl_error;
+use function curl_exec;
+use function curl_getinfo;
+use function curl_init;
+use function curl_setopt;
+use function date;
+use function file_exists;
+use function file_put_contents;
+use function filemtime;
+use function hash_file;
+use function substr;
+use function touch;
 
 class Certificate extends Command
 {

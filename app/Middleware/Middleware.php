@@ -7,6 +7,7 @@ use think\App;
 use think\exception\HttpException;
 use think\Request;
 use think\Response;
+use function class_exists;
 
 abstract class Middleware
 {
