@@ -261,16 +261,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "1.11.1",
+            "version": "1.12.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "ce77a7ba1770462cd705a91a151b6c3746f9c6ad"
+                "reference": "b17c5014ef81d212ac539f07a1001832df1b6d3b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/ce77a7ba1770462cd705a91a151b6c3746f9c6ad",
-                "reference": "ce77a7ba1770462cd705a91a151b6c3746f9c6ad",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/b17c5014ef81d212ac539f07a1001832df1b6d3b",
+                "reference": "b17c5014ef81d212ac539f07a1001832df1b6d3b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -291,11 +291,6 @@
                 "phpunit/phpunit": "^7.5 || ^9.1.5"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.11.x-dev"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "Doctrine\\Common\\Annotations\\": "lib/Doctrine/Common/Annotations"
@@ -336,9 +331,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/1.11.1"
+                "source": "https://github.com/doctrine/annotations/tree/1.12.1"
             },
-            "time": "2020-10-26T10:28:16+00:00"
+            "time": "2021-02-21T21:00:45+00:00"
         },
         {
             "name": "doctrine/lexer",
@@ -1127,16 +1122,16 @@
         },
         {
             "name": "nhzex/think-cors",
-            "version": "v2.0.2",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-cors.git",
-                "reference": "10608a8c3f3cb9829c8309f8e2d060082f48b96e"
+                "reference": "e010144fdf0e94d9e12897e7f5aeb63a0a7f38d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/10608a8c3f3cb9829c8309f8e2d060082f48b96e",
-                "reference": "10608a8c3f3cb9829c8309f8e2d060082f48b96e",
+                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/e010144fdf0e94d9e12897e7f5aeb63a0a7f38d7",
+                "reference": "e010144fdf0e94d9e12897e7f5aeb63a0a7f38d7",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1147,10 +1142,12 @@
             },
             "require": {
                 "php": "^7.1|^8.0",
-                "symfony/polyfill-php80": "^1.16",
+                "symfony/polyfill-php73": "^1",
+                "symfony/polyfill-php80": "^1",
                 "topthink/framework": "^6.0"
             },
             "require-dev": {
+                "phpstan/phpstan": "^0.12.78",
                 "phpunit/phpunit": "^8|^7|^9",
                 "symfony/var-dumper": "^5.0|^4.0"
             },
@@ -1186,9 +1183,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-cors/issues",
-                "source": "https://github.com/NHZEX/think-cors/tree/v2.0.2"
+                "source": "https://github.com/NHZEX/think-cors/tree/v2.1.0"
             },
-            "time": "2020-12-06T11:33:44+00:00"
+            "time": "2021-02-22T03:11:05+00:00"
         },
         {
             "name": "nhzex/think-env",
@@ -4417,16 +4414,16 @@
         },
         {
             "name": "phar-io/version",
-            "version": "3.0.4",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phar-io/version.git",
-                "reference": "e4782611070e50613683d2b9a57730e9a3ba5451"
+                "reference": "bae7c545bef187884426f042434e561ab1ddb182"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phar-io/version/zipball/e4782611070e50613683d2b9a57730e9a3ba5451",
-                "reference": "e4782611070e50613683d2b9a57730e9a3ba5451",
+                "url": "https://api.github.com/repos/phar-io/version/zipball/bae7c545bef187884426f042434e561ab1ddb182",
+                "reference": "bae7c545bef187884426f042434e561ab1ddb182",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4468,9 +4465,9 @@
             "description": "Library for handling version information and constraints",
             "support": {
                 "issues": "https://github.com/phar-io/version/issues",
-                "source": "https://github.com/phar-io/version/tree/3.0.4"
+                "source": "https://github.com/phar-io/version/tree/3.1.0"
             },
-            "time": "2020-12-13T23:18:30+00:00"
+            "time": "2021-02-23T14:00:09+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -4723,16 +4720,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.77",
+            "version": "0.12.78",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "1f10b8c8d118d01e7b492f9707999d456be5812c"
+                "reference": "eecce8d2ee3cac6769f37b4cb1998b2715f82984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1f10b8c8d118d01e7b492f9707999d456be5812c",
-                "reference": "1f10b8c8d118d01e7b492f9707999d456be5812c",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/eecce8d2ee3cac6769f37b4cb1998b2715f82984",
+                "reference": "eecce8d2ee3cac6769f37b4cb1998b2715f82984",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4769,7 +4766,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.77"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.78"
             },
             "funding": [
                 {
@@ -4785,7 +4782,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-17T16:22:19+00:00"
+            "time": "2021-02-20T13:24:36+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
