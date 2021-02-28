@@ -11,10 +11,6 @@ const CSRF_TOKEN = 'XSRF-Token';
 // 公开访问文件夹
 \define('PUBILC_PATH', ROOT_PATH . 'public' . DIRECTORY_SEPARATOR);
 
-// CERTIFICATE 文件路径
-\define('CA_ROOT_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . 'runtime' . DIRECTORY_SEPARATOR . 'cacert.pem');
-\define('CA_ROOT_CHECKSUM_PATH', ROOT_PATH . DIRECTORY_SEPARATOR . DIRECTORY_SEPARATOR . 'cacert.pem.sha256');
-
 const ROUTE_DEFAULT_RESTFULL = [
     'index'  => ['get', '', 'index'],
     'select' => ['get', '/select', 'select'],
