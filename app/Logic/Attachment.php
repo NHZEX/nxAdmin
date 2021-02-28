@@ -164,7 +164,7 @@ class Attachment extends Base
         if (isset($this->image_type[$image])) {
             $img_type = $this->image_type[$image];
         } else {
-            if (function_exists('exif_imagetype_1')) {
+            if (function_exists('\exif_imagetype')) {
                 $img_type = exif_imagetype($image);
             } else {
                 if (is_array($info = getimagesize($image)) && isset($info[2])) {

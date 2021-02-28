@@ -73,7 +73,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 
     /**
      * @param AdminRole $model
-     * @return mixed|void
+     * @return void
      * @throws AccessControl
      */
     public static function onBeforeInsert(AdminRole $model)
