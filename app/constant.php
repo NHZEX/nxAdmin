@@ -9,7 +9,7 @@ const CSRF_TOKEN = 'XSRF-Token';
 // 系统运行存储
 \define('STORAGE_PATH', ROOT_PATH . 'storage' . DIRECTORY_SEPARATOR);
 // 公开访问文件夹
-\define('PUBILC_PATH', ROOT_PATH . 'public' . DIRECTORY_SEPARATOR);
+\define('PUBLIC_PATH', ROOT_PATH . 'public' . DIRECTORY_SEPARATOR);
 
 const ROUTE_DEFAULT_RESTFULL = [
     'index'  => ['get', '', 'index'],

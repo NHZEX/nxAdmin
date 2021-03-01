@@ -147,8 +147,8 @@ trait ShowReturn
         } while ($next = $next->getPrevious());
 
         $data = [
-            'code' => CODE_ERROE,
-            'msg' => $msg ?? $exception->getMessage(),
+                'code' => CODE_ERROR,
+                'msg' => $msg ?? $exception->getMessage(),
         ] + ($app->isDebug() ? [
             'err_code' => $exception->getCode(),
             'err_line' => $exception->getLine(),
