@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11d1e9da3bb77605e06bb177a808960f",
+    "content-hash": "a5fdd54b008de3965a1a0735f546bce7",
     "packages": [
         {
             "name": "cakephp/core",
@@ -3669,16 +3669,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.38",
+            "version": "v2.0.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "48e01bd25fdd51afee95343a4381fabc5a9cb764"
+                "reference": "39a9d0a0e52d9b8bad9d98484d8484cdf5b683a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/48e01bd25fdd51afee95343a4381fabc5a9cb764",
-                "reference": "48e01bd25fdd51afee95343a4381fabc5a9cb764",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/39a9d0a0e52d9b8bad9d98484d8484cdf5b683a7",
+                "reference": "39a9d0a0e52d9b8bad9d98484d8484cdf5b683a7",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3724,9 +3724,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.38"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.39"
             },
-            "time": "2021-02-24T00:54:36+00:00"
+            "time": "2021-02-26T10:20:00+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
