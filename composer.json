@@ -33,6 +33,7 @@
         "ext-sockets": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
+        "composer/ca-bundle": "^1.2",
         "doctrine/annotations": "^1.10.2",
         "guzzlehttp/guzzle": "^7.0",
         "hashids/hashids": "^4.0",
