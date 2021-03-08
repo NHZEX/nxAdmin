@@ -40,7 +40,7 @@
         "nhzex/think-blade": "^5.0.0",
         "nhzex/think-cors": "^2.0",
         "nhzex/think-env": "^1.0.1",
-        "nhzex/think-phinx": "~1.1.1",
+        "nhzex/think-phinx": "~2.0.1",
         "phpcompatibility/php-compatibility": "^9.3",
         "rybakit/msgpack": "^0.7",
         "symfony/finder": "^4.2|^5.1",
