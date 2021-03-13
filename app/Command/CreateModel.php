@@ -7,6 +7,7 @@ use think\console\Input;
 use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
+use think\db\PDOConnection;
 use think\facade\Db;
 use Zxin\Util;
 use function array_column;
@@ -50,9 +51,9 @@ class CreateModel extends Command
     /**
      * @param Input  $input
      * @param Output $output
-     * @return int|void|null
+     * @return int
      */
-    public function execute(Input $input, Output $output)
+    public function execute(Input $input, Output $output): int
     {
         $out_print = (bool) $input->getOption('print');
         $save = (bool) $input->getOption('save');
@@ -65,7 +66,7 @@ class CreateModel extends Command
 
         if (!is_string($export_path) || !is_dir($export_path)) {
             $this->output->warning("模型导出目录不存在: {$out_dir}");
-            return;
+            return 1;
         }
         // 自动填充最后一个目录分割符
         if (strlen($export_path) - 1 !== strrpos($export_path, DIRECTORY_SEPARATOR)) {
@@ -86,7 +87,9 @@ class CreateModel extends Command
         // 加载数据
         /** @noinspection SqlNoDataSourceInspection */
         $sql = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
-        $tables = $this->app->db->connect()->query($sql);
+        /** @var PDOConnection $db */
+        $db = $this->app->db->connect();
+        $tables = $db->query($sql);
         $table_names = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
         $existsModels = scandir($export_path);
 
@@ -108,7 +111,7 @@ class CreateModel extends Command
                     $value = $this->output->choice($this->input, "输入的表名（{$value}）可能是如下匹配: ", $name_hits, null);
                 } else {
                     $output->error("输入的表名无法满足如何匹配: {$value}");
-                    return;
+                    return 1;
                 }
             }
         }
@@ -156,6 +159,8 @@ class CreateModel extends Command
                 file_put_contents($file_name, $class_text);
             }
         }
+
+        return 0;
     }
 
     private function createModel(
@@ -171,7 +176,9 @@ class CreateModel extends Command
         /** @noinspection SqlNoDataSourceInspection */
         $sql = "select * from information_schema.COLUMNS "
             . "where table_name = '{$tableName}' and table_schema = '{$database}'";
-        $table_fields = $this->app->db->connect()->query($sql);
+        /** @var PDOConnection $db */
+        $db = $this->app->db->connect();
+        $table_fields = $db->query($sql);
 
         $pk_field_name = '';
 

@@ -12,6 +12,7 @@ use think\model\relation\BelongsTo;
 use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
 use function hash;
+use function is_null;
 use function password_hash;
 use function password_needs_rehash;
 use function password_verify;
@@ -40,10 +41,10 @@ use function password_verify;
  * @property-read string    $status_desc 状态描述
  * @property-read string    $genre_desc 类型描述
  * @property-read string    $role_name load(beRoleName)
- * @property-read AdminRole $role 用户角色 load(role)
- * @property string|null    $avatar_data
- * @property int            $delete_time 删除时间
- * @property int            $sign_out_time 退出登陆时间
+ * @property-read AdminRole|null $role 用户角色 load(role)
+ * @property string|null         $avatar_data
+ * @property int                 $delete_time 删除时间
+ * @property int                 $sign_out_time 退出登陆时间
  */
 class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfCheck, \app\Contracts\ModelAccessLimit
 {
@@ -275,7 +276,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
             $message = "用户状态 [{$this->status_desc}]";
             return false;
         }
-        if ($this->role_id && $this->role && AdminRole::STATUS_NORMAL !== $this->role->status) {
+        if ($this->role_id && !is_null($this->role) && AdminRole::STATUS_NORMAL !== $this->role->status) {
             $message = "角色状态 [{$this->role->status_desc}]";
             return false;
         }
