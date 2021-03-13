@@ -74,8 +74,8 @@ class Upload
             $orp = fopen($fileInfo->getPathname(), 'a');
             var_dump(stream_copy_to_stream($orp, $fp, $this->meta->getChunkSize(), 0));
 
-            fseek($fp, $this->meta->getFilesize() - 1,SEEK_CUR);
-            fwrite($fp,"\0");
+            fseek($fp, $this->meta->getFilesize() - 1, SEEK_CUR);
+            fwrite($fp, "\0");
 
             fclose($fp);
         } elseif (file_exists($filename)) {
