@@ -28,6 +28,12 @@ $r->get('storage', function () {
     return Response::create('404 Not Found', 'html', 404);
 });
 
+$r->group('upload', function () use ($r) {
+    $r->post('file', 'file');
+    $r->post('image', 'image');
+    $r->post('images', 'images');
+})->prefix('upload/');
+
 $r->group('api/system', function () use ($r) {
     $r->get('config', 'config');
     $r->get('sysinfo', 'sysinfo');

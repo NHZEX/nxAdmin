@@ -4,6 +4,7 @@ namespace app\controller;
 
 use app\Logic\Attachment;
 use app\Service\Auth\AuthHelper;
+use app\Service\Upload\Upload as UploadService;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -14,6 +15,35 @@ use function is_array;
 
 class Upload extends Base
 {
+    public function file()
+    {
+        $params = $this->request->param();
+        switch ($params['mode'] ?? null) {
+            case 'prepare':
+                $upload = UploadService::prepare(
+                    $params['filename'],
+                    $params['filesize'],
+                    $params['filehash'],
+                );
+                return Reply::success([
+                    'token' => $upload->getToken(),
+                    'chunkSize' => $upload->getMeta()->getChunkSize(),
+                    'chunkTotal' => $upload->getMeta()->getChunkTotal(),
+                ]);
+            case 'chunk':
+                UploadService::block(
+                    $params['token'],
+                    $params['count'],
+                    $this->request->file('block')
+                );
+                break;
+            default:
+                return Reply::bad();
+        }
+
+        return Reply::success('1024');
+    }
+
     /**
      * @return Response
      * @throws DataNotFoundException
@@ -22,7 +52,7 @@ class Upload extends Base
      */
     public function image()
     {
-        $field = $this->request->param('field');
+        $field = $this->request->param('field', 'file');
         $files = $this->request->file($field);
         if (is_array($files)) {
             return Reply::bad(CODE_COM_PARAM, '无法处理提交');
