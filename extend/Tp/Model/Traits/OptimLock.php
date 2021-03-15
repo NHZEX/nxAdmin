@@ -18,7 +18,8 @@ use function is_numeric;
  * Trait OptimLock
  * @package Tp\Model\Traits
  * @mixin Model
- * @method Query wherePk($op, $condition = null) static 指定主键查询条件
+ * @method static Query wherePk($op, $condition = null) 指定主键查询条件
+ * @method array getTableFields($tableName = '')
  * @property string|false $optimLock
  */
 trait OptimLock
@@ -39,10 +40,11 @@ trait OptimLock
      */
     public static function findOptimisticVer(int $id, int $lock_version)
     {
-        $that = (new static());
+        $that = (new static()); /** @phpstan-ignore-line 必须是 static */
         $result = $that->wherePk($id)->where($that->optimLock, $lock_version)->find();
 
         if (false === $result instanceof static) {
+            /* @phpstan-ignore-next-line 必须是 static */
             if (1 === (new static())->wherePk($id)->count()) {
                 throw new ModelException('The object being updated is outdated.', CODE_MODEL_OPTIMISTIC_LOCK);
             }
@@ -58,7 +60,6 @@ trait OptimLock
      */
     public function getChangedData(): array
     {
-        /** @noinspection PhpUndefinedClassInspection */
         $data = parent::getChangedData();
 
         // 移除非字段数据值，降低乐观锁的无效更新
@@ -130,7 +131,6 @@ trait OptimLock
      */
     public function getWhere()
     {
-        /** @noinspection PhpUndefinedClassInspection */
         $where = parent::getWhere();
 
         if (!$this->optimLock) {
