@@ -31,17 +31,24 @@ class Upload extends Base
                     'chunkTotal' => $upload->getMeta()->getChunkTotal(),
                 ]);
             case 'chunk':
-                UploadService::block(
+                $upload = UploadService::block(
                     $params['token'],
                     $params['count'],
                     $this->request->file('block')
                 );
-                break;
+                $result = [
+                    'chunkCount' => $upload->getMeta()->getChunkCount(),
+                    'chunkTotal' => $upload->getMeta()->getChunkTotal(),
+                    'totalSize' => $upload->getMeta()->getFilesize(),
+                    'uploadSize' => $upload->getMeta()->getUploadSize(),
+                ];
+                if ($upload->move()) {
+                    $result['fileUrl'] = '//' . $this->request->host() . $upload->getUrlpath();
+                }
+                return Reply::success($result);
             default:
                 return Reply::bad();
         }
-
-        return Reply::success('1024');
     }
 
     /**

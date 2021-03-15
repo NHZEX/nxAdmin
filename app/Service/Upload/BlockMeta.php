@@ -33,6 +33,10 @@ class BlockMeta
     /**
      * @var int
      */
+    protected $uploadSize = 0;
+    /**
+     * @var int
+     */
     protected $createTime = 0;
     /**
      * @var int
@@ -52,7 +56,6 @@ class BlockMeta
         $meta->chunkSize = $chunkSize;
         $meta->chunkTotal = (int) ceil($filesize / $chunkSize);
         $meta->createTime = time();
-        $meta->updateTime = time();
         return $meta;
     }
 
@@ -76,7 +79,17 @@ class BlockMeta
 
     public function save(string $dirname): bool
     {
+        $this->updateTime = time();
         return file_put_contents($dirname . '_meta.data', serialize($this)) > 0;
+    }
+
+    public function destroy(string $dirname): bool
+    {
+        $filename = $dirname . '_meta.data';
+        if (file_exists($filename)) {
+            return unlink($filename);
+        }
+        return true;
     }
 
     public function isFirstChunk(): bool
@@ -89,6 +102,11 @@ class BlockMeta
         return $this->chunkTotal === $count;
     }
 
+    public function isDone(): bool
+    {
+        return $this->chunkTotal === $this->chunkCount;
+    }
+
     public function verifyChunk(int $count): bool
     {
         return $this->chunkCount + 1 === $count;
@@ -97,6 +115,12 @@ class BlockMeta
     public function receiveChunk(int $count): void
     {
         $this->chunkCount = $count;
+        $this->uploadSize = $this->chunkCount * $this->chunkSize;
+    }
+
+    public function getSurplusSize(): int
+    {
+        return $this->filesize - $this->getUploadSize();
     }
 
     /**
@@ -145,5 +169,13 @@ class BlockMeta
     public function getChunkCount(): int
     {
         return $this->chunkCount;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUploadSize(): int
+    {
+        return $this->uploadSize;
     }
 }
