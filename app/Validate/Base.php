@@ -8,6 +8,7 @@ use function array_map;
 use function filter_var;
 use function is_array;
 use function join;
+use function str_contains;
 use const FILTER_VALIDATE_INT;
 
 abstract class Base extends ValidateBase

@@ -2,7 +2,6 @@
 
 namespace app\Model;
 
-use app\Traits\Model\ModelAttrObjectCache;
 use app\Traits\Model\ModelEvent;
 use app\Traits\Model\ModelHelper;
 use app\Traits\QuickHelper;
@@ -39,7 +38,6 @@ abstract class Base extends ThinkModel
     use OptimLock;
     use ModelEvent;
     use QuickHelper;
-    use ModelAttrObjectCache;
     use Attribute;
 
     public const EVENT_AFTER_READ = 'AfterRead';

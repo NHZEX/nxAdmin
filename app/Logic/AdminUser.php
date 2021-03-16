@@ -60,13 +60,14 @@ class AdminUser extends Base
      */
     public function login(string $type, string $username, string $password, bool $rememberme = false)
     {
-        /** @var AdminUserModel|null $user */
         try {
             switch ($type) {
                 case self::LOGIN_TYPE_NAME:
+                    /** @var AdminUserModel|null $user */
                     $user = (new AdminUserModel())->where('username', $username)->find();
                     break;
                 case self::LOGIN_TYPE_EMAIL:
+                    /** @var AdminUserModel|null $user */
                     $user = (new AdminUserModel())->where('email', $username)->find();
                     break;
                 default:

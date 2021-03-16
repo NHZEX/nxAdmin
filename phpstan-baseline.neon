@@ -6,11 +6,6 @@ parameters:
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
-			count: 1
-			path: app/Model/AdminUser.php
-
-		-
 			message: "#^Result of && is always false\\.$#"
 			count: 3
 			path: app/Model/AdminUser.php
@@ -26,11 +21,6 @@ parameters:
 			path: app/Service/DeployTool/UserManage.php
 
 		-
-			message: "#^Right side of \\|\\| is always false\\.$#"
-			count: 1
-			path: app/controller/Util.php
-
-		-
 			message: "#^Result of && is always false\\.$#"
 			count: 3
 			path: app/Model/AdminRole.php
@@ -39,44 +29,4 @@ parameters:
 			message: "#^Strict comparison using \\=\\=\\= between array\\<string\\> and 'rw' will always evaluate to false\\.$#"
 			count: 2
 			path: app/Model/AdminRole.php
-
-		-
-			message: "#^Result of \\|\\| is always true\\.$#"
-			count: 1
-			path: app/Model/Base.php
-
-		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
-			count: 4
-			path: app/Model/Base.php
-
-		-
-			message: "#^Call to an undefined method app\\\\Model\\\\Base\\:\\:getTableFields\\(\\)\\.$#"
-			count: 1
-			path: app/Model/Base.php
-
-		-
-			message: "#^Right side of \\|\\| is always true\\.$#"
-			count: 1
-			path: app/common.php
-
-		-
-			message: "#^Variable \\$pdo in PHPDoc tag @var does not match assigned variable \\$connect\\.$#"
-			count: 1
-			path: app/common.php
-
-		-
-			message: "#^Undefined variable\\: \\$this$#"
-			count: 1
-			path: app/common.php
-
-		-
-			message: "#^Function roule_resource\\(\\) should return resource but returns think\\\\route\\\\Resource\\.$#"
-			count: 1
-			path: app/common.php
-
-		-
-			message: "#^Left side of && is always false\\.$#"
-			count: 1
-			path: extend/Tp/Log/SocketDriver.php
 
