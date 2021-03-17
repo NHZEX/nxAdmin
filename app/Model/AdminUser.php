@@ -3,15 +3,19 @@
 namespace app\Model;
 
 use app\Exception\AccessControl;
+use app\Exception\ModelLogicException;
+use app\Service\Auth\AuthHelper;
 use app\Traits\Model\ModelAccessLimit;
 use RuntimeException;
-use think\Model;
 use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
-use Tp\Model\Exception\ModelException;
 use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
-use Zxin\Think\Auth\Facade\Auth;
+use function hash;
+use function is_null;
+use function password_hash;
+use function password_needs_rehash;
+use function password_verify;
 
 /**
  * Class AdminUser
@@ -37,10 +41,10 @@ use Zxin\Think\Auth\Facade\Auth;
  * @property-read string    $status_desc 状态描述
  * @property-read string    $genre_desc 类型描述
  * @property-read string    $role_name load(beRoleName)
- * @property-read AdminRole $role 用户角色 load(role)
- * @property string|null    $avatar_data
- * @property int            $delete_time 删除时间
- * @property int            $sign_out_time 退出登陆时间
+ * @property-read AdminRole|null $role 用户角色 load(role)
+ * @property string|null         $avatar_data
+ * @property int                 $delete_time 删除时间
+ * @property int                 $sign_out_time 退出登陆时间
  */
 class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfCheck, \app\Contracts\ModelAccessLimit
 {
@@ -95,18 +99,18 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     protected $permissions = [];
 
     /**
-     * @param AdminUser|Model $model
+     * @param AdminUser $model
      * @return mixed|void
      * @throws AccessControl
-     * @throws ModelException
+     * @throws ModelLogicException
      */
-    public static function onBeforeInsert(Model $model)
+    public static function onBeforeInsert(AdminUser $model)
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
 
         // 数据填充
-        foreach (['signup_ip' => 0, 'last_login_ip' => 0] as $field => $default) {
+        foreach (['signup_ip' => '', 'last_login_ip' => ''] as $field => $default) {
             if (!$model->hasData($field)) {
                 $model->$field = $default;
             }
@@ -117,12 +121,12 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * @param AdminUser|Model $model
+     * @param AdminUser $model
      * @return mixed|void
      * @throws AccessControl
-     * @throws ModelException
+     * @throws ModelLogicException
      */
-    public static function onBeforeUpdate(Model $model)
+    public static function onBeforeUpdate(AdminUser $model)
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
@@ -141,7 +145,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
                 ->limit(2)
                 ->count() <= 1
         ) {
-            throw new ModelException('不允许删除最后一个可用超管，操作被阻止！');
+            throw new ModelLogicException('不允许删除最后一个可用超管，操作被阻止！');
         }
         self::checkAccessControl($model);
     }
@@ -153,33 +157,33 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     public function getAllowAccessTarget()
     {
-        return Auth::id();
+        return AuthHelper::id();
     }
 
     /**
      * @param self $data
-     * @throws ModelException
+     * @throws ModelLogicException
      */
     protected static function checkUserInputUnique(AdminUser $data)
     {
         if ($data->hasData('username')
             && $data->getOrigin('username') !== $data->getData('username')
         ) {
-            $isExist = (new static())
+            $isExist = (new self())
                 ->where('username', $data->username)
                 ->value('id');
             if ($isExist !== null) {
-                throw new ModelException("该账号 {$data->username} 已经存在");
+                throw new ModelLogicException("该账号 {$data->username} 已经存在");
             }
         }
         if ($data->hasData('email')
             && $data->getOrigin('email') !== $data->getData('email')
         ) {
-            $isExist = (new static())
+            $isExist = (new self())
                 ->where('email', $data->email)
                 ->value('id');
             if ($isExist !== null) {
-                throw new ModelException("该邮箱 {$data->email} 已经存在");
+                throw new ModelLogicException("该邮箱 {$data->email} 已经存在");
             }
         }
     }
@@ -272,7 +276,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
             $message = "用户状态 [{$this->status_desc}]";
             return false;
         }
-        if ($this->role_id && $this->role && AdminRole::STATUS_NORMAL !== $this->role->status) {
+        if ($this->role_id && !is_null($this->role) && AdminRole::STATUS_NORMAL !== $this->role->status) {
             $message = "角色状态 [{$this->role->status_desc}]";
             return false;
         }
@@ -329,10 +333,10 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     /**
      * 获取器 获取实际访问路径
-     * @param $value
-     * @return mixed|string|null
+     * @param string|null $value
+     * @return string|string[]|null
      */
-    protected function getAvatarAttr($value)
+    protected function getAvatarAttr(?string $value)
     {
         if ($value) {
             return Attachment::formatAccessPath($value);
@@ -350,7 +354,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * @param $value
+     * @param string|null $value
      */
     protected function setAvatarDataAttr($value)
     {

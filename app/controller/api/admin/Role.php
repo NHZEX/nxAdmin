@@ -8,13 +8,10 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\db\Query;
 use think\Response;
+use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\Annotation\AuthNode;
 use Zxin\Think\Validate\Annotation\Validation;
-use function func\reply\reply_create;
-use function func\reply\reply_not_found;
-use function func\reply\reply_succeed;
-use function func\reply\reply_table;
 
 /**
  * Class Role
@@ -28,7 +25,7 @@ class Role extends Base
      * @return Response
      * @throws DbException
      */
-    public function index(int $limit = 1)
+    public function index(int $limit = 1): Response
     {
         $where = $this->buildWhere($this->request->param(), [
             ['genre', '='],
@@ -39,7 +36,7 @@ class Role extends Base
             ->append(['genre_desc', 'status_desc'])
             ->paginate($limit);
 
-        return reply_table($result);
+        return Reply::table($result);
     }
 
     /**
@@ -48,7 +45,7 @@ class Role extends Base
      * @param int $genre
      * @return Response
      */
-    public function select($genre = 0)
+    public function select($genre = 0): Response
     {
         if (empty($genre)) {
             $where = null;
@@ -58,7 +55,7 @@ class Role extends Base
             };
         }
         $result = AdminRole::buildOption(null, $where);
-        return reply_succeed($result);
+        return Reply::success($result);
     }
 
     /**
@@ -69,13 +66,13 @@ class Role extends Base
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      */
-    public function read(int $id)
+    public function read(int $id): Response
     {
         $result = AdminRole::find($id);
         if (empty($result)) {
-            return reply_not_found();
+            return Reply::notFound();
         }
-        return reply_succeed($result);
+        return Reply::success($result);
     }
 
     /**
@@ -84,41 +81,41 @@ class Role extends Base
      * @Validation("@Admin.Role")
      * @return Response
      */
-    public function save()
+    public function save(): Response
     {
         AdminRole::create($this->getFilterInput());
-        return reply_create();
+        return Reply::create();
     }
 
     /**
      * @Auth("admin.role.edit")
      * @AuthNode("更改系统用户角色")
      * @Validation("@Admin.Role")
-     * @param $id
+     * @param string|int $id
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
      */
-    public function update($id)
+    public function update($id): Response
     {
         $data = AdminRole::find($id);
         if (empty($data)) {
-            return reply_not_found();
+            return Reply::notFound();
         }
         $data->save($this->getFilterInput());
-        return reply_succeed();
+        return Reply::success();
     }
 
     /**
      * @Auth("admin.role.del")
      * @AuthNode("删除系统用户角色")
-     * @param $id
+     * @param string|int $id
      * @return Response
      */
-    public function delete($id)
+    public function delete($id): Response
     {
         AdminRole::destroy($id);
-        return reply_succeed();
+        return Reply::success();
     }
 }

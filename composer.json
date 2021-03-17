@@ -34,29 +34,32 @@
         "ext-sockets": "*",
         "ext-zip": "*",
         "ext-zlib": "*",
+        "composer/ca-bundle": "^1.2",
         "doctrine/annotations": "^1.10.2",
         "guzzlehttp/guzzle": "^7.0",
         "hashids/hashids": "^4.0",
         "nhzex/think-blade": "^5.0.0",
         "nhzex/think-cors": "^2.0",
         "nhzex/think-env": "^1.0.1",
-        "nhzex/think-phinx": "~1.1.1",
+        "nhzex/think-phinx": "^2.0.1",
         "phpcompatibility/php-compatibility": "^9.3",
         "rybakit/msgpack": "^0.7",
         "symfony/finder": "^4.2|^5.1",
-        "symfony/polyfill-php74": "^1.20",
-        "symfony/polyfill-php80": "^1.20",
+        "symfony/polyfill-php74": "^1.22",
+        "symfony/polyfill-php80": "^1.22",
+        "symfony/polyfill-php81": "^1.22",
         "symfony/var-dumper": "^4.2|^5.1",
         "symfony/var-exporter": "^4.2|^5.1",
-        "topthink/framework": "~6.0.5",
-        "topthink/think-orm": "~2.0.36",
+        "topthink/framework": "~6.0.7",
+        "topthink/think-orm": "~2.0.39",
         "zxin/think-auth": "^1.1",
         "zxin/think-redis": "^1.1.1",
         "zxin/think-swoole": "~3.0.9.8",
         "zxin/think-validate": "^1.1",
-        "zxin/utils": "^2.0"
+        "zxin/utils": "^2.2"
     },
     "require-dev": {
+        "phpstan/phpstan": "^0.12.71",
         "phpunit/phpunit": "^8|^9",
         "squizlabs/php_codesniffer": "^3.5",
         "swoole/ide-helper": "^4.4.18"
@@ -64,11 +67,13 @@
     "autoload": {
         "psr-4": {
             "app\\": "app",
+            "Util\\": "extend/Util",
             "Captcha\\": "extend/Captcha",
             "Guzzle\\": "extend/Guzzle",
             "Tp\\": "extend/Tp"
         },
         "files": [
+            "app/function.php",
             "app/constant.php",
             "app/status_code.php",
             "app/reply_func.php",

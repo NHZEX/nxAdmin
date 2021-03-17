@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\DeployTool;
@@ -12,7 +13,12 @@ use think\console\Table;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\model\Collection;
+use function define;
+use function defined;
 use function hash;
+use function str_repeat;
+use function strlen;
 
 class UserManage extends FeaturesManage
 {
@@ -84,7 +90,7 @@ class UserManage extends FeaturesManage
             $output->writeln('> 运行环境不正常');
             return false;
         }
-
+        /** @var AdminUser[]|Collection $users */
         $users = (new AdminUser())->hidden(['password', 'delete_time'])
             ->where('genre', '=', AdminUser::GENRE_SUPER_ADMIN)
             ->select();

@@ -10,6 +10,14 @@ use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
 use Zxin\Util;
+use function count;
+use function file_exists;
+use function filesize;
+use function max;
+use function str_pad;
+use function str_repeat;
+use function strlen;
+use function strpos;
 
 class Deploy extends Command
 {
@@ -66,10 +74,10 @@ class Deploy extends Command
      * 命令行入口
      * @param Input  $input
      * @param Output $output
-     * @return int|void|null
+     * @return int|null
      * @throws Exception
      */
-    protected function execute(Input $input, Output $output)
+    protected function execute(Input $input, Output $output): ?int
     {
         $action = $input->getArgument('action');
         $option = $input->getArgument('option');
@@ -136,11 +144,11 @@ class Deploy extends Command
     }
 
     /**
-     * @param $input
-     * @param $output
+     * @param Input $input
+     * @param Output $output
      * @throws Exception
      */
-    public function auto($input, $output)
+    public function auto(Input $input, Output $output)
     {
         foreach ([EnvManage::class, UpdateManage::class, UserManage::class] as $class) {
             /** @var FeaturesManage $features */

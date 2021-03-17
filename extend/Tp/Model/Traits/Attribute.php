@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tp\Model\Traits;
@@ -32,7 +33,6 @@ use function unserialize;
  */
 trait Attribute
 {
-
     /**
      * @inheritDoc
      */

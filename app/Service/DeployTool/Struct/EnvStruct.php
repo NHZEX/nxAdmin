@@ -4,6 +4,8 @@ namespace app\Service\DeployTool\Struct;
 
 use think\facade\Env;
 use Zxin\DataStruct\BaseProperty;
+use function join;
+use function preg_match;
 
 class EnvStruct extends BaseProperty
 {

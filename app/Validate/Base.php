@@ -8,13 +8,14 @@ use function array_map;
 use function filter_var;
 use function is_array;
 use function join;
+use function str_contains;
 use const FILTER_VALIDATE_INT;
 
 abstract class Base extends ValidateBase
 {
     /**
      * 判断是否为正整数
-     * @param $value
+     * @param string|int $value
      * @return bool
      */
     protected function isPositiveInteger($value)
@@ -24,8 +25,8 @@ abstract class Base extends ValidateBase
 
     /**
      * 判断是否为整数
-     * @param      $value
-     * @param      $params
+     * @param string|int $value
+     * @param string|null $params
      * @return bool|string
      */
     protected function isInteger($value, ?string $params)
@@ -35,8 +36,8 @@ abstract class Base extends ValidateBase
 
     /**
      * 判断是否为数值
-     * @param      $value
-     * @param      $params
+     * @param string|int $value
+     * @param string|null $params
      * @return bool|string
      */
     protected function isNumber($value, ?string $params)

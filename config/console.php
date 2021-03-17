@@ -3,7 +3,6 @@
 // | 控制台配置
 // +----------------------------------------------------------------------
 
-use app\Command\Certificate;
 use app\Command\CreateModel;
 use think\facade\Env;
 
@@ -12,7 +11,6 @@ return [
     'user'     => Env::get('task.user', null),
     // 指令定义
     'commands' => [
-        Certificate::class,
         CreateModel::class,
     ],
 ];

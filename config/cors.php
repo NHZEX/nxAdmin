@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'auto_register_middleware' => true,
+
     'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],

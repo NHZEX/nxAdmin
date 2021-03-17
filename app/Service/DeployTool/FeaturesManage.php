@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\DeployTool;
@@ -15,6 +16,16 @@ use think\console\output\Ask;
 use think\console\output\Question;
 use think\helper\Str;
 use function array_pad;
+use function array_shift;
+use function count;
+use function explode;
+use function is_array;
+use function is_numeric;
+use function is_string;
+use function join;
+use function method_exists;
+use function strtolower;
+use function strtoupper;
 
 abstract class FeaturesManage
 {
@@ -71,11 +82,11 @@ abstract class FeaturesManage
     /**
      * @param Input  $input
      * @param Output $output
-     * @param        $option
+     * @param array|null $option
      * @return bool|int|null
      * @throws Exception
      */
-    public function __invoke(Input $input, Output $output, $option)
+    public function __invoke(Input $input, Output $output, ?array $option)
     {
         $action = array_shift($option);
 
@@ -165,7 +176,7 @@ abstract class FeaturesManage
             return;
         }
         $envPrefix = strtoupper($envPrefix);
-        foreach ($this->env as $key => $value) {
+        foreach ($this->env->toArray() as $key => $value) {
             // 解析三段式常量
             $ekey = explode('_', $key);
             if (count($ekey) < $segments) {
@@ -246,11 +257,11 @@ abstract class FeaturesManage
     }
 
     /**
-     * @param $value
-     * @param $verify
+     * @param string       $value
+     * @param string|array $verify
      * @throws InputException
      */
-    public function checkValue($value, $verify): void
+    public function checkValue(string $value, $verify): void
     {
         $validate = $this->app->validate;
 

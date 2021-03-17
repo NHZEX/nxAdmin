@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\DeployTool;
@@ -10,6 +11,11 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 use think\console\Input;
 use think\console\Output;
+use function array_unshift;
+use function hash_final;
+use function hash_init;
+use function hash_update;
+use function hash_update_file;
 use function Zxin\ref_get_prop;
 
 class UpdateManage extends FeaturesManage

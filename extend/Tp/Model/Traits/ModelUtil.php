@@ -6,25 +6,27 @@ use Closure;
 use InvalidArgumentException;
 use think\db\Raw;
 use think\facade\Db;
+use function array_push;
+use function count;
 
 trait ModelUtil
 {
     /**
      * think orm 创建一个查询表达式
-     * @param $value
+     * @param string $value
      * @return Raw
      */
-    public static function dbRaw($value)
+    public static function dbRaw(string $value): Raw
     {
         return Db::raw($value);
     }
 
     /**
      * 当前模型是否存在该字段
-     * @param $field
+     * @param string $field
      * @return bool
      */
-    public function hasData($field)
+    public function hasData(string $field): bool
     {
         try {
             return isset($this[$field]);
@@ -40,7 +42,7 @@ trait ModelUtil
      * @param string $mapName
      * @return array
      */
-    protected static function setQueryMap($data = [], $query = [], $mapName = 'queryMap')
+    protected static function setQueryMap($data = [], $query = [], $mapName = 'queryMap'): array
     {
         $map = [];
 

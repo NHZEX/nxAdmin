@@ -7,7 +7,17 @@
 
 namespace Tp\Model;
 
-class Collection extends \think\model\Collection
+use function array_key_first;
+use function array_key_last;
+use function krsort;
+use function ksort;
+
+/**
+ * @deprecated
+ * Class Collection
+ * @package Tp\Model
+ */
+final class Collection extends \think\model\Collection
 {
     /**
      * 取出第一个key

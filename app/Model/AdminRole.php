@@ -4,7 +4,7 @@ namespace app\Model;
 
 use app\Exception\AccessControl;
 use app\Logic\AdminRole as AdminRoleLogic;
-use app\Service\Auth\AuthManager;
+use app\Service\Auth\AuthHelper;
 use app\Traits\Model\ModelAccessLimit;
 use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
@@ -25,7 +25,7 @@ use Tp\Model\Traits\MysqlJson;
  * @property-read string $status_desc 状态描述
  * @property-read string $genre_desc 类型描述
  * @property string $description 角色描述
- * @property mixed ext 权限
+ * @property mixed $ext 权限
  */
 class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 {
@@ -73,7 +73,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 
     /**
      * @param AdminRole $model
-     * @return mixed|void
+     * @return void
      * @throws AccessControl
      */
     public static function onBeforeInsert(AdminRole $model)
@@ -124,14 +124,21 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
         AdminRoleLogic::destroyCache($model);
     }
 
+    /**
+     * @param int $genre
+     * @return array|null
+     */
     public function getAccessControl(int $genre): ?array
     {
         return self::ACCESS_CONTROL[$genre] ?? null;
     }
 
-    public function getAllowAccessTarget()
+    /**
+     * @return int|null
+     */
+    public function getAllowAccessTarget(): ?int
     {
-        return AuthManager::userRoleId();
+        return AuthHelper::userRoleId();
     }
 
     /**

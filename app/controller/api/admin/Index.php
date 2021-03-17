@@ -4,16 +4,15 @@ namespace app\controller\api\admin;
 
 use app\Logic\AdminRole;
 use app\Logic\AdminUser;
-use app\Service\Auth\AuthManager;
+use app\Service\Auth\AuthHelper;
 use Captcha\Captcha;
 use think\facade\Session;
 use think\Response;
 use think\response\View;
+use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthGuard;
 use Zxin\Think\Validate\Annotation\Validation;
-use function func\reply\reply_bad;
-use function func\reply\reply_succeed;
 
 class Index extends Base
 {
@@ -34,7 +33,7 @@ class Index extends Base
         // 验证码校验
         if ($captcha->login) {
             if (!$captcha->verifyToken($ctoken, $param['captcha'] ?? '0000')) {
-                return reply_bad(CODE_COM_CAPTCHA, $captcha->getMessage());
+                return Reply::bad(CODE_COM_CAPTCHA, $captcha->getMessage());
             }
         }
 
@@ -44,12 +43,12 @@ class Index extends Base
 
         // 执行登陆操作
         if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme)) {
-            return reply_succeed([
+            return Reply::success([
                 'uuid' => $adminUser->getAuth()->getHashId(),
                 'token' => Session::getId(),
             ]);
         } else {
-            return reply_bad(CODE_CONV_LOGIN, $adminUser->getErrorMessage());
+            return Reply::bad(CODE_CONV_LOGIN, $adminUser->getErrorMessage());
         }
     }
 
@@ -64,7 +63,7 @@ class Index extends Base
             $auth->logout();
         }
 
-        return reply_succeed();
+        return Reply::success();
     }
 
     /**
@@ -74,13 +73,13 @@ class Index extends Base
      */
     public function userInfo()
     {
-        $user = AuthManager::user();
+        $user = AuthHelper::user();
         $user->hidden([
             'role', 'password', 'remember', 'last_login_ip',
             'delete_time', 'group_id', 'lock_version', 'signup_ip',
         ]);
         $role_id = $user->isSuperAdmin() ? -1 : $user->role_id;
-        return reply_succeed([
+        return Reply::success([
             'user' => $user,
             'permission' => AdminRole::queryOnlyPermission($role_id),
         ]);

@@ -3,9 +3,11 @@
 namespace Tp\Model\Traits;
 
 use app\Model\AdminUser;
-use app\Service\Auth\AuthManager;
+use app\Service\Auth\AuthHelper;
 use think\Model;
 use think\model\relation\BelongsTo;
+use function array_flip;
+use function array_search;
 
 /**
  * 自动记录用户
@@ -28,17 +30,17 @@ trait RecordUser
      */
     protected static function recodeUser(Model $data)
     {
-        $conv = AuthManager::instance();
+        $conv = AuthHelper::instance();
         if ($data->recordUser && $conv->check()) {
             // 缺乏必要的字段锁定设置
             if (false === array_search($data->createBy, $data->readonly)) {
                 $data->readonly[] = $data->createBy;
             }
             $fields = array_flip($data->getTableFields());
-            isset($fields[$data->createBy]) &&
-            $data[$data->createBy] = $conv->id();
-            isset($fields[$data->updateBy]) &&
-            $data[$data->updateBy] = $conv->id();
+            isset($fields[$data->createBy])
+            && $data[$data->createBy] = $conv->id();
+            isset($fields[$data->updateBy])
+            && $data[$data->updateBy] = $conv->id();
         }
     }
 

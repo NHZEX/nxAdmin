@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * @param string|null $name
+ * @param mixed       $default
+ * @return string|int|bool|array<string, mixed>|null
+ */
+function env(string $name = null, $default = null) {}

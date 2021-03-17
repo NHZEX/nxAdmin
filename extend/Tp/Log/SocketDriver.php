@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tp\Log;
@@ -17,13 +18,23 @@ use function zlib_encode;
 
 class SocketDriver extends Socket
 {
+    /**
+     * @param string $host
+     * @param int    $port
+     * @param string $message
+     * @param string $address
+     * @return bool|string
+     */
     protected function send($host, $port, $message = '', $address = '/')
     {
         $url = "http://{$host}:{$port}{$address}";
         $ch  = curl_init();
 
+        if (!isset($this->config['compress'])) {
+            $this->config['compress'] = false;
+        }
         $headers = [];
-        if ($this->config['compress'] ?? false && strlen($message) > 128) {
+        if ($this->config['compress'] && strlen($message) > 128) {
             $message = zlib_encode($message, ZLIB_ENCODING_DEFLATE);
             $headers[] = 'Content-Type: application/x-compress';
         } else {

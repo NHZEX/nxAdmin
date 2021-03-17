@@ -10,7 +10,15 @@ use IteratorAggregate;
 use JsonSerializable;
 use Tp\Model\Collection;
 use Traversable;
+use function ceil;
+use function count;
+use function is_object;
 
+/**
+ * @deprecated
+ * Class Paginator2
+ * @package Tp
+ */
 class Paginator2 implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
     /**

@@ -3,6 +3,7 @@ namespace DbMigrations;
 
 use HZEX\Phinx\Schema;
 use Phinx\Migration\AbstractMigration;
+use Zxin\Phinx\Schema\Blueprint;
 
 class Init extends AbstractMigration
 {
@@ -34,7 +35,7 @@ class Init extends AbstractMigration
     public function change()
     {
         Schema::cxt($this, function () {
-            Schema::create('system', function (Schema\Blueprint $blueprint) {
+            Schema::create('system', function (Blueprint $blueprint) {
                 $blueprint->id = false;
                 $blueprint->primaryKey = 'label';
                 $blueprint->comment = '系统表';
@@ -44,7 +45,7 @@ class Init extends AbstractMigration
                 $blueprint->unique('label')->name('uk_label');
             });
 
-            Schema::create('admin_role', function (Schema\Blueprint $blueprint) {
+            Schema::create('admin_role', function (Blueprint $blueprint) {
                 $blueprint->comment = '系统角色';
                 $blueprint->unsigned = true;
 
@@ -59,7 +60,7 @@ class Init extends AbstractMigration
                 $blueprint->lockVersion();
             });
 
-            Schema::create('admin_user', function (Schema\Blueprint $blueprint) {
+            Schema::create('admin_user', function (Blueprint $blueprint) {
                 $blueprint->comment = '系统用户';
                 $blueprint->unsigned = true;
 
@@ -80,10 +81,10 @@ class Init extends AbstractMigration
                 $blueprint->string('last_login_ip', 46)->ccAscii()->comment('登录ip');
                 $blueprint->string('remember', 16)->ccAscii()->comment('登录ip');
                 $blueprint->lockVersion();
-                $blueprint->unique(['username', 'delete_time'])->name('username');
+                $blueprint->unique(['username', 'delete_time'])->name('idx_username');
             });
 
-            Schema::create('attachment', function (Schema\Blueprint $blueprint) {
+            Schema::create('attachment', function (Blueprint $blueprint) {
                 $blueprint->comment = '附件管理';
                 $blueprint->unsigned = true;
 
@@ -102,7 +103,7 @@ class Init extends AbstractMigration
                 $blueprint->index('index')->limit(48);
             });
 
-            Schema::create('exception_logs', function (Schema\Blueprint $blueprint) {
+            Schema::create('exception_logs', function (Blueprint $blueprint) {
                 $blueprint->comment = '异常堆栈日志';
                 $blueprint->unsigned = true;
 

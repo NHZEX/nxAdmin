@@ -1,0 +1,32 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Method app\\\\Model\\\\AdminUser\\:\\:getAccessControl\\(\\) should return array\\<array\\<string\\>\\>\\|null but returns array\\<int\\|string, string\\>\\|null\\.$#"
+			count: 1
+			path: app/Model/AdminUser.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 3
+			path: app/Model/AdminUser.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between array\\<string\\> and 'rw' will always evaluate to false\\.$#"
+			count: 2
+			path: app/Model/AdminUser.php
+
+		-
+			message: "#^Call to an undefined method app\\\\Model\\\\AdminUser\\:\\:fetchSql\\(\\)\\.$#"
+			count: 1
+			path: app/Service/DeployTool/UserManage.php
+
+		-
+			message: "#^Result of && is always false\\.$#"
+			count: 3
+			path: app/Model/AdminRole.php
+
+		-
+			message: "#^Strict comparison using \\=\\=\\= between array\\<string\\> and 'rw' will always evaluate to false\\.$#"
+			count: 2
+			path: app/Model/AdminRole.php
+

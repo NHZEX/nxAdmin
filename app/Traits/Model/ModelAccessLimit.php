@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Traits\Model;
 
 use app\Exception\AccessControl;
 use app\Model\AdminUser;
-use app\Service\Auth\AuthManager;
+use app\Service\Auth\AuthHelper;
 use think\db\Query;
 use think\Model;
 use function array_keys;
@@ -31,10 +32,10 @@ trait ModelAccessLimit
         if (!$this instanceof \app\Contracts\ModelAccessLimit) {
             return;
         }
-        if (empty($id = AuthManager::id())) {
+        if (empty($id = AuthHelper::id())) {
             return;
         }
-        $genre = AuthManager::userGenre();
+        $genre = AuthHelper::userGenre();
         if (AdminUser::GENRE_SUPER_ADMIN === $genre) {
             return;
         }
@@ -60,13 +61,15 @@ trait ModelAccessLimit
         if (!$data instanceof \app\Contracts\ModelAccessLimit) {
             return;
         }
+        /** @noinspection PhpUndefinedFieldInspection */
+        /** @phpstan-ignore-next-line */
         if ($data->withoutAccessLimit) {
             return;
         }
-        if (empty($id = AuthManager::id())) {
+        if (empty($id = AuthHelper::id())) {
             return;
         }
-        $genre = AuthManager::userGenre();
+        $genre = AuthHelper::userGenre();
         if (AdminUser::GENRE_SUPER_ADMIN === $genre) {
             return;
         }

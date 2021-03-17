@@ -1,0 +1,38 @@
+<?php
+
+namespace think {
+    class Log {
+        /**
+         * @param string      $channel
+         * @param string|null $name
+         * @param mixed       $default
+         * @return mixed
+         */
+        public function getChannelConfig($channel, $name = null, $default = null) {}
+    }
+
+    class Model {
+    }
+
+    class Request {
+        /**
+         * @param  string      $name
+         * @param  string|null $default
+         * @return string|array<string, string>|null
+         */
+        public function header(string $name = '', string $default = null) {}
+    }
+}
+
+namespace think\db {
+    class BaseQuery {
+        /**
+         * @param string                $field
+         * @param string                $op
+         * @param string|int|array<int|string>|null $range
+         * @param string                $logic
+         * @return $this
+         */
+        public function whereTime(string $field, string $op, $range = null, string $logic) {}
+    }
+}

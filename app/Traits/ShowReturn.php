@@ -10,9 +10,19 @@ use think\Response;
 use think\response\Redirect;
 use Throwable;
 use Tp\Paginator2;
+use function array_map;
+use function function_exists;
+use function is_array;
+use function strlen;
+use function substr;
 use function Zxin\debug_array;
 use function Zxin\set_path_cut_len;
 
+/**
+ * @deprecated use reply_* function
+ * Trait ShowReturn
+ * @package app\Traits
+ */
 trait ShowReturn
 {
     /**
@@ -137,8 +147,8 @@ trait ShowReturn
         } while ($next = $next->getPrevious());
 
         $data = [
-            'code' => CODE_ERROE,
-            'msg' => $msg ?? $exception->getMessage(),
+                'code' => CODE_ERROR,
+                'msg' => $msg ?? $exception->getMessage(),
         ] + ($app->isDebug() ? [
             'err_code' => $exception->getCode(),
             'err_line' => $exception->getLine(),

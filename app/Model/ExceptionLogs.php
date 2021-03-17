@@ -4,6 +4,7 @@ namespace app\Model;
 
 use think\App;
 use Throwable;
+use function get_class;
 use function substr;
 
 /**
@@ -17,7 +18,7 @@ use function substr;
  * @property string $request_method
  * @property string $request_ip
  * @property string $mode
- * @property string $request_info
+ * @property array  $request_info
  * @property string $message
  * @property string $trace_info
  */
@@ -39,9 +40,9 @@ class ExceptionLogs extends Base
     /**
      * 压入日志
      * @param Throwable $exception
-     * @return false|int
+     * @return bool
      */
-    public static function push(Throwable $exception)
+    public static function push(Throwable $exception): bool
     {
         $that = new self();
 
@@ -74,6 +75,7 @@ class ExceptionLogs extends Base
 
         $that->trace_info = substr($msg, 0, 65535);
 
-        return $that->save();
+        $that->save();
+        return true;
     }
 }

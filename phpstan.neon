@@ -1,0 +1,19 @@
+parameters:
+    level: 5
+    paths:
+        - app
+        - config
+        - extend
+    scanFiles:
+        - vendor/topthink/framework/src/helper.php
+        - app/common.php
+    stubFiles:
+        - stubs/global_function.stub
+        - stubs/think_class.stub
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        - "#^Call to an undefined method think\\\\db\\\\ConnectionInterface\\:\\:(query|getPdo)\\(\\)\\.$#"
+        - "#^Call to an undefined method think\\\\model\\\\Relation\\:\\:(bind)\\(\\)\\.$#"
+        - "#^Static call to instance method think\\\\db\\\\BaseQuery\\:\\:\\w+\\(\\)\\.$#"
+includes:
+    - phpstan-baseline.neon

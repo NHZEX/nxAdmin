@@ -21,7 +21,10 @@ use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\Response;
 use think\Validate;
+use function explode;
 use function is_array;
+use function strpos;
+use function time;
 
 /**
  * 控制器基础类
@@ -62,9 +65,8 @@ abstract class BaseController
     protected $middleware = [];
 
     /**
-     * 构造方法
-     * @access public
-     * @param  App  $app  应用对象
+     * BaseController constructor.
+     * @param App $app
      */
     public function __construct(App $app)
     {
@@ -83,12 +85,12 @@ abstract class BaseController
 
     /**
      * 验证数据
-     * @access protected
+     * @deprecated
      * @param  array        $data     数据
      * @param  string|array $validate 验证器名或者验证规则数组
      * @param  array        $message  提示信息
      * @param  bool         $batch    是否批量验证
-     * @return array|string|true
+     * @return bool
      * @throws ValidateException
      */
     protected function validate(array $data, $validate, array $message = [], bool $batch = false)
@@ -121,6 +123,7 @@ abstract class BaseController
 
     /**
      * 返回封装后的API数据到客户端
+     * @deprecated
      * @param  mixed   $data 要返回的数据
      * @param  int $code 返回的code
      * @param  mixed   $msg 提示信息

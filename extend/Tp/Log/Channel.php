@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Tp\Log;
@@ -6,6 +7,7 @@ namespace Tp\Log;
 use function in_array;
 use function is_string;
 use function strlen;
+use function strtr;
 
 class Channel extends \think\log\Channel
 {

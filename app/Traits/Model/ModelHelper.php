@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Traits\Model;
@@ -27,6 +28,7 @@ trait ModelHelper
      */
     public static function getTableName(): string
     {
+        /* @phpstan-ignore-next-line 必须是 static */
         return (new static())->getTable();
     }
 
@@ -39,7 +41,7 @@ trait ModelHelper
     public static function subQuery(Closure $closure, ?string $field)
     {
         return function (Query $query) use ($closure, $field) {
-            $query->table(static::getTableName());
+            $query->table(self::getTableName());
             $closure($query);
 
             if (!empty($field)) {
@@ -81,7 +83,7 @@ trait ModelHelper
             }
         }
 
-        $self = new static();
+        $self = new static(); /** @phpstan-ignore-line 必须是 static */
         if ($where) {
             $self = $self->where($where);
         }

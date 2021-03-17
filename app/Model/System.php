@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Model;
@@ -6,6 +7,7 @@ namespace app\Model;
 use app\Service\Transaction\MainTrans;
 use function array_map;
 use function bin2hex;
+use function count;
 use function openssl_random_pseudo_bytes;
 use function str_starts_with;
 use function substr;
@@ -45,7 +47,7 @@ class System extends Base
      * 查询一个值
      * @param string      $label
      * @param string|null $default
-     * @return mixed
+     * @return string|null
      */
     public static function getLabel(string $label, string $default = null): ?string
     {
@@ -85,6 +87,7 @@ class System extends Base
             return "_lock:{$token}:{$ttl}";
         };
         return MainTrans::callback(function () use ($label, $ttl, $generateKey) {
+            $token = null;
             $value = self::where('label', $label)
                 ->lock(true)
                 ->value('value', null);

@@ -10,3 +10,4 @@
 /.phpunit.result.cache
 /yarn-error.log
 /test*.php
+/*.phar

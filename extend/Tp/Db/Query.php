@@ -19,6 +19,7 @@ class Query extends \think\db\Query
 {
     /**
      * 指定主键查询条件
+     * @deprecated 不完善
      * @param  mixed $op        查询表达式
      * @param  mixed $condition 查询条件
      * @return $this
@@ -29,6 +30,7 @@ class Query extends \think\db\Query
     }
 
     /**
+     * @deprecated
      * @param int  $limit
      * @param int  $page
      * @param bool $simple

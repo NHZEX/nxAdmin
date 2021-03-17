@@ -14,6 +14,20 @@ use think\facade\Filesystem;
 use think\facade\Lang;
 use think\File;
 use think\file\UploadedFile;
+use function date;
+use function dechex;
+use function exif_imagetype;
+use function fclose;
+use function fopen;
+use function function_exists;
+use function getimagesize;
+use function image_type_to_extension;
+use function is_array;
+use function is_resource;
+use function preg_match;
+use function str_pad;
+use function strrpos;
+use function substr;
 
 /**
  * Class Attachment
@@ -150,7 +164,7 @@ class Attachment extends Base
         if (isset($this->image_type[$image])) {
             $img_type = $this->image_type[$image];
         } else {
-            if (function_exists('exif_imagetype_1')) {
+            if (function_exists('\exif_imagetype')) {
                 $img_type = exif_imagetype($image);
             } else {
                 if (is_array($info = getimagesize($image)) && isset($info[2])) {

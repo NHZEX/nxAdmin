@@ -5,9 +5,12 @@ namespace app\controller\api;
 use Captcha\Captcha;
 use think\App;
 use think\Response;
+use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
-use function func\reply\reply_succeed;
 use function get_server_software;
+use function ini_get;
+use function php_uname;
+use function realpath_cache_size;
 
 class System extends Base
 {
@@ -16,7 +19,7 @@ class System extends Base
      */
     public function config()
     {
-        return reply_succeed([
+        return Reply::success([
             'webTitle' => env('SYSTEM_WEB_TITLE'),
             'loginCaptcha' => config('captcha.login'),
         ]);
@@ -28,7 +31,7 @@ class System extends Base
      */
     public function sysinfo()
     {
-        return reply_succeed([
+        return Reply::success([
             'sys_version' => ['服务器系统', php_uname()],
             'server_software' => ['执行环境', get_server_software()],
             'php_sapi' => ['PHP接口类型', php_sapi_name()],

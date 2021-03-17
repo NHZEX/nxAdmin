@@ -11,6 +11,9 @@ use think\Response;
 use think\response\View;
 use think\route\Resource;
 use think\swoole\pool\Proxy;
+use function Zxin\Str\strcut_omit;
+use function Zxin\Util\base64_urlsafe_decode;
+use function Zxin\Util\base64_urlsafe_encode;
 
 /**
  * 渲染模板输出
@@ -78,27 +81,25 @@ function return_raw_value($x)
 
 /**
  * Base64 Url安全编码
- * @param $data
+ * @param string $data
  * @return string
  * @link http://php.net/manual/zh/function.base64-encode.php
  */
 function base64url_encode(string $data): string
 {
-    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+    return base64_urlsafe_encode($data);
 }
 
 /**
  * Base64 Url安全解码
- * @param $data
- * @return bool|string
+ * @param string $data
+ * @param bool   $strict
+ * @return false|string
  * @link http://php.net/manual/zh/function.base64-encode.php
  */
-function base64url_decode(string $data): string
+function base64url_decode(string $data, bool $strict = true)
 {
-    if ($remainder = strlen($data) % 4) {
-        $data .= str_repeat('=', 4 - $remainder);
-    }
-    return base64_decode(strtr($data, '-_', '+/'));
+    return base64_urlsafe_decode($data, $strict);
 }
 
 /**
@@ -118,8 +119,8 @@ function parse_user_agent(string $ua)
 
 /**
  * url_hash
- * @param string $url
- * @param string $prefix
+ * @param string|null $url
+ * @param string      $prefix
  * @return string
  */
 function url_hash(?string $url, string $prefix = 'page-'): string
@@ -144,21 +145,13 @@ function is_cli()
 
 /**
  * 生成 uuid v4
- * @return string|null
+ * @deprecated
+ * @return string
  * @link https://stackoverflow.com/a/15875555/10242420
  */
-function uuidv4(): ?string
+function uuidv4(): string
 {
-    try {
-        $data = random_bytes(16);
-    } catch (Exception $e) {
-        return null;
-    }
-
-    $data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
-    $data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
-
-    return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    return \Zxin\Util\uuidv4();
 }
 
 /**
@@ -167,9 +160,11 @@ function uuidv4(): ?string
  * @param string|null $chars
  * @return string
  */
-function get_rand_str(int $length = 8, ?string $chars = null)
+function get_rand_str(int $length = 8, ?string $chars = null): string
 {
-    $chars || $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    if (empty($chars)) {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    }
     $text = '';
     $chars_max_index = strlen($chars) - 1;
     for ($i = 0; $i < $length; $i++) {
@@ -204,36 +199,31 @@ function array_values_recursive(array $arr, ?string $filter_key = null)
 
 /**
  * 是否关联数组
+ * @deprecated use \array_is_list
  * @param array $arr
  * @return bool
  * @link https://github.com/laravel/framework/blob/5.7/src/Illuminate/Support/Arr.php#L357
  */
 function is_assoc(array $arr)
 {
-    $keys = array_keys($arr);
-    return array_keys($keys) !== $keys;
+    return array_is_list($arr);
 }
 
 /**
  * 是否关联数组
+ * @deprecated use \array_is_list
  * @param array $arr
  * @return bool
  * @link https://stackoverflow.com/a/173479/10242420
  */
 function is_assoc2(array $arr)
 {
-    if ([] === $arr) {
-        return false;
-    }
-    if (true === isset($arr[0])) {
-        return false;
-    }
-    return array_keys($arr) !== range(0, count($arr) - 1);
+    return array_is_list($arr);
 }
 
 /**
  * 查询当前链接 mysql 版本
- * @param string $connect
+ * @param string|null $connect
  * @return string
  */
 function query_mysql_version(string $connect = null)
@@ -249,32 +239,36 @@ function query_mysql_version(string $connect = null)
 
 /**
  * 查询数据库版本
- * @param string $connect
- * @param bool   $driver
+ * @param string|null $connect
+ * @param bool        $driver
  * @return string
  */
 function db_version(?string $connect = null, bool $driver = false): string
 {
     // 暂不支持分布式数据库
-    /** @var PDOConnection $pdo */
+    /** @var PDOConnection|object $connect */
     $connect = ($connect ? Db::connect($connect, true) : Db::connect());
-    if ($connect instanceof \think\db\connector\Mongo) {
-        throw new RuntimeException('not support mongo');
+    if (!$connect instanceof PDOConnection) {
+        throw new RuntimeException('only support PDOConnection');
     }
-    $initConnect = function () {
-        $this->initConnect();
-    };
-    if ($connect instanceof Proxy) {
-        $initConnect = function () use ($initConnect) {
-            $connection = $this->getPoolConnection();
-            if ($connection->{$this::KEY_RELEASED}) {
-                throw new RuntimeException("Connection already has been released!");
-            }
-            $initConnect->call($connection);
-        };
-        $initConnect->call($connect);
-    } else {
-        $initConnect->call($connect);
+    try {
+        if ($connect instanceof Proxy) {
+            // todo 解决连接池访问问题
+            //$initConnect = function () use ($initConnect) {
+            //    $connection = $this->getPoolConnection();
+            //    if ($connection->{$this::KEY_RELEASED}) {
+            //        throw new RuntimeException("Connection already has been released!");
+            //    }
+            //    $initConnect->call($connection);
+            //};
+            //$initConnect->call($connect);
+        } else {
+            $ref = new ReflectionMethod($connect, 'initConnect');
+            $ref->setAccessible(true);
+            $ref->invoke($connect);
+        }
+    } catch (ReflectionException $e) {
+        throw new RuntimeException('invoke method initConnect() exception', -1, $e);
     }
     /** @var PDO $pdo */
     $pdo = $connect->getPdo();
@@ -284,13 +278,13 @@ function db_version(?string $connect = null, bool $driver = false): string
 
 /**
  * 查询当前链接 mysql 是否存在指定库
- * @param string $database
- * @param string $connect
+ * @param string      $database
+ * @param string|null $connect
  * @return bool
  */
-function query_mysql_exist_database(string $database, string $connect = null)
+function query_mysql_exist_database(string $database, string $connect = null): bool
 {
-    /** @noinspection SqlNoDataSourceInspection */
+    /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
     $sql = "select * from `INFORMATION_SCHEMA`.`SCHEMATA` where `SCHEMA_NAME`='{$database}'";
     if ($connect) {
         $list = Db::connect($connect, true)->query($sql);
@@ -301,56 +295,23 @@ function query_mysql_exist_database(string $database, string $connect = null)
 }
 
 /**
- * 多维数组指定多字段排序
- * 排序：SORT_ASC升序 , SORT_DESC降序
- * 示例：$this->multiaArraySort($arr, 'num', SORT_DESC, 'sort', SORT_ASC)
- * @copyright https://blog.csdn.net/qq_35296546/article/details/78812176
- * @param array $args
- * @return array
- */
-function sort_arr_by_many_field(...$args)
-{
-    $arr = array_shift($args);
-    if (!is_array($arr)) {
-        throw new InvalidArgumentException("第一个参数不为数组");
-    }
-    foreach ($args as $key => $field) {
-        if (is_string($field)) {
-            $temp = [];
-            foreach ($arr as $index => $val) {
-                $temp[$index] = $val[$field];
-            }
-            $args[$key] = $temp;
-        }
-    }
-    $args[] = &$arr; //引用值
-    call_user_func_array('array_multisort', $args);
-    return array_pop($args);
-}
-
-/**
  * 多字节字符串按照字节长度进行截取
+ * @deprecated
  * @param  string $string 字符串
  * @param  int $length 截取长度
  * @param  string $dot 省略符
- * @param  string $charset 编码
+ * @param  string|null $charset 编码
  * @return string
  */
 function mb_strcut_omit(string $string, int $length, string $dot = '...', ?string $charset = null): string
 {
-    if (strlen($string) > $length) {
-        $charset || $charset = mb_internal_encoding();
-        $dotlen = strlen($dot);
-        return mb_strcut($string, 0, $length - $dotlen, $charset) . $dot;
-    }
-
-    return $string;
+    return strcut_omit($string, $length, $dot, $charset);
 }
 
 /**
  * Env获取
  * @param string $key
- * @param        $default
+ * @param mixed  $default
  * @param mixed  ...$argv
  * @return mixed
  * @deprecated
@@ -358,8 +319,7 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
 function env_get(string $key, $default, ...$argv)
 {
     $key = sprintf($key, ...$argv);
-    /** @noinspection PhpMethodParametersCountMismatchInspection */
-    return app('env')->get($key, $default);
+    return app()->get('env')->get($key, $default);
 }
 
 /**
@@ -377,7 +337,7 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
     return $result;
 }
 
-function preload_statistics()
+function preload_statistics(): string
 {
     if (!extension_loaded('Zend OPcache') || !function_exists('opcache_get_status')) {
         return 'opcache does not exist';
@@ -398,9 +358,9 @@ function preload_statistics()
 }
 
 /**
- * @param     $value
- * @param int $options
- * @param int $depth
+ * @param mixed $value
+ * @param int   $options
+ * @param int   $depth
  * @return false|string
  */
 function json_encode_ex($value, int $options = 0, int $depth = 512)
@@ -414,13 +374,13 @@ function json_encode_ex($value, int $options = 0, int $depth = 512)
 }
 
 /**
- * @param      $value
- * @param bool $assoc
- * @param int  $depth
- * @param int  $options
+ * @param string $value
+ * @param bool   $assoc
+ * @param int    $depth
+ * @param int    $options
  * @return mixed
  */
-function json_decode_ex($value, bool $assoc = true, int $depth = 512, int $options = 0)
+function json_decode_ex(string $value, bool $assoc = true, int $depth = 512, int $options = 0)
 {
     if (PHP_VERSION_ID >= 70300) {
         $options |= JSON_THROW_ON_ERROR;
