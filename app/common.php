@@ -253,15 +253,16 @@ function db_version(?string $connect = null, bool $driver = false): string
     }
     try {
         if ($connect instanceof Proxy) {
-            // todo 解决连接池访问问题
-            //$initConnect = function () use ($initConnect) {
-            //    $connection = $this->getPoolConnection();
-            //    if ($connection->{$this::KEY_RELEASED}) {
-            //        throw new RuntimeException("Connection already has been released!");
-            //    }
-            //    $initConnect->call($connection);
-            //};
-            //$initConnect->call($connect);
+            $initConnect = function () {
+                $connection = $this->getPoolConnection();
+                if ($connection->{$this::KEY_RELEASED}) {
+                    throw new RuntimeException("Connection already has been released!");
+                }
+                $ref = new ReflectionMethod($connection, 'initConnect');
+                $ref->setAccessible(true);
+                $ref->invoke($connection);
+            };
+            $initConnect->call($connect);
         } else {
             $ref = new ReflectionMethod($connect, 'initConnect');
             $ref->setAccessible(true);
