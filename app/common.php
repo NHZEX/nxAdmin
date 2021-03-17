@@ -248,28 +248,29 @@ function db_version(?string $connect = null, bool $driver = false): string
     // 暂不支持分布式数据库
     /** @var PDOConnection|object $connect */
     $connect = ($connect ? Db::connect($connect, true) : Db::connect());
-    if (!$connect instanceof PDOConnection) {
-        throw new RuntimeException('only support PDOConnection');
-    }
-    try {
-        if ($connect instanceof Proxy) {
-            $initConnect = function () {
-                $connection = $this->getPoolConnection();
-                if ($connection->{$this::KEY_RELEASED}) {
-                    throw new RuntimeException("Connection already has been released!");
-                }
-                $ref = new ReflectionMethod($connection, 'initConnect');
-                $ref->setAccessible(true);
-                $ref->invoke($connection);
-            };
-            $initConnect->call($connect);
-        } else {
-            $ref = new ReflectionMethod($connect, 'initConnect');
+    $call = function ($connection) {
+        try {
+            if (!$connection instanceof PDOConnection) {
+                throw new RuntimeException('only support PDOConnection');
+            }
+            $ref = new ReflectionMethod($connection, 'initConnect');
             $ref->setAccessible(true);
-            $ref->invoke($connect);
+            $ref->invoke($connection);
+        } catch (ReflectionException $e) {
+            throw new RuntimeException('invoke method initConnect() exception', -1, $e);
         }
-    } catch (ReflectionException $e) {
-        throw new RuntimeException('invoke method initConnect() exception', -1, $e);
+    };
+    if ($connect instanceof Proxy) {
+        $initConnect = function () use ($call) {
+            $connection = $this->getPoolConnection();
+            if ($connection->{$this::KEY_RELEASED}) {
+                throw new RuntimeException("Connection already has been released!");
+            }
+            $call($connection);
+        };
+        $initConnect->call($connect);
+    } else {
+        $call($connect);
     }
     /** @var PDO $pdo */
     $pdo = $connect->getPdo();

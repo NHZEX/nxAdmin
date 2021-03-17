@@ -44,14 +44,14 @@ class AsyncSocket extends SocketDriver
     protected function asyncSend($host, $port, $message = '', $address = '/')
     {
         if (self::$workerChannel === null) {
-            self::worker($host, $port);
+            $this->worker($host, $port);
         } else {
             self::$workerChannel->push([$address, $message]);
         }
         return true;
     }
 
-    private static function worker($host, $port)
+    private function worker($host, $port)
     {
         self::$workerChannel = new Coroutine\Channel(1);
         $client = new Client($host, $port);
