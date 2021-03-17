@@ -11,6 +11,8 @@ use function get_server_software;
 use function ini_get;
 use function php_uname;
 use function realpath_cache_size;
+use const PHP_SAPI;
+use const PHP_VERSION;
 
 class System extends Base
 {
@@ -34,9 +36,9 @@ class System extends Base
         return Reply::success([
             'sys_version' => ['服务器系统', php_uname()],
             'server_software' => ['执行环境', get_server_software()],
-            'php_sapi' => ['PHP接口类型', php_sapi_name()],
+            'php_sapi' => ['PHP接口类型', PHP_SAPI],
             'tp_version' => ['ThinkPHP 版本', App::VERSION],
-            'php_version' => ['PHP版本', phpversion()],
+            'php_version' => ['PHP版本', PHP_VERSION],
             'db_version' => ['数据库版本', db_version(null, true)],
             'memory_limit' => ['内存限制', ini_get('memory_limit')],
             'max_execution_time' => ['最长执行时间', ini_get('max_execution_time')],
