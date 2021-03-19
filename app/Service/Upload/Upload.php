@@ -258,8 +258,8 @@ class Upload
             $hash = $this->meta->getFilehash();
             $dir = substr($hash, 0, 2);
             $ext = self::queryFileExtension($this->getFilename(), $this->meta->getFilename());
-            if ($absolute && !file_exists($dir)) {
-                mkdir($this->getStorageDirname($absolute) . $dir, 0755, true);
+            if ($absolute && !file_exists($realDir = $this->getStorageDirname($absolute) . $dir)) {
+                mkdir($realDir, 0755, true);
             }
             $this->storageName = $dir . substr($hash, 2) . '.' . $ext;
         }
