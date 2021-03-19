@@ -371,15 +371,12 @@ class Captcha
 
     public function send(): Response
     {
-        $head = [
-            'Content-Length' => strlen($this->codeContent),
+        return response($this->codeContent, 200, [])->header([
             'Cache-Control' => 'private, no-cache, no-store, must-revalidate',
-        ];
-        return response(
-            $this->codeContent,
-            200,
-            $head
-        )->contentType('image/png');
+            'Content-Type' => 'image/png',
+            'Accept-Ranges' => 'bytes',
+            'Content-Length' => strlen($this->codeContent),
+        ]);
     }
 
     /**
