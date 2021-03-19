@@ -374,7 +374,6 @@ class Captcha
         return response($this->codeContent, 200, [])->header([
             'Cache-Control' => 'private, no-cache, no-store, must-revalidate',
             'Content-Type' => 'image/png',
-            'Accept-Ranges' => 'bytes',
             'Content-Length' => strlen($this->codeContent),
         ]);
     }
