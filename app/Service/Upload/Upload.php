@@ -85,7 +85,7 @@ class Upload
         $this->token = $token;
     }
 
-    protected function build(string $filename, int $filesize, string $filehash)
+    protected function build(string $filename, int $filesize, string $filehash): void
     {
         if (40 !== strlen($filehash) || !ctype_xdigit($filehash)) {
             throw new UploadException('文件Hash错误');
@@ -95,7 +95,7 @@ class Upload
         $this->meta = BlockMeta::create($filename, $filesize, $filehash, $chunkSize);
     }
 
-    protected function loadMeta($failOrThrow = true)
+    protected function loadMeta($failOrThrow = true): void
     {
         $this->meta = BlockMeta::load($this->getDirname());
         if ($failOrThrow && null === $this->meta) {
@@ -103,7 +103,7 @@ class Upload
         }
     }
 
-    protected function append(int $count, SplFileInfo $fileInfo)
+    protected function append(int $count, SplFileInfo $fileInfo): bool
     {
         $this->loadMeta();
         if ($this->meta->isDone()) {
@@ -217,7 +217,7 @@ class Upload
         return $this->meta;
     }
 
-    public function saveMeta()
+    public function saveMeta(): void
     {
         $this->meta->save($this->getDirname());
     }
@@ -225,9 +225,11 @@ class Upload
     public function getChunkSize(int $filesize): int
     {
         $chunkSizes = [
-            1024 * 1024 * 1024 => 16 * 1024 * 1024,
+            512 * 1024 * 1024 => 16 * 1024 * 1024,
             128 * 1024 * 1024 => 8 * 1024 * 1024,
-            0 * 1024 * 1024 => 4 * 1024 * 1024,
+            64 * 1024 * 1024 => 4 * 1024 * 1024,
+            32 * 1024 * 1024 => 2 * 1024 * 1024,
+            0 * 1024 * 1024 => 1 * 1024 * 1024,
         ];
         $sizeMbytes = $filesize;
         foreach ($chunkSizes as $maxSize => $chunkSize) {

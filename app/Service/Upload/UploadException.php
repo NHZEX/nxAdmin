@@ -2,9 +2,8 @@
 
 namespace app\Service\Upload;
 
-use Exception;
+use LogicException;
 
-class UploadException extends Exception
+class UploadException extends LogicException
 {
-
 }
