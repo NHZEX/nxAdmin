@@ -8,6 +8,28 @@ use finfo;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
+use function hash;
+use function random_bytes;
+use function filesize;
+use function fseek;
+use function stream_copy_to_stream;
+use function is_file;
+use function rename;
+use function unlink;
+use function rmdir;
+use function fopen;
+use function flock;
+use function hash_init;
+use function hash_update_stream;
+use function hash_final;
+use function fclose;
+use function file_exists;
+use function mkdir;
+use function substr;
+use function str_replace;
+use function pathinfo;
+use function in_array;
+use function explode;
 
 class Upload
 {
@@ -153,8 +175,8 @@ class Upload
         $it = new RecursiveDirectoryIterator($this->getDirname(), RecursiveDirectoryIterator::SKIP_DOTS);
         /** @var SplFileInfo[] $files */
         $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
-        foreach($files as $file) {
-            if ($file->isDir()){
+        foreach ($files as $file) {
+            if ($file->isDir()) {
                 rmdir($file->getPathname());
             } else {
                 unlink($file->getPathname());
