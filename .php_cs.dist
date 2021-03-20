@@ -19,7 +19,7 @@ return $config
         'standardize_not_equals'     => true,
         'unary_operator_spaces'      => true,
         // risky
-        'native_function_invocation' => true,
+        'native_function_invocation' => ['include' => ['@internal'], 'scope' => 'namespaced', 'strict' => true],
         'function_to_constant'       => true,
     ])
     ->setRiskyAllowed(true)
