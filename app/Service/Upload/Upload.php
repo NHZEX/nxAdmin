@@ -51,7 +51,7 @@ class Upload
     /** @var BlockMeta */
     private $meta;
 
-    public static function prepare(string $filename, int $filesize, string $fileHash)
+    public static function prepare(string $filename, int $filesize, string $fileHash): Upload
     {
         $upload = new self(null);
         $upload->build($filename, $filesize, $fileHash);
@@ -60,7 +60,18 @@ class Upload
         return $upload;
     }
 
-    public static function block(string $token, int $count, SplFileInfo $fileInfo)
+    public static function query(string $token): ?Upload
+    {
+        $upload = new self($token);
+        $upload->loadMeta(false);
+        if (null === $upload->meta) {
+            return null;
+        }
+
+        return $upload;
+    }
+
+    public static function block(string $token, int $count, SplFileInfo $fileInfo): Upload
     {
         $upload = new self($token);
         $upload->append($count, $fileInfo);
@@ -76,18 +87,25 @@ class Upload
 
     protected function build(string $filename, int $filesize, string $filehash)
     {
-        // todo 验证hash长度40
+        if (40 !== strlen($filehash) || !ctype_xdigit($filehash)) {
+            throw new UploadException('文件Hash错误');
+        }
         $chunkSize = $this->getChunkSize($filesize);
         $this->token = hash('md5', random_bytes(16));
         $this->meta = BlockMeta::create($filename, $filesize, $filehash, $chunkSize);
     }
 
-    protected function append(int $count, SplFileInfo $fileInfo)
+    protected function loadMeta($failOrThrow = true)
     {
         $this->meta = BlockMeta::load($this->getDirname());
-        if (null === $this->meta) {
-            throw new UploadException('无效到meta内容');
+        if ($failOrThrow && null === $this->meta) {
+            throw new UploadException('无效的Meta内容');
         }
+    }
+
+    protected function append(int $count, SplFileInfo $fileInfo)
+    {
+        $this->loadMeta();
         if ($this->meta->isDone()) {
             throw new UploadException('传输已经完成');
         }

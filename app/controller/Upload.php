@@ -30,6 +30,19 @@ class Upload extends Base
                     'chunkSize' => $upload->getMeta()->getChunkSize(),
                     'chunkTotal' => $upload->getMeta()->getChunkTotal(),
                 ]);
+            case 'query':
+                $upload = UploadService::query(
+                    $params['token'],
+                );
+                if (null === $upload) {
+                    return Reply::notFound();
+                }
+                return Reply::success([
+                    'chunkCount' => $upload->getMeta()->getChunkCount(),
+                    'chunkTotal' => $upload->getMeta()->getChunkTotal(),
+                    'totalSize' => $upload->getMeta()->getFilesize(),
+                    'uploadSize' => $upload->getMeta()->getUploadSize(),
+                ]);
             case 'chunk':
                 $upload = UploadService::block(
                     $params['token'],

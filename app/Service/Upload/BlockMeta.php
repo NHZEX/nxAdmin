@@ -61,6 +61,10 @@ class BlockMeta
 
     public static function load(string $dirname): ?BlockMeta
     {
+        $filename = $dirname . '_meta.data';
+        if (!is_file($filename) || !is_readable($filename)) {
+            return null;
+        }
         $data = file_get_contents($dirname . '_meta.data');
         if (empty($data)) {
             return null;
