@@ -1,6 +1,8 @@
 <?php
 
-namespace app\Service\Upload;;
+namespace app\Service\Upload;
+
+;
 
 use Psr\Http\Message\RequestInterface;
 use app\Service\Upload\ChunkUpload as UploadService;
