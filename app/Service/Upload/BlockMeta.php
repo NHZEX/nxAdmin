@@ -116,10 +116,10 @@ class BlockMeta
         return $this->chunkCount + 1 === $count;
     }
 
-    public function receiveChunk(int $count): void
+    public function receiveChunk(int $count, int $chunkSize): void
     {
         $this->chunkCount = $count;
-        $this->uploadSize = $this->chunkCount * $this->chunkSize;
+        $this->uploadSize += $chunkSize;
     }
 
     public function getSurplusSize(): int

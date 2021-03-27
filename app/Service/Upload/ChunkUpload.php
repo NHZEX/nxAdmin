@@ -30,9 +30,17 @@ use function str_replace;
 use function pathinfo;
 use function in_array;
 use function explode;
+use function rtrim;
+use function strlen;
+use function ctype_xdigit;
+use function array_reduce;
 
-class Upload
+class ChunkUpload
 {
+    /** @var string  */
+    private static $storageDir;
+    /** @var string  */
+    private static $temporaryDir;
     /**
      * @var string
      */
@@ -51,7 +59,22 @@ class Upload
     /** @var BlockMeta */
     private $meta;
 
-    public static function prepare(string $filename, int $filesize, string $fileHash): Upload
+    /** @var finfo|null  */
+    private $__fInfo;
+    /** @var string  */
+    private $fileMime;
+    /** @var string  */
+    private $fileExt;
+    /** @var bool  */
+    private $isMove = false;
+
+    public static function setDirs(string $storageDir, string $temporaryDir)
+    {
+        self::$storageDir = rtrim($storageDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        self::$temporaryDir = rtrim($temporaryDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+    }
+
+    public static function prepare(string $filename, int $filesize, string $fileHash): ChunkUpload
     {
         $upload = new self(null);
         $upload->build($filename, $filesize, $fileHash);
@@ -60,7 +83,7 @@ class Upload
         return $upload;
     }
 
-    public static function query(string $token): ?Upload
+    public static function query(string $token): ?ChunkUpload
     {
         $upload = new self($token);
         $upload->loadMeta(false);
@@ -71,7 +94,7 @@ class Upload
         return $upload;
     }
 
-    public static function block(string $token, int $count, SplFileInfo $fileInfo): Upload
+    public static function block(string $token, int $count, SplFileInfo $fileInfo): ChunkUpload
     {
         $upload = new self($token);
         $upload->append($count, $fileInfo);
@@ -82,6 +105,9 @@ class Upload
 
     public function __construct(?string $token)
     {
+        if (empty(self::$storageDir) || empty(self::$temporaryDir)) {
+            throw new UploadException('dirs is not initialized');
+        }
         $this->token = $token;
     }
 
@@ -110,7 +136,7 @@ class Upload
             throw new UploadException('传输已经完成');
         }
         if (!$this->meta->verifyChunk($count)) {
-            throw new UploadException('预期块顺序错误');
+            throw new UploadException("预期块顺序错误：{$count}");
         }
         if ($this->meta->isLastChunk($count)) {
             if ($fileInfo->getSize() !== $this->meta->getSurplusSize()) {
@@ -161,13 +187,18 @@ class Upload
         } else {
             return false;
         }
-        $this->meta->receiveChunk($count);
+        $this->meta->receiveChunk($count, $fileInfo->getSize());
         return true;
+    }
+
+    public function isReady(): bool
+    {
+        return $this->meta->isDone();
     }
 
     public function move(): bool
     {
-        if (!$this->meta->isDone()) {
+        if (!$this->isReady()) {
             return false;
         }
         $this->checkHash();
@@ -182,6 +213,7 @@ class Upload
             unlink($saveFilename);
         }
         rename($this->getFilename(), $saveFilename);
+        $this->isMove = true;
         $this->destroy();
         return true;
     }
@@ -268,7 +300,7 @@ class Upload
     protected function getDirname(): string
     {
         if (null === $this->workdir) {
-            $this->workdir = runtime_path('upload')
+            $this->workdir = ChunkUpload::$temporaryDir
                 . substr($this->token, 0, 2)
                 . DIRECTORY_SEPARATOR
                 . substr($this->token, 2)
@@ -287,9 +319,7 @@ class Upload
 
     protected function getStorageDirname($absolute = true): string
     {
-        return ($absolute ? public_path() : DIRECTORY_SEPARATOR)
-            . 'upload'
-            . DIRECTORY_SEPARATOR
+        return ($absolute ? ChunkUpload::$storageDir : DIRECTORY_SEPARATOR)
             . 'files'
             . DIRECTORY_SEPARATOR;
     }
@@ -299,11 +329,11 @@ class Upload
         if (null === $this->storageName) {
             $hash = $this->meta->getFilehash();
             $dir = substr($hash, 0, 2);
-            $ext = self::queryFileExtension($this->getFilename(), $this->meta->getFilename());
+            $ext = $this->getFileExtension();
             if ($absolute && !file_exists($realDir = $this->getStorageDirname($absolute) . $dir)) {
                 mkdir($realDir, 0755, true);
             }
-            $this->storageName = $dir . substr($hash, 2) . '.' . $ext;
+            $this->storageName = $dir . DIRECTORY_SEPARATOR . substr($hash, 2) . '.' . $ext;
         }
         return $this->getStorageDirname($absolute) . $this->storageName;
     }
@@ -315,17 +345,69 @@ class Upload
         return $filename;
     }
 
-    protected static function queryFileExtension(string $filepath, string $filename)
+    protected function getAccessibleFilePath(): string
     {
+        return $this->isMove ? $this->getStorageFilename() : $this->getFilename();
+    }
+
+    protected function getFileInfo(): finfo
+    {
+        if (empty($this->__fInfo)) {
+            $this->__fInfo = new finfo();
+        }
+
+        return $this->__fInfo;
+    }
+
+    public function verify(?array $allowMimes, ?array $allowExts): bool
+    {
+        if (null !== $allowMimes) {
+            $mime = $this->getFileMime();
+            $any = array_reduce($allowMimes, function ($carry, $val) use ($mime) {
+                return $carry || str_starts_with($val, $mime);
+            }, false);
+            if (!$any) {
+                throw new UploadException("unsupported file type: {$mime}");
+            }
+        }
+        if (null !== $allowExts) {
+            $ext = $this->getFileExtension();
+            if (in_array($this->getFileExtension(), $allowExts)) {
+                throw new UploadException("unsupported file ext: {$ext}");
+            }
+        }
+        return true;
+    }
+
+    public function getFileMime(): string
+    {
+        if (empty($this->fileMime)) {
+            $filepath = $this->getAccessibleFilePath();
+            $this->fileMime = $this->getFileInfo()->file($filepath, FILEINFO_MIME) ?: '';
+            if ($this->fileMime) {
+                $this->fileMime = explode(';', $this->fileMime)[0];
+            }
+        }
+        return $this->fileMime;
+    }
+
+    public function getFileExtension()
+    {
+        if (!empty($this->fileExt)) {
+            return $this->fileExt;
+        }
+
+        $filepath = $this->getAccessibleFilePath();
+        $filename = $this->meta->getFilename();
+
         $unsafeExtension = pathinfo($filename, PATHINFO_EXTENSION);
         if (empty($unsafeExtension)) {
             $unsafeExtension = 'bin';
         }
 
-        $finfo = new finfo();
-        $mime = $finfo->file($filepath, FILEINFO_MIME);
-        if ($mime !== false) {
-            $extensions = $finfo->file($filepath, FILEINFO_EXTENSION);
+        $mime = $this->getFileMime();
+        if (!empty($mime)) {
+            $extensions = $this->getFileInfo()->file($filepath, FILEINFO_EXTENSION);
             if ('???' !== $extensions && false !== $extensions) {
                 if (in_array($unsafeExtension, explode('/', $extensions))) {
                     $extension = $unsafeExtension;
@@ -335,6 +417,6 @@ class Upload
             }
         }
         // todo apache mime https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
-        return $extension ?? $unsafeExtension;
+        return $this->fileExt = $extension ?? $unsafeExtension;
     }
 }
