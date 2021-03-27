@@ -4,7 +4,7 @@ namespace app\controller;
 
 use app\Logic\Attachment;
 use app\Service\Auth\AuthHelper;
-use app\Service\Upload\Upload as UploadService;
+use app\Service\Upload\ChunkUpload as UploadService;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
