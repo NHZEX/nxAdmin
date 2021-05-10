@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d9464e75341c41c7676aa8d965f63cd",
+    "content-hash": "19deee8752371cceb89829fe7465729f",
     "packages": [
         {
             "name": "cakephp/core",
@@ -1888,16 +1888,16 @@
         },
         {
             "name": "rybakit/msgpack",
-            "version": "v0.7.2",
+            "version": "v0.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rybakit/msgpack.php.git",
-                "reference": "f3ad27e3e7eba2204e022ec175a981e6ccb97548"
+                "reference": "d4776c10493df1dd76f9d4d4b79ec5edffebfae9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rybakit/msgpack.php/zipball/f3ad27e3e7eba2204e022ec175a981e6ccb97548",
-                "reference": "f3ad27e3e7eba2204e022ec175a981e6ccb97548",
+                "url": "https://api.github.com/repos/rybakit/msgpack.php/zipball/d4776c10493df1dd76f9d4d4b79ec5edffebfae9",
+                "reference": "d4776c10493df1dd76f9d4d4b79ec5edffebfae9",
                 "shasum": ""
             },
             "require": {
@@ -1937,7 +1937,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rybakit/msgpack.php/issues",
-                "source": "https://github.com/rybakit/msgpack.php/tree/v0.7.2"
+                "source": "https://github.com/rybakit/msgpack.php/tree/v0.8.0"
             },
             "funding": [
                 {
@@ -1945,7 +1945,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-18T21:14:07+00:00"
+            "time": "2021-03-18T07:41:20+00:00"
         },
         {
             "name": "squizlabs/php_codesniffer",
