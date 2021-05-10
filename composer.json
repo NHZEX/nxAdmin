@@ -42,7 +42,7 @@
         "nhzex/think-env": "^1.0.1",
         "nhzex/think-phinx": "^2.0.1",
         "phpcompatibility/php-compatibility": "^9.3",
-        "rybakit/msgpack": "^0.7",
+        "rybakit/msgpack": "^0.8",
         "symfony/finder": "^4.2|^5.1",
         "symfony/polyfill-php74": "^1.22",
         "symfony/polyfill-php80": "^1.22",
