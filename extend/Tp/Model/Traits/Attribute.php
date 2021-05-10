@@ -148,7 +148,8 @@ trait Attribute
                     $value = json_encode($value, JSON_FORCE_OBJECT);
                 }
                 break;
-            /** @noinspection PhpMissingBreakStatementInspection */ case 'array':
+            /** @noinspection PhpMissingBreakStatementInspection */
+            case 'array':
                 $value = (array) $value;
                 // no break
             case 'json':
