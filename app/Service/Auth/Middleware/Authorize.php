@@ -44,14 +44,14 @@ class Authorize
      */
     public function handle(Request $request, Closure $next)
     {
-        $nodeUrl = $this->getNodeName($request);
+        $nodeName = $this->getNodeName($request);
 
-        if (null === $nodeUrl) {
+        if (null === $nodeName) {
             return $next($request);
         }
-        $nodeUrl = "node@{$nodeUrl}";
+        $nodeUri = "node@{$nodeName}";
 
-        $nodeControl = $this->permission->queryFeature($nodeUrl);
+        $nodeControl = $this->permission->queryFeature($nodeUri);
 
         if (null === $nodeControl) {
             return $next($request);
@@ -64,8 +64,9 @@ class Authorize
             $msg = empty($msg) ? '会话无效' : ('会话无效: ' . $msg);
             return $this->failJump($request, $msg);
         }
+
         // 权限判定
-        if (!$this->auth->gate()->check($nodeUrl, $request)) {
+        if (!$this->auth->gate()->check($nodeUri, $request)) {
             $response = $this->refuseJump($request, '权限不足');
         } else {
             $response = $next($request);
@@ -73,8 +74,6 @@ class Authorize
 //        /** @var \think\Middleware $middleware */
 //        $middleware = $this->app->get('middleware');
 //        $middleware->handleException();
-//        AuthContext::get()->getPermissionsDetails();
-//        log_debug(AuthContext::get());
         // 使用记住我恢复登录状态
         if ($this->auth->viaRemember()) {
             $response->header([
