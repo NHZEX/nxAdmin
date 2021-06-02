@@ -30,6 +30,9 @@ class RecordService extends Service
             ) {
                 return;
             }
+            if (null === AuthContext::get()) {
+                return;
+            }
             $this->createRecord($response);
         });
     }
@@ -37,16 +40,15 @@ class RecordService extends Service
     protected function createRecord(Response $response)
     {
         $user = AuthHelper::user();
-        if ($user === null) {
-            return;
-        }
         $authCtx = AuthContext::get();
         $accessCtx = RecordHelper::accessLog();
+
         $request = app()->request;
 
         RecordModel::create([
             'user_id' => $user->id,
-            'auth_name' => $authCtx ? ($authCtx->getPermissionsLine() ?? '<super>') : '<public>',
+            'target' => $authCtx->getFeature()['class'],
+            'auth_name' => $authCtx->getPermissionsLine() ?? '<super>',
             'method' => $request->method(true),
             'url' => $request->baseUrl(),
             'ip' => $request->ip(),
