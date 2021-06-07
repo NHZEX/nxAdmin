@@ -142,17 +142,6 @@ function is_cli()
 }
 
 /**
- * 生成 uuid v4
- * @deprecated
- * @return string
- * @link https://stackoverflow.com/a/15875555/10242420
- */
-function uuidv4(): string
-{
-    return \Zxin\Util\uuidv4();
-}
-
-/**
  * 获取随机字符串
  * @param int $length
  * @param string|null $chars
@@ -193,30 +182,6 @@ function array_values_recursive(array $arr, ?string $filter_key = null)
     }
 
     return $arr;
-}
-
-/**
- * 是否关联数组
- * @deprecated use \array_is_list
- * @param array $arr
- * @return bool
- * @link https://github.com/laravel/framework/blob/5.7/src/Illuminate/Support/Arr.php#L357
- */
-function is_assoc(array $arr)
-{
-    return array_is_list($arr);
-}
-
-/**
- * 是否关联数组
- * @deprecated use \array_is_list
- * @param array $arr
- * @return bool
- * @link https://stackoverflow.com/a/173479/10242420
- */
-function is_assoc2(array $arr)
-{
-    return array_is_list($arr);
 }
 
 /**
@@ -292,20 +257,6 @@ function query_mysql_exist_database(string $database, string $connect = null): b
 function mb_strcut_omit(string $string, int $length, string $dot = '...', ?string $charset = null): string
 {
     return strcut_omit($string, $length, $dot, $charset);
-}
-
-/**
- * Env获取
- * @param string $key
- * @param mixed  $default
- * @param mixed  ...$argv
- * @return mixed
- * @deprecated
- */
-function env_get(string $key, $default, ...$argv)
-{
-    $key = sprintf($key, ...$argv);
-    return app()->get('env')->get($key, $default);
 }
 
 /**

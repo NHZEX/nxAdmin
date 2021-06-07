@@ -6,7 +6,6 @@ use app\Exception\BusinessResult;
 use app\Facade\Redis;
 use RuntimeException;
 use think\Config;
-use think\facade\Cache;
 use think\Response;
 use function array_merge;
 use function array_rand;
@@ -28,7 +27,6 @@ use function imagesetpixel;
 use function imagestring;
 use function imagettftext;
 use function join;
-use function md5;
 use function mt_rand;
 use function ob_get_clean;
 use function ob_start;
@@ -459,62 +457,6 @@ class Captcha
         } finally {
             $redis->setex($key, $this->expire, time() . "|{$require->ip()}");
         }
-        return true;
-    }
-
-    /**
-     * 保存验证码到 redis
-     * @deprecated
-     * @param string $ctoken
-     */
-    public function saveToRedis(string $ctoken)
-    {
-        $require = request();
-        $ua = $require->header('User-Agent');
-        $pack = [
-            'hash_code' => $this->getCode(),
-            'access_ip' => $require->ip(),
-            'expire_time' => time() + $this->expire,
-            'ua_sign' => md5($ua),
-        ];
-        Cache::set("captcha:ctoken_{$ctoken}", $pack, $this->expire);
-    }
-
-    /**
-     * 验证验证码是否正确
-     * @deprecated
-     * @param string $ctoken
-     * @param string $code 用户验证码
-     * @return bool 用户验证码是否正确
-     */
-    public function checkToRedis(string $ctoken, string $code): bool
-    {
-        $captcha_key = "captcha:ctoken_{$ctoken}";
-        try {
-            $pack = Cache::get($captcha_key);
-            if (!$pack) {
-                throw new BusinessResult('验证码失效.');
-            }
-
-            if (!isset($pack['expire_time']) || time() > $pack['expire_time']) {
-                throw new BusinessResult('验证码失效..');
-            }
-            if (!isset($pack['access_ip']) || request()->ip() !== $pack['access_ip']) {
-                throw new BusinessResult('验证码无效.');
-            }
-            $ua = request()->header('User-Agent');
-            if (!isset($pack['ua_sign']) || md5($ua) !== $pack['ua_sign']) {
-                throw new BusinessResult('验证码无效..');
-            }
-            if (!isset($pack['hash_code']) || !$this->check($code, $pack['hash_code'])) {
-                throw new BusinessResult('验证码错误.');
-            }
-        } catch (BusinessResult $result) {
-            Cache::delete($captcha_key);
-            $this->message = $result->getMessage();
-            return false;
-        }
-        Cache::delete($captcha_key);
         return true;
     }
 }
