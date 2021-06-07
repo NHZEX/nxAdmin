@@ -3,10 +3,10 @@
 namespace Captcha;
 
 use app\Exception\BusinessResult;
-use app\Facade\Redis;
 use RuntimeException;
 use think\Config;
 use think\Response;
+use Zxin\Think\Redis\RedisManager;
 use function array_merge;
 use function array_rand;
 use function base64_decode;
@@ -100,8 +100,7 @@ class Captcha
     private $color = null;
     private $code;
     private $codeContent;
-    private $background_path;
-    private $tff_path;
+    private $assetsPath;
 
     /**
      * 架构方法 设置参数
@@ -115,8 +114,7 @@ class Captcha
             $option = $config->get('captcha');
         }
         $this->config = array_merge($this->config, $option);
-        $this->background_path = __DIR__ . '/assets/bgs/';
-        $this->tff_path = __DIR__ . '/assets/';
+        $this->assetsPath = __DIR__ . '/assets/';
     }
 
     /**
@@ -246,7 +244,7 @@ class Captcha
      */
     private function background()
     {
-        $path = __DIR__ . '/../assets/bgs/';
+        $path = $this->assetsPath . 'bgs/';
         $dir  = dir($path);
 
         $bgs = [];
@@ -297,7 +295,7 @@ class Captcha
         // 验证码字体随机颜色
         $this->color = imagecolorallocate($this->im, mt_rand(1, 150), mt_rand(1, 150), mt_rand(1, 150));
         // 验证码使用随机字体
-        $ttfPath = $this->tff_path . 'ttfs/';
+        $ttfPath = $this->assetsPath . 'ttfs/';
 
         if (empty($this->fontttfs)) {
             $dir = dir($ttfPath);
@@ -432,7 +430,7 @@ class Captcha
             return false;
         }
         $require = request();
-        $redis = Redis::connection();
+        $redis = RedisManager::connection();
         $key = "captcha:blacklist:" . hash('sha1', $token);
         try {
             if (!isset($palyload['ttl']) || time() > $palyload['ttl']) {
