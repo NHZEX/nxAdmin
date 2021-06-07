@@ -3,6 +3,15 @@
 namespace app\Service\Upload;
 
 use function ceil;
+use function file_exists;
+use function file_get_contents;
+use function file_put_contents;
+use function is_file;
+use function is_readable;
+use function serialize;
+use function time;
+use function unlink;
+use function unserialize;
 
 class BlockMeta
 {
