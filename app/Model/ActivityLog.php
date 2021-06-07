@@ -9,10 +9,6 @@
 namespace app\Model;
 
 /**
- * Model: 
- * Class ActivityLog
- * @package app\Model
- *
  * @property string $auth_name
  * @property int    $create_time
  * @property array  $details
@@ -28,5 +24,4 @@ class ActivityLog extends Base
 {
     protected $table = 'activity_log';
     protected $pk = 'id';
-    
 }
