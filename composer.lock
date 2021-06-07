@@ -3460,16 +3460,16 @@
         },
         {
             "name": "zxin/phinx-schema",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/phinx-schema.git",
-                "reference": "d8fd769f25e00214ce47e120cd2146f54035072b"
+                "reference": "3bfe46b44668ae75a6a63ba047392372fb15ab64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/phinx-schema/zipball/d8fd769f25e00214ce47e120cd2146f54035072b",
-                "reference": "d8fd769f25e00214ce47e120cd2146f54035072b",
+                "url": "https://api.github.com/repos/NHZEX/phinx-schema/zipball/3bfe46b44668ae75a6a63ba047392372fb15ab64",
+                "reference": "3bfe46b44668ae75a6a63ba047392372fb15ab64",
                 "shasum": ""
             },
             "require": {
@@ -3505,9 +3505,9 @@
             "description": "phinx schema extend",
             "support": {
                 "issues": "https://github.com/NHZEX/phinx-schema/issues",
-                "source": "https://github.com/NHZEX/phinx-schema/tree/v1.0.1"
+                "source": "https://github.com/NHZEX/phinx-schema/tree/v1.0.2"
             },
-            "time": "2021-03-08T07:22:42+00:00"
+            "time": "2021-06-07T10:10:57+00:00"
         },
         {
             "name": "zxin/think-annotation",
@@ -3565,16 +3565,16 @@
         },
         {
             "name": "zxin/think-auth",
-            "version": "v1.1.2",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-auth.git",
-                "reference": "cb75849dd700252f0965c0d15589f30c0ebb557c"
+                "reference": "d1d0c30af95e2f0141403afa16dc72b9299b5ab7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/cb75849dd700252f0965c0d15589f30c0ebb557c",
-                "reference": "cb75849dd700252f0965c0d15589f30c0ebb557c",
+                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/d1d0c30af95e2f0141403afa16dc72b9299b5ab7",
+                "reference": "d1d0c30af95e2f0141403afa16dc72b9299b5ab7",
                 "shasum": ""
             },
             "require": {
@@ -3616,9 +3616,9 @@
             "description": "think auth",
             "support": {
                 "issues": "https://github.com/NHZEX/think-auth/issues",
-                "source": "https://github.com/NHZEX/think-auth/tree/v1.1.2"
+                "source": "https://github.com/NHZEX/think-auth/tree/v1.1.3"
             },
-            "time": "2021-01-11T07:43:33+00:00"
+            "time": "2021-06-02T07:29:12+00:00"
         },
         {
             "name": "zxin/think-redis",
@@ -6073,5 +6073,5 @@
         "ext-zlib": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
