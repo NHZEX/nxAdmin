@@ -119,7 +119,7 @@ class AdminUser extends Base
      * @return mixed|void
      * @throws AccessControl
      */
-    public static function onBeforeDelete(AdminUser $model)
+    public static function onBeforeDelete(self $model)
     {
         self::checkAccessControl($model);
     }
@@ -128,7 +128,7 @@ class AdminUser extends Base
      * @param self $data
      * @throws AccessControl
      */
-    protected static function checkAccessControl(AdminUser $data)
+    protected static function checkAccessControl(self $data)
     {
         if ($data->isDisableAccessControl()) {
             return;
@@ -156,7 +156,7 @@ class AdminUser extends Base
      * @param self $data
      * @throws ModelException
      */
-    protected static function checkUserInputUnique(AdminUser $data)
+    protected static function checkUserInputUnique(self $data)
     {
         if ($data->hasData('username')
             && $data->getOrigin('username') !== $data->getData('username')

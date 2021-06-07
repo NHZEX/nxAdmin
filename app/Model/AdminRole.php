@@ -99,7 +99,7 @@ class AdminRole extends Base
      * @return mixed|void
      * @throws AccessControl
      */
-    public static function onBeforeDelete(AdminRole $model)
+    public static function onBeforeDelete(self $model)
     {
         self::checkAccessControl($model);
     }
@@ -108,7 +108,7 @@ class AdminRole extends Base
      * @param AdminRole $model
      * @throws JsonException
      */
-    public static function onAfterInsert(AdminRole $model)
+    public static function onAfterInsert(self $model)
     {
         AdminRoleLogic::refreshCache($model);
     }
@@ -116,7 +116,7 @@ class AdminRole extends Base
     /**
      * @param AdminRole $model
      */
-    public static function onAfterDelete(AdminRole $model)
+    public static function onAfterDelete(self $model)
     {
         AdminRoleLogic::destroyCache($model);
     }

@@ -10,8 +10,8 @@ namespace Guzzle\Psr7;
 
 use app\Exception\JsonException;
 use GuzzleHttp\Psr7\Response;
-use Psr\Http\Message\StreamInterface;
 use function json_decode_throw_on_error;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Class JsonAwareResponse

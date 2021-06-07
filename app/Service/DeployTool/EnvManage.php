@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\DeployTool;
@@ -241,7 +242,6 @@ class EnvManage extends FeaturesManage
 
         $this->testRedis($this->getRedisConfig($env));
     }
-
 
     /**
      * @param EnvStruct $env

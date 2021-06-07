@@ -200,5 +200,4 @@ class Deploy extends Command
             $this->output->info($action . $description);
         }
     }
-
 }
