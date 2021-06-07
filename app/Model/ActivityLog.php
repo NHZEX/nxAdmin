@@ -9,7 +9,7 @@
 namespace app\Model;
 
 /**
- * Model: 
+ * Model:
  * Class ActivityLog
  * @package app\Model
  *
@@ -28,5 +28,4 @@ class ActivityLog extends Base
 {
     protected $table = 'activity_log';
     protected $pk = 'id';
-    
 }
