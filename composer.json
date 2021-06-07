@@ -56,6 +56,7 @@
         "zxin/utils": "^2.2"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
         "phpcompatibility/php-compatibility": "^9.3",
         "phpstan/phpstan": "^0.12.71",
         "phpunit/phpunit": "^8|^9",
