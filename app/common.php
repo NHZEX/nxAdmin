@@ -279,7 +279,6 @@ function preload_statistics(): string
     if (!extension_loaded('Zend OPcache') || !function_exists('opcache_get_status')) {
         return 'opcache does not exist';
     }
-    /** @noinspection PhpComposerExtensionStubsInspection */
     $status = opcache_get_status(false);
     if (!isset($status['preload_statistics'])) {
         return 'opcache preload not activated';
