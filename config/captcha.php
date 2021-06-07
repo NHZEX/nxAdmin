@@ -21,4 +21,6 @@ return [
     'useCurve' => true,
     // 是否添加杂点
     'useNoise' => true,
+    // 使用背景图片
+    'useImgBg' => false,
 ];

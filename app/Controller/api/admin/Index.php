@@ -31,7 +31,7 @@ class Index extends Base
         $ctoken = $param['token'];
 
         // 验证码校验
-        if ($captcha->login) {
+        if ($captcha->isLoginEnable()) {
             if (!$captcha->verifyToken($ctoken, $param['captcha'] ?? '0000')) {
                 return Reply::bad(CODE_COM_CAPTCHA, $captcha->getMessage());
             }

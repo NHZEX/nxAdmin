@@ -43,22 +43,6 @@ use function Zxin\Crypto\encrypt_data;
 /**
  * Class Captcha
  * @package app\common\captcha
- *
- * @property bool $login
- * @property string $seKey
- * @property string $codeSet
- * @property int $expire
- * @property bool $useImgBg
- * @property int $fontSize
- * @property bool $useCurve
- * @property bool $useNoise
- * @property float $imageH
- * @property float $imageW
- * @property int $length
- * @property string[] $fontttfs
- * @property bool $singleFont
- * @property int[] $bg
- * @property string $reset
  */
 class Captcha
 {
@@ -97,10 +81,19 @@ class Captcha
     ];
 
     private $im = null; // 验证码图片实例
+    /** @var int|null */
     private $color = null;
+    /** @var string */
     private $code;
+    /** @var string */
     private $codeContent;
+    /** @var string */
     private $assetsPath;
+
+    /** @var float */
+    private $imageH;
+    /** @var float */
+    private $imageW;
 
     /**
      * 架构方法 设置参数
@@ -117,29 +110,9 @@ class Captcha
         $this->assetsPath = __DIR__ . '/assets/';
     }
 
-    /**
-     * 使用 $this->name 获取配置
-     * @access public
-     * @param string $name 配置名称
-     * @return mixed    配置值
-     */
-    public function __get(string $name)
+    public function isLoginEnable(): bool
     {
-        return $this->config[$name];
-    }
-
-    /**
-     * 设置验证码配置
-     * @access public
-     * @param string $name  配置名称
-     * @param string|array|bool|int $value 配置值
-     * @return void
-     */
-    public function __set(string $name, $value)
-    {
-        if (isset($this->config[$name])) {
-            $this->config[$name] = $value;
-        }
+        return $this->config['login'] ?? true;
     }
 
     /**
@@ -157,7 +130,7 @@ class Captcha
      * 获取消息
      * @return string|null
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }
@@ -173,7 +146,7 @@ class Captcha
      *   φ：决定波形与X轴位置关系或横向移动距离（左加右减）
      *   ω：决定周期（最小正周期T=2π/∣ω∣）
      */
-    private function writeCurve()
+    private function writeCurve(int $fontSize)
     {
         $px = $py = 0;
 
@@ -188,23 +161,23 @@ class Captcha
         $px1 = 0; // 曲线横坐标起始位置
         $px2 = mt_rand((int) ($this->imageW / 2), (int) ($this->imageW * 0.8)); // 曲线横坐标结束位置
 
-        $this->drawCurve($A, $px1, $px2, $w, $f, $b);
+        $this->drawCurve($A, $px1, $px2, $w, $f, $b, $fontSize);
 
         // 曲线后部分
         $b   = $py - $A * sin($w * $px + $f) - $this->imageH / 2;
         $f   = mt_rand(-(int) ($this->imageH / 4), (int) ($this->imageH / 4)); // X轴方向偏移量
         $px1 = $px2;
-        $px2 = $this->imageW;
+        $px2 = (int) $this->imageW;
 
-        $this->drawCurve($A, (int) $px1, (int) $px2, $w, $f, $b);
+        $this->drawCurve($A, $px1, $px2, $w, $f, $b, $fontSize);
     }
 
-    private function drawCurve(int $amplitude, int $px1, int $px2, float $w, float $f, float $b)
+    private function drawCurve(int $amplitude, int $px1, int $px2, float $w, float $f, float $b, int $fontSize)
     {
         for ($px = $px1; $px <= $px2; $px = $px + 1) {
             if (0 != $w) {
                 $py = $amplitude * sin($w * $px + $f) + $b + $this->imageH / 2; // y = Asin(ωx+φ) + b
-                $i  = (int) ($this->fontSize / 5);
+                $i  = (int) ($fontSize / 5);
                 while ($i > 0) {
                     // 这里(while)循环画像素点比imagettftext和imagestring用字体大小一次画出（不用这while循环）性能要好很多
                     imagesetpixel($this->im, $px + $i, (int) ($py + $i), $this->color);
@@ -277,27 +250,41 @@ class Captcha
 
     /**
      * 输出验证码并把验证码的
-     * @access public
-     * @param string $code 要生成验证码的标识
      * @return string
      */
-    public function entry(&$code = ''): string
+    public function entry(): string
     {
+        /** @var string[] $fontttfs */
+        $fontttfs = $this->config['fontttfs'];
+        /** @var int $fontSize */
+        $fontSize = $this->config['fontSize'];
+        /** @var int $codeLength */
+        $codeLength = $this->config['length'];
+
         // 图片宽(px)
-        $this->imageW || $this->imageW = $this->length * $this->fontSize * 1.5 + $this->length * $this->fontSize / 2;
+        if (empty($this->config['imageW'])) {
+            $this->imageW = $codeLength * $fontSize * 1.5 + $codeLength * $fontSize / 2;
+        } else {
+            $this->imageW = $this->config['imageW'];
+        }
         // 图片高(px)
-        $this->imageH || $this->imageH = $this->fontSize * 2.5;
+        if (empty($this->config['imageH'])) {
+            $this->imageH = $fontSize * 2.5;
+        } else {
+            $this->imageH = $this->config['imageH'];
+        }
         // 建立一幅 $this->imageW x $this->imageH 的图像
         $this->im = imagecreate((int) $this->imageW, (int) $this->imageH);
         // 设置背景
-        imagecolorallocate($this->im, $this->bg[0], $this->bg[1], $this->bg[2]);
+        [$bgR, $bgG, $bgB] = $this->config['bg'];
+        imagecolorallocate($this->im, $bgR, $bgG, $bgB);
 
         // 验证码字体随机颜色
         $this->color = imagecolorallocate($this->im, mt_rand(1, 150), mt_rand(1, 150), mt_rand(1, 150));
         // 验证码使用随机字体
         $ttfPath = $this->assetsPath . 'ttfs/';
 
-        if (empty($this->fontttfs)) {
+        if (empty($fontttfs)) {
             $dir = dir($ttfPath);
             $ttfs = [];
             while (false !== ($file = $dir->read())) {
@@ -306,42 +293,43 @@ class Captcha
                 }
             }
             $dir->close();
-            $this->fontttfs = $ttfs;
+            $fontttfs = $ttfs;
         }
 
-        if ($this->useImgBg) {
+        if ($this->config['useImgBg']) {
             $this->background();
         }
 
-        if ($this->useNoise) {
+        if ($this->config['useNoise']) {
             // 绘杂点
             $this->writeNoise();
         }
-        if ($this->useCurve) {
+        if ($this->config['useCurve']) {
             // 绘干扰线
-            $this->writeCurve();
+            $this->writeCurve($fontSize);
         }
 
-        if (count($this->fontttfs) === 1) {
+        if (count($fontttfs) === 1) {
             $selected = 0;
-        } elseif ($this->singleFont) {
-            $selected = mt_rand(0, count($this->fontttfs) - 1);
+        } elseif ($this->config['singleFont']) {
+            $selected = mt_rand(0, count($fontttfs) - 1);
         }
 
         // 绘验证码
         $code = []; // 验证码
+        $codeSet = $this->config['codeSet'];
         $codeNX = 0; // 验证码第N个字符的左边距
-        for ($i = 0; $i < $this->length; $i++) {
-            $code[$i] = $this->codeSet[mt_rand(0, strlen($this->codeSet) - 1)];
-            $codeNX += mt_rand((int) ($this->fontSize * 1.2), (int) ($this->fontSize * 1.6));
+        for ($i = 0; $i < $codeLength; $i++) {
+            $code[$i] = $codeSet[mt_rand(0, strlen($codeSet) - 1)];
+            $codeNX += mt_rand((int) ($fontSize * 1.2), (int) ($fontSize * 1.6));
             imagettftext(
                 $this->im,
-                $this->fontSize,
+                $fontSize,
                 mt_rand(-40, 40),
                 $codeNX,
-                (int) ($this->fontSize * 1.6),
+                (int) ($fontSize * 1.6),
                 $this->color,
-                isset($selected) ? $this->fontttfs[$selected] : $this->fontttfs[mt_rand(0, count($this->fontttfs) - 1)],
+                isset($selected) ? $fontttfs[$selected] : $fontttfs[mt_rand(0, count($fontttfs) - 1)],
                 $code[$i]
             );
         }
@@ -362,7 +350,7 @@ class Captcha
     private function codeHash(string $code)
     {
         $code = strtoupper($code);
-        return hash_hmac('sha1', $code, $this->seKey, true);
+        return hash_hmac('sha1', $code, $this->config['seKey'], true);
     }
 
     public function send(): Response
@@ -381,7 +369,7 @@ class Captcha
      * @param string $hashCode 验证字符串
      * @return bool 用户验证码是否正确
      */
-    public function check(string $code, string $hashCode)
+    public function check(string $code, string $hashCode): bool
     {
         return $this->codeHash($code) === $hashCode;
     }
@@ -390,7 +378,7 @@ class Captcha
      * 获取生成的验证码
      * @return string|null
      */
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->code;
     }
@@ -402,11 +390,11 @@ class Captcha
         $palyload = [
             'hc' => $this->getCode(),
             'ip' => $require->ip(),
-            'ttl' => time() + $this->expire,
+            'ttl' => time() + $this->config['expire'],
             'ua' => crc32($ua),
         ];
 
-        $ciphertext = encrypt_data(serialize($palyload), $this->seKey, 'aes-128-gcm', 'captcha');
+        $ciphertext = encrypt_data(serialize($palyload), $this->config['seKey'], 'aes-128-gcm', 'captcha');
 
         return base64_encode($ciphertext);
     }
@@ -419,7 +407,7 @@ class Captcha
             return false;
         }
         try {
-            $plaintext = decrypt_data($ciphertext, $this->seKey, 'aes-128-gcm', 'captcha');
+            $plaintext = decrypt_data($ciphertext, $this->config['seKey'], 'aes-128-gcm', 'captcha');
         } catch (RuntimeException $exception) {
             return false;
         }
@@ -453,7 +441,7 @@ class Captcha
             $this->message = $result->getMessage();
             return false;
         } finally {
-            $redis->setex($key, $this->expire, time() . "|{$require->ip()}");
+            $redis->setex($key, $this->config['expire'], time() . "|{$require->ip()}");
         }
         return true;
     }
