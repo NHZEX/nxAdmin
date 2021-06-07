@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller\api;
+namespace app\Controller\api;
 
 use app\BaseController;
 use app\Service\Validate\ValidateFilterTrait;

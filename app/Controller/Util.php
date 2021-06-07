@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller;
+namespace app\Controller;
 
 class Util extends Base
 {

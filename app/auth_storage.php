@@ -1,90 +1,90 @@
 <?php
-// update date: 2020-12-10T00:09:26+08:00
-// hash: 5d02d7601ef938b93cd17e5eb57dcab0
+// update date: 2021-06-07T22:17:19+08:00
+// hash: 38c27c4a1237f7c9409c6257438c8417
 return [
     'features' => [
         'node@api.admin.index/userinfo' => [
-            'class' => 'app\\controller\\api\\admin\\Index::userInfo',
+            'class' => 'app\\Controller\\api\\admin\\Index::userInfo',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.permission/index' => [
-            'class' => 'app\\controller\\api\\admin\\Permission::index',
+            'class' => 'app\\Controller\\api\\admin\\Permission::index',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.permission/read' => [
-            'class' => 'app\\controller\\api\\admin\\Permission::read',
+            'class' => 'app\\Controller\\api\\admin\\Permission::read',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.permission/update' => [
-            'class' => 'app\\controller\\api\\admin\\Permission::update',
+            'class' => 'app\\Controller\\api\\admin\\Permission::update',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.permission/scan' => [
-            'class' => 'app\\controller\\api\\admin\\Permission::scan',
+            'class' => 'app\\Controller\\api\\admin\\Permission::scan',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.role/index' => [
-            'class' => 'app\\controller\\api\\admin\\Role::index',
+            'class' => 'app\\Controller\\api\\admin\\Role::index',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.role/select' => [
-            'class' => 'app\\controller\\api\\admin\\Role::select',
+            'class' => 'app\\Controller\\api\\admin\\Role::select',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.role/read' => [
-            'class' => 'app\\controller\\api\\admin\\Role::read',
+            'class' => 'app\\Controller\\api\\admin\\Role::read',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.role/save' => [
-            'class' => 'app\\controller\\api\\admin\\Role::save',
+            'class' => 'app\\Controller\\api\\admin\\Role::save',
             'policy' => '',
             'desc' => '创建系统用户角色',
         ],
         'node@api.admin.role/update' => [
-            'class' => 'app\\controller\\api\\admin\\Role::update',
+            'class' => 'app\\Controller\\api\\admin\\Role::update',
             'policy' => '',
             'desc' => '更改系统用户角色',
         ],
         'node@api.admin.role/delete' => [
-            'class' => 'app\\controller\\api\\admin\\Role::delete',
+            'class' => 'app\\Controller\\api\\admin\\Role::delete',
             'policy' => '',
             'desc' => '删除系统用户角色',
         ],
         'node@api.admin.user/index' => [
-            'class' => 'app\\controller\\api\\admin\\User::index',
+            'class' => 'app\\Controller\\api\\admin\\User::index',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.user/read' => [
-            'class' => 'app\\controller\\api\\admin\\User::read',
+            'class' => 'app\\Controller\\api\\admin\\User::read',
             'policy' => '',
             'desc' => '',
         ],
         'node@api.admin.user/save' => [
-            'class' => 'app\\controller\\api\\admin\\User::save',
+            'class' => 'app\\Controller\\api\\admin\\User::save',
             'policy' => '',
             'desc' => '创建系统用户',
         ],
         'node@api.admin.user/update' => [
-            'class' => 'app\\controller\\api\\admin\\User::update',
+            'class' => 'app\\Controller\\api\\admin\\User::update',
             'policy' => '',
             'desc' => '更改系统用户',
         ],
         'node@api.admin.user/delete' => [
-            'class' => 'app\\controller\\api\\admin\\User::delete',
+            'class' => 'app\\Controller\\api\\admin\\User::delete',
             'policy' => '',
             'desc' => '删除系统用户',
         ],
         'node@api.system/sysinfo' => [
-            'class' => 'app\\controller\\api\\System::sysinfo',
+            'class' => 'app\\Controller\\api\\System::sysinfo',
             'policy' => '',
             'desc' => '',
         ],

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller\api\admin;
+namespace app\Controller\api\admin;
 
 use app\Model\AdminUser;
 use think\db\exception\DataNotFoundException;
@@ -15,7 +15,7 @@ use function trim;
 
 /**
  * Class User
- * @package app\controller\api\admin
+ * @package app\Controller\api\admin
  */
 class User extends Base
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller\api;
+namespace app\Controller\api;
 
 use Captcha\Captcha;
 use think\App;

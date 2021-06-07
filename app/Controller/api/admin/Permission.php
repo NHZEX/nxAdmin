@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controller\api\admin;
+namespace app\Controller\api\admin;
 
 use app\Service\Auth\AuthHelper;
 use think\helper\Arr;
@@ -41,7 +41,7 @@ class Permission extends Base
         }
 
         $allow = [];
-        foreach ($info['allow'] ?? [] as $index => $item) {
+        foreach ($info['allow'] ?? [] as $item) {
             $feature = $permission->queryFeature($item);
             if ($feature) {
                 $allow[] =  [
