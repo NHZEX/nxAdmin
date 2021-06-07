@@ -42,7 +42,7 @@ class ControllerScan
     {
         $this->baseDir        = $app->getBasePath();
         $this->controllerName = $config->get('route.controller_layer');
-        $this->controllerNS   .= $this->controllerName . '\\';
+        $this->controllerNS .= $this->controllerName . '\\';
 
         $this->controllerDirs = [
             $this->baseDir . $this->controllerName . DS,

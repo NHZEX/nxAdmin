@@ -138,7 +138,7 @@ class SessionGuard implements StatefulGuardContracts
      */
     protected function userFromRecaller($recaller)
     {
-        if (! $recaller->valid() || $this->recallAttempted) {
+        if (!$recaller->valid() || $this->recallAttempted) {
             return null;
         }
 
@@ -147,7 +147,7 @@ class SessionGuard implements StatefulGuardContracts
         // the application. Once we have a user we can return it to the caller.
         $this->recallAttempted = true;
 
-        $this->viaRemember = ! is_null($user = $this->provider->retrieveByToken(
+        $this->viaRemember = !is_null($user = $this->provider->retrieveByToken(
             $recaller->id(),
             $recaller->token()
         ));
@@ -191,7 +191,6 @@ class SessionGuard implements StatefulGuardContracts
             : $this->session->get($this->getName());
     }
 
-
     /**
      * Log a user into the application without sessions or cookies.
      *
@@ -219,7 +218,7 @@ class SessionGuard implements StatefulGuardContracts
      */
     public function onceUsingId($id)
     {
-        if (! is_null($user = $this->provider->retrieveById($id))) {
+        if (!is_null($user = $this->provider->retrieveById($id))) {
             $this->setUser($user);
 
             return $user;
@@ -295,7 +294,7 @@ class SessionGuard implements StatefulGuardContracts
      */
     public function loginUsingId($id, $remember = false)
     {
-        if (! is_null($user = $this->provider->retrieveById($id))) {
+        if (!is_null($user = $this->provider->retrieveById($id))) {
             $this->login($user, $remember);
 
             return $user;
@@ -387,7 +386,7 @@ class SessionGuard implements StatefulGuardContracts
 
         $this->clearUserDataFromStorage();
 
-        if (! is_null($this->user) && ! empty($user->getRememberToken())) {
+        if (!is_null($this->user) && !empty($user->getRememberToken())) {
             $this->cycleRememberToken($user);
         }
 
@@ -416,7 +415,7 @@ class SessionGuard implements StatefulGuardContracts
     {
         $this->session->delete($this->getName());
 
-        if (! is_null($this->recaller())) {
+        if (!is_null($this->recaller())) {
             $this->cookie->delete($this->getRecallerName());
         }
     }

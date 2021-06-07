@@ -48,7 +48,6 @@ interface UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials);
 
-
     /**
      * 允许对数据进行访问
      * @param Authenticatable $user

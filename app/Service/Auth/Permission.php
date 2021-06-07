@@ -9,7 +9,6 @@ class Permission
 {
     protected static $CACHE_KEY_PERMISSION = 'auth:permission';
 
-
     /**
      * 刷新权限缓存
      * @return void

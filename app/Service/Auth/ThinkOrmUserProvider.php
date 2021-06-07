@@ -93,7 +93,7 @@ class ThinkOrmUserProvider implements UserProvider
             ->cache($this->cache)
             ->find();
 
-        if (! $retrievedModel) {
+        if (!$retrievedModel) {
             return null;
         }
 
@@ -173,7 +173,6 @@ class ThinkOrmUserProvider implements UserProvider
         return $this->hasher->check($plain, $user->getAuthPassword());
     }
 
-
     /**
      * Create a new instance of the model.
      *
@@ -184,7 +183,6 @@ class ThinkOrmUserProvider implements UserProvider
         $class = '\\' . ltrim($this->model, '\\');
         return new $class();
     }
-
 
     /**
      * Gets the hasher implementation.

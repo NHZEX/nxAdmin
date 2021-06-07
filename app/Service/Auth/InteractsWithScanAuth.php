@@ -89,7 +89,6 @@ trait InteractsWithScanAuth
                 $controllerUrl = strtolower(str_replace('\\', '.', $controllerUrl));
             }
 
-
             foreach ($refClass->getMethods(ReflectionMethod::IS_PUBLIC) as $refMethod) {
                 if ($refMethod->isStatic()) {
                     continue;

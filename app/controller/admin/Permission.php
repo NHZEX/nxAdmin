@@ -18,7 +18,6 @@ class Permission extends Base
         return view_current();
     }
 
-
     public function edit(ControllerScan $scan)
     {
         return view_current([
