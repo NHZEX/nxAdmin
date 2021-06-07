@@ -16,7 +16,6 @@ use function Swoole\Coroutine\run;
 
 class TestRpcCilent implements ClientHandleInterface
 {
-
     protected $logger;
     protected $client;
 
@@ -26,7 +25,8 @@ class TestRpcCilent implements ClientHandleInterface
     protected $test;
     protected $loop;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->logger = new Logger('test');
         $this->logger->pushHandler(new StreamHandler('php://stdout'));
 
@@ -36,7 +36,8 @@ class TestRpcCilent implements ClientHandleInterface
         $this->startCleanRpc();
     }
 
-    protected function startCleanRpc() {
+    protected function startCleanRpc()
+    {
         Timer::tick(5000, function () {
             $terminal = $this->client->getTerminal();
             $this->logger->debug("RPC_GC: {$terminal->gcTransfer()}/{$terminal->countTransfer()}");

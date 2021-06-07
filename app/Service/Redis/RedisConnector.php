@@ -8,7 +8,6 @@ use Smf\ConnectionPool\Connectors\PhpRedisConnector;
 
 class RedisConnector extends PhpRedisConnector
 {
-
     /**
      * Connect to the specified Server and returns the connection resource
      * @param array $config

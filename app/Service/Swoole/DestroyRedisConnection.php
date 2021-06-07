@@ -9,7 +9,6 @@ use think\Container;
 
 class DestroyRedisConnection implements ContractDestroyInterface
 {
-
     /**
      * "handle" function for clean.
      *
