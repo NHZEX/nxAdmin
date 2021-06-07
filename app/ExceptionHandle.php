@@ -16,6 +16,7 @@ use app\Exception\AccessControl;
 use app\Exception\ExceptionIgnoreRecord;
 use app\Exception\ModelLogicException;
 use app\Model\ExceptionLogs;
+use app\Service\Auth\Record\RecordHelper;
 use app\Traits\PrintAbnormal;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
@@ -110,14 +111,17 @@ class ExceptionHandle extends Handle
     {
         // 捕获乐观锁错误
         if ($e instanceof ModelException && $e->getCode() === CODE_MODEL_OPTIMISTIC_LOCK) {
+            RecordHelper::recordException($e);
             return Reply::bad($e->getCode(), $e->getMessage(), null, 403);
         }
         // 捕获访问控制异常
         if ($e instanceof AccessControl) {
+            RecordHelper::recordException($e);
             return Reply::bad($e->getCode(), $e->getMessage(), null, 403);
         }
         // 模型业务逻辑错误
         if ($e instanceof ModelLogicException) {
+            RecordHelper::recordException($e);
             return Reply::bad($e->getCode(), $e->getMessage());
         }
         // 渲染其他异常
