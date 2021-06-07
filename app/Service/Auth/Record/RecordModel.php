@@ -5,6 +5,7 @@ namespace app\Service\Auth\Record;
 use think\Model;
 
 /**
+ * model: 活动日志
  * @property int    $id
  * @property int    $user_id
  * @property int    $create_time

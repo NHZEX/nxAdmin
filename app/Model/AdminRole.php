@@ -10,9 +10,7 @@ use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
 
 /**
- * Class AdminRole
- *
- * @package app\common\model
+ * model: 系统角色
  * @property int $id
  * @property int $genre 类型 1=系统 2=代理商
  * @property int $status 状态 0=正常 1=禁用

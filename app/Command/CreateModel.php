@@ -12,7 +12,6 @@ use think\facade\Db;
 use Zxin\Util;
 use function array_column;
 use function count;
-use function date;
 use function explode;
 use function file_put_contents;
 use function in_array;
@@ -25,6 +24,7 @@ use function str_pad;
 use function strlen;
 use function strpos;
 use function strrpos;
+use function trim;
 
 /**
  * 批量创建数据结构到模型
@@ -85,7 +85,7 @@ class CreateModel extends Command
         $database = $config['connections']['main']['database'];
 
         // 加载数据
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
         $sql = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
         /** @var PDOConnection $db */
         $db = $this->app->db->connect();
@@ -147,7 +147,7 @@ class CreateModel extends Command
 
             $output->warning('Create');
 
-            $class_text = $this->createModel($database, $table_name, $table_comment, $class_name, $namespace);
+            $class_text = $this->createModel($database, $table_name, trim($table_comment), $class_name, $namespace);
 
             $file_name = $export_path . "{$class_name}.php";
 
@@ -170,10 +170,7 @@ class CreateModel extends Command
         string $className,
         string $namespaces
     ): string {
-        $build_date = date('Y/m/d');
-        $build_time = date('H:i');
-
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
         $sql = "select * from information_schema.COLUMNS "
             . "where table_name = '{$tableName}' and table_schema = '{$database}'";
         /** @var PDOConnection $db */
@@ -183,16 +180,13 @@ class CreateModel extends Command
         $pk_field_name = '';
 
         $class_text = "<?php\n";
-        $class_text .= "/**\n";
-        $class_text .= " * Created by Automatic build\n";
-        $class_text .= " * User: System\n";
-        $class_text .= " * Date: {$build_date}\n";
-        $class_text .= " * Time: {$build_time}\n";
-        $class_text .= " */\n";
         $class_text .= "\n";
         $class_text .= "namespace {$namespaces};\n";
         $class_text .= "\n";
         $class_text .= "/**\n";
+        if (!empty($tableComment)) {
+            $class_text .= " * model: {$tableComment}\n";
+        }
 
         $comment_arr = [];
         $max_type_len = 0;

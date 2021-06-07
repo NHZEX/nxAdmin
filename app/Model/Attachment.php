@@ -12,9 +12,7 @@ use function explode;
 use function is_array;
 
 /**
- * Class Attachment
- *
- * @package app\common\model
+ * model: 附件管理
  * @property int    $id
  * @property int    $uid           用户id
  * @property int    $status        状态

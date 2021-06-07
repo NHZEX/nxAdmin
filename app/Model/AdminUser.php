@@ -18,9 +18,7 @@ use function password_needs_rehash;
 use function password_verify;
 
 /**
- * Class AdminUser
- *
- * @package app\common\model
+ * model: 系统用户
  * @property int            $id
  * @property int            $genre
  * @property int            $status 状态：0禁用，1启用
