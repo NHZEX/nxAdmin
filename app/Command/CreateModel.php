@@ -193,10 +193,6 @@ class CreateModel extends Command
         $class_text .= "namespace {$namespaces};\n";
         $class_text .= "\n";
         $class_text .= "/**\n";
-        $class_text .= " * Model: {$tableComment}\n";
-        $class_text .= " * Class {$className}\n";
-        $class_text .= " * @package {$namespaces}\n";
-        $class_text .= " *\n";
 
         $comment_arr = [];
         $max_type_len = 0;
