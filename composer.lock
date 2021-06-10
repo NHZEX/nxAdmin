@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "043266609d32029aa1603b1d591d9fa3",
+    "content-hash": "05967ed1655e540dedaa5591b54ff44d",
     "packages": [
         {
             "name": "cakephp/core",
@@ -3384,6 +3384,55 @@
                 "source": "https://github.com/top-think/think-orm/tree/v2.0.40"
             },
             "time": "2021-04-19T13:29:37+00:00"
+        },
+        {
+            "name": "topthink/think-throttle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-throttle.git",
+                "reference": "979e7c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-throttle/zipball/979e7c3",
+                "reference": "979e7c3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "topthink/framework": "^6.0.0"
+            },
+            "default-branch": true,
+            "type": "library",
+            "extra": {
+                "think": {
+                    "config": {
+                        "throttle": "src/config.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "think\\middleware\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "hongweipeng",
+                    "email": "hongweichen8888@sina.com"
+                }
+            ],
+            "description": "throttle middleware for thinkphp6",
+            "support": {
+                "issues": "https://github.com/top-think/think-throttle/issues",
+                "source": "https://github.com/top-think/think-throttle/tree/master"
+            },
+            "time": "2021-06-09T07:43:36+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -6824,7 +6873,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "topthink/think-throttle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

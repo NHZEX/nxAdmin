@@ -11,6 +11,7 @@
 // +----------------------------------------------------------------------
 
 use think\facade\App;
+use think\middleware\Throttle;
 use think\Response;
 
 $r = App::getInstance()->route;
@@ -31,7 +32,9 @@ $r->get('storage', function () {
 $r->group('api/system', function () use ($r) {
     $r->get('config', 'config');
     $r->get('sysinfo', 'sysinfo');
-    $r->get('captcha', 'captcha');
+    $r->get('captcha', 'captcha')->middleware([
+        Throttle::class,
+    ]);
 })->prefix('api.system/');
 
 $r->group('api/admin', function () use ($r) {
