@@ -82,7 +82,18 @@
         "post-install-cmd": [
             "@php think service:discover",
             "@php think vendor:publish"
-        ]
+        ],
+        "csfix": [
+            "@composer validate",
+            "php-cs-fixer fix -v --diff"
+        ],
+        "phpcs": "phpcs",
+        "phpcbf": [
+            "@composer validate",
+            "phpcbf"
+        ],
+        "phpstan": "phpstan",
+        "phpstan-baseline": "phpstan --generate-baseline"
     },
     "extra": {
         "think-path": "thinkphp"
