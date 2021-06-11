@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d060c339419d34865e639e5d255aa456",
+    "content-hash": "a166e9324cd77d87f28b99f0d78f51dc",
     "packages": [
         {
             "name": "cakephp/core",
@@ -1108,100 +1108,6 @@
                 "source": "https://github.com/NHZEX/think-blade/tree/v5.0.0"
             },
             "time": "2020-06-03T03:41:46+00:00"
-        },
-        {
-            "name": "nhzex/think-cors",
-            "version": "v2.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/NHZEX/think-cors.git",
-                "reference": "e010144fdf0e94d9e12897e7f5aeb63a0a7f38d7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/e010144fdf0e94d9e12897e7f5aeb63a0a7f38d7",
-                "reference": "e010144fdf0e94d9e12897e7f5aeb63a0a7f38d7",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1|^8.0",
-                "symfony/polyfill-php73": "^1",
-                "symfony/polyfill-php80": "^1",
-                "topthink/framework": "^6.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^0.12.78",
-                "phpunit/phpunit": "^8|^7|^9",
-                "symfony/var-dumper": "^5.0|^4.0"
-            },
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [],
-                    "config": {
-                        "cors": "config/cors.php"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "HZEX\\Think\\Cors\\": "src"
-                },
-                "files": []
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "auooru",
-                    "email": "auooru@outlook.com"
-                }
-            ],
-            "keywords": [
-                "cors",
-                "thinkphp",
-                "thinkphp6"
-            ],
-            "support": {
-                "issues": "https://github.com/NHZEX/think-cors/issues",
-                "source": "https://github.com/NHZEX/think-cors/tree/v2.1.0"
-            },
-            "time": "2021-02-22T03:11:05+00:00"
-        },
-        {
-            "name": "nhzex/think-env",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/NHZEX/think-env.git",
-                "reference": "b4907f4f4b5662510fb6bde12c249009df5f255a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-env/zipball/b4907f4f4b5662510fb6bde12c249009df5f255a",
-                "reference": "b4907f4f4b5662510fb6bde12c249009df5f255a",
-                "shasum": ""
-            },
-            "require": {
-                "oscarotero/env": "^2.1",
-                "php": "~7.1 || ^8.0",
-                "topthink/framework": "~6.0.3",
-                "vlucas/phpdotenv": "^5.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "HZEX\\Think\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "support": {
-                "issues": "https://github.com/NHZEX/think-env/issues",
-                "source": "https://github.com/NHZEX/think-env/tree/v1.0.1"
-            },
-            "time": "2020-06-24T18:43:43+00:00"
         },
         {
             "name": "nhzex/think-phinx",
@@ -3675,6 +3581,115 @@
                 "source": "https://github.com/NHZEX/think-auth/tree/v1.1.3"
             },
             "time": "2021-06-02T07:29:12+00:00"
+        },
+        {
+            "name": "zxin/think-cors",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/think-cors.git",
+                "reference": "4fd2729629fe17f10774c1ffd5e8a6b21657ce4a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/4fd2729629fe17f10774c1ffd5e8a6b21657ce4a",
+                "reference": "4fd2729629fe17f10774c1ffd5e8a6b21657ce4a",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0",
+                "symfony/polyfill-php73": "^1",
+                "symfony/polyfill-php80": "^1",
+                "topthink/framework": "^6.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.78",
+                "phpunit/phpunit": "^8|^7|^9",
+                "symfony/var-dumper": "^5.0|^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [],
+                    "config": {
+                        "cors": "config/cors.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "HZEX\\Think\\Cors\\": "src"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ],
+            "keywords": [
+                "cors",
+                "thinkphp",
+                "thinkphp6"
+            ],
+            "support": {
+                "issues": "https://github.com/NHZEX/think-cors/issues",
+                "source": "https://github.com/NHZEX/think-cors/tree/v2.1.1"
+            },
+            "time": "2021-03-14T12:37:21+00:00"
+        },
+        {
+            "name": "zxin/think-env",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/think-env.git",
+                "reference": "42d7829d70a574fb0672e2b7c0cfc5ac9388d036"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/think-env/zipball/42d7829d70a574fb0672e2b7c0cfc5ac9388d036",
+                "reference": "42d7829d70a574fb0672e2b7c0cfc5ac9388d036",
+                "shasum": ""
+            },
+            "require": {
+                "oscarotero/env": "^2.1",
+                "php": "~7.1 || ^8.0",
+                "topthink/framework": "~6.0.3",
+                "vlucas/phpdotenv": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "HZEX\\Think\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ],
+            "description": "thinkphp dotenv file loader",
+            "keywords": [
+                "env",
+                "thinkphp",
+                "thinkphp6"
+            ],
+            "support": {
+                "issues": "https://github.com/NHZEX/think-env/issues",
+                "source": "https://github.com/NHZEX/think-env/tree/v1.0.3"
+            },
+            "time": "2021-06-11T05:41:46+00:00"
         },
         {
             "name": "zxin/think-redis",
