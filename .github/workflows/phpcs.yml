@@ -38,7 +38,7 @@ jobs:
         run: composer validate
 
       - name: Install dependencies (composer.lock)
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --no-interaction --prefer-dist --no-progress
 
       - name: Run phpcs fix
-        run: vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+        run: vendor/bin/phpcs --report=checkstyle -q | cs2pr
