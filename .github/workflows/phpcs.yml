@@ -41,4 +41,4 @@ jobs:
         run: composer install --prefer-dist --no-progress --no-suggest
 
       - name: Run phpcs fix
-        run: composer exec -v -- php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+        run: composer exec -v -- php-cs-fixer fix --show-progress --dry-run --format=checkstyle | cs2pr
