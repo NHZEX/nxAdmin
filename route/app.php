@@ -32,8 +32,8 @@ $r->get('storage', function () {
 $r->group('api/system', function () use ($r) {
     $r->get('config', 'config');
     $r->get('sysinfo', 'sysinfo');
-    $r->get('captcha', 'captcha')->middleware([
-        Throttle::class,
+    $r->get('captcha', 'captcha')->middleware(Throttle::class, [
+        'visit_rate' => App::getInstance()->config->get('captcha.throttle_rate', '60/m'),
     ]);
 })->prefix('api.system/');
 

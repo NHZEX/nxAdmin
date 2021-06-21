@@ -3,6 +3,8 @@
 return [
     // 登陆验证码
     'login'    => (bool) env('CAPTCHA_LOGIN', true),
+    // 访问限制
+    'throttle_rate' => '30/m',
     // 验证码加密密钥
     'seKey'    => env('DEPLOY_SECURITY_SALT') ?? 'null',
     // 验证码过期时间（s）
