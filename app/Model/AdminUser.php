@@ -298,14 +298,9 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      * 关联获取 角色对象
      * @return BelongsTo
      */
-    protected function role(
-
-    )
-
+    protected function role()
     {
-
-        return $this->belongsTo(AdminRole::class,
-            'role_id', 'id');
+        return $this->belongsTo(AdminRole::class, 'role_id', 'id');
     }
 
     /**
