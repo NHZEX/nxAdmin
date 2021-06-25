@@ -33,8 +33,6 @@
         "guzzlehttp/guzzle": "^7.0",
         "hashids/hashids": "^4.0",
         "nhzex/think-blade": "^5.0.0",
-        "zxin/think-cors": "^2.0",
-        "zxin/think-env": "^1.0.1",
         "nhzex/think-phinx": "^2.0.1",
         "rybakit/msgpack": "^0.8",
         "symfony/finder": "^4.2|^5.1",
@@ -47,6 +45,8 @@
         "topthink/think-orm": "~2.0.39",
         "topthink/think-throttle": "^v1.3.0",
         "zxin/think-auth": "^1.1",
+        "zxin/think-cors": "^2.1",
+        "zxin/think-env": "^1.0.1",
         "zxin/think-redis": "^1.1",
         "zxin/think-validate": "^1.1",
         "zxin/utils": "^2.2"
