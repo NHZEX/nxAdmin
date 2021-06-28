@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Controller\api\admin;
+namespace app\Controller\admin;
 
 use app\Logic\AdminRole;
 use app\Logic\AdminUser;

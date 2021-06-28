@@ -35,13 +35,13 @@ $r->group('api/system', function () use ($r) {
     $r->get('captcha', 'captcha')->middleware(Throttle::class, [
         'visit_rate' => App::getInstance()->config->get('captcha.throttle_rate', '60/m'),
     ]);
-})->prefix('api.system/');
+})->prefix('system/');
 
 $r->group('api/admin', function () use ($r) {
     $r->post('login', 'login');
     $r->get('logout', 'logout');
     $r->get('user-info', 'userInfo');
-})->prefix('api.admin.index/');
+})->prefix('admin.index/');
 
 $r->group('api', function () use ($r) {
     $r->group('admin', function () use ($r) {
@@ -53,7 +53,7 @@ $r->group('api', function () use ($r) {
         ])->pattern([
             'id' => '[\w\.\-]+'
         ]);
-    })->prefix('api.admin.')->pattern([
+    })->prefix('admin.')->pattern([
         'id' => '\d+',
         'name' => '\w+',
     ]);

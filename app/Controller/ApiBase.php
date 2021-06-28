@@ -1,11 +1,11 @@
 <?php
 
-namespace app\Controller\api;
+namespace app\Controller;
 
 use app\BaseController;
 use app\Service\Validate\ValidateFilterTrait;
 
-class Base extends BaseController
+abstract class ApiBase extends BaseController
 {
     use ValidateFilterTrait;
 }

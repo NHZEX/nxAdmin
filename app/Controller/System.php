@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Controller\api;
+namespace app\Controller;
 
 use Captcha\Captcha;
 use think\App;
@@ -13,7 +13,7 @@ use function realpath_cache_size;
 use const PHP_SAPI;
 use const PHP_VERSION;
 
-class System extends Base
+class System extends ApiBase
 {
     /**
      * 基本系统设置

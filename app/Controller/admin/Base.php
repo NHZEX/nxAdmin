@@ -5,9 +5,9 @@
  * Time: 11:54
  */
 
-namespace app\Controller\api\admin;
+namespace app\Controller\admin;
 
-use app\Controller\api\Base as ApiBase;
+use app\Controller\ApiBase as ApiBase;
 
 abstract class Base extends ApiBase
 {

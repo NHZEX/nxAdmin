@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Controller\api\admin;
+namespace app\Controller\admin;
 
 use app\Model\AdminRole;
 use think\db\exception\DataNotFoundException;
@@ -15,7 +15,7 @@ use Zxin\Think\Validate\Annotation\Validation;
 
 /**
  * Class Role
- * @package app\Controller\api\admin
+ * @package app\Controller\admin
  */
 class Role extends Base
 {
