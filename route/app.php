@@ -29,7 +29,7 @@ $r->get('storage', function () {
     return Response::create('404 Not Found', 'html', 404);
 });
 
-$r->group('api/system', function () use ($r) {
+$r->group('system', function () use ($r) {
     $r->get('config', 'config');
     $r->get('sysinfo', 'sysinfo');
     $r->get('captcha', 'captcha')->middleware(Throttle::class, [
@@ -37,26 +37,24 @@ $r->group('api/system', function () use ($r) {
     ]);
 })->prefix('system/');
 
-$r->group('api/admin', function () use ($r) {
+$r->group('admin', function () use ($r) {
     $r->post('login', 'login');
     $r->get('logout', 'logout');
     $r->get('user-info', 'userInfo');
 })->prefix('admin.index/');
 
-$r->group('api', function () use ($r) {
-    $r->group('admin', function () use ($r) {
-        $r->resource('users', 'user');
-        $r->resource('roles', 'role');
+$r->group('admin', function () use ($r) {
+    $r->resource('users', 'user');
+    $r->resource('roles', 'role');
 
-        roule_resource('permission', 'permission', [
-            'scan' => ['get', 'scan', 'scan'],
-        ])->pattern([
-            'id' => '[\w\.\-]+'
-        ]);
-    })->prefix('admin.')->pattern([
-        'id' => '\d+',
-        'name' => '\w+',
+    roule_resource('permission', 'permission', [
+        'scan' => ['get', 'scan', 'scan'],
+    ])->pattern([
+        'id' => '[\w\.\-]+'
     ]);
-});
+})->prefix('admin.')->pattern([
+    'id' => '\d+',
+    'name' => '\w+',
+]);
 
 return [];
