@@ -10,7 +10,7 @@ use think\db\Query;
 use think\Response;
 use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
-use Zxin\Think\Auth\Annotation\AuthNode;
+use Zxin\Think\Auth\Annotation\AuthMeta;
 use Zxin\Think\Validate\Annotation\Validation;
 
 /**
@@ -21,6 +21,7 @@ class Role extends Base
 {
     /**
      * @Auth("admin.role.info")
+     * @AuthMeta("获取角色信息")
      * @param int $limit
      * @return Response
      * @throws DbException
@@ -42,6 +43,7 @@ class Role extends Base
     /**
      * @Auth("admin.role.info")
      * @Auth("admin.user")
+     * @AuthMeta("获取角色信息")
      * @param int $genre
      * @return Response
      */
@@ -60,6 +62,7 @@ class Role extends Base
 
     /**
      * @Auth("admin.role.info")
+     * @AuthMeta("获取角色信息")
      * @param int $id
      * @return Response
      * @throws DbException
@@ -77,7 +80,7 @@ class Role extends Base
 
     /**
      * @Auth("admin.role.add")
-     * @AuthNode("创建系统用户角色")
+     * @AuthMeta("创建角色信息")
      * @Validation("@Admin.Role")
      * @return Response
      */
@@ -89,7 +92,7 @@ class Role extends Base
 
     /**
      * @Auth("admin.role.edit")
-     * @AuthNode("更改系统用户角色")
+     * @AuthMeta("更改角色信息")
      * @Validation("@Admin.Role")
      * @param string|int $id
      * @return Response
@@ -109,7 +112,7 @@ class Role extends Base
 
     /**
      * @Auth("admin.role.del")
-     * @AuthNode("删除系统用户角色")
+     * @AuthMeta("删除角色信息")
      * @param string|int $id
      * @return Response
      */

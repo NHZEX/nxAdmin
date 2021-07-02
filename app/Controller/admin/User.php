@@ -9,7 +9,7 @@ use think\db\exception\ModelNotFoundException;
 use think\Response;
 use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
-use Zxin\Think\Auth\Annotation\AuthNode;
+use Zxin\Think\Auth\Annotation\AuthMeta;
 use Zxin\Think\Validate\Annotation\Validation;
 use function trim;
 
@@ -21,6 +21,7 @@ class User extends Base
 {
     /**
      * @Auth("admin.user.info")
+     * @AuthMeta("获取用户信息")
      * @param int $limit
      * @return Response
      * @throws DbException
@@ -42,6 +43,7 @@ class User extends Base
 
     /**
      * @Auth("admin.user.info")
+     * @AuthMeta("获取用户信息")
      * @param int $id
      * @return Response
      * @throws DbException
@@ -59,7 +61,7 @@ class User extends Base
 
     /**
      * @Auth("admin.user.add")
-     * @AuthNode("创建系统用户")
+     * @AuthMeta("添加用户信息")
      * @Validation("@Admin.User", scene="_")
      * @return Response
      */
@@ -72,7 +74,7 @@ class User extends Base
 
     /**
      * @Auth("admin.user.edit")
-     * @AuthNode("更改系统用户")
+     * @AuthMeta("更改用户信息")
      * @Validation("@Admin.User", scene="_")
      * @param int $id
      * @return Response
@@ -99,7 +101,7 @@ class User extends Base
 
     /**
      * @Auth("admin.user.del")
-     * @AuthNode("删除系统用户")
+     * @AuthMeta("删除用户信息")
      * @param int $id
      * @return Response
      */

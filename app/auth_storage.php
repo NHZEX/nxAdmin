@@ -1,6 +1,6 @@
 <?php
-// update date: 2021-06-28T23:30:28+08:00
-// hash: d2bc5349396242b9f2704b54df11727a
+// update date: 2021-07-02T17:46:31+08:00
+// hash: 5c5fb0c176d47e683ca34445261633bf
 return [
     'features' => [
         'node@admin.index/userinfo' => [
@@ -31,57 +31,57 @@ return [
         'node@admin.role/index' => [
             'class' => 'app\\Controller\\admin\\Role::index',
             'policy' => '',
-            'desc' => '',
+            'desc' => '获取角色信息',
         ],
         'node@admin.role/select' => [
             'class' => 'app\\Controller\\admin\\Role::select',
             'policy' => '',
-            'desc' => '',
+            'desc' => '获取角色信息',
         ],
         'node@admin.role/read' => [
             'class' => 'app\\Controller\\admin\\Role::read',
             'policy' => '',
-            'desc' => '',
+            'desc' => '获取角色信息',
         ],
         'node@admin.role/save' => [
             'class' => 'app\\Controller\\admin\\Role::save',
             'policy' => '',
-            'desc' => '创建系统用户角色',
+            'desc' => '创建角色信息',
         ],
         'node@admin.role/update' => [
             'class' => 'app\\Controller\\admin\\Role::update',
             'policy' => '',
-            'desc' => '更改系统用户角色',
+            'desc' => '更改角色信息',
         ],
         'node@admin.role/delete' => [
             'class' => 'app\\Controller\\admin\\Role::delete',
             'policy' => '',
-            'desc' => '删除系统用户角色',
+            'desc' => '删除角色信息',
         ],
         'node@admin.user/index' => [
             'class' => 'app\\Controller\\admin\\User::index',
             'policy' => '',
-            'desc' => '',
+            'desc' => '获取用户信息',
         ],
         'node@admin.user/read' => [
             'class' => 'app\\Controller\\admin\\User::read',
             'policy' => '',
-            'desc' => '',
+            'desc' => '获取用户信息',
         ],
         'node@admin.user/save' => [
             'class' => 'app\\Controller\\admin\\User::save',
             'policy' => '',
-            'desc' => '创建系统用户',
+            'desc' => '添加用户信息',
         ],
         'node@admin.user/update' => [
             'class' => 'app\\Controller\\admin\\User::update',
             'policy' => '',
-            'desc' => '更改系统用户',
+            'desc' => '更改用户信息',
         ],
         'node@admin.user/delete' => [
             'class' => 'app\\Controller\\admin\\User::delete',
             'policy' => '',
-            'desc' => '删除系统用户',
+            'desc' => '删除用户信息',
         ],
         'node@system/sysinfo' => [
             'class' => 'app\\Controller\\System::sysinfo',
