@@ -1,14 +1,14 @@
 <?php
-// update date: 2021-06-07T22:18:01+08:00
-// hash: d93a5e0223c64e8c2bcd6b46dc198b2d
+// update date: 2021-07-02T16:52:09+08:00
+// hash: dc3038588cc46feb2db2953d66d0c510
 return [
-    'app\\Controller\\api\\admin\\Index' => [
+    'app\\Controller\\admin\\Index' => [
         'login' => [
             'validate' => 'app\\Validate\\Login',
             'scene' => null,
         ],
     ],
-    'app\\Controller\\api\\admin\\Role' => [
+    'app\\Controller\\admin\\Role' => [
         'save' => [
             'validate' => 'app\\Validate\\Admin\\Role',
             'scene' => null,
@@ -18,7 +18,7 @@ return [
             'scene' => null,
         ],
     ],
-    'app\\Controller\\api\\admin\\User' => [
+    'app\\Controller\\admin\\User' => [
         'save' => [
             'validate' => 'app\\Validate\\Admin\\User',
             'scene' => 'save',
