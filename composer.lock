@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "432ce0db15cab17f10c80571ba8a0543",
+    "content-hash": "02544914a1112db55b7b799319c03f36",
     "packages": [
         {
             "name": "cakephp/core",
@@ -3706,6 +3706,59 @@
                 "source": "https://github.com/NHZEX/think-auth/tree/v1.2.2"
             },
             "time": "2021-07-02T09:39:25+00:00"
+        },
+        {
+            "name": "zxin/think-captcha",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/think-captcha.git",
+                "reference": "81e1faab85c515aff9341f58d546398e801787d6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/think-captcha/zipball/81e1faab85c515aff9341f58d546398e801787d6",
+                "reference": "81e1faab85c515aff9341f58d546398e801787d6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "php": "^7.2|^8.0",
+                "symfony/polyfill-php80": "^1.18",
+                "topthink/framework": "^6.0.3",
+                "zxin/utils": "^2.0"
+            },
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [],
+                    "config": {
+                        "captcha": "config/captcha.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zxin\\Captcha\\": "src/"
+                },
+                "files": []
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ],
+            "description": "think captcha",
+            "support": {
+                "issues": "https://github.com/NHZEX/think-captcha/issues",
+                "source": "https://github.com/NHZEX/think-captcha/tree/v1.0.0"
+            },
+            "time": "2021-07-09T10:04:47+00:00"
         },
         {
             "name": "zxin/think-cors",

@@ -5,11 +5,11 @@ namespace app\Controller\admin;
 use app\Logic\AdminRole;
 use app\Logic\AdminUser;
 use app\Service\Auth\AuthHelper;
-use Captcha\Captcha;
 use think\facade\Session;
 use think\Response;
 use think\response\View;
 use Util\Reply;
+use Zxin\Captcha\Captcha;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthGuard;
 use Zxin\Think\Validate\Annotation\Validation;
@@ -31,9 +31,10 @@ class Index extends Base
         $ctoken = $param['token'];
 
         // 验证码校验
-        if ($captcha->isLoginEnable()) {
-            if (!$captcha->verifyToken($ctoken, $param['captcha'] ?? '0000')) {
-                return Reply::bad(CODE_COM_CAPTCHA, $captcha->getMessage());
+        if ($this->app->config->get('feature.login_captcha')) {
+            $validator = $captcha->getValidator();
+            if (!$validator->verifyToken($ctoken, $param['captcha'] ?? '0000')) {
+                return Reply::bad(CODE_COM_CAPTCHA, $validator->getMessage());
             }
         }
 

@@ -2,10 +2,10 @@
 
 namespace app\Controller;
 
-use Captcha\Captcha;
 use think\App;
 use think\Response;
 use Util\Reply;
+use Zxin\Captcha\Captcha;
 use Zxin\Think\Auth\Annotation\Auth;
 use function ini_get;
 use function php_uname;
@@ -22,7 +22,7 @@ class System extends ApiBase
     {
         return Reply::success([
             'webTitle' => env('SYSTEM_WEB_TITLE'),
-            'loginCaptcha' => config('captcha.login'),
+            'loginCaptcha' => $this->app->config->get('feature.login_captcha'),
         ]);
     }
 
@@ -56,8 +56,8 @@ class System extends ApiBase
     public function captcha(Captcha $captcha)
     {
         $captcha->entry();
-        return $captcha->send()->header([
-            'X-Captcha-Token' => $captcha->generateToken(),
+        return $captcha->sendResponse([
+            'X-Captcha-Token' => $captcha->getValidator()->generateToken(),
         ]);
     }
 }
