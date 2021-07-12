@@ -2608,6 +2608,82 @@
             "time": "2021-05-27T09:27:20+00:00"
         },
         {
+            "name": "symfony/polyfill-php72",
+            "version": "v1.23.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php72.git",
+                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9a142215a36a3888e30d0a9eeea9766764e96976",
+                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.23-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php72\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 7.2+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php72/tree/v1.23.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-05-27T09:17:38+00:00"
+        },
+        {
             "name": "symfony/polyfill-php73",
             "version": "v1.23.0",
             "source": {
@@ -4043,29 +4119,30 @@
         },
         {
             "name": "zxin/utils",
-            "version": "v2.2.0",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/php-utils.git",
-                "reference": "f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a"
+                "reference": "36c37b74445063c2640d99a5ff4fefaa9cf20fdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a",
-                "reference": "f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a",
+                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/36c37b74445063c2640d99a5ff4fefaa9cf20fdf",
+                "reference": "36c37b74445063c2640d99a5ff4fefaa9cf20fdf",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "php": "^7.1|^8.0",
-                "symfony/var-dumper": "^4.4|^5.0",
-                "symfony/var-exporter": "^4.4|^5.0"
+                "symfony/polyfill-php72": "^1.22",
+                "symfony/polyfill-php73": "^1.22"
             },
             "require-dev": {
                 "ext-bcmath": "*",
                 "ext-mbstring": "*",
                 "ext-posix": "*",
+                "friendsofphp/php-cs-fixer": "^2.18",
                 "phpunit/phpunit": "^7|^8|^9"
             },
             "suggest": {
@@ -4080,7 +4157,6 @@
                 },
                 "files": [
                     "src/bootstrap.php",
-                    "src/debug_helper.php",
                     "src/reflection_helper.php",
                     "src/Crypto/crypto_func.php",
                     "src/Array/array_func.php",
@@ -4101,9 +4177,9 @@
             "description": "util tools",
             "support": {
                 "issues": "https://github.com/NHZEX/php-utils/issues",
-                "source": "https://github.com/NHZEX/php-utils/tree/v2.2.0"
+                "source": "https://github.com/NHZEX/php-utils/tree/v2.3.0"
             },
-            "time": "2021-02-20T08:45:23+00:00"
+            "time": "2021-07-08T12:38:31+00:00"
         }
     ],
     "packages-dev": [
@@ -6696,82 +6772,6 @@
                 }
             ],
             "time": "2021-05-26T17:43:10+00:00"
-        },
-        {
-            "name": "symfony/polyfill-php72",
-            "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9a142215a36a3888e30d0a9eeea9766764e96976",
-                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.23-dev"
-                },
-                "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php72\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 7.2+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php72/tree/v1.23.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-05-27T09:17:38+00:00"
         },
         {
             "name": "symfony/process",
