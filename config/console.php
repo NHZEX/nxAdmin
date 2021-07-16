@@ -4,11 +4,10 @@
 // +----------------------------------------------------------------------
 
 use app\Command\CreateModel;
-use think\facade\Env;
 
 return [
     // 执行用户（Windows下无效）
-    'user'     => Env::get('task.user', null),
+    'user'     => env('COMMAND_USER', null),
     // 指令定义
     'commands' => [
         CreateModel::class,

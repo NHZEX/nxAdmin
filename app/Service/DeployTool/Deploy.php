@@ -95,9 +95,9 @@ class Deploy extends Command
         $this->env = EnvStruct::read();
 
         // 显示当前用户
-        $this->env->TASK_USER = $input->getOption('run-user') ?: $this->env->TASK_USER;
-        $output->info('当前用户：' . Util::whoami() . "({$this->env->TASK_USER})");
-        $this->env->TASK_USER = $this->env->TASK_USER ?? Util::whoami();
+        $this->env->COMMAND_USER = $input->getOption('run-user') ?: $this->env->COMMAND_USER;
+        $output->info('当前用户：' . Util::whoami() . "({$this->env->COMMAND_USER})");
+        $this->env->COMMAND_USER = $this->env->COMMAND_USER ?? Util::whoami();
 
         // 可用指令列表
         $actionList = [

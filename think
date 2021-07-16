@@ -16,5 +16,12 @@ namespace think;
 require __DIR__ . '/bootstrap.php';
 
 // 应用初始化
+$app = (new App());
+$console = $app->console;
+
+if (!empty($user = $app->config->get('console.user'))) {
+    Console::setUser($user);
+}
+
 /** @noinspection PhpUnhandledExceptionInspection */
-(new App())->console->run();
+$console->run();
