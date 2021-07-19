@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "02544914a1112db55b7b799319c03f36",
+    "content-hash": "c796ed4a145899837bf78b25f86e7f14",
     "packages": [
         {
             "name": "cakephp/core",
-            "version": "4.2.7",
+            "version": "4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
-                "reference": "aa8b40e2adcfbe52c71ec273866628ffc6d87838"
+                "reference": "bed4b6f09550909beea5440627d5a6ff85fb1934"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/aa8b40e2adcfbe52c71ec273866628ffc6d87838",
-                "reference": "aa8b40e2adcfbe52c71ec273866628ffc6d87838",
+                "url": "https://api.github.com/repos/cakephp/core/zipball/bed4b6f09550909beea5440627d5a6ff85fb1934",
+                "reference": "bed4b6f09550909beea5440627d5a6ff85fb1934",
                 "shasum": ""
             },
             "require": {
@@ -61,11 +61,11 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/core"
             },
-            "time": "2021-05-24T17:26:44+00:00"
+            "time": "2021-06-26T14:06:56+00:00"
         },
         {
             "name": "cakephp/database",
-            "version": "4.2.7",
+            "version": "4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
@@ -120,16 +120,16 @@
         },
         {
             "name": "cakephp/datasource",
-            "version": "4.2.7",
+            "version": "4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
-                "reference": "cfc914efc099d48300c1a99316fc8d0d55babc67"
+                "reference": "cc101051e8d601cf6c2895d635ccefecca97ff4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/cfc914efc099d48300c1a99316fc8d0d55babc67",
-                "reference": "cfc914efc099d48300c1a99316fc8d0d55babc67",
+                "url": "https://api.github.com/repos/cakephp/datasource/zipball/cc101051e8d601cf6c2895d635ccefecca97ff4e",
+                "reference": "cc101051e8d601cf6c2895d635ccefecca97ff4e",
                 "shasum": ""
             },
             "require": {
@@ -174,11 +174,11 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/datasource"
             },
-            "time": "2021-05-24T17:26:44+00:00"
+            "time": "2021-07-03T10:28:16+00:00"
         },
         {
             "name": "cakephp/utility",
-            "version": "4.2.7",
+            "version": "4.2.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
@@ -1302,70 +1302,6 @@
                 }
             ],
             "time": "2020-07-20T17:29:33+00:00"
-        },
-        {
-            "name": "phpstan/phpstan",
-            "version": "0.12.90",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "f0e4b56630fc3d4eb5be86606d07212ac212ede4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f0e4b56630fc3d4eb5be86606d07212ac212ede4",
-                "reference": "f0e4b56630fc3d4eb5be86606d07212ac212ede4",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1|^8.0"
-            },
-            "conflict": {
-                "phpstan/phpstan-shim": "*"
-            },
-            "bin": [
-                "phpstan",
-                "phpstan.phar"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.12-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPStan - PHP Static Analysis Tool",
-            "support": {
-                "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.90"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/ondrejmirtes",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/phpstan",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/phpstan",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-06-18T07:15:38+00:00"
         },
         {
             "name": "psr/cache",
@@ -2608,6 +2544,82 @@
             "time": "2021-05-27T09:27:20+00:00"
         },
         {
+            "name": "symfony/polyfill-php72",
+            "version": "v1.23.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php72.git",
+                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9a142215a36a3888e30d0a9eeea9766764e96976",
+                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.23-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php72\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 7.2+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-php72/tree/v1.23.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-05-27T09:17:38+00:00"
+        },
+        {
             "name": "symfony/polyfill-php73",
             "version": "v1.23.0",
             "source": {
@@ -3361,16 +3373,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.40",
+            "version": "v2.0.42",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "1119d979b850849f3725856460cf108eec1c3eb8"
+                "reference": "008b991ebd65db0b51f7f7bfb45def352174a688"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/1119d979b850849f3725856460cf108eec1c3eb8",
-                "reference": "1119d979b850849f3725856460cf108eec1c3eb8",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/008b991ebd65db0b51f7f7bfb45def352174a688",
+                "reference": "008b991ebd65db0b51f7f7bfb45def352174a688",
                 "shasum": ""
             },
             "require": {
@@ -3410,9 +3422,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.40"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.42"
             },
-            "time": "2021-04-19T13:29:37+00:00"
+            "time": "2021-07-19T01:12:52+00:00"
         },
         {
             "name": "topthink/think-throttle",
@@ -3871,29 +3883,29 @@
         },
         {
             "name": "zxin/think-redis",
-            "version": "v1.1.3",
+            "version": "v1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-redis.git",
-                "reference": "35c134bbf0b527d87c855b9eb2c04107109feee0"
+                "reference": "b575a8099bce4075103aab1a28021f4fcdb771a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/35c134bbf0b527d87c855b9eb2c04107109feee0",
-                "reference": "35c134bbf0b527d87c855b9eb2c04107109feee0",
+                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/b575a8099bce4075103aab1a28021f4fcdb771a2",
+                "reference": "b575a8099bce4075103aab1a28021f4fcdb771a2",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-redis": "*",
                 "php": "~7.2",
-                "phpstan/phpstan": "^0.12.81",
                 "symfony/polyfill-php80": "^1.18",
                 "topthink/framework": "^6.0.3"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.18",
                 "open-smf/connection-pool": "^1.0",
+                "phpstan/phpstan": "^0.12.91",
                 "phpunit/phpunit": "^7|^8",
                 "rybakit/msgpack": "^0.7.0",
                 "swoole/ide-helper": "^4.5.11",
@@ -3934,9 +3946,9 @@
             "description": "think redis",
             "support": {
                 "issues": "https://github.com/NHZEX/think-redis/issues",
-                "source": "https://github.com/NHZEX/think-redis/tree/v1.1.3"
+                "source": "https://github.com/NHZEX/think-redis/tree/v1.1.4"
             },
-            "time": "2021-06-23T14:38:57+00:00"
+            "time": "2021-07-05T08:04:18+00:00"
         },
         {
             "name": "zxin/think-symfony-bridge",
@@ -4043,29 +4055,30 @@
         },
         {
             "name": "zxin/utils",
-            "version": "v2.2.0",
+            "version": "v2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/php-utils.git",
-                "reference": "f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a"
+                "reference": "36c37b74445063c2640d99a5ff4fefaa9cf20fdf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a",
-                "reference": "f056a3f611ab23d1e9e873c0c4c3bac3574a1b3a",
+                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/36c37b74445063c2640d99a5ff4fefaa9cf20fdf",
+                "reference": "36c37b74445063c2640d99a5ff4fefaa9cf20fdf",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-openssl": "*",
                 "php": "^7.1|^8.0",
-                "symfony/var-dumper": "^4.4|^5.0",
-                "symfony/var-exporter": "^4.4|^5.0"
+                "symfony/polyfill-php72": "^1.22",
+                "symfony/polyfill-php73": "^1.22"
             },
             "require-dev": {
                 "ext-bcmath": "*",
                 "ext-mbstring": "*",
                 "ext-posix": "*",
+                "friendsofphp/php-cs-fixer": "^2.18",
                 "phpunit/phpunit": "^7|^8|^9"
             },
             "suggest": {
@@ -4080,7 +4093,6 @@
                 },
                 "files": [
                     "src/bootstrap.php",
-                    "src/debug_helper.php",
                     "src/reflection_helper.php",
                     "src/Crypto/crypto_func.php",
                     "src/Array/array_func.php",
@@ -4101,9 +4113,9 @@
             "description": "util tools",
             "support": {
                 "issues": "https://github.com/NHZEX/php-utils/issues",
-                "source": "https://github.com/NHZEX/php-utils/tree/v2.2.0"
+                "source": "https://github.com/NHZEX/php-utils/tree/v2.3.0"
             },
-            "time": "2021-02-20T08:45:23+00:00"
+            "time": "2021-07-08T12:38:31+00:00"
         }
     ],
     "packages-dev": [
@@ -4469,16 +4481,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.10.5",
+            "version": "v4.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "4432ba399e47c66624bc73c8c0f811e5c109576f"
+                "reference": "fe14cf3672a149364fb66dfe11bf6549af899f94"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/4432ba399e47c66624bc73c8c0f811e5c109576f",
-                "reference": "4432ba399e47c66624bc73c8c0f811e5c109576f",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/fe14cf3672a149364fb66dfe11bf6549af899f94",
+                "reference": "fe14cf3672a149364fb66dfe11bf6549af899f94",
                 "shasum": ""
             },
             "require": {
@@ -4519,9 +4531,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.10.5"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.11.0"
             },
-            "time": "2021-05-03T19:11:20+00:00"
+            "time": "2021-07-03T13:36:55+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -4974,6 +4986,70 @@
             "time": "2021-03-17T13:42:18+00:00"
         },
         {
+            "name": "phpstan/phpstan",
+            "version": "0.12.92",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "64d4c5dc8ea96972bc18432d137a330239a5d2b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/64d4c5dc8ea96972bc18432d137a330239a5d2b2",
+                "reference": "64d4c5dc8ea96972bc18432d137a330239a5d2b2",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "support": {
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.92"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://github.com/phpstan",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/phpstan",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-07-10T13:53:49+00:00"
+        },
+        {
             "name": "phpunit/php-code-coverage",
             "version": "9.2.6",
             "source": {
@@ -5293,16 +5369,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "9.5.6",
+            "version": "9.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "fb9b8333f14e3dce976a60ef6a7e05c7c7ed8bfb"
+                "reference": "d0dc8b6999c937616df4fb046792004b33fd31c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/fb9b8333f14e3dce976a60ef6a7e05c7c7ed8bfb",
-                "reference": "fb9b8333f14e3dce976a60ef6a7e05c7c7ed8bfb",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d0dc8b6999c937616df4fb046792004b33fd31c5",
+                "reference": "d0dc8b6999c937616df4fb046792004b33fd31c5",
                 "shasum": ""
             },
             "require": {
@@ -5380,7 +5456,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/9.5.7"
             },
             "funding": [
                 {
@@ -5392,7 +5468,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-06-23T05:14:38+00:00"
+            "time": "2021-07-19T06:14:47+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -6696,82 +6772,6 @@
                 }
             ],
             "time": "2021-05-26T17:43:10+00:00"
-        },
-        {
-            "name": "symfony/polyfill-php72",
-            "version": "v1.23.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9a142215a36a3888e30d0a9eeea9766764e96976",
-                "reference": "9a142215a36a3888e30d0a9eeea9766764e96976",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-main": "1.23-dev"
-                },
-                "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php72\\": ""
-                },
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 7.2+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php72/tree/v1.23.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-05-27T09:17:38+00:00"
         },
         {
             "name": "symfony/process",
