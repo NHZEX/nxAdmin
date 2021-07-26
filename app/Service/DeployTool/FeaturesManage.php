@@ -235,7 +235,7 @@ abstract class FeaturesManage
         $question = new Question("{$desc}\t", $value);
         $question->setValidator(function ($value) use ($verify) {
             if (false === empty($verify)) {
-                $this->checkValue($value, $verify);
+                $this->checkValue((string) $value, $verify);
             }
             return $value;
         });
