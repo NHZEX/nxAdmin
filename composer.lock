@@ -3883,22 +3883,22 @@
         },
         {
             "name": "zxin/think-redis",
-            "version": "v1.1.4",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-redis.git",
-                "reference": "b575a8099bce4075103aab1a28021f4fcdb771a2"
+                "reference": "0efd943a74b802b9f5cacb7597686329ea56a55f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/b575a8099bce4075103aab1a28021f4fcdb771a2",
-                "reference": "b575a8099bce4075103aab1a28021f4fcdb771a2",
+                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/0efd943a74b802b9f5cacb7597686329ea56a55f",
+                "reference": "0efd943a74b802b9f5cacb7597686329ea56a55f",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-redis": "*",
-                "php": "~7.2",
+                "php": "~7.2 | ~8.0",
                 "symfony/polyfill-php80": "^1.18",
                 "topthink/framework": "^6.0.3"
             },
@@ -3946,9 +3946,9 @@
             "description": "think redis",
             "support": {
                 "issues": "https://github.com/NHZEX/think-redis/issues",
-                "source": "https://github.com/NHZEX/think-redis/tree/v1.1.4"
+                "source": "https://github.com/NHZEX/think-redis/tree/v1.2.0"
             },
-            "time": "2021-07-05T08:04:18+00:00"
+            "time": "2021-07-23T09:57:42+00:00"
         },
         {
             "name": "zxin/think-symfony-bridge",
