@@ -6,6 +6,7 @@ use app\Exception\AccessControl;
 use app\Logic\AdminRole as AdminRoleLogic;
 use app\Service\Auth\AuthHelper;
 use app\Traits\Model\ModelAccessLimit;
+use stdClass;
 use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
 
@@ -79,7 +80,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
         self::checkAccessControl($model);
 
         if (empty($model->ext)) {
-            $model->setAttr('ext', '{}');
+            $model->setAttr('ext', new stdClass());
         }
         if (empty($model->description)) {
             $model->setAttr('description', '');
