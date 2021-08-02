@@ -17,14 +17,14 @@ use function method_exists;
 trait ModelEvent
 {
     /**
-     * 事件触发
+     * 事件监听
      * @param string   $event
      * @param callable $call
      * @param bool     $first
      */
     public static function listen(string $event, callable $call, bool $first = false)
     {
-        App::getInstance()->make('model.event')->listen(static::class . '.' . $event, $call, $first);
+        App::getInstance()->make('model.event')->listen('model.' . static::class . '.' . $event, $call, $first);
     }
 
     /**
@@ -43,12 +43,14 @@ trait ModelEvent
             // method_exists 忽略大小写，不需要做驼峰转换
             $callMethod = "on{$event}";
             if (method_exists($this, $callMethod)) {
-                if (($result = call_user_func([$this, $callMethod], $this)) === false) {
+                if (call_user_func([$this, $callMethod], $this) === false) {
                     return false;
                 }
             }
             if (self::$event instanceof Event) {
-                $result = App::getInstance()->make('model.event')->trigger(static::class . '.' . $event, $this);
+                $result = App::getInstance()
+                    ->make('model.event')
+                    ->trigger('model.' . static::class . '.' . $event, $this);
                 $result = empty($result) ? true : end($result);
                 if ($result === false) {
                     return false;

@@ -18,5 +18,12 @@ use think\swoole\SafetyContainer;
 require __DIR__ . '/bootstrap.php';
 
 // 应用初始化
+$app = (new SafetyContainer());
+$console = $app->console;
+
+if (!empty($user = $app->config->get('console.user'))) {
+    Console::setUser($user);
+}
+
 /** @noinspection PhpUnhandledExceptionInspection */
-(new SafetyContainer())->console->run();
+$console->run();

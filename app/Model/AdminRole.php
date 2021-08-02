@@ -6,13 +6,12 @@ use app\Exception\AccessControl;
 use app\Logic\AdminRole as AdminRoleLogic;
 use app\Service\Auth\AuthHelper;
 use app\Traits\Model\ModelAccessLimit;
+use stdClass;
 use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
 
 /**
- * Class AdminRole
- *
- * @package app\common\model
+ * model: 系统角色
  * @property int $id
  * @property int $genre 类型 1=系统 2=代理商
  * @property int $status 状态 0=正常 1=禁用
@@ -81,7 +80,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
         self::checkAccessControl($model);
 
         if (empty($model->ext)) {
-            $model->setAttr('ext', '{}');
+            $model->setAttr('ext', new stdClass());
         }
         if (empty($model->description)) {
             $model->setAttr('description', '');

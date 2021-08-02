@@ -52,7 +52,7 @@ class EnvStruct extends BaseProperty
     public $DEPLOY_ROOT_PATH_SIGN = '';
     public $DEPLOY_MIXING_PREFIX = '';
 
-    public $TASK_USER = '';
+    public $COMMAND_USER = '';
 
     public $DEVELOP_SECURE_DOMAIN_NAME = '';
 }

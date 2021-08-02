@@ -8,10 +8,7 @@ use function get_class;
 use function substr;
 
 /**
- * 系统异常日志
- * Class ExceptionLogs
- *
- * @package app\common\model
+ * model: 异常堆栈日志
  * @property int $create_time
  * @property string $request_url
  * @property string $request_route

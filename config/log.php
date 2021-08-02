@@ -9,6 +9,7 @@ use Swoole\Coroutine;
 use think\App;
 use Tp\Log\Driver\AsyncSocket;
 use Tp\Log\SocketDriver;
+use function Zxin\Util\format_byte;
 
 // 格式日志头
 $formatHead = function ($uir, App $app) {
@@ -22,9 +23,9 @@ $formatHead = function ($uir, App $app) {
     }
     $runtime     = round(microtime(true) - $app->getBeginTime(), 10);
     $time_str    = ' [运行时间：' . number_format($runtime, 6) . 's]';
-    $memory_use  = format_byte(memory_get_usage() - $app->getBeginMem(), 2);
-    $memory_peak = format_byte(memory_get_peak_usage(), 2);
-    $memory_str  = ' [内存消耗：' . $memory_use . '，峰值：' . $memory_peak . ']';
+    $memory_use  = format_byte(memory_get_usage() - $app->getBeginMem());
+    $memory_peak = format_byte(memory_get_peak_usage());
+    $memory_str  = ' [内存消耗：' . $memory_use . 'kb，峰值：' . $memory_peak . 'kb]';
     $file_load   = ' [文件加载：' . count(get_included_files()) . ']';
     return $uir . $method . $time_str . $memory_str . $file_load;
 };

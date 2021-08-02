@@ -53,7 +53,7 @@ return [
             // 开启字段缓存
             'fields_cache'    => false,
             // 监听SQL
-            'trigger_sql'     => true,
+            'trigger_sql'     => (bool) env('SQL_DEBUG', env('APP_DEBUG', false)),
             // Builder类
             'builder'         => '',
             // Query类

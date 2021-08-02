@@ -14,8 +14,7 @@ use function substr;
 use function time;
 
 /**
- * Class System
- * @package app\Model
+ * model: 系统表
  * @property int    $id
  * @property string $laber
  * @property string $value
@@ -38,7 +37,7 @@ class System extends Base
     {
         $db       = app()->db->connect();
         $database = $db->getConfig('database');
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
         $sql = "select * from `INFORMATION_SCHEMA`.`TABLES` where TABLE_SCHEMA='{$database}' and TABLE_NAME='system'";
         return count($db->query($sql)) > 0;
     }

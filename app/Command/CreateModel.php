@@ -7,12 +7,12 @@ use think\console\Input;
 use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
+use think\db\ConnectionInterface;
 use think\db\PDOConnection;
 use think\facade\Db;
 use Zxin\Util;
 use function array_column;
 use function count;
-use function date;
 use function explode;
 use function file_put_contents;
 use function in_array;
@@ -25,6 +25,7 @@ use function str_pad;
 use function strlen;
 use function strpos;
 use function strrpos;
+use function trim;
 
 /**
  * 批量创建数据结构到模型
@@ -78,17 +79,13 @@ class CreateModel extends Command
         $output->info("Namespace:\t{$namespace}");
         $output->info("=========================================================");
 
-        Db::connect($connect);
-
-        // 获取数据库信息
-        $config = Db::getConfig();
-        $database = $config['connections']['main']['database'];
+        /** @var PDOConnection $db */
+        $db = Db::connect($connect);
+        $database = $db->getConfig()['database'];
 
         // 加载数据
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
         $sql = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
-        /** @var PDOConnection $db */
-        $db = $this->app->db->connect();
         $tables = $db->query($sql);
         $table_names = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
         $existsModels = scandir($export_path);
@@ -147,7 +144,7 @@ class CreateModel extends Command
 
             $output->warning('Create');
 
-            $class_text = $this->createModel($database, $table_name, $table_comment, $class_name, $namespace);
+            $class_text = $this->createModel($db, $database, $table_name, trim($table_comment), $class_name, $namespace);
 
             $file_name = $export_path . "{$class_name}.php";
 
@@ -164,39 +161,28 @@ class CreateModel extends Command
     }
 
     private function createModel(
+        ConnectionInterface $db,
         string $database,
         string $tableName,
         string $tableComment,
         string $className,
         string $namespaces
     ): string {
-        $build_date = date('Y/m/d');
-        $build_time = date('H:i');
-
-        /** @noinspection SqlNoDataSourceInspection */
+        /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
         $sql = "select * from information_schema.COLUMNS "
             . "where table_name = '{$tableName}' and table_schema = '{$database}'";
-        /** @var PDOConnection $db */
-        $db = $this->app->db->connect();
         $table_fields = $db->query($sql);
 
         $pk_field_name = '';
 
         $class_text = "<?php\n";
-        $class_text .= "/**\n";
-        $class_text .= " * Created by Automatic build\n";
-        $class_text .= " * User: System\n";
-        $class_text .= " * Date: {$build_date}\n";
-        $class_text .= " * Time: {$build_time}\n";
-        $class_text .= " */\n";
         $class_text .= "\n";
         $class_text .= "namespace {$namespaces};\n";
         $class_text .= "\n";
         $class_text .= "/**\n";
-        $class_text .= " * Model: {$tableComment}\n";
-        $class_text .= " * Class {$className}\n";
-        $class_text .= " * @package {$namespaces}\n";
-        $class_text .= " *\n";
+        if (!empty($tableComment)) {
+            $class_text .= " * model: {$tableComment}\n";
+        }
 
         $comment_arr = [];
         $max_type_len = 0;

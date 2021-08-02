@@ -144,17 +144,6 @@ function is_cli()
 }
 
 /**
- * 生成 uuid v4
- * @deprecated
- * @return string
- * @link https://stackoverflow.com/a/15875555/10242420
- */
-function uuidv4(): string
-{
-    return \Zxin\Util\uuidv4();
-}
-
-/**
  * 获取随机字符串
  * @param int $length
  * @param string|null $chars
@@ -195,30 +184,6 @@ function array_values_recursive(array $arr, ?string $filter_key = null)
     }
 
     return $arr;
-}
-
-/**
- * 是否关联数组
- * @deprecated use \array_is_list
- * @param array $arr
- * @return bool
- * @link https://github.com/laravel/framework/blob/5.7/src/Illuminate/Support/Arr.php#L357
- */
-function is_assoc(array $arr)
-{
-    return array_is_list($arr);
-}
-
-/**
- * 是否关联数组
- * @deprecated use \array_is_list
- * @param array $arr
- * @return bool
- * @link https://stackoverflow.com/a/173479/10242420
- */
-function is_assoc2(array $arr)
-{
-    return array_is_list($arr);
 }
 
 /**
@@ -311,20 +276,6 @@ function mb_strcut_omit(string $string, int $length, string $dot = '...', ?strin
 }
 
 /**
- * Env获取
- * @param string $key
- * @param mixed  $default
- * @param mixed  ...$argv
- * @return mixed
- * @deprecated
- */
-function env_get(string $key, $default, ...$argv)
-{
-    $key = sprintf($key, ...$argv);
-    return app()->get('env')->get($key, $default);
-}
-
-/**
  * @param string $rule
  * @param string $route
  * @param array  $ruleModel
@@ -344,7 +295,6 @@ function preload_statistics(): string
     if (!extension_loaded('Zend OPcache') || !function_exists('opcache_get_status')) {
         return 'opcache does not exist';
     }
-    /** @noinspection PhpComposerExtensionStubsInspection */
     $status = opcache_get_status(false);
     if (!isset($status['preload_statistics'])) {
         return 'opcache preload not activated';

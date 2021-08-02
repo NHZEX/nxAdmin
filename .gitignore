@@ -5,9 +5,10 @@
 /node_modules
 /vendor
 /public/dist
-/.env
-/.php_cs.cache
-/.phpunit.result.cache
-/yarn-error.log
 /test*.php
 /*.phar
+.env
+.php-cs-fixer.cache
+.php_cs.cache
+.phpunit.result.cache
+yarn-error.log

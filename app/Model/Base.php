@@ -15,8 +15,6 @@ use Tp\Model\Traits\OptimLock;
 use function defined;
 
 /**
- * Class Base
- * @package app\model
  * @method $this find(mixed $data = null) static 查询单个记录
  * @method $this findOrEmpty(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 不存在则返回空模型
  * @method Collection|$this[] select(mixed $data = null) static 查询多个记录

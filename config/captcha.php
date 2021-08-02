@@ -1,24 +1,33 @@
 <?php
 
+use app\Service\Captcha\CaptchaValidatorToken;
+use Zxin\Captcha\Captcha;
+
 return [
-    // 登陆验证码
-    'login'    => (bool) env('CAPTCHA_LOGIN', true),
-    // 验证码加密密钥
-    'seKey'    => env('DEPLOY_SECURITY_SALT') ?? 'null',
-    // 验证码过期时间（s）
-    'expire'   => 120,
+    // 访问限制
+    'throttle_rate'  => '30/m',
     // 验证码图片高度
-    'imageH'   => 38,
+    'imageH'         => 38,
     // 验证码图片宽度
-    'imageW'   => 130,
+    'imageW'         => 130,
     // 验证码字体大小(px)
-    'fontSize' => 18,
+    'fontSize'       => 18,
     // 验证码位数
-    'length'   => 4,
+    'length'         => 4,
     // 验证码字体
-    'fontttfs' => [],
+    'fontttfs'       => [],
     // 是否画混淆曲线
-    'useCurve' => true,
+    'useCurve'       => true,
     // 是否添加杂点
-    'useNoise' => true,
+    'useNoise'       => true,
+    // 使用背景图片
+    'useImgBg'       => false,
+    // 输出类型
+    'outputType'     => Captcha::OUTPUT_WEBP,
+    // 验证码密钥
+    'secureKey'      => env('DEPLOY_SECURITY_SALT') ?? 'null',
+    // 验证码过期时间（s）
+    'expire'         => 120,
+    // 验证驱动
+    'validatorClass' => CaptchaValidatorToken::class, // CaptchaValidatorToken::class
 ];
