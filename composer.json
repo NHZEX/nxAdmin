@@ -50,7 +50,7 @@
         "zxin/think-cors": "^2.1",
         "zxin/think-env": "^1.0.1",
         "zxin/think-redis": "^1.1.1",
-        "zxin/think-swoole": "v3.1.2.3",
+        "zxin/think-swoole": "3.1.2.4",
         "zxin/think-validate": "^1.1",
         "zxin/utils": "^2.2"
     },

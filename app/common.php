@@ -352,27 +352,3 @@ function get_server_software()
         return $_SERVER['SERVER_SOFTWARE'] ?? 'unknown';
     }
 }
-
-/**
- * @param int $byte
- * @param int $dec
- * @return string
- */
-function format_byte(int $byte, int $dec = 2): string
-{
-    $units = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB']; //
-    $count = count($units) - 1;
-    $pos  = 0;
-
-    $minus = $byte < 0;
-    $byte = abs($byte);
-
-    while ($byte >= 1024 && $pos < $count) {
-        $byte /= 1024;
-        $pos++;
-    }
-
-    $result = sprintf('%.2f', round($byte * ($minus ? -1 : 1), $dec));
-
-    return "{$result} {$units[$pos]}";
-}

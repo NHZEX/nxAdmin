@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "24471460f6d9f84be2d361eaa3dc0de0",
+    "content-hash": "71a738f6f51905801031ed2e5c1ea359",
     "packages": [
         {
             "name": "cakephp/core",
@@ -4162,16 +4162,16 @@
         },
         {
             "name": "zxin/think-swoole",
-            "version": "v3.1.2.3",
+            "version": "v3.1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-swoole.git",
-                "reference": "b08f5638fa6ca15005f19ba55ab849fda9dad28b"
+                "reference": "d0008ec5a6539fd7c0381d63cbf1e400961b04e8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-swoole/zipball/b08f5638fa6ca15005f19ba55ab849fda9dad28b",
-                "reference": "b08f5638fa6ca15005f19ba55ab849fda9dad28b",
+                "url": "https://api.github.com/repos/NHZEX/think-swoole/zipball/d0008ec5a6539fd7c0381d63cbf1e400961b04e8",
+                "reference": "d0008ec5a6539fd7c0381d63cbf1e400961b04e8",
                 "shasum": ""
             },
             "require": {
@@ -4187,7 +4187,6 @@
             "require-dev": {
                 "swoole/ide-helper": "^4.4.18",
                 "symfony/var-dumper": "^4.3|^5.1",
-                "topthink/think-queue": "^3.0",
                 "topthink/think-tracing": "^1.0"
             },
             "type": "library",
@@ -4221,9 +4220,9 @@
             ],
             "description": "Swoole extend for thinkphp",
             "support": {
-                "source": "https://github.com/NHZEX/think-swoole/tree/v3.1.2.3"
+                "source": "https://github.com/NHZEX/think-swoole/tree/v3.1.2.4"
             },
-            "time": "2021-08-02T09:59:56+00:00"
+            "time": "2021-08-02T10:50:58+00:00"
         },
         {
             "name": "zxin/think-symfony-bridge",
