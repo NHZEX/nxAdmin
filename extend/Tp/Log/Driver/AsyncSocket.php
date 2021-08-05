@@ -9,6 +9,7 @@ use Tp\Log\SocketDriver;
 use function date;
 use function file_put_contents;
 use function runtime_path;
+use function safe_get_coroutine_id;
 use function sprintf;
 use function strlen;
 use function zlib_encode;
@@ -30,7 +31,7 @@ final class AsyncSocket extends SocketDriver
      */
     protected function send($host, $port, $message = '', $address = '/')
     {
-        if (Coroutine::getCid() === -1) {
+        if (safe_get_coroutine_id() === -1) {
             return parent::send($host, $port, $message, $address);
         } else {
             return $this->asyncSend($host, $port, $message, $address);

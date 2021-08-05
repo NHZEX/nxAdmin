@@ -2,6 +2,7 @@
 
 /** @noinspection PhpUnused */
 
+use Swoole\Coroutine;
 use Swoole\Server;
 use think\db\PDOConnection;
 use think\facade\App;
@@ -343,12 +344,26 @@ function json_decode_ex(string $value, bool $assoc = true, int $depth = 512, int
 function get_server_software()
 {
     if (is_cli()) {
-        if (class_exists('\Swoole\Coroutine')) {
+        if (swoole_loaded()) {
             return \app()->has(Server::class) ? ('swoole/' . SWOOLE_VERSION) : 'cli';
         } else {
             return 'cli';
         }
     } else {
         return $_SERVER['SERVER_SOFTWARE'] ?? 'unknown';
+    }
+}
+
+function swoole_loaded(): bool
+{
+    return extension_loaded('swoole');
+}
+
+function safe_get_coroutine_id()
+{
+    if (swoole_loaded()) {
+        return Coroutine::getCid();
+    } else {
+        return -1;
     }
 }

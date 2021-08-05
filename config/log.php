@@ -5,16 +5,14 @@
 // +----------------------------------------------------------------------
 
 use app\Service\Swoole\SwooleService;
-use Swoole\Coroutine;
 use think\App;
 use Tp\Log\Driver\AsyncSocket;
-use Tp\Log\SocketDriver;
 use function Zxin\Util\format_byte;
 
 // 格式日志头
 $formatHead = function ($uir, App $app) {
     $method = $app->exists('request') ? $app->request->method() : 'NULL';
-    if (($cid = Coroutine::getCid()) !== -1) {
+    if (($cid = safe_get_coroutine_id()) !== -1) {
         $wid = SwooleService::getServer()->worker_id;
         $wid = $wid === -1 ? 'n' : $wid;
         $method = " [$method] [#{$wid},$cid]";
