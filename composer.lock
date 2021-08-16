@@ -4058,16 +4058,16 @@
         },
         {
             "name": "zxin/utils",
-            "version": "v2.3.0",
+            "version": "v2.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/php-utils.git",
-                "reference": "36c37b74445063c2640d99a5ff4fefaa9cf20fdf"
+                "reference": "4f31471ed524fd3ef422ee24f950040dd795414c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/36c37b74445063c2640d99a5ff4fefaa9cf20fdf",
-                "reference": "36c37b74445063c2640d99a5ff4fefaa9cf20fdf",
+                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/4f31471ed524fd3ef422ee24f950040dd795414c",
+                "reference": "4f31471ed524fd3ef422ee24f950040dd795414c",
                 "shasum": ""
             },
             "require": {
@@ -4116,9 +4116,9 @@
             "description": "util tools",
             "support": {
                 "issues": "https://github.com/NHZEX/php-utils/issues",
-                "source": "https://github.com/NHZEX/php-utils/tree/v2.3.0"
+                "source": "https://github.com/NHZEX/php-utils/tree/v2.3.1"
             },
-            "time": "2021-07-08T12:38:31+00:00"
+            "time": "2021-08-11T20:03:16+00:00"
         }
     ],
     "packages-dev": [
