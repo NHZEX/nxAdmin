@@ -8,21 +8,18 @@ use app\Traits\QuickHelper;
 use Generator;
 use think\db\Query;
 use think\Model as ThinkModel;
-use think\model\Collection;
 use Tp\Model\Traits\Attribute;
 use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
 use function defined;
 
 /**
- * @method $this find(mixed $data = null) static 查询单个记录
- * @method $this findOrEmpty(mixed $data = null,mixed $with =[],bool $cache= false) static 查询单个记录 不存在则返回空模型
- * @method Collection|$this[] select(mixed $data = null) static 查询多个记录
  * @method Generator|$this[] cursor($data = null) static 游标查询
  * @method ThinkModel withAttr($name, callable $callback = null) 设置数据字段获取器
  *
  * @method Query field($field)
  * @method Query fieldRaw(string $field)
+ * @method Query group(string|array $group)
  *
  * @method mixed transaction(callable $callback) static
  * @method void startTrans() static

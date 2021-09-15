@@ -4,7 +4,6 @@ namespace Tp\Db;
 
 use think\Model;
 use think\model\Collection;
-use Tp\Paginator2;
 
 /**
  * Class Query

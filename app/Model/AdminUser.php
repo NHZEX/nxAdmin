@@ -420,4 +420,17 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         }
         return $verify_result;
     }
+
+    /**
+     * @param array $userIds
+     * @return array
+     */
+    public static function queryUsernamesIgnoreIsolation(array $userIds): array
+    {
+        $userIds = array_filter(array_unique($userIds));
+        return (new AdminUser)
+            ->withoutGlobalScope()
+            ->whereIn('id', $userIds)
+            ->column('username', 'id');
+    }
 }

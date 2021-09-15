@@ -54,9 +54,10 @@ trait ModelHelper
      * 生成选项列表
      * @param array|null    $argv
      * @param callable|null $where
+     * @param callable|null $dbCallback
      * @return array
      */
-    public static function buildOption(array $argv = null, callable $where = null): array
+    public static function buildOption(array $argv = null, callable $where = null, callable $dbCallback = null): array
     {
         if ($argv === null) {
             $argv = static::BUILD_OPTION_ARGV;
@@ -86,6 +87,13 @@ trait ModelHelper
         $self = new static(); /** @phpstan-ignore-line 必须是 static */
         if ($where) {
             $self = $self->where($where);
+        }
+        if ($dbCallback) {
+            $result = $dbCallback($self);
+            if (!empty($result)) {
+                $self = $result;
+            }
+            unset($result);
         }
         $result = [];
         foreach ($self->cursor() as $item) {

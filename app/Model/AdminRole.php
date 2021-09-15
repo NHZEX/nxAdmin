@@ -162,9 +162,10 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
      * 获取角色列表
      * @param array|null    $argv
      * @param callable|null $where
+     * @param callable|null $dbCallback
      * @return array
      */
-    public static function buildOption(?array $argv = null, callable $where = null): array
+    public static function buildOption(?array $argv = null, callable $where = null, callable $dbCallback = null): array
     {
         return parent::buildOption([
            'id',
