@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c796ed4a145899837bf78b25f86e7f14",
+    "content-hash": "e1a9ff222c5951b4b756c8d2a2bc7b04",
     "packages": [
         {
             "name": "cakephp/core",
@@ -4596,6 +4596,74 @@
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.0"
             },
             "time": "2021-09-20T12:20:58+00:00"
+        },
+        {
+            "name": "perftools/php-profiler",
+            "version": "0.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/perftools/php-profiler.git",
+                "reference": "f0519dbdf4af476eb8bfd48c1d92f98fb20805f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/perftools/php-profiler/zipball/f0519dbdf4af476eb8bfd48c1d92f98fb20805f8",
+                "reference": "f0519dbdf4af476eb8bfd48c1d92f98fb20805f8",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^5.3.0 || ^7.0 || ^8.0"
+            },
+            "conflict": {
+                "perftools/xhgui-collector": "<1.8"
+            },
+            "require-dev": {
+                "alcaeus/mongo-php-adapter": "^1.1",
+                "perftools/xhgui-collector": "^1.8"
+            },
+            "suggest": {
+                "alcaeus/mongo-php-adapter": "Adapter to provide ext-mongo interface on top of mongo-php-library (PHP>=5.6)",
+                "ext-curl": "cURL extension for upload saver",
+                "ext-mongo": "mongo extension (PHP>=5.3,<7.0)",
+                "ext-mongodb": "mongodb extension (PHP>=5.4)",
+                "ext-tideways": "Use tideways to profile",
+                "ext-uprofiler": "Use uprofiler to profile",
+                "ext-xhprof": "Use xhprof to profile",
+                "perftools/xhgui-collector": "For mongodb or pdo savers"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Xhgui\\Profiler\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Lauri Piisang",
+                    "email": "lauri.piisang@eesti.ee"
+                },
+                {
+                    "name": "Elan Ruusamäe",
+                    "email": "glen@pld-linux.org"
+                }
+            ],
+            "description": "PHP Profiling based on XHGUI",
+            "support": {
+                "issues": "https://github.com/perftools/php-profiler/issues",
+                "source": "https://github.com/perftools/php-profiler/tree/0.19.0"
+            },
+            "time": "2021-08-09T04:21:07+00:00"
         },
         {
             "name": "phar-io/manifest",
