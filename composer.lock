@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c796ed4a145899837bf78b25f86e7f14",
+    "content-hash": "bb525e879d30735bca114d6234c44667",
     "packages": [
         {
             "name": "cakephp/core",
@@ -2041,23 +2041,17 @@
         },
         {
             "name": "rybakit/msgpack",
-            "version": "v0.8.0",
+            "version": "v0.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rybakit/msgpack.php.git",
-                "reference": "d4776c10493df1dd76f9d4d4b79ec5edffebfae9"
+                "reference": "c780f21d8340681100988dda78f7b950f443fb8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rybakit/msgpack.php/zipball/d4776c10493df1dd76f9d4d4b79ec5edffebfae9",
-                "reference": "d4776c10493df1dd76f9d4d4b79ec5edffebfae9",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/rybakit/msgpack.php/zipball/c780f21d8340681100988dda78f7b950f443fb8b",
+                "reference": "c780f21d8340681100988dda78f7b950f443fb8b",
+                "shasum": ""
             },
             "require": {
                 "php": "^7.1.1|^8"
@@ -2065,7 +2059,8 @@
             "require-dev": {
                 "ext-gmp": "*",
                 "friendsofphp/php-cs-fixer": "^2.14",
-                "phpunit/phpunit": "^7.1|^8|^9"
+                "phpunit/phpunit": "^7.1|^8|^9",
+                "vimeo/psalm": "^3.9|^4"
             },
             "suggest": {
                 "ext-decimal": "For converting overflowed integers to Decimal objects",
@@ -2096,7 +2091,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rybakit/msgpack.php/issues",
-                "source": "https://github.com/rybakit/msgpack.php/tree/v0.8.0"
+                "source": "https://github.com/rybakit/msgpack.php/tree/v0.9.0"
             },
             "funding": [
                 {
@@ -2104,7 +2099,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-18T07:41:20+00:00"
+            "time": "2021-10-25T20:12:31+00:00"
         },
         {
             "name": "symfony/config",

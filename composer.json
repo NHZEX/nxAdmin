@@ -34,7 +34,7 @@
         "hashids/hashids": "^4.0",
         "nhzex/think-blade": "^5.0.0",
         "nhzex/think-phinx": "^2.0.1",
-        "rybakit/msgpack": "^0.8",
+        "rybakit/msgpack": "^0.9",
         "symfony/finder": "^4.2|^5.1",
         "symfony/polyfill-php74": "^1.22",
         "symfony/polyfill-php80": "^1.22",
