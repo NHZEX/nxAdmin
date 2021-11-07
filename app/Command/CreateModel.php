@@ -133,7 +133,7 @@ class CreateModel extends Command
                 $output->error('Ignore');
                 continue;
             }
-            if (!$out_print && in_array("{$class_name}.php", $existsModels)) {
+            if (!$out_print && (in_array("{$class_name}.php", $existsModels) || in_array("{$class_name}Model.php", $existsModels))) {
                 $output->error('Exist');
                 continue;
             }
@@ -143,6 +143,8 @@ class CreateModel extends Command
             }
 
             $output->warning('Create');
+
+            $class_name = "{$class_name}Model";
 
             $class_text = $this->createModel($db, $database, $table_name, trim($table_comment), $class_name, $namespace);
 
