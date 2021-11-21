@@ -78,7 +78,7 @@ trait ControllerHelper
                     }
                     $condition = $input[$field];
                     if (isset($item['empty'])) {
-                        if (is_callable($item['empty']) && !$item['empty']($condition)) {
+                        if (is_callable($item['empty']) && !$item['empty']($condition, $input)) {
                             continue;
                         }
                     } else {
