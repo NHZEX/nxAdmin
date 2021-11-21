@@ -46,16 +46,16 @@ trait ControllerHelper
     }
 
     /**
-     * 组合筛选条件
-     * @param array $input 输入数据
-     * @param array $where 筛选设置 <string, string, string|null, callable|null, string[]|null>
-     *                     ['字段名', '操作符', '值', 'empty' => '验证方式', 'find' => '使用字段别名']
+     * 构建筛选条件
+     * @param array                                                                                        $input 输入数据
+     * @param array<int, array{string, string, string|null, empty: string|callable, find: array|callable}> $where 筛选设置
+     *                                                                                                            ['字段名', '操作符', '值', 'empty' => '值验证回调', 'find' => '值来源字段名']
      * @return array
      */
-    public function buildWhere($input, $where)
+    public function buildWhere(array $input, array $where): array
     {
         $data = [];
-        foreach ($where as $key => $item) {
+        foreach ($where as $item) {
             if (count($item) >= 2) {
                 [$whereField, $op] = $item;
                 $inputField  = $whereField;
@@ -100,7 +100,7 @@ trait ControllerHelper
     }
 
     /**
-     * 组合筛选条件 (支持闭包)
+     * 构建筛选条件 (延迟闭包)
      * @param array $input
      * @param array $where
      * @return Closure
@@ -123,9 +123,9 @@ trait ControllerHelper
     }
 
     /**
-     * @param array  $input
-     * @param string $orderField
-     * @return array [<string>$key => <string>$order]
+     * @param array|null $input
+     * @param string     $orderField
+     * @return array{string, string} [$field => $order]
      */
     public function buildOrder(?array $input = null, string $orderField = '_sort'): ?array
     {
