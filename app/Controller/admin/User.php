@@ -84,7 +84,6 @@ class User extends Base
      */
     public function update(int $id)
     {
-        /** @var AdminUser $result */
         $result = AdminUser::find($id);
         if (empty($result)) {
             return Reply::notFound();
