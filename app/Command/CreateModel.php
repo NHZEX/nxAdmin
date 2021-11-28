@@ -34,7 +34,7 @@ use function trim;
  */
 class CreateModel extends Command
 {
-    public const FILTE_TABLE = ["_phinxlog"];
+    public const FILTE_TABLE = ['_phinxlog', 'activity_log'];
 
     public const OUTPUT_ALIGN = 22;
 
