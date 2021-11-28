@@ -4066,16 +4066,16 @@
         },
         {
             "name": "zxin/think-auth",
-            "version": "v1.2.3",
+            "version": "v1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-auth.git",
-                "reference": "bc848e7db820a61f45288c326b1ea288c9880b73"
+                "reference": "0c2373bad976176f06eabf7f6b64092ae19f5a5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/bc848e7db820a61f45288c326b1ea288c9880b73",
-                "reference": "bc848e7db820a61f45288c326b1ea288c9880b73",
+                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/0c2373bad976176f06eabf7f6b64092ae19f5a5c",
+                "reference": "0c2373bad976176f06eabf7f6b64092ae19f5a5c",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4126,9 +4126,9 @@
             "description": "think auth",
             "support": {
                 "issues": "https://github.com/NHZEX/think-auth/issues",
-                "source": "https://github.com/NHZEX/think-auth/tree/v1.2.3"
+                "source": "https://github.com/NHZEX/think-auth/tree/v1.3.0"
             },
-            "time": "2021-10-05T07:45:30+00:00"
+            "time": "2021-11-28T15:16:42+00:00"
         },
         {
             "name": "zxin/think-captcha",
@@ -4502,16 +4502,16 @@
         },
         {
             "name": "zxin/utils",
-            "version": "v2.3.4",
+            "version": "v2.3.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/php-utils.git",
-                "reference": "5e090ecbccee27ff32b7e56f5f020cd6ef7bca86"
+                "reference": "8981747945e6de76f05fb886f61dfa8e1d728ae4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/5e090ecbccee27ff32b7e56f5f020cd6ef7bca86",
-                "reference": "5e090ecbccee27ff32b7e56f5f020cd6ef7bca86",
+                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/8981747945e6de76f05fb886f61dfa8e1d728ae4",
+                "reference": "8981747945e6de76f05fb886f61dfa8e1d728ae4",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4567,9 +4567,9 @@
             "description": "util tools",
             "support": {
                 "issues": "https://github.com/NHZEX/php-utils/issues",
-                "source": "https://github.com/NHZEX/php-utils/tree/v2.3.4"
+                "source": "https://github.com/NHZEX/php-utils/tree/v2.3.6"
             },
-            "time": "2021-10-16T08:03:24+00:00"
+            "time": "2021-11-20T01:44:30+00:00"
         }
     ],
     "packages-dev": [
