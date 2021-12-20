@@ -2873,13 +2873,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9a142215a36a3888e30d0a9eeea9766764e96976",
                 "reference": "9a142215a36a3888e30d0a9eeea9766764e96976",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.1"
@@ -2955,13 +2949,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-php73/zipball/fba8933c384d6476ab14fb7b8526e5287ca7e010",
                 "reference": "fba8933c384d6476ab14fb7b8526e5287ca7e010",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "shasum": ""
             },
             "require": {
                 "php": ">=7.1"
@@ -4517,23 +4505,17 @@
         },
         {
             "name": "zxin/utils",
-            "version": "v2.3.6",
+            "version": "v2.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/php-utils.git",
-                "reference": "8981747945e6de76f05fb886f61dfa8e1d728ae4"
+                "reference": "41549c33039b63650b95606ce9bc18707c13019b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/8981747945e6de76f05fb886f61dfa8e1d728ae4",
-                "reference": "8981747945e6de76f05fb886f61dfa8e1d728ae4",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/41549c33039b63650b95606ce9bc18707c13019b",
+                "reference": "41549c33039b63650b95606ce9bc18707c13019b",
+                "shasum": ""
             },
             "require": {
                 "ext-json": "*",
@@ -4582,9 +4564,9 @@
             "description": "util tools",
             "support": {
                 "issues": "https://github.com/NHZEX/php-utils/issues",
-                "source": "https://github.com/NHZEX/php-utils/tree/v2.3.6"
+                "source": "https://github.com/NHZEX/php-utils/tree/v2.3.7"
             },
-            "time": "2021-11-20T01:44:30+00:00"
+            "time": "2021-12-14T13:16:36+00:00"
         }
     ],
     "packages-dev": [
