@@ -21,6 +21,8 @@ use function defined;
  * @method Query fieldRaw(string $field)
  * @method Query group(string|array $group)
  *
+ * @method Query duplicate($duplicate)
+ *
  * @method mixed transaction(callable $callback) static
  * @method void startTrans() static
  * @method void commit() static

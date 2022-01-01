@@ -38,7 +38,7 @@ class Index extends Base
         }
 
         // 参数提取
-        isset($param['lasting']) ?: $param['lasting'] = false;
+        isset($param['lasting']) || ($param['lasting'] = false);
         ['account' => $account, 'password' => $password, 'lasting' => $rememberme] = $param;
 
         // 执行登陆操作
