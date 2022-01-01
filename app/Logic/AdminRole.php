@@ -10,8 +10,6 @@ use think\facade\Cache;
 use Zxin\Think\Auth\Permission;
 use function array_flip;
 use function array_intersect_key;
-use function count;
-use function explode;
 use function json_decode;
 
 class AdminRole extends Base
@@ -81,26 +79,6 @@ class AdminRole extends Base
             Cache::set($key, $allowPermission);
         }
         return $allowPermission;
-    }
-
-    /**
-     * @param int  $roleId
-     * @param bool $force
-     * @return array
-     */
-    public static function queryOnlyPermission(int $roleId, bool $force = false): array
-    {
-        $data = [];
-        foreach (self::queryPermission($roleId, $force) as $key => $v) {
-            $layer = explode('.', $key);
-            if (count($layer) > 1) {
-                for ($i = count($layer) - 2; $i >= 0; $i--) {
-                    $data[$layer[$i]] = true;
-                }
-            }
-            $data[$key] = true;
-        }
-        return $data;
     }
 
     /**

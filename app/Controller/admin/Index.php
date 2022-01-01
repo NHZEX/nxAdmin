@@ -2,7 +2,6 @@
 
 namespace app\Controller\admin;
 
-use app\Logic\AdminRole;
 use app\Logic\AdminUser;
 use app\Service\Auth\AuthHelper;
 use think\facade\Session;
@@ -79,10 +78,9 @@ class Index extends Base
             'role', 'password', 'remember', 'last_login_ip',
             'delete_time', 'group_id', 'lock_version', 'signup_ip',
         ]);
-        $role_id = $user->isSuperAdmin() ? -1 : $user->role_id;
         return Reply::success([
             'user' => $user,
-            'permission' => AdminRole::queryOnlyPermission($role_id),
+            'permission' => $user->getUnfoldPermission(),
         ]);
     }
 }

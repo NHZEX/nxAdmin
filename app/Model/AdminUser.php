@@ -11,6 +11,7 @@ use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
+use function explode;
 use function hash;
 use function is_null;
 use function password_hash;
@@ -239,6 +240,22 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         }
         return $this->permissions;
     }
+
+    public function getUnfoldPermission(): array
+    {
+        $data = [];
+        foreach ($this->permissions() as $key => $_) {
+            $layer = explode('.', $key);
+            if (count($layer) > 1) {
+                for ($i = count($layer) - 2; $i >= 0; $i--) {
+                    $data[$layer[$i]] = true;
+                }
+            }
+            $data[$key] = true;
+        }
+        return $data;
+    }
+
 
     public function attachSessionInfo(): array
     {
