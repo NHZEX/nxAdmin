@@ -28,7 +28,6 @@ use function password_verify;
  * @property string                 $email           邮箱地址
  * @property int                    $avatar          头像
  * @property int                    $role_id         角色ID
- * @property int                    $group_id        部门id
  * @property string                 $signup_ip       注册ip
  * @property int                    $create_time     创建时间
  * @property int                    $update_time     更新时间

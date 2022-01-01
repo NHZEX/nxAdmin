@@ -72,7 +72,6 @@ class Init extends AbstractMigration
                 $blueprint->string('email', 64)->nullable(true)->comment('用户邮箱');
                 $blueprint->string('avatar', 96)->nullable(true)->comment('用户头像');
                 $blueprint->unsignedInteger('role_id')->comment('角色ID');
-                $blueprint->unsignedInteger('group_id')->comment('部门ID');
                 $blueprint->string('signup_ip', 46)->ccAscii()->comment('注册IP');
                 $blueprint->createTime();
                 $blueprint->updateTime();
