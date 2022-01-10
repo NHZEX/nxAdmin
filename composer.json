@@ -36,7 +36,6 @@
         "nhzex/think-phinx": "^2.0.1",
         "rybakit/msgpack": "^0.9",
         "symfony/finder": "^4.2|^5.1",
-        "symfony/polyfill-php74": "^1.22",
         "symfony/polyfill-php80": "^1.22",
         "symfony/polyfill-php81": "^1.22",
         "symfony/var-dumper": "^4.2|^5.1",
@@ -58,6 +57,12 @@
         "phpstan/phpstan": "^1.0",
         "phpunit/phpunit": "^8|^9",
         "squizlabs/php_codesniffer": "^3.5"
+    },
+    "replace": {
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php73": "*",
+        "symfony/polyfill-php74": "*"
     },
     "autoload": {
         "psr-4": {
