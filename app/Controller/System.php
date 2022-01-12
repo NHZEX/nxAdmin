@@ -2,6 +2,7 @@
 
 namespace app\Controller;
 
+use app\Logic\SystemLogic;
 use think\App;
 use think\Response;
 use Util\Reply;
@@ -59,5 +60,15 @@ class System extends ApiBase
         return $captcha->sendResponse([
             'X-Captcha-Token' => $captcha->getValidator()->generateToken(),
         ]);
+    }
+
+    /**
+     * 重置缓存
+     * @Auth("admin.resetCache")
+     */
+    public function resetCache(SystemLogic $logic): Response
+    {
+        $logic->resetPermissionCache();
+        return Reply::success();
     }
 }

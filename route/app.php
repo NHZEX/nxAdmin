@@ -35,6 +35,7 @@ $r->group('system', function () use ($r) {
     $r->get('captcha', 'captcha')->middleware(Throttle::class, [
         'visit_rate' => App::getInstance()->config->get('captcha.throttle_rate', '60/m'),
     ]);
+    $r->post('resetCache', 'resetCache');
 })->prefix('system/');
 
 $r->group('admin', function () use ($r) {

@@ -34,8 +34,13 @@ class AdminRole extends Base
      */
     public static function destroyCache(AdminRoleModel $data)
     {
-        Cache::delete(self::$CACHE_ROLE . ':' . $data->id . ':ext');
-        Cache::delete(self::$CACHE_ROLE . ':' . $data->id . ':permission');
+        self::destroyCacheById($data->id);
+    }
+
+    public static function destroyCacheById(int $rid)
+    {
+        Cache::delete(self::$CACHE_ROLE . ':' . $rid . ':ext');
+        Cache::delete(self::$CACHE_ROLE . ':' . $rid . ':permission');
     }
 
     /**

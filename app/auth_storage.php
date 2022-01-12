@@ -1,6 +1,6 @@
 <?php
-// update date: 2021-07-02T17:46:31+08:00
-// hash: 5c5fb0c176d47e683ca34445261633bf
+// update date: 2022-01-12T10:18:31+08:00
+// hash: 35c2bfe591a59f43cb6a75270d394105
 return [
     'features' => [
         'node@admin.index/userinfo' => [
@@ -88,6 +88,11 @@ return [
             'policy' => '',
             'desc' => '',
         ],
+        'node@system/resetcache' => [
+            'class' => 'app\\Controller\\System::resetCache',
+            'policy' => '',
+            'desc' => '',
+        ],
     ],
     'permission' => [
         'admin' => [
@@ -130,6 +135,15 @@ return [
             'desc' => '扫描权限',
             'allow' => [
                 'node@admin.permission/scan',
+            ],
+        ],
+        'admin.resetCache' => [
+            'pid' => 'admin',
+            'name' => 'admin.resetCache',
+            'sort' => 0,
+            'desc' => '',
+            'allow' => [
+                'node@system/resetcache',
             ],
         ],
         'admin.role' => [
@@ -247,6 +261,9 @@ return [
         'admin.permission.scan' => [
             'node@admin.permission/scan',
         ],
+        'admin.resetCache' => [
+            'node@system/resetcache',
+        ],
         'admin.role' => [],
         'admin.role.add' => [
             'node@admin.role/save',
@@ -295,6 +312,9 @@ return [
         ],
         'node@admin.permission/scan' => [
             'admin.permission.scan' => true,
+        ],
+        'node@system/resetcache' => [
+            'admin.resetCache' => true,
         ],
         'node@admin.role/save' => [
             'admin.role.add' => true,
