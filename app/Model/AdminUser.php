@@ -11,6 +11,9 @@ use think\model\concern\SoftDelete;
 use think\model\relation\BelongsTo;
 use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
+use function array_filter;
+use function array_unique;
+use function count;
 use function explode;
 use function hash;
 use function is_null;
@@ -444,7 +447,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     public static function queryUsernamesIgnoreIsolation(array $userIds): array
     {
         $userIds = array_filter(array_unique($userIds));
-        return (new AdminUser)
+        return (new AdminUser())
             ->withoutGlobalScope()
             ->whereIn('id', $userIds)
             ->column('username', 'id');
