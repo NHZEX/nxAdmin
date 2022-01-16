@@ -19,15 +19,9 @@ $r = App::getInstance()->route;
 // 重定义资源路由
 $r->rest(ROUTE_DEFAULT_RESTFULL, true);
 
-$r->get('upload', function () {
-    return Response::create('404 Not Found', 'html', 404);
-});
-$r->get('static', function () {
-    return Response::create('404 Not Found', 'html', 404);
-});
-$r->get('storage', function () {
-    return Response::create('404 Not Found', 'html', 404);
-});
+$r->get('upload', fn() => Response::create('404 Not Found', 'html', 404));
+$r->get('static', fn() => Response::create('404 Not Found', 'html', 404));
+$r->get('storage', fn() => Response::create('404 Not Found', 'html', 404));
 
 $r->group('system', function () use ($r) {
     $r->get('config', 'config');

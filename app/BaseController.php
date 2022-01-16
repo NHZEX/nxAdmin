@@ -92,6 +92,7 @@ abstract class BaseController
      */
     protected function validate(array $data, $validate, array $message = [], bool $batch = false)
     {
+        $scene = null;
         if (is_array($validate)) {
             $v = new Validate();
             $v->rule($validate);

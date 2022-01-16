@@ -78,9 +78,7 @@ abstract class Base extends ValidateBase
         if ($valid->check($value) === false) {
             $error = $valid->getError();
             if (is_array($error)) {
-                return join(', ', array_map(function ($str) {
-                    return ":attribute->{$str}";
-                }, $error));
+                return join(', ', array_map(fn ($str) => ":attribute->{$str}", $error));
             } else {
                 return ":attribute->{$error}";
             }

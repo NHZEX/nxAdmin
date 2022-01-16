@@ -17,18 +17,9 @@ class Authorize
 {
     use JumpHelper;
 
-    /**
-     * @var App
-     */
-    private $app;
-    /**
-     * @var AuthGuard
-     */
-    private $auth;
-    /**
-     * @var Permission
-     */
-    private $permission;
+    private \think\App $app;
+    private \Zxin\Think\Auth\AuthGuard $auth;
+    private \Zxin\Think\Auth\Permission $permission;
 
     public function __construct(App $app, AuthGuard $auth, Permission $permission)
     {

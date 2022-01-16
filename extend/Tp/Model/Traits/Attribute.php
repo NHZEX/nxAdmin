@@ -38,6 +38,7 @@ trait Attribute
      */
     protected function readTransform($value, $type)
     {
+        $param = null;
         if ($value === null) {
             return null;
         }
@@ -106,6 +107,7 @@ trait Attribute
      */
     protected function writeTransform($value, $type)
     {
+        $param = null;
         if ($value === null) {
             return null;
         }

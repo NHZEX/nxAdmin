@@ -8,6 +8,7 @@ use app\Service\Transaction\MainTrans;
 use function array_map;
 use function bin2hex;
 use function count;
+use function is_countable;
 use function openssl_random_pseudo_bytes;
 use function str_starts_with;
 use function substr;
@@ -39,7 +40,7 @@ class System extends Base
         $database = $db->getConfig('database');
         /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
         $sql = "select * from `INFORMATION_SCHEMA`.`TABLES` where TABLE_SCHEMA='{$database}' and TABLE_NAME='system'";
-        return count($db->query($sql)) > 0;
+        return (is_countable($db->query($sql)) ? count($db->query($sql)) : 0) > 0;
     }
 
     /**

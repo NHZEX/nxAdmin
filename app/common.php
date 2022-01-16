@@ -155,7 +155,7 @@ function get_rand_str(int $length = 8, ?string $chars = null): string
     $text = '';
     $chars_max_index = strlen($chars) - 1;
     for ($i = 0; $i < $length; $i++) {
-        $text .= $chars[mt_rand(0, $chars_max_index)];
+        $text .= $chars[random_int(0, $chars_max_index)];
     }
     return $text;
 }
@@ -242,7 +242,7 @@ function query_mysql_exist_database(string $database, string $connect = null): b
     } else {
         $list = Db::connect()->query($sql);
     }
-    return count($list) > 0;
+    return (is_countable($list) ? count($list) : 0) > 0;
 }
 
 /**
@@ -287,9 +287,9 @@ function preload_statistics(): string
     return sprintf(
         'mem: %.2fMB, function: %d, class: %d, script: %d',
         $status['memory_consumption'] / 1024 / 1024,
-        count($status['functions']),
-        count($status['classes']),
-        count($status['scripts'])
+        is_countable($status['functions']) ? count($status['functions']) : 0,
+        is_countable($status['classes']) ? count($status['classes']) : 0,
+        is_countable($status['scripts']) ? count($status['scripts']) : 0
     );
 }
 

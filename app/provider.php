@@ -20,7 +20,7 @@ use Tp\Model\Event;
 return [
     'env' => EnvLoader::class,
     'log' => Log::class,
-    'think\Request' => Request::class,
-    'think\exception\Handle' => ExceptionHandle::class,
+    \think\Request::class => Request::class,
+    \think\exception\Handle::class => ExceptionHandle::class,
     'model.event' =>  Event::class,
 ];

@@ -37,7 +37,7 @@ class Attachment extends Base
 {
     public const PREFIX_IMAGE = 'images';
 
-    private $image_type = [];
+    private array $image_type = [];
 
     /**
      * @param UploadedFile        $file

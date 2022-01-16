@@ -15,9 +15,8 @@ class JsonAwareResponse extends Response
 {
     /**
      * Cache for performance
-     * @var array
      */
-    private $json;
+    private array $json;
 
     public function getJson()
     {

@@ -169,9 +169,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
     {
         return parent::buildOption([
             'id',
-            function ($item) {
-                return "[{$item['genreDesc']}] {$item['name']}";
-            },
+            fn ($item) => "[{$item['genreDesc']}] {$item['name']}",
             'type' => 'genre',
         ], $where);
     }

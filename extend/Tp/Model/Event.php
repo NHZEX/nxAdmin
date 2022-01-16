@@ -10,7 +10,7 @@ use function is_null;
 
 class Event
 {
-    private $event = [];
+    private array $event = [];
 
     /**
      * 注册回调方法

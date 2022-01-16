@@ -81,9 +81,7 @@ class Attachment extends Base
                     $val = null;
                 }
             }
-            return array_filter($pic_path, function ($v) {
-                return !empty($v);
-            });
+            return array_filter($pic_path, fn ($v) => !empty($v));
         } else {
             if ($result = self::parseUrl($pic_path)) {
                 return $result;
@@ -110,9 +108,7 @@ class Attachment extends Base
                     $val = null;
                 }
             }
-            return array_filter($pic_path, function ($v) {
-                return !empty($v);
-            });
+            return array_filter($pic_path, fn ($v) => !empty($v));
         } else {
             if ($result = self::parseUrl($pic_path)) {
                 return "{$pic_path}:{$result}";

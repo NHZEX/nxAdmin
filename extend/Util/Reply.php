@@ -185,7 +185,7 @@ class Reply
      */
     public static function message(?int $code, ?string $msg, ?array $data, int $httpCode): Response
     {
-        $code    = $code ?? CODE_ERROR;
+        $code ??= CODE_ERROR;
         $content = [
             'message' => $msg ?: self::strerror($code),
             'errno'   => $code,

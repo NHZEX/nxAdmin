@@ -99,9 +99,7 @@ trait MysqlJson
                 $value = "JSON_OBJECT({$tmp})";
                 unset($tmp);
             } else {
-                $value = join(',', array_map(function ($v) {
-                    return self::jsonValue($v);
-                }, $value));
+                $value = join(',', array_map(fn ($v) => self::jsonValue($v), $value));
                 $value = "JSON_ARRAY({$value})";
             }
         } else {

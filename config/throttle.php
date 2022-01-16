@@ -16,7 +16,5 @@ return [
     // 设置访问频率，例如 '10/m' 指的是允许每分钟请求10次。值 null 表示不限制， eg: null 10/m  20/h  300/d 200/300
     'visit_rate' => '60/m',
     // 访问受限时的响应信息闭包回调
-    'visit_fail_response' => function (Throttle $t, Request $request, int $waitSeconds) {
-        return Reply::bad(1, "{$request->url()}: 访问频率受到限制，请稍等{$waitSeconds}秒再试", null, 429);
-    },
+    'visit_fail_response' => fn(Throttle $t, Request $request, int $waitSeconds) => Reply::bad(1, "{$request->url()}: 访问频率受到限制，请稍等{$waitSeconds}秒再试", null, 429),
 ];
