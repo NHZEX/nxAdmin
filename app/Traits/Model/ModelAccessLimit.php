@@ -19,7 +19,7 @@ use function count;
  */
 trait ModelAccessLimit
 {
-    protected $withoutAccessLimit = false;
+    protected bool $withoutAccessLimit = false;
 
     public function withoutWriteAccessLimit()
     {
@@ -32,7 +32,10 @@ trait ModelAccessLimit
         if (!$this instanceof \app\Contracts\ModelAccessLimit) {
             return;
         }
-        if (empty($id = AuthHelper::id())) {
+        if (empty(AuthHelper::id())) {
+            return;
+        }
+        if ($query->getModel()->withoutAccessLimit) {
             return;
         }
         $genre = AuthHelper::userGenre();
