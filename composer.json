@@ -65,6 +65,9 @@
         "symfony/polyfill-php73": "*",
         "symfony/polyfill-php74": "*"
     },
+    "conflict": {
+        "topthink/think-orm": ">2.0.50"
+    },
     "autoload": {
         "psr-4": {
             "app\\": "app",
