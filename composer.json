@@ -109,5 +109,10 @@
         }
     },
     "repositories": [
+        {
+            "type":"composer",
+            "url": "https://mirrors.aliyun.com/composer/",
+            "canonical": false
+        }
     ]
 }
