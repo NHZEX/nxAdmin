@@ -8,6 +8,8 @@ use app\Model\Base;
 use Closure;
 use think\db\Query;
 use think\Model;
+use function array_diff;
+use function array_map;
 use function call_user_func;
 use function count;
 use function is_array;
@@ -110,5 +112,16 @@ trait ModelHelper
             $result[] = $tmp;
         }
         return $result;
+    }
+
+    public function getVisibleFields(array $exclude = [], ?string $as = null): array
+    {
+        $fields = $this->getTableFields();
+        $fields = array_diff($fields, $this->disuse, $exclude);
+        if ($as) {
+            return array_map(fn ($field) => "`{$as}`.`{$field}`", $fields);
+        } else {
+            return $fields;
+        }
     }
 }
