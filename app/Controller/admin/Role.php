@@ -20,12 +20,12 @@ use Zxin\Think\Validate\Annotation\Validation;
 class Role extends Base
 {
     /**
-     * @Auth("admin.role.info")
-     * @AuthMeta("获取角色信息")
      * @param int $limit
      * @return Response
      * @throws DbException
      */
+    #[Auth("admin.role.info")]
+    #[AuthMeta("获取角色信息")]
     public function index(int $limit = 1): Response
     {
         $where = $this->buildWhere($this->request->param(), [
@@ -41,12 +41,12 @@ class Role extends Base
     }
 
     /**
-     * @Auth("admin.role.info")
-     * @Auth("admin.user")
-     * @AuthMeta("获取角色信息")
      * @param int $genre
      * @return Response
      */
+    #[Auth("admin.role.info")]
+    #[Auth("admin.user")]
+    #[AuthMeta("获取角色信息")]
     public function select($genre = 0): Response
     {
         if (empty($genre)) {
@@ -61,14 +61,14 @@ class Role extends Base
     }
 
     /**
-     * @Auth("admin.role.info")
-     * @AuthMeta("获取角色信息")
      * @param int $id
      * @return Response
      * @throws DbException
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      */
+    #[Auth("admin.role.info")]
+    #[AuthMeta("获取角色信息")]
     public function read(int $id): Response
     {
         $result = AdminRole::find($id);
@@ -79,11 +79,11 @@ class Role extends Base
     }
 
     /**
-     * @Auth("admin.role.add")
-     * @AuthMeta("创建角色信息")
-     * @Validation("@Admin.Role")
      * @return Response
      */
+    #[Auth("admin.role.add")]
+    #[AuthMeta("创建角色信息")]
+    #[Validation("@Admin.Role")]
     public function save(): Response
     {
         AdminRole::create($this->getFilterInput());
@@ -91,15 +91,15 @@ class Role extends Base
     }
 
     /**
-     * @Auth("admin.role.edit")
-     * @AuthMeta("更改角色信息")
-     * @Validation("@Admin.Role")
      * @param string|int $id
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
      */
+    #[Auth("admin.role.edit")]
+    #[AuthMeta("更改角色信息")]
+    #[Validation("@Admin.Role")]
     public function update($id): Response
     {
         $data = AdminRole::find($id);
@@ -111,11 +111,11 @@ class Role extends Base
     }
 
     /**
-     * @Auth("admin.role.del")
-     * @AuthMeta("删除角色信息")
      * @param string|int $id
      * @return Response
      */
+    #[Auth("admin.role.del")]
+    #[AuthMeta("删除角色信息")]
     public function delete($id): Response
     {
         AdminRole::destroy($id);

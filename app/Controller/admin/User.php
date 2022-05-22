@@ -20,12 +20,12 @@ use function trim;
 class User extends Base
 {
     /**
-     * @Auth("admin.user.info")
-     * @AuthMeta("获取用户信息")
      * @param int $limit
      * @return Response
      * @throws DbException
      */
+    #[Auth("admin.user.info")]
+    #[AuthMeta("获取用户信息")]
     public function index(int $limit = 1)
     {
         $where = $this->buildWhere($this->request->param(), [
@@ -42,14 +42,14 @@ class User extends Base
     }
 
     /**
-     * @Auth("admin.user.info")
-     * @AuthMeta("获取用户信息")
      * @param int $id
      * @return Response
      * @throws DbException
      * @throws DataNotFoundException
      * @throws ModelNotFoundException
      */
+    #[Auth("admin.user.info")]
+    #[AuthMeta("获取用户信息")]
     public function read(int $id)
     {
         $result = AdminUser::find($id);
@@ -60,11 +60,11 @@ class User extends Base
     }
 
     /**
-     * @Auth("admin.user.add")
-     * @AuthMeta("添加用户信息")
-     * @Validation("@Admin.User", scene="_")
      * @return Response
      */
+    #[Auth("admin.user.add")]
+    #[AuthMeta("添加用户信息")]
+    #[Validation(name: "@Admin.User", scene: "_")]
     public function save()
     {
         AdminUser::create($this->getFilterInput());
@@ -73,15 +73,15 @@ class User extends Base
     }
 
     /**
-     * @Auth("admin.user.edit")
-     * @AuthMeta("更改用户信息")
-     * @Validation("@Admin.User", scene="_")
      * @param int $id
      * @return Response
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
      */
+    #[Auth("admin.user.edit")]
+    #[AuthMeta("更改用户信息")]
+    #[Validation(name: "@Admin.User", scene: "_")]
     public function update(int $id)
     {
         $result = AdminUser::find($id);
@@ -99,11 +99,11 @@ class User extends Base
     }
 
     /**
-     * @Auth("admin.user.del")
-     * @AuthMeta("删除用户信息")
      * @param int $id
      * @return Response
      */
+    #[Auth("admin.user.del")]
+    #[AuthMeta("删除用户信息")]
     public function delete(int $id)
     {
         AdminUser::destroy($id);

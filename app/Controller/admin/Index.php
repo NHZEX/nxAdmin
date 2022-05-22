@@ -68,9 +68,9 @@ class Index extends Base
 
     /**
      * 获取用户信息
-     * @Auth()
      * @return Response
      */
+    #[Auth]
     public function userInfo()
     {
         $user = AuthHelper::user();
