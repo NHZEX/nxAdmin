@@ -43,12 +43,12 @@
         "topthink/framework": "~6.0.7",
         "topthink/think-orm": "~2.0.41",
         "topthink/think-throttle": "^v1.3.0",
-        "zxin/think-auth": "^1.1",
+        "zxin/think-auth": "^2.0",
         "zxin/think-captcha": "^1.0",
         "zxin/think-cors": "^2.1",
         "zxin/think-env": "^1.0.1",
         "zxin/think-redis": "^1.1",
-        "zxin/think-validate": "^1.1",
+        "zxin/think-validate": "^2.0",
         "zxin/utils": "^2.2"
     },
     "require-dev": {
@@ -106,6 +106,7 @@
         "optimize-autoloader": true,
         "platform-check": "php-only",
         "platform": {
+            "php": "7.4"
         }
     },
     "repositories": [
