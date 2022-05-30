@@ -16,10 +16,6 @@ use function is_numeric;
 
 class Permission extends Base
 {
-    /**
-     * @param AuthPermission $permission
-     * @return Response
-     */
     #[Auth("admin.permission.info")]
     public function index(AuthPermission $permission): Response
     {
@@ -28,11 +24,6 @@ class Permission extends Base
         return Reply::success($data);
     }
 
-    /**
-     * @param string $id
-     * @param AuthPermission $permission
-     * @return Response
-     */
     #[Auth("admin.permission.info")]
     public function read(string $id, AuthPermission $permission): Response
     {
@@ -55,12 +46,6 @@ class Permission extends Base
         return Reply::success($info);
     }
 
-    /**
-     * @param string   $id
-     * @param AuthScan $authScan
-     * @param bool     $batch
-     * @return Response
-     */
     #[Auth("admin.permission.edit")]
     public function update(string $id, AuthScan $authScan, bool $batch = false): Response
     {
@@ -114,11 +99,6 @@ class Permission extends Base
         return Reply::success();
     }
 
-    /**
-     * 扫描权限
-     * @param AuthScan $authScan
-     * @return Response
-     */
     #[Auth("admin.permission.scan")]
     public function scan(AuthScan $authScan): Response
     {

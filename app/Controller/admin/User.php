@@ -3,10 +3,6 @@
 namespace app\Controller\admin;
 
 use app\Model\AdminUser;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
-use think\Response;
 use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\Annotation\AuthMeta;
@@ -19,11 +15,6 @@ use function trim;
  */
 class User extends Base
 {
-    /**
-     * @param int $limit
-     * @return Response
-     * @throws DbException
-     */
     #[Auth("admin.user.info")]
     #[AuthMeta("获取用户信息")]
     public function index(int $limit = 1)
@@ -41,13 +32,6 @@ class User extends Base
         return Reply::table($result);
     }
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws DbException
-     * @throws DataNotFoundException
-     * @throws ModelNotFoundException
-     */
     #[Auth("admin.user.info")]
     #[AuthMeta("获取用户信息")]
     public function read(int $id)
@@ -59,9 +43,6 @@ class User extends Base
         return Reply::success($result);
     }
 
-    /**
-     * @return Response
-     */
     #[Auth("admin.user.add")]
     #[AuthMeta("添加用户信息")]
     #[Validation(name: "@Admin.User", scene: "_")]
@@ -72,13 +53,6 @@ class User extends Base
         return Reply::create();
     }
 
-    /**
-     * @param int $id
-     * @return Response
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
-     */
     #[Auth("admin.user.edit")]
     #[AuthMeta("更改用户信息")]
     #[Validation(name: "@Admin.User", scene: "_")]
@@ -98,10 +72,6 @@ class User extends Base
         return Reply::success();
     }
 
-    /**
-     * @param int $id
-     * @return Response
-     */
     #[Auth("admin.user.del")]
     #[AuthMeta("删除用户信息")]
     public function delete(int $id)
