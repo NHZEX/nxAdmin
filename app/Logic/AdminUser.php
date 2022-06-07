@@ -64,18 +64,11 @@ class AdminUser extends Base
         try {
             // todo 防止账号登录失败导致会话残留
             app()->session->clear();
-            switch ($type) {
-                case self::LOGIN_TYPE_NAME:
-                    /** @var AdminUserModel|null $user */
-                    $user = (new AdminUserModel())->where('username', $username)->find();
-                    break;
-                case self::LOGIN_TYPE_EMAIL:
-                    /** @var AdminUserModel|null $user */
-                    $user = (new AdminUserModel())->where('email', $username)->find();
-                    break;
-                default:
-                    throw new RuntimeException("无法处理的类型：{$type}");
-            }
+            $user = match ($type) {
+                self::LOGIN_TYPE_NAME => (new AdminUserModel())->where('username', $username)->find(),
+                self::LOGIN_TYPE_EMAIL => (new AdminUserModel())->where('email', $username)->find(),
+                default => throw new RuntimeException("无法处理的类型：{$type}"),
+            };
             if (false === $user instanceof AdminUserModel) {
                 throw new BusinessResult('账号或密码错误');
             }
