@@ -31,10 +31,13 @@ class RecordAdapter implements RecordAdapterInterface
 
     public function writeRecord(Request $request, Response $response, ?RecordContext $recordContext, ?AuthContext $authContext): void
     {
-        $id = AuthHelper::id();
+        $userId = AuthHelper::id();
 
+        $extra = $recordContext->getExtra();
+        $module = $extra['__module'] ?? 'unknown';
         RecordModel::create([
-            'user_id' => $id,
+            'user_id' => $userId,
+            'module' => $module,
             'target' => $authContext->getFeature()['class'],
             'auth_name' => $authContext->getPermissionsLine() ?? '<super>',
             'method' => $request->method(true),
@@ -43,7 +46,7 @@ class RecordAdapter implements RecordAdapterInterface
             'http_code' => $response->getCode(),
             'resp_code' => $recordContext->getCode(),
             'resp_message' => $recordContext->getMessage(),
-            'details' => null,
+            'details' => $recordContext->getExtra(),
         ]);
     }
 }

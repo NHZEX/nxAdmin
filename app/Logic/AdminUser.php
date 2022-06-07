@@ -8,6 +8,7 @@ use RuntimeException;
 use think\db\exception\DbException;
 use think\facade\Request;
 use Zxin\Think\Auth\AuthGuard;
+use function app;
 use function filter_var;
 use function time;
 
@@ -61,6 +62,8 @@ class AdminUser extends Base
     public function login(string $type, string $username, string $password, bool $rememberme = false)
     {
         try {
+            // todo 防止账号登录失败导致会话残留
+            app()->session->clear();
             switch ($type) {
                 case self::LOGIN_TYPE_NAME:
                     /** @var AdminUserModel|null $user */

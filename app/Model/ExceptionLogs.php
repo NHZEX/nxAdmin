@@ -2,6 +2,7 @@
 
 namespace app\Model;
 
+use app\Service\Auth\AuthHelper;
 use think\App;
 use Throwable;
 use function get_class;
@@ -57,8 +58,9 @@ class ExceptionLogs extends Base
         $that->mode = "{$cli}/{$sapi}";
         $that->request_info = [
             'param' => $request->param(),
-            'server' => $request->server(),
-            'env' => $request->env(),
+            // 'server' => $request->server(),
+            // 'env' => $request->env(),
+            'userId' => AuthHelper::id(),
         ];
         $that->message = "[{$exception->getCode()}] {$exception->getMessage()}";
 

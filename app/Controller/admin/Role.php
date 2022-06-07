@@ -59,9 +59,6 @@ class Role extends Base
         return Reply::success($result);
     }
 
-    /**
-     * @return Response
-     */
     #[Auth("admin.role.add")]
     #[AuthMeta("创建角色信息")]
     #[Validation("@Admin.Role")]

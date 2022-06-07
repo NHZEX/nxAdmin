@@ -55,15 +55,18 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 
     public const GENRE_SYSTEM = 1;
     public const GENRE_AGENT = 2;
+    public const GENRE_OPERATOR = 5;
     public const GENRE_DICT = [
         self::GENRE_SYSTEM => '系统角色',
-        self::GENRE_AGENT => '代理角色',
+        // self::GENRE_AGENT => '代理角色',
+        self::GENRE_OPERATOR => '操作员角色',
     ];
 
     public const ACCESS_CONTROL = [
-        AdminUser::GENRE_SUPER_ADMIN => [self::GENRE_SYSTEM => 'rw', self::GENRE_AGENT => 'rw'],
-        AdminUser::GENRE_ADMIN => [self::GENRE_SYSTEM => 'r', self::GENRE_AGENT => 'rw', 'self' => 'r'],
-        AdminUser::GENRE_AGENT => ['self' => 'r'],
+        AdminUser::GENRE_SUPER_ADMIN => [self::GENRE_SYSTEM => 'rw', self::GENRE_OPERATOR => 'rw'],
+        AdminUser::GENRE_ADMIN => [self::GENRE_SYSTEM => 'r', self::GENRE_OPERATOR => 'rw', 'self' => 'r'],
+        // AdminUser::GENRE_AGENT => ['self' => 'r'],
+        AdminUser::GENRE_OPERATOR => ['self' => 'r'],
     ];
 
     public const EXT_PERMISSION = 'permission';

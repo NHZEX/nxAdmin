@@ -79,20 +79,24 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     public const GENRE_SUPER_ADMIN = 1;
     public const GENRE_ADMIN = 2;
     public const GENRE_AGENT = 3;
+    public const GENRE_OPERATOR = 5;
     public const GENRE_DICT = [
         self::GENRE_SUPER_ADMIN => '超级管理员',
         self::GENRE_ADMIN => '管理员',
-        self::GENRE_AGENT => '代理商',
+        // self::GENRE_AGENT => '代理商',
+        self::GENRE_OPERATOR => '操作员',
     ];
 
     public const ACCESS_CONTROL = [
         self::GENRE_SUPER_ADMIN => [
             self::GENRE_SUPER_ADMIN => 'rw',
             self::GENRE_ADMIN => 'rw',
-            self::GENRE_AGENT => 'rw'
+            // self::GENRE_AGENT => 'rw',
+            self::GENRE_OPERATOR => 'rw',
         ],
-        self::GENRE_ADMIN => [self::GENRE_ADMIN => 'r', self::GENRE_AGENT => 'rw', 'self' => 'rw'],
-        self::GENRE_AGENT => ['self' => 'r'],
+        self::GENRE_ADMIN => [self::GENRE_ADMIN => 'r', self::GENRE_OPERATOR => 'rw', 'self' => 'rw'],
+        // self::GENRE_AGENT => ['self' => 'r'],
+        self::GENRE_OPERATOR => ['self' => 'r'],
     ];
     public const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
     public const PWD_HASH_OPTIONS = ['cost' => 10];
@@ -216,6 +220,12 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     {
         return self::GENRE_AGENT === $this->genre;
     }
+
+        public function isOperator(): bool
+    {
+        return self::GENRE_OPERATOR === $this->genre;
+    }
+
 
     public function getIdentity()
     {
@@ -440,16 +450,46 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return $verify_result;
     }
 
-    /**
-     * @param array $userIds
-     * @return array
-     */
-    public static function queryUsernamesIgnoreIsolation(array $userIds): array
+    public static function queryUsernamesIgnoreIsolation(array $userIds, bool $isExpand = false): array
+    {
+        return self::queryUsernamesIgnoreLimit($userIds, $isExpand);
+    }
+
+    public static function queryUsernamesIgnoreLimit(array $userIds, bool $isExpand = false): array
     {
         $userIds = array_filter(array_unique($userIds));
-        return (new AdminUser())
+        if (empty($userIds)) {
+            return [];
+        }
+        $result = (new AdminUser)
             ->withoutGlobalScope()
             ->whereIn('id', $userIds)
-            ->column('username', 'id');
+            ->column(['username', 'nickname'], 'id');
+        $output = [];
+        foreach ($result as $key => $item) {
+            if ($isExpand) {
+                $output[$key] = "{$item['nickname']}({$item['username']})";
+            } else {
+                $output[$key] = $item['username'];
+            }
+        }
+        return $output;
+    }
+    public static function queryUsernameIgnoreLimit(int $userId, bool $isExpand = false): ?string
+    {
+        $result = (new AdminUser)
+            ->withoutGlobalScope()
+            ->where('id', '=', $userId)
+            ->limit(1)
+            ->column(['username', 'nickname', 'id']);
+        if (empty($result)) {
+            return null;
+        }
+        if ($isExpand) {
+            $output = "{$result[0]['nickname']}({$result[0]['username']})";
+        } else {
+            $output = $result[0]['username'];
+        }
+        return $output;
     }
 }
