@@ -29,8 +29,6 @@ use function trim;
 
 /**
  * 批量创建数据结构到模型
- * Class CreateModel
- * @package app\command
  */
 class CreateModel extends Command
 {
@@ -57,10 +55,10 @@ class CreateModel extends Command
     public function execute(Input $input, Output $output): int
     {
         $out_print = (bool) $input->getOption('print');
-        $save = (bool) $input->getOption('save');
-        $connect = $input->getOption('connect');
+        $save      = (bool) $input->getOption('save');
+        $connect   = $input->getOption('connect');
         $namespace = $input->getOption('namespace');
-        $out_dir = $input->getOption('dir');
+        $out_dir   = $input->getOption('dir');
 
         // 初始化
         $export_path = realpath($out_dir);
@@ -80,19 +78,19 @@ class CreateModel extends Command
         $output->info("=========================================================");
 
         /** @var PDOConnection $db */
-        $db = Db::connect($connect);
+        $db       = Db::connect($connect);
         $database = $db->getConfig()['database'];
 
         // 加载数据
         /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
-        $sql = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
-        $tables = $db->query($sql);
-        $table_names = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
+        $sql          = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
+        $tables       = $db->query($sql);
+        $table_names  = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
         $existsModels = scandir($export_path);
 
         // 指定导出表
         $need_table = $input->getArgument('table');
-        $is_need = !empty($need_table);
+        $is_need    = !empty($need_table);
         $need_table = explode(',', $need_table);
         if ($is_need) {
             foreach ($need_table as &$value) {
@@ -120,7 +118,7 @@ class CreateModel extends Command
 
         foreach ($table_names as $table_name => $table_comment) {
             $model_table_name = $table_name;
-            $class_name = Util::toUpperCamelCase($model_table_name);
+            $class_name       = Util::toUpperCamelCase($model_table_name);
 
             $output->write(
                 '<info>'
@@ -164,15 +162,15 @@ class CreateModel extends Command
 
     private function createModel(
         ConnectionInterface $db,
-        string $database,
-        string $tableName,
-        string $tableComment,
-        string $className,
-        string $namespaces
+        string              $database,
+        string              $tableName,
+        string              $tableComment,
+        string              $className,
+        string              $namespaces
     ): string {
         /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
-        $sql = "select * from information_schema.COLUMNS "
-            . "where table_name = '{$tableName}' and table_schema = '{$database}'";
+        $sql          = "select * from information_schema.COLUMNS "
+            . "where `table_name` = '{$tableName}' and `table_schema` = '{$database}' order by `ORDINAL_POSITION` ASC";
         $table_fields = $db->query($sql);
 
         $pk_field_name = '';
@@ -186,18 +184,19 @@ class CreateModel extends Command
             $class_text .= " * model: {$tableComment}\n";
         }
 
-        $comment_arr = [];
-        $max_type_len = 0;
+        $comment_arr   = [];
+        $max_type_len  = 0;
         $max_field_len = 0;
         foreach ($table_fields as $value) {
             $field_name = $value['COLUMN_NAME'];
-            $comment = $value['COLUMN_COMMENT'];
-            $comment = empty($comment) ? '' : (' ' . $comment);
+            $comment    = $value['COLUMN_COMMENT'];
+            $comment    = empty($comment) ? '' : (' ' . $comment);
 
             if ('PRI' === $value['COLUMN_KEY']) {
                 $pk_field_name = $field_name;
             }
             switch ($value['DATA_TYPE']) {
+                case 'bit':
                 case 'int':
                 case 'bigint':
                 case 'integer':
@@ -225,7 +224,7 @@ class CreateModel extends Command
                     $type = 'mixed';
             }
 
-            $max_type_len = max($max_type_len, strlen($type));
+            $max_type_len  = max($max_type_len, strlen($type));
             $max_field_len = max($max_field_len, strlen($field_name));
             $comment_arr[] = [$type, '$' . $field_name, $comment];
         }
@@ -233,7 +232,7 @@ class CreateModel extends Command
         foreach ($comment_arr as $value) {
             [$type, $field_name, $comment] = $value;
 
-            $type = str_pad($type, $max_type_len + 1);
+            $type       = str_pad($type, $max_type_len + 1);
             $field_name = empty($comment) ? $field_name : str_pad($field_name, $max_field_len + 1);
 
             $class_text .= " * @property {$type}{$field_name}{$comment}\n";
