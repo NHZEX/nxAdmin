@@ -6,10 +6,12 @@ use app\Service\Auth\AuthHelper;
 use think\App;
 use Throwable;
 use function get_class;
+use function json_encode_ex;
+use function strlen;
 use function substr;
+use function time;
 
 /**
- * model: 异常堆栈日志
  * @property int $create_time
  * @property string $request_url
  * @property string $request_route
@@ -36,14 +38,12 @@ class ExceptionLogs extends Base
     public const TYPE_HTTP = 'http';
 
     /**
-     * 压入日志
+     * 写入日志
      * @param Throwable $exception
      * @return bool
      */
     public static function push(Throwable $exception): bool
     {
-        $that = new self();
-
         $cli = is_cli() ? 'cli' : 'other';
         $sapi = PHP_SAPI;
 
@@ -51,18 +51,13 @@ class ExceptionLogs extends Base
         $http = App::getInstance()->http;
         $route_info = "route:{$http->getName()}/{$request->controller()}/{$request->action()}";
 
-        $that->request_ip = $request->ip();
-        $that->request_url = "{$request->host()}{$request->baseUrl()}";
-        $that->request_route = $route_info;
-        $that->request_method = $request->method();
-        $that->mode = "{$cli}/{$sapi}";
-        $that->request_info = [
+        $requestInfo = json_encode_ex([
             'param' => $request->param(),
-            // 'server' => $request->server(),
-            // 'env' => $request->env(),
             'userId' => AuthHelper::id(),
-        ];
-        $that->message = "[{$exception->getCode()}] {$exception->getMessage()}";
+        ]);
+        if (strlen($requestInfo) > 65535) {
+            $requestInfo = substr($requestInfo, 0, 65535 - 16) . '<cut...>';
+        }
 
         $msg = '';
         $trace = $exception;
@@ -72,9 +67,18 @@ class ExceptionLogs extends Base
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());
 
-        $that->trace_info = substr($msg, 0, 65535);
+        $traceInfo = substr($msg, 0, 65535);
 
-        $that->save();
+        (new self())->insert([
+            'create_time' => time(),
+            'request_url' => "{$request->host()}{$request->baseUrl()}",
+            'request_route' => $route_info,
+            'request_method' => $request->method(),
+            'mode' => "{$cli}/{$sapi}",
+            'request_info' => $requestInfo,
+            'message' => "[{$exception->getCode()}] {$exception->getMessage()}",
+            'trace_info' => $traceInfo,
+        ]);
         return true;
     }
 }
