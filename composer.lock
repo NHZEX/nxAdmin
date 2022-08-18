@@ -1190,16 +1190,16 @@
         },
         {
             "name": "nhzex/think-blade",
-            "version": "v5.0.1",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-blade.git",
-                "reference": "2f3d3435aba946c521817c3f1a64cd281060ba39"
+                "reference": "5aff667cd2632ebae2e973d4aa281ac1a4d5fa2b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/2f3d3435aba946c521817c3f1a64cd281060ba39",
-                "reference": "2f3d3435aba946c521817c3f1a64cd281060ba39",
+                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/5aff667cd2632ebae2e973d4aa281ac1a4d5fa2b",
+                "reference": "5aff667cd2632ebae2e973d4aa281ac1a4d5fa2b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1213,13 +1213,13 @@
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "php": "^7.2|^8.0",
-                "symfony/finder": "^5.0",
+                "symfony/finder": "^5.4|^6.0",
                 "topthink/framework": "~6.0.0",
                 "topthink/think-helper": "^3.1.1"
             },
             "require-dev": {
                 "doctrine/inflector": "^1.4|^2.0",
-                "phpunit/phpunit": "^7|^8",
+                "phpunit/phpunit": "^7|^8|^9",
                 "squizlabs/php_codesniffer": "^3.6",
                 "symfony/var-dumper": "^5.0",
                 "topthink/think-template": "^2.0",
@@ -1266,22 +1266,22 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-blade/issues",
-                "source": "https://github.com/NHZEX/think-blade/tree/v5.0.1"
+                "source": "https://github.com/NHZEX/think-blade/tree/v5.0.2"
             },
-            "time": "2021-12-01T12:56:01+00:00"
+            "time": "2022-08-08T10:18:18+00:00"
         },
         {
             "name": "nhzex/think-phinx",
-            "version": "v2.0.1",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-phinx.git",
-                "reference": "462a1b9f45c7e1fc1bb4907b3a465cf3750a813c"
+                "reference": "bbffc89edca31fb95e583f09fe55191d8b773f33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/462a1b9f45c7e1fc1bb4907b3a465cf3750a813c",
-                "reference": "462a1b9f45c7e1fc1bb4907b3a465cf3750a813c",
+                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/bbffc89edca31fb95e583f09fe55191d8b773f33",
+                "reference": "bbffc89edca31fb95e583f09fe55191d8b773f33",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1295,12 +1295,12 @@
                 "robmorgan/phinx": "~0.12.5",
                 "topthink/framework": "^6.0.6",
                 "topthink/think-orm": "^2.0.30",
-                "zxin/phinx-schema": "^1.0",
-                "zxin/think-symfony-bridge": "^1.0"
+                "zxin/phinx-schema": "^1.0.1",
+                "zxin/think-symfony-bridge": "^1.0|^2.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "^8|^9",
-                "symfony/var-dumper": "^5.0|^4.0"
+                "symfony/var-dumper": "^5.0|^6.0"
             },
             "type": "library",
             "extra": {
@@ -1323,7 +1323,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "Apache-2.0"
+                "MIT"
             ],
             "authors": [
                 {
@@ -1338,9 +1338,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-phinx/issues",
-                "source": "https://github.com/NHZEX/think-phinx/tree/v2.0.1"
+                "source": "https://github.com/NHZEX/think-phinx/tree/v2.1.0"
             },
-            "time": "2021-03-07T16:36:45+00:00"
+            "time": "2022-08-08T09:52:43+00:00"
         },
         {
             "name": "oscarotero/env",
@@ -2174,16 +2174,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v5.4.11",
+            "version": "v6.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "535846c7ee6bc4dd027ca0d93220601456734b10"
+                "reference": "09b8e50f09bf0e5bbde9b61b19d7f53751114725"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/535846c7ee6bc4dd027ca0d93220601456734b10",
-                "reference": "535846c7ee6bc4dd027ca0d93220601456734b10",
+                "url": "https://api.github.com/repos/symfony/console/zipball/09b8e50f09bf0e5bbde9b61b19d7f53751114725",
+                "reference": "09b8e50f09bf0e5bbde9b61b19d7f53751114725",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2193,33 +2193,29 @@
                 ]
             },
             "require": {
-                "php": ">=7.2.5",
-                "symfony/deprecation-contracts": "^2.1|^3",
+                "php": ">=8.0.2",
                 "symfony/polyfill-mbstring": "~1.0",
-                "symfony/polyfill-php73": "^1.9",
-                "symfony/polyfill-php80": "^1.16",
                 "symfony/service-contracts": "^1.1|^2|^3",
-                "symfony/string": "^5.1|^6.0"
+                "symfony/string": "^5.4|^6.0"
             },
             "conflict": {
-                "psr/log": ">=3",
-                "symfony/dependency-injection": "<4.4",
-                "symfony/dotenv": "<5.1",
-                "symfony/event-dispatcher": "<4.4",
-                "symfony/lock": "<4.4",
-                "symfony/process": "<4.4"
+                "symfony/dependency-injection": "<5.4",
+                "symfony/dotenv": "<5.4",
+                "symfony/event-dispatcher": "<5.4",
+                "symfony/lock": "<5.4",
+                "symfony/process": "<5.4"
             },
             "provide": {
-                "psr/log-implementation": "1.0|2.0"
+                "psr/log-implementation": "1.0|2.0|3.0"
             },
             "require-dev": {
-                "psr/log": "^1|^2",
-                "symfony/config": "^4.4|^5.0|^6.0",
-                "symfony/dependency-injection": "^4.4|^5.0|^6.0",
-                "symfony/event-dispatcher": "^4.4|^5.0|^6.0",
-                "symfony/lock": "^4.4|^5.0|^6.0",
-                "symfony/process": "^4.4|^5.0|^6.0",
-                "symfony/var-dumper": "^4.4|^5.0|^6.0"
+                "psr/log": "^1|^2|^3",
+                "symfony/config": "^5.4|^6.0",
+                "symfony/dependency-injection": "^5.4|^6.0",
+                "symfony/event-dispatcher": "^5.4|^6.0",
+                "symfony/lock": "^5.4|^6.0",
+                "symfony/process": "^5.4|^6.0",
+                "symfony/var-dumper": "^5.4|^6.0"
             },
             "suggest": {
                 "psr/log": "For using the console logger",
@@ -2259,7 +2255,7 @@
                 "terminal"
             ],
             "support": {
-                "source": "https://github.com/symfony/console/tree/v5.4.11"
+                "source": "https://github.com/symfony/console/tree/v6.0.11"
             },
             "funding": [
                 {
@@ -2275,7 +2271,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-07-22T10:42:43+00:00"
+            "time": "2022-07-22T14:17:38+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -4046,16 +4042,16 @@
         },
         {
             "name": "zxin/think-symfony-bridge",
-            "version": "v1.0.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-symfony-bridge.git",
-                "reference": "b2d16424045116ba880d8a320c9e9f2a033de2c4"
+                "reference": "cff6913229a60e65d594c3bd95608b8c3ab8a881"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-symfony-bridge/zipball/b2d16424045116ba880d8a320c9e9f2a033de2c4",
-                "reference": "b2d16424045116ba880d8a320c9e9f2a033de2c4",
+                "url": "https://api.github.com/repos/NHZEX/think-symfony-bridge/zipball/cff6913229a60e65d594c3bd95608b8c3ab8a881",
+                "reference": "cff6913229a60e65d594c3bd95608b8c3ab8a881",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4065,8 +4061,8 @@
                 ]
             },
             "require": {
-                "php": "^7.1|^8.0",
-                "symfony/console": "^4.4|^5.2",
+                "php": "^7.2|^8.0",
+                "symfony/console": "^5.4|^6.0",
                 "topthink/framework": "^6.0"
             },
             "type": "library",
@@ -4089,9 +4085,9 @@
             "description": "thinkphp symfony bridge",
             "support": {
                 "issues": "https://github.com/NHZEX/think-symfony-bridge/issues",
-                "source": "https://github.com/NHZEX/think-symfony-bridge/tree/v1.0.0"
+                "source": "https://github.com/NHZEX/think-symfony-bridge/tree/v2.0.0"
             },
-            "time": "2021-03-07T15:47:23+00:00"
+            "time": "2022-08-08T09:45:09+00:00"
         },
         {
             "name": "zxin/think-validate",
@@ -5785,7 +5781,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/rectorphp/rector/zipball/d1e069db8ad3b4aea2b968248370c21415e4c180",
                 "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": "^7.2|^8.0",
