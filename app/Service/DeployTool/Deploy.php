@@ -105,7 +105,7 @@ class Deploy extends Command
             'help' => '帮助',
             'env' => '常量管理',
             'user' => '用户管理',
-            'update' => '更新管理'
+            'update' => '更新管理',
         ];
 
         switch ($this->autoAction($action, $actionList)) {

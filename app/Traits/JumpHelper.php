@@ -84,7 +84,7 @@ trait JumpHelper
             $response = Response::create($result, $type)
                 ->header($header)
                 ->options([
-                    'jump_template' => app('config')->get('app.dispatch_error_tmpl')
+                    'jump_template' => app('config')->get('app.dispatch_error_tmpl'),
                 ]);
         }
 

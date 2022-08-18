@@ -90,7 +90,6 @@ trait Attribute
             default:
                 if (class_exists($type)) {
                     if (is_subclass_of($type, FieldTypeTransform::class)) {
-                        /** @noinspection PhpParamsInspection */
                         $value = $type::modelReadValue($value, $this);
                     } else {
                         // 对象类型
@@ -150,7 +149,6 @@ trait Attribute
                     $value = json_encode($value, JSON_FORCE_OBJECT);
                 }
                 break;
-            /** @noinspection PhpMissingBreakStatementInspection */
             case 'array':
                 $value = (array) $value;
                 // no break
@@ -164,7 +162,6 @@ trait Attribute
             default:
                 if (class_exists($type)) {
                     if (is_subclass_of($type, FieldTypeTransform::class)) {
-                        /** @noinspection PhpParamsInspection */
                         $value = $type::modelWriteValue($value, $this);
                     } elseif (is_object($value) && method_exists($value, '__toString')) {
                         // 对象类型

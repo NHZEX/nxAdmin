@@ -31,7 +31,7 @@ class ExceptionLogs extends Base
     protected $updateTime = false;
 
     protected $type = [
-        'request_info' => 'json'
+        'request_info' => 'json',
     ];
 
     public const TYPE_MIXED = 'mixed';

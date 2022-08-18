@@ -5,11 +5,11 @@ const RESOURCE_VERSION = '1.0';
 const CSRF_TOKEN = 'XSRF-Token';
 
 // 项目根目录
-define('ROOT_PATH', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
+\define('ROOT_PATH', realpath(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR);
 // 系统运行存储
-define('STORAGE_PATH', ROOT_PATH . 'storage' . DIRECTORY_SEPARATOR);
+\define('STORAGE_PATH', ROOT_PATH . 'storage' . DIRECTORY_SEPARATOR);
 // 公开访问文件夹
-define('PUBLIC_PATH', ROOT_PATH . 'public' . DIRECTORY_SEPARATOR);
+\define('PUBLIC_PATH', ROOT_PATH . 'public' . DIRECTORY_SEPARATOR);
 
 const ROUTE_DEFAULT_RESTFULL = [
     'index'  => ['get', '', 'index'],

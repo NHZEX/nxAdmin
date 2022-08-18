@@ -52,7 +52,7 @@ class ExceptionHandle extends Handle
     ];
 
     protected $ignoreHttpCode = [
-        404, 200, 201, 202, 204, 301, 302, 303, 304, 307
+        404, 200, 201, 202, 204, 301, 302, 303, 304, 307,
     ];
 
     /**

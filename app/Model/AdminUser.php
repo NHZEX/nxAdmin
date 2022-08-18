@@ -222,9 +222,9 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
         public function isOperator(): bool
-    {
-        return self::GENRE_OPERATOR === $this->genre;
-    }
+        {
+            return self::GENRE_OPERATOR === $this->genre;
+        }
 
 
     public function getIdentity()
@@ -461,7 +461,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         if (empty($userIds)) {
             return [];
         }
-        $result = (new AdminUser)
+        $result = (new AdminUser())
             ->withoutGlobalScope()
             ->whereIn('id', $userIds)
             ->column(['username', 'nickname'], 'id');
@@ -477,7 +477,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
     public static function queryUsernameIgnoreLimit(int $userId, bool $isExpand = false): ?string
     {
-        $result = (new AdminUser)
+        $result = (new AdminUser())
             ->withoutGlobalScope()
             ->where('id', '=', $userId)
             ->limit(1)

@@ -27,6 +27,6 @@ class RecordModel extends Model
     protected $table = 'activity_log';
     protected $pk    = 'id';
     protected $type = [
-        'details' => 'json'
+        'details' => 'json',
     ];
 }
