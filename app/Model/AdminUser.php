@@ -221,10 +221,10 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return self::GENRE_AGENT === $this->genre;
     }
 
-        public function isOperator(): bool
-        {
-            return self::GENRE_OPERATOR === $this->genre;
-        }
+    public function isOperator(): bool
+    {
+        return self::GENRE_OPERATOR === $this->genre;
+    }
 
 
     public function getIdentity()
