@@ -18,6 +18,14 @@ use function zlib_encode;
 
 class SocketDriver extends Socket
 {
+    protected $css = [
+        'sql'      => 'color:#009bb4;',
+        'sql_warn' => 'color:#009bb4;font-size:14px;',
+        'error'    => 'color:#f4006b;font-size:14px;',
+        'page'     => 'color:#4169e1;background:#dcdcdc;',
+        'big'      => 'font-size:20px;color:red;',
+    ];
+
     /**
      * @param string $host
      * @param int    $port
