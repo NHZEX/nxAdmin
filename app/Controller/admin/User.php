@@ -2,6 +2,7 @@
 
 namespace app\Controller\admin;
 
+use app\Logic\User\AdminUserLogic;
 use app\Model\AdminUser;
 use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
@@ -19,15 +20,7 @@ class User extends Base
     #[AuthMeta("获取用户信息")]
     public function index(int $limit = 1)
     {
-        $where = $this->buildWhere($this->request->param(), [
-            ['genre', '='],
-            ['role_id', '='],
-        ]);
-        $result = (new AdminUser())
-            ->where($where)
-            ->with(['beRoleName'])
-            ->append(['status_desc', 'genre_desc', 'avatar_data'])
-            ->paginate($limit);
+        $result = (new AdminUserLogic())->search($limit, $this->request->param());
 
         return Reply::table($result);
     }
