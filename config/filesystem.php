@@ -1,10 +1,10 @@
 <?php
 
-use think\facade\Env;
+// 目前已经弃用
 
 return [
     // 默认磁盘
-    'default' => Env::get('filesystem.driver', 'local'),
+    'default' => \env('filesystem.driver', 'local'),
     // 磁盘列表
     'disks'   => [
         'upload'  => [
