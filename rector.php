@@ -26,9 +26,12 @@ return static function (RectorConfig $rectorConfig): void {
         AddLiteralSeparatorToNumberRector::class,
     ]);
 
+    $rectorConfig->rules([]);
 
     // define sets of rules
     $rectorConfig->sets([
         LevelSetList::UP_TO_PHP_74,
     ]);
+
+    $rectorConfig->phpstanConfig(__DIR__ . '/phpstan.neon');
 };
