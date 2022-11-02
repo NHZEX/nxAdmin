@@ -85,7 +85,7 @@ class WhereHelper
             $tableName = $query->getTable();
             $tableName = is_array($tableName) ? $tableName[array_key_first($tableName)] : $tableName;
 
-            $where  = $this->buildWhere($input, $where);
+            $where  = static::buildWhere($input, $where);
             $output = [];
             foreach ($where as $value) {
                 $value[0] = "{$tableName}.{$value[0]}";
