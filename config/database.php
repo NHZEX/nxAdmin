@@ -1,5 +1,7 @@
 <?php
 
+use think\db\builder\Mysql as MysqlBuilder;
+use Tp\Db\Connector\Mysql as MysqlConnector;
 use Tp\Db\Query;
 
 return [
@@ -21,7 +23,7 @@ return [
     'connections' => [
         'main' => [
             // 数据库类型
-            'type'            => 'mysql',
+            'type'            => MysqlConnector::class,
             // 服务器地址
             'hostname'        => env('DB_MAIN_HOSTNAME', '127.0.0.1'),
             // 端口
@@ -55,7 +57,7 @@ return [
             // 监听SQL
             'trigger_sql'     => (bool) env('SQL_DEBUG', env('APP_DEBUG', false)),
             // Builder类
-            'builder'         => '',
+            'builder'         => MysqlBuilder::class,
             // Query类
             'query'           => Query::class,
             // 是否需要断线重连
