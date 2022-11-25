@@ -11,7 +11,6 @@
 // +----------------------------------------------------------------------
 
 use think\facade\App;
-use think\middleware\Throttle;
 use think\Response;
 
 $r = App::getInstance()->route;
@@ -22,34 +21,5 @@ $r->rest(ROUTE_DEFAULT_RESTFULL, true);
 $r->get('upload', fn() => Response::create('404 Not Found', 'html', 404));
 $r->get('static', fn() => Response::create('404 Not Found', 'html', 404));
 $r->get('storage', fn() => Response::create('404 Not Found', 'html', 404));
-
-$r->group('system', function () use ($r) {
-    $r->get('config', 'config');
-    $r->get('sysinfo', 'sysinfo');
-    $r->get('captcha', 'captcha')->middleware(Throttle::class, [
-        'visit_rate' => App::getInstance()->config->get('captcha.throttle_rate', '60/m'),
-    ]);
-    $r->post('resetCache', 'resetCache');
-})->prefix('system/');
-
-$r->group('admin', function () use ($r) {
-    $r->post('login', 'login');
-    $r->get('logout', 'logout');
-    $r->get('user-info', 'userInfo');
-})->prefix('admin.index/');
-
-$r->group('admin', function () use ($r) {
-    $r->resource('users', 'user');
-    $r->resource('roles', 'role');
-
-    roule_resource('permission', 'permission', [
-        'scan' => ['get', 'scan', 'scan'],
-    ])->pattern([
-        'id' => '[\w\.\-]+'
-    ]);
-})->prefix('admin.')->pattern([
-    'id' => '\d+',
-    'name' => '\w+',
-]);
 
 return [];

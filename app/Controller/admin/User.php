@@ -7,13 +7,16 @@ use app\Model\AdminUser;
 use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\Annotation\AuthMeta;
+use Zxin\Think\Route\Annotation\Group;
+use Zxin\Think\Route\Annotation\Resource;
 use Zxin\Think\Validate\Annotation\Validation;
 use function trim;
 
 /**
  * Class User
- * @package app\Controller\admin
  */
+#[Group('admin', registerSort: 3000)]
+#[Resource('users')]
 class User extends Base
 {
     #[Auth("admin.user.info")]

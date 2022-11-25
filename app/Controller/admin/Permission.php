@@ -9,11 +9,16 @@ use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthScan;
 use Zxin\Think\Auth\Permission as AuthPermission;
+use Zxin\Think\Route\Annotation\Group;
+use Zxin\Think\Route\Annotation\Resource;
+use Zxin\Think\Route\Annotation\ResourceRule;
 use function array_merge;
 use function count;
 use function is_array;
 use function is_numeric;
 
+#[Group('admin')]
+#[Resource('permission')]
 class Permission extends Base
 {
     #[Auth("admin.permission.info")]
@@ -100,6 +105,7 @@ class Permission extends Base
     }
 
     #[Auth("admin.permission.scan")]
+    #[ResourceRule('scan', method: 'GET')]
     public function scan(AuthScan $authScan): Response
     {
         if (!$this->allowAccess()) {

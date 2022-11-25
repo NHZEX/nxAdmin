@@ -4,22 +4,28 @@ namespace app\Controller;
 
 use app\Logic\SystemLogic;
 use think\App;
+use think\middleware\Throttle;
 use think\Response;
 use Util\Reply;
 use Zxin\Captcha\Captcha;
 use Zxin\Think\Auth\Annotation\Auth;
+use Zxin\Think\Route\Annotation\Group;
+use Zxin\Think\Route\Annotation\Middleware;
+use Zxin\Think\Route\Annotation\Route;
 use function ini_get;
 use function php_uname;
 use function realpath_cache_size;
 use const PHP_SAPI;
 use const PHP_VERSION;
 
+#[Group('system')]
 class System extends ApiBase
 {
     /**
      * 基本系统设置
      */
-    public function config()
+    #[Route(method: 'GET')]
+    public function config(): Response
     {
         return Reply::success([
             'webTitle' => env('SYSTEM_WEB_TITLE'),
@@ -27,11 +33,9 @@ class System extends ApiBase
         ]);
     }
 
-    /**
-     * @Auth()
-     * @return Response
-     */
-    public function sysinfo()
+    #[Auth()]
+    #[Route(method: 'GET')]
+    public function sysinfo(): Response
     {
         return Reply::success([
             'sys_version' => ['服务器系统', php_uname()],
@@ -51,10 +55,12 @@ class System extends ApiBase
 
     /**
      * 获取一个验证码
-     * @param Captcha $captcha
-     * @return Response
      */
-    public function captcha(Captcha $captcha)
+    #[Route(method: 'GET', middleware: [])]
+    #[Middleware(Throttle::class, [
+        ['visit_rate' => CAPTCHA_THROTTLE_RATE],
+    ])]
+    public function captcha(Captcha $captcha): Response
     {
         $captcha->entry();
         return $captcha->sendResponse([
@@ -64,8 +70,9 @@ class System extends ApiBase
 
     /**
      * 重置缓存
-     * @Auth("admin.resetCache")
      */
+    #[Auth("admin.resetCache")]
+    #[Route(method: 'GET')]
     public function resetCache(SystemLogic $logic): Response
     {
         $logic->resetPermissionCache();

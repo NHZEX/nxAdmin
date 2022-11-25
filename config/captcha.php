@@ -3,9 +3,11 @@
 use app\Service\Captcha\CaptchaValidatorToken;
 use Zxin\Captcha\Captcha;
 
+const CAPTCHA_THROTTLE_RATE = '10/m';
+
 return [
     // 访问限制
-    'throttle_rate'  => '30/m',
+    'throttle_rate'  => CAPTCHA_THROTTLE_RATE,
     // 验证码图片高度
     'imageH'         => 38,
     // 验证码图片宽度

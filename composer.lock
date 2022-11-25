@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e6013c76760386f83c7b808de5e939e6",
+    "content-hash": "233760b68b9641c80a521a428281ea2f",
     "packages": [
+        {
+            "name": "brick/varexporter",
+            "version": "0.3.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brick/varexporter.git",
+                "reference": "3e263cd718d242594c52963760fee2059fd5833c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brick/varexporter/zipball/3e263cd718d242594c52963760fee2059fd5833c",
+                "reference": "3e263cd718d242594c52963760fee2059fd5833c",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.0",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "php-coveralls/php-coveralls": "^2.2",
+                "phpunit/phpunit": "^8.5 || ^9.0",
+                "vimeo/psalm": "4.23.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Brick\\VarExporter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A powerful alternative to var_export(), which can export closures and objects without __set_state()",
+            "keywords": [
+                "var_export"
+            ],
+            "support": {
+                "issues": "https://github.com/brick/varexporter/issues",
+                "source": "https://github.com/brick/varexporter/tree/0.3.7"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/BenMorel",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-06-29T23:37:57+00:00"
+        },
         {
             "name": "cakephp/core",
             "version": "4.4.7",
@@ -1284,6 +1333,62 @@
                 "source": "https://github.com/NHZEX/think-phinx/tree/v2.1.0"
             },
             "time": "2022-08-08T09:52:43+00:00"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v4.15.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
+                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "ircmaxell/php-yacc": "^0.0.7",
+                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.9-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/nikic/PHP-Parser/issues",
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.2"
+            },
+            "time": "2022-11-12T15:38:23+00:00"
         },
         {
             "name": "oscarotero/env",
@@ -3591,17 +3696,23 @@
         },
         {
             "name": "zxin/think-annotation",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-annotation.git",
-                "reference": "7b93cd5e6e5159bb8fc84a965cbb9d081f83237e"
+                "reference": "9101c12d5e3b2b56d1de30bc142f0ce7212276fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-annotation/zipball/7b93cd5e6e5159bb8fc84a965cbb9d081f83237e",
-                "reference": "7b93cd5e6e5159bb8fc84a965cbb9d081f83237e",
-                "shasum": ""
+                "url": "https://api.github.com/repos/NHZEX/think-annotation/zipball/9101c12d5e3b2b56d1de30bc142f0ce7212276fc",
+                "reference": "9101c12d5e3b2b56d1de30bc142f0ce7212276fc",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": "^7.4|^8.0",
@@ -3640,9 +3751,9 @@
             "description": "think annotation",
             "support": {
                 "issues": "https://github.com/NHZEX/think-annotation/issues",
-                "source": "https://github.com/NHZEX/think-annotation/tree/v1.1.0"
+                "source": "https://github.com/NHZEX/think-annotation/tree/v1.1.1"
             },
-            "time": "2022-06-07T07:21:31+00:00"
+            "time": "2022-11-23T04:07:45+00:00"
         },
         {
             "name": "zxin/think-auth",
@@ -3952,6 +4063,74 @@
                 "source": "https://github.com/NHZEX/think-redis/tree/v1.2.0"
             },
             "time": "2021-07-23T09:57:42+00:00"
+        },
+        {
+            "name": "zxin/think-route",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/think-annotation-route.git",
+                "reference": "6245f63d6dea8134c0448b45b0ae10609cf99ae3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/think-annotation-route/zipball/6245f63d6dea8134c0448b45b0ae10609cf99ae3",
+                "reference": "6245f63d6dea8134c0448b45b0ae10609cf99ae3",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "brick/varexporter": "^0.3.7",
+                "doctrine/annotations": "^1.13",
+                "php": "^7.4|^8.0",
+                "symfony/polyfill-php80": "^1.25",
+                "topthink/framework": "^6.0.3",
+                "zxin/think-annotation": "^1.1.1",
+                "zxin/utils": "^2.3"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8|^9",
+                "rector/rector": "^0.13.4"
+            },
+            "bin": [
+                "bin/dump-route"
+            ],
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [],
+                    "config": []
+                }
+            },
+            "autoload": {
+                "files": [],
+                "psr-4": {
+                    "Zxin\\Think\\Route\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "auooru",
+                    "email": "auooru@outlook.com"
+                }
+            ],
+            "description": "think auth",
+            "support": {
+                "issues": "https://github.com/NHZEX/think-annotation-route/issues",
+                "source": "https://github.com/NHZEX/think-annotation-route/tree/v1.0.0"
+            },
+            "time": "2022-11-24T14:48:52+00:00"
         },
         {
             "name": "zxin/think-symfony-bridge",
@@ -4601,62 +4780,6 @@
                 }
             ],
             "time": "2022-03-03T13:19:32+00:00"
-        },
-        {
-            "name": "nikic/php-parser",
-            "version": "v4.15.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
-                "reference": "f59bbe44bf7d96f24f3e2b4ddc21cd52c1d2adbc",
-                "shasum": ""
-            },
-            "require": {
-                "ext-tokenizer": "*",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "ircmaxell/php-yacc": "^0.0.7",
-                "phpunit/phpunit": "^6.5 || ^7.0 || ^8.0 || ^9.0"
-            },
-            "bin": [
-                "bin/php-parse"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.9-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PhpParser\\": "lib/PhpParser"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Nikita Popov"
-                }
-            ],
-            "description": "A PHP parser written in PHP",
-            "keywords": [
-                "parser",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.2"
-            },
-            "time": "2022-11-12T15:38:23+00:00"
         },
         {
             "name": "phar-io/manifest",

@@ -49,6 +49,7 @@
         "zxin/think-cors": "^2.1",
         "zxin/think-env": "^1.0.1",
         "zxin/think-redis": "^1.1",
+        "zxin/think-route": "^1.0",
         "zxin/think-validate": "^2.0",
         "zxin/utils": "^2.2"
     },

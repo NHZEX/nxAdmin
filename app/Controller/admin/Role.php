@@ -8,12 +8,16 @@ use think\Response;
 use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\Annotation\AuthMeta;
+use Zxin\Think\Route\Annotation\Group;
+use Zxin\Think\Route\Annotation\Resource;
 use Zxin\Think\Validate\Annotation\Validation;
 
 /**
  * Class Role
  * @package app\Controller\admin
  */
+#[Group('admin', registerSort: 2900)]
+#[Resource('roles')]
 class Role extends Base
 {
     #[Auth("admin.role.info")]

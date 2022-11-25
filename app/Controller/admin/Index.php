@@ -6,23 +6,23 @@ use app\Logic\AdminUser;
 use app\Service\Auth\AuthHelper;
 use think\facade\Session;
 use think\Response;
-use think\response\View;
 use Util\Reply;
 use Zxin\Captcha\Captcha;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\AuthGuard;
+use Zxin\Think\Route\Annotation\Group;
+use Zxin\Think\Route\Annotation\Route;
 use Zxin\Think\Validate\Annotation\Validation;
 
+#[Group('admin', registerSort: 3000)]
 class Index extends Base
 {
     /**
      * 登陆
-     * @Validation("@Login")
-     * @param AdminUser $adminUser
-     * @param Captcha   $captcha
-     * @return Response
      */
-    public function login(AdminUser $adminUser, Captcha $captcha)
+    #[Validation("@Login")]
+    #[Route(method: 'POST')]
+    public function login(AdminUser $adminUser, Captcha $captcha): Response
     {
         $param = $this->request->param();
 
@@ -54,10 +54,9 @@ class Index extends Base
 
     /**
      * 退出登陆
-     * @param AuthGuard $auth
-     * @return Response|View
      */
-    public function logout(AuthGuard $auth)
+    #[Route(method: 'GET')] // 应该淘汰 GET 吧
+    public function logout(AuthGuard $auth): Response
     {
         if ($auth->check()) {
             $auth->logout();
@@ -68,10 +67,10 @@ class Index extends Base
 
     /**
      * 获取用户信息
-     * @return Response
      */
     #[Auth]
-    public function userInfo()
+    #[Route('user-info', method: 'GET')]
+    public function userInfo(): Response
     {
         $user = AuthHelper::user();
         $user->hidden([
