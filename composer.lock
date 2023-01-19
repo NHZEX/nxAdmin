@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "233760b68b9641c80a521a428281ea2f",
+    "content-hash": "fc07dbba83fc9b1fff0a48389cb695ad",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -4974,23 +4974,17 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.9.2",
+            "version": "1.9.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d6fdf01c53978b6429f1393ba4afeca39cc68afa"
+                "reference": "a0922426da3a7d0d9334e99a363f7f9f6e23e84f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d6fdf01c53978b6429f1393ba4afeca39cc68afa",
-                "reference": "d6fdf01c53978b6429f1393ba4afeca39cc68afa",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/a0922426da3a7d0d9334e99a363f7f9f6e23e84f",
+                "reference": "a0922426da3a7d0d9334e99a363f7f9f6e23e84f",
+                "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0"
@@ -5019,7 +5013,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.9.2"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.13"
             },
             "funding": [
                 {
@@ -5035,7 +5029,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-10T09:56:11+00:00"
+            "time": "2023-01-18T15:26:53+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -5545,16 +5539,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "0.13.10",
+            "version": "0.15.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180"
+                "reference": "a43370e1f4c47aaa96c0f85bf9db73db1be7552f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/d1e069db8ad3b4aea2b968248370c21415e4c180",
-                "reference": "d1e069db8ad3b4aea2b968248370c21415e4c180",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/a43370e1f4c47aaa96c0f85bf9db73db1be7552f",
+                "reference": "a43370e1f4c47aaa96c0f85bf9db73db1be7552f",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -5565,17 +5559,13 @@
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.8.2"
+                "phpstan/phpstan": "^1.9.7"
             },
             "conflict": {
-                "phpstan/phpdoc-parser": "<1.6.2",
-                "rector/rector-cakephp": "*",
                 "rector/rector-doctrine": "*",
-                "rector/rector-laravel": "*",
-                "rector/rector-nette": "*",
-                "rector/rector-phpoffice": "*",
+                "rector/rector-downgrade-php": "*",
+                "rector/rector-php-parser": "*",
                 "rector/rector-phpunit": "*",
-                "rector/rector-prefixed": "*",
                 "rector/rector-symfony": "*"
             },
             "bin": [
@@ -5584,7 +5574,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "0.13-dev"
+                    "dev-main": "0.14-dev"
                 }
             },
             "autoload": {
@@ -5599,7 +5589,7 @@
             "description": "Instant Upgrade and Automated Refactoring of any PHP code",
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/0.13.10"
+                "source": "https://github.com/rectorphp/rector/tree/0.15.7"
             },
             "funding": [
                 {
@@ -5607,7 +5597,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-08-03T12:48:10+00:00"
+            "time": "2023-01-13T21:14:19+00:00"
         },
         {
             "name": "sebastian/cli-parser",
