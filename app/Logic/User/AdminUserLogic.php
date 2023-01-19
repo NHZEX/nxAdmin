@@ -16,8 +16,8 @@ class AdminUserLogic extends Base
             ['genre', '='],
             ['role_id', '='],
             ['status', '=', 'empty' => '\issue'],
-            ['username', 'LIKE', fn ($val) => trim($val) . '%'],
-            ['nickname', 'LIKE', fn ($val) => trim($val) . '%'],
+            ['username', 'like', fn ($val) => trim($val) . '%'],
+            ['nickname', 'like', fn ($val) => trim($val) . '%'],
         ]);
 
         return (new AdminUser())

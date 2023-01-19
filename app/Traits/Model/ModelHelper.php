@@ -114,14 +114,74 @@ trait ModelHelper
         return $result;
     }
 
-    public function getVisibleFields(array $exclude = [], ?string $as = null): array
+    public static function getVisibleFields(array $exclude = [], ?string $as = null, array $only = []): array
     {
-        $fields = $this->getTableFields();
-        $fields = array_diff($fields, $this->disuse, $exclude);
+        $model = new static();
+        $fields = $model->getTableFields();
+        $fields = array_diff($fields, $model->disuse, $exclude);
+        if ($only) {
+            $fields = \array_intersect($only, $fields);
+        }
         if ($as) {
             return array_map(fn ($field) => "`{$as}`.`{$field}`", $fields);
         } else {
             return $fields;
+        }
+    }
+
+    public static function chunkIter(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null): \Generator
+    {
+        $column  = $column ?: $modelQuery->getPk();
+
+        if (strpos($column, '.')) {
+            [, $key] = explode('.', $column);
+        } else {
+            $key = $column;
+        }
+        if (empty($alias)) {
+            $alias = $key;
+        }
+
+        $bind = $modelQuery->getBind(false);
+
+        $lastId = $startPosition;
+
+        do {
+            $query = (clone $modelQuery)
+                ->removeOption('order')
+                ->limit($limit);
+
+            if (null !== $lastId) {
+                $query->where($column, 'asc' == strtolower($order) ? '>' : '<', $lastId);
+            }
+
+            $resultSet = $query
+                ->order($column, $order)
+                ->bind($bind)
+                ->select();
+
+            if ($resultSet->isEmpty()) {
+                break;
+            }
+
+            yield $resultSet;
+
+            if ($limit > $resultSet->count()) {
+                break;
+            }
+
+            $end    = $resultSet->pop();
+            $lastId = is_array($end) ? $end[$alias] : $end->getData($alias);
+
+        } while (true);
+    }
+
+    public static function chunkIterEach(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null): \Generator
+    {
+        foreach (self::chunkIter($modelQuery, $limit, $column, $alias, $order, $startPosition) as $i => $items) {
+            foreach ($items->getIterator() as $ii => $item) {
+                yield $i * $limit + $ii => $item;
+            }
         }
     }
 }
