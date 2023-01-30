@@ -176,10 +176,17 @@ trait ModelHelper
         } while (true);
     }
 
-    public static function chunkIterEach(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null): \Generator
+    public static function chunkIterEach(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null, ?callable $preCb = null): \Generator
     {
         foreach (self::chunkIter($modelQuery, $limit, $column, $alias, $order, $startPosition) as $i => $items) {
-            foreach ($items->getIterator() as $ii => $item) {
+            $itemData = $items->getIterator();
+            if ($preCb) {
+                $result = $preCb($itemData);
+                if (\is_iterable($result)) {
+                    $itemData = $result;
+                }
+            }
+            foreach ($itemData as $ii => $item) {
                 yield $i * $limit + $ii => $item;
             }
         }
