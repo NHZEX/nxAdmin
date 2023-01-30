@@ -1,9 +1,9 @@
 <?php
-// update date: 2022-11-24T22:34:04+08:00
-// hash: 54e6a330f3fb775a29d0c77c73c89408
+// update date: 2023-01-30T23:25:59+08:00
+// hash: 5baef3b601d9b79aa78b3666d848c369
 return [
     [
-        'file' => '/home/vagrant/code/nxAdmin/app/Controller/admin/Index.php',
+        'file' => 'app/Controller/admin/Index.php',
         'class' => 'app\\Controller\\admin\\Index',
         'controller' => 'admin.Index',
         'sort' => 3000,
@@ -106,7 +106,7 @@ return [
         ]
     ],
     [
-        'file' => '/home/vagrant/code/nxAdmin/app/Controller/admin/User.php',
+        'file' => 'app/Controller/admin/User.php',
         'class' => 'app\\Controller\\admin\\User',
         'controller' => 'admin.User',
         'sort' => 3000,
@@ -150,7 +150,7 @@ return [
         'routeItems' => []
     ],
     [
-        'file' => '/home/vagrant/code/nxAdmin/app/Controller/admin/Role.php',
+        'file' => 'app/Controller/admin/Role.php',
         'class' => 'app\\Controller\\admin\\Role',
         'controller' => 'admin.Role',
         'sort' => 2900,
@@ -194,7 +194,7 @@ return [
         'routeItems' => []
     ],
     [
-        'file' => '/home/vagrant/code/nxAdmin/app/Controller/admin/Permission.php',
+        'file' => 'app/Controller/admin/Permission.php',
         'class' => 'app\\Controller\\admin\\Permission',
         'controller' => 'admin.Permission',
         'sort' => 1000,
@@ -246,7 +246,7 @@ return [
         'routeItems' => []
     ],
     [
-        'file' => '/home/vagrant/code/nxAdmin/app/Controller/Index.php',
+        'file' => 'app/Controller/Index.php',
         'class' => 'app\\Controller\\Index',
         'controller' => 'Index',
         'sort' => 1000,
@@ -257,7 +257,7 @@ return [
         'routeItems' => []
     ],
     [
-        'file' => '/home/vagrant/code/nxAdmin/app/Controller/System.php',
+        'file' => 'app/Controller/System.php',
         'class' => 'app\\Controller\\System',
         'controller' => 'System',
         'sort' => 1000,
@@ -394,7 +394,7 @@ return [
         ]
     ],
     [
-        'file' => '/home/vagrant/code/nxAdmin/app/Controller/Upload.php',
+        'file' => 'app/Controller/Upload.php',
         'class' => 'app\\Controller\\Upload',
         'controller' => 'Upload',
         'sort' => 1000,
@@ -405,7 +405,7 @@ return [
         'routeItems' => []
     ],
     [
-        'file' => '/home/vagrant/code/nxAdmin/app/Controller/Util.php',
+        'file' => 'app/Controller/Util.php',
         'class' => 'app\\Controller\\Util',
         'controller' => 'Util',
         'sort' => 1000,
