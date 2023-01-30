@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "233760b68b9641c80a521a428281ea2f",
+    "content-hash": "d6a1314d8465c1a2f19552f949a35b01",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -3446,17 +3446,23 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.55",
+            "version": "v2.0.54",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "e1974a4c3b1b4c5b808fcc0863fc254e711dee13"
+                "reference": "97b061b47616301ff29fbd4c35ed9184e1162e4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/e1974a4c3b1b4c5b808fcc0863fc254e711dee13",
-                "reference": "e1974a4c3b1b4c5b808fcc0863fc254e711dee13",
-                "shasum": ""
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/97b061b47616301ff29fbd4c35ed9184e1162e4e",
+                "reference": "97b061b47616301ff29fbd4c35ed9184e1162e4e",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-json": "*",
@@ -3495,9 +3501,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.55"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.54"
             },
-            "time": "2022-09-27T14:18:43+00:00"
+            "time": "2022-07-05T05:25:51+00:00"
         },
         {
             "name": "topthink/think-throttle",
