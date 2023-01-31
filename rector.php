@@ -21,6 +21,7 @@ return static function (RectorConfig $rectorConfig): void {
 
     $rectorConfig->skip([
         __DIR__ . '/app/auth_storage.php',
+        __DIR__ . '/app/route_storage.dump.php',
         __DIR__ . '/app/validate_storage.php',
         JsonThrowOnErrorRector::class,
         AddLiteralSeparatorToNumberRector::class,

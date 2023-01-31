@@ -6,6 +6,7 @@ $finder = PhpCsFixer\Finder::create()
         'extend',
     ])
     ->notName('auth_storage.php')
+    ->notName('route_storage.dump.php')
     ->notName('validate_storage.php');
 $config = new PhpCsFixer\Config();
 
