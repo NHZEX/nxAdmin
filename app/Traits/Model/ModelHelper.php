@@ -6,6 +6,7 @@ namespace app\Traits\Model;
 
 use app\Model\Base;
 use Closure;
+use Generator;
 use think\db\Query;
 use think\Model;
 use function array_diff;
@@ -120,7 +121,7 @@ trait ModelHelper
         $fields = $model->getTableFields();
         $fields = array_diff($fields, $model->disuse, $exclude);
         if ($only) {
-            $fields = \array_intersect($only, $fields);
+            $fields = array_intersect($only, $fields);
         }
         if ($as) {
             return array_map(fn ($field) => "`{$as}`.`{$field}`", $fields);
@@ -129,7 +130,7 @@ trait ModelHelper
         }
     }
 
-    public static function chunkIter(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null): \Generator
+    public static function chunkIter(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null): Generator
     {
         $column  = $column ?: $modelQuery->getPk();
 
@@ -172,17 +173,16 @@ trait ModelHelper
 
             $end    = $resultSet->pop();
             $lastId = is_array($end) ? $end[$alias] : $end->getData($alias);
-
         } while (true);
     }
 
-    public static function chunkIterEach(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null, ?callable $preCb = null): \Generator
+    public static function chunkIterEach(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null, ?callable $preCb = null): Generator
     {
         foreach (self::chunkIter($modelQuery, $limit, $column, $alias, $order, $startPosition) as $i => $items) {
             $itemData = $items->getIterator();
             if ($preCb) {
                 $result = $preCb($itemData);
-                if (\is_iterable($result)) {
+                if (is_iterable($result)) {
                     $itemData = $result;
                 }
             }
