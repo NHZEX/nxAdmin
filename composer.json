@@ -35,7 +35,7 @@
         "league/flysystem": "^3.10",
         "nhzex/think-blade": "^5.0.0",
         "nhzex/think-phinx": "^2.0.1",
-        "psr/cache": "^1.0",
+        "psr/cache": "^3.0",
         "rybakit/msgpack": "^0.9",
         "symfony/finder": "^5.4|^6.0",
         "symfony/polyfill-php81": "^1.22",
