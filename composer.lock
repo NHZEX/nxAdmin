@@ -3395,16 +3395,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v6.1.1",
+            "version": "v6.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "2cb56f3e6f3c479fe90ea5f28d38d3b5ef6c4210"
+                "reference": "67235be5b919aaaf1de5aed9839f65d8e766aca3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/2cb56f3e6f3c479fe90ea5f28d38d3b5ef6c4210",
-                "reference": "2cb56f3e6f3c479fe90ea5f28d38d3b5ef6c4210",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/67235be5b919aaaf1de5aed9839f65d8e766aca3",
+                "reference": "67235be5b919aaaf1de5aed9839f65d8e766aca3",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3422,7 +3422,7 @@
                 "psr/log": "~1.0",
                 "psr/simple-cache": "^1.0",
                 "topthink/think-helper": "^3.1.1",
-                "topthink/think-orm": "^2.0"
+                "topthink/think-orm": "^2.0|^3.0"
             },
             "require-dev": {
                 "guzzlehttp/psr7": "^2.1.0",
@@ -3460,9 +3460,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v6.1.1"
+                "source": "https://github.com/top-think/framework/tree/v6.1.2"
             },
-            "time": "2022-10-26T03:48:53+00:00"
+            "time": "2023-02-08T02:24:01+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -3518,16 +3518,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.56",
+            "version": "v2.0.58",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "75b8512736daaa056d511f42c15bed87c9f3605a"
+                "reference": "fae96ca60891ae82df5d8050af959711354898a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/75b8512736daaa056d511f42c15bed87c9f3605a",
-                "reference": "75b8512736daaa056d511f42c15bed87c9f3605a",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/fae96ca60891ae82df5d8050af959711354898a5",
+                "reference": "fae96ca60891ae82df5d8050af959711354898a5",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3573,9 +3573,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.56"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.58"
             },
-            "time": "2022-12-15T02:52:53+00:00"
+            "time": "2023-02-11T10:07:03+00:00"
         },
         {
             "name": "topthink/think-throttle",
