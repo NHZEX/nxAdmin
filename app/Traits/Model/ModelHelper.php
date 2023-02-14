@@ -8,6 +8,7 @@ use app\Model\Base;
 use Closure;
 use Generator;
 use think\db\Query;
+use think\db\Raw;
 use think\Model;
 use function array_diff;
 use function array_map;
@@ -181,7 +182,7 @@ trait ModelHelper
         foreach (self::chunkIter($modelQuery, $limit, $column, $alias, $order, $startPosition) as $i => $items) {
             $itemData = $items->getIterator();
             if ($preCb) {
-                $result = $preCb($itemData);
+                $result = call_user_func($preCb, $itemData, $i);
                 if (is_iterable($result)) {
                     $itemData = $result;
                 }
@@ -190,5 +191,32 @@ trait ModelHelper
                 yield $i * $limit + $ii => $item;
             }
         }
+    }
+
+    public static function jsonObjectValueSet(string $field, array $set = []): ?Raw
+    {
+        if (empty($set)) {
+            return null;
+        }
+
+        $data = [];
+        $values = [];
+
+        foreach ($set as $key => $val) {
+            $data[] = "'{$key}'";
+            if (\is_object($val) || is_array($val)) {
+                $data[] = 'CONVERT(?, JSON)';
+                $values[] = \json_encode_ex($val);
+            } else {
+                $data[] = '?';
+                $values[] = $val;
+            }
+        }
+
+        $str = \implode(', ', $data);
+        return new Raw(
+            "json_set(`{$field}`, {$str})",
+            $values,
+        );
     }
 }
