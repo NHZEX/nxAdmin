@@ -34,7 +34,7 @@
         "hashids/hashids": "^4.0",
         "league/flysystem": "^3.10",
         "nhzex/think-blade": "^5.0.0",
-        "nhzex/think-phinx": "^2.0.1",
+        "nhzex/think-phinx": "^3.0.0",
         "psr/cache": "^1.0",
         "rybakit/msgpack": "^0.9",
         "symfony/finder": "^5.4|^6.0",
