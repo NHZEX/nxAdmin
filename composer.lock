@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a15a2def05dc5e1e456cf72764aea156",
+    "content-hash": "2fbbbe92a2716346f12df350a664b427",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -63,23 +63,17 @@
         },
         {
             "name": "cakephp/core",
-            "version": "4.4.10",
+            "version": "4.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/core.git",
-                "reference": "20e50de2f461b5983a1a1296fe5c3762857b9edd"
+                "reference": "3730ce60f0153b609c9d756fe1b60978bc9c9fee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/20e50de2f461b5983a1a1296fe5c3762857b9edd",
-                "reference": "20e50de2f461b5983a1a1296fe5c3762857b9edd",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/cakephp/core/zipball/3730ce60f0153b609c9d756fe1b60978bc9c9fee",
+                "reference": "3730ce60f0153b609c9d756fe1b60978bc9c9fee",
+                "shasum": ""
             },
             "require": {
                 "cakephp/utility": "^4.0",
@@ -122,27 +116,21 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/core"
             },
-            "time": "2022-10-07T16:40:13+00:00"
+            "time": "2023-02-09T19:55:09+00:00"
         },
         {
             "name": "cakephp/database",
-            "version": "4.4.10",
+            "version": "4.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/database.git",
-                "reference": "c12a8f30f802968a885774e2ac3c099f470bf07c"
+                "reference": "904c09ac6ac41bddd65ef62f11676870aa8837a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/c12a8f30f802968a885774e2ac3c099f470bf07c",
-                "reference": "c12a8f30f802968a885774e2ac3c099f470bf07c",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/cakephp/database/zipball/904c09ac6ac41bddd65ef62f11676870aa8837a0",
+                "reference": "904c09ac6ac41bddd65ef62f11676870aa8837a0",
+                "shasum": ""
             },
             "require": {
                 "cakephp/core": "^4.0",
@@ -184,11 +172,11 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/database"
             },
-            "time": "2023-01-03T20:29:38+00:00"
+            "time": "2023-01-31T17:52:27+00:00"
         },
         {
             "name": "cakephp/datasource",
-            "version": "4.4.10",
+            "version": "4.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/datasource.git",
@@ -252,16 +240,16 @@
         },
         {
             "name": "cakephp/utility",
-            "version": "4.4.10",
+            "version": "4.4.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/utility.git",
-                "reference": "aa7bba6c39b56751f5c917464f113c924d4ba10f"
+                "reference": "3694d44728fb00ab474d9e031d51ed47f3d0e31c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/utility/zipball/aa7bba6c39b56751f5c917464f113c924d4ba10f",
-                "reference": "aa7bba6c39b56751f5c917464f113c924d4ba10f",
+                "url": "https://api.github.com/repos/cakephp/utility/zipball/3694d44728fb00ab474d9e031d51ed47f3d0e31c",
+                "reference": "3694d44728fb00ab474d9e031d51ed47f3d0e31c",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -313,7 +301,7 @@
                 "issues": "https://github.com/cakephp/cakephp/issues",
                 "source": "https://github.com/cakephp/utility"
             },
-            "time": "2022-11-06T06:40:44+00:00"
+            "time": "2023-01-07T14:14:31+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -399,36 +387,30 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "1.14.3",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "fb0d71a7393298a7b232cbf4c8b1f73f3ec3d5af"
+                "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/fb0d71a7393298a7b232cbf4c8b1f73f3ec3d5af",
-                "reference": "fb0d71a7393298a7b232cbf4c8b1f73f3ec3d5af",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
+                "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
+                "shasum": ""
             },
             "require": {
-                "doctrine/lexer": "^1 || ^2",
+                "doctrine/lexer": "^2 || ^3",
                 "ext-tokenizer": "*",
-                "php": "^7.1 || ^8.0",
+                "php": "^7.2 || ^8.0",
                 "psr/cache": "^1 || ^2 || ^3"
             },
             "require-dev": {
-                "doctrine/cache": "^1.11 || ^2.0",
-                "doctrine/coding-standard": "^9 || ^10",
-                "phpstan/phpstan": "~1.4.10 || ^1.8.0",
+                "doctrine/cache": "^2.0",
+                "doctrine/coding-standard": "^10",
+                "phpstan/phpstan": "^1.8.0",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "symfony/cache": "^4.4 || ^5.4 || ^6",
+                "symfony/cache": "^5.4 || ^6",
                 "vimeo/psalm": "^4.10"
             },
             "suggest": {
@@ -475,9 +457,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/annotations/issues",
-                "source": "https://github.com/doctrine/annotations/tree/1.14.3"
+                "source": "https://github.com/doctrine/annotations/tree/2.0.1"
             },
-            "time": "2023-02-01T09:20:38+00:00"
+            "time": "2023-02-02T22:02:53+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -1336,16 +1318,16 @@
         },
         {
             "name": "nhzex/think-phinx",
-            "version": "v2.1.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-phinx.git",
-                "reference": "bbffc89edca31fb95e583f09fe55191d8b773f33"
+                "reference": "eb181a4b38a4feee78fa7f98ee2ef0e569caa030"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/bbffc89edca31fb95e583f09fe55191d8b773f33",
-                "reference": "bbffc89edca31fb95e583f09fe55191d8b773f33",
+                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/eb181a4b38a4feee78fa7f98ee2ef0e569caa030",
+                "reference": "eb181a4b38a4feee78fa7f98ee2ef0e569caa030",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1355,15 +1337,15 @@
                 ]
             },
             "require": {
-                "php": "^7.2|^8.0",
-                "robmorgan/phinx": "~0.12.5",
-                "topthink/framework": "^6.0.6",
-                "topthink/think-orm": "^2.0.30",
-                "zxin/phinx-schema": "^1.0.1",
-                "zxin/think-symfony-bridge": "^1.0|^2.0"
+                "php": "^7.4|^8.0",
+                "robmorgan/phinx": "~0.12.5|~0.13.1",
+                "topthink/framework": "^6.0|^6.1",
+                "topthink/think-orm": "^2.0.30|^3.0",
+                "zxin/phinx-schema": "^1.0.2",
+                "zxin/think-symfony-bridge": "^2.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8|^9",
+                "phpunit/phpunit": "^9",
                 "symfony/var-dumper": "^5.0|^6.0"
             },
             "type": "library",
@@ -1402,9 +1384,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-phinx/issues",
-                "source": "https://github.com/NHZEX/think-phinx/tree/v2.1.0"
+                "source": "https://github.com/NHZEX/think-phinx/tree/v3.0.0"
             },
-            "time": "2022-08-08T09:52:43+00:00"
+            "time": "2023-02-20T17:15:15+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2050,16 +2032,16 @@
         },
         {
             "name": "robmorgan/phinx",
-            "version": "0.12.13",
+            "version": "0.13.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/phinx.git",
-                "reference": "6eb0f295e140ed2804d93396755f0ce9ada4ec07"
+                "reference": "18e06e4a2b18947663438afd2f467e17c62e867d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/6eb0f295e140ed2804d93396755f0ce9ada4ec07",
-                "reference": "6eb0f295e140ed2804d93396755f0ce9ada4ec07",
+                "url": "https://api.github.com/repos/cakephp/phinx/zipball/18e06e4a2b18947663438afd2f467e17c62e867d",
+                "reference": "18e06e4a2b18947663438afd2f467e17c62e867d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2136,9 +2118,9 @@
             ],
             "support": {
                 "issues": "https://github.com/cakephp/phinx/issues",
-                "source": "https://github.com/cakephp/phinx/tree/0.12.13"
+                "source": "https://github.com/cakephp/phinx/tree/0.13.4"
             },
-            "time": "2022-10-03T04:57:40+00:00"
+            "time": "2023-01-07T00:42:55+00:00"
         },
         {
             "name": "rybakit/msgpack",
@@ -3518,16 +3500,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v2.0.57",
+            "version": "v2.0.58",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "b68e3bb15322dc2d977ac62682d6df05c98bd23c"
+                "reference": "fae96ca60891ae82df5d8050af959711354898a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/b68e3bb15322dc2d977ac62682d6df05c98bd23c",
-                "reference": "b68e3bb15322dc2d977ac62682d6df05c98bd23c",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/fae96ca60891ae82df5d8050af959711354898a5",
+                "reference": "fae96ca60891ae82df5d8050af959711354898a5",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3573,9 +3555,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v2.0.57"
+                "source": "https://github.com/top-think/think-orm/tree/v2.0.58"
             },
-            "time": "2023-02-03T11:35:52+00:00"
+            "time": "2023-02-11T10:07:03+00:00"
         },
         {
             "name": "topthink/think-throttle",
@@ -3774,16 +3756,16 @@
         },
         {
             "name": "zxin/think-annotation",
-            "version": "v1.1.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-annotation.git",
-                "reference": "9101c12d5e3b2b56d1de30bc142f0ce7212276fc"
+                "reference": "6b95776698c359eb00c41b0ede2bd04a8ac70b90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-annotation/zipball/9101c12d5e3b2b56d1de30bc142f0ce7212276fc",
-                "reference": "9101c12d5e3b2b56d1de30bc142f0ce7212276fc",
+                "url": "https://api.github.com/repos/NHZEX/think-annotation/zipball/6b95776698c359eb00c41b0ede2bd04a8ac70b90",
+                "reference": "6b95776698c359eb00c41b0ede2bd04a8ac70b90",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3797,11 +3779,13 @@
                 "symfony/finder": "^5.1|^6.0",
                 "symfony/polyfill-php80": "^1.26",
                 "symfony/var-exporter": "^5.1|^6.0",
-                "topthink/framework": "^6.0.12"
+                "topthink/framework": "^6.0.12|^8.0"
             },
             "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^1.0",
                 "phpunit/phpunit": "^8|^9",
-                "rector/rector": "^0.13.4"
+                "rector/rector": "^0.15"
             },
             "type": "library",
             "extra": {
@@ -3829,34 +3813,43 @@
             "description": "think annotation",
             "support": {
                 "issues": "https://github.com/NHZEX/think-annotation/issues",
-                "source": "https://github.com/NHZEX/think-annotation/tree/v1.1.1"
+                "source": "https://github.com/NHZEX/think-annotation/tree/v2.0.0"
             },
-            "time": "2022-11-23T04:07:45+00:00"
+            "time": "2023-02-10T04:14:08+00:00"
         },
         {
             "name": "zxin/think-auth",
-            "version": "v2.1.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-auth.git",
-                "reference": "1bd639acd4ed4ff757c0175a2ac2e4e93daa1cc2"
+                "reference": "ca7152a1c263f8f359aa29e04870f7cf6a326f3c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/1bd639acd4ed4ff757c0175a2ac2e4e93daa1cc2",
-                "reference": "1bd639acd4ed4ff757c0175a2ac2e4e93daa1cc2",
-                "shasum": ""
+                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/ca7152a1c263f8f359aa29e04870f7cf6a326f3c",
+                "reference": "ca7152a1c263f8f359aa29e04870f7cf6a326f3c",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
-                "doctrine/annotations": "^1.13",
+                "doctrine/annotations": "^2.0",
                 "php": "^7.4|^8.0",
                 "symfony/polyfill-php80": "^1.25",
-                "topthink/framework": "^6.0.3",
-                "zxin/think-annotation": "^1.0.3",
+                "topthink/framework": "^6.0.3|^6.1|^8.0",
+                "zxin/think-annotation": "^2.0",
                 "zxin/utils": "^2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8|^9"
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8|^9",
+                "rector/rector": "~0.15"
             },
             "bin": [
                 "bin/dump-auth"
@@ -3889,9 +3882,9 @@
             "description": "think auth",
             "support": {
                 "issues": "https://github.com/NHZEX/think-auth/issues",
-                "source": "https://github.com/NHZEX/think-auth/tree/v2.1.0"
+                "source": "https://github.com/NHZEX/think-auth/tree/v3.0.0"
             },
-            "time": "2022-10-18T16:10:48+00:00"
+            "time": "2023-02-22T17:20:53+00:00"
         },
         {
             "name": "zxin/think-captcha",
@@ -4069,16 +4062,16 @@
         },
         {
             "name": "zxin/think-redis",
-            "version": "v1.2.0",
+            "version": "v1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-redis.git",
-                "reference": "0efd943a74b802b9f5cacb7597686329ea56a55f"
+                "reference": "8f786284a4d7b5155d52111b8a48c444cb9b66b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/0efd943a74b802b9f5cacb7597686329ea56a55f",
-                "reference": "0efd943a74b802b9f5cacb7597686329ea56a55f",
+                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/8f786284a4d7b5155d52111b8a48c444cb9b66b1",
+                "reference": "8f786284a4d7b5155d52111b8a48c444cb9b66b1",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4138,22 +4131,22 @@
             "description": "think redis",
             "support": {
                 "issues": "https://github.com/NHZEX/think-redis/issues",
-                "source": "https://github.com/NHZEX/think-redis/tree/v1.2.0"
+                "source": "https://github.com/NHZEX/think-redis/tree/v1.2.1"
             },
-            "time": "2021-07-23T09:57:42+00:00"
+            "time": "2023-03-07T17:09:36+00:00"
         },
         {
             "name": "zxin/think-route",
-            "version": "v1.0.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-annotation-route.git",
-                "reference": "deda8dad23d36cc6fc841d0b218d0a954b548767"
+                "reference": "66b843862ec9f7e6bbb3cf3764e382488de3ac35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-annotation-route/zipball/deda8dad23d36cc6fc841d0b218d0a954b548767",
-                "reference": "deda8dad23d36cc6fc841d0b218d0a954b548767",
+                "url": "https://api.github.com/repos/NHZEX/think-annotation-route/zipball/66b843862ec9f7e6bbb3cf3764e382488de3ac35",
+                "reference": "66b843862ec9f7e6bbb3cf3764e382488de3ac35",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4164,18 +4157,16 @@
             },
             "require": {
                 "brick/varexporter": "^0.3.7",
-                "doctrine/annotations": "^1.13",
-                "php": "^7.4|^8.0",
-                "symfony/polyfill-php80": "^1.25",
-                "topthink/framework": "^6.0.3",
-                "zxin/think-annotation": "^1.1.1",
+                "php": "^8.0",
+                "topthink/framework": "^6.0.3|^6.1|^8.0",
+                "zxin/think-annotation": "^2.0",
                 "zxin/utils": "^2.3"
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.0",
                 "phpstan/phpstan": "^1.0",
                 "phpunit/phpunit": "^8|^9",
-                "rector/rector": "^0.13.4"
+                "rector/rector": "~0.15"
             },
             "bin": [
                 "bin/dump-route"
@@ -4206,9 +4197,9 @@
             "description": "think auth",
             "support": {
                 "issues": "https://github.com/NHZEX/think-annotation-route/issues",
-                "source": "https://github.com/NHZEX/think-annotation-route/tree/v1.0.1"
+                "source": "https://github.com/NHZEX/think-annotation-route/tree/v2.0.0"
             },
-            "time": "2022-12-08T11:36:23+00:00"
+            "time": "2023-02-22T17:15:55+00:00"
         },
         {
             "name": "zxin/think-symfony-bridge",
@@ -4261,34 +4252,31 @@
         },
         {
             "name": "zxin/think-validate",
-            "version": "v2.0.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-validate.git",
-                "reference": "ab4c6844a12cd832b432e030821bdaf64643858b"
+                "reference": "fde249db01f3b14e4df944440b26e62c52b9706d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-validate/zipball/ab4c6844a12cd832b432e030821bdaf64643858b",
-                "reference": "ab4c6844a12cd832b432e030821bdaf64643858b",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/NHZEX/think-validate/zipball/fde249db01f3b14e4df944440b26e62c52b9706d",
+                "reference": "fde249db01f3b14e4df944440b26e62c52b9706d",
+                "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "^1.13",
+                "doctrine/annotations": "^2.0",
                 "php": "^7.4|^8.0",
                 "symfony/polyfill-php80": "^1.25",
-                "topthink/framework": "^6.0.5",
-                "zxin/think-annotation": "^1.0.3",
+                "topthink/framework": "^6.0.5|^6.1|^8.0",
+                "zxin/think-annotation": "^2.0",
                 "zxin/utils": "^2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8|^9"
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^8|^9",
+                "rector/rector": "~0.15"
             },
             "bin": [
                 "bin/dump-validate"
@@ -4321,9 +4309,9 @@
             "description": "think validate",
             "support": {
                 "issues": "https://github.com/NHZEX/think-validate/issues",
-                "source": "https://github.com/NHZEX/think-validate/tree/v2.0.0"
+                "source": "https://github.com/NHZEX/think-validate/tree/v3.0.0"
             },
-            "time": "2022-05-21T19:42:43+00:00"
+            "time": "2023-02-22T17:19:01+00:00"
         },
         {
             "name": "zxin/utils",
@@ -5059,17 +5047,23 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.9.17",
+            "version": "1.9.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "204e459e7822f2c586463029f5ecec31bb45a1f2"
+                "reference": "f2d5cf71be91172a57c649770b73c20ebcffb0bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/204e459e7822f2c586463029f5ecec31bb45a1f2",
-                "reference": "204e459e7822f2c586463029f5ecec31bb45a1f2",
-                "shasum": ""
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/f2d5cf71be91172a57c649770b73c20ebcffb0bf",
+                "reference": "f2d5cf71be91172a57c649770b73c20ebcffb0bf",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": "^7.2|^8.0"
@@ -5098,7 +5092,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/1.9.17"
+                "source": "https://github.com/phpstan/phpstan/tree/1.9.18"
             },
             "funding": [
                 {
@@ -5114,7 +5108,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-08T12:25:00+00:00"
+            "time": "2023-02-17T15:01:27+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
