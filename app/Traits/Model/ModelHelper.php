@@ -17,6 +17,7 @@ use function count;
 use function is_array;
 use function is_callable;
 use function is_numeric;
+use function is_object;
 use function is_string;
 
 /**
@@ -204,16 +205,16 @@ trait ModelHelper
 
         foreach ($set as $key => $val) {
             $data[] = "'{$key}'";
-            if (\is_object($val) || is_array($val)) {
+            if (is_object($val) || is_array($val)) {
                 $data[] = 'CONVERT(?, JSON)';
-                $values[] = \json_encode_ex($val);
+                $values[] = json_encode_ex($val);
             } else {
                 $data[] = '?';
                 $values[] = $val;
             }
         }
 
-        $str = \implode(', ', $data);
+        $str = implode(', ', $data);
         return new Raw(
             "json_set(`{$field}`, {$str})",
             $values,
