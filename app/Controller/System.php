@@ -3,6 +3,7 @@
 namespace app\Controller;
 
 use app\Logic\SystemLogic;
+use app\Service\System\DatabaseUtils;
 use think\App;
 use think\middleware\Throttle;
 use think\Response;
@@ -51,6 +52,15 @@ class System extends ApiBase
             'realpath_cache_size' => ['路径缓存', realpath_cache_size()],
             'preload_statistics' => ['预加载', preload_statistics()],
         ]);
+    }
+
+    #[Auth('admin')]
+    #[Route(method: 'GET')]
+    public function database(): Response
+    {
+        $list = DatabaseUtils::queryTabelInfo();
+
+        return Reply::success($list);
     }
 
     /**

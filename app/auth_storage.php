@@ -1,6 +1,6 @@
 <?php
-// update date: 2022-05-12T10:18:31+08:00
-// hash: 35c2bfe591a59f43cb6a75270d394105
+// update date: 2023-03-30T00:47:40+08:00
+// hash: 387a8d238e45a609c60267cbfc459880
 return [
     'features' => [
         'node@admin.index/userinfo' => [
@@ -88,6 +88,11 @@ return [
             'policy' => '',
             'desc' => '',
         ],
+        'node@system/database' => [
+            'class' => 'app\\Controller\\System::database',
+            'policy' => '',
+            'desc' => '',
+        ],
         'node@system/resetcache' => [
             'class' => 'app\\Controller\\System::resetCache',
             'policy' => '',
@@ -100,7 +105,9 @@ return [
             'name' => 'admin',
             'sort' => 1,
             'desc' => 'ADMIN',
-            'allow' => null,
+            'allow' => [
+                'node@system/database',
+            ],
         ],
         'admin.permission' => [
             'pid' => 'admin',
@@ -249,7 +256,9 @@ return [
         ],
     ],
     'permission2features' => [
-        'admin' => [],
+        'admin' => [
+            'node@system/database',
+        ],
         'admin.permission' => [],
         'admin.permission.edit' => [
             'node@admin.permission/update',
@@ -301,6 +310,9 @@ return [
         ],
     ],
     'features2permission' => [
+        'node@system/database' => [
+            'admin' => true,
+        ],
         'node@admin.permission/update' => [
             'admin.permission.edit' => true,
         ],

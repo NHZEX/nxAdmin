@@ -1,6 +1,6 @@
 <?php
-// update date: 2023-01-30T23:25:59+08:00
-// hash: 5baef3b601d9b79aa78b3666d848c369
+// update date: 2023-03-30T00:49:42+08:00
+// hash: 59b183166f0898fbe5c5f7142757ef21
 return [
     [
         'file' => 'app/Controller/admin/Index.php',
@@ -309,6 +309,31 @@ return [
             ],
             [
                 'method' => 'sysinfo',
+                'route' => [
+                    \Zxin\Think\Route\Annotation\Route::__set_state([
+                        'name' => null,
+                        'method' => 'GET',
+                        'middleware' => null,
+                        'ext' => null,
+                        'deny_ext' => null,
+                        'https' => null,
+                        'domain' => null,
+                        'complete_match' => null,
+                        'cache' => null,
+                        'ajax' => null,
+                        'pjax' => null,
+                        'json' => null,
+                        'filter' => null,
+                        'append' => null,
+                        'pattern' => null,
+                        'setGroup' => null,
+                        'registerSort' => 1000
+                    ])
+                ],
+                'middleware' => []
+            ],
+            [
+                'method' => 'database',
                 'route' => [
                     \Zxin\Think\Route\Annotation\Route::__set_state([
                         'name' => null,
