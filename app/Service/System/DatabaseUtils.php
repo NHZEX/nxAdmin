@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace app\Service\System;
 use think\db\exception\DbException;
+use think\db\PDOConnection;
 use function Zxin\Util\format_byte;
 
 class DatabaseUtils
@@ -15,6 +16,7 @@ class DatabaseUtils
         $output = [];
 
         foreach ($connections as $name => $config) {
+            $version = null;
             try {
                 $connection = $db->connect($name);
                 $list = $connection
@@ -47,12 +49,22 @@ class DatabaseUtils
             } catch (DbException $e) {
                 $list = [];
                 $message = $e->getMessage();
-                \log_warning($e);
+                \log_warning((string) $e);
+            }
+
+            try {
+                if (isset($connection) && $connection instanceof PDOConnection) {
+                    $version = \db_version($connection, true);
+                }
+            } catch (DbException|\PDOException|\RuntimeException $e) {
+                $message = $e->getMessage();
+                \log_warning((string) $e);
             }
 
             $output[] = [
                 'name' => $name,
                 'tables' => $list,
+                'version' => $version ?? 'unknown',
                 'message' => $message ?? null,
             ];
         }

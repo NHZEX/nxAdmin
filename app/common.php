@@ -2,6 +2,7 @@
 
 /** @noinspection PhpUnused */
 
+use think\db\ConnectionInterface;
 use think\db\PDOConnection;
 use think\facade\App;
 use think\facade\Db;
@@ -202,15 +203,17 @@ function query_mysql_version(string $connect = null)
 
 /**
  * 查询数据库版本
- * @param string|null $connect
- * @param bool        $driver
+ * @param string|ConnectionInterface|null $connect
+ * @param bool                            $driver
  * @return string
  */
-function db_version(?string $connect = null, bool $driver = false): string
+function db_version(string|ConnectionInterface|null $connect = null, bool $driver = false): string
 {
     // 暂不支持分布式数据库
-    /** @var PDOConnection|object $connect */
-    $connect = ($connect ? Db::connect($connect, true) : Db::connect());
+    if (!$connect instanceof ConnectionInterface) {
+        /** @var PDOConnection|object $connect */
+        $connect = ($connect ? Db::connect($connect, true) : Db::connect());
+    }
     if (!$connect instanceof PDOConnection) {
         throw new RuntimeException('only support PDOConnection');
     }
@@ -218,8 +221,8 @@ function db_version(?string $connect = null, bool $driver = false): string
         $ref = new ReflectionMethod($connect, 'initConnect');
         $ref->setAccessible(true);
         $ref->invoke($connect);
-    } catch (ReflectionException $e) {
-        throw new RuntimeException('invoke method initConnect() exception', -1, $e);
+    } catch (ReflectionException|\PDOException $e) {
+        throw new RuntimeException('invoke method initConnect() exception: ' . $e->getMessage(), -1, $e);
     }
     /** @var PDO $pdo */
     $pdo = $connect->getPdo();
