@@ -137,6 +137,10 @@ trait OptimLock
             return $where;
         }
 
+        if (empty($this->getPk()) || ($this->isExists() && empty($where))) {
+            throw new \RuntimeException('The update condition is missing the primary key field', CODE_MODEL_OPTIMISTIC_LOCK);
+        }
+
         if (null !== ($lockVer = $this->getLockVersion())) {
             // 删除数据时乐观锁没有走数据检测流程
             if ($this->lockVersion === null) {
