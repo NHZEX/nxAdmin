@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ab2c879ea7edd94581ba00df9d33025",
+    "content-hash": "8cff5963eadfb75324af7504b29316f3",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -3443,16 +3443,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v6.1.2",
+            "version": "v6.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "67235be5b919aaaf1de5aed9839f65d8e766aca3"
+                "reference": "7c324e7011246f0064b055b62ab9c3921cf0a041"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/67235be5b919aaaf1de5aed9839f65d8e766aca3",
-                "reference": "67235be5b919aaaf1de5aed9839f65d8e766aca3",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/7c324e7011246f0064b055b62ab9c3921cf0a041",
+                "reference": "7c324e7011246f0064b055b62ab9c3921cf0a041",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3508,9 +3508,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v6.1.2"
+                "source": "https://github.com/top-think/framework/tree/v6.1.3"
             },
-            "time": "2023-02-08T02:24:01+00:00"
+            "time": "2023-05-22T03:02:08+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -4318,17 +4318,23 @@
         },
         {
             "name": "zxin/think-validate",
-            "version": "v3.0.0",
+            "version": "v3.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-validate.git",
-                "reference": "fde249db01f3b14e4df944440b26e62c52b9706d"
+                "reference": "7f7938be259fc2328e5a57ee0d2558e4ccd5dd87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-validate/zipball/fde249db01f3b14e4df944440b26e62c52b9706d",
-                "reference": "fde249db01f3b14e4df944440b26e62c52b9706d",
-                "shasum": ""
+                "url": "https://api.github.com/repos/NHZEX/think-validate/zipball/7f7938be259fc2328e5a57ee0d2558e4ccd5dd87",
+                "reference": "7f7938be259fc2328e5a57ee0d2558e4ccd5dd87",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "doctrine/annotations": "^2.0",
@@ -4375,44 +4381,36 @@
             "description": "think validate",
             "support": {
                 "issues": "https://github.com/NHZEX/think-validate/issues",
-                "source": "https://github.com/NHZEX/think-validate/tree/v3.0.0"
+                "source": "https://github.com/NHZEX/think-validate/tree/v3.0.1"
             },
-            "time": "2023-02-22T17:19:01+00:00"
+            "time": "2023-05-29T15:44:55+00:00"
         },
         {
             "name": "zxin/utils",
-            "version": "v2.4.2",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/php-utils.git",
-                "reference": "71a169abd24efa140ee1c40089d9150bff10bc18"
+                "reference": "e8457c016476498ec556a22d9c3ae15a748a1f5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/71a169abd24efa140ee1c40089d9150bff10bc18",
-                "reference": "71a169abd24efa140ee1c40089d9150bff10bc18",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/e8457c016476498ec556a22d9c3ae15a748a1f5e",
+                "reference": "e8457c016476498ec556a22d9c3ae15a748a1f5e",
+                "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-openssl": "*",
-                "php": "^7.2|^8.0",
-                "symfony/polyfill-php73": "^1.22",
-                "symfony/polyfill-php74": "^1.22"
+                "php": "^7.4|^8.0"
             },
             "require-dev": {
                 "ext-bcmath": "*",
                 "ext-mbstring": "*",
-                "friendsofphp/php-cs-fixer": "^2.19|^3.9",
-                "phpunit/phpunit": "^7|^8|^9",
-                "rector/rector": "^0.13.10",
-                "symfony/var-dumper": "^4.4|^5.4|^6"
+                "php-cs-fixer/shim": "^3.16",
+                "phpunit/phpunit": "^9",
+                "rector/rector": "~0.15.24",
+                "symfony/var-dumper": "^5.4|^6"
             },
             "suggest": {
                 "ext-bcmath": "unit convertor support",
@@ -4447,9 +4445,9 @@
             "description": "util tools",
             "support": {
                 "issues": "https://github.com/NHZEX/php-utils/issues",
-                "source": "https://github.com/NHZEX/php-utils/tree/v2.4.2"
+                "source": "https://github.com/NHZEX/php-utils/tree/v2.5.0"
             },
-            "time": "2023-04-09T06:04:23+00:00"
+            "time": "2023-07-05T02:57:04+00:00"
         }
     ],
     "packages-dev": [
@@ -6630,5 +6628,8 @@
         "composer-runtime-api": "^2"
     },
     "platform-dev": [],
+    "platform-overrides": {
+        "php": "8.0.2"
+    },
     "plugin-api-version": "2.3.0"
 }

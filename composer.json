@@ -109,6 +109,7 @@
         "optimize-autoloader": true,
         "platform-check": "php-only",
         "platform": {
+            "php": "8.0.2"
         }
     },
     "repositories": [
