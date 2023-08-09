@@ -25,6 +25,34 @@ class SessionInit
         $this->session = $session;
     }
 
+    private function autoRecoveryMachineID(Request $request): void
+    {
+        $machineToken = $request->header('x-machine-id');
+
+        if (empty($machineToken)) {
+            // 选择使用 cookie 传输
+            $cookie = $this->app->cookie;
+            $machineToken = $cookie->get('_mc');
+            if (empty($machineToken)) {
+                $machineToken = '0' . '.' . \bin2hex(\random_bytes(24)) . '.' . \dechex(\time());
+                $request->withCookie([
+                        '_mc' => $machineToken,
+                    ] + $cookie->get());
+
+                $cookie->set('_mc', $machineToken, [
+                    'expire' => 86400 * 31,
+                    'httponly' => true,
+                    'samesite' => 'Lax',
+                ]);
+            }
+
+            $request->withHeader([
+                    'x-machine-id' => $machineToken,
+                ] + $request->header()
+            );
+        }
+    }
+
     /**
      * Session初始化
      * @access public
@@ -34,6 +62,8 @@ class SessionInit
      */
     public function handle(Request $request, Closure $next)
     {
+        $this->autoRecoveryMachineID($request);
+
         // Session初始化
         $varSessionId = $this->app->config->get('session.var_session_id');
         $headerSessionId = $this->app->config->get('session.var_header', 'X-TOKEN');
