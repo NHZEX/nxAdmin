@@ -12,6 +12,7 @@
 const CODE_SUCCEED   = 0;
 const CODE_ERROR     = 1;
 const CODE_EXCEPTION = 2;
+const CODE_NOT_FOUND = 404;
 
 const CODE_COM_CAPTCHA = 1001;          // 全局:验证码
 const CODE_COM_PARAM = 1002;            // 全局:输入参数
@@ -40,6 +41,7 @@ const CODE_DICT = [
     CODE_CONV_LOGIN => 'Login failed',
     CODE_CONV_LASTING => 'Invalid iasting',
 
+    CODE_NOT_FOUND => 'Not Found',
 ];
 
 const STATUS_TEXTS = [
