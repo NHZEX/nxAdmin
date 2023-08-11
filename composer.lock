@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e19012cc924dc0ade7b1eb4a8e756e78",
+    "content-hash": "667f660527fef8362b40f3cb2f652990",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -4066,28 +4066,34 @@
         },
         {
             "name": "zxin/think-env",
-            "version": "v1.1.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-env.git",
-                "reference": "81fe2d420f287a4cba0d9fd6505ce57320ca7b4d"
+                "reference": "c647d71f30e27754bb368662557cfb7e1927f911"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-env/zipball/81fe2d420f287a4cba0d9fd6505ce57320ca7b4d",
-                "reference": "81fe2d420f287a4cba0d9fd6505ce57320ca7b4d",
-                "shasum": ""
+                "url": "https://api.github.com/repos/NHZEX/think-env/zipball/c647d71f30e27754bb368662557cfb7e1927f911",
+                "reference": "c647d71f30e27754bb368662557cfb7e1927f911",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "oscarotero/env": "^2.1",
-                "php": "~7.1 || ^8.0",
-                "topthink/framework": "~6.0.3|^6.1",
-                "vlucas/phpdotenv": "^5.0"
+                "php": "~7.4 || ^8.0",
+                "topthink/framework": "~6.1.3|~8.0.1",
+                "vlucas/phpdotenv": "^5.5"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "HZEX\\Think\\": "src"
+                    "Zxin\\Think\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4108,9 +4114,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-env/issues",
-                "source": "https://github.com/NHZEX/think-env/tree/v1.1.0"
+                "source": "https://github.com/NHZEX/think-env/tree/v2.0.0"
             },
-            "time": "2022-10-26T06:16:26+00:00"
+            "time": "2023-08-11T14:26:26+00:00"
         },
         {
             "name": "zxin/think-redis",

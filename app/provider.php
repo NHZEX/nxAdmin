@@ -13,9 +13,9 @@
 
 use app\ExceptionHandle;
 use app\Request;
-use HZEX\Think\EnvLoader;
 use Tp\Log\Log;
 use Tp\Model\Event;
+use Zxin\Think\EnvLoader;
 
 return [
     'env' => EnvLoader::class,
