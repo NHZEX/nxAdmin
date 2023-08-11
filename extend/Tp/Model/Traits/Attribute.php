@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Tp\Model\Traits;
 
-use Exception;
-use stdClass;
 use think\db\Raw;
 use Tp\Model\Contracts\FieldTypeTransform;
 use function class_exists;
@@ -19,24 +17,20 @@ use function json_encode;
 use function method_exists;
 use function number_format;
 use function serialize;
-use function strpos;
 use function strtotime;
 use function unserialize;
 
 /**
  * Trait Attribute
  * @package Tp\Model\Traits
- * 如果tp-orm同意合入则可以移除
- *
- * @property string $dateFormat
- * @method formatDateTime($format, $time = 'now', bool $timestamp = false)
+ * 如果pr能合入则可以移除
  */
 trait Attribute
 {
     /**
      * @inheritDoc
      */
-    protected function readTransform($value, $type)
+    protected function readTransform($value, string|array $type)
     {
         $param = null;
         if ($value === null) {
@@ -45,66 +39,50 @@ trait Attribute
 
         if (is_array($type)) {
             [$type, $param] = $type;
-        } elseif (strpos($type, ':')) {
+        } elseif (str_contains($type, ':')) {
             [$type, $param] = explode(':', $type, 2);
         }
 
-        switch ($type) {
-            case 'integer':
-                $value = (int) $value;
-                break;
-            case 'float':
-                if (empty($param)) {
-                    $value = (float) $value;
-                } else {
-                    $value = (float) number_format($value, (int) $param, '.', '');
-                }
-                break;
-            case 'boolean':
-                $value = (bool) $value;
-                break;
-            case 'timestamp':
-                $format = !empty($param) ? $param : $this->dateFormat;
-                $value  = $this->formatDateTime($format, $value, true);
-                break;
-            case 'datetime':
-                $format = !empty($param) ? $param : $this->dateFormat;
-                $value  = $this->formatDateTime($format, $value);
-                break;
-            case 'json':
-                $value = json_decode($value, true);
-                break;
-            case 'array':
-                $value = empty($value) ? [] : json_decode($value, true);
-                break;
-            case 'object':
-                $value = empty($value) ? new stdClass() : json_decode($value);
-                break;
-            case 'serialize':
-                try {
-                    $value = unserialize($value);
-                } catch (Exception $e) {
-                    $value = null;
-                }
-                break;
-            default:
-                if (class_exists($type)) {
-                    if (is_subclass_of($type, FieldTypeTransform::class)) {
-                        $value = $type::modelReadValue($value, $this);
-                    } else {
-                        // 对象类型
-                        $value = new $type($value);
-                    }
-                }
-        }
+        $call = function ($value) {
+            try {
+                $value = unserialize($value);
+            } catch (\Exception $e) {
+                $value = null;
+            }
+            return $value;
+        };
 
-        return $value;
+        $exTransform = static function (string $type, $value, $model) {
+            if (class_exists($type)) {
+                if (is_subclass_of($type, FieldTypeTransform::class)) {
+                    $value = $type::modelReadValue($value, $model);
+                } else {
+                    // 对象类型
+                    $value = new $type($value);
+                }
+            }
+
+            return $value;
+        };
+
+        return match ($type) {
+            'integer'   =>  (int) $value,
+            'float'     =>  empty($param) ? (float) $value : (float) number_format($value, (int) $param, '.', ''),
+            'boolean'   =>  (bool) $value,
+            'timestamp' =>  !is_null($value) ? $this->formatDateTime(!empty($param) ? $param : $this->dateFormat, $value, true) : null,
+            'datetime'  =>  !is_null($value) ? $this->formatDateTime(!empty($param) ? $param : $this->dateFormat, $value) : null,
+            'json'      =>  json_decode($value, true),
+            'array'     =>  empty($value) ? [] : json_decode($value, true),
+            'object'    =>  empty($value) ? new \stdClass() : json_decode($value),
+            'serialize' =>  $call($value),
+            default     =>  $exTransform($type, $value, $this),
+        };
     }
 
     /**
      * @inheritDoc
      */
-    protected function writeTransform($value, $type)
+    protected function writeTransform($value, string|array $type)
     {
         $param = null;
         if ($value === null) {
@@ -117,59 +95,35 @@ trait Attribute
 
         if (is_array($type)) {
             [$type, $param] = $type;
-        } elseif (strpos($type, ':')) {
+        } elseif (str_contains($type, ':')) {
             [$type, $param] = explode(':', $type, 2);
         }
 
-        switch ($type) {
-            case 'integer':
-                $value = (int) $value;
-                break;
-            case 'float':
-                if (empty($param)) {
-                    $value = (float) $value;
-                } else {
-                    $value = (float) number_format($value, (int) $param, '.', '');
+        $exTransform = static function (string $type, $value, $model) {
+            if (class_exists($type)) {
+                if (is_subclass_of($type, FieldTypeTransform::class)) {
+                    $value = $type::modelWriteValue($value, $model);
+                } elseif (is_object($value) && method_exists($value, '__toString')) {
+                    // 后续改进 $value instanceof Stringable
+                    // 对象类型
+                    $value = $value->__toString();
                 }
-                break;
-            case 'boolean':
-                $value = (bool) $value;
-                break;
-            case 'timestamp':
-                if (!is_numeric($value)) {
-                    $value = strtotime($value);
-                }
-                break;
-            case 'datetime':
-                $value = is_numeric($value) ? $value : strtotime($value);
-                $value = $this->formatDateTime('Y-m-d H:i:s.u', $value, true);
-                break;
-            case 'object':
-                if (is_object($value)) {
-                    $value = json_encode($value, JSON_FORCE_OBJECT);
-                }
-                break;
-            case 'array':
-                $value = (array) $value;
-                // no break
-            case 'json':
-                $option = !empty($param) ? (int) $param : JSON_UNESCAPED_UNICODE;
-                $value  = json_encode($value, $option);
-                break;
-            case 'serialize':
-                $value = serialize($value);
-                break;
-            default:
-                if (class_exists($type)) {
-                    if (is_subclass_of($type, FieldTypeTransform::class)) {
-                        $value = $type::modelWriteValue($value, $this);
-                    } elseif (is_object($value) && method_exists($value, '__toString')) {
-                        // 对象类型
-                        $value = $value->__toString();
-                    }
-                }
-        }
+            }
 
-        return $value;
+            return $value;
+        };
+
+        return match ($type) {
+            'integer'   =>  (int) $value,
+            'float'     =>  empty($param) ? (float) $value : (float) number_format($value, (int) $param, '.', ''),
+            'boolean'   =>  (bool) $value,
+            'timestamp' =>  !is_numeric($value) ? strtotime($value) : $value,
+            'datetime'  =>  $this->formatDateTime('Y-m-d H:i:s.u', $value, true),
+            'object'    =>  is_object($value) ? json_encode($value, JSON_FORCE_OBJECT) : $value,
+            'array'     =>  json_encode((array) $value, !empty($param) ? (int) $param : JSON_UNESCAPED_UNICODE),
+            'json'      =>  json_encode($value, !empty($param) ? (int) $param : JSON_UNESCAPED_UNICODE),
+            'serialize' =>  serialize($value),
+            default     =>  $exTransform($type, $value, $this),
+        };
     }
 }
