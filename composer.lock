@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "667f660527fef8362b40f3cb2f652990",
+    "content-hash": "20ca77458d52ca4184c6eacad81c240b",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -60,257 +60,6 @@
                 }
             ],
             "time": "2023-01-21T23:05:38+00:00"
-        },
-        {
-            "name": "cakephp/core",
-            "version": "4.4.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/core.git",
-                "reference": "b101e59c4c04587c7552f66388c9fbdeadc339c6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/core/zipball/b101e59c4c04587c7552f66388c9fbdeadc339c6",
-                "reference": "b101e59c4c04587c7552f66388c9fbdeadc339c6",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "cakephp/utility": "^4.0",
-                "php": ">=7.4.0"
-            },
-            "provide": {
-                "psr/container-implementation": "^1.0 || ^2.0"
-            },
-            "suggest": {
-                "cakephp/cache": "To use Configure::store() and restore().",
-                "cakephp/event": "To use PluginApplicationInterface or plugin applications.",
-                "league/container": "To use Container and ServiceProvider classes"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "functions.php"
-                ],
-                "psr-4": {
-                    "Cake\\Core\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/core/graphs/contributors"
-                }
-            ],
-            "description": "CakePHP Framework Core classes",
-            "homepage": "https://cakephp.org",
-            "keywords": [
-                "cakephp",
-                "core",
-                "framework"
-            ],
-            "support": {
-                "forum": "https://stackoverflow.com/tags/cakephp",
-                "irc": "irc://irc.freenode.org/cakephp",
-                "issues": "https://github.com/cakephp/cakephp/issues",
-                "source": "https://github.com/cakephp/core"
-            },
-            "time": "2023-08-04T21:00:40+00:00"
-        },
-        {
-            "name": "cakephp/database",
-            "version": "4.4.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/database.git",
-                "reference": "b1456297c9aaefca463a17d571426509fb2999d0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/database/zipball/b1456297c9aaefca463a17d571426509fb2999d0",
-                "reference": "b1456297c9aaefca463a17d571426509fb2999d0",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "cakephp/core": "^4.0",
-                "cakephp/datasource": "^4.0",
-                "php": ">=7.4.0"
-            },
-            "suggest": {
-                "cakephp/i18n": "If you are using locale-aware datetime formats or Chronos types.",
-                "cakephp/log": "If you want to use query logging without providing a logger yourself."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cake\\Database\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/database/graphs/contributors"
-                }
-            ],
-            "description": "Flexible and powerful Database abstraction library with a familiar PDO-like API",
-            "homepage": "https://cakephp.org",
-            "keywords": [
-                "abstraction",
-                "cakephp",
-                "database",
-                "database abstraction",
-                "pdo"
-            ],
-            "support": {
-                "forum": "https://stackoverflow.com/tags/cakephp",
-                "irc": "irc://irc.freenode.org/cakephp",
-                "issues": "https://github.com/cakephp/cakephp/issues",
-                "source": "https://github.com/cakephp/database"
-            },
-            "time": "2023-08-04T04:23:09+00:00"
-        },
-        {
-            "name": "cakephp/datasource",
-            "version": "4.4.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/datasource.git",
-                "reference": "faec70c6e0f78bb5a1db287f9b46a8b2a6fdbb13"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/datasource/zipball/faec70c6e0f78bb5a1db287f9b46a8b2a6fdbb13",
-                "reference": "faec70c6e0f78bb5a1db287f9b46a8b2a6fdbb13",
-                "shasum": ""
-            },
-            "require": {
-                "cakephp/core": "^4.0",
-                "php": ">=7.4.0",
-                "psr/log": "^1.0 || ^2.0",
-                "psr/simple-cache": "^1.0 || ^2.0"
-            },
-            "suggest": {
-                "cakephp/cache": "If you decide to use Query caching.",
-                "cakephp/collection": "If you decide to use ResultSetInterface.",
-                "cakephp/utility": "If you decide to use EntityTrait."
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Cake\\Datasource\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/datasource/graphs/contributors"
-                }
-            ],
-            "description": "Provides connection managing and traits for Entities and Queries that can be reused for different datastores",
-            "homepage": "https://cakephp.org",
-            "keywords": [
-                "cakephp",
-                "connection management",
-                "datasource",
-                "entity",
-                "query"
-            ],
-            "support": {
-                "forum": "https://stackoverflow.com/tags/cakephp",
-                "irc": "irc://irc.freenode.org/cakephp",
-                "issues": "https://github.com/cakephp/cakephp/issues",
-                "source": "https://github.com/cakephp/datasource"
-            },
-            "time": "2023-04-22T08:15:33+00:00"
-        },
-        {
-            "name": "cakephp/utility",
-            "version": "4.4.16",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/utility.git",
-                "reference": "a6a17c556d02c57259e21127a4f3d3ec5cd8481f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/utility/zipball/a6a17c556d02c57259e21127a4f3d3ec5cd8481f",
-                "reference": "a6a17c556d02c57259e21127a4f3d3ec5cd8481f",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "cakephp/core": "^4.0",
-                "php": ">=7.4.0"
-            },
-            "suggest": {
-                "ext-intl": "To use Text::transliterate() or Text::slug()",
-                "lib-ICU": "To use Text::transliterate() or Text::slug()"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Cake\\Utility\\": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/utility/graphs/contributors"
-                }
-            ],
-            "description": "CakePHP Utility classes such as Inflector, String, Hash, and Security",
-            "homepage": "https://cakephp.org",
-            "keywords": [
-                "cakephp",
-                "hash",
-                "inflector",
-                "security",
-                "string",
-                "utility"
-            ],
-            "support": {
-                "forum": "https://stackoverflow.com/tags/cakephp",
-                "irc": "irc://irc.freenode.org/cakephp",
-                "issues": "https://github.com/cakephp/cakephp/issues",
-                "source": "https://github.com/cakephp/utility"
-            },
-            "time": "2023-02-24T22:07:16+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -1370,35 +1119,31 @@
         },
         {
             "name": "nhzex/think-phinx",
-            "version": "v3.0.0",
+            "version": "v4.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-phinx.git",
-                "reference": "eb181a4b38a4feee78fa7f98ee2ef0e569caa030"
+                "reference": "295ff210f9398a25d9d984986b2f2cb8b043bc60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/eb181a4b38a4feee78fa7f98ee2ef0e569caa030",
-                "reference": "eb181a4b38a4feee78fa7f98ee2ef0e569caa030",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/295ff210f9398a25d9d984986b2f2cb8b043bc60",
+                "reference": "295ff210f9398a25d9d984986b2f2cb8b043bc60",
+                "shasum": ""
             },
             "require": {
+                "composer-runtime-api": "^2.1",
                 "php": "^7.4|^8.0",
-                "robmorgan/phinx": "~0.12.5|~0.13.1",
-                "topthink/framework": "^6.0|^6.1",
+                "psr/container": "^1.0 || ^2.0",
+                "symfony/config": "^5.4|^6.0",
+                "symfony/console": "^5.4|^6.0",
+                "topthink/framework": "^6.0|^6.1|^8.0.1",
                 "topthink/think-orm": "^2.0.30|^3.0",
                 "zxin/phinx-schema": "^1.0.2",
-                "zxin/think-symfony-bridge": "^2.0"
+                "zxin/think-symfony-bridge": "^3.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9",
-                "symfony/var-dumper": "^5.0|^6.0"
+                "bamarni/composer-bin-plugin": "^1.8"
             },
             "type": "library",
             "extra": {
@@ -1413,6 +1158,7 @@
             },
             "autoload": {
                 "files": [
+                    "third-party/vendor/scoper-autoload.php",
                     "src/helper.php"
                 ],
                 "psr-4": {
@@ -1436,9 +1182,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-phinx/issues",
-                "source": "https://github.com/NHZEX/think-phinx/tree/v3.0.0"
+                "source": "https://github.com/NHZEX/think-phinx/tree/v4.0.2"
             },
-            "time": "2023-02-20T17:15:15+00:00"
+            "time": "2023-08-12T09:53:05+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2081,98 +1827,6 @@
                 "source": "https://github.com/ralouphie/getallheaders/tree/develop"
             },
             "time": "2019-03-08T08:55:37+00:00"
-        },
-        {
-            "name": "robmorgan/phinx",
-            "version": "0.13.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/cakephp/phinx.git",
-                "reference": "18e06e4a2b18947663438afd2f467e17c62e867d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/phinx/zipball/18e06e4a2b18947663438afd2f467e17c62e867d",
-                "reference": "18e06e4a2b18947663438afd2f467e17c62e867d",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "cakephp/database": "^4.0",
-                "php": ">=7.2",
-                "psr/container": "^1.0 || ^2.0",
-                "symfony/config": "^3.4|^4.0|^5.0|^6.0",
-                "symfony/console": "^3.4|^4.0|^5.0|^6.0"
-            },
-            "require-dev": {
-                "cakephp/cakephp-codesniffer": "^4.0",
-                "ext-json": "*",
-                "ext-pdo": "*",
-                "phpunit/phpunit": "^8.5|^9.3",
-                "sebastian/comparator": ">=1.2.3",
-                "symfony/yaml": "^3.4|^4.0|^5.0"
-            },
-            "suggest": {
-                "ext-json": "Install if using JSON configuration format",
-                "ext-pdo": "PDO extension is needed",
-                "symfony/yaml": "Install if using YAML configuration format"
-            },
-            "bin": [
-                "bin/phinx"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Phinx\\": "src/Phinx/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Rob Morgan",
-                    "email": "robbym@gmail.com",
-                    "homepage": "https://robmorgan.id.au",
-                    "role": "Lead Developer"
-                },
-                {
-                    "name": "Woody Gilk",
-                    "email": "woody.gilk@gmail.com",
-                    "homepage": "https://shadowhand.me",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Richard Quadling",
-                    "email": "rquadling@gmail.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "CakePHP Community",
-                    "homepage": "https://github.com/cakephp/phinx/graphs/contributors",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Phinx makes it ridiculously easy to manage the database migrations for your PHP app.",
-            "homepage": "https://phinx.org",
-            "keywords": [
-                "database",
-                "database migrations",
-                "db",
-                "migrations",
-                "phinx"
-            ],
-            "support": {
-                "issues": "https://github.com/cakephp/phinx/issues",
-                "source": "https://github.com/cakephp/phinx/tree/0.13.4"
-            },
-            "time": "2023-01-07T00:42:55+00:00"
         },
         {
             "name": "rybakit/msgpack",
@@ -3999,16 +3653,16 @@
         },
         {
             "name": "zxin/think-cors",
-            "version": "v2.1.1",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-cors.git",
-                "reference": "4fd2729629fe17f10774c1ffd5e8a6b21657ce4a"
+                "reference": "539a71aba0fba02bf7ba096575a4a6cf3fb147ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/4fd2729629fe17f10774c1ffd5e8a6b21657ce4a",
-                "reference": "4fd2729629fe17f10774c1ffd5e8a6b21657ce4a",
+                "url": "https://api.github.com/repos/NHZEX/think-cors/zipball/539a71aba0fba02bf7ba096575a4a6cf3fb147ff",
+                "reference": "539a71aba0fba02bf7ba096575a4a6cf3fb147ff",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4018,15 +3672,15 @@
                 ]
             },
             "require": {
-                "php": "^7.1|^8.0",
-                "symfony/polyfill-php73": "^1",
+                "php": "^7.4|^8.0",
                 "symfony/polyfill-php80": "^1",
-                "topthink/framework": "^6.0"
+                "topthink/framework": "^6.1|~8.0.1"
             },
             "require-dev": {
-                "phpstan/phpstan": "^0.12.78",
-                "phpunit/phpunit": "^8|^7|^9",
-                "symfony/var-dumper": "^5.0|^4.0"
+                "php-cs-fixer/shim": "^3.22",
+                "phpstan/phpstan": "^1.10.28",
+                "phpunit/phpunit": "^9",
+                "symfony/var-dumper": "^5.4|^6.0"
             },
             "type": "library",
             "extra": {
@@ -4040,7 +3694,7 @@
             "autoload": {
                 "files": [],
                 "psr-4": {
-                    "HZEX\\Think\\Cors\\": "src"
+                    "Zxin\\Think\\Cors\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -4060,9 +3714,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-cors/issues",
-                "source": "https://github.com/NHZEX/think-cors/tree/v2.1.1"
+                "source": "https://github.com/NHZEX/think-cors/tree/v3.0.0"
             },
-            "time": "2021-03-14T12:37:21+00:00"
+            "time": "2023-08-11T14:53:39+00:00"
         },
         {
             "name": "zxin/think-env",
@@ -4261,16 +3915,16 @@
         },
         {
             "name": "zxin/think-symfony-bridge",
-            "version": "v2.0.0",
+            "version": "v3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-symfony-bridge.git",
-                "reference": "cff6913229a60e65d594c3bd95608b8c3ab8a881"
+                "reference": "1a57ae6e8d715e2301096e5eaed877aaceade57d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-symfony-bridge/zipball/cff6913229a60e65d594c3bd95608b8c3ab8a881",
-                "reference": "cff6913229a60e65d594c3bd95608b8c3ab8a881",
+                "url": "https://api.github.com/repos/NHZEX/think-symfony-bridge/zipball/1a57ae6e8d715e2301096e5eaed877aaceade57d",
+                "reference": "1a57ae6e8d715e2301096e5eaed877aaceade57d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -4280,9 +3934,9 @@
                 ]
             },
             "require": {
-                "php": "^7.2|^8.0",
+                "php": "^7.4|^8.0",
                 "symfony/console": "^5.4|^6.0",
-                "topthink/framework": "^6.0"
+                "topthink/framework": "^6.0|~8.0.1"
             },
             "type": "library",
             "autoload": {
@@ -4302,11 +3956,16 @@
                 }
             ],
             "description": "thinkphp symfony bridge",
+            "keywords": [
+                "console",
+                "symfony bridge",
+                "thinkphp"
+            ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-symfony-bridge/issues",
-                "source": "https://github.com/NHZEX/think-symfony-bridge/tree/v2.0.0"
+                "source": "https://github.com/NHZEX/think-symfony-bridge/tree/v3.0.0"
             },
-            "time": "2022-08-08T09:45:09+00:00"
+            "time": "2023-08-12T08:48:23+00:00"
         },
         {
             "name": "zxin/think-validate",
