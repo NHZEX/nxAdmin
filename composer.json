@@ -46,7 +46,7 @@
         "zxin/think-annotation": "^2.0.0",
         "zxin/think-auth": "^3.0.0",
         "zxin/think-captcha": "^1.0",
-        "zxin/think-cors": "^2.1",
+        "zxin/think-cors": "^3.0",
         "zxin/think-env": "^2.0",
         "zxin/think-redis": "^1.1",
         "zxin/think-route": "^2.0.0",
