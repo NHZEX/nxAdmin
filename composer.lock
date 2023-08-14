@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "70b6bdc68ef6182c7b2833297bf0f033",
+    "content-hash": "fd4791f79723c16f1d024236ad7f99eb",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -1132,17 +1132,23 @@
         },
         {
             "name": "nhzex/think-phinx",
-            "version": "v4.0.2",
+            "version": "v4.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-phinx.git",
-                "reference": "295ff210f9398a25d9d984986b2f2cb8b043bc60"
+                "reference": "2f16cfd8363e151b1ec1612290d6a4afb26209ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/295ff210f9398a25d9d984986b2f2cb8b043bc60",
-                "reference": "295ff210f9398a25d9d984986b2f2cb8b043bc60",
-                "shasum": ""
+                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/2f16cfd8363e151b1ec1612290d6a4afb26209ae",
+                "reference": "2f16cfd8363e151b1ec1612290d6a4afb26209ae",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "composer-runtime-api": "^2.1",
@@ -1154,6 +1160,9 @@
                 "topthink/think-orm": "^2.0.30|^3.0",
                 "zxin/phinx-schema": "^1.0.2",
                 "zxin/think-symfony-bridge": "^3.0"
+            },
+            "replace": {
+                "robmorgan/phinx": "~0.13.4"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8"
@@ -1195,9 +1204,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-phinx/issues",
-                "source": "https://github.com/NHZEX/think-phinx/tree/v4.0.2"
+                "source": "https://github.com/NHZEX/think-phinx/tree/v4.0.3"
             },
-            "time": "2023-08-12T09:53:05+00:00"
+            "time": "2023-08-13T16:26:02+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1454,16 +1463,16 @@
         },
         {
             "name": "psr/container",
-            "version": "1.1.2",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/container.git",
-                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea"
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/513e0666f7216c7459170d56df27dfcefe1689ea",
-                "reference": "513e0666f7216c7459170d56df27dfcefe1689ea",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+                "reference": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1476,6 +1485,11 @@
                 "php": ">=7.4.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Psr\\Container\\": "src/"
@@ -1502,9 +1516,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-fig/container/issues",
-                "source": "https://github.com/php-fig/container/tree/1.1.2"
+                "source": "https://github.com/php-fig/container/tree/2.0.2"
             },
-            "time": "2021-11-05T16:50:12+00:00"
+            "time": "2021-11-05T16:47:00+00:00"
         },
         {
             "name": "psr/http-client",
@@ -1680,16 +1694,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.4",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
+                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/fe5ea303b0887d5caefd3d431c3e61ad47037001",
+                "reference": "fe5ea303b0887d5caefd3d431c3e61ad47037001",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1699,17 +1713,17 @@
                 ]
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "3.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
+                    "Psr\\Log\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1730,22 +1744,22 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
+                "source": "https://github.com/php-fig/log/tree/3.0.0"
             },
-            "time": "2021-05-03T11:20:27+00:00"
+            "time": "2021-07-14T16:46:02+00:00"
         },
         {
             "name": "psr/simple-cache",
-            "version": "1.0.1",
+            "version": "3.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/simple-cache.git",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
-                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/764e0b3939f5ca87cb904f570ef9be2d78a07865",
+                "reference": "764e0b3939f5ca87cb904f570ef9be2d78a07865",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1755,12 +1769,12 @@
                 ]
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -1775,7 +1789,7 @@
             "authors": [
                 {
                     "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
+                    "homepage": "https://www.php-fig.org/"
                 }
             ],
             "description": "Common interfaces for simple caching",
@@ -1787,9 +1801,9 @@
                 "simple-cache"
             ],
             "support": {
-                "source": "https://github.com/php-fig/simple-cache/tree/master"
+                "source": "https://github.com/php-fig/simple-cache/tree/3.0.0"
             },
-            "time": "2017-10-23T01:57:42+00:00"
+            "time": "2021-10-29T13:26:27+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -2744,16 +2758,16 @@
         },
         {
             "name": "symfony/service-contracts",
-            "version": "v2.5.2",
+            "version": "v3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/service-contracts.git",
-                "reference": "4b426aac47d6427cc1a1d0f7e2ac724627f5966c"
+                "reference": "d78d39c1599bd1188b8e26bb341da52c3c6d8a66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/4b426aac47d6427cc1a1d0f7e2ac724627f5966c",
-                "reference": "4b426aac47d6427cc1a1d0f7e2ac724627f5966c",
+                "url": "https://api.github.com/repos/symfony/service-contracts/zipball/d78d39c1599bd1188b8e26bb341da52c3c6d8a66",
+                "reference": "d78d39c1599bd1188b8e26bb341da52c3c6d8a66",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -2763,9 +2777,8 @@
                 ]
             },
             "require": {
-                "php": ">=7.2.5",
-                "psr/container": "^1.1",
-                "symfony/deprecation-contracts": "^2.1|^3"
+                "php": ">=8.0.2",
+                "psr/container": "^2.0"
             },
             "conflict": {
                 "ext-psr": "<1.1|>=2"
@@ -2776,7 +2789,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.5-dev"
+                    "dev-main": "3.0-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -2813,7 +2826,7 @@
                 "standards"
             ],
             "support": {
-                "source": "https://github.com/symfony/service-contracts/tree/v2.5.2"
+                "source": "https://github.com/symfony/service-contracts/tree/v3.0.2"
             },
             "funding": [
                 {
@@ -2829,7 +2842,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-30T19:17:29+00:00"
+            "time": "2022-05-30T19:17:58+00:00"
         },
         {
             "name": "symfony/string",
@@ -3096,16 +3109,16 @@
         },
         {
             "name": "topthink/framework",
-            "version": "v6.1.4",
+            "version": "v8.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/framework.git",
-                "reference": "66eb9cf4d627df12911344cd328faf9bb596bf2c"
+                "reference": "23101f0ad7581de32442553e045cffd7686a337b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/framework/zipball/66eb9cf4d627df12911344cd328faf9bb596bf2c",
-                "reference": "66eb9cf4d627df12911344cd328faf9bb596bf2c",
+                "url": "https://api.github.com/repos/top-think/framework/zipball/23101f0ad7581de32442553e045cffd7686a337b",
+                "reference": "23101f0ad7581de32442553e045cffd7686a337b",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3117,19 +3130,19 @@
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": ">=7.2.5",
-                "psr/container": "~1.0",
+                "php": ">=8.0.0",
+                "psr/container": "^2.0",
                 "psr/http-message": "^1.0",
-                "psr/log": "~1.0",
-                "psr/simple-cache": "^1.0",
-                "topthink/think-helper": "^3.1.1",
-                "topthink/think-orm": "^2.0|^3.0"
+                "psr/log": "^3.0",
+                "psr/simple-cache": "^3.0",
+                "topthink/think-helper": "^3.1",
+                "topthink/think-orm": "^3.0"
             },
             "require-dev": {
                 "guzzlehttp/psr7": "^2.1.0",
                 "mikey179/vfsstream": "^1.6",
                 "mockery/mockery": "^1.2",
-                "phpunit/phpunit": "^7.0"
+                "phpunit/phpunit": "^9.5"
             },
             "type": "library",
             "autoload": {
@@ -3161,9 +3174,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/framework/issues",
-                "source": "https://github.com/top-think/framework/tree/v6.1.4"
+                "source": "https://github.com/top-think/framework/tree/v8.0.1"
             },
-            "time": "2023-07-11T15:16:03+00:00"
+            "time": "2023-07-09T09:12:43+00:00"
         },
         {
             "name": "topthink/think-helper",
@@ -3280,16 +3293,16 @@
         },
         {
             "name": "topthink/think-throttle",
-            "version": "v1.3.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-throttle.git",
-                "reference": "daa5bace5e4844a346af403a0c44d9ce4bf7af06"
+                "reference": "26b73d828a106e175f8df872db1ba3d992abadf7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-throttle/zipball/daa5bace5e4844a346af403a0c44d9ce4bf7af06",
-                "reference": "daa5bace5e4844a346af403a0c44d9ce4bf7af06",
+                "url": "https://api.github.com/repos/top-think/think-throttle/zipball/26b73d828a106e175f8df872db1ba3d992abadf7",
+                "reference": "26b73d828a106e175f8df872db1ba3d992abadf7",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3299,8 +3312,13 @@
                 ]
             },
             "require": {
-                "php": ">=7.1.0",
-                "topthink/framework": "^6.0.0"
+                "php": ">=8.0.0",
+                "topthink/framework": "^8.0"
+            },
+            "require-dev": {
+                "guzzlehttp/guzzle": "^7.7",
+                "phpunit/phpunit": "^9.5",
+                "topthink/think": "^8.0.0"
             },
             "type": "library",
             "extra": {
@@ -3328,9 +3346,9 @@
             "description": "throttle middleware for thinkphp6",
             "support": {
                 "issues": "https://github.com/top-think/think-throttle/issues",
-                "source": "https://github.com/top-think/think-throttle/tree/v1.3.1"
+                "source": "https://github.com/top-think/think-throttle/tree/v2.0.0"
             },
-            "time": "2022-08-25T14:35:52+00:00"
+            "time": "2023-07-07T05:42:54+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -3786,43 +3804,35 @@
         },
         {
             "name": "zxin/think-redis",
-            "version": "v1.2.1",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-redis.git",
-                "reference": "8f786284a4d7b5155d52111b8a48c444cb9b66b1"
+                "reference": "b7269eb2788f7708eaeb34668b06f89fc92d5985"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/8f786284a4d7b5155d52111b8a48c444cb9b66b1",
-                "reference": "8f786284a4d7b5155d52111b8a48c444cb9b66b1",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/b7269eb2788f7708eaeb34668b06f89fc92d5985",
+                "reference": "b7269eb2788f7708eaeb34668b06f89fc92d5985",
+                "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-redis": "*",
-                "php": "~7.2 | ~8.0",
-                "symfony/polyfill-php80": "^1.18",
-                "topthink/framework": "^6.0.3"
+                "php": "~8.0",
+                "topthink/framework": "~8.0.1"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.18",
                 "open-smf/connection-pool": "^1.0",
-                "phpstan/phpstan": "^0.12.91",
-                "phpunit/phpunit": "^7|^8",
-                "rybakit/msgpack": "^0.7.0",
-                "swoole/ide-helper": "^4.5.11",
-                "symfony/var-dumper": "^4.4|^5.0"
+                "php-cs-fixer/shim": "^3.14",
+                "phpstan/phpstan": "^1.10.28",
+                "phpunit/phpunit": "^9",
+                "rector/rector": "^0.17.12",
+                "swoole/ide-helper": "^4.8",
+                "symfony/var-dumper": "^6.0"
             },
             "suggest": {
-                "open-smf/connection-pool": "Connection pool support",
-                "rybakit/msgpack": "Redis model type msgpack serialization"
+                "open-smf/connection-pool": "Connection pool support"
             },
             "type": "library",
             "extra": {
@@ -3855,9 +3865,9 @@
             "description": "think redis",
             "support": {
                 "issues": "https://github.com/NHZEX/think-redis/issues",
-                "source": "https://github.com/NHZEX/think-redis/tree/v1.2.1"
+                "source": "https://github.com/NHZEX/think-redis/tree/v2.0.0"
             },
-            "time": "2023-03-07T17:09:36+00:00"
+            "time": "2023-08-11T14:16:29+00:00"
         },
         {
             "name": "zxin/think-route",
