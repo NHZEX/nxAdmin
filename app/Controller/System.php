@@ -4,7 +4,6 @@ namespace app\Controller;
 
 use app\Logic\SystemLogic;
 use app\Service\System\DatabaseUtils;
-use Composer\InstalledVersions;
 use think\middleware\Throttle;
 use think\Response;
 use Util\Reply;
@@ -42,7 +41,7 @@ class System extends ApiBase
             'sys_version' => ['服务器系统', php_uname()],
             'server_software' => ['执行环境', $_SERVER['SERVER_SOFTWARE']],
             'php_sapi' => ['PHP接口类型', PHP_SAPI],
-            'tp_version' => ['ThinkPHP 版本', InstalledVersions::getPrettyVersion('topthink/framework')],
+            'tp_version' => ['ThinkPHP 版本', $this->app->version()],
             'php_version' => ['PHP版本', PHP_VERSION],
             'db_version' => ['数据库版本', db_version(null, true)],
             'memory_limit' => ['内存限制', ini_get('memory_limit')],
