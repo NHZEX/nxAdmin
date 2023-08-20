@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "da332061f78c5f28df351d3d595d5b82",
+    "content-hash": "74602481d7ffe071afaf9931411116ec",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -1043,16 +1043,16 @@
         },
         {
             "name": "nhzex/think-blade",
-            "version": "v7.0.0-beta.2",
+            "version": "v7.0.0-beta.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-blade.git",
-                "reference": "c5d2e3d3a051c7abeb46de17552f186fdec16efe"
+                "reference": "e047c47d4e456217d6ec9e734b14bd616016598d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/c5d2e3d3a051c7abeb46de17552f186fdec16efe",
-                "reference": "c5d2e3d3a051c7abeb46de17552f186fdec16efe",
+                "url": "https://api.github.com/repos/NHZEX/think-blade/zipball/e047c47d4e456217d6ec9e734b14bd616016598d",
+                "reference": "e047c47d4e456217d6ec9e734b14bd616016598d",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1126,22 +1126,22 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-blade/issues",
-                "source": "https://github.com/NHZEX/think-blade/tree/v7.0.0-beta.2"
+                "source": "https://github.com/NHZEX/think-blade/tree/v7.0.0-beta.3"
             },
-            "time": "2023-08-14T09:32:52+00:00"
+            "time": "2023-08-20T04:47:43+00:00"
         },
         {
             "name": "nhzex/think-phinx",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-phinx.git",
-                "reference": "2f16cfd8363e151b1ec1612290d6a4afb26209ae"
+                "reference": "758f34808e7fd969a2fa2eb878a33bfb2f988c78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/2f16cfd8363e151b1ec1612290d6a4afb26209ae",
-                "reference": "2f16cfd8363e151b1ec1612290d6a4afb26209ae",
+                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/758f34808e7fd969a2fa2eb878a33bfb2f988c78",
+                "reference": "758f34808e7fd969a2fa2eb878a33bfb2f988c78",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1154,6 +1154,7 @@
                 "composer-runtime-api": "^2.1",
                 "php": "^7.4|^8.0",
                 "psr/container": "^1.0 || ^2.0",
+                "robmorgan/phinx": "~0.13",
                 "symfony/config": "^5.4|^6.0",
                 "symfony/console": "^5.4|^6.0",
                 "topthink/framework": "^6.0|^6.1|^8.0.1",
@@ -1162,7 +1163,8 @@
                 "zxin/think-symfony-bridge": "^3.0"
             },
             "replace": {
-                "robmorgan/phinx": "~0.13.4"
+                "cakephp/database": "4.4.17",
+                "robmorgan/phinx": "0.13.4"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8"
@@ -1204,9 +1206,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-phinx/issues",
-                "source": "https://github.com/NHZEX/think-phinx/tree/v4.0.3"
+                "source": "https://github.com/NHZEX/think-phinx/tree/v4.0.4"
             },
-            "time": "2023-08-13T16:26:02+00:00"
+            "time": "2023-08-20T05:59:39+00:00"
         },
         {
             "name": "nikic/php-parser",
