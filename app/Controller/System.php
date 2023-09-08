@@ -65,9 +65,9 @@ class System extends ApiBase
      */
     #[Auth("admin.resetCache")]
     #[Route(method: 'GET')]
-    public function resetCache(SystemLogic $logic): Response
+    public function resetCache(): Response
     {
-        $logic->resetPermissionCache();
+        SystemLogic::resetPermissionCache();
         return Reply::success();
     }
 }
