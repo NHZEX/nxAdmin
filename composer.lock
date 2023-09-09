@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "74602481d7ffe071afaf9931411116ec",
+    "content-hash": "2a845731d5305a907371feac16f46d43",
     "packages": [
         {
             "name": "brick/varexporter",
-            "version": "0.3.8",
+            "version": "0.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/varexporter.git",
-                "reference": "b5853edea6204ff8fa10633c3a4cccc4058410ed"
+                "reference": "2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/varexporter/zipball/b5853edea6204ff8fa10633c3a4cccc4058410ed",
-                "reference": "b5853edea6204ff8fa10633c3a4cccc4058410ed",
+                "url": "https://api.github.com/repos/brick/varexporter/zipball/2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb",
+                "reference": "2fd038f7c9d12d468130c6e1b3ce06e4160a7dbb",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -28,12 +28,12 @@
             },
             "require": {
                 "nikic/php-parser": "^4.0",
-                "php": "^7.2 || ^8.0"
+                "php": "^7.4 || ^8.0"
             },
             "require-dev": {
                 "php-coveralls/php-coveralls": "^2.2",
                 "phpunit/phpunit": "^8.5 || ^9.0",
-                "vimeo/psalm": "4.23.0"
+                "vimeo/psalm": "5.15.0"
             },
             "type": "library",
             "autoload": {
@@ -51,7 +51,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/varexporter/issues",
-                "source": "https://github.com/brick/varexporter/tree/0.3.8"
+                "source": "https://github.com/brick/varexporter/tree/0.4.0"
             },
             "funding": [
                 {
@@ -59,7 +59,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-01-21T23:05:38+00:00"
+            "time": "2023-09-01T21:10:07+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -73,7 +73,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/composer/ca-bundle/zipball/90d087e988ff194065333d16bc5cf649872d9cdb",
                 "reference": "90d087e988ff194065333d16bc5cf649872d9cdb",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-openssl": "*",
@@ -149,7 +155,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/annotations/zipball/e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
                 "reference": "e157ef3f3124bbf6fe7ce0ffd109e8a8ef284e7f",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "doctrine/lexer": "^2 || ^3",
@@ -225,7 +237,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/doctrine/deprecations/zipball/612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
                 "reference": "612a3ee5ab0d5dd97b7cf3874a6efe24325efac3",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": "^7.1 || ^8.0"
@@ -356,7 +374,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/672eff8cf1d6fe1ef09ca0f89c4b287d6a3eb831",
                 "reference": "672eff8cf1d6fe1ef09ca0f89c4b287d6a3eb831",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": "^7.2.5 || ^8.0",
@@ -997,7 +1021,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/thephpleague/mime-type-detection/zipball/a6dfb1194a2946fcdc1f38219445234f65b35c96",
                 "reference": "a6dfb1194a2946fcdc1f38219445234f65b35c96",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-fileinfo": "*",
@@ -1222,7 +1252,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/a6303e50c90c355c7eeee2c4a8b27fe8dc8fef1d",
                 "reference": "a6303e50c90c355c7eeee2c4a8b27fe8dc8fef1d",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-tokenizer": "*",
@@ -1534,7 +1570,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/php-fig/http-client/zipball/0955afe48220520692d2d09f7ab7e0f93ffd6a31",
                 "reference": "0955afe48220520692d2d09f7ab7e0f93ffd6a31",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": "^7.0 || ^8.0",
@@ -3364,7 +3406,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/1a7ea2afc49c3ee6d87061f5a233e3a035d0eae7",
                 "reference": "1a7ea2afc49c3ee6d87061f5a233e3a035d0eae7",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-pcre": "*",
@@ -3492,138 +3540,6 @@
                 "source": "https://github.com/NHZEX/phinx-schema/tree/v1.0.2"
             },
             "time": "2021-06-07T10:10:57+00:00"
-        },
-        {
-            "name": "zxin/think-annotation",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/NHZEX/think-annotation.git",
-                "reference": "6b95776698c359eb00c41b0ede2bd04a8ac70b90"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-annotation/zipball/6b95776698c359eb00c41b0ede2bd04a8ac70b90",
-                "reference": "6b95776698c359eb00c41b0ede2bd04a8ac70b90",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "php": "^7.4|^8.0",
-                "symfony/finder": "^5.1|^6.0",
-                "symfony/polyfill-php80": "^1.26",
-                "symfony/var-exporter": "^5.1|^6.0",
-                "topthink/framework": "^6.0.12|^8.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^1.0",
-                "phpunit/phpunit": "^8|^9",
-                "rector/rector": "^0.15"
-            },
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [],
-                    "config": []
-                }
-            },
-            "autoload": {
-                "files": [],
-                "psr-4": {
-                    "Zxin\\Think\\Annotation\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "auooru",
-                    "email": "auooru@outlook.com"
-                }
-            ],
-            "description": "think annotation",
-            "support": {
-                "issues": "https://github.com/NHZEX/think-annotation/issues",
-                "source": "https://github.com/NHZEX/think-annotation/tree/v2.0.0"
-            },
-            "time": "2023-02-10T04:14:08+00:00"
-        },
-        {
-            "name": "zxin/think-auth",
-            "version": "v3.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/NHZEX/think-auth.git",
-                "reference": "ca7152a1c263f8f359aa29e04870f7cf6a326f3c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-auth/zipball/ca7152a1c263f8f359aa29e04870f7cf6a326f3c",
-                "reference": "ca7152a1c263f8f359aa29e04870f7cf6a326f3c",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "doctrine/annotations": "^2.0",
-                "php": "^7.4|^8.0",
-                "symfony/polyfill-php80": "^1.25",
-                "topthink/framework": "^6.0.3|^6.1|^8.0",
-                "zxin/think-annotation": "^2.0",
-                "zxin/utils": "^2.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^1.0",
-                "phpunit/phpunit": "^8|^9",
-                "rector/rector": "~0.15"
-            },
-            "bin": [
-                "bin/dump-auth"
-            ],
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [],
-                    "config": {
-                        "auth": "config/auth.php"
-                    }
-                }
-            },
-            "autoload": {
-                "files": [],
-                "psr-4": {
-                    "Zxin\\Think\\Auth\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "auooru",
-                    "email": "auooru@outlook.com"
-                }
-            ],
-            "description": "think auth",
-            "support": {
-                "issues": "https://github.com/NHZEX/think-auth/issues",
-                "source": "https://github.com/NHZEX/think-auth/tree/v3.0.0"
-            },
-            "time": "2023-02-22T17:20:53+00:00"
         },
         {
             "name": "zxin/think-captcha",
@@ -3805,6 +3721,66 @@
             "time": "2023-08-11T14:26:26+00:00"
         },
         {
+            "name": "zxin/think-library-plus",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/think-library-plus.git",
+                "reference": "87008484ff723f6e4e498d1ca2badac71847dd4d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/87008484ff723f6e4e498d1ca2badac71847dd4d",
+                "reference": "87008484ff723f6e4e498d1ca2badac71847dd4d",
+                "shasum": ""
+            },
+            "require": {
+                "brick/varexporter": "^0.4.0",
+                "composer-runtime-api": "^2",
+                "doctrine/annotations": "^2.0",
+                "php": "^8.0",
+                "symfony/finder": "^6.0",
+                "symfony/var-exporter": "^6.0",
+                "topthink/framework": "^8.0.2",
+                "topthink/think-helper": "^3.1.6",
+                "zxin/utils": "^2.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.26",
+                "rector/rector": "^0.18.2",
+                "topthink/think-orm": "~3.0.11"
+            },
+            "bin": [
+                "bin/dump-auth",
+                "bin/dump-route",
+                "bin/dump-validate"
+            ],
+            "type": "library",
+            "extra": {
+                "think": {
+                    "services": [],
+                    "config": {
+                        "auth": "config/auth.php",
+                        "validate": "config/validate.php"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zxin\\Think\\": [
+                        "src/",
+                        "legacy/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/NHZEX/think-library-plus/issues",
+                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.1.0"
+            },
+            "time": "2023-09-09T08:36:49+00:00"
+        },
+        {
             "name": "zxin/think-redis",
             "version": "v2.0.0",
             "source": {
@@ -3816,7 +3792,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/b7269eb2788f7708eaeb34668b06f89fc92d5985",
                 "reference": "b7269eb2788f7708eaeb34668b06f89fc92d5985",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-json": "*",
@@ -3870,72 +3852,6 @@
                 "source": "https://github.com/NHZEX/think-redis/tree/v2.0.0"
             },
             "time": "2023-08-11T14:16:29+00:00"
-        },
-        {
-            "name": "zxin/think-route",
-            "version": "v2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/NHZEX/think-annotation-route.git",
-                "reference": "66b843862ec9f7e6bbb3cf3764e382488de3ac35"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-annotation-route/zipball/66b843862ec9f7e6bbb3cf3764e382488de3ac35",
-                "reference": "66b843862ec9f7e6bbb3cf3764e382488de3ac35",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "brick/varexporter": "^0.3.7",
-                "php": "^8.0",
-                "topthink/framework": "^6.0.3|^6.1|^8.0",
-                "zxin/think-annotation": "^2.0",
-                "zxin/utils": "^2.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^1.0",
-                "phpunit/phpunit": "^8|^9",
-                "rector/rector": "~0.15"
-            },
-            "bin": [
-                "bin/dump-route"
-            ],
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [],
-                    "config": []
-                }
-            },
-            "autoload": {
-                "files": [],
-                "psr-4": {
-                    "Zxin\\Think\\Route\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "auooru",
-                    "email": "auooru@outlook.com"
-                }
-            ],
-            "description": "think auth",
-            "support": {
-                "issues": "https://github.com/NHZEX/think-annotation-route/issues",
-                "source": "https://github.com/NHZEX/think-annotation-route/tree/v2.0.0"
-            },
-            "time": "2023-02-22T17:15:55+00:00"
         },
         {
             "name": "zxin/think-symfony-bridge",
@@ -3992,75 +3908,6 @@
             "time": "2023-08-12T08:48:23+00:00"
         },
         {
-            "name": "zxin/think-validate",
-            "version": "v3.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/NHZEX/think-validate.git",
-                "reference": "7f7938be259fc2328e5a57ee0d2558e4ccd5dd87"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-validate/zipball/7f7938be259fc2328e5a57ee0d2558e4ccd5dd87",
-                "reference": "7f7938be259fc2328e5a57ee0d2558e4ccd5dd87",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
-            },
-            "require": {
-                "doctrine/annotations": "^2.0",
-                "php": "^7.4|^8.0",
-                "symfony/polyfill-php80": "^1.25",
-                "topthink/framework": "^6.0.5|^6.1|^8.0",
-                "zxin/think-annotation": "^2.0",
-                "zxin/utils": "^2.3"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.0",
-                "phpstan/phpstan": "^1.0",
-                "phpunit/phpunit": "^8|^9",
-                "rector/rector": "~0.15"
-            },
-            "bin": [
-                "bin/dump-validate"
-            ],
-            "type": "library",
-            "extra": {
-                "think": {
-                    "services": [],
-                    "config": {
-                        "validate": "config/validate.php"
-                    }
-                }
-            },
-            "autoload": {
-                "files": [],
-                "psr-4": {
-                    "Zxin\\Think\\Validate\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "auooru",
-                    "email": "auooru@outlook.com"
-                }
-            ],
-            "description": "think validate",
-            "support": {
-                "issues": "https://github.com/NHZEX/think-validate/issues",
-                "source": "https://github.com/NHZEX/think-validate/tree/v3.0.1"
-            },
-            "time": "2023-05-29T15:44:55+00:00"
-        },
-        {
             "name": "zxin/utils",
             "version": "v2.5.0",
             "source": {
@@ -4072,7 +3919,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/e8457c016476498ec556a22d9c3ae15a748a1f5e",
                 "reference": "e8457c016476498ec556a22d9c3ae15a748a1f5e",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-json": "*",
@@ -4460,7 +4313,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ee5d8f2d3977fb09e55603eee6fb53bdd76ee9c1",
                 "reference": "ee5d8f2d3977fb09e55603eee6fb53bdd76ee9c1",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "php": "^7.2|^8.0"
@@ -4522,7 +4381,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/b0a88255cb70d52653d80c890bd7f38740ea50d1",
                 "reference": "b0a88255cb70d52653d80c890bd7f38740ea50d1",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "ext-dom": "*",
@@ -4865,7 +4730,13 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/810500e92855eba8a7a5319ae913be2da6f957b0",
                 "reference": "810500e92855eba8a7a5319ae913be2da6f957b0",
-                "shasum": ""
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "doctrine/instantiator": "^1.3.1 || ^2",
@@ -6160,5 +6031,5 @@
     "platform-overrides": {
         "php": "8.0.2"
     },
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }
