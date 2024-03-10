@@ -10,7 +10,7 @@ namespace app\Validate;
 class Login extends Base
 {
     protected $rule = [
-        'token'    => 'require|min:16',
+        'token'    => 'min:16',
         'account'  => 'require|length:4,64',
         'password' => 'require|length:4,64',
         'lasting'  => 'boolean',

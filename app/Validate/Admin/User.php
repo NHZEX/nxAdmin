@@ -33,6 +33,9 @@ class User extends Base
         'save'   => [
             'genre', 'username', 'nickname', 'password', 'role_id', 'status',
         ],
+        'resetPasswod' => [
+            'password',
+        ],
     ];
 
     protected function sceneUpdate()
