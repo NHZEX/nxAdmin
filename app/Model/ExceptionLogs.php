@@ -12,15 +12,16 @@ use function substr;
 use function time;
 
 /**
- * @property int $create_time
- * @property string $request_url
- * @property string $request_route
- * @property string $request_method
- * @property string $request_ip
- * @property string $mode
- * @property array  $request_info
- * @property string $message
- * @property string $trace_info
+ * @property int    $id
+ * @property int    $create_time    创建时间
+ * @property string $request_url    请求地址
+ * @property string $request_route  请求路由
+ * @property string $request_method 请求方法
+ * @property string $request_ip     请求IP
+ * @property string $mode           类型
+ * @property string $request_info   请求信息
+ * @property string $message        消息
+ * @property string $trace_info     异常堆栈
  */
 class ExceptionLogs extends Base
 {

@@ -18,7 +18,9 @@ use function time;
  * model: 系统表
  * @property int    $id
  * @property string $laber
- * @property string $value
+ *
+ * @property string $label 标签
+ * @property string $value 值
  */
 class System extends Base
 {

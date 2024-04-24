@@ -13,20 +13,22 @@ use function is_array;
 
 /**
  * model: 附件管理
+ *
  * @property int    $id
- * @property int    $uid           用户id
  * @property int    $status        状态
+ * @property string $driver        上传驱动
  * @property string $index         附件索引
- * @property string $real_path     实际路径
+ * @property int    $uid           用户id
  * @property string $path          存储路径
  * @property string $mime          文件mime类型
  * @property mixed  $ext           文件类型
  * @property int    $size          文件大小
  * @property mixed  $sha1          sha1散列值
- * @property string $driver        上传驱动
  * @property string $raw_file_name 原始文件名
  * @property int    $create_time   创建时间
  * @property int    $update_time   更新时间
+ *
+ * @property string $real_path     实际路径
  */
 class Attachment extends Base
 {
