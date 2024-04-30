@@ -10,7 +10,7 @@ class Role extends Base
 {
     // todo genre、status 从模型获取有效范围
     protected $rule = [
-        'genre'  => 'require|number',
+        'genre'  => 'number',
         'status' => 'require|number',
         'name'   => 'require|length:3,64',
         'ext'    => 'array',

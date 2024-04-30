@@ -1,6 +1,6 @@
 <?php
-// update date: 2024-03-11T02:17:42+08:00
-// hash: abd61234f2e2d80ec962406c530c669c
+// update date: 2024-04-25T16:36:00+08:00
+// hash: 52ebccb58e405b1c990b71f071a8be7e
 return [
     [
         'file' => 'app/Controller/admin/Index.php',
@@ -535,6 +535,138 @@ return [
         'resource' => null,
         'resourceItems' => [],
         'routeItems' => []
+    ],
+    [
+        'file' => 'app/Controller/V2/Admin/Permission.php',
+        'class' => 'app\\Controller\\V2\\Admin\\Permission',
+        'controller' => 'V2.Admin.Permission',
+        'sort' => 1000,
+        'group' => \Zxin\Think\Route\Annotation\Group::__set_state([
+            'name' => 'v2/admin/permission',
+            'middleware' => null,
+            'ext' => null,
+            'deny_ext' => null,
+            'https' => null,
+            'domain' => null,
+            'complete_match' => null,
+            'cache' => null,
+            'ajax' => null,
+            'pjax' => null,
+            'json' => null,
+            'filter' => null,
+            'append' => null,
+            'pattern' => null,
+            'registerSort' => 1000
+        ]),
+        'middleware' => [],
+        'resource' => null,
+        'resourceItems' => [],
+        'routeItems' => [
+            [
+                'method' => 'index',
+                'route' => [
+                    \Zxin\Think\Route\Annotation\Route::__set_state([
+                        'name' => 'tree',
+                        'method' => 'GET',
+                        'middleware' => null,
+                        'ext' => null,
+                        'deny_ext' => null,
+                        'https' => null,
+                        'domain' => null,
+                        'complete_match' => null,
+                        'cache' => null,
+                        'ajax' => null,
+                        'pjax' => null,
+                        'json' => null,
+                        'filter' => null,
+                        'append' => null,
+                        'pattern' => null,
+                        'setGroup' => null,
+                        'registerSort' => 1000
+                    ])
+                ],
+                'middleware' => []
+            ],
+            [
+                'method' => 'scan',
+                'route' => [
+                    \Zxin\Think\Route\Annotation\Route::__set_state([
+                        'name' => 'scan',
+                        'method' => 'POST',
+                        'middleware' => null,
+                        'ext' => null,
+                        'deny_ext' => null,
+                        'https' => null,
+                        'domain' => null,
+                        'complete_match' => null,
+                        'cache' => null,
+                        'ajax' => null,
+                        'pjax' => null,
+                        'json' => null,
+                        'filter' => null,
+                        'append' => null,
+                        'pattern' => null,
+                        'setGroup' => null,
+                        'registerSort' => 1000
+                    ])
+                ],
+                'middleware' => []
+            ],
+            [
+                'method' => 'read',
+                'route' => [
+                    \Zxin\Think\Route\Annotation\Route::__set_state([
+                        'name' => ':id',
+                        'method' => 'GET',
+                        'middleware' => null,
+                        'ext' => null,
+                        'deny_ext' => null,
+                        'https' => null,
+                        'domain' => null,
+                        'complete_match' => null,
+                        'cache' => null,
+                        'ajax' => null,
+                        'pjax' => null,
+                        'json' => null,
+                        'filter' => null,
+                        'append' => null,
+                        'pattern' => [
+                            'id' => '\\S+'
+                        ],
+                        'setGroup' => null,
+                        'registerSort' => 1000
+                    ])
+                ],
+                'middleware' => []
+            ],
+            [
+                'method' => 'update',
+                'route' => [
+                    \Zxin\Think\Route\Annotation\Route::__set_state([
+                        'name' => ':id',
+                        'method' => 'POST',
+                        'middleware' => null,
+                        'ext' => null,
+                        'deny_ext' => null,
+                        'https' => null,
+                        'domain' => null,
+                        'complete_match' => null,
+                        'cache' => null,
+                        'ajax' => null,
+                        'pjax' => null,
+                        'json' => null,
+                        'filter' => null,
+                        'append' => null,
+                        'pattern' => [
+                            'id' => '\\S+'
+                        ],
+                        'setGroup' => null,
+                        'registerSort' => 1000
+                    ])
+                ],
+                'middleware' => []
+            ]
+        ]
     ],
     [
         'file' => 'app/Controller/V2/Index.php',

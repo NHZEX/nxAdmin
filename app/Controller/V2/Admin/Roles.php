@@ -66,7 +66,9 @@ class Roles extends Base
     #[Validation("@Admin.Role")]
     public function save(): Response
     {
-        AdminRole::create($this->getFilterInput());
+        $data = $this->getFilterInput();
+        $data['genre'] = AdminRole::GENRE_SYSTEM;
+        AdminRole::create($data);
         return ReplyEx::create();
     }
 
@@ -79,7 +81,9 @@ class Roles extends Base
         if (empty($data)) {
             return ReplyEx::notFound();
         }
-        $data->save($this->getFilterInput());
+        $input = $this->getFilterInput();
+        $input['genre'] ??= AdminRole::GENRE_SYSTEM;
+        $data->save($input);
         return ReplyEx::success();
     }
 

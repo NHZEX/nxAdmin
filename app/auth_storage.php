@@ -1,6 +1,6 @@
 <?php
-// update date: 2024-03-11T02:14:40+08:00
-// hash: 5f5c96e118f30831b0c0f937af2a0c1b
+// update date: 2024-04-30T20:31:55+08:00
+// hash: d53d1a25144e9622c2a9acd2e6757854
 return [
     'features' => [
         'node@admin.index/userinfo' => [
@@ -95,6 +95,26 @@ return [
         ],
         'node@system/resetcache' => [
             'class' => 'app\\Controller\\System::resetCache',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@v2.admin.permission/index' => [
+            'class' => 'app\\Controller\\V2\\Admin\\Permission::index',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@v2.admin.permission/scan' => [
+            'class' => 'app\\Controller\\V2\\Admin\\Permission::scan',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@v2.admin.permission/read' => [
+            'class' => 'app\\Controller\\V2\\Admin\\Permission::read',
+            'policy' => '',
+            'desc' => '',
+        ],
+        'node@v2.admin.permission/update' => [
+            'class' => 'app\\Controller\\V2\\Admin\\Permission::update',
             'policy' => '',
             'desc' => '',
         ],
@@ -204,6 +224,7 @@ return [
             'desc' => '编辑权限',
             'allow' => [
                 'node@admin.permission/update',
+                'node@v2.admin.permission/update',
             ],
         ],
         'admin.permission.info' => [
@@ -214,6 +235,8 @@ return [
             'allow' => [
                 'node@admin.permission/index',
                 'node@admin.permission/read',
+                'node@v2.admin.permission/index',
+                'node@v2.admin.permission/read',
             ],
         ],
         'admin.permission.scan' => [
@@ -223,6 +246,7 @@ return [
             'desc' => '扫描权限',
             'allow' => [
                 'node@admin.permission/scan',
+                'node@v2.admin.permission/scan',
             ],
         ],
         'admin.resetCache' => [
@@ -368,13 +392,17 @@ return [
         'admin.permission' => [],
         'admin.permission.edit' => [
             'node@admin.permission/update',
+            'node@v2.admin.permission/update',
         ],
         'admin.permission.info' => [
             'node@admin.permission/index',
             'node@admin.permission/read',
+            'node@v2.admin.permission/index',
+            'node@v2.admin.permission/read',
         ],
         'admin.permission.scan' => [
             'node@admin.permission/scan',
+            'node@v2.admin.permission/scan',
         ],
         'admin.resetCache' => [
             'node@system/resetcache',
@@ -443,13 +471,25 @@ return [
         'node@admin.permission/update' => [
             'admin.permission.edit' => true,
         ],
+        'node@v2.admin.permission/update' => [
+            'admin.permission.edit' => true,
+        ],
         'node@admin.permission/index' => [
             'admin.permission.info' => true,
         ],
         'node@admin.permission/read' => [
             'admin.permission.info' => true,
         ],
+        'node@v2.admin.permission/index' => [
+            'admin.permission.info' => true,
+        ],
+        'node@v2.admin.permission/read' => [
+            'admin.permission.info' => true,
+        ],
         'node@admin.permission/scan' => [
+            'admin.permission.scan' => true,
+        ],
+        'node@v2.admin.permission/scan' => [
             'admin.permission.scan' => true,
         ],
         'node@system/resetcache' => [
