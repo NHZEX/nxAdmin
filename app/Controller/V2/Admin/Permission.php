@@ -64,7 +64,7 @@ class Permission extends Base
     }
 
     #[Auth("admin.permission.edit")]
-    #[Route(':id', method: 'POST', pattern: ['id' => '\S+'])]
+    #[Route(':id', method: 'PUT', pattern: ['id' => '\S+'])]
     public function update(string $id, AuthScan $authScan, bool $batch = false): Response
     {
         if (!$this->allowAccess()) {

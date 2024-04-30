@@ -9,7 +9,6 @@ use app\Service\Auth\AuthHelper;
 use app\Service\System\DatabaseUtils;
 use app\Utils;
 use think\Response;
-use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Route\Annotation\Group;
 use Zxin\Think\Route\Annotation\Route;
@@ -23,7 +22,7 @@ class System extends ApiBase
     #[Route(method: 'GET')]
     public function config(): Response
     {
-        return Reply::success([
+        return ReplyEx::success([
             'webTitle' => env('SYSTEM_WEB_TITLE'),
             'loginCaptcha' => $this->app->config->get('feature.login_captcha'),
         ]);
@@ -48,7 +47,7 @@ class System extends ApiBase
     #[Route(method: 'GET')]
     public function sysinfo(): Response
     {
-        return Reply::success(Utils::getEnvInfo());
+        return ReplyEx::success(Utils::getEnvInfo());
     }
 
     #[Auth('admin')]
@@ -57,17 +56,17 @@ class System extends ApiBase
     {
         $list = DatabaseUtils::queryTabelInfo();
 
-        return Reply::success($list);
+        return ReplyEx::success($list);
     }
 
     /**
      * 重置缓存
      */
     #[Auth("admin.resetCache")]
-    #[Route(method: 'GET')]
+    #[Route(method: 'POST')]
     public function resetCache(): Response
     {
         SystemLogic::resetPermissionCache();
-        return Reply::success();
+        return ReplyEx::success();
     }
 }

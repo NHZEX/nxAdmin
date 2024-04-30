@@ -1,6 +1,6 @@
 <?php
-// update date: 2024-05-01T00:01:14+08:00
-// hash: 5272890973f0301505948e54ad361cd4
+// update date: 2024-05-01T00:11:56+08:00
+// hash: f801dbd97e288123e6ed95ef2fe4deb7
 return [
     [
         'file' => 'app/Controller/admin/Index.php',
@@ -895,7 +895,7 @@ return [
                 'route' => [
                     \Zxin\Think\Route\Annotation\Route::__set_state([
                         'name' => null,
-                        'method' => 'GET',
+                        'method' => 'POST',
                         'middleware' => null,
                         'ext' => null,
                         'deny_ext' => null,
