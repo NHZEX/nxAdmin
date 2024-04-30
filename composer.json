@@ -43,7 +43,7 @@
         "zxin/think-env": "^2.0",
         "zxin/think-library-plus": "^0.2.2",
         "zxin/think-redis": "^2.0.0",
-        "zxin/utils": "^2.2"
+        "zxin/utils": "^2.5"
     },
     "require-dev": {
         "php-cs-fixer/shim": "^3.14",
