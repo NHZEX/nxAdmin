@@ -6,8 +6,8 @@ use app\Controller\ApiBase;
 use app\Logic\SystemLogic;
 use app\ReplyEx;
 use app\Service\Auth\AuthHelper;
+use app\Service\DebugHelper\EnvironmentHelper;
 use app\Service\System\DatabaseUtils;
-use app\Utils;
 use think\Response;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Route\Annotation\Group;
@@ -47,7 +47,7 @@ class System extends ApiBase
     #[Route(method: 'GET')]
     public function sysinfo(): Response
     {
-        return ReplyEx::success(Utils::getEnvInfo());
+        return ReplyEx::success(EnvironmentHelper::getEnvInfo());
     }
 
     #[Auth('admin')]
