@@ -1,6 +1,7 @@
 <?php
 
 /** @noinspection PhpUnused */
+/** 非框架强依赖功能迁移出来，弃用该文件 */
 
 use think\db\ConnectionInterface;
 use think\db\PDOConnection;
@@ -79,10 +80,7 @@ function return_raw_value($x)
 }
 
 /**
- * Base64 Url安全编码
- * @param string $data
- * @return string
- * @link http://php.net/manual/zh/function.base64-encode.php
+ * @deprecated
  */
 function base64url_encode(string $data): string
 {
@@ -90,11 +88,7 @@ function base64url_encode(string $data): string
 }
 
 /**
- * Base64 Url安全解码
- * @param string $data
- * @param bool   $strict
- * @return false|string
- * @link http://php.net/manual/zh/function.base64-encode.php
+ * @deprecated
  */
 function base64url_decode(string $data, bool $strict = true)
 {
@@ -275,25 +269,6 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
     $result = $r->resource($rule, $route);
     $r->rest(ROUTE_DEFAULT_RESTFULL, true);
     return $result;
-}
-
-function preload_statistics(): string
-{
-    if (!\extension_loaded('Zend OPcache') || !\function_exists('opcache_get_status')) {
-        return 'opcache does not exist';
-    }
-    $status = opcache_get_status(false);
-    if (!isset($status['preload_statistics'])) {
-        return 'opcache preload not activated';
-    }
-    $status = $status['preload_statistics'];
-    return sprintf(
-        'mem: %.2fMB, function: %d, class: %d, script: %d',
-        $status['memory_consumption'] / 1024 / 1024,
-        is_countable($status['functions']) ? \count($status['functions']) : 0,
-        is_countable($status['classes']) ? \count($status['classes']) : 0,
-        is_countable($status['scripts']) ? \count($status['scripts']) : 0
-    );
 }
 
 /**
