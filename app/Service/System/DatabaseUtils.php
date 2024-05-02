@@ -8,7 +8,7 @@ use function Zxin\Util\format_byte;
 
 class DatabaseUtils
 {
-    public static function queryTabelInfo(): array
+    public static function queryTabelInfo(bool $newStructure = false): array
     {
         $db = \app()->db;
         $connections = $db->getConfig('connections');
@@ -61,12 +61,21 @@ class DatabaseUtils
                 \log_warning((string) $e);
             }
 
-            $output[] = [
-                'name' => $name,
-                'tables' => $list,
-                'version' => $version ?? 'unknown',
-                'message' => $message ?? null,
-            ];
+            if ($newStructure) {
+                $output[] = [
+                    'name' => $name,
+                    'table' => $list,
+                    'version' => $version ?? 'unknown',
+                    'message' => $message ?? null,
+                ];
+            } else {
+                $output[] = [
+                    'name' => $name,
+                    'tables' => $list, // 兼容代码
+                    'version' => $version ?? 'unknown',
+                    'message' => $message ?? null,
+                ];
+            }
         }
 
         return $output;

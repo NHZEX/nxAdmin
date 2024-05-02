@@ -54,7 +54,7 @@ class System extends ApiBase
     #[Route(method: 'GET')]
     public function database(): Response
     {
-        $list = DatabaseUtils::queryTabelInfo();
+        $list = DatabaseUtils::queryTabelInfo(newStructure: true);
 
         return ReplyEx::success($list);
     }
