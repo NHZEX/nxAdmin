@@ -99,7 +99,6 @@ class EnvironmentHelper
             return 'opcache not active';
         }
         $status = opcache_get_status(false);
-        log_debug(var_export($status, true));
         if (!$status['opcache_enabled']) {
             return 'opcache off';
         }
