@@ -3,7 +3,6 @@
 // | 控制台配置
 // +----------------------------------------------------------------------
 
-use app\Command\CreateModel;
 use Zxin\Think\Model\ModelGenerator\Command\ModelToolCommand;
 
 return [
@@ -11,7 +10,6 @@ return [
     'user'     => env('COMMAND_USER', null),
     // 指令定义
     'commands' => [
-        CreateModel::class,
         ModelToolCommand::class,
     ],
 ];

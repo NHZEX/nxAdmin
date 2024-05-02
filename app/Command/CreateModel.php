@@ -29,6 +29,7 @@ use function trim;
 
 /**
  * 批量创建数据结构到模型
+ * @deprecated
  */
 class CreateModel extends Command
 {
