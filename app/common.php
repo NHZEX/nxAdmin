@@ -32,46 +32,6 @@ function db_transaction(callable $callback, string $name = null)
     return Db::connect($name)->transaction($callback);
 }
 
-/**
- * @param array|object $data
- * @return string
- * @throws \app\Exception\JsonException
- */
-function json_encode_throw_on_error($data): string
-{
-    $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-
-    if (JSON_ERROR_NONE !== $last_error = json_last_error()) {
-        $last_error_msg = json_last_error_msg();
-        json_encode([]);    // 复位错误
-        throw new \app\Exception\JsonException(
-            sprintf('Json Encode Fail: %d - %s', $last_error, $last_error_msg)
-        );
-    }
-
-    return $json;
-}
-
-/**
- * @param string $json
- * @return array
- * @throws \app\Exception\JsonException
- */
-function json_decode_throw_on_error(string $json): array
-{
-    $data = json_decode($json, true);
-
-    if (JSON_ERROR_NONE !== $last_error = json_last_error()) {
-        $last_error_msg = json_last_error_msg();
-        json_decode('[]');    // 复位错误
-        throw new \app\Exception\JsonException(
-            sprintf('Json Decode Fail: %d - %s', $last_error, $last_error_msg)
-        );
-    }
-
-    return $data;
-}
-
 function return_raw_value($x)
 {
     return $x;
@@ -107,15 +67,6 @@ function url_hash(?string $url, string $prefix = 'page-'): string
     $info = parse_url($url);
     $url = $info ? ($info['path'] ?? '/') : '/';
     return $prefix . crc32($url);
-}
-
-/**
- * 当前运行环境是否CLI
- * @return bool
- */
-function is_cli()
-{
-    return 'cli' === PHP_SAPI;
 }
 
 /**

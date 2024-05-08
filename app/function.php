@@ -6,6 +6,12 @@ use think\event\HttpEnd;
  * 项目自定义全局函数文件
  * 建议使用类静态方法或者带命名空间的函数声明
  */
+
+function is_cli(): bool
+{
+    return 'cli' === PHP_SAPI;
+}
+
 function get_temp_filename_with_auto_clear(string $prefix, string $extension = ''): string
 {
     static $fileList = null;
@@ -23,16 +29,16 @@ function get_temp_filename_with_auto_clear(string $prefix, string $extension = '
     return $filename;
 }
 
-function json_encode_ex(mixed $value, int $options = 0, int $depth = 512): string
+function json_encode_ex(mixed $value, int $flags = 0, int $depth = 512): string
 {
-    $options |= JSON_UNESCAPED_UNICODE;
-    $options |= JSON_UNESCAPED_SLASHES;
-    $options |= JSON_THROW_ON_ERROR;
-    return json_encode($value, $options, $depth);
+    $flags |= JSON_UNESCAPED_UNICODE;
+    $flags |= JSON_UNESCAPED_SLASHES;
+    $flags |= JSON_THROW_ON_ERROR;
+    return json_encode($value, $flags, $depth);
 }
 
-function json_decode_ex(string $value, bool $assoc = true, int $depth = 512, int $options = 0): mixed
+function json_decode_ex(string $json, bool $associative = true, int $depth = 512, int $flags = 0): mixed
 {
-    $options |= JSON_THROW_ON_ERROR;
-    return json_decode($value, $assoc, $depth, $options);
+    $flags |= JSON_THROW_ON_ERROR;
+    return json_decode($json, $associative, $depth, $flags);
 }
