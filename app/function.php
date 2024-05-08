@@ -24,7 +24,10 @@ function get_temp_filename_with_auto_clear(string $prefix, string $extension = '
         });
     }
     $dir = sys_get_temp_dir();
-    $filename = $dir . DIRECTORY_SEPARATOR . uniqid($prefix, true) . $extension;
+    $filename = $dir . DIRECTORY_SEPARATOR . 'tmp_' . getmypid() . '_' . uniqid($prefix, true);
+    if ($extension) {
+        $filename .= ".{$extension}";
+    }
     $fileList[] = $filename;
     return $filename;
 }
