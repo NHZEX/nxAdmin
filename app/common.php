@@ -12,8 +12,6 @@ use think\Response;
 use think\response\View;
 use think\route\Resource;
 use function Zxin\Str\strcut_omit;
-use function Zxin\Util\base64_urlsafe_decode;
-use function Zxin\Util\base64_urlsafe_encode;
 
 /**
  * 渲染模板输出
@@ -77,22 +75,6 @@ function json_decode_throw_on_error(string $json): array
 function return_raw_value($x)
 {
     return $x;
-}
-
-/**
- * @deprecated
- */
-function base64url_encode(string $data): string
-{
-    return base64_urlsafe_encode($data);
-}
-
-/**
- * @deprecated
- */
-function base64url_decode(string $data, bool $strict = true)
-{
-    return base64_urlsafe_decode($data, $strict);
 }
 
 /**
@@ -269,35 +251,4 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
     $result = $r->resource($rule, $route);
     $r->rest(ROUTE_DEFAULT_RESTFULL, true);
     return $result;
-}
-
-/**
- * @param mixed $value
- * @param int   $options
- * @param int   $depth
- * @return false|string
- */
-function json_encode_ex($value, int $options = 0, int $depth = 512)
-{
-    $options |= JSON_UNESCAPED_UNICODE;
-    $options |= JSON_UNESCAPED_SLASHES;
-    if (PHP_VERSION_ID >= 70300) {
-        $options |= JSON_THROW_ON_ERROR;
-    }
-    return json_encode($value, $options, $depth);
-}
-
-/**
- * @param string $value
- * @param bool   $assoc
- * @param int    $depth
- * @param int    $options
- * @return mixed
- */
-function json_decode_ex(string $value, bool $assoc = true, int $depth = 512, int $options = 0)
-{
-    if (PHP_VERSION_ID >= 70300) {
-        $options |= JSON_THROW_ON_ERROR;
-    }
-    return json_decode($value, $assoc, $depth, $options);
 }

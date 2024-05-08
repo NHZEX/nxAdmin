@@ -22,3 +22,17 @@ function get_temp_filename_with_auto_clear(string $prefix, string $extension = '
     $fileList[] = $filename;
     return $filename;
 }
+
+function json_encode_ex(mixed $value, int $options = 0, int $depth = 512): string
+{
+    $options |= JSON_UNESCAPED_UNICODE;
+    $options |= JSON_UNESCAPED_SLASHES;
+    $options |= JSON_THROW_ON_ERROR;
+    return json_encode($value, $options, $depth);
+}
+
+function json_decode_ex(string $value, bool $assoc = true, int $depth = 512, int $options = 0): mixed
+{
+    $options |= JSON_THROW_ON_ERROR;
+    return json_decode($value, $assoc, $depth, $options);
+}
