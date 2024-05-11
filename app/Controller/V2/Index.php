@@ -28,9 +28,13 @@ class Index extends ApiBase
     public function captcha(Captcha $captcha): Response
     {
         $captcha->entry();
-        return $captcha->sendResponse([
+        $headers = [
             'X-Captcha-Token' => $captcha->getValidator()->generateToken(),
-        ]);
+        ];
+        if (is_debug_demo()) {
+            $headers['X-Test-Captcha-Code'] = $captcha->getCodePlaintext();
+        }
+        return $captcha->sendResponse($headers);
     }
 
     #[Validation(Login::class)]

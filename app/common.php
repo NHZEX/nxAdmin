@@ -13,6 +13,11 @@ use think\response\View;
 use think\route\Resource;
 use function Zxin\Str\strcut_omit;
 
+function is_debug_demo()
+{
+    return env('APP_DEBUG_DEMO');
+}
+
 /**
  * 渲染模板输出
  * @param array    $vars     模板变量
