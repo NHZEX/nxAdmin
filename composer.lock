@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f44de06fe6ac58f84fe3f67fdce37e79",
+    "content-hash": "10d980b407b52cc027733b996a50597d",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -1188,16 +1188,16 @@
         },
         {
             "name": "nhzex/think-phinx",
-            "version": "v4.0.4",
+            "version": "v4.1.0-RC2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-phinx.git",
-                "reference": "758f34808e7fd969a2fa2eb878a33bfb2f988c78"
+                "reference": "2ae2da8dacbbf0aca2cfe02637e974a0a8b6b9ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/758f34808e7fd969a2fa2eb878a33bfb2f988c78",
-                "reference": "758f34808e7fd969a2fa2eb878a33bfb2f988c78",
+                "url": "https://api.github.com/repos/NHZEX/think-phinx/zipball/2ae2da8dacbbf0aca2cfe02637e974a0a8b6b9ae",
+                "reference": "2ae2da8dacbbf0aca2cfe02637e974a0a8b6b9ae",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -1219,17 +1219,21 @@
                 "zxin/think-symfony-bridge": "^3.0"
             },
             "replace": {
-                "cakephp/database": "4.4.17",
-                "robmorgan/phinx": "0.13.4"
+                "cakephp/database": "4.5.5",
+                "robmorgan/phinx": "0.14.0"
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8"
             },
             "type": "library",
             "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": true
+                },
                 "think": {
                     "services": [
-                        "HZEX\\Phinx\\Service"
+                        "Zxin\\Think\\Phinx\\Service"
                     ],
                     "config": {
                         "phinx": "config/phinx.php"
@@ -1238,11 +1242,11 @@
             },
             "autoload": {
                 "files": [
-                    "third-party/vendor/scoper-autoload.php",
-                    "src/helper.php"
+                    "third-party/vendor/scoper-autoload.php"
                 ],
                 "psr-4": {
-                    "HZEX\\Phinx\\": "src"
+                    "HZEX\\Phinx\\": "src",
+                    "Zxin\\Think\\Phinx\\": "src-next"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1255,16 +1259,19 @@
                     "email": "auooru@outlook.com"
                 }
             ],
+            "description": "Phinx integration for thinkphp",
             "keywords": [
+                "migration",
                 "phinx",
                 "thinkphp",
-                "thinkphp6"
+                "thinkphp6",
+                "thinkphp8"
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-phinx/issues",
-                "source": "https://github.com/NHZEX/think-phinx/tree/v4.0.4"
+                "source": "https://github.com/NHZEX/think-phinx/tree/v4.1.0-RC2"
             },
-            "time": "2023-08-20T05:59:39+00:00"
+            "time": "2024-05-15T02:09:13+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -3747,17 +3754,23 @@
         },
         {
             "name": "zxin/think-library-plus",
-            "version": "v0.2.2",
+            "version": "v0.2.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-library-plus.git",
-                "reference": "77176415945ebc42bb0fb731cb54f9b9084ad72e"
+                "reference": "398ba6dc1e9c67e04b26cf5e37b6264ecef707eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/77176415945ebc42bb0fb731cb54f9b9084ad72e",
-                "reference": "77176415945ebc42bb0fb731cb54f9b9084ad72e",
-                "shasum": ""
+                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/398ba6dc1e9c67e04b26cf5e37b6264ecef707eb",
+                "reference": "398ba6dc1e9c67e04b26cf5e37b6264ecef707eb",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
             },
             "require": {
                 "brick/varexporter": "^0.4.0",
@@ -3816,9 +3829,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-library-plus/issues",
-                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.2.2"
+                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.2.3"
             },
-            "time": "2024-04-25T11:58:17+00:00"
+            "time": "2024-05-16T13:54:08+00:00"
         },
         {
             "name": "zxin/think-redis",
@@ -6045,7 +6058,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "nhzex/think-blade": 10
+        "nhzex/think-blade": 10,
+        "nhzex/think-phinx": 5
     },
     "prefer-stable": false,
     "prefer-lowest": false,
