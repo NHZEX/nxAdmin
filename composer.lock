@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7ab1cdb4c3923246561e8854a17af0a2",
+    "content-hash": "228c64e3a3dfed65358247615cc7f199",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -3746,16 +3746,16 @@
         },
         {
             "name": "zxin/think-library-plus",
-            "version": "v0.2.4",
+            "version": "v0.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-library-plus.git",
-                "reference": "f8d2d8d1642c050897a5b51edfa75805cc2e0e88"
+                "reference": "88055062b84b33680c079eb3443a19cd5bb2dc15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/f8d2d8d1642c050897a5b51edfa75805cc2e0e88",
-                "reference": "f8d2d8d1642c050897a5b51edfa75805cc2e0e88",
+                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/88055062b84b33680c079eb3443a19cd5bb2dc15",
+                "reference": "88055062b84b33680c079eb3443a19cd5bb2dc15",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3821,9 +3821,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-library-plus/issues",
-                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.2.4"
+                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.2.5"
             },
-            "time": "2024-05-16T14:07:45+00:00"
+            "time": "2024-05-17T02:47:47+00:00"
         },
         {
             "name": "zxin/think-redis",
