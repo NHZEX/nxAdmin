@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "228c64e3a3dfed65358247615cc7f199",
+    "content-hash": "4c8cc24860f92a9cf3f8c1ed8c80ada2",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -3565,6 +3565,58 @@
                 "source": "https://github.com/NHZEX/phinx-schema/tree/v1.0.2"
             },
             "time": "2021-06-07T10:10:57+00:00"
+        },
+        {
+            "name": "zxin/socket-log-thinkphp",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/NHZEX/socket-log-thinkphp.git",
+                "reference": "56384a431999e318869fcda76b7d8adc3a88b0ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NHZEX/socket-log-thinkphp/zipball/56384a431999e318869fcda76b7d8adc3a88b0ce",
+                "reference": "56384a431999e318869fcda76b7d8adc3a88b0ce",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": "^7.4 | ^8",
+                "topthink/framework": "^6.0.0 | ^8.0.0"
+            },
+            "suggest": {
+                "ext-openssl": "*",
+                "ext-zlib": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Zxin\\SocketLog\\": "src/",
+                    "think\\log\\driver\\": "think/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "auooru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/NHZEX/socket-log-thinkphp/issues",
+                "source": "https://github.com/NHZEX/socket-log-thinkphp/tree/v1.0.0"
+            },
+            "time": "2024-05-23T16:53:00+00:00"
         },
         {
             "name": "zxin/think-captcha",

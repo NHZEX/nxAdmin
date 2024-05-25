@@ -5,8 +5,7 @@
 // +----------------------------------------------------------------------
 
 use think\App;
-use Tp\Log\SocketDriver;
-use function Zxin\Util\format_byte;
+use Zxin\Util;
 
 // 格式日志头
 $formatHead = function ($uir, App $app) {
@@ -14,9 +13,9 @@ $formatHead = function ($uir, App $app) {
     $method      = " [$method]";
     $runtime     = round(microtime(true) - $app->getBeginTime(), 10);
     $time_str    = ' [运行时间：' . number_format($runtime, 6) . 's]';
-    $memory_use  = format_byte(memory_get_usage() - $app->getBeginMem());
-    $memory_peak = format_byte(memory_get_peak_usage());
-    $memory_str  = ' [内存消耗：' . $memory_use . 'kb，峰值：' . $memory_peak . 'kb]';
+    $memory_use  = Util::formatByte(memory_get_usage() - $app->getBeginMem());
+    $memory_peak = Util::formatByte(memory_get_peak_usage());
+    $memory_str  = " [内存消耗：{$memory_use}，峰值：{$memory_peak}]";
     $file_load   = ' [文件加载：' . count(get_included_files()) . ']';
     return $uir . $method . $time_str . $memory_str . $file_load;
 };
@@ -61,17 +60,17 @@ return [
         // 其它日志通道配置
         'remote' => [
             // 日志记录方式
-            'type'                => SocketDriver::class,
+            'type'                => 'SocketV2',
             // 服务器地址
-            'host'                => env('LOG_REMOTE_HOST', '127.0.0.1'),
-            // 服务器端口
-            'port'                => env('LOG_REMOTE_PORT', 1116),
+            'uri'                 => env('LOG_REMOTE_URI', 'http://127.0.0.1'),
             // 是否显示加载的文件列表
             'show_included_files' => false,
             // 日志强制记录到配置的 client_id
-            'force_client_ids'    => explode(',', env('LOG_REMOTE_FORCE_CLIENT', 'develop')),
+            'force_client_ids'    => env('LOG_REMOTE_FORCE_CLIENT') ? explode(',', env('LOG_REMOTE_FORCE_CLIENT')) : [],
             // 限制允许读取日志的 client_id
-            'allow_client_ids'    => explode(',', env('LOG_REMOTE_ALLOW_CLIENT', 'develop')),
+            'allow_client_ids'    => env('LOG_REMOTE_ALLOW_CLIENT') ? explode(',', env('LOG_REMOTE_ALLOW_CLIENT')) : [],
+            // client_id 发送方法: path, query, header
+            'client_id_send_method' => 'query',
             // 日志处理
             'processor'           => null,
             // 关闭通道日志写入
@@ -85,12 +84,16 @@ return [
             // 自定义日志头
             'format_head'         => $formatHead,
             // CURL 选项
-            'curl_opt'            => [
+            'curl_opts'            => [
                 CURLOPT_CONNECTTIMEOUT => 10,
                 CURLOPT_TIMEOUT        => 10,
             ],
             // 压缩传输
             'compress'            => (bool) env('LOG_REMOTE_COMPRESS', false),
+            // 端到端加密
+            'e2e_encryption_key'  => env('LOG_REMOTE_E2E_ENCRYPTION_KEY'),
+            // 发送异常日志
+            'socket_error_log'    => runtime_path() . 'socklog_send.log',
         ],
     ],
 ];

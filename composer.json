@@ -38,6 +38,7 @@
         "topthink/framework": "^8.0.2",
         "topthink/think-orm": "~3.0.11",
         "topthink/think-throttle": "^2.0.0",
+        "zxin/socket-log-thinkphp": "^1.0",
         "zxin/think-captcha": "^2.1",
         "zxin/think-cors": "^3.0",
         "zxin/think-env": "^2.0",
