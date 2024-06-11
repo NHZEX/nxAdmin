@@ -1,5 +1,4 @@
 <?php
-// update date: 2024-04-30T20:31:55+08:00
 // hash: d53d1a25144e9622c2a9acd2e6757854
 return [
     'features' => [

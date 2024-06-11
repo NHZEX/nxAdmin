@@ -1,6 +1,5 @@
 <?php
-// update date: 2024-05-01T00:11:56+08:00
-// hash: f801dbd97e288123e6ed95ef2fe4deb7
+// hash: 0730ddbafed70fe9facd5a6c23450df3
 return [
     [
         'file' => 'app/Controller/admin/Index.php',
@@ -22,7 +21,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 3000
+            'registerSort' => 3000,
         ]),
         'middleware' => [],
         'resource' => null,
@@ -48,10 +47,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'logout',
@@ -73,10 +72,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'userInfo',
@@ -98,12 +97,12 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
-            ]
-        ]
+                'middleware' => [],
+            ],
+        ],
     ],
     [
         'file' => 'app/Controller/admin/User.php',
@@ -125,7 +124,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 3000
+            'registerSort' => 3000,
         ]),
         'middleware' => [],
         'resource' => \Zxin\Think\Route\Annotation\Resource::__set_state([
@@ -144,10 +143,10 @@ return [
             'json' => null,
             'filter' => null,
             'append' => null,
-            'pattern' => null
+            'pattern' => null,
         ]),
         'resourceItems' => [],
-        'routeItems' => []
+        'routeItems' => [],
     ],
     [
         'file' => 'app/Controller/V2/Admin/Users.php',
@@ -169,7 +168,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 3000
+            'registerSort' => 3000,
         ]),
         'middleware' => [],
         'resource' => \Zxin\Think\Route\Annotation\Resource::__set_state([
@@ -188,18 +187,18 @@ return [
             'json' => null,
             'filter' => null,
             'append' => null,
-            'pattern' => null
+            'pattern' => null,
         ]),
         'resourceItems' => [
             [
                 'method' => 'resetPassword',
                 'attr' => \Zxin\Think\Route\Annotation\ResourceRule::__set_state([
                     'name' => ':id/reset-password',
-                    'method' => 'POST'
-                ])
-            ]
+                    'method' => 'POST',
+                ]),
+            ],
         ],
-        'routeItems' => []
+        'routeItems' => [],
     ],
     [
         'file' => 'app/Controller/admin/Role.php',
@@ -221,7 +220,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 2900
+            'registerSort' => 2900,
         ]),
         'middleware' => [],
         'resource' => \Zxin\Think\Route\Annotation\Resource::__set_state([
@@ -240,10 +239,10 @@ return [
             'json' => null,
             'filter' => null,
             'append' => null,
-            'pattern' => null
+            'pattern' => null,
         ]),
         'resourceItems' => [],
-        'routeItems' => []
+        'routeItems' => [],
     ],
     [
         'file' => 'app/Controller/V2/Admin/Roles.php',
@@ -265,7 +264,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 2900
+            'registerSort' => 2900,
         ]),
         'middleware' => [],
         'resource' => \Zxin\Think\Route\Annotation\Resource::__set_state([
@@ -284,10 +283,10 @@ return [
             'json' => null,
             'filter' => null,
             'append' => null,
-            'pattern' => null
+            'pattern' => null,
         ]),
         'resourceItems' => [],
-        'routeItems' => []
+        'routeItems' => [],
     ],
     [
         'file' => 'app/Controller/admin/Permission.php',
@@ -309,7 +308,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 1000
+            'registerSort' => 1000,
         ]),
         'middleware' => [],
         'resource' => \Zxin\Think\Route\Annotation\Resource::__set_state([
@@ -328,18 +327,18 @@ return [
             'json' => null,
             'filter' => null,
             'append' => null,
-            'pattern' => null
+            'pattern' => null,
         ]),
         'resourceItems' => [
             [
                 'method' => 'scan',
                 'attr' => \Zxin\Think\Route\Annotation\ResourceRule::__set_state([
                     'name' => 'scan',
-                    'method' => 'GET'
-                ])
-            ]
+                    'method' => 'GET',
+                ]),
+            ],
         ],
-        'routeItems' => []
+        'routeItems' => [],
     ],
     [
         'file' => 'app/Controller/Index.php',
@@ -350,7 +349,7 @@ return [
         'middleware' => [],
         'resource' => null,
         'resourceItems' => [],
-        'routeItems' => []
+        'routeItems' => [],
     ],
     [
         'file' => 'app/Controller/System.php',
@@ -372,7 +371,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 1000
+            'registerSort' => 1000,
         ]),
         'middleware' => [],
         'resource' => null,
@@ -398,10 +397,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'sysinfo',
@@ -423,10 +422,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'database',
@@ -448,10 +447,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'captcha',
@@ -473,19 +472,19 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
                 'middleware' => [
                     \Zxin\Think\Route\Annotation\Middleware::__set_state([
                         'name' => 'think\\middleware\\Throttle',
                         'params' => [
                             [
-                                'visit_rate' => '10/m'
-                            ]
-                        ]
-                    ])
-                ]
+                                'visit_rate' => '10/m',
+                            ],
+                        ],
+                    ]),
+                ],
             ],
             [
                 'method' => 'resetCache',
@@ -507,12 +506,12 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
-            ]
-        ]
+                'middleware' => [],
+            ],
+        ],
     ],
     [
         'file' => 'app/Controller/Upload.php',
@@ -523,7 +522,7 @@ return [
         'middleware' => [],
         'resource' => null,
         'resourceItems' => [],
-        'routeItems' => []
+        'routeItems' => [],
     ],
     [
         'file' => 'app/Controller/Util.php',
@@ -534,7 +533,7 @@ return [
         'middleware' => [],
         'resource' => null,
         'resourceItems' => [],
-        'routeItems' => []
+        'routeItems' => [],
     ],
     [
         'file' => 'app/Controller/V2/Admin/Permission.php',
@@ -556,7 +555,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 1000
+            'registerSort' => 1000,
         ]),
         'middleware' => [],
         'resource' => null,
@@ -582,10 +581,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'scan',
@@ -607,10 +606,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'read',
@@ -631,13 +630,13 @@ return [
                         'filter' => null,
                         'append' => null,
                         'pattern' => [
-                            'id' => '\\S+'
+                            'id' => '\\S+',
                         ],
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'update',
@@ -658,15 +657,15 @@ return [
                         'filter' => null,
                         'append' => null,
                         'pattern' => [
-                            'id' => '\\S+'
+                            'id' => '\\S+',
                         ],
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
-            ]
-        ]
+                'middleware' => [],
+            ],
+        ],
     ],
     [
         'file' => 'app/Controller/V2/Index.php',
@@ -698,19 +697,44 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
                 'middleware' => [
                     \Zxin\Think\Route\Annotation\Middleware::__set_state([
                         'name' => 'think\\middleware\\Throttle',
                         'params' => [
                             [
-                                'visit_rate' => '10/m'
-                            ]
-                        ]
-                    ])
-                ]
+                                'visit_rate' => '10/m',
+                            ],
+                        ],
+                    ]),
+                ],
+            ],
+            [
+                'method' => 'loginConfig',
+                'route' => [
+                    \Zxin\Think\Route\Annotation\Route::__set_state([
+                        'name' => 'v2/login',
+                        'method' => 'GET',
+                        'middleware' => null,
+                        'ext' => null,
+                        'deny_ext' => null,
+                        'https' => null,
+                        'domain' => null,
+                        'complete_match' => null,
+                        'cache' => null,
+                        'ajax' => null,
+                        'pjax' => null,
+                        'json' => null,
+                        'filter' => null,
+                        'append' => null,
+                        'pattern' => null,
+                        'setGroup' => null,
+                        'registerSort' => 1000,
+                    ]),
+                ],
+                'middleware' => [],
             ],
             [
                 'method' => 'login',
@@ -732,10 +756,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'logout',
@@ -757,12 +781,12 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
-            ]
-        ]
+                'middleware' => [],
+            ],
+        ],
     ],
     [
         'file' => 'app/Controller/V2/System.php',
@@ -784,7 +808,7 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
-            'registerSort' => 1000
+            'registerSort' => 1000,
         ]),
         'middleware' => [],
         'resource' => null,
@@ -810,10 +834,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'info',
@@ -835,10 +859,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'sysinfo',
@@ -860,10 +884,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'database',
@@ -885,10 +909,10 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
+                'middleware' => [],
             ],
             [
                 'method' => 'resetCache',
@@ -910,11 +934,11 @@ return [
                         'append' => null,
                         'pattern' => null,
                         'setGroup' => null,
-                        'registerSort' => 1000
-                    ])
+                        'registerSort' => 1000,
+                    ]),
                 ],
-                'middleware' => []
-            ]
-        ]
-    ]
+                'middleware' => [],
+            ],
+        ],
+    ],
 ];
