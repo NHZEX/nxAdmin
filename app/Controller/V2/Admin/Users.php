@@ -35,7 +35,7 @@ class Users extends Base
     #[AuthMeta("获取用户信息")]
     public function read(int $id): Response
     {
-        $result = AdminUser::find($id);
+        $result = (new AdminUserLogic())->read($id);
         if (empty($result)) {
             return Reply::notFound();
         }
@@ -48,9 +48,7 @@ class Users extends Base
     public function save(): Response
     {
         $data = $this->getFilterInput();
-        // v2 兼容代码
-        $data['password'] = \hash('sha256', $data['password']);
-        AdminUser::create($data);
+        (new AdminUserLogic())->create($data);
 
         return ReplyEx::create();
     }
@@ -60,22 +58,8 @@ class Users extends Base
     #[Validation(name: User::class, scene: "_")]
     public function update(int $id): Response
     {
-        $result = AdminUser::find($id);
-        if (empty($result)) {
-            return ReplyEx::notFound();
-        }
-
         $data = $this->getFilterInput();
-
-        if (isset($data['password'])) {
-            if (empty(trim($data['password']))) {
-                unset($data['password']);
-            } else {
-                // v2 兼容代码
-                $data['password'] = \hash('sha256', $data['password']);
-            }
-        }
-        $result->save($data);
+        (new AdminUserLogic())->update($id, $data);
 
         return ReplyEx::success();
     }
@@ -86,11 +70,6 @@ class Users extends Base
     #[Validation(name: User::class, scene: "resetPasswod")]
     public function resetPassword(int $id): Response
     {
-        $result = AdminUser::find($id);
-        if (empty($result)) {
-            return ReplyEx::notFound();
-        }
-
         $password = $this->request->param('password');
         $password = trim($password);
 
@@ -98,10 +77,7 @@ class Users extends Base
             return ReplyEx::bad(code: 1, message: '密码不能为空');
         }
 
-        $password = \hash('sha256', $password);
-        $result->save([
-            'password' => $password,
-        ]);
+        (new AdminUserLogic())->resetPassword($id, $password);
 
         return ReplyEx::success();
     }

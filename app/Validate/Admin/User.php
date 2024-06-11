@@ -13,6 +13,7 @@ class User extends Base
         'genre'    => 'require|number',
         'status'   => 'require|number',
         'role_id'  => 'number',
+        'role_ids' => 'array',
         'username' => 'require|length:3,64',
         'nickname' => 'require|length:3,64',
         'password' => 'require|length:6,64',
@@ -41,7 +42,7 @@ class User extends Base
     protected function sceneUpdate()
     {
         $this
-            ->only(['nickname', 'role_id', 'status', 'password'])
+            ->only(['nickname', 'role_id', 'role_ids', 'status', 'password'])
             ->remove('password', 'require');
     }
 }
