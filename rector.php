@@ -25,7 +25,7 @@ return RectorConfig::configure()
         AddLiteralSeparatorToNumberRector::class,
     ])
     ->withPreparedSets(deadCode: true)
-    ->withImportNames(importShortClasses: false)
+    // ->withImportNames(importShortClasses: false)
     ->withPhpSets()
     ->withPHPStanConfigs([
         __DIR__ . '/phpstan.neon',
