@@ -91,6 +91,7 @@ return [
             // 压缩传输
             'compress'            => (bool) env('LOG_REMOTE_COMPRESS', false),
             // 端到端加密
+            'e2e_id'              => env('LOG_REMOTE_E2E_ID'),
             'e2e_encryption_key'  => env('LOG_REMOTE_E2E_ENCRYPTION_KEY'),
             // 发送异常日志
             'socket_error_log'    => runtime_path() . 'socklog_send.log',

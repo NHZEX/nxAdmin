@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c8cc24860f92a9cf3f8c1ed8c80ada2",
+    "content-hash": "0c79a6582b7875839c32521bd3612fed",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -3568,16 +3568,16 @@
         },
         {
             "name": "zxin/socket-log-thinkphp",
-            "version": "v1.0.0",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/socket-log-thinkphp.git",
-                "reference": "56384a431999e318869fcda76b7d8adc3a88b0ce"
+                "reference": "5244676d4bcda3ff39b907a49bc7fef4a6141d17"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/socket-log-thinkphp/zipball/56384a431999e318869fcda76b7d8adc3a88b0ce",
-                "reference": "56384a431999e318869fcda76b7d8adc3a88b0ce",
+                "url": "https://api.github.com/repos/NHZEX/socket-log-thinkphp/zipball/5244676d4bcda3ff39b907a49bc7fef4a6141d17",
+                "reference": "5244676d4bcda3ff39b907a49bc7fef4a6141d17",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -3591,6 +3591,9 @@
                 "ext-json": "*",
                 "php": "^7.4 | ^8",
                 "topthink/framework": "^6.0.0 | ^8.0.0"
+            },
+            "require-dev": {
+                "php-cs-fixer/shim": "^3.58"
             },
             "suggest": {
                 "ext-openssl": "*",
@@ -3614,9 +3617,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/socket-log-thinkphp/issues",
-                "source": "https://github.com/NHZEX/socket-log-thinkphp/tree/v1.0.0"
+                "source": "https://github.com/NHZEX/socket-log-thinkphp/tree/v1.1.0"
             },
-            "time": "2024-05-23T16:53:00+00:00"
+            "time": "2024-06-10T02:07:19+00:00"
         },
         {
             "name": "zxin/think-captcha",
