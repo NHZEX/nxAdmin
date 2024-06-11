@@ -4,7 +4,6 @@ namespace app\Service\DeployTool\Struct;
 
 use think\facade\Env;
 use Zxin\DataStruct\BaseProperty;
-use function join;
 use function preg_match;
 
 class EnvStruct extends BaseProperty
@@ -12,7 +11,7 @@ class EnvStruct extends BaseProperty
     public static function read(
         $prefixs = ['DB_', 'REDIS_', 'CACHE_', 'LOG_', 'SESSION_', 'SERVER_']
     ) {
-        $preg = join('|', $prefixs);
+        $preg = implode('|', $prefixs);
         $preg = "/^({$preg})/";
 
         $that = new self();

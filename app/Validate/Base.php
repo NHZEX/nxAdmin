@@ -6,7 +6,6 @@ use think\Validate;
 use Zxin\Think\Validate\ValidateBase;
 use function array_map;
 use function filter_var;
-use function join;
 use function str_contains;
 use const FILTER_VALIDATE_INT;
 
@@ -77,7 +76,7 @@ abstract class Base extends ValidateBase
         if ($valid->check($value) === false) {
             $error = $valid->getError();
             if (\is_array($error)) {
-                return join(', ', array_map(fn ($str) => ":attribute->{$str}", $error));
+                return implode(', ', array_map(fn ($str) => ":attribute->{$str}", $error));
             } else {
                 return ":attribute->{$error}";
             }

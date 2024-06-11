@@ -60,7 +60,7 @@ abstract class Transaction
         $db = App::getInstance()->db;
         $connection = $db->connect(static::getConnection());
         if (!$connection instanceof PDOConnection) {
-            throw new ModelException('不支持的连接驱动: ' . \get_class($connection), CODE_MODEL_TRANSACTION);
+            throw new ModelException('不支持的连接驱动: ' . $connection::class, CODE_MODEL_TRANSACTION);
         }
         $instance = $connection->getPdo();
         if (false === $instance) {

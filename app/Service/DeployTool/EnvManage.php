@@ -50,7 +50,7 @@ class EnvManage extends FeaturesManage
      * 生成范例文件
      * @param Output $output
      */
-    protected function actionExample(Output $output)
+    protected function actionExample(Output $output): void
     {
         $output->writeln('生成ENV范例文件...');
         EnvFormat::writerFile(
@@ -66,7 +66,7 @@ class EnvManage extends FeaturesManage
      * @param Output $output
      * @throws Exception
      */
-    public function actionInit(Input $input, Output $output)
+    public function actionInit(Input $input, Output $output): void
     {
         $forceCover = (bool) $input->getOption('force');
 
@@ -107,25 +107,25 @@ class EnvManage extends FeaturesManage
     /**
      * @throws Exception
      */
-    protected function configEnv()
+    protected function configEnv(): void
     {
-        $this->checkInput(function () {
+        $this->checkInput(function (): void {
             $this->configDataBase();
         }, '提供的数据库配置不正确：%s');
 
-        $this->checkInput(function () {
+        $this->checkInput(function (): void {
             $this->configRedis();
         }, '提供的Redis配置不正确：%s');
 
-        $this->checkInput(function () {
+        $this->checkInput(function (): void {
             $this->configLog();
         }, '提供的日志配置不正确：%s');
 
-        $this->checkInput(function () {
+        $this->checkInput(function (): void {
             $this->configCache();
         }, '提供的缓存配置不正确：%s');
 
-        $this->checkInput(function () {
+        $this->checkInput(function (): void {
             $this->configSession();
         }, '提供的会话配置不正确：%s');
     }
@@ -136,7 +136,7 @@ class EnvManage extends FeaturesManage
      * @param string  $template
      * @throws Exception
      */
-    protected function checkInput(Closure $closure, string $template)
+    protected function checkInput(Closure $closure, string $template): void
     {
         $count = (int) $this->input->getOption('max-retry');
         while (true) {
@@ -162,7 +162,7 @@ class EnvManage extends FeaturesManage
      * @throws ConfigInvalidException
      * @throws InputException
      */
-    protected function configDataBase()
+    protected function configDataBase(): void
     {
         $this->output->writeln('> 配置数据库');
 
@@ -201,7 +201,7 @@ class EnvManage extends FeaturesManage
      * @throws ConfigInvalidException
      * @throws InputException
      */
-    protected function configRedis()
+    protected function configRedis(): void
     {
         $this->output->writeln('> 配置Redis');
 
@@ -229,7 +229,7 @@ class EnvManage extends FeaturesManage
      * @throws ConfigInvalidException
      * @throws InputException
      */
-    protected function configSession()
+    protected function configSession(): void
     {
         $this->output->writeln('> 配置Session');
 
@@ -276,12 +276,12 @@ class EnvManage extends FeaturesManage
      * 设置Cache
      * @throws ConfigInvalidException
      */
-    protected function configCache()
+    protected function configCache(): void
     {
         // TODO 配置缓存
     }
 
-    protected function configLog()
+    protected function configLog(): void
     {
         // TODO 配置日志
     }
@@ -293,7 +293,7 @@ class EnvManage extends FeaturesManage
      * @param array  $testConfig
      * @throws ConfigInvalidException
      */
-    protected function testMysql(string $connections, array $testConfig)
+    protected function testMysql(string $connections, array $testConfig): void
     {
         $config = $this->app->config->get('database');
         $config['connections'][$connections] = array_merge($config['connections'][$connections], $testConfig);
@@ -325,7 +325,7 @@ class EnvManage extends FeaturesManage
      * @param array $config
      * @throws ConfigInvalidException
      */
-    protected function testRedis(array $config)
+    protected function testRedis(array $config): void
     {
         $redis = new PhpRedisConnection($config);
 

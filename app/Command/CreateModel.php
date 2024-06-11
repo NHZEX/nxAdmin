@@ -19,7 +19,6 @@ use function max;
 use function realpath;
 use function scandir;
 use function str_pad;
-use function strpos;
 use function strrpos;
 use function trim;
 
@@ -33,7 +32,7 @@ class CreateModel extends Command
 
     public const OUTPUT_ALIGN = 22;
 
-    public function configure()
+    public function configure(): void
     {
         $this->setName('model:create')
             ->addOption('connect', 'c', Option::VALUE_OPTIONAL, '指定连接', '')
@@ -93,7 +92,7 @@ class CreateModel extends Command
             foreach ($need_table as &$value) {
                 $name_hits = [];
                 foreach ($table_names as $table_name => $comment) {
-                    if (0 === strpos($table_name, $value)) {
+                    if (str_starts_with($table_name, $value)) {
                         $name_hits[] = $table_name;
                     }
                 }

@@ -19,7 +19,6 @@ use function array_pad;
 use function array_shift;
 use function explode;
 use function is_numeric;
-use function join;
 use function method_exists;
 use function strtolower;
 use function strtoupper;
@@ -181,12 +180,12 @@ abstract class FeaturesManage
             }
             if ($segments === 2) {
                 $prefix = array_shift($ekey);
-                $name = join('_', $ekey);
+                $name = implode('_', $ekey);
                 $group = null;
             } else {
                 $prefix = array_shift($ekey);
                 $group = array_shift($ekey);
-                $name = join('_', $ekey);
+                $name = implode('_', $ekey);
                 $group = strtolower($group);
             }
             // 筛选有效数据库段

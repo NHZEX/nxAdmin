@@ -75,7 +75,7 @@ abstract class BaseController
     }
 
     // 初始化
-    protected function initialize()
+    protected function initialize(): void
     {
     }
 
@@ -100,7 +100,7 @@ abstract class BaseController
                 // 支持场景
                 [$validate, $scene] = explode('.', $validate);
             }
-            $class = false !== strpos($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
+            $class =   str_contains($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
             /** @var Validate $v */
             $v     = new $class();
             if (!empty($scene)) {

@@ -15,7 +15,6 @@ use function filesize;
 use function max;
 use function str_pad;
 use function str_repeat;
-use function strpos;
 
 class Deploy extends Command
 {
@@ -52,7 +51,7 @@ class Deploy extends Command
      */
     protected $code;
 
-    public function configure()
+    public function configure(): void
     {
         $this
             ->setName('dep')
@@ -146,7 +145,7 @@ class Deploy extends Command
      * @param Output $output
      * @throws Exception
      */
-    public function auto(Input $input, Output $output)
+    public function auto(Input $input, Output $output): void
     {
         foreach ([EnvManage::class, UpdateManage::class, UserManage::class] as $class) {
             /** @var FeaturesManage $features */
@@ -235,7 +234,7 @@ class Deploy extends Command
         }
         $name_hits = [];
         foreach ($actionList as $action => $description) {
-            if (0 === strpos($action, $runAction)) {
+            if (str_starts_with($action, $runAction)) {
                 $name_hits[] = $action;
             }
         }
@@ -254,7 +253,7 @@ class Deploy extends Command
     /**
      * @param array $actionList
      */
-    public function showActionList(array $actionList)
+    public function showActionList(array $actionList): void
     {
         $maxLen = 0;
         foreach ($actionList as $action => $description) {

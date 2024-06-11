@@ -50,7 +50,7 @@ class Event
         return $this->event;
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->event = [];
     }

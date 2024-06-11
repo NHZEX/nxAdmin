@@ -109,7 +109,7 @@ class SessionInit
     /**
      * @param Response $response
      */
-    public function end(Response $response)
+    public function end(Response $response): void
     {
         $this->session->save();
     }

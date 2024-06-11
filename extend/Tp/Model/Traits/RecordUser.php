@@ -28,7 +28,7 @@ trait RecordUser
      * 自动记录操作用户
      * @param self|Model $data
      */
-    protected static function recodeUser(Model $data)
+    protected static function recodeUser(Model $data): void
     {
         $conv = AuthHelper::instance();
         if ($data->recordUser && $conv->check()) {

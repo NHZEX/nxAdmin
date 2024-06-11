@@ -9,16 +9,16 @@ use think\Validate;
 
 class DeployServer extends Service
 {
-    public function register()
+    public function register(): void
     {
         $this->commands(Deploy::class);
 
-        Validate::maker(function (Validate $validate) {
+        Validate::maker(function (Validate $validate): void {
             // $validate->extend('writable', function () {});
         });
     }
 
-    public function boot()
+    public function boot(): void
     {
     }
 }

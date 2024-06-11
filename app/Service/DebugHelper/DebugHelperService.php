@@ -15,7 +15,7 @@ use function ini_set;
  */
 class DebugHelperService extends Service
 {
-    public function register()
+    public function register(): void
     {
         if ($this->app->isDebug()) {
             if (\extension_loaded('xdebug')) {
@@ -27,7 +27,7 @@ class DebugHelperService extends Service
         }
     }
 
-    public function boot()
+    public function boot(): void
     {
     }
 }

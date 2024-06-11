@@ -26,7 +26,7 @@ trait ModelAccessLimit
         return $this;
     }
 
-    public function scopeAccessControl(Query $query)
+    public function scopeAccessControl(Query $query): void
     {
         if (!$this instanceof \app\Contracts\ModelAccessLimit) {
             return;
@@ -58,7 +58,7 @@ trait ModelAccessLimit
      * @param static|Model $data
      * @throws AccessControl
      */
-    protected static function checkAccessControl($data)
+    protected static function checkAccessControl($data): void
     {
         if (!$data instanceof \app\Contracts\ModelAccessLimit) {
             return;

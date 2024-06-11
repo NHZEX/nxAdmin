@@ -6,7 +6,6 @@ use think\db\exception\PDOException;
 use think\facade\Log;
 use Throwable;
 use function get_included_files;
-use function join;
 use function json_encode;
 
 trait PrintAbnormal
@@ -29,7 +28,7 @@ trait PrintAbnormal
         $msg = '';
         $trace = $e;
         do {
-            $msg .= 'Class: \\' . \get_class($trace) . "\n";
+            $msg .= 'Class: \\' . $trace::class . "\n";
             $msg .= "Error: [{$trace->getCode()}] {$trace->getMessage()}\n";
             $msg .= "File : {$trace->getFile()}:{$trace->getLine()}\n";
             $msg .= "{$trace->getTraceAsString()}\n";
@@ -47,7 +46,7 @@ trait PrintAbnormal
         do {
             $msg[] = "[#{$trace->getCode()}]({$trace->getMessage()})";
         } while ($trace = $trace->getPrevious());
-        return join(' > ', $msg);
+        return implode(' > ', $msg);
     }
 
     protected static function showIncludedFiles(): array

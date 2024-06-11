@@ -39,7 +39,7 @@ trait ModelHelper
      */
     public static function subQuery(Closure $closure, ?string $field)
     {
-        return function (Query $query) use ($closure, $field) {
+        return function (Query $query) use ($closure, $field): void {
             $query->table(self::getTableName());
             $closure($query);
 

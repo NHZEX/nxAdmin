@@ -17,7 +17,7 @@ function get_temp_filename_with_auto_clear(string $prefix, string $extension = '
     static $fileList = null;
     if (null === $fileList) {
         $fileList = [];
-        app()->event->listen(HttpEnd::class, static function () use (&$fileList) {
+        app()->event->listen(HttpEnd::class, static function () use (&$fileList): void {
             foreach ($fileList as $filename) {
                 @unlink($filename);
             }

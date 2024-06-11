@@ -41,7 +41,7 @@ class EnvFormat
      * @param array $contents
      * @param string $header
      */
-    public static function writerFile(string $file_path, iterable $contents, string $header = '')
+    public static function writerFile(string $file_path, iterable $contents, string $header = ''): void
     {
         file_put_contents($file_path, self::writer($contents, $header));
     }

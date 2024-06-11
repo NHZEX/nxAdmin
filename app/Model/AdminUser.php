@@ -135,7 +135,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      * @throws AccessControl
      * @throws ModelLogicException
      */
-    public static function onBeforeUpdate(AdminUser $model)
+    public static function onBeforeUpdate(AdminUser $model): void
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
@@ -146,7 +146,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      * @return void
      * @throws AccessControl
      */
-    public static function onBeforeDelete(AdminUser $model)
+    public static function onBeforeDelete(AdminUser $model): void
     {
         if ($model->isSuperAdmin()
             && self::where('status', self::STATUS_NORMAL)
@@ -173,7 +173,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      * @param self $data
      * @throws ModelLogicException
      */
-    protected static function checkUserInputUnique(AdminUser $data)
+    protected static function checkUserInputUnique(AdminUser $data): void
     {
         if ($data->hasData('username')
             && $data->getOrigin('username') !== $data->getData('username')
@@ -230,7 +230,6 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return self::GENRE_OPERATOR === $this->genre;
     }
 
-
     public function getIdentity()
     {
         return $this->id;
@@ -285,7 +284,6 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         }
         return $data;
     }
-
 
     public function attachSessionInfo(): array
     {
@@ -400,7 +398,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     /**
      * @param string|null $value
      */
-    protected function setAvatarDataAttr($value)
+    protected function setAvatarDataAttr($value): void
     {
         $this->setAttr('avatar', $value);
     }

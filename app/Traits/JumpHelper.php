@@ -28,7 +28,7 @@ trait JumpHelper
         if (\is_null($url) && \is_null($referer = request()->header('referer'))) {
             $url = $referer;
         } elseif ($url) {
-            $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : url($url);
+            $url = (strpos($url, '://') ||   str_starts_with($url, '/')) ? $url : url($url);
         }
 
         return $this->jump(1, $msg, $url, $data, $wait, $header);
@@ -48,7 +48,7 @@ trait JumpHelper
         if (\is_null($url)) {
             $url = request()->isAjax() ? '' : 'javascript:history.back(-1);';
         } elseif ($url) {
-            $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : url($url);
+            $url = (strpos($url, '://') ||   str_starts_with($url, '/')) ? $url : url($url);
         }
 
         return $this->jump(0, $msg, $url, $data, $wait, $header);

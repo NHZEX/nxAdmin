@@ -8,7 +8,6 @@ use function addslashes;
 use function array_is_list;
 use function array_map;
 use function is_numeric;
-use function join;
 use function substr;
 
 /**
@@ -96,7 +95,7 @@ trait MysqlJson
                 $value = "JSON_OBJECT({$tmp})";
                 unset($tmp);
             } else {
-                $value = join(',', array_map(fn ($v) => self::jsonValue($v), $value));
+                $value = implode(',', array_map(fn ($v) => self::jsonValue($v), $value));
                 $value = "JSON_ARRAY({$value})";
             }
         } else {

@@ -21,7 +21,7 @@ class AdminRole extends Base
      * 刷新缓存
      * @param AdminRoleModel $data
      */
-    public static function refreshCache(AdminRoleModel $data)
+    public static function refreshCache(AdminRoleModel $data): void
     {
         self::queryExt($data->id, true);
         self::queryPermission($data->id, true);
@@ -32,12 +32,12 @@ class AdminRole extends Base
      * 销毁缓存
      * @param AdminRoleModel $data
      */
-    public static function destroyCache(AdminRoleModel $data)
+    public static function destroyCache(AdminRoleModel $data): void
     {
         self::destroyCacheById($data->id);
     }
 
-    public static function destroyCacheById(int $rid)
+    public static function destroyCacheById(int $rid): void
     {
         Cache::delete(self::$CACHE_ROLE . ':' . $rid . ':ext');
         Cache::delete(self::$CACHE_ROLE . ':' . $rid . ':permission');
@@ -114,7 +114,7 @@ class AdminRole extends Base
      * @throws DbException
      * @throws ModelNotFoundException
      */
-    public static function savePermission(int $roleID, array $hashArr)
+    public static function savePermission(int $roleID, array $hashArr): void
     {
         /** @var AdminRoleModel $role */
         $role = AdminRoleModel::find($roleID);

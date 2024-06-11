@@ -81,7 +81,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
      * @return void
      * @throws AccessControl
      */
-    public static function onBeforeInsert(AdminRole $model)
+    public static function onBeforeInsert(AdminRole $model): void
     {
         self::checkAccessControl($model);
 
@@ -116,7 +116,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
     /**
      * @param AdminRole $model
      */
-    public static function onAfterWrite(AdminRole $model)
+    public static function onAfterWrite(AdminRole $model): void
     {
         AdminRoleLogic::refreshCache($model);
     }
@@ -124,7 +124,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
     /**
      * @param AdminRole $model
      */
-    public static function onAfterDelete(AdminRole $model)
+    public static function onAfterDelete(AdminRole $model): void
     {
         AdminRoleLogic::destroyCache($model);
     }

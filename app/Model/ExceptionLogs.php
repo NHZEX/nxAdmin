@@ -61,7 +61,7 @@ class ExceptionLogs extends Base
         $msg = '';
         $trace = $exception;
         do {
-            $msg .= 'Class: ' . \get_class($trace) . "\n";
+            $msg .= 'Class: ' . $trace::class . "\n";
             $msg .= "Stack Trace: [{$trace->getCode()}] {$trace->getMessage()}\n";
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());

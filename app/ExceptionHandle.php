@@ -136,7 +136,7 @@ class ExceptionHandle extends Handle
             $nextException = $exception;
             do {
                 $traces[] = [
-                    'name'    => \get_class($nextException),
+                    'name'    => $nextException::class,
                     'file'    => $nextException->getFile(),
                     'line'    => $nextException->getLine(),
                     'code'    => $this->getCode($nextException),

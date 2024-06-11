@@ -23,7 +23,7 @@ final class UserRoleRelationModel extends Base
 
     public static function setUserRoles(int $userId, array $roleIds): void
     {
-        MainTrans::callback(function () use ($userId, $roleIds) {
+        MainTrans::callback(function () use ($userId, $roleIds): void {
             $roleIds = array_unique($roleIds);
             $roleIds = array_filter($roleIds, fn ($roleId) => $roleId > 0);
 

@@ -21,7 +21,7 @@ trait ModelEvent
      * @param callable $call
      * @param bool     $first
      */
-    public static function listen(string $event, callable $call, bool $first = false)
+    public static function listen(string $event, callable $call, bool $first = false): void
     {
         App::getInstance()->make('model.event')->listen('model.' . static::class . '.' . $event, $call, $first);
     }

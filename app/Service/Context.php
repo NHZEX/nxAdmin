@@ -57,7 +57,7 @@ class Context
      * @param string $key
      * @param $value
      */
-    public static function setData(string $key, $value)
+    public static function setData(string $key, $value): void
     {
         self::getDataObject()->offsetSet($key, $value);
     }
@@ -66,7 +66,7 @@ class Context
      * 删除数据
      * @param string $key
      */
-    public static function removeData(string $key)
+    public static function removeData(string $key): void
     {
         if (self::hasData($key)) {
             self::getDataObject()->offsetUnset($key);
@@ -99,7 +99,7 @@ class Context
      * @internal
      * 清空数据
      */
-    public static function clear()
+    public static function clear(): void
     {
         self::getDataObject()->exchangeArray([]);
     }

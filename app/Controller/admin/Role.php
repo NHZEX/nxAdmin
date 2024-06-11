@@ -44,7 +44,7 @@ class Role extends Base
         if (empty($genre)) {
             $where = null;
         } else {
-            $where = function (Query $query) use ($genre) {
+            $where = function (Query $query) use ($genre): void {
                 $query->where('genre', '=', $genre);
             };
         }

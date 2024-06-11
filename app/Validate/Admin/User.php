@@ -39,7 +39,7 @@ class User extends Base
         ],
     ];
 
-    protected function sceneUpdate()
+    protected function sceneUpdate(): void
     {
         $this
             ->only(['nickname', 'role_id', 'role_ids', 'status', 'password'])

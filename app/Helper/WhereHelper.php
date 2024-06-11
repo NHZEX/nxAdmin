@@ -77,7 +77,7 @@ class WhereHelper
      */
     public static function buildWhereClosure(array $input, array $where): Closure
     {
-        return function (Query $query) use ($input, $where) {
+        return function (Query $query) use ($input, $where): void {
             $tableName = $query->getTable();
             $tableName = \is_array($tableName) ? $tableName[array_key_first($tableName)] : $tableName;
 

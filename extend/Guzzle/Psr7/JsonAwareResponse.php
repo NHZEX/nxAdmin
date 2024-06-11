@@ -3,7 +3,6 @@
 namespace Guzzle\Psr7;
 
 use GuzzleHttp\Psr7\Response;
-use function strpos;
 
 /**
  * Class JsonAwareResponse
@@ -26,7 +25,7 @@ class JsonAwareResponse extends Response
         $body = $this->getBody();
 
         // if JSON HTTP header detected - then decode
-        if (false !== strpos($this->getHeaderLine('Content-Type'), 'application/json')) {
+        if (str_contains($this->getHeaderLine('Content-Type'), 'application/json')) {
             return $this->json = json_decode_ex($body);
         }
         return $body;
