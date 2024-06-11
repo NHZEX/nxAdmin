@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace app\Model;
 
 use app\Exception\AccessControl;
 use app\Exception\ModelLogicException;
+use app\Model\Admin\UserRoleRelationModel;
 use app\Service\Auth\AuthHelper;
 use app\Traits\Model\ModelAccessLimit;
 use RuntimeException;
@@ -104,7 +106,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     public const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
     public const PWD_HASH_OPTIONS = ['cost' => 10];
 
-    protected $permissions = [];
+    protected array $permissions = [];
 
     /**
      * @param AdminUser $model
@@ -245,16 +247,29 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return isset($this->permissions()[$permission]);
     }
 
-    /**
-     * @return array
-     */
-    public function permissions(): array
+    public function permissions(bool $force = false): array
     {
-        if (empty($this->permissions)) {
-            $roleId            = $this->isSuperAdmin() ? -1 : $this->role_id;
-            $this->permissions = \app\Logic\AdminRole::queryPermission($roleId);
+        if (!empty($this->permissions)) {
+            return $this->permissions;
         }
-        return $this->permissions;
+        if ($this->isSuperAdmin()) {
+            $permission = \app\Logic\AdminRole::queryPermission(-1, $force);
+        } else {
+            $permission = [];
+            if ($this->role_id) {
+                $permission = \app\Logic\AdminRole::queryPermission($this->role_id, $force);
+            }
+            $permission = array_merge(
+                $permission,
+                UserRoleRelationModel::getUserRolesPermission($this->id, $force),
+            );
+        }
+        // todo 计划实现用户组权限
+        $i = 0;
+        foreach ($permission as &$_inc) {
+            $_inc = $i++;
+        }
+        return $this->permissions = $permission;
     }
 
     public function getUnfoldPermission(): array
