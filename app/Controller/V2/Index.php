@@ -37,6 +37,14 @@ class Index extends ApiBase
         return $captcha->sendResponse($headers);
     }
 
+    #[Route('v2/login', method: 'GET')]
+    public function loginConfig(): Response
+    {
+        return ReplyEx::success([
+            'enableCaptcha' => $this->app->config->get('feature.login_captcha'),
+        ]);
+    }
+
     #[Validation(Login::class)]
     #[Route('v2/login', method: 'POST')]
     public function login(AdminUser $adminUser, Captcha $captcha, Session $session): Response
@@ -68,7 +76,7 @@ class Index extends ApiBase
                 'token' => $session->getId(),
             ]);
         } else {
-            return ReplyEx::bad(CODE_CONV_LOGIN, $adminUser->getErrorMessage());
+            return ReplyEx::bad($adminUser->getErrorMessage(), CODE_CONV_LOGIN, httpCode: 403);
         }
     }
 
