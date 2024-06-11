@@ -7,7 +7,6 @@ namespace app\Traits;
 use think\Response;
 use think\response\View;
 use function app;
-use function is_null;
 use function request;
 use function strpos;
 use function strtolower;
@@ -26,7 +25,7 @@ trait JumpHelper
      */
     protected function success($msg = '', ?string $url = null, $data = '', int $wait = 3, array $header = [])
     {
-        if (is_null($url) && is_null($referer = request()->header('referer'))) {
+        if (\is_null($url) && \is_null($referer = request()->header('referer'))) {
             $url = $referer;
         } elseif ($url) {
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : url($url);
@@ -46,7 +45,7 @@ trait JumpHelper
      */
     protected function error($msg = '', string $url = null, $data = '', int $wait = 3, array $header = [])
     {
-        if (is_null($url)) {
+        if (\is_null($url)) {
             $url = request()->isAjax() ? '' : 'javascript:history.back(-1);';
         } elseif ($url) {
             $url = (strpos($url, '://') || 0 === strpos($url, '/')) ? $url : url($url);

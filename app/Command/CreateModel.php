@@ -12,17 +12,13 @@ use think\db\PDOConnection;
 use think\facade\Db;
 use Zxin\Util;
 use function array_column;
-use function count;
 use function explode;
 use function file_put_contents;
-use function in_array;
 use function is_dir;
-use function is_string;
 use function max;
 use function realpath;
 use function scandir;
 use function str_pad;
-use function strlen;
 use function strpos;
 use function strrpos;
 use function trim;
@@ -64,12 +60,12 @@ class CreateModel extends Command
         // 初始化
         $export_path = realpath($out_dir);
 
-        if (!is_string($export_path) || !is_dir($export_path)) {
+        if (!\is_string($export_path) || !is_dir($export_path)) {
             $this->output->warning("模型导出目录不存在: {$out_dir}");
             return 1;
         }
         // 自动填充最后一个目录分割符
-        if (strlen($export_path) - 1 !== strrpos($export_path, DIRECTORY_SEPARATOR)) {
+        if (\strlen($export_path) - 1 !== strrpos($export_path, DIRECTORY_SEPARATOR)) {
             $export_path .= DIRECTORY_SEPARATOR;
         }
 
@@ -101,9 +97,9 @@ class CreateModel extends Command
                         $name_hits[] = $table_name;
                     }
                 }
-                if (count($name_hits) === 1) {
+                if (\count($name_hits) === 1) {
                     $value = $name_hits[0];
-                } elseif (count($name_hits) > 1) {
+                } elseif (\count($name_hits) > 1) {
                     $value = $this->output->choice($this->input, "输入的表名（{$value}）可能是如下匹配: ", $name_hits, null);
                 } else {
                     $output->error("输入的表名无法满足如何匹配: {$value}");
@@ -128,15 +124,15 @@ class CreateModel extends Command
             );
 
             // 过滤 && 不重复生成模型
-            if (in_array($table_name, self::FILTE_TABLE)) {
+            if (\in_array($table_name, self::FILTE_TABLE)) {
                 $output->error('Ignore');
                 continue;
             }
-            if (!$out_print && (in_array("{$class_name}.php", $existsModels) || in_array("{$class_name}Model.php", $existsModels))) {
+            if (!$out_print && (\in_array("{$class_name}.php", $existsModels) || \in_array("{$class_name}Model.php", $existsModels))) {
                 $output->error('Exist');
                 continue;
             }
-            if ($is_need && !in_array($table_name, $need_table)) {
+            if ($is_need && !\in_array($table_name, $need_table)) {
                 $output->info('Skip');
                 continue;
             }
@@ -225,8 +221,8 @@ class CreateModel extends Command
                     $type = 'mixed';
             }
 
-            $max_type_len  = max($max_type_len, strlen($type));
-            $max_field_len = max($max_field_len, strlen($field_name));
+            $max_type_len  = max($max_type_len, \strlen($type));
+            $max_field_len = max($max_field_len, \strlen($field_name));
             $comment_arr[] = [$type, '$' . $field_name, $comment];
         }
 

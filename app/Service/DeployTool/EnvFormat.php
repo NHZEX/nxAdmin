@@ -4,9 +4,7 @@ namespace app\Service\DeployTool;
 
 use function date;
 use function file_put_contents;
-use function is_bool;
 use function is_numeric;
-use function is_string;
 use function ksort;
 use function substr;
 use function var_export;
@@ -58,10 +56,10 @@ class EnvFormat
         $text = '';
         $ts = '';
         foreach ($contents as $key => $value) {
-            if (is_bool($value)) {
+            if (\is_bool($value)) {
                 $value = var_export($value, true);
             } elseif (is_numeric($value)) {
-            } elseif (is_string($value)) {
+            } elseif (\is_string($value)) {
                 $value = "\"{$value}\"";
             }
 

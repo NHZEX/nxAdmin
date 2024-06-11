@@ -3,6 +3,7 @@
 namespace Tp\Model\Traits;
 
 use InvalidArgumentException;
+use RuntimeException;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -11,7 +12,6 @@ use Tp\Db\Query;
 use Tp\Model\Exception\ModelException;
 use function array_diff;
 use function array_keys;
-use function count;
 use function is_numeric;
 
 /**
@@ -68,7 +68,7 @@ trait OptimLock
         }
 
         // 无数据需要变更
-        if (isset($data[$this->optimLock]) && 1 === count($data)) {
+        if (isset($data[$this->optimLock]) && 1 === \count($data)) {
             $data = [];
         }
 
@@ -138,7 +138,7 @@ trait OptimLock
         }
 
         if (empty($this->getPk()) || ($this->isExists() && empty($where))) {
-            throw new \RuntimeException('The update condition is missing the primary key field', CODE_MODEL_OPTIMISTIC_LOCK);
+            throw new RuntimeException('The update condition is missing the primary key field', CODE_MODEL_OPTIMISTIC_LOCK);
         }
 
         if (null !== ($lockVer = $this->getLockVersion())) {

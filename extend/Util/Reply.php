@@ -13,9 +13,6 @@ use think\Response;
 use think\response\Json;
 use Throwable;
 use function array_map;
-use function is_array;
-use function is_object;
-use function strlen;
 use function substr;
 use function Zxin\debug_array;
 use function Zxin\set_path_cut_len;
@@ -76,7 +73,7 @@ class Reply
     public static function exception(Throwable $exception, ?string $msg = null, int $httpCode = 500): Response
     {
         $app          = App::getInstance();
-        $rootpath_len = strlen($app->getRootPath());
+        $rootpath_len = \strlen($app->getRootPath());
         set_path_cut_len($rootpath_len);
 
         /** @var ExceptionHandle $handle */
@@ -122,7 +119,7 @@ class Reply
         if (200 > $code || $code > 299) {
             throw new RuntimeException('http code only 200 ~ 299');
         }
-        if (is_array($data) || is_object($data)) {
+        if (\is_array($data) || \is_object($data)) {
             return self::json($data, $code, $header);
         }
         if ($data === '') {

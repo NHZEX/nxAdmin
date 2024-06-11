@@ -7,11 +7,8 @@ use think\Model;
 use function addslashes;
 use function array_is_list;
 use function array_map;
-use function is_array;
-use function is_bool;
 use function is_numeric;
 use function join;
-use function strlen;
 use function substr;
 
 /**
@@ -87,15 +84,15 @@ trait MysqlJson
     {
         if (is_numeric($value)) {
             return (string) $value;
-        } elseif (is_bool($value)) {
+        } elseif (\is_bool($value)) {
             return (string) $value;
-        } elseif (is_array($value)) {
+        } elseif (\is_array($value)) {
             if (array_is_list($value)) {
                 $tmp = '';
                 foreach ($value as $key => $v) {
                     $tmp .= "'{$key}', " . self::jsonValue($v) . ',';
                 }
-                $tmp   = substr($tmp, 0, strlen($tmp) - 1);
+                $tmp   = substr($tmp, 0, \strlen($tmp) - 1);
                 $value = "JSON_OBJECT({$tmp})";
                 unset($tmp);
             } else {

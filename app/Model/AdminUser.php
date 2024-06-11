@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Model;
@@ -15,10 +16,8 @@ use Zxin\Think\Auth\Contracts\Authenticatable as AuthenticatableContracts;
 use Zxin\Think\Auth\Contracts\ProviderlSelfCheck;
 use function array_filter;
 use function array_unique;
-use function count;
 use function explode;
 use function hash;
-use function is_null;
 use function password_hash;
 use function password_needs_rehash;
 use function password_verify;
@@ -277,8 +276,8 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         $data = [];
         foreach ($this->permissions() as $key => $_) {
             $layer = explode('.', $key);
-            if (count($layer) > 1) {
-                for ($i = count($layer) - 2; $i >= 0; $i--) {
+            if (\count($layer) > 1) {
+                for ($i = \count($layer) - 2; $i >= 0; $i--) {
                     $data[$layer[$i]] = true;
                 }
             }
@@ -321,7 +320,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
             $message = "用户状态 [{$this->status_desc}]";
             return false;
         }
-        if ($this->role_id && !is_null($this->role) && AdminRole::STATUS_NORMAL !== $this->role->status) {
+        if ($this->role_id && !\is_null($this->role) && AdminRole::STATUS_NORMAL !== $this->role->status) {
             $message = "角色状态 [{$this->role->status_desc}]";
             return false;
         }

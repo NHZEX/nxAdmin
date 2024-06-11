@@ -62,9 +62,9 @@ class Authorize
         } else {
             $response = $next($request);
         }
-//        /** @var \think\Middleware $middleware */
-//        $middleware = $this->app->get('middleware');
-//        $middleware->handleException();
+        //        /** @var \think\Middleware $middleware */
+        //        $middleware = $this->app->get('middleware');
+        //        $middleware->handleException();
         // 使用记住我恢复登录状态
         if ($this->auth->viaRemember()) {
             $response->header([

@@ -10,7 +10,6 @@ use app\Service\Auth\AuthHelper;
 use think\db\Query;
 use think\Model;
 use function array_keys;
-use function count;
 
 /**
  * Trait ModelAccessLimit
@@ -44,7 +43,7 @@ trait ModelAccessLimit
         }
 
         if ($genreControl = $this->getAccessControl($genre)) {
-            if (count($genreControl) === 1 && isset($genreControl['self'])) {
+            if (\count($genreControl) === 1 && isset($genreControl['self'])) {
                 $query->whereRaw("id = {$this->getAllowAccessTarget()}");
             } else {
                 unset($genreControl['self']);

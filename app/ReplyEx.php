@@ -46,7 +46,7 @@ class ReplyEx
                     'size' => $data->listRows(),
                     'current' => $data->currentPage(),
                     'hasMore' => $data->hasPages(),
-                ]
+                ],
             ];
         } else {
             $result = $data;
@@ -63,8 +63,7 @@ class ReplyEx
         ?string $message = null,
         int $httpCode = 200,
         bool $merge = false,
-    ): Response
-    {
+    ): Response {
         if (200 > $httpCode || $httpCode > 299) {
             throw new RuntimeException('http code only 200 ~ 299');
         }
@@ -118,15 +117,14 @@ class ReplyEx
         ?string $message = null,
         int $httpCode = 200,
         bool $merge = false
-    ): Response
-    {
+    ): Response {
         $code ??= CODE_ERROR;
         $content = [
             'message' => $message ?: self::strError($code),
             'code'    => $code,
         ];
         if ($merge) {
-            if (!is_array($data)) {
+            if (!\is_array($data)) {
                 throw new RuntimeException('merge data must be array');
             }
             $content += $data;

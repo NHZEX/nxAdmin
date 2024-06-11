@@ -5,9 +5,7 @@ namespace app\Model;
 use app\Service\Auth\AuthHelper;
 use think\App;
 use Throwable;
-use function get_class;
 use function json_encode_ex;
-use function strlen;
 use function substr;
 use function time;
 
@@ -56,14 +54,14 @@ class ExceptionLogs extends Base
             'param' => $request->param(),
             'userId' => AuthHelper::id(),
         ]);
-        if (strlen($requestInfo) > 65535) {
+        if (\strlen($requestInfo) > 65535) {
             $requestInfo = substr($requestInfo, 0, 65535 - 16) . '<cut...>';
         }
 
         $msg = '';
         $trace = $exception;
         do {
-            $msg .= 'Class: ' . get_class($trace) . "\n";
+            $msg .= 'Class: ' . \get_class($trace) . "\n";
             $msg .= "Stack Trace: [{$trace->getCode()}] {$trace->getMessage()}\n";
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());

@@ -11,7 +11,6 @@ use think\Model as ThinkModel;
 use Tp\Model\Traits\Attribute;
 use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
-use function defined;
 
 /**
  * @method Generator|$this[] cursor($data = null) static 游标查询
@@ -70,6 +69,6 @@ abstract class Base extends ThinkModel
      */
     public function isDisableAccessControl(): bool
     {
-        return PHP_SAPI === 'cli' && defined('DISABLE_ACCESS_CONTROL');
+        return PHP_SAPI === 'cli' && \defined('DISABLE_ACCESS_CONTROL');
     }
 }

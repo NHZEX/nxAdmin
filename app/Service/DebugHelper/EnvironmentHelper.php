@@ -1,13 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\DebugHelper;
 
 use Closure;
 use Composer\InstalledVersions;
-use function count;
-use function extension_loaded;
-use function function_exists;
 use function Zxin\Util\format_byte;
 use const OPENSSL_VERSION_TEXT;
 use const ZLIB_VERSION;
@@ -20,7 +18,7 @@ class EnvironmentHelper
             [
                 'label' => 'sys_version',
                 'name'  => '服务器系统',
-                'value' => \php_uname(),
+                'value' => php_uname(),
             ],
             [
                 'label' => 'php_version',
@@ -48,7 +46,7 @@ class EnvironmentHelper
             [
                 'label' => 'db_version',
                 'name'  => '数据库版本',
-                'value' => \db_version(null, true),
+                'value' => db_version(null, true),
             ],
             [
                 'label' => 'memory_limit',
@@ -73,7 +71,7 @@ class EnvironmentHelper
             [
                 'label' => 'realpath_cache_size',
                 'name'  => '路径缓存',
-                'value' => \realpath_cache_size(),
+                'value' => realpath_cache_size(),
             ],
             [
                 'label' => 'main extension',
@@ -95,7 +93,7 @@ class EnvironmentHelper
 
     public static function opcacheInfo(): string|array
     {
-        if (!extension_loaded('Zend OPcache') || !function_exists('opcache_get_status')) {
+        if (!\extension_loaded('Zend OPcache') || !\function_exists('opcache_get_status')) {
             return 'opcache not active';
         }
         $status = opcache_get_status(false);
@@ -111,7 +109,7 @@ class EnvironmentHelper
             "buffer: %s / %s, mode: %s, kind: %d, opt_level: %d, opt_flags: %d;",
             format_byte($jit['buffer_free']),
             format_byte($jit['buffer_size']),
-            ini_get('opcache.jit') ?? 'unknown',
+            \ini_get('opcache.jit') ?? 'unknown',
             format_byte($jit['kind']),
             format_byte($jit['opt_level']),
             format_byte($jit['opt_flags']),
@@ -121,9 +119,9 @@ class EnvironmentHelper
         $preloadInfo = null === $preload ? 'not active' : sprintf(
             'memory: %s, function: %d, class: %d, script: %d',
             format_byte($preload['memory_consumption']),
-            is_countable($preload['functions']) ? count($preload['functions']) : 0,
-            is_countable($preload['classes']) ? count($preload['classes']) : 0,
-            is_countable($preload['scripts']) ? count($preload['scripts']) : 0
+            is_countable($preload['functions']) ? \count($preload['functions']) : 0,
+            is_countable($preload['classes']) ? \count($preload['classes']) : 0,
+            is_countable($preload['scripts']) ? \count($preload['scripts']) : 0
         );
 
         return [
@@ -153,13 +151,13 @@ class EnvironmentHelper
 
     public static function xdebugInfo(): string
     {
-        if (!extension_loaded('Xdebug')) {
+        if (!\extension_loaded('Xdebug')) {
             return 'Xdebug not active';
         }
 
         $version = phpversion('Xdebug');
 
-        return sprintf('Xdebug: %s, mode: %s', $version ?: 'unknown', ini_get('xdebug.mode') ?: 'null');
+        return sprintf('Xdebug: %s, mode: %s', $version ?: 'unknown', \ini_get('xdebug.mode') ?: 'null');
     }
 
     public static function mainExtension(): array
@@ -170,16 +168,16 @@ class EnvironmentHelper
             [
                 'cURL'      => Closure::fromCallable([self::class, '_curlInfo']),
                 'mbstring'  => 'mbstring',
-                'openssl'   => fn() => defined('\OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'not active',
+                'openssl'   => fn () => \defined('\OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'not active',
                 'bcmath'    => 'BCMath',
                 'sodium'    => 'sodium',
                 'fileinfo'  => 'fileinfo',
-                'zlib'      => fn() => defined('\ZLIB_VERSION') ? ZLIB_VERSION : 'not active',
+                'zlib'      => fn () => \defined('\ZLIB_VERSION') ? ZLIB_VERSION : 'not active',
                 'redis'     => 'Redis',
                 'xlswriter' => 'XlsWriter',
             ] as $name => $label
         ) {
-            if (is_callable($label)) {
+            if (\is_callable($label)) {
                 $array[] = ['label' => $name, 'value' => $label()];
             } else {
                 $array[] = ['label' => $label, 'value' => phpversion($name) ?: 'not active'];
@@ -191,9 +189,9 @@ class EnvironmentHelper
 
     private static function _curlInfo(): string
     {
-        if (!extension_loaded('curl')) {
+        if (!\extension_loaded('curl')) {
             $status = 'not active';
-        } elseif (!function_exists('\curl_version')) {
+        } elseif (!\function_exists('\curl_version')) {
             $status = 'unknown';
         } else {
             $info = curl_version();

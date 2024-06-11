@@ -7,7 +7,6 @@ namespace app\Traits;
 use app\Helper\WhereHelper;
 use Closure;
 use think\Request;
-use function is_int;
 
 /**
  * Trait ControllerHelper
@@ -26,7 +25,7 @@ trait ControllerHelper
         $data  = [];
         $input = $this->request->param();
         foreach ($mapping as $name => $alias) {
-            if (is_int($name)) {
+            if (\is_int($name)) {
                 $name = $alias;
             }
             if (isset($input[$alias])) {

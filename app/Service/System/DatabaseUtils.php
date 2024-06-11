@@ -1,7 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\System;
+
+use PDOException;
+use RuntimeException;
 use think\db\exception\DbException;
 use think\db\PDOConnection;
 use function Zxin\Arr\array_group;
@@ -11,7 +15,7 @@ class DatabaseUtils
 {
     public static function queryTabelInfo(bool $newStructure = false): array
     {
-        $db = \app()->db;
+        $db = app()->db;
         $connections = $db->getConfig('connections');
 
         $output = [];
@@ -42,7 +46,7 @@ class DatabaseUtils
                 $list = $list->map(function ($item) use ($partitions) {
                     $output = [];
                     foreach ($item as $key => $value) {
-                        $output[\strtolower($key)] = $value;
+                        $output[strtolower($key)] = $value;
                     }
 
                     $output['human'] = [
@@ -58,7 +62,7 @@ class DatabaseUtils
                     if ($partition) {
                         $partition = array_map(function ($val) {
                             $output = array_change_key_case($val);
-                            $output = array_filter($output, fn ($key) => in_array($key, [
+                            $output = array_filter($output, fn ($key) => \in_array($key, [
                                 'table_name',
                                 'partition_name',
                                 'subpartition_name',
@@ -99,16 +103,16 @@ class DatabaseUtils
             } catch (DbException $e) {
                 $list = [];
                 $message = $e->getMessage();
-                \log_warning((string) $e);
+                log_warning((string) $e);
             }
 
             try {
                 if (isset($connection) && $connection instanceof PDOConnection) {
-                    $version = \db_version($connection, true);
+                    $version = db_version($connection, true);
                 }
-            } catch (DbException|\PDOException|\RuntimeException $e) {
+            } catch (DbException|PDOException|RuntimeException $e) {
                 $message = $e->getMessage();
-                \log_warning((string) $e);
+                log_warning((string) $e);
             }
 
             if ($newStructure) {

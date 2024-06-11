@@ -12,13 +12,7 @@ use think\db\Raw;
 use think\Model;
 use function array_diff;
 use function array_map;
-use function call_user_func;
-use function count;
-use function is_array;
-use function is_callable;
 use function is_numeric;
-use function is_object;
-use function is_string;
 
 /**
  * Trait ModelHelper
@@ -67,7 +61,7 @@ trait ModelHelper
         if ($argv === null) {
             $argv = static::BUILD_OPTION_ARGV;
         }
-        if (count($argv) < 2) {
+        if (\count($argv) < 2) {
             return [];
         }
 
@@ -79,7 +73,7 @@ trait ModelHelper
                 } elseif ($k === 1) {
                     $model['label'] = $v;
                 } else {
-                    if (!is_string($v)) {
+                    if (!\is_string($v)) {
                         continue;
                     }
                     $model[$v] = $v;
@@ -104,9 +98,9 @@ trait ModelHelper
         foreach ($self->cursor() as $item) {
             $tmp = [];
             foreach ($model as $k => $v) {
-                if ($v instanceof Closure || str_starts_with($v, '\\') || (is_array($v) && is_callable($v))) {
-                    $tmp[$k] = call_user_func($v, $item);
-                } elseif (is_string($v)) {
+                if ($v instanceof Closure || str_starts_with($v, '\\') || (\is_array($v) && \is_callable($v))) {
+                    $tmp[$k] = \call_user_func($v, $item);
+                } elseif (\is_string($v)) {
                     $tmp[$k] = $item->getAttr($v);
                 } else {
                     $tmp[$k] = null;
@@ -174,7 +168,7 @@ trait ModelHelper
             }
 
             $end    = $resultSet->pop();
-            $lastId = is_array($end) ? $end[$alias] : $end->getData($alias);
+            $lastId = \is_array($end) ? $end[$alias] : $end->getData($alias);
         } while (true);
     }
 
@@ -183,7 +177,7 @@ trait ModelHelper
         foreach (self::chunkIter($modelQuery, $limit, $column, $alias, $order, $startPosition) as $i => $items) {
             $itemData = $items->getIterator();
             if ($preCb) {
-                $result = call_user_func($preCb, $itemData, $i);
+                $result = \call_user_func($preCb, $itemData, $i);
                 if (is_iterable($result)) {
                     $itemData = $result;
                 }
@@ -205,7 +199,7 @@ trait ModelHelper
 
         foreach ($set as $key => $val) {
             $data[] = "'{$key}'";
-            if (is_object($val) || is_array($val)) {
+            if (\is_object($val) || \is_array($val)) {
                 $data[] = 'CONVERT(?, JSON)';
                 $values[] = json_encode_ex($val);
             } else {

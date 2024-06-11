@@ -19,11 +19,8 @@ use function dechex;
 use function exif_imagetype;
 use function fclose;
 use function fopen;
-use function function_exists;
 use function getimagesize;
 use function image_type_to_extension;
-use function is_array;
-use function is_resource;
 use function preg_match;
 use function str_pad;
 use function strrpos;
@@ -82,7 +79,7 @@ class Attachment extends Base
             // 查找存档是否有效
             if (false === $upload->has($annex->path)) {
                 $fileStream = fopen($file->getRealPath(), 'r');
-                if (!is_resource($fileStream)) {
+                if (!\is_resource($fileStream)) {
                     $this->errorMessage = "不是有效的文件资源: {$file->getRealPath()}";
                     return false;
                 }
@@ -164,10 +161,10 @@ class Attachment extends Base
         if (isset($this->image_type[$image])) {
             $img_type = $this->image_type[$image];
         } else {
-            if (function_exists('\exif_imagetype')) {
+            if (\function_exists('\exif_imagetype')) {
                 $img_type = exif_imagetype($image);
             } else {
-                if (is_array($info = getimagesize($image)) && isset($info[2])) {
+                if (\is_array($info = getimagesize($image)) && isset($info[2])) {
                     $img_type = $info[2];
                 } else {
                     $img_type = false;

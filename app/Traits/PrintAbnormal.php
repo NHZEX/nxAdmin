@@ -5,7 +5,6 @@ namespace app\Traits;
 use think\db\exception\PDOException;
 use think\facade\Log;
 use Throwable;
-use function get_class;
 use function get_included_files;
 use function join;
 use function json_encode;
@@ -30,7 +29,7 @@ trait PrintAbnormal
         $msg = '';
         $trace = $e;
         do {
-            $msg .= 'Class: \\' . get_class($trace) . "\n";
+            $msg .= 'Class: \\' . \get_class($trace) . "\n";
             $msg .= "Error: [{$trace->getCode()}] {$trace->getMessage()}\n";
             $msg .= "File : {$trace->getFile()}:{$trace->getLine()}\n";
             $msg .= "{$trace->getTraceAsString()}\n";

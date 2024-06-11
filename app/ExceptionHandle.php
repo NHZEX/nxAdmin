@@ -29,8 +29,6 @@ use Tp\Model\Exception\ModelException;
 use Util\Reply;
 use Zxin\Think\Auth\Record\RecordHelper;
 use function array_diff_key;
-use function get_class;
-use function in_array;
 
 /**
  * 应用异常处理类
@@ -91,7 +89,7 @@ class ExceptionHandle extends Handle
      */
     protected function ignoreHttpException(Throwable $exception)
     {
-        if ($exception instanceof HttpException && in_array($exception->getStatusCode(), $this->ignoreHttpCode)) {
+        if ($exception instanceof HttpException && \in_array($exception->getStatusCode(), $this->ignoreHttpCode)) {
             return true;
         }
         if ($exception instanceof HttpResponseException) {
@@ -138,7 +136,7 @@ class ExceptionHandle extends Handle
             $nextException = $exception;
             do {
                 $traces[] = [
-                    'name'    => get_class($nextException),
+                    'name'    => \get_class($nextException),
                     'file'    => $nextException->getFile(),
                     'line'    => $nextException->getLine(),
                     'code'    => $this->getCode($nextException),

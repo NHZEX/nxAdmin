@@ -6,11 +6,7 @@ use Closure;
 use think\db\Query;
 use function array_filter;
 use function array_merge;
-use function call_user_func;
-use function count;
 use function explode;
-use function is_array;
-use function is_callable;
 
 class WhereHelper
 {
@@ -25,16 +21,16 @@ class WhereHelper
     {
         $data = [];
         foreach ($where as $item) {
-            if (count($item) >= 2) {
+            if (\count($item) >= 2) {
                 [$whereField, $op] = $item;
                 $inputField  = $whereField;
                 $inputFields = [];
 
                 if (isset($item['find'])) {
                     $find = $item['find'];
-                    if (is_callable($find)) {
+                    if (\is_callable($find)) {
                         $inputFields[] = $find($input, $inputField);
-                    } elseif (is_array($find)) {
+                    } elseif (\is_array($find)) {
                         $inputFields = array_merge($inputFields, $find);
                     }
                 } else {
@@ -47,11 +43,11 @@ class WhereHelper
                     }
                     $condition = $input[$field];
                     // transform
-                    if (isset($item['tf']) && is_callable($item['tf'])) {
-                        $condition = call_user_func($item['tf'], $condition);
+                    if (isset($item['tf']) && \is_callable($item['tf'])) {
+                        $condition = \call_user_func($item['tf'], $condition);
                     }
                     if (isset($item['empty'])) {
-                        if (is_callable($item['empty']) && !$item['empty']($condition, $input)) {
+                        if (\is_callable($item['empty']) && !$item['empty']($condition, $input)) {
                             continue;
                         }
                     } else {
@@ -63,7 +59,7 @@ class WhereHelper
                     $data[] = [
                         $whereField,
                         $op,
-                        (isset($parse) && is_callable($parse)) ? $parse($condition, $field) : $condition,
+                        (isset($parse) && \is_callable($parse)) ? $parse($condition, $field) : $condition,
                     ];
                     break;
                 }
@@ -83,7 +79,7 @@ class WhereHelper
     {
         return function (Query $query) use ($input, $where) {
             $tableName = $query->getTable();
-            $tableName = is_array($tableName) ? $tableName[array_key_first($tableName)] : $tableName;
+            $tableName = \is_array($tableName) ? $tableName[array_key_first($tableName)] : $tableName;
 
             $where  = static::buildWhere($input, $where);
             $output = [];
@@ -107,7 +103,7 @@ class WhereHelper
             return null;
         }
         $sort = array_filter(explode(':', $sort, 2));
-        if (count($sort) !== 2) {
+        if (\count($sort) !== 2) {
             return null;
         }
         if ($sort[1] !== 'asc' && $sort[1] !== 'desc') {

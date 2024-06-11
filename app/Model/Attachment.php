@@ -7,9 +7,7 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use Tp\Model\Traits\ModelUtil;
 use function array_filter;
-use function count;
 use function explode;
-use function is_array;
 
 /**
  * model: 附件管理
@@ -75,7 +73,7 @@ class Attachment extends Base
         if (!$pic_path) {
             return null;
         }
-        if (is_array($pic_path)) {
+        if (\is_array($pic_path)) {
             foreach ($pic_path as &$val) {
                 if ($result = self::parseUrl($val)) {
                     $val = $result;
@@ -102,7 +100,7 @@ class Attachment extends Base
         if (!$pic_path) {
             return null;
         }
-        if (is_array($pic_path)) {
+        if (\is_array($pic_path)) {
             foreach ($pic_path as &$val) {
                 if ($result = self::parseUrl($val)) {
                     $val = "{$val}:{$result}";
@@ -127,7 +125,7 @@ class Attachment extends Base
     public static function parseUrl(string $input_path): ?string
     {
         $path_arr = explode('#', $input_path);
-        if (count($path_arr) !== 2) {
+        if (\count($path_arr) !== 2) {
             return null;
         }
         [$path, $driver] = $path_arr;

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Logic\User;
@@ -7,6 +8,7 @@ use app\Helper\WhereHelper;
 use app\Logic\Base;
 use app\Model\Admin\UserRoleRelationModel;
 use app\Model\AdminUser;
+use stdClass;
 use think\Paginator;
 use function trim;
 
@@ -62,7 +64,7 @@ class AdminUserLogic extends Base
     public function create(array $params): void
     {
         if (empty($params['extra'])) {
-            $params['extra'] = new \stdClass();
+            $params['extra'] = new stdClass();
         }
 
         if (!empty($params['role_id'])) {
@@ -73,7 +75,7 @@ class AdminUserLogic extends Base
         }
 
         // v2 兼容代码
-        $params['password'] = \hash('sha256', $params['password']);
+        $params['password'] = hash('sha256', $params['password']);
 
         $user = AdminUser::create($params);
 
@@ -86,7 +88,7 @@ class AdminUserLogic extends Base
     {
         log_debug($params);
         if (empty($params['extra'])) {
-            $params['extra'] = new \stdClass();
+            $params['extra'] = new stdClass();
         }
 
         $user = AdminUser::find($id);
@@ -99,7 +101,7 @@ class AdminUserLogic extends Base
                 unset($params['password']);
             } else {
                 // v2 兼容代码
-                $params['password'] = \hash('sha256', $params['password']);
+                $params['password'] = hash('sha256', $params['password']);
             }
         }
 
@@ -124,7 +126,7 @@ class AdminUserLogic extends Base
             self::throwLogicError('用户不存在');
         }
 
-        $password = \hash('sha256', $password);
+        $password = hash('sha256', $password);
         $user->save([
             'password' => $password,
         ]);

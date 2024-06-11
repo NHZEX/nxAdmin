@@ -34,7 +34,7 @@ class SessionInit
             $cookie = $this->app->cookie;
             $machineToken = $cookie->get('_mc');
             if (empty($machineToken)) {
-                $machineToken = '0' . '.' . \bin2hex(\random_bytes(24)) . '.' . \dechex(\time());
+                $machineToken = '0' . '.' . bin2hex(random_bytes(24)) . '.' . dechex(time());
                 $request->withCookie([
                         '_mc' => $machineToken,
                     ] + $cookie->get());
@@ -46,7 +46,8 @@ class SessionInit
                 ]);
             }
 
-            $request->withHeader([
+            $request->withHeader(
+                [
                     'x-machine-id' => $machineToken,
                 ] + $request->header()
             );

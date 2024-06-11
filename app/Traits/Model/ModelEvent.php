@@ -5,7 +5,6 @@ namespace app\Traits\Model;
 use think\App;
 use think\db\exception\ModelEventException;
 use think\Event;
-use function call_user_func;
 use function end;
 use function method_exists;
 
@@ -43,7 +42,7 @@ trait ModelEvent
             // method_exists 忽略大小写，不需要做驼峰转换
             $callMethod = "on{$event}";
             if (method_exists($this, $callMethod)) {
-                if (call_user_func([$this, $callMethod], $this) === false) {
+                if (\call_user_func([$this, $callMethod], $this) === false) {
                     return false;
                 }
             }

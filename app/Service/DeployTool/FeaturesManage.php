@@ -17,11 +17,8 @@ use think\console\output\Question;
 use think\helper\Str;
 use function array_pad;
 use function array_shift;
-use function count;
 use function explode;
-use function is_array;
 use function is_numeric;
-use function is_string;
 use function join;
 use function method_exists;
 use function strtolower;
@@ -179,7 +176,7 @@ abstract class FeaturesManage
         foreach ($this->env->toArray() as $key => $value) {
             // 解析三段式常量
             $ekey = explode('_', $key);
-            if (count($ekey) < $segments) {
+            if (\count($ekey) < $segments) {
                 continue;
             }
             if ($segments === 2) {
@@ -265,11 +262,11 @@ abstract class FeaturesManage
     {
         $validate = $this->app->validate;
 
-        if (is_string($verify)) {
+        if (\is_string($verify)) {
             $verifyNew = [];
             foreach (explode('|', $verify) as $rule) {
                 $rule = explode(':', $rule);
-                if (count($rule) === 1) {
+                if (\count($rule) === 1) {
                     $verifyNew[] = $rule[0];
                 } else {
                     $verifyNew[$rule[0]] = $rule[1];
@@ -285,7 +282,7 @@ abstract class FeaturesManage
             if (!method_exists($validate, $rule)) {
                 if (empty($param)) {
                     $param = [];
-                } elseif (!is_array($param)) {
+                } elseif (!\is_array($param)) {
                     $param =  explode(',', $param);
                 }
                 $param = [$value, $rule, $param];

@@ -20,7 +20,6 @@ use think\App;
 use think\exception\ValidateException;
 use think\Validate;
 use function explode;
-use function is_array;
 use function strpos;
 
 /**
@@ -93,7 +92,7 @@ abstract class BaseController
     protected function validate(array $data, $validate, array $message = [], bool $batch = false)
     {
         $scene = null;
-        if (is_array($validate)) {
+        if (\is_array($validate)) {
             $v = new Validate();
             $v->rule($validate);
         } else {

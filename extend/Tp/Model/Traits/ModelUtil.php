@@ -7,7 +7,6 @@ use InvalidArgumentException;
 use think\db\Raw;
 use think\facade\Db;
 use function array_push;
-use function count;
 
 trait ModelUtil
 {
@@ -56,14 +55,14 @@ trait ModelUtil
                 continue;
             }
 
-            if (count($value) === 3) {
+            if (\count($value) === 3) {
                 //若$callBack是钩子函数则需要返回相应的值, 否则直接添加到数组中
                 [$field, $expression, $callBack] = $value;
                 if ($callBack instanceof Closure) {
                     $value = [$field, $expression, $callBack($queryMap[$key])];
                 }
                 array_push($map, $value);
-            } elseif (count($value) === 2) {
+            } elseif (\count($value) === 2) {
                 //自定义表达式
                 [$field, $expression] = $value;
                 array_push($map, [$field, $expression, $queryMap[$key]]);

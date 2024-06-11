@@ -14,11 +14,8 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\model\Collection;
-use function define;
-use function defined;
 use function hash;
 use function str_repeat;
-use function strlen;
 
 class UserManage extends FeaturesManage
 {
@@ -135,7 +132,7 @@ class UserManage extends FeaturesManage
         if (empty($admin_username)) {
             $question = new Question("输入管理员用户名\t\t", 'admin_' . get_rand_str(8));
             $question->setValidator(function ($value) {
-                if (strlen($value) < 6) {
+                if (\strlen($value) < 6) {
                     throw new Exception('用户名长度必须大于等于6位');
                 }
                 return $value;
@@ -143,7 +140,7 @@ class UserManage extends FeaturesManage
             $question->setMaxAttempts(3);
             $admin_username = $this->askQuestion($input, $output, $question);
         } else {
-            if (strlen($admin_username) < 6) {
+            if (\strlen($admin_username) < 6) {
                 throw new Exception('用户名长度必须大于等于6位');
             }
         }
@@ -152,7 +149,7 @@ class UserManage extends FeaturesManage
             $question = new Question("输入管理员密码(隐藏)\t\t", get_rand_str(16));
             $question->setHidden(true);
             $question->setValidator(function ($value) {
-                if (strlen($value) < 6) {
+                if (\strlen($value) < 6) {
                     throw new Exception('密码长度必须大于等于6位');
                 }
                 return $value;
@@ -160,7 +157,7 @@ class UserManage extends FeaturesManage
             $question->setMaxAttempts(3);
             $admin_password = $this->askQuestion($input, $output, $question);
 
-            $question = new Question("重新输入密码(隐藏)\t\t", str_repeat('*', strlen($admin_password)));
+            $question = new Question("重新输入密码(隐藏)\t\t", str_repeat('*', \strlen($admin_password)));
             $question->setHidden(true);
             $question->setValidator(function ($value) use ($admin_password) {
                 if ($admin_password !== $value) {
@@ -171,13 +168,13 @@ class UserManage extends FeaturesManage
             $question->setMaxAttempts(3);
             $this->askQuestion($input, $output, $question);
         } else {
-            if (strlen($admin_password) < 6) {
+            if (\strlen($admin_password) < 6) {
                 throw new Exception('密码长度必须大于等于6位');
             }
         }
 
         // 禁用权限控制
-        defined('DISABLE_ACCESS_CONTROL') || define('DISABLE_ACCESS_CONTROL', true);
+        \defined('DISABLE_ACCESS_CONTROL') || \define('DISABLE_ACCESS_CONTROL', true);
 
         // 创建新用户
         $au = new AdminUser();

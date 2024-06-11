@@ -10,13 +10,11 @@ use think\console\input\Argument;
 use think\console\input\Option;
 use think\console\Output;
 use Zxin\Util;
-use function count;
 use function file_exists;
 use function filesize;
 use function max;
 use function str_pad;
 use function str_repeat;
-use function strlen;
 use function strpos;
 
 class Deploy extends Command
@@ -241,9 +239,9 @@ class Deploy extends Command
                 $name_hits[] = $action;
             }
         }
-        if (count($name_hits) === 1) {
+        if (\count($name_hits) === 1) {
             $runAction = $name_hits[0];
-        } elseif (count($name_hits) > 1) {
+        } elseif (\count($name_hits) > 1) {
             $runAction = $this->output
                 ->choice($this->input, "输入的指令（{$runAction}）可能是以下匹配: ", $name_hits, null);
         } else {
@@ -260,7 +258,7 @@ class Deploy extends Command
     {
         $maxLen = 0;
         foreach ($actionList as $action => $description) {
-            $maxLen = max(strlen($action), $maxLen);
+            $maxLen = max(\strlen($action), $maxLen);
         }
         $maxLen += 8;
 

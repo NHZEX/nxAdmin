@@ -24,8 +24,8 @@ final class UserRoleRelationModel extends Base
     public static function setUserRoles(int $userId, array $roleIds): void
     {
         MainTrans::callback(function () use ($userId, $roleIds) {
-            $roleIds = \array_unique($roleIds);
-            $roleIds = \array_filter($roleIds, fn($roleId) => $roleId > 0);
+            $roleIds = array_unique($roleIds);
+            $roleIds = array_filter($roleIds, fn ($roleId) => $roleId > 0);
 
             $userRolesId = (new UserRoleRelationModel())
                 ->lock(true)
@@ -36,12 +36,12 @@ final class UserRoleRelationModel extends Base
             $delRoleIds = array_diff($userRolesId, $roleIds);
 
             if ($addRoleIds) {
-                $createTime = \time();
+                $createTime = time();
 
-                $addData = array_map(fn($roleId) => [
+                $addData = array_map(fn ($roleId) => [
                     'user_id' => $userId,
                     'role_id' => $roleId,
-                    'create_time' => $createTime
+                    'create_time' => $createTime,
                 ], $addRoleIds);
 
                 (new UserRoleRelationModel())->insertAll($addData);

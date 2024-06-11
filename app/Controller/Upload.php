@@ -10,7 +10,6 @@ use think\db\exception\ModelNotFoundException;
 use think\file\UploadedFile;
 use think\Response;
 use Util\Reply;
-use function is_array;
 
 class Upload extends Base
 {
@@ -24,7 +23,7 @@ class Upload extends Base
     {
         $field = $this->request->param('field');
         $files = $this->request->file($field);
-        if (is_array($files)) {
+        if (\is_array($files)) {
             return Reply::bad(CODE_COM_PARAM, '无法处理提交');
         }
         if ($files instanceof UploadedFile) {
@@ -48,7 +47,7 @@ class Upload extends Base
     {
         /** @var UploadedFile[] $files */
         $files = $this->request->file();
-        if (!is_array($files)) {
+        if (!\is_array($files)) {
             return Reply::bad(CODE_COM_PARAM, '无法处理提交');
         }
         $returnData = [];

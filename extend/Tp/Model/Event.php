@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Tp\Model;
 
-use function call_user_func;
 use function end;
-use function is_null;
 
 class Event
 {
@@ -34,8 +32,8 @@ class Event
         $result = [];
         if (isset($this->event[$event])) {
             foreach ($this->event[$event] as $key => $callback) {
-                $result[$key] = call_user_func($callback, $params);
-                if (false === $result[$key] || (!is_null($result[$key]) && $once)) {
+                $result[$key] = \call_user_func($callback, $params);
+                if (false === $result[$key] || (!\is_null($result[$key]) && $once)) {
                     break;
                 }
             }

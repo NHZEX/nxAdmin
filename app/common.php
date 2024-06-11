@@ -86,7 +86,7 @@ function get_rand_str(int $length = 8, ?string $chars = null): string
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     }
     $text = '';
-    $chars_max_index = \strlen($chars) - 1;
+    $chars_max_index = strlen($chars) - 1;
     for ($i = 0; $i < $length; $i++) {
         $text .= $chars[random_int(0, $chars_max_index)];
     }
@@ -103,7 +103,7 @@ function get_rand_str(int $length = 8, ?string $chars = null): string
 function array_values_recursive(array $arr, ?string $filter_key = null)
 {
     foreach ($arr as $key => $value) {
-        if (\is_array($value)) {
+        if (is_array($value)) {
             $arr[$key] = array_values_recursive($value, $filter_key);
         }
     }
@@ -177,7 +177,7 @@ function query_mysql_exist_database(string $database, string $connect = null): b
     } else {
         $list = Db::connect()->query($sql);
     }
-    return (is_countable($list) ? \count($list) : 0) > 0;
+    return (is_countable($list) ? count($list) : 0) > 0;
 }
 
 /**

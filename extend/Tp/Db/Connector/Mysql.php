@@ -4,7 +4,6 @@ namespace Tp\Db\Connector;
 
 use Throwable;
 use Tp\Db\TransactionException;
-use function is_callable;
 
 class Mysql extends \think\db\connector\Mysql
 {
@@ -14,7 +13,7 @@ class Mysql extends \think\db\connector\Mysql
 
         try {
             $result = null;
-            if (is_callable($callback)) {
+            if (\is_callable($callback)) {
                 $result = $callback($this);
             }
 

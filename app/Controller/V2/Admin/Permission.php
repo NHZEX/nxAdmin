@@ -13,8 +13,6 @@ use Zxin\Think\Auth\Permission as AuthPermission;
 use Zxin\Think\Route\Annotation\Group;
 use Zxin\Think\Route\Annotation\Route;
 use function array_merge;
-use function count;
-use function is_array;
 use function is_numeric;
 
 #[Group('v2/admin/permission')]
@@ -74,7 +72,7 @@ class Permission extends Base
         if ($batch) {
             $list = $this->request->put('list');
 
-            if (empty($list) || !is_array($list)) {
+            if (empty($list) || !\is_array($list)) {
                 return ReplyEx::bad();
             }
 
@@ -82,7 +80,7 @@ class Permission extends Base
             $permissions = $perm->getPermission();
             foreach ($list as $name => $item) {
                 $item = Arr::only($item, ['sort', 'desc']);
-                if (count($item) === 0 || !isset($permissions[$name])) {
+                if (\count($item) === 0 || !isset($permissions[$name])) {
                     continue;
                 }
                 if (isset($item['sort']) && is_numeric($item['sort'])) {
