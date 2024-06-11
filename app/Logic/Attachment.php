@@ -27,8 +27,7 @@ use function strrpos;
 use function substr;
 
 /**
- * Class Attachment
- * @package app\common\logic
+ * Class Attachment.
  */
 class Attachment extends Base
 {
@@ -37,9 +36,8 @@ class Attachment extends Base
     private array $image_type = [];
 
     /**
-     * @param UploadedFile        $file
-     * @param AdminUserModel|null $user
      * @return false|AttachmentModel
+     *
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
@@ -68,7 +66,7 @@ class Attachment extends Base
                 $annex = AttachmentModel::createRecord(
                     $uniqueFileName,
                     $user ? $user->id : 0,
-                    self::PREFIX_IMAGE . DIRECTORY_SEPARATOR . $saveFileName,
+                    self::PREFIX_IMAGE.\DIRECTORY_SEPARATOR.$saveFileName,
                     $file->getMime(),
                     $fileExt,
                     $file->getSize(),
@@ -81,6 +79,7 @@ class Attachment extends Base
                 $fileStream = fopen($file->getRealPath(), 'r');
                 if (!\is_resource($fileStream)) {
                     $this->errorMessage = "不是有效的文件资源: {$file->getRealPath()}";
+
                     return false;
                 }
                 Filesystem::disk('upload')->putStream($annex->path, $fileStream);
@@ -88,72 +87,78 @@ class Attachment extends Base
             }
         } catch (BusinessResultSuccess $success) {
             $this->errorMessage = $success->getMessage();
+
             return false;
         } catch (FileException $exception) {
             $this->errorMessage = $exception->getMessage();
+
             return false;
         }
+
         return $annex;
     }
 
     /**
-     * 生成唯一文件名
-     * @param File $file
+     * 生成唯一文件名.
+     *
      * @return string
      */
     public function buildUniqueFileName(File $file)
     {
-        //
         $tmpFileName = $file->getPathname();
         $name = $file->hash('sha1');
-        $name .= '.' . str_pad(dechex($file->getSize()), 8, '0', STR_PAD_LEFT);
-        $name .= '.' . $this->getImageType($tmpFileName, true);
+        $name .= '.'.str_pad(dechex($file->getSize()), 8, '0', \STR_PAD_LEFT);
+        $name .= '.'.$this->getImageType($tmpFileName, true);
+
         return $name;
     }
 
     /**
-     * 生成保存文件名
-     * @param string $name
+     * 生成保存文件名.
+     *
      * @return string
      */
     public function buildSaveFileName(string $name)
     {
-        $savePath = substr($name, 0, 2) . DIRECTORY_SEPARATOR . substr($name, 2);
-        $savePath = date('Ymd') . DIRECTORY_SEPARATOR . $savePath;
+        $savePath = substr($name, 0, 2).\DIRECTORY_SEPARATOR.substr($name, 2);
+        $savePath = date('Ymd').\DIRECTORY_SEPARATOR.$savePath;
+
         return $savePath;
     }
 
     /**
-     * 获取文件类型信息
-     * @access public
-     * @param string $filename
+     * 获取文件类型信息.
+     *
      * @return string
      */
     public function getFileMime(string $filename)
     {
         $finfo = new finfo();
-        $result = $finfo->file($filename, FILEINFO_MIME_TYPE);
+        $result = $finfo->file($filename, \FILEINFO_MIME_TYPE);
+
         return $result;
     }
 
     /**
      * 获取文件后缀
-     * php>=7.2可用
-     * @param string $filename
+     * php>=7.2可用.
+     *
      * @return string
      */
     public function getFileExtrnsion(string $filename)
     {
         $finfo = new finfo();
-        $result = $finfo->file($filename, FILEINFO_EXTENSION);
+        $result = $finfo->file($filename, \FILEINFO_EXTENSION);
+
         return $result;
     }
 
     /**
-     * 提取图像类型
-     * @access protected
-     * @param string $image 图片名称
-     * @param bool $to_ext 获取后缀
+     * 提取图像类型.
+     *
+     * @param string $image  图片名称
+     * @param bool   $to_ext 获取后缀
+     *
      * @return false|int|string
      */
     protected function getImageType($image, $to_ext = false)

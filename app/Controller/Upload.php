@@ -15,6 +15,7 @@ class Upload extends Base
 {
     /**
      * @return Response
+     *
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
@@ -30,6 +31,7 @@ class Upload extends Base
             if (($result = $this->uploadImage($files)) instanceof Response) {
                 return $result;
             }
+
             return Reply::success($result);
         } else {
             return Reply::bad(CODE_COM_PARAM, '无法处理提交');
@@ -37,8 +39,10 @@ class Upload extends Base
     }
 
     /**
-     * 上传多个图片
+     * 上传多个图片.
+     *
      * @return Response
+     *
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
@@ -60,12 +64,13 @@ class Upload extends Base
             }
             $returnData[$key] = $imageInfo;
         }
+
         return Reply::success($returnData);
     }
 
     /**
-     * @param UploadedFile $file
      * @return array|Response
+     *
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
@@ -76,6 +81,7 @@ class Upload extends Base
         if (false === $annex = $attachment->uploadImage($file, AuthHelper::user())) {
             return Reply::bad(CODE_COM_UNABLE_PROCESS, $attachment->getErrorMessage());
         }
+
         return [
             'path' => "{$annex->path}#{$annex->driver}",
             'real_path' => $annex->real_path,

@@ -20,7 +20,7 @@ use Zxin\Think\EnvLoader;
 return [
     'env' => EnvLoader::class,
     'log' => Log::class,
-    \think\Request::class => Request::class,
-    \think\exception\Handle::class => ExceptionHandle::class,
-    'model.event' =>  Event::class,
+    think\Request::class => Request::class,
+    think\exception\Handle::class => ExceptionHandle::class,
+    'model.event' => Event::class,
 ];

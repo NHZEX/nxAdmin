@@ -35,6 +35,7 @@ class Index extends ApiBase
         if (is_debug_demo()) {
             $headers['X-Test-Captcha-Code'] = $captcha->getCodePlaintext();
         }
+
         return $captcha->sendResponse($headers);
     }
 

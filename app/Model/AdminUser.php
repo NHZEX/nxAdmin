@@ -23,38 +23,37 @@ use function password_needs_rehash;
 use function password_verify;
 
 /**
- * model: 系统用户
+ * model: 系统用户.
  *
- * @property int    $id
- * @property int    $genre           用户类型
- * @property int    $status          状态：0禁用，1启用
- * @property string $username        用户名
- * @property string $nickname        昵称
- * @property string $password        密码
- * @property string $email           邮箱地址
- * @property string $avatar          头像
- * @property int    $role_id         角色ID
- * @property int    $group_id        部门ID
- * @property string $signup_ip       注册ip
- * @property int    $create_time     创建时间
- * @property int    $update_time     更新时间
- * @property int    $delete_time     删除时间
- * @property int    $last_login_time 最后一次登录时间
- * @property string $last_login_ip   登录ip
- * @property string $remember        记住令牌
- * @property int    $lock_version    数据版本
- *
- * @property-read string            $status_desc     状态描述
- * @property-read string            $genre_desc      类型描述
- * @property-read string            $role_name       load(beRoleName)
- * @property-read AdminRole|null    $role            用户角色 load(role)
- * @property string|null            $avatar_data
- * @property int                    $sign_out_time   退出登陆时间
+ * @property int            $id
+ * @property int            $genre           用户类型
+ * @property int            $status          状态：0禁用，1启用
+ * @property string         $username        用户名
+ * @property string         $nickname        昵称
+ * @property string         $password        密码
+ * @property string         $email           邮箱地址
+ * @property string         $avatar          头像
+ * @property int            $role_id         角色ID
+ * @property int            $group_id        部门ID
+ * @property string         $signup_ip       注册ip
+ * @property int            $create_time     创建时间
+ * @property int            $update_time     更新时间
+ * @property int            $delete_time     删除时间
+ * @property int            $last_login_time 最后一次登录时间
+ * @property string         $last_login_ip   登录ip
+ * @property string         $remember        记住令牌
+ * @property int            $lock_version    数据版本
+ * @property string         $status_desc     状态描述
+ * @property string         $genre_desc      类型描述
+ * @property string         $role_name       load(beRoleName)
+ * @property AdminRole|null $role            用户角色 load(role)
+ * @property string|null    $avatar_data
+ * @property int            $sign_out_time   退出登陆时间
  */
 class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfCheck, \app\Contracts\ModelAccessLimit
 {
-    use SoftDelete;
     use ModelAccessLimit;
+    use SoftDelete;
 
     protected $table = 'admin_user';
     protected $pk = 'id';
@@ -102,18 +101,18 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         // self::GENRE_AGENT => ['self' => 'r'],
         self::GENRE_OPERATOR => ['self' => 'r'],
     ];
-    public const PWD_HASH_ALGORITHM = PASSWORD_DEFAULT;
+    public const PWD_HASH_ALGORITHM = \PASSWORD_DEFAULT;
     public const PWD_HASH_OPTIONS = ['cost' => 10];
 
     protected array $permissions = [];
 
     /**
-     * @param AdminUser $model
      * @return mixed|void
+     *
      * @throws AccessControl
      * @throws ModelLogicException
      */
-    public static function onBeforeInsert(AdminUser $model)
+    public static function onBeforeInsert(self $model)
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
@@ -130,23 +129,19 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * @param AdminUser $model
-     * @return void
      * @throws AccessControl
      * @throws ModelLogicException
      */
-    public static function onBeforeUpdate(AdminUser $model): void
+    public static function onBeforeUpdate(self $model): void
     {
         self::checkAccessControl($model);
         self::checkUserInputUnique($model);
     }
 
     /**
-     * @param AdminUser $model
-     * @return void
      * @throws AccessControl
      */
-    public static function onBeforeDelete(AdminUser $model): void
+    public static function onBeforeDelete(self $model): void
     {
         if ($model->isSuperAdmin()
             && self::where('status', self::STATUS_NORMAL)
@@ -170,10 +165,9 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * @param self $data
      * @throws ModelLogicException
      */
-    protected static function checkUserInputUnique(AdminUser $data): void
+    protected static function checkUserInputUnique(self $data): void
     {
         if ($data->hasData('username')
             && $data->getOrigin('username') !== $data->getData('username')
@@ -181,7 +175,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
             $isExist = (new self())
                 ->where('username', $data->username)
                 ->value('id');
-            if ($isExist !== null) {
+            if (null !== $isExist) {
                 throw new ModelLogicException("该账号 {$data->username} 已经存在");
             }
         }
@@ -191,18 +185,15 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
             $isExist = (new self())
                 ->where('email', $data->email)
                 ->value('id');
-            if ($isExist !== null) {
+            if (null !== $isExist) {
                 throw new ModelLogicException("该邮箱 {$data->email} 已经存在");
             }
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSelfProvider($id)
     {
-        return AdminUser::notAccessControl()->find($id);
+        return self::notAccessControl()->find($id);
     }
 
     public static function notAccessControl()
@@ -267,6 +258,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         foreach ($permission as &$_inc) {
             $_inc = $i++;
         }
+
         return $this->permissions = $permission;
     }
 
@@ -276,19 +268,20 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         foreach ($this->permissions() as $key => $_) {
             $layer = explode('.', $key);
             if (\count($layer) > 1) {
-                for ($i = \count($layer) - 2; $i >= 0; $i--) {
+                for ($i = \count($layer) - 2; $i >= 0; --$i) {
                     $data[$layer[$i]] = true;
                 }
             }
             $data[$key] = true;
         }
+
         return $data;
     }
 
     public function attachSessionInfo(): array
     {
         return [
-            'user_genre'   => $this->genre,
+            'user_genre' => $this->genre,
             'user_role_id' => $this->role_id,
         ];
     }
@@ -298,9 +291,6 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         return hash('crc32', $this->password);
     }
 
-    /**
-     * @return string
-     */
     public function getRememberToken(): string
     {
         return $this->remember;
@@ -316,17 +306,21 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     {
         if (self::STATUS_NORMAL !== $this->status) {
             $message = "用户状态 [{$this->status_desc}]";
+
             return false;
         }
-        if ($this->role_id && !\is_null($this->role) && AdminRole::STATUS_NORMAL !== $this->role->status) {
+        if ($this->role_id && null !== $this->role && AdminRole::STATUS_NORMAL !== $this->role->status) {
             $message = "角色状态 [{$this->role->status_desc}]";
+
             return false;
         }
+
         return true;
     }
 
     /**
-     * 快捷关联 角色名称
+     * 快捷关联 角色名称.
+     *
      * @return BelongsTo
      */
     protected function beRoleName()
@@ -340,6 +334,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     /**
      * 关联获取 角色对象
+     *
      * @return BelongsTo
      */
     protected function role()
@@ -348,8 +343,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * 获取器 虚拟列 类型描述
-     * @return string
+     * 获取器 虚拟列 类型描述.
      */
     protected function getGenreDescAttr(): string
     {
@@ -357,9 +351,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * 获取器 记住令牌
-     * @param null|string $value
-     * @return string
+     * 获取器 记住令牌.
      */
     protected function getRememberAttr(?string $value): ?string
     {
@@ -370,12 +362,13 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
                 $this->save();
             }
         }
+
         return $value;
     }
 
     /**
-     * 获取器 获取实际访问路径
-     * @param string|null $value
+     * 获取器 获取实际访问路径.
+     *
      * @return string|string[]|null
      */
     protected function getAvatarAttr(?string $value)
@@ -383,11 +376,13 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         if ($value) {
             return Attachment::formatAccessPath($value);
         }
+
         return '';
     }
 
     /**
-     * 供组件使用
+     * 供组件使用.
+     *
      * @return array|string|null
      */
     protected function getAvatarDataAttr()
@@ -404,7 +399,8 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * 获取虚拟列 状态描述
+     * 获取虚拟列 状态描述.
+     *
      * @return mixed|string
      */
     protected function getStatusDescAttr()
@@ -413,9 +409,8 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * 指定设置器 生成密码哈希
-     * @param string $value
-     * @return string
+     * 指定设置器 生成密码哈希.
+     *
      * @throws RuntimeException
      */
     protected function setPasswordAttr(string $value): string
@@ -430,26 +425,24 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
     }
 
     /**
-     * 创建用户
-     * @param string $username
-     * @param string $password
+     * 创建用户.
+     *
      * @return AdminUser
      */
     public static function createUser(
         string $username,
         string $password
     ) {
-        $model           = new self();
+        $model = new self();
         $model->username = $username;
         $model->password = $password;
         $model->save();
+
         return $model;
     }
 
     /**
-     * 验证密码是否正确
-     * @param string $password
-     * @return bool
+     * 验证密码是否正确.
      */
     public function verifyPassword(string $password): bool
     {
@@ -462,6 +455,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
             );
             $password_need_rehash && $this->password = $password;
         }
+
         return $verify_result;
     }
 
@@ -476,7 +470,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         if (empty($userIds)) {
             return [];
         }
-        $result = (new AdminUser())
+        $result = (new self())
             ->withoutGlobalScope()
             ->whereIn('id', $userIds)
             ->column(['username', 'nickname'], 'id');
@@ -488,11 +482,13 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
                 $output[$key] = $item['username'];
             }
         }
+
         return $output;
     }
+
     public static function queryUsernameIgnoreLimit(int $userId, bool $isExpand = false): ?string
     {
-        $result = (new AdminUser())
+        $result = (new self())
             ->withoutGlobalScope()
             ->where('id', '=', $userId)
             ->limit(1)
@@ -505,6 +501,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
         } else {
             $output = $result[0]['username'];
         }
+
         return $output;
     }
 }

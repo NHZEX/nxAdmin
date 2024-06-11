@@ -19,8 +19,8 @@ use Zxin\Think\Validate\Annotation\Validation;
 #[Resource('roles')]
 class Roles extends Base
 {
-    #[Auth("admin.role.info")]
-    #[AuthMeta("获取角色信息")]
+    #[Auth('admin.role.info')]
+    #[AuthMeta('获取角色信息')]
     public function index(int $limit = 1): Response
     {
         $where = $this->buildWhere($this->request->param(), [
@@ -35,9 +35,9 @@ class Roles extends Base
         return ReplyEx::table($result);
     }
 
-    #[Auth("admin.role.info")]
-    #[Auth("admin.user")]
-    #[AuthMeta("获取角色信息")]
+    #[Auth('admin.role.info')]
+    #[Auth('admin.user')]
+    #[AuthMeta('获取角色信息')]
     public function select($genre = 0): Response
     {
         if (empty($genre)) {
@@ -48,34 +48,37 @@ class Roles extends Base
             };
         }
         $result = AdminRole::buildOption(null, $where);
+
         return ReplyEx::success($result);
     }
 
-    #[Auth("admin.role.info")]
-    #[AuthMeta("获取角色信息")]
+    #[Auth('admin.role.info')]
+    #[AuthMeta('获取角色信息')]
     public function read(int $id): Response
     {
         $result = AdminRole::find($id);
         if (empty($result)) {
             return ReplyEx::notFound();
         }
+
         return ReplyEx::success($result);
     }
 
-    #[Auth("admin.role.add")]
-    #[AuthMeta("创建角色信息")]
-    #[Validation("@Admin.Role")]
+    #[Auth('admin.role.add')]
+    #[AuthMeta('创建角色信息')]
+    #[Validation('@Admin.Role')]
     public function save(): Response
     {
         $data = $this->getFilterInput();
         $data['genre'] = AdminRole::GENRE_SYSTEM;
         AdminRole::create($data);
+
         return ReplyEx::create();
     }
 
-    #[Auth("admin.role.edit")]
-    #[AuthMeta("更改角色信息")]
-    #[Validation("@Admin.Role")]
+    #[Auth('admin.role.edit')]
+    #[AuthMeta('更改角色信息')]
+    #[Validation('@Admin.Role')]
     public function update($id): Response
     {
         $data = AdminRole::find($id);
@@ -85,14 +88,16 @@ class Roles extends Base
         $input = $this->getFilterInput();
         $input['genre'] ??= AdminRole::GENRE_SYSTEM;
         $data->save($input);
+
         return ReplyEx::success();
     }
 
-    #[Auth("admin.role.del")]
-    #[AuthMeta("删除角色信息")]
+    #[Auth('admin.role.del')]
+    #[AuthMeta('删除角色信息')]
     public function delete($id): Response
     {
         AdminRole::destroy($id);
+
         return ReplyEx::success();
     }
 }

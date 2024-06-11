@@ -11,8 +11,7 @@ use Tp\Model\Exception\ModelException;
 abstract class Transaction
 {
     /**
-     * 获取连接名
-     * @return string
+     * 获取连接名.
      */
     abstract public static function getConnection(): string;
 
@@ -42,8 +41,6 @@ abstract class Transaction
 
     /**
      * 闭包事务
-     * @param callable $callback
-     * @return mixed
      */
     public static function callback(callable $callback)
     {
@@ -51,8 +48,8 @@ abstract class Transaction
     }
 
     /**
-     * 是否在事务内
-     * @return bool
+     * 是否在事务内.
+     *
      * @throws ModelException
      */
     public static function inTransaction(): bool
@@ -60,17 +57,19 @@ abstract class Transaction
         $db = App::getInstance()->db;
         $connection = $db->connect(static::getConnection());
         if (!$connection instanceof PDOConnection) {
-            throw new ModelException('不支持的连接驱动: ' . $connection::class, CODE_MODEL_TRANSACTION);
+            throw new ModelException('不支持的连接驱动: '.$connection::class, CODE_MODEL_TRANSACTION);
         }
         $instance = $connection->getPdo();
         if (false === $instance) {
             return false;
         }
+
         return $instance->inTransaction();
     }
 
     /**
-     * 不再事务中执行将直接抛出异常
+     * 不再事务中执行将直接抛出异常.
+     *
      * @throws ModelException
      */
     public static function tryInTransaction(): void

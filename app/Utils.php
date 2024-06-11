@@ -32,7 +32,7 @@ class Utils
 
     public static function makeConsoleLogger(Output $output): LoggerInterface
     {
-        if (self::$loggerCache === null) {
+        if (null === self::$loggerCache) {
             self::$loggerCache = new WeakMap();
         }
 
@@ -43,13 +43,13 @@ class Utils
         $bridge = new OutputBridge($output);
         $logger = new ConsoleLogger($bridge, [
             LogLevel::EMERGENCY => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::ALERT     => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::CRITICAL  => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::ERROR     => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::WARNING   => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::NOTICE    => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::INFO      => OutputInterface::VERBOSITY_NORMAL,
-            LogLevel::DEBUG     => OutputInterface::VERBOSITY_VERY_VERBOSE,
+            LogLevel::ALERT => OutputInterface::VERBOSITY_NORMAL,
+            LogLevel::CRITICAL => OutputInterface::VERBOSITY_NORMAL,
+            LogLevel::ERROR => OutputInterface::VERBOSITY_NORMAL,
+            LogLevel::WARNING => OutputInterface::VERBOSITY_NORMAL,
+            LogLevel::NOTICE => OutputInterface::VERBOSITY_NORMAL,
+            LogLevel::INFO => OutputInterface::VERBOSITY_NORMAL,
+            LogLevel::DEBUG => OutputInterface::VERBOSITY_VERY_VERBOSE,
         ]);
 
         self::$loggerCache[$output] = $logger;
@@ -63,17 +63,17 @@ class Utils
     public static function getEnvInfo(): array
     {
         return [
-            'sys_version'         => ['服务器系统', php_uname()],
-            'server_software'     => ['执行环境', $_SERVER['SERVER_SOFTWARE']],
-            'php_sapi'            => ['PHP接口类型', PHP_SAPI],
-            'tp_version'          => ['ThinkPHP 版本', InstalledVersions::getPrettyVersion("topthink/framework")],
-            'orm_version'         => ['ThinkORM 版本', InstalledVersions::getPrettyVersion("topthink/think-orm")],
-            'php_version'         => ['PHP版本', PHP_VERSION],
-            'db_version'          => ['数据库版本', db_version(null, true)],
-            'memory_limit'        => ['内存限制', \ini_get('memory_limit')],
-            'max_execution_time'  => ['最长执行时间', \ini_get('max_execution_time')],
+            'sys_version' => ['服务器系统', php_uname()],
+            'server_software' => ['执行环境', $_SERVER['SERVER_SOFTWARE']],
+            'php_sapi' => ['PHP接口类型', \PHP_SAPI],
+            'tp_version' => ['ThinkPHP 版本', InstalledVersions::getPrettyVersion('topthink/framework')],
+            'orm_version' => ['ThinkORM 版本', InstalledVersions::getPrettyVersion('topthink/think-orm')],
+            'php_version' => ['PHP版本', \PHP_VERSION],
+            'db_version' => ['数据库版本', db_version(null, true)],
+            'memory_limit' => ['内存限制', \ini_get('memory_limit')],
+            'max_execution_time' => ['最长执行时间', \ini_get('max_execution_time')],
             'upload_max_filesize' => ['上传限制', \ini_get('upload_max_filesize')],
-            'post_max_size'       => ['POST限制', \ini_get('post_max_size')],
+            'post_max_size' => ['POST限制', \ini_get('post_max_size')],
             'realpath_cache_size' => ['路径缓存', realpath_cache_size()],
         ];
     }

@@ -15,16 +15,13 @@ use function array_map;
 use function is_numeric;
 
 /**
- * Trait ModelHelper
- * @package app\Traits\Model
+ * Trait ModelHelper.
+ *
  * @mixin Model
  * @mixin Base
  */
 trait ModelHelper
 {
-    /**
-     * @return string
-     */
     public static function getTableName(): string
     {
         /* @phpstan-ignore-next-line 必须是 static */
@@ -32,9 +29,8 @@ trait ModelHelper
     }
 
     /**
-     * 构建子查询
-     * @param Closure $closure
-     * @param string|null $field
+     * 构建子查询.
+     *
      * @return Closure
      */
     public static function subQuery(Closure $closure, ?string $field)
@@ -50,15 +46,11 @@ trait ModelHelper
     }
 
     /**
-     * 生成选项列表
-     * @param array|null    $argv
-     * @param callable|null $where
-     * @param callable|null $dbCallback
-     * @return array
+     * 生成选项列表.
      */
-    public static function buildOption(array $argv = null, callable $where = null, callable $dbCallback = null): array
+    public static function buildOption(?array $argv = null, ?callable $where = null, ?callable $dbCallback = null): array
     {
-        if ($argv === null) {
+        if (null === $argv) {
             $argv = static::BUILD_OPTION_ARGV;
         }
         if (\count($argv) < 2) {
@@ -68,9 +60,9 @@ trait ModelHelper
         $model = [];
         foreach ($argv as $k => $v) {
             if (is_numeric($k)) {
-                if ($k === 0) {
+                if (0 === $k) {
                     $model['value'] = $v;
-                } elseif ($k === 1) {
+                } elseif (1 === $k) {
                     $model['label'] = $v;
                 } else {
                     if (!\is_string($v)) {
@@ -83,7 +75,7 @@ trait ModelHelper
             }
         }
 
-        $self = new static(); /** @phpstan-ignore-line 必须是 static */
+        $self = new static(); /* @phpstan-ignore-line 必须是 static */
         if ($where) {
             $self = $self->where($where);
         }
@@ -108,6 +100,7 @@ trait ModelHelper
             }
             $result[] = $tmp;
         }
+
         return $result;
     }
 
@@ -126,9 +119,9 @@ trait ModelHelper
         }
     }
 
-    public static function chunkIter(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null): Generator
+    public static function chunkIter(Query|Model $modelQuery, int $limit, string $column, ?string $alias = null, string $order = 'asc', ?int $startPosition = null): Generator
     {
-        $column  = $column ?: $modelQuery->getPk();
+        $column = $column ?: $modelQuery->getPk();
 
         if (strpos($column, '.')) {
             [, $key] = explode('.', $column);
@@ -143,7 +136,7 @@ trait ModelHelper
 
         $lastId = $startPosition;
 
-        do {
+        while (true) {
             $query = (clone $modelQuery)
                 ->removeOption('order')
                 ->limit($limit);
@@ -167,12 +160,12 @@ trait ModelHelper
                 break;
             }
 
-            $end    = $resultSet->pop();
+            $end = $resultSet->pop();
             $lastId = \is_array($end) ? $end[$alias] : $end->getData($alias);
-        } while (true);
+        }
     }
 
-    public static function chunkIterEach(Query|Model $modelQuery, int $limit, string $column, string $alias = null, string $order = 'asc', ?int $startPosition = null, ?callable $preCb = null): Generator
+    public static function chunkIterEach(Query|Model $modelQuery, int $limit, string $column, ?string $alias = null, string $order = 'asc', ?int $startPosition = null, ?callable $preCb = null): Generator
     {
         foreach (self::chunkIter($modelQuery, $limit, $column, $alias, $order, $startPosition) as $i => $items) {
             $itemData = $items->getIterator();
@@ -209,6 +202,7 @@ trait ModelHelper
         }
 
         $str = implode(', ', $data);
+
         return new Raw(
             "json_set(`{$field}`, {$str})",
             $values,

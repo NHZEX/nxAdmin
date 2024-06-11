@@ -27,24 +27,19 @@ class AdminUser extends Base
         $this->auth = $authGuard;
     }
 
-    /**
-     * @return AuthGuard
-     */
     public function getAuth(): AuthGuard
     {
         return $this->auth;
     }
 
     /**
-     * 用户登陆 邮箱或用户名
-     * @param string $username
-     * @param string $password
-     * @param bool   $rememberme
+     * 用户登陆 邮箱或用户名.
+     *
      * @return bool
      */
     public function loginNameWaitEmail(string $username, string $password, bool $rememberme = false)
     {
-        if (filter_var($username, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($username, \FILTER_VALIDATE_EMAIL)) {
             return $this->login(self::LOGIN_TYPE_EMAIL, $username, $password, $rememberme);
         } else {
             return $this->login(self::LOGIN_TYPE_NAME, $username, $password, $rememberme);
@@ -52,11 +47,8 @@ class AdminUser extends Base
     }
 
     /**
-     * 用户登陆 自定义
-     * @param string $type
-     * @param string $username
-     * @param string $password
-     * @param bool $rememberme
+     * 用户登陆 自定义.
+     *
      * @return bool
      */
     public function login(string $type, string $username, string $password, bool $rememberme = false)
@@ -90,10 +82,12 @@ class AdminUser extends Base
             }
         } catch (BusinessResult $businessResult) {
             $this->errorMessage = $businessResult->getMessage();
+
             return false;
         } catch (DbException $e) {
             throw new RuntimeException("数据库访问异常：{$e->getMessage()}", 0, $e);
         }
+
         return true;
     }
 }

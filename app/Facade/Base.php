@@ -8,17 +8,17 @@ use think\facade\App;
 class Base extends Facade
 {
     /**
-     * 实例是否存在
-     * @return bool
+     * 实例是否存在.
      */
     public static function hasInstance(): bool
     {
-        /** @noinspection PhpDynamicAsStaticMethodCallInspection */
+        /* @noinspection PhpDynamicAsStaticMethodCallInspection */
         return App::exists(static::getFacadeClass());
     }
 
     /**
-     * 获取当前实例
+     * 获取当前实例.
+     *
      * @return object
      */
     public static function getSelf()

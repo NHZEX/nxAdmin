@@ -12,8 +12,8 @@ use think\Model;
 use function array_keys;
 
 /**
- * Trait ModelAccessLimit
- * @package app\Traits\Model
+ * Trait ModelAccessLimit.
+ *
  * @mixin \app\Contracts\ModelAccessLimit
  */
 trait ModelAccessLimit
@@ -23,6 +23,7 @@ trait ModelAccessLimit
     public function withoutWriteAccessLimit()
     {
         $this->withoutAccessLimit = true;
+
         return $this;
     }
 
@@ -43,7 +44,7 @@ trait ModelAccessLimit
         }
 
         if ($genreControl = $this->getAccessControl($genre)) {
-            if (\count($genreControl) === 1 && isset($genreControl['self'])) {
+            if (1 === \count($genreControl) && isset($genreControl['self'])) {
                 $query->whereRaw("id = {$this->getAllowAccessTarget()}");
             } else {
                 unset($genreControl['self']);
@@ -56,6 +57,7 @@ trait ModelAccessLimit
 
     /**
      * @param static|Model $data
+     *
      * @throws AccessControl
      */
     protected static function checkAccessControl($data): void
@@ -63,8 +65,8 @@ trait ModelAccessLimit
         if (!$data instanceof \app\Contracts\ModelAccessLimit) {
             return;
         }
-        /** @noinspection PhpUndefinedFieldInspection */
-        /** @phpstan-ignore-next-line */
+        /* @noinspection PhpUndefinedFieldInspection */
+        /* @phpstan-ignore-next-line */
         if ($data->withoutAccessLimit) {
             return;
         }
@@ -85,11 +87,11 @@ trait ModelAccessLimit
             throw new AccessControl('当前登陆的用户无该数据的操作权限');
         }
         if (isset($genreControl['self'])
-            && $genreControl['self'] === 'rw'
+            && 'rw' === $genreControl['self']
             && $data->getAllowAccessTarget() === $data->getOrigin('id')
         ) {
             return;
-        } elseif (isset($genreControl[$dataGenre]) && $genreControl[$dataGenre] === 'rw') {
+        } elseif (isset($genreControl[$dataGenre]) && 'rw' === $genreControl[$dataGenre]) {
             return;
         }
         throw new AccessControl('当前登陆的用户无该数据的操作权限');

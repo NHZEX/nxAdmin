@@ -1,16 +1,15 @@
 <?php
 
 /**
- * 错误代码分配
+ * 错误代码分配.
  *
  * 公共: 10xx
  * 会话：11xx
  * 模型：12xx - 13xx
  * 业务：14xx - 15xx
  */
-
-const CODE_SUCCEED   = 0;
-const CODE_ERROR     = 1;
+const CODE_SUCCEED = 0;
+const CODE_ERROR = 1;
 const CODE_EXCEPTION = 2;
 const CODE_NOT_FOUND = 404;
 
@@ -30,8 +29,8 @@ const CODE_CONV_AUTHOR_INVALID = 1105;  // 会话:授权无效
 const CODE_CONV_ACCESS_CONTROL = 1106;  // 会话:被访问控制阻止
 
 const CODE_DICT = [
-    CODE_SUCCEED   => 'succeed',
-    CODE_ERROR     => 'error',
+    CODE_SUCCEED => 'succeed',
+    CODE_ERROR => 'error',
     CODE_EXCEPTION => 'server exception',
 
     CODE_COM_CAPTCHA => '验证码错误',

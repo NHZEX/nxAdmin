@@ -11,7 +11,7 @@ use think\model\concern\SoftDelete;
 use Tp\Model\Traits\MysqlJson;
 
 /**
- * model: 系统角色
+ * model: 系统角色.
  *
  * @property int        $id
  * @property int        $pid
@@ -24,16 +24,15 @@ use Tp\Model\Traits\MysqlJson;
  * @property string     $description  角色描述
  * @property array|null $ext          扩展信息
  * @property int        $lock_version 锁版本
- *
- * @property array       $auth         权限
- * @property-read string $status_desc  状态描述
- * @property-read string $genre_desc   类型描述
+ * @property array      $auth         权限
+ * @property string     $status_desc  状态描述
+ * @property string     $genre_desc   类型描述
  */
 class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 {
-    use SoftDelete;
-    use MysqlJson;
     use ModelAccessLimit;
+    use MysqlJson;
+    use SoftDelete;
 
     protected $table = 'admin_role';
     protected $pk = 'id';
@@ -77,11 +76,9 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
     public const EXT_AGENT = 'agent';
 
     /**
-     * @param AdminRole $model
-     * @return void
      * @throws AccessControl
      */
-    public static function onBeforeInsert(AdminRole $model): void
+    public static function onBeforeInsert(self $model): void
     {
         self::checkAccessControl($model);
 
@@ -94,60 +91,48 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
     }
 
     /**
-     * @param AdminRole $model
      * @return mixed|void
+     *
      * @throws AccessControl
      */
-    public static function onBeforeUpdate(AdminRole $model)
+    public static function onBeforeUpdate(self $model)
     {
         self::checkAccessControl($model);
     }
 
     /**
-     * @param AdminRole $model
      * @return mixed|void
+     *
      * @throws AccessControl
      */
-    public static function onBeforeDelete(AdminRole $model)
+    public static function onBeforeDelete(self $model)
     {
         self::checkAccessControl($model);
     }
 
-    /**
-     * @param AdminRole $model
-     */
-    public static function onAfterWrite(AdminRole $model): void
+    public static function onAfterWrite(self $model): void
     {
         AdminRoleLogic::refreshCache($model);
     }
 
-    /**
-     * @param AdminRole $model
-     */
-    public static function onAfterDelete(AdminRole $model): void
+    public static function onAfterDelete(self $model): void
     {
         AdminRoleLogic::destroyCache($model);
     }
 
-    /**
-     * @param int $genre
-     * @return array|null
-     */
     public function getAccessControl(int $genre): ?array
     {
         return self::ACCESS_CONTROL[$genre] ?? null;
     }
 
-    /**
-     * @return int|null
-     */
     public function getAllowAccessTarget(): ?int
     {
         return AuthHelper::userRoleId();
     }
 
     /**
-     * 获取虚拟列 类型描述
+     * 获取虚拟列 类型描述.
+     *
      * @return mixed|string
      */
     protected function getGenreDescAttr()
@@ -156,7 +141,8 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
     }
 
     /**
-     * 获取虚拟列 状态描述
+     * 获取虚拟列 状态描述.
+     *
      * @return mixed|string
      */
     protected function getStatusDescAttr()
@@ -165,13 +151,9 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
     }
 
     /**
-     * 获取角色列表
-     * @param array|null    $argv
-     * @param callable|null $where
-     * @param callable|null $dbCallback
-     * @return array
+     * 获取角色列表.
      */
-    public static function buildOption(?array $argv = null, callable $where = null, callable $dbCallback = null): array
+    public static function buildOption(?array $argv = null, ?callable $where = null, ?callable $dbCallback = null): array
     {
         return parent::buildOption([
             'id',

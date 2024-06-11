@@ -14,17 +14,17 @@ use function substr;
 use function time;
 
 /**
- * model: 系统表
+ * model: 系统表.
+ *
  * @property int    $id
  * @property string $laber
- *
  * @property string $label 标签
  * @property string $value 值
  */
 class System extends Base
 {
     protected $name = 'system';
-    protected $pk   = 'label';
+    protected $pk = 'label';
 
     protected $schema = [
         'label' => 'string',
@@ -32,34 +32,30 @@ class System extends Base
     ];
 
     /**
-     * 是否可用
+     * 是否可用.
+     *
      * @return bool
      */
     public static function isAvailable()
     {
-        $db       = app()->db->connect();
+        $db = app()->db->connect();
         $database = $db->getConfig('database');
         /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
         $sql = "select * from `INFORMATION_SCHEMA`.`TABLES` where TABLE_SCHEMA='{$database}' and TABLE_NAME='system'";
+
         return (is_countable($db->query($sql)) ? \count($db->query($sql)) : 0) > 0;
     }
 
     /**
      * 查询一个值
-     * @param string      $label
-     * @param string|null $default
-     * @return string|null
      */
-    public static function getLabel(string $label, string $default = null): ?string
+    public static function getLabel(string $label, ?string $default = null): ?string
     {
         return self::where('label', '=', $label)->value('value', $default);
     }
 
     /**
      * 设置一个值
-     * @param string $label
-     * @param string $value
-     * @return bool
      */
     public static function setLabel(string $label, string $value): bool
     {
@@ -72,8 +68,6 @@ class System extends Base
     }
 
     /**
-     * @param string $label
-     * @param int    $ttl
      * @return false|string
      */
     public static function setLock(string $label, int $ttl)
@@ -85,18 +79,21 @@ class System extends Base
             } else {
                 $ttl = 0;
             }
+
             return "_lock:{$token}:{$ttl}";
         };
+
         return MainTrans::callback(function () use ($label, $ttl, $generateKey) {
             $token = null;
             $value = self::where('label', $label)
                 ->lock(true)
                 ->value('value', null);
-            if ($value === null) {
+            if (null === $value) {
                 self::insert([
                     'label' => $label,
                     'value' => $generateKey($token, $ttl),
                 ]);
+
                 return $token;
             }
             if (str_starts_with($value, '_lock:') && (int) substr($value, 15) > time()) {
@@ -106,29 +103,26 @@ class System extends Base
                 ->update([
                     'value' => $generateKey($token, $ttl),
                 ]);
+
             return $token;
         });
     }
 
-    /**
-     * @param string $label
-     * @param string $key
-     * @param bool   $force
-     * @return bool
-     */
     public static function unLock(string $label, string $key, bool $force = false): bool
     {
         return MainTrans::callback(function () use ($label, $key, $force) {
             $value = self::where('label', $label)
                 ->lock(true)
                 ->value('value', null);
-            if ($force || ($value === null || str_starts_with($value, "_lock:{$key}"))) {
+            if ($force || (null === $value || str_starts_with($value, "_lock:{$key}"))) {
                 self::where('label', $label)
                     ->update([
                         'value' => time(),
                     ]);
+
                 return true;
             }
+
             return false;
         });
     }
@@ -148,7 +142,7 @@ class System extends Base
     {
         $value = self::where('label', $label)
             ->value('value', null);
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
@@ -157,7 +151,7 @@ class System extends Base
 
     protected static function parseLock(string $info)
     {
-        $isLock = str_starts_with($info, "_lock:");
+        $isLock = str_starts_with($info, '_lock:');
 
         return [
             'lock' => $isLock,

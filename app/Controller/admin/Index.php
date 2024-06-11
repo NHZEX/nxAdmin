@@ -18,9 +18,9 @@ use Zxin\Think\Validate\Annotation\Validation;
 class Index extends Base
 {
     /**
-     * 登陆
+     * 登陆.
      */
-    #[Validation("@Login")]
+    #[Validation('@Login')]
     #[Route(method: 'POST')]
     public function login(AdminUser $adminUser, Captcha $captcha): Response
     {
@@ -53,7 +53,7 @@ class Index extends Base
     }
 
     /**
-     * 退出登陆
+     * 退出登陆.
      */
     #[Route(method: 'GET')] // 应该淘汰 GET 吧
     public function logout(AuthGuard $auth): Response
@@ -66,7 +66,7 @@ class Index extends Base
     }
 
     /**
-     * 获取用户信息
+     * 获取用户信息.
      */
     #[Auth]
     #[Route('user-info', method: 'GET')]
@@ -77,6 +77,7 @@ class Index extends Base
             'role', 'password', 'remember', 'last_login_ip',
             'delete_time', 'group_id', 'lock_version', 'signup_ip',
         ]);
+
         return Reply::success([
             'user' => $user,
             'permission' => $user->getUnfoldPermission(),

@@ -9,27 +9,22 @@ use function end;
 use function method_exists;
 
 /**
- * Trait ModelEvent
- * @package app\Traits\Model
+ * Trait ModelEvent.
+ *
  * @mixin \think\model\concern\ModelEvent
  */
 trait ModelEvent
 {
     /**
-     * 事件监听
-     * @param string   $event
-     * @param callable $call
-     * @param bool     $first
+     * 事件监听.
      */
     public static function listen(string $event, callable $call, bool $first = false): void
     {
-        App::getInstance()->make('model.event')->listen('model.' . static::class . '.' . $event, $call, $first);
+        App::getInstance()->make('model.event')->listen('model.'.static::class.'.'.$event, $call, $first);
     }
 
     /**
-     * 事件触发
-     * @param string $event
-     * @return bool
+     * 事件触发.
      */
     protected function trigger(string $event): bool
     {
@@ -42,19 +37,20 @@ trait ModelEvent
             // method_exists 忽略大小写，不需要做驼峰转换
             $callMethod = "on{$event}";
             if (method_exists($this, $callMethod)) {
-                if (\call_user_func([$this, $callMethod], $this) === false) {
+                if (false === \call_user_func([$this, $callMethod], $this)) {
                     return false;
                 }
             }
             if (self::$event instanceof Event) {
                 $result = App::getInstance()
                     ->make('model.event')
-                    ->trigger('model.' . static::class . '.' . $event, $this);
+                    ->trigger('model.'.static::class.'.'.$event, $this);
                 $result = empty($result) ? true : end($result);
-                if ($result === false) {
+                if (false === $result) {
                     return false;
                 }
             }
+
             return true;
         } catch (ModelEventException $e) {
             return false;

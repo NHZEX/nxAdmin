@@ -2,7 +2,7 @@
 /**
  * Created by PhpStorm.
  * Date: 2019/1/5
- * Time: 10:54
+ * Time: 10:54.
  */
 
 use app\Service\Auth\Middleware\SessionInit;

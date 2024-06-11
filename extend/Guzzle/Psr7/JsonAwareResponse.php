@@ -5,14 +5,14 @@ namespace Guzzle\Psr7;
 use GuzzleHttp\Psr7\Response;
 
 /**
- * Class JsonAwareResponse
- * @package app\common\psr7
+ * Class JsonAwareResponse.
+ *
  * @url https://stackoverflow.com/a/53444976/10242420
  */
 class JsonAwareResponse extends Response
 {
     /**
-     * Cache for performance
+     * Cache for performance.
      */
     private array $json;
 
@@ -28,6 +28,7 @@ class JsonAwareResponse extends Response
         if (str_contains($this->getHeaderLine('Content-Type'), 'application/json')) {
             return $this->json = json_decode_ex($body);
         }
+
         return $body;
     }
 }

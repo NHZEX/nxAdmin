@@ -20,8 +20,8 @@ class AdminUserLogic extends Base
             ['genre', '='],
             // ['role_id', '='],
             ['status', '=', 'empty' => '\issue'],
-            ['username', 'like', fn ($val) => trim($val) . '%'],
-            ['nickname', 'like', fn ($val) => trim($val) . '%'],
+            ['username', 'like', fn ($val) => trim($val).'%'],
+            ['nickname', 'like', fn ($val) => trim($val).'%'],
         ]);
 
         $paginate = (new AdminUser())

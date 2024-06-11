@@ -6,10 +6,7 @@ use app\Traits\PrintAbnormal;
 use LogicException;
 
 /**
- * Class BusinessResult
- * @package app\common\exception
- *
- * 以异常的方式中断业务流程并抛出一个结果给上层调用者
+ * Class BusinessResult.
  */
 class BusinessResult extends LogicException
 {

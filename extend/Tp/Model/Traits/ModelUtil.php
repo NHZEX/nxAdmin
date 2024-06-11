@@ -6,14 +6,11 @@ use Closure;
 use InvalidArgumentException;
 use think\db\Raw;
 use think\facade\Db;
-use function array_push;
 
 trait ModelUtil
 {
     /**
-     * think orm 创建一个查询表达式
-     * @param string $value
-     * @return Raw
+     * think orm 创建一个查询表达式.
      */
     public static function dbRaw(string $value): Raw
     {
@@ -21,9 +18,7 @@ trait ModelUtil
     }
 
     /**
-     * 当前模型是否存在该字段
-     * @param string $field
-     * @return bool
+     * 当前模型是否存在该字段.
      */
     public function hasData(string $field): bool
     {
@@ -35,11 +30,11 @@ trait ModelUtil
     }
 
     /**
-     * 自定义查询集合
+     * 自定义查询集合.
+     *
      * @param array  $data
      * @param array  $query
      * @param string $mapName
-     * @return array
      */
     protected static function setQueryMap($data = [], $query = [], $mapName = 'queryMap'): array
     {
@@ -51,23 +46,24 @@ trait ModelUtil
 
         $queryMap = $query[$mapName];
         foreach ($data as $key => $value) {
-            if (!isset($queryMap[$key]) || ($queryMap[$key] === '')) {
+            if (!isset($queryMap[$key]) || ('' === $queryMap[$key])) {
                 continue;
             }
 
-            if (\count($value) === 3) {
-                //若$callBack是钩子函数则需要返回相应的值, 否则直接添加到数组中
+            if (3 === \count($value)) {
+                // 若$callBack是钩子函数则需要返回相应的值, 否则直接添加到数组中
                 [$field, $expression, $callBack] = $value;
                 if ($callBack instanceof Closure) {
                     $value = [$field, $expression, $callBack($queryMap[$key])];
                 }
-                array_push($map, $value);
-            } elseif (\count($value) === 2) {
-                //自定义表达式
+                $map[] = $value;
+            } elseif (2 === \count($value)) {
+                // 自定义表达式
                 [$field, $expression] = $value;
-                array_push($map, [$field, $expression, $queryMap[$key]]);
+                $map[] = [$field, $expression, $queryMap[$key]];
             }
         }
+
         return $map;
     }
 }

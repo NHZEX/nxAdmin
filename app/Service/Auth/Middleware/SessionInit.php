@@ -21,7 +21,7 @@ class SessionInit
 
     public function __construct(App $app, Session $session)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->session = $session;
     }
 
@@ -34,10 +34,10 @@ class SessionInit
             $cookie = $this->app->cookie;
             $machineToken = $cookie->get('_mc');
             if (empty($machineToken)) {
-                $machineToken = '0' . '.' . bin2hex(random_bytes(24)) . '.' . dechex(time());
+                $machineToken = '0.'.bin2hex(random_bytes(24)).'.'.dechex(time());
                 $request->withCookie([
-                        '_mc' => $machineToken,
-                    ] + $cookie->get());
+                    '_mc' => $machineToken,
+                ] + $cookie->get());
 
                 $cookie->set('_mc', $machineToken, [
                     'expire' => 86400 * 31,
@@ -55,10 +55,8 @@ class SessionInit
     }
 
     /**
-     * Session初始化
-     * @access public
-     * @param Request $request
-     * @param Closure $next
+     * Session初始化.
+     *
      * @return Response
      */
     public function handle(Request $request, Closure $next)
@@ -68,7 +66,7 @@ class SessionInit
         // Session初始化
         $varSessionId = $this->app->config->get('session.var_session_id');
         $headerSessionId = $this->app->config->get('session.var_header', 'X-TOKEN');
-        $cookieName   = $this->session->getName();
+        $cookieName = $this->session->getName();
 
         /** @var ParseAuthorization $token */
         $token = $this->app->make(ParseAuthorization::class);
@@ -106,9 +104,6 @@ class SessionInit
         return $response;
     }
 
-    /**
-     * @param Response $response
-     */
     public function end(Response $response): void
     {
         $this->session->save();

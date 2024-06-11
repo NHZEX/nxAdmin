@@ -20,8 +20,7 @@ use function str_repeat;
 class UserManage extends FeaturesManage
 {
     /**
-     * 指令列表
-     * @return array
+     * 指令列表.
      */
     public function getActionList(): array
     {
@@ -33,8 +32,7 @@ class UserManage extends FeaturesManage
     }
 
     /**
-     * 默认指令
-     * @return string
+     * 默认指令.
      */
     public function getDefaultAction(): string
     {
@@ -42,9 +40,8 @@ class UserManage extends FeaturesManage
     }
 
     /**
-     * @param Input  $input
-     * @param Output $output
      * @return bool
+     *
      * @throws Exception
      */
     public function actionAuto(Input $input, Output $output)
@@ -52,11 +49,13 @@ class UserManage extends FeaturesManage
         // TODO 环境检查
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
+
             return false;
         }
 
         if ($this->deploy->isDryRun()) {
             $output->writeln('> 跳过用户创建');
+
             return true;
         }
 
@@ -74,8 +73,8 @@ class UserManage extends FeaturesManage
     }
 
     /**
-     * @param Output $output
      * @return bool
+     *
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
@@ -85,6 +84,7 @@ class UserManage extends FeaturesManage
         // TODO 环境检查
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
+
             return false;
         }
         /** @var AdminUser[]|Collection $users */
@@ -109,9 +109,8 @@ class UserManage extends FeaturesManage
     }
 
     /**
-     * @param Input  $input
-     * @param Output $output
      * @return bool
+     *
      * @throws Exception
      */
     public function actionAdd(Input $input, Output $output)
@@ -119,6 +118,7 @@ class UserManage extends FeaturesManage
         // TODO 环境检查
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
+
             return false;
         }
 
@@ -130,11 +130,12 @@ class UserManage extends FeaturesManage
         $admin_password = $this->app->env->get('INIT_SADMIN_PASSWORD', $input->getOption('add-password'));
 
         if (empty($admin_username)) {
-            $question = new Question("输入管理员用户名\t\t", 'admin_' . get_rand_str(8));
+            $question = new Question("输入管理员用户名\t\t", 'admin_'.get_rand_str(8));
             $question->setValidator(function ($value) {
                 if (\strlen($value) < 6) {
                     throw new Exception('用户名长度必须大于等于6位');
                 }
+
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -152,6 +153,7 @@ class UserManage extends FeaturesManage
                 if (\strlen($value) < 6) {
                     throw new Exception('密码长度必须大于等于6位');
                 }
+
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -163,6 +165,7 @@ class UserManage extends FeaturesManage
                 if ($admin_password !== $value) {
                     throw new Exception('两次输入密码不一致');
                 }
+
                 return $value;
             });
             $question->setMaxAttempts(3);
@@ -192,7 +195,7 @@ class UserManage extends FeaturesManage
             }
         }
 
-        $output->writeln('> 用户创建成功' . ($noInteraction ? '<comment>[回显]</comment>' : ''));
+        $output->writeln('> 用户创建成功'.($noInteraction ? '<comment>[回显]</comment>' : ''));
         if ($noInteraction) {
             $output->writeln("  > 用户账号: {$admin_username}");
             $output->writeln("  > 用户密码: {$admin_password}");

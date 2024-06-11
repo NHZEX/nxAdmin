@@ -9,7 +9,6 @@ use Closure;
 trait QuickHelper
 {
     /**
-     * @param callable $call
      * @return Closure
      */
     public static function callWrap(callable $call)

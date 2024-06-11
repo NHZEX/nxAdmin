@@ -21,8 +21,7 @@ use function Zxin\ref_get_prop;
 class UpdateManage extends FeaturesManage
 {
     /**
-     * 指令列表
-     * @return array
+     * 指令列表.
      */
     public function getActionList(): array
     {
@@ -34,8 +33,7 @@ class UpdateManage extends FeaturesManage
     }
 
     /**
-     * 默认指令
-     * @return string
+     * 默认指令.
      */
     public function getDefaultAction(): string
     {
@@ -43,8 +41,6 @@ class UpdateManage extends FeaturesManage
     }
 
     /**
-     * @param Output $output
-     * @return bool
      * @throws Exception
      */
     public function actionAuto(Output $output): bool
@@ -53,18 +49,18 @@ class UpdateManage extends FeaturesManage
             return true;
         }
         $this->deploy->setCode(1);
+
         return false;
     }
 
     /**
-     * @param Output $output
-     * @return bool
      * @throws Exception
      */
     public function actionMigrate(Output $output): bool
     {
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
+
             return false;
         }
 
@@ -80,7 +76,7 @@ class UpdateManage extends FeaturesManage
         $cxt = hash_init('md5');
         /** @var SplFileInfo $file */
         foreach ($finder as $file) {
-            hash_update($cxt, $file->getRelativePathname() . "\n");
+            hash_update($cxt, $file->getRelativePathname()."\n");
             hash_update_file($cxt, $file->getRealPath());
         }
         $migrationHash = hash_final($cxt);
@@ -88,29 +84,31 @@ class UpdateManage extends FeaturesManage
         // 判断是否需要更新
         if (System::isAvailable() && $migrationHash === System::getLabel('dep_data_migration_ver')) {
             $output->writeln('  数据迁移: <comment>数据无需更新</comment>');
+
             return true;
         }
 
         // 执行数据迁移
         $argv = [$verbosity, $this->deploy->isDryRun() ? '--dry-run' : null];
         $output = $this->call('migrate:run', $argv, $exitCode);
-        if ($exitCode !== 0) {
+        if (0 !== $exitCode) {
             $output->writeln('  数据迁移: <error>数据迁移异常</error>');
+
             return false;
         }
 
         // 保存新的版本Hash
         System::setLabel('dep_data_migration_ver', $migrationHash);
         $output->writeln('  数据迁移: <info>数据迁移成功</info>');
+
         return true;
     }
 
     /**
-     * @param string $command
-     * @param array  $parameters
-     * @param int    $exitCode
-     * @param string $driver
+     * @param int $exitCode
+     *
      * @return Output
+     *
      * @throws ReflectionException
      * @throws Exception
      */
@@ -118,7 +116,7 @@ class UpdateManage extends FeaturesManage
     {
         array_unshift($parameters, $command);
 
-        $input  = new Input($parameters);
+        $input = new Input($parameters);
         $output = new Output($driver);
 
         $original = ref_get_prop($this->app->console, 'autoExit')->getValue();
@@ -132,16 +130,16 @@ class UpdateManage extends FeaturesManage
     }
 
     /**
-     * @param Output $output
-     * @return bool
      * @throws Exception
      */
     public function actionData(Output $output): bool
     {
         if (false === $this->deploy->isEnvExist()) {
             $output->writeln('> 运行环境不正常');
+
             return false;
         }
+
         return true;
     }
 }

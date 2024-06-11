@@ -11,8 +11,8 @@ use function array_search;
 
 /**
  * 自动记录用户
- * Trait ModelEvent
- * @package Tp\Model\Traits
+ * Trait ModelEvent.
+ *
  * @mixin Model
  */
 trait RecordUser
@@ -25,7 +25,8 @@ trait RecordUser
     protected $updateBy = 'update_by';
 
     /**
-     * 自动记录操作用户
+     * 自动记录操作用户.
+     *
      * @param self|Model $data
      */
     protected static function recodeUser(Model $data): void
@@ -45,7 +46,8 @@ trait RecordUser
     }
 
     /**
-     * 获取创建者名称
+     * 获取创建者名称.
+     *
      * @return BelongsTo
      */
     protected function beCreatorName()
@@ -55,7 +57,8 @@ trait RecordUser
     }
 
     /**
-     * 获取编辑者名称
+     * 获取编辑者名称.
+     *
      * @return BelongsTo
      */
     protected function beEditorName()

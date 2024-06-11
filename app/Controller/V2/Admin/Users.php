@@ -23,8 +23,8 @@ use function trim;
 #[Resource('users')]
 class Users extends Base
 {
-    #[Auth("admin.user.info")]
-    #[AuthMeta("获取用户信息")]
+    #[Auth('admin.user.info')]
+    #[AuthMeta('获取用户信息')]
     public function index(int $limit = 1): Response
     {
         $result = (new AdminUserLogic())->search($limit, $this->request->param());
@@ -32,20 +32,21 @@ class Users extends Base
         return ReplyEx::table($result);
     }
 
-    #[Auth("admin.user.info")]
-    #[AuthMeta("获取用户信息")]
+    #[Auth('admin.user.info')]
+    #[AuthMeta('获取用户信息')]
     public function read(int $id): Response
     {
         $result = (new AdminUserLogic())->read($id);
         if (empty($result)) {
             return Reply::notFound();
         }
+
         return ReplyEx::success($result);
     }
 
-    #[Auth("admin.user.add")]
-    #[AuthMeta("添加用户信息")]
-    #[Validation(name: User::class, scene: "_")]
+    #[Auth('admin.user.add')]
+    #[AuthMeta('添加用户信息')]
+    #[Validation(name: User::class, scene: '_')]
     public function save(): Response
     {
         $data = $this->getFilterInput();
@@ -54,9 +55,9 @@ class Users extends Base
         return ReplyEx::create();
     }
 
-    #[Auth("admin.user.edit")]
-    #[AuthMeta("更改用户信息")]
-    #[Validation(name: User::class, scene: "_")]
+    #[Auth('admin.user.edit')]
+    #[AuthMeta('更改用户信息')]
+    #[Validation(name: User::class, scene: '_')]
     public function update(int $id): Response
     {
         $data = $this->getFilterInput();
@@ -65,10 +66,10 @@ class Users extends Base
         return ReplyEx::success();
     }
 
-    #[Auth("admin.user.reset-password")]
-    #[AuthMeta("重置用户密码")]
+    #[Auth('admin.user.reset-password')]
+    #[AuthMeta('重置用户密码')]
     #[ResourceRule(':id/reset-password', 'POST')]
-    #[Validation(name: User::class, scene: "resetPasswod")]
+    #[Validation(name: User::class, scene: 'resetPasswod')]
     public function resetPassword(int $id): Response
     {
         $password = $this->request->param('password');
@@ -83,8 +84,8 @@ class Users extends Base
         return ReplyEx::success();
     }
 
-    #[Auth("admin.user.del")]
-    #[AuthMeta("删除用户信息")]
+    #[Auth('admin.user.del')]
+    #[AuthMeta('删除用户信息')]
     public function delete(int $id): Response
     {
         AdminUser::destroy($id);

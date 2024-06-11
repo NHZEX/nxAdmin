@@ -21,8 +21,6 @@ class DebugRequestInfo
     }
 
     /**
-     * @param Request $request
-     * @param Closure $next
      * @return Response|string
      */
     public function handle(Request $request, Closure $next)
@@ -33,11 +31,11 @@ class DebugRequestInfo
         $action = $request->action() ?: 'unknown';
         $this->app->log->record("dispatch: {$appName}-{$controller}-{$action}", 'route');
         // $app->log->info('[ ROUTE ] ' . var_export($request->rule()->__debugInfo(), true));
-        $this->app->log->record('header: ' . var_export($request->header(), true), 'request');
-        $this->app->log->record('param: ' . var_export($request->param(), true), 'request');
+        $this->app->log->record('header: '.var_export($request->header(), true), 'request');
+        $this->app->log->record('param: '.var_export($request->param(), true), 'request');
         $files = [];
         foreach ($request->file() ?: [] as $key => $file) {
-            /** @var UploadedFile $file */
+            /* @var UploadedFile $file */
             $files[$key] = [
                 'filename' => $file->getOriginalName(),
                 'filemime' => $file->getOriginalMime(),
@@ -45,7 +43,8 @@ class DebugRequestInfo
                 'filepath' => $file->getPathname(),
             ];
         }
-        $this->app->log->record('files: ' . var_export($files, true), 'request');
+        $this->app->log->record('files: '.var_export($files, true), 'request');
+
         return $next($request);
     }
 }

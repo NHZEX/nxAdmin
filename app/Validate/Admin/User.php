@@ -10,9 +10,9 @@ class User extends Base
 {
     // todo genre、status 从模型获取有效范围
     protected $rule = [
-        'genre'    => 'require|number',
-        'status'   => 'require|number',
-        'role_id'  => 'number',
+        'genre' => 'require|number',
+        'status' => 'require|number',
+        'role_id' => 'number',
         'role_ids' => 'array',
         'username' => 'require|length:3,64',
         'nickname' => 'require|length:3,64',
@@ -25,13 +25,13 @@ class User extends Base
         'password' => '密码',
         'username' => '账号',
         'nickname' => '昵称',
-        'email'    => '邮箱',
-        'phone'    => '手机',
-        'role_id'  => '角色ID',
+        'email' => '邮箱',
+        'phone' => '手机',
+        'role_id' => '角色ID',
     ];
 
     protected $scene = [
-        'save'   => [
+        'save' => [
             'genre', 'username', 'nickname', 'password', 'role_id', 'status',
         ],
         'resetPasswod' => [

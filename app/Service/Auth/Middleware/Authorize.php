@@ -17,9 +17,9 @@ class Authorize
 {
     use JumpHelper;
 
-    private \think\App $app;
-    private \Zxin\Think\Auth\AuthGuard $auth;
-    private \Zxin\Think\Auth\Permission $permission;
+    private App $app;
+    private AuthGuard $auth;
+    private Permission $permission;
 
     public function __construct(App $app, AuthGuard $auth, Permission $permission)
     {
@@ -29,8 +29,6 @@ class Authorize
     }
 
     /**
-     * @param Request  $request
-     * @param Closure $next
      * @return Response|string
      */
     public function handle(Request $request, Closure $next)
@@ -52,7 +50,8 @@ class Authorize
         if (true !== $this->auth->check()) {
             $this->auth->logout();
             $msg = $this->auth->getMessage();
-            $msg = empty($msg) ? '会话无效' : ('会话无效: ' . $msg);
+            $msg = empty($msg) ? '会话无效' : ('会话无效: '.$msg);
+
             return $this->failJump($request, $msg);
         }
 
@@ -77,25 +76,21 @@ class Authorize
     }
 
     /**
-     * 获取节点名称
-     * @param Request $request
-     * @return string
+     * 获取节点名称.
      */
     protected function getNodeName(Request $request): ?string
     {
-        if (empty($request->controller() . $request->action())) {
+        if (empty($request->controller().$request->action())) {
             return null;
         }
         $appName = $this->app->http->getName();
-        $appName = $appName ? ($appName . '/') : '';
-        return $appName . $request->controller(true) . '/' . $request->action(true);
+        $appName = $appName ? ($appName.'/') : '';
+
+        return $appName.$request->controller(true).'/'.$request->action(true);
     }
 
     /**
-     * 权限检查失败跳转
-     * @param Request $request
-     * @param string  $message
-     * @return response
+     * 权限检查失败跳转.
      */
     protected function failJump(Request $request, string $message): Response
     {
@@ -106,11 +101,6 @@ class Authorize
         }
     }
 
-    /**
-     * @param Request $request
-     * @param string  $message
-     * @return Response
-     */
     protected function refuseJump(Request $request, string $message): Response
     {
         if ($request->isAjax()) {

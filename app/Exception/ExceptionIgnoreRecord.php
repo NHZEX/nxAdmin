@@ -6,8 +6,7 @@ use Exception;
 
 /**
  * 忽略异常记录
- * Class ExceptionRecordDown
- * @package app\exception
+ * Class ExceptionRecordDown.
  */
 class ExceptionIgnoreRecord extends Exception
 {

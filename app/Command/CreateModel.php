@@ -23,7 +23,8 @@ use function strrpos;
 use function trim;
 
 /**
- * 批量创建数据结构到模型
+ * 批量创建数据结构到模型.
+ *
  * @deprecated
  */
 class CreateModel extends Command
@@ -43,50 +44,46 @@ class CreateModel extends Command
             ->addArgument('table', Argument::OPTIONAL, '指定表');
     }
 
-    /**
-     * @param Input  $input
-     * @param Output $output
-     * @return int
-     */
     public function execute(Input $input, Output $output): int
     {
         $out_print = (bool) $input->getOption('print');
-        $save      = (bool) $input->getOption('save');
-        $connect   = $input->getOption('connect');
+        $save = (bool) $input->getOption('save');
+        $connect = $input->getOption('connect');
         $namespace = $input->getOption('namespace');
-        $out_dir   = $input->getOption('dir');
+        $out_dir = $input->getOption('dir');
 
         // 初始化
         $export_path = realpath($out_dir);
 
         if (!\is_string($export_path) || !is_dir($export_path)) {
             $this->output->warning("模型导出目录不存在: {$out_dir}");
+
             return 1;
         }
         // 自动填充最后一个目录分割符
-        if (\strlen($export_path) - 1 !== strrpos($export_path, DIRECTORY_SEPARATOR)) {
-            $export_path .= DIRECTORY_SEPARATOR;
+        if (\strlen($export_path) - 1 !== strrpos($export_path, \DIRECTORY_SEPARATOR)) {
+            $export_path .= \DIRECTORY_SEPARATOR;
         }
 
         $output->info("DbConnect：\t{$connect}");
         $output->info("ModelDir：\t{$export_path}");
         $output->info("Namespace:\t{$namespace}");
-        $output->info("=========================================================");
+        $output->info('=========================================================');
 
         /** @var PDOConnection $db */
-        $db       = Db::connect($connect);
+        $db = Db::connect($connect);
         $database = $db->getConfig()['database'];
 
         // 加载数据
         /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
-        $sql          = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
-        $tables       = $db->query($sql);
-        $table_names  = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
+        $sql = "select * from information_schema.tables where TABLE_SCHEMA='{$database}' and TABLE_TYPE='BASE TABLE'";
+        $tables = $db->query($sql);
+        $table_names = array_column($tables, 'TABLE_COMMENT', 'TABLE_NAME');
         $existsModels = scandir($export_path);
 
         // 指定导出表
         $need_table = $input->getArgument('table');
-        $is_need    = !empty($need_table);
+        $is_need = !empty($need_table);
         $need_table = explode(',', $need_table);
         if ($is_need) {
             foreach ($need_table as &$value) {
@@ -96,12 +93,13 @@ class CreateModel extends Command
                         $name_hits[] = $table_name;
                     }
                 }
-                if (\count($name_hits) === 1) {
+                if (1 === \count($name_hits)) {
                     $value = $name_hits[0];
                 } elseif (\count($name_hits) > 1) {
                     $value = $this->output->choice($this->input, "输入的表名（{$value}）可能是如下匹配: ", $name_hits, null);
                 } else {
                     $output->error("输入的表名无法满足如何匹配: {$value}");
+
                     return 1;
                 }
             }
@@ -114,12 +112,12 @@ class CreateModel extends Command
 
         foreach ($table_names as $table_name => $table_comment) {
             $model_table_name = $table_name;
-            $class_name       = Util::toUpperCamelCase($model_table_name);
+            $class_name = Util::toUpperCamelCase($model_table_name);
 
             $output->write(
                 '<info>'
-                . str_pad($table_name, self::OUTPUT_ALIGN) . " => " . str_pad($class_name, self::OUTPUT_ALIGN)
-                . ' </info>'
+                .str_pad($table_name, self::OUTPUT_ALIGN).' => '.str_pad($class_name, self::OUTPUT_ALIGN)
+                .' </info>'
             );
 
             // 过滤 && 不重复生成模型
@@ -142,7 +140,7 @@ class CreateModel extends Command
 
             $class_text = $this->createModel($db, $database, $table_name, trim($table_comment), $class_name, $namespace);
 
-            $file_name = $export_path . "{$class_name}.php";
+            $file_name = $export_path."{$class_name}.php";
 
             if ($out_print) {
                 $output->warning(">> output: {$file_name}");
@@ -158,15 +156,15 @@ class CreateModel extends Command
 
     private function createModel(
         ConnectionInterface $db,
-        string              $database,
-        string              $tableName,
-        string              $tableComment,
-        string              $className,
-        string              $namespaces
+        string $database,
+        string $tableName,
+        string $tableComment,
+        string $className,
+        string $namespaces
     ): string {
         /** @noinspection SqlNoDataSourceInspection SqlDialectInspection */
-        $sql          = "select * from information_schema.COLUMNS "
-            . "where `table_name` = '{$tableName}' and `table_schema` = '{$database}' order by `ORDINAL_POSITION` ASC";
+        $sql = 'select * from information_schema.COLUMNS '
+            ."where `table_name` = '{$tableName}' and `table_schema` = '{$database}' order by `ORDINAL_POSITION` ASC";
         $table_fields = $db->query($sql);
 
         $pk_field_name = '';
@@ -180,13 +178,13 @@ class CreateModel extends Command
             $class_text .= " * model: {$tableComment}\n";
         }
 
-        $comment_arr   = [];
-        $max_type_len  = 0;
+        $comment_arr = [];
+        $max_type_len = 0;
         $max_field_len = 0;
         foreach ($table_fields as $value) {
             $field_name = $value['COLUMN_NAME'];
-            $comment    = $value['COLUMN_COMMENT'];
-            $comment    = empty($comment) ? '' : (' ' . $comment);
+            $comment = $value['COLUMN_COMMENT'];
+            $comment = empty($comment) ? '' : (' '.$comment);
 
             if ('PRI' === $value['COLUMN_KEY']) {
                 $pk_field_name = $field_name;
@@ -220,15 +218,15 @@ class CreateModel extends Command
                     $type = 'mixed';
             }
 
-            $max_type_len  = max($max_type_len, \strlen($type));
+            $max_type_len = max($max_type_len, \strlen($type));
             $max_field_len = max($max_field_len, \strlen($field_name));
-            $comment_arr[] = [$type, '$' . $field_name, $comment];
+            $comment_arr[] = [$type, '$'.$field_name, $comment];
         }
 
         foreach ($comment_arr as $value) {
             [$type, $field_name, $comment] = $value;
 
-            $type       = str_pad($type, $max_type_len + 1);
+            $type = str_pad($type, $max_type_len + 1);
             $field_name = empty($comment) ? $field_name : str_pad($field_name, $max_field_len + 1);
 
             $class_text .= " * @property {$type}{$field_name}{$comment}\n";

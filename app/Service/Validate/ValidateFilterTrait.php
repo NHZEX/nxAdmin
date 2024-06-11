@@ -8,8 +8,8 @@ use think\Request;
 use Zxin\Think\Validate\ValidateContext;
 
 /**
- * Trait ValidateFilter
- * @package app\Traits
+ * Trait ValidateFilter.
+ *
  * @property Request $request
  */
 trait ValidateFilterTrait
@@ -18,24 +18,23 @@ trait ValidateFilterTrait
     private $allowInputFields;
 
     /**
-     * 获取验证中间件传递的许可字段
-     * @return array
+     * 获取验证中间件传递的许可字段.
      */
     protected function getAllowInputFields(): array
     {
         $ctx = ValidateContext::get();
-        if ($ctx === null) {
+        if (null === $ctx) {
             return [];
         }
-        if ($this->allowInputFields === null) {
+        if (null === $this->allowInputFields) {
             $this->allowInputFields = $ctx->getInputFields();
         }
+
         return $this->allowInputFields;
     }
 
     /**
-     * 获取过滤后的输入
-     * @return array
+     * 获取过滤后的输入.
      */
     protected function getFilterInput(): array
     {

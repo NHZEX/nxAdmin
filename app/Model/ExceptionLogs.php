@@ -37,14 +37,12 @@ class ExceptionLogs extends Base
     public const TYPE_HTTP = 'http';
 
     /**
-     * 写入日志
-     * @param Throwable $exception
-     * @return bool
+     * 写入日志.
      */
     public static function push(Throwable $exception): bool
     {
         $cli = is_cli() ? 'cli' : 'other';
-        $sapi = PHP_SAPI;
+        $sapi = \PHP_SAPI;
 
         $request = App::getInstance()->request;
         $http = App::getInstance()->http;
@@ -55,13 +53,13 @@ class ExceptionLogs extends Base
             'userId' => AuthHelper::id(),
         ]);
         if (\strlen($requestInfo) > 65535) {
-            $requestInfo = substr($requestInfo, 0, 65535 - 16) . '<cut...>';
+            $requestInfo = substr($requestInfo, 0, 65535 - 16).'<cut...>';
         }
 
         $msg = '';
         $trace = $exception;
         do {
-            $msg .= 'Class: ' . $trace::class . "\n";
+            $msg .= 'Class: '.$trace::class."\n";
             $msg .= "Stack Trace: [{$trace->getCode()}] {$trace->getMessage()}\n";
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());
@@ -78,6 +76,7 @@ class ExceptionLogs extends Base
             'message' => "[{$exception->getCode()}] {$exception->getMessage()}",
             'trace_info' => $traceInfo,
         ]);
+
         return true;
     }
 }

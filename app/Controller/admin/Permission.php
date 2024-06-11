@@ -19,7 +19,7 @@ use function is_numeric;
 #[Resource('permission')]
 class Permission extends Base
 {
-    #[Auth("admin.permission.info")]
+    #[Auth('admin.permission.info')]
     public function index(AuthPermission $permission): Response
     {
         $data = $permission->getTree('__ROOT__', 1);
@@ -27,7 +27,7 @@ class Permission extends Base
         return Reply::success($data);
     }
 
-    #[Auth("admin.permission.info")]
+    #[Auth('admin.permission.info')]
     public function read(string $id, AuthPermission $permission): Response
     {
         if (($info = $permission->queryPermission($id)) === null) {
@@ -38,7 +38,7 @@ class Permission extends Base
         foreach ($info['allow'] ?? [] as $item) {
             $feature = $permission->queryFeature($item);
             if ($feature) {
-                $allow[] =  [
+                $allow[] = [
                     'name' => $item,
                     'desc' => $feature['desc'],
                 ];
@@ -49,7 +49,7 @@ class Permission extends Base
         return Reply::success($info);
     }
 
-    #[Auth("admin.permission.edit")]
+    #[Auth('admin.permission.edit')]
     public function update(string $id, AuthScan $authScan, bool $batch = false): Response
     {
         if (!$this->allowAccess()) {
@@ -67,7 +67,7 @@ class Permission extends Base
             $permissions = $perm->getPermission();
             foreach ($list as $name => $item) {
                 $item = Arr::only($item, ['sort', 'desc']);
-                if (\count($item) === 0 || !isset($permissions[$name])) {
+                if (0 === \count($item) || !isset($permissions[$name])) {
                     continue;
                 }
                 if (isset($item['sort']) && is_numeric($item['sort'])) {
@@ -102,7 +102,7 @@ class Permission extends Base
         return Reply::success();
     }
 
-    #[Auth("admin.permission.scan")]
+    #[Auth('admin.permission.scan')]
     #[ResourceRule('scan', method: 'GET')]
     public function scan(AuthScan $authScan): Response
     {
@@ -110,6 +110,7 @@ class Permission extends Base
             return Reply::bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
         }
         $authScan->refresh();
+
         return Reply::success();
     }
 

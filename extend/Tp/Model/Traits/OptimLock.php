@@ -15,24 +15,26 @@ use function array_keys;
 use function is_numeric;
 
 /**
- * Trait OptimLock
- * @package Tp\Model\Traits
+ * Trait OptimLock.
+ *
  * @mixin Model
+ *
  * @method static Query wherePk($op, $condition = null) 指定主键查询条件
- * @method array getTableFields($tableName = '')
+ * @method        array getTableFields($tableName = '')
+ *
  * @property string|false $optimLock
  */
 trait OptimLock
 {
     protected $optimLock = 'lock_version';
 
-    private $lockVersion = null;
+    private $lockVersion;
 
     /**
-     * 使用特定锁查询一条数据
-     * @param int $id
-     * @param int $lock_version
+     * 使用特定锁查询一条数据.
+     *
      * @return static|Model|null
+     *
      * @throws ModelException
      * @throws DataNotFoundException
      * @throws DbException
@@ -50,13 +52,13 @@ trait OptimLock
             }
         }
         $result[$that->optimLock] = $lock_version;
+
         return $result;
     }
 
     /**
      * 获取变化的数据 并排除只读数据
-     * TODO 数据类型发生变化时无法分辨数据变更
-     * @return array
+     * TODO 数据类型发生变化时无法分辨数据变更.
      */
     public function getChangedData(): array
     {
@@ -76,8 +78,7 @@ trait OptimLock
     }
 
     /**
-     * 获取锁内容
-     * @return int|null
+     * 获取锁内容.
      */
     protected function getLockVersion(): ?int
     {
@@ -91,9 +92,7 @@ trait OptimLock
     }
 
     /**
-     * 数据检查
-     * @access protected
-     * @return void
+     * 数据检查.
      */
     protected function checkData(): void
     {
@@ -102,8 +101,6 @@ trait OptimLock
 
     /**
      * 记录乐观锁
-     * @access protected
-     * @return void
      */
     protected function recordLockVersion(): void
     {
@@ -114,8 +111,6 @@ trait OptimLock
 
     /**
      * 更新乐观锁
-     * @access protected
-     * @return void
      */
     protected function updateLockVersion(): void
     {
@@ -143,7 +138,7 @@ trait OptimLock
 
         if (null !== ($lockVer = $this->getLockVersion())) {
             // 删除数据时乐观锁没有走数据检测流程
-            if ($this->lockVersion === null) {
+            if (null === $this->lockVersion) {
                 $this->lockVersion = $lockVer;
             }
             $where[] = [$this->optimLock, '=', $this->lockVersion];
@@ -154,6 +149,7 @@ trait OptimLock
 
     /**
      * @param int|string $result
+     *
      * @throws ModelException
      */
     protected function checkResult($result): void

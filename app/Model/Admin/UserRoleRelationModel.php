@@ -58,7 +58,7 @@ final class UserRoleRelationModel extends Base
 
     public static function getUserRoles(int $userId): array
     {
-        return (new UserRoleRelationModel())
+        return (new self())
             ->where('user_id', '=', $userId)
             ->column('role_id');
     }
@@ -66,7 +66,7 @@ final class UserRoleRelationModel extends Base
     public static function getUserRolesPermission(int $userId, bool $force = false): array
     {
         $permissionGroup = [];
-        foreach (UserRoleRelationModel::getUserRoles($userId) as $roleId) {
+        foreach (self::getUserRoles($userId) as $roleId) {
             $permissionGroup[] = \app\Logic\AdminRole::queryPermission($roleId, $force);
         }
 
@@ -77,7 +77,7 @@ final class UserRoleRelationModel extends Base
 
     public static function listUserRolesId(array $userIds): array
     {
-        $data = (new UserRoleRelationModel())
+        $data = (new self())
             ->whereIn('user_id', $userIds)
             ->column('role_id', 'user_id');
 
@@ -86,7 +86,7 @@ final class UserRoleRelationModel extends Base
 
     public static function listUserRolesIdAndName(array $userIds): array
     {
-        $data = (new UserRoleRelationModel())
+        $data = (new self())
             ->alias('ur')
             ->whereIn('ur.user_id', $userIds)
             ->join('admin_role r', 'r.id = ur.role_id')

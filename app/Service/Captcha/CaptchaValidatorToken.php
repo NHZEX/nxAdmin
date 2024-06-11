@@ -55,7 +55,7 @@ class CaptchaValidatorToken extends CaptchaValidatorAbstract
         }
         $require = request();
         $redis = RedisManager::connection();
-        $key = "captcha:blacklist:" . hash('sha1', $token);
+        $key = 'captcha:blacklist:'.hash('sha1', $token);
         try {
             if (!isset($palyload['ttl']) || time() > $palyload['ttl']) {
                 throw new BusinessResult('验证码失效.');
@@ -75,10 +75,12 @@ class CaptchaValidatorToken extends CaptchaValidatorAbstract
             }
         } catch (BusinessResult $result) {
             $this->message = $result->getMessage();
+
             return false;
         } finally {
-            $redis->setex($key, $this->ttl, time() . "|{$require->ip()}");
+            $redis->setex($key, $this->ttl, time()."|{$require->ip()}");
         }
+
         return true;
     }
 }

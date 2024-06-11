@@ -18,7 +18,7 @@ use function is_numeric;
 #[Group('v2/admin/permission')]
 class Permission extends Base
 {
-    #[Auth("admin.permission.info")]
+    #[Auth('admin.permission.info')]
     #[Route('tree', method: 'GET')]
     public function index(AuthPermission $permission): Response
     {
@@ -27,7 +27,7 @@ class Permission extends Base
         return ReplyEx::success($data);
     }
 
-    #[Auth("admin.permission.scan")]
+    #[Auth('admin.permission.scan')]
     #[Route('scan', method: 'POST')]
     public function scan(AuthScan $authScan): Response
     {
@@ -35,10 +35,11 @@ class Permission extends Base
             return ReplyEx::bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
         }
         $authScan->refresh();
+
         return ReplyEx::success();
     }
 
-    #[Auth("admin.permission.info")]
+    #[Auth('admin.permission.info')]
     #[Route(':id', method: 'GET', pattern: ['id' => '\S+'])]
     public function read(string $id, AuthPermission $permission): Response
     {
@@ -50,7 +51,7 @@ class Permission extends Base
         foreach ($info['allow'] ?? [] as $item) {
             $feature = $permission->queryFeature($item);
             if ($feature) {
-                $allow[] =  [
+                $allow[] = [
                     'name' => $item,
                     'desc' => $feature['desc'],
                 ];
@@ -61,7 +62,7 @@ class Permission extends Base
         return ReplyEx::success($info);
     }
 
-    #[Auth("admin.permission.edit")]
+    #[Auth('admin.permission.edit')]
     #[Route(':id', method: 'PUT', pattern: ['id' => '\S+'])]
     public function update(string $id, AuthScan $authScan, bool $batch = false): Response
     {
@@ -80,7 +81,7 @@ class Permission extends Base
             $permissions = $perm->getPermission();
             foreach ($list as $name => $item) {
                 $item = Arr::only($item, ['sort', 'desc']);
-                if (\count($item) === 0 || !isset($permissions[$name])) {
+                if (0 === \count($item) || !isset($permissions[$name])) {
                     continue;
                 }
                 if (isset($item['sort']) && is_numeric($item['sort'])) {

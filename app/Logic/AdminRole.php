@@ -15,11 +15,10 @@ use function json_decode;
 class AdminRole extends Base
 {
     protected static $CACHE_KEY_ROLE_EXT = 'system:role:ext';
-    protected static $CACHE_ROLE         = 'system:role';
+    protected static $CACHE_ROLE = 'system:role';
 
     /**
-     * 刷新缓存
-     * @param AdminRoleModel $data
+     * 刷新缓存.
      */
     public static function refreshCache(AdminRoleModel $data): void
     {
@@ -29,8 +28,7 @@ class AdminRole extends Base
     }
 
     /**
-     * 销毁缓存
-     * @param AdminRoleModel $data
+     * 销毁缓存.
      */
     public static function destroyCache(AdminRoleModel $data): void
     {
@@ -39,19 +37,16 @@ class AdminRole extends Base
 
     public static function destroyCacheById(int $rid): void
     {
-        Cache::delete(self::$CACHE_ROLE . ':' . $rid . ':ext');
-        Cache::delete(self::$CACHE_ROLE . ':' . $rid . ':permission');
+        Cache::delete(self::$CACHE_ROLE.':'.$rid.':ext');
+        Cache::delete(self::$CACHE_ROLE.':'.$rid.':permission');
     }
 
     /**
-     * 查询角色扩展数据
-     * @param int  $roleId
-     * @param bool $force
-     * @return array
+     * 查询角色扩展数据.
      */
     public static function queryExt(int $roleId, bool $force = false): array
     {
-        $key = self::$CACHE_ROLE . ':' . $roleId . ':ext';
+        $key = self::$CACHE_ROLE.':'.$roleId.':ext';
         if (!$force && Cache::has($key)) {
             $ext = Cache::get($key);
         } else {
@@ -59,17 +54,13 @@ class AdminRole extends Base
             $ext = json_decode($value, true);
             Cache::set($key, $ext);
         }
+
         return $ext;
     }
 
-    /**
-     * @param int  $roleId
-     * @param bool $force
-     * @return array
-     */
     public static function queryPermission(int $roleId, bool $force = false): array
     {
-        $key = self::$CACHE_ROLE . ':' . $roleId . ':permission';
+        $key = self::$CACHE_ROLE.':'.$roleId.':permission';
         if (!$force && Cache::has($key)) {
             $allowPermission = Cache::get($key);
         } else {
@@ -83,12 +74,13 @@ class AdminRole extends Base
             }
             Cache::set($key, $allowPermission);
         }
+
         return $allowPermission;
     }
 
     /**
-     * 获取角色授权权限数据
-     * @param int $roleID
+     * 获取角色授权权限数据.
+     *
      * @return array
      */
     public static function getExtPermission(int $roleID)
@@ -97,8 +89,8 @@ class AdminRole extends Base
     }
 
     /**
-     * 获取角色授权权限数据
-     * @param int $roleID
+     * 获取角色授权权限数据.
+     *
      * @return array
      */
     public static function getExtAgent(int $roleID)
@@ -107,9 +99,8 @@ class AdminRole extends Base
     }
 
     /**
-     * 保存角色权限
-     * @param int   $roleID
-     * @param array $hashArr
+     * 保存角色权限.
+     *
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException

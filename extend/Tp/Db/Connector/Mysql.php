@@ -18,16 +18,13 @@ class Mysql extends \think\db\connector\Mysql
             }
 
             $this->commit();
+
             return $result;
         } catch (Throwable $parentException) {
             try {
                 $this->rollback();
             } catch (Throwable $dbException) {
-                throw new TransactionException(
-                    "rollback fail: {$dbException->getMessage()}",
-                    $dbException->getCode(),
-                    $parentException
-                );
+                throw new TransactionException("rollback fail: {$dbException->getMessage()}", $dbException->getCode(), $parentException);
             }
             throw $parentException;
         }

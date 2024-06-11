@@ -10,7 +10,7 @@ use function array_filter;
 use function explode;
 
 /**
- * model: 附件管理
+ * model: 附件管理.
  *
  * @property int    $id
  * @property int    $status        状态
@@ -25,7 +25,6 @@ use function explode;
  * @property string $raw_file_name 原始文件名
  * @property int    $create_time   创建时间
  * @property int    $update_time   更新时间
- *
  * @property string $real_path     实际路径
  */
 class Attachment extends Base
@@ -33,21 +32,19 @@ class Attachment extends Base
     use ModelUtil;
 
     protected $table = 'attachment';
-    protected $pk    = 'id';
+    protected $pk = 'id';
 
     protected $readonly = [
         'create_time',
     ];
 
     public const DRIVER_LOCAL = 'local';
-    public const DRIVER_DICT  = [
+    public const DRIVER_DICT = [
         self::DRIVER_LOCAL => '/upload/',
     ];
 
     /**
-     * 设置器 文件名长度限制
-     * @param string $value
-     * @return string
+     * 设置器 文件名长度限制.
      */
     protected function setRawFileNameAttr(string $value): string
     {
@@ -55,17 +52,18 @@ class Attachment extends Base
     }
 
     /**
-     * 虚拟列 获取真实访问路径
-     * @return string
+     * 虚拟列 获取真实访问路径.
      */
     protected function getRealPathAttr(): string
     {
-        return self::DRIVER_DICT[$this->driver] . $this->path;
+        return self::DRIVER_DICT[$this->driver].$this->path;
     }
 
     /**
-     * 格式化为请求路径
+     * 格式化为请求路径.
+     *
      * @param string|string[]|null $pic_path
+     *
      * @return string|string[]|null
      */
     public static function formatAccessPath($pic_path)
@@ -81,18 +79,22 @@ class Attachment extends Base
                     $val = null;
                 }
             }
+
             return array_filter($pic_path, fn ($v) => !empty($v));
         } else {
             if ($result = self::parseUrl($pic_path)) {
                 return $result;
             }
         }
+
         return null;
     }
 
     /**
-     * 格式化为上传组件可用路径
+     * 格式化为上传组件可用路径.
+     *
      * @param string|string[]|null $pic_path
+     *
      * @return string|string[]|null
      */
     public static function formatForItemPath($pic_path)
@@ -108,34 +110,34 @@ class Attachment extends Base
                     $val = null;
                 }
             }
+
             return array_filter($pic_path, fn ($v) => !empty($v));
         } else {
             if ($result = self::parseUrl($pic_path)) {
                 return "{$pic_path}:{$result}";
             }
         }
+
         return null;
     }
 
     /**
-     * 解析成真实路径
-     * @param string $input_path
-     * @return null|string
+     * 解析成真实路径.
      */
     public static function parseUrl(string $input_path): ?string
     {
         $path_arr = explode('#', $input_path);
-        if (\count($path_arr) !== 2) {
+        if (2 !== \count($path_arr)) {
             return null;
         }
         [$path, $driver] = $path_arr;
 
-        return self::DRIVER_DICT[$driver] . $path;
+        return self::DRIVER_DICT[$driver].$path;
     }
 
     /**
-     * @param string $fileKey
      * @return false|Attachment
+     *
      * @throws DataNotFoundException
      * @throws DbException
      * @throws ModelNotFoundException
@@ -147,18 +149,11 @@ class Attachment extends Base
         if ($file instanceof self) {
             return $file;
         }
+
         return false;
     }
 
     /**
-     * @param string $index
-     * @param int    $userId
-     * @param string $savePath
-     * @param string $fileMime
-     * @param string $fileExt
-     * @param int    $fileSize
-     * @param string $fileSha1
-     * @param string $rawFileName
      * @return Attachment
      */
     public static function createRecord(
@@ -171,18 +166,19 @@ class Attachment extends Base
         string $fileSha1,
         string $rawFileName
     ) {
-        $that                = new self();
-        $that->status        = 0;
-        $that->driver        = self::DRIVER_LOCAL;
-        $that->index         = $index;
-        $that->uid           = $userId;
-        $that->path          = $savePath;
-        $that->mime          = $fileMime;
-        $that->ext           = $fileExt;
-        $that->size          = $fileSize;
-        $that->sha1          = $fileSha1;
+        $that = new self();
+        $that->status = 0;
+        $that->driver = self::DRIVER_LOCAL;
+        $that->index = $index;
+        $that->uid = $userId;
+        $that->path = $savePath;
+        $that->mime = $fileMime;
+        $that->ext = $fileExt;
+        $that->size = $fileSize;
+        $that->sha1 = $fileSha1;
         $that->raw_file_name = $rawFileName;
         $that->save();
+
         return $that;
     }
 }

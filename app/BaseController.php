@@ -23,52 +23,56 @@ use function explode;
 use function strpos;
 
 /**
- * 控制器基础类
+ * 控制器基础类.
  */
 abstract class BaseController
 {
-    use JumpHelper;
     use ControllerHelper;
+    use JumpHelper;
 
     /**
-     * Request实例
+     * Request实例.
+     *
      * @var \think\Request
      */
     protected $request;
 
     /**
-     * 应用实例
+     * 应用实例.
+     *
      * @var App
      */
     protected $app;
 
     /**
-     * 日志实例
+     * 日志实例.
+     *
      * @var LoggerInterface
      */
     protected $log;
 
     /**
      * 是否批量验证
+     *
      * @var bool
      */
     protected $batchValidate = false;
 
     /**
-     * 控制器中间件
+     * 控制器中间件.
+     *
      * @var array
      */
     protected $middleware = [];
 
     /**
      * BaseController constructor.
-     * @param App $app
      */
     public function __construct(App $app)
     {
-        $this->app     = $app;
+        $this->app = $app;
         $this->request = $this->app->request;
-        $this->log     = $this->app->log;
+        $this->log = $this->app->log;
 
         // 控制器初始化
         $this->initialize();
@@ -80,13 +84,17 @@ abstract class BaseController
     }
 
     /**
-     * 验证数据
+     * 验证数据.
+     *
      * @deprecated
-     * @param  array        $data     数据
-     * @param  string|array $validate 验证器名或者验证规则数组
-     * @param  array        $message  提示信息
-     * @param  bool         $batch    是否批量验证
+     *
+     * @param array        $data     数据
+     * @param string|array $validate 验证器名或者验证规则数组
+     * @param array        $message  提示信息
+     * @param bool         $batch    是否批量验证
+     *
      * @return bool
+     *
      * @throws ValidateException
      */
     protected function validate(array $data, $validate, array $message = [], bool $batch = false)
@@ -100,9 +108,9 @@ abstract class BaseController
                 // 支持场景
                 [$validate, $scene] = explode('.', $validate);
             }
-            $class =   str_contains($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
+            $class = str_contains($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
             /** @var Validate $v */
-            $v     = new $class();
+            $v = new $class();
             if (!empty($scene)) {
                 $v->scene($scene);
             }

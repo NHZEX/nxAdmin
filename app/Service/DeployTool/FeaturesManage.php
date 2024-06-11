@@ -53,8 +53,6 @@ abstract class FeaturesManage
 
     /**
      * FeaturesManage constructor.
-     * @param Deploy    $deploy
-     * @param EnvStruct $envStruct
      */
     public function __construct(Deploy $deploy, EnvStruct $envStruct)
     {
@@ -64,22 +62,18 @@ abstract class FeaturesManage
     }
 
     /**
-     * 指令列表
-     * @return array
+     * 指令列表.
      */
     abstract public function getActionList(): array;
 
     /**
-     * 默认指令
-     * @return string
+     * 默认指令.
      */
     abstract public function getDefaultAction(): string;
 
     /**
-     * @param Input  $input
-     * @param Output $output
-     * @param array|null $option
      * @return bool|int|null
+     *
      * @throws Exception
      */
     public function __invoke(Input $input, Output $output, ?array $option)
@@ -94,22 +88,21 @@ abstract class FeaturesManage
 
         if (null === $runAction) {
             $this->deploy->showActionList($this->getActionList());
+
             return true;
         } else {
-            $runAction = Str::camel('action_' . $runAction);
+            $runAction = Str::camel('action_'.$runAction);
+
             return $this->app->invokeFunction(
                 Closure::fromCallable([$this, $runAction]),
-                ['input' => $input, 'output' =>  $output, 'option' =>  $option]
+                ['input' => $input, 'output' => $output, 'option' => $option]
             );
         }
     }
 
     /**
-     * 快捷应答
-     * @param Input    $input
-     * @param Output   $output
-     * @param Question $question
-     * @param bool     $isInteractive
+     * 快捷应答.
+     *
      * @return bool|mixed|string
      */
     protected function askQuestion(Input $input, Output $output, Question $question, bool $isInteractive = false)
@@ -125,8 +118,8 @@ abstract class FeaturesManage
     }
 
     /**
-     * @param array $info
      * @return array
+     *
      * @throws InputException
      */
     protected function showFormsInput(array $info)
@@ -161,11 +154,6 @@ abstract class FeaturesManage
         return $data;
     }
 
-    /**
-     * @param string $envPrefix
-     * @param int    $segments
-     * @return Generator
-     */
     protected function envExtract(string $envPrefix, int $segments): Generator
     {
         if ($segments <= 1) {
@@ -178,7 +166,7 @@ abstract class FeaturesManage
             if (\count($ekey) < $segments) {
                 continue;
             }
-            if ($segments === 2) {
+            if (2 === $segments) {
                 $prefix = array_shift($ekey);
                 $name = implode('_', $ekey);
                 $group = null;
@@ -197,9 +185,6 @@ abstract class FeaturesManage
     }
 
     /**
-     * @param string $prefix
-     * @param string $name
-     * @param array  $data
      * @return array
      */
     protected function toEnvFormat(string $prefix, ?string $name, array $data)
@@ -217,13 +202,13 @@ abstract class FeaturesManage
                 $result["{$prefix}_{$key}"] = $value;
             }
         }
+
         return $result;
     }
 
     /**
      * @param string|int $value
-     * @param string $desc
-     * @param string $verify
+     *
      * @return string|int
      */
     protected function inputText($value, string $desc, ?string $verify)
@@ -233,9 +218,11 @@ abstract class FeaturesManage
             if (false === empty($verify)) {
                 $this->checkValue((string) $value, $verify);
             }
+
             return $value;
         });
         $question->setMaxAttempts(3);
+
         return $this->askQuestion($this->input, $this->output, $question);
     }
 
@@ -246,15 +233,17 @@ abstract class FeaturesManage
             if (false === empty($verify)) {
                 $this->checkValue($value, $verify);
             }
+
             return $value;
         });
         $question->setMaxAttempts(3);
+
         return $this->askQuestion($this->input, $this->output, $question);
     }
 
     /**
-     * @param string       $value
      * @param string|array $verify
+     *
      * @throws InputException
      */
     public function checkValue(string $value, $verify): void
@@ -265,7 +254,7 @@ abstract class FeaturesManage
             $verifyNew = [];
             foreach (explode('|', $verify) as $rule) {
                 $rule = explode(':', $rule);
-                if (\count($rule) === 1) {
+                if (1 === \count($rule)) {
                     $verifyNew[] = $rule[0];
                 } else {
                     $verifyNew[$rule[0]] = $rule[1];
@@ -282,7 +271,7 @@ abstract class FeaturesManage
                 if (empty($param)) {
                     $param = [];
                 } elseif (!\is_array($param)) {
-                    $param =  explode(',', $param);
+                    $param = explode(',', $param);
                 }
                 $param = [$value, $rule, $param];
                 $rule = 'is';

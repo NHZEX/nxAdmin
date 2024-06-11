@@ -18,6 +18,7 @@ class ValidateErrorHandle implements ErrorHandleInterface
         $message = \is_array($validate->getError())
             ? implode(',', $validate->getError())
             : $validate->getError();
+
         return Reply::bad(CODE_COM_PARAM, $message);
     }
 }

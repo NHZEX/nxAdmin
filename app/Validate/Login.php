@@ -2,7 +2,7 @@
 /**
  * Created by PhpStorm.
  * Date: 2018/7/30
- * Time: 16:08
+ * Time: 16:08.
  */
 
 namespace app\Validate;
@@ -10,10 +10,10 @@ namespace app\Validate;
 class Login extends Base
 {
     protected $rule = [
-        'token'    => 'min:16',
-        'account'  => 'require|length:4,64',
+        'token' => 'min:16',
+        'account' => 'require|length:4,64',
         'password' => 'require|length:4,64',
-        'lasting'  => 'boolean',
+        'lasting' => 'boolean',
     ];
 
     // 验证提示信息
@@ -22,8 +22,8 @@ class Login extends Base
 
     // 验证字段描述
     protected $field = [
-        'account'  => '登录账号',
+        'account' => '登录账号',
         'password' => '登录密码',
-        'lasting'  => '记住登陆',
+        'lasting' => '记住登陆',
     ];
 }

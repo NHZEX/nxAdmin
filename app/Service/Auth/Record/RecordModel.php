@@ -5,7 +5,7 @@ namespace app\Service\Auth\Record;
 use think\Model;
 
 /**
- * model: 活动日志
+ * model: 活动日志.
  *
  * @property int    $id
  * @property int    $user_id      用户ID
@@ -19,14 +19,13 @@ use think\Model;
  * @property string $resp_code
  * @property string $resp_message
  * @property array  $details
- *
  * @property int    $group_id
  * @property string $module
  */
 class RecordModel extends Model
 {
     protected $table = 'activity_log';
-    protected $pk    = 'id';
+    protected $pk = 'id';
     protected $type = [
         'details' => 'json',
     ];

@@ -12,8 +12,6 @@ abstract class Base
     protected int $errorCode = 0;
 
     /**
-     * @param string|null $message
-     * @param int         $code
      * @return false
      */
     public function setLogicError(?string $message, int $code = 1): bool
@@ -29,7 +27,7 @@ abstract class Base
         throw new BusinessResult(message: $message, code: $code);
     }
 
-    public function getErrorMessage(): string|null
+    public function getErrorMessage(): ?string
     {
         return $this->errorMessage;
     }

@@ -21,19 +21,14 @@ use function strtotime;
 use function unserialize;
 
 /**
- * Trait Attribute
- * @package Tp\Model\Traits
- * 如果pr能合入则可以移除
+ * Trait Attribute.
  */
 trait Attribute
 {
-    /**
-     * @inheritDoc
-     */
     protected function readTransform($value, string|array $type)
     {
         $param = null;
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
@@ -49,6 +44,7 @@ trait Attribute
             } catch (Exception $e) {
                 $value = null;
             }
+
             return $value;
         };
 
@@ -66,26 +62,23 @@ trait Attribute
         };
 
         return match ($type) {
-            'integer'   =>  (int) $value,
-            'float'     =>  empty($param) ? (float) $value : (float) number_format($value, (int) $param, '.', ''),
-            'boolean'   =>  (bool) $value,
-            'timestamp' =>  !\is_null($value) ? $this->formatDateTime(!empty($param) ? $param : $this->dateFormat, $value, true) : null,
-            'datetime'  =>  !\is_null($value) ? $this->formatDateTime(!empty($param) ? $param : $this->dateFormat, $value) : null,
-            'json'      =>  json_decode($value, true),
-            'array'     =>  empty($value) ? [] : json_decode($value, true),
-            'object'    =>  empty($value) ? new stdClass() : json_decode($value),
-            'serialize' =>  $call($value),
-            default     =>  $exTransform($type, $value, $this),
+            'integer' => (int) $value,
+            'float' => empty($param) ? (float) $value : (float) number_format($value, (int) $param, '.', ''),
+            'boolean' => (bool) $value,
+            'timestamp' => null !== $value ? $this->formatDateTime(!empty($param) ? $param : $this->dateFormat, $value, true) : null,
+            'datetime' => null !== $value ? $this->formatDateTime(!empty($param) ? $param : $this->dateFormat, $value) : null,
+            'json' => json_decode($value, true),
+            'array' => empty($value) ? [] : json_decode($value, true),
+            'object' => empty($value) ? new stdClass() : json_decode($value),
+            'serialize' => $call($value),
+            default => $exTransform($type, $value, $this),
         };
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function writeTransform($value, string|array $type)
     {
         $param = null;
-        if ($value === null) {
+        if (null === $value) {
             return null;
         }
 
@@ -114,16 +107,16 @@ trait Attribute
         };
 
         return match ($type) {
-            'integer'   =>  (int) $value,
-            'float'     =>  empty($param) ? (float) $value : (float) number_format($value, (int) $param, '.', ''),
-            'boolean'   =>  (bool) $value,
-            'timestamp' =>  !is_numeric($value) ? strtotime($value) : $value,
-            'datetime'  =>  $this->formatDateTime('Y-m-d H:i:s.u', $value, true),
-            'object'    =>  \is_object($value) ? json_encode($value, JSON_FORCE_OBJECT) : $value,
-            'array'     =>  json_encode((array) $value, !empty($param) ? (int) $param : JSON_UNESCAPED_UNICODE),
-            'json'      =>  json_encode($value, !empty($param) ? (int) $param : JSON_UNESCAPED_UNICODE),
-            'serialize' =>  serialize($value),
-            default     =>  $exTransform($type, $value, $this),
+            'integer' => (int) $value,
+            'float' => empty($param) ? (float) $value : (float) number_format($value, (int) $param, '.', ''),
+            'boolean' => (bool) $value,
+            'timestamp' => !is_numeric($value) ? strtotime($value) : $value,
+            'datetime' => $this->formatDateTime('Y-m-d H:i:s.u', $value, true),
+            'object' => \is_object($value) ? json_encode($value, \JSON_FORCE_OBJECT) : $value,
+            'array' => json_encode((array) $value, !empty($param) ? (int) $param : \JSON_UNESCAPED_UNICODE),
+            'json' => json_encode($value, !empty($param) ? (int) $param : \JSON_UNESCAPED_UNICODE),
+            'serialize' => serialize($value),
+            default => $exTransform($type, $value, $this),
         };
     }
 }

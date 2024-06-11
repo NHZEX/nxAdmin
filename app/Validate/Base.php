@@ -12,8 +12,10 @@ use const FILTER_VALIDATE_INT;
 abstract class Base extends ValidateBase
 {
     /**
-     * 判断是否为正整数
+     * 判断是否为正整数.
+     *
      * @param string|int $value
+     *
      * @return bool
      */
     protected function isPositiveInteger($value)
@@ -22,9 +24,10 @@ abstract class Base extends ValidateBase
     }
 
     /**
-     * 判断是否为整数
+     * 判断是否为整数.
+     *
      * @param string|int $value
-     * @param string|null $params
+     *
      * @return bool|string
      */
     protected function isInteger($value, ?string $params)
@@ -34,14 +37,15 @@ abstract class Base extends ValidateBase
 
     /**
      * 判断是否为数值
+     *
      * @param string|int $value
-     * @param string|null $params
+     *
      * @return bool|string
      */
     protected function isNumber($value, ?string $params)
     {
         $isInt = str_contains($params, 'int');
-        if (($result = filter_var($value, $isInt ? FILTER_VALIDATE_INT : FILTER_VALIDATE_FLOAT)) === false) {
+        if (($result = filter_var($value, $isInt ? FILTER_VALIDATE_INT : \FILTER_VALIDATE_FLOAT)) === false) {
             if ($isInt) {
                 return ':attribute必须是一个整数';
             } else {
@@ -52,7 +56,7 @@ abstract class Base extends ValidateBase
             return true;
         }
         $positive = str_contains($params, '+');
-        $negative  = str_contains($params, '-');
+        $negative = str_contains($params, '-');
         if ($positive && $negative) {
             return true;
         } elseif ($positive && $result >= 0) {
@@ -67,13 +71,11 @@ abstract class Base extends ValidateBase
     }
 
     /**
-     * @param Validate $valid
-     * @param array    $value
      * @return true|string
      */
     public static function subValidateCall(Validate $valid, array $value)
     {
-        if ($valid->check($value) === false) {
+        if (false === $valid->check($value)) {
             $error = $valid->getError();
             if (\is_array($error)) {
                 return implode(', ', array_map(fn ($str) => ":attribute->{$str}", $error));
@@ -81,6 +83,7 @@ abstract class Base extends ValidateBase
                 return ":attribute->{$error}";
             }
         }
+
         return true;
     }
 }

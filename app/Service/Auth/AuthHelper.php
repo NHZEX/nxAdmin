@@ -6,8 +6,8 @@ use app\Model\AdminUser;
 use Zxin\Think\Auth\AuthManager;
 
 /**
- * Class AuthManager
- * @package app\Service\Auth
+ * Class AuthManager.
+ *
  * @method static AdminUser user()
  */
 class AuthHelper extends AuthManager
@@ -24,22 +24,23 @@ class AuthHelper extends AuthManager
 
     public static function isSuperAdmin(): bool
     {
-        return self::userGenre() === AdminUser::GENRE_SUPER_ADMIN;
+        return AdminUser::GENRE_SUPER_ADMIN === self::userGenre();
     }
 
     public static function isAdminUser(): bool
     {
-        return self::userGenre() === AdminUser::GENRE_ADMIN;
+        return AdminUser::GENRE_ADMIN === self::userGenre();
     }
 
     public static function isAgentUser(): bool
     {
-        return self::userGenre() === AdminUser::GENRE_AGENT;
+        return AdminUser::GENRE_AGENT === self::userGenre();
     }
 
     public static function anyAdmin(): bool
     {
         $genre = self::userGenre();
-        return $genre === AdminUser::GENRE_ADMIN || $genre === AdminUser::GENRE_SUPER_ADMIN;
+
+        return AdminUser::GENRE_ADMIN === $genre || AdminUser::GENRE_SUPER_ADMIN === $genre;
     }
 }

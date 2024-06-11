@@ -17,7 +17,7 @@ use Zxin\Think\Route\Annotation\Route;
 class System extends ApiBase
 {
     /**
-     * 基本系统设置
+     * 基本系统设置.
      */
     #[Route(method: 'GET')]
     public function config(): Response
@@ -37,6 +37,7 @@ class System extends ApiBase
             'role', 'password', 'remember', 'last_login_ip',
             'delete_time', 'group_id', 'lock_version', 'signup_ip',
         ]);
+
         return ReplyEx::success([
             'user' => $user,
             'permission' => $user->getUnfoldPermission(),
@@ -60,13 +61,14 @@ class System extends ApiBase
     }
 
     /**
-     * 重置缓存
+     * 重置缓存.
      */
-    #[Auth("admin.resetCache")]
+    #[Auth('admin.resetCache')]
     #[Route(method: 'POST')]
     public function resetCache(): Response
     {
         SystemLogic::resetPermissionCache();
+
         return ReplyEx::success();
     }
 }

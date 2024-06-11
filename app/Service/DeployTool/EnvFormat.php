@@ -10,36 +10,33 @@ use function substr;
 use function var_export;
 
 /**
- * Class Ini
- * @package Basis
+ * Class Ini.
  */
 class EnvFormat
 {
     public const HEADER_DATE = 'date';
 
     /**
-     * 写入Env
-     * @param array $contents
-     * @param string $header
+     * 写入Env.
+     *
      * @return string
      */
     public static function writer(array $contents, string $header = '')
     {
-        if ($header === self::HEADER_DATE) {
-            $header = '# Date:' . date('c') . "\n\n";
+        if (self::HEADER_DATE === $header) {
+            $header = '# Date:'.date('c')."\n\n";
         }
 
         $data = (array) $contents;
         ksort($data);
 
-        return $header . self::generate($data);
+        return $header.self::generate($data);
     }
 
     /**
-     * 写入Env
-     * @param string $file_path
+     * 写入Env.
+     *
      * @param array $contents
-     * @param string $header
      */
     public static function writerFile(string $file_path, iterable $contents, string $header = ''): void
     {
@@ -47,8 +44,8 @@ class EnvFormat
     }
 
     /**
-     * 生成常量文本
-     * @param iterable $contents
+     * 生成常量文本.
+     *
      * @return string
      */
     protected static function generate(iterable $contents)
@@ -64,11 +61,12 @@ class EnvFormat
             }
 
             if (!empty($ts) && $ts !== substr($key, 0, 3)) {
-                $text .= PHP_EOL;
+                $text .= \PHP_EOL;
             }
             $text .= "{$key}={$value}\n";
             $ts = substr($key, 0, 3);
         }
+
         return $text;
     }
 }

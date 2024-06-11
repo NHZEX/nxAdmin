@@ -13,14 +13,14 @@ use Zxin\Think\Validate\Annotation\Validation;
 use function trim;
 
 /**
- * Class User
+ * Class User.
  */
 #[Group('admin', registerSort: 3000)]
 #[Resource('users')]
 class User extends Base
 {
-    #[Auth("admin.user.info")]
-    #[AuthMeta("获取用户信息")]
+    #[Auth('admin.user.info')]
+    #[AuthMeta('获取用户信息')]
     public function index(int $limit = 1)
     {
         $result = (new AdminUserLogic())->search($limit, $this->request->param());
@@ -28,20 +28,21 @@ class User extends Base
         return Reply::table($result);
     }
 
-    #[Auth("admin.user.info")]
-    #[AuthMeta("获取用户信息")]
+    #[Auth('admin.user.info')]
+    #[AuthMeta('获取用户信息')]
     public function read(int $id)
     {
         $result = AdminUser::find($id);
         if (empty($result)) {
             return Reply::notFound();
         }
+
         return Reply::success($result);
     }
 
-    #[Auth("admin.user.add")]
-    #[AuthMeta("添加用户信息")]
-    #[Validation(name: "@Admin.User", scene: "_")]
+    #[Auth('admin.user.add')]
+    #[AuthMeta('添加用户信息')]
+    #[Validation(name: '@Admin.User', scene: '_')]
     public function save()
     {
         AdminUser::create($this->getFilterInput());
@@ -49,9 +50,9 @@ class User extends Base
         return Reply::create();
     }
 
-    #[Auth("admin.user.edit")]
-    #[AuthMeta("更改用户信息")]
-    #[Validation(name: "@Admin.User", scene: "_")]
+    #[Auth('admin.user.edit')]
+    #[AuthMeta('更改用户信息')]
+    #[Validation(name: '@Admin.User', scene: '_')]
     public function update(int $id)
     {
         $result = AdminUser::find($id);
@@ -68,8 +69,8 @@ class User extends Base
         return Reply::success();
     }
 
-    #[Auth("admin.user.del")]
-    #[AuthMeta("删除用户信息")]
+    #[Auth('admin.user.del')]
+    #[AuthMeta('删除用户信息')]
     public function delete(int $id)
     {
         AdminUser::destroy($id);

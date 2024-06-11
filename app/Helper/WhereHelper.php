@@ -11,11 +11,10 @@ use function explode;
 class WhereHelper
 {
     /**
-     * 构建筛选条件
-     * @param array                                                                                        $input 输入数据
-     * @param array<array{0:string, 1: string, 2?: string, empty?: callable|(callable(string, array): bool), find?: array<string>|callable (array, string): string, tf?: callable}> $where
-     *        筛选设置 ['字段名', '操作符', '值', 'empty' => '值验证回调', 'find' => '值来源字段名']
-     * @return array
+     * 构建筛选条件.
+     *
+     * @param array                                                                                                                                                                 $input 输入数据
+     * @param array<array{0:string, 1: string, 2?: string, empty?: callable|(callable(string, array): bool), find?: array<string>|callable (array, string): string, tf?: callable}> $where 筛选设置 ['字段名', '操作符', '值', 'empty' => '值验证回调', 'find' => '值来源字段名']
      */
     public static function buildWhere(array $input, array $where): array
     {
@@ -23,7 +22,7 @@ class WhereHelper
         foreach ($where as $item) {
             if (\count($item) >= 2) {
                 [$whereField, $op] = $item;
-                $inputField  = $whereField;
+                $inputField = $whereField;
                 $inputFields = [];
 
                 if (isset($item['find'])) {
@@ -55,7 +54,7 @@ class WhereHelper
                             continue;
                         }
                     }
-                    $parse  = $item[2] ?? null;
+                    $parse = $item[2] ?? null;
                     $data[] = [
                         $whereField,
                         $op,
@@ -65,14 +64,13 @@ class WhereHelper
                 }
             }
         }
+
         return $data;
     }
 
     /**
-     * 构建筛选条件 (延迟闭包)
-     * @param array $input
-     * @param array $where
-     * @return Closure
+     * 构建筛选条件 (延迟闭包).
+     *
      * @see buildWhere
      */
     public static function buildWhereClosure(array $input, array $where): Closure
@@ -81,7 +79,7 @@ class WhereHelper
             $tableName = $query->getTable();
             $tableName = \is_array($tableName) ? $tableName[array_key_first($tableName)] : $tableName;
 
-            $where  = static::buildWhere($input, $where);
+            $where = static::buildWhere($input, $where);
             $output = [];
             foreach ($where as $value) {
                 $value[0] = "{$tableName}.{$value[0]}";
@@ -92,8 +90,6 @@ class WhereHelper
     }
 
     /**
-     * @param array  $input
-     * @param string $orderField
      * @return array{string, string}|null [$field => $order]
      */
     public static function buildOrder(array $input, string $orderField = '_sort', ?string $tableName = null): ?array
@@ -103,13 +99,14 @@ class WhereHelper
             return null;
         }
         $sort = array_filter(explode(':', $sort, 2));
-        if (\count($sort) !== 2) {
+        if (2 !== \count($sort)) {
             return null;
         }
-        if ($sort[1] !== 'asc' && $sort[1] !== 'desc') {
+        if ('asc' !== $sort[1] && 'desc' !== $sort[1]) {
             return null;
         }
         $fieldName = $tableName ? "{$tableName}.{$sort[0]}" : $sort[0];
+
         return [
             $fieldName => $sort[1],
         ];

@@ -26,8 +26,7 @@ class EnvManage extends FeaturesManage
     public const REDIS_VER_LIMIT = '4.0.8';
 
     /**
-     * 指令列表
-     * @return array
+     * 指令列表.
      */
     public function getActionList(): array
     {
@@ -38,8 +37,7 @@ class EnvManage extends FeaturesManage
     }
 
     /**
-     * 默认指令
-     * @return string
+     * 默认指令.
      */
     public function getDefaultAction(): string
     {
@@ -47,30 +45,28 @@ class EnvManage extends FeaturesManage
     }
 
     /**
-     * 生成范例文件
-     * @param Output $output
+     * 生成范例文件.
      */
     protected function actionExample(Output $output): void
     {
         $output->writeln('生成ENV范例文件...');
         EnvFormat::writerFile(
-            $this->app->getRootPath() . '.env.example',
+            $this->app->getRootPath().'.env.example',
             (new EnvStruct([]))->toArray(),
             EnvFormat::HEADER_DATE
         );
     }
 
     /**
-     * 初始化ENV文件
-     * @param Input  $input
-     * @param Output $output
+     * 初始化ENV文件.
+     *
      * @throws Exception
      */
     public function actionInit(Input $input, Output $output): void
     {
         $forceCover = (bool) $input->getOption('force');
 
-        /**
+        /*
          * 生成ENV配置文件
          * 1. ENV文件不存在
          * 2. ENV文件存在 且 强制覆盖
@@ -131,9 +127,8 @@ class EnvManage extends FeaturesManage
     }
 
     /**
-     * 校验输入是否正确
-     * @param Closure $closure
-     * @param string  $template
+     * 校验输入是否正确.
+     *
      * @throws Exception
      */
     protected function checkInput(Closure $closure, string $template): void
@@ -143,7 +138,7 @@ class EnvManage extends FeaturesManage
             try {
                 $closure();
                 break;
-            } catch (InputException | ConfigInvalidException $error) {
+            } catch (InputException|ConfigInvalidException $error) {
                 if ($count-- || ((bool) $this->input->getOption('no-interaction') && $count)) {
                     // 防止死循环
                     sleep(1);
@@ -158,7 +153,8 @@ class EnvManage extends FeaturesManage
     }
 
     /**
-     * 输入数据库配置
+     * 输入数据库配置.
+     *
      * @throws ConfigInvalidException
      * @throws InputException
      */
@@ -197,7 +193,8 @@ class EnvManage extends FeaturesManage
     }
 
     /**
-     * 输入Redis配置
+     * 输入Redis配置.
+     *
      * @throws ConfigInvalidException
      * @throws InputException
      */
@@ -253,7 +250,7 @@ class EnvManage extends FeaturesManage
             }
         }
 
-        $config = $config + $this->showFormsInput($cachePreset);
+        $config += $this->showFormsInput($cachePreset);
 
         // 测试配置
         $this->testRedis([
@@ -273,7 +270,8 @@ class EnvManage extends FeaturesManage
     }
 
     /**
-     * 设置Cache
+     * 设置Cache.
+     *
      * @throws ConfigInvalidException
      */
     protected function configCache(): void
@@ -289,8 +287,7 @@ class EnvManage extends FeaturesManage
     /**
      * 测试数据库连接
      * TODO 扩展更多连接类型支持
-     * @param string $connections
-     * @param array  $testConfig
+     *
      * @throws ConfigInvalidException
      */
     protected function testMysql(string $connections, array $testConfig): void
@@ -312,7 +309,7 @@ class EnvManage extends FeaturesManage
         }
 
         if (version_compare($mysql_ver, self::MYSQL_VER_LIMIT, '<')) {
-            throw new ConfigInvalidException("当前连接Mysql版本：{$mysql_ver}，最小限制版本：" . self::MYSQL_VER_LIMIT);
+            throw new ConfigInvalidException("当前连接Mysql版本：{$mysql_ver}，最小限制版本：".self::MYSQL_VER_LIMIT);
         }
         $this->output->writeln("当前连接Mysql版本：{$mysql_ver}");
 
@@ -322,7 +319,6 @@ class EnvManage extends FeaturesManage
     }
 
     /**
-     * @param array $config
      * @throws ConfigInvalidException
      */
     protected function testRedis(array $config): void
@@ -340,7 +336,7 @@ class EnvManage extends FeaturesManage
 
         $redis_version = $redis->getServerVersion();
         if (version_compare($redis_version, self::REDIS_VER_LIMIT, '<')) {
-            $errmsg = "当前连接Redis版本：{$redis_version}，最小限制版本：" . self::REDIS_VER_LIMIT;
+            $errmsg = "当前连接Redis版本：{$redis_version}，最小限制版本：".self::REDIS_VER_LIMIT;
             throw new ConfigInvalidException($errmsg);
         }
         $this->output->writeln("当前配置Redis版本：{$redis_version}");

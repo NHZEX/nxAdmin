@@ -17,76 +17,76 @@ class EnvironmentHelper
         return [
             [
                 'label' => 'sys_version',
-                'name'  => '服务器系统',
+                'name' => '服务器系统',
                 'value' => php_uname(),
             ],
             [
                 'label' => 'php_version',
-                'name'  => 'PHP版本',
-                'value' => PHP_VERSION,
+                'name' => 'PHP版本',
+                'value' => \PHP_VERSION,
             ],
             [
                 'label' => 'server_software',
-                'name'  => '执行环境',
+                'name' => '执行环境',
                 'value' => sprintf(
                     '%s (%s)',
                     $_SERVER['SERVER_SOFTWARE'],
-                    PHP_SAPI,
+                    \PHP_SAPI,
                 ),
             ],
             [
                 'label' => 'framework_info',
-                'name'  => '系统框架',
+                'name' => '系统框架',
                 'value' => sprintf(
                     'topthink: %s; think-orm: %s',
-                    InstalledVersions::getPrettyVersion("topthink/framework"),
-                    InstalledVersions::getPrettyVersion("topthink/think-orm"),
+                    InstalledVersions::getPrettyVersion('topthink/framework'),
+                    InstalledVersions::getPrettyVersion('topthink/think-orm'),
                 ),
             ],
             [
                 'label' => 'db_version',
-                'name'  => '数据库版本',
+                'name' => '数据库版本',
                 'value' => db_version(null, true),
             ],
             [
                 'label' => 'memory_limit',
-                'name'  => '内存限制',
+                'name' => '内存限制',
                 'value' => \ini_get('memory_limit'),
             ],
             [
                 'label' => 'max_execution_time',
-                'name'  => '最长执行时间',
+                'name' => '最长执行时间',
                 'value' => \ini_get('max_execution_time'),
             ],
             [
                 'label' => 'upload_max_filesize',
-                'name'  => '上传限制',
+                'name' => '上传限制',
                 'value' => \ini_get('upload_max_filesize'),
             ],
             [
                 'label' => 'post_max_size',
-                'name'  => 'POST限制',
+                'name' => 'POST限制',
                 'value' => \ini_get('post_max_size'),
             ],
             [
                 'label' => 'realpath_cache_size',
-                'name'  => '路径缓存',
+                'name' => '路径缓存',
                 'value' => realpath_cache_size(),
             ],
             [
                 'label' => 'main extension',
-                'name'  => '主要扩展',
-                'value' => EnvironmentHelper::mainExtension(),
+                'name' => '主要扩展',
+                'value' => self::mainExtension(),
             ],
             [
                 'label' => 'opcache_info',
-                'name'  => 'opcache',
-                'value' => EnvironmentHelper::opcacheInfo(),
+                'name' => 'opcache',
+                'value' => self::opcacheInfo(),
             ],
             [
                 'label' => 'debug_env',
-                'name'  => '调试环境',
-                'value' => EnvironmentHelper::xdebugInfo(),
+                'name' => '调试环境',
+                'value' => self::xdebugInfo(),
             ],
         ];
     }
@@ -100,13 +100,13 @@ class EnvironmentHelper
         if (!$status['opcache_enabled']) {
             return 'opcache off';
         }
-        $memory           = $status['memory_usage'];
+        $memory = $status['memory_usage'];
         $interned_strings = $status['interned_strings_usage'];
-        $statistics       = $status['opcache_statistics'];
-        $jit              = $status['jit'] ?? null;
+        $statistics = $status['opcache_statistics'];
+        $jit = $status['jit'] ?? null;
 
         $jitInfo = ($jit['enabled'] ?? false) && ($jit['on'] ?? false) ? sprintf(
-            "buffer: %s / %s, mode: %s, kind: %d, opt_level: %d, opt_flags: %d;",
+            'buffer: %s / %s, mode: %s, kind: %d, opt_level: %d, opt_flags: %d;',
             format_byte($jit['buffer_free']),
             format_byte($jit['buffer_size']),
             \ini_get('opcache.jit') ?? 'unknown',
@@ -115,7 +115,7 @@ class EnvironmentHelper
             format_byte($jit['opt_flags']),
         ) : 'off';
 
-        $preload     = $status['preload_statistics'] ?? null;
+        $preload = $status['preload_statistics'] ?? null;
         $preloadInfo = null === $preload ? 'not active' : sprintf(
             'memory: %s, function: %d, class: %d, script: %d',
             format_byte($preload['memory_consumption']),
@@ -166,14 +166,14 @@ class EnvironmentHelper
 
         foreach (
             [
-                'cURL'      => Closure::fromCallable([self::class, '_curlInfo']),
-                'mbstring'  => 'mbstring',
-                'openssl'   => fn () => \defined('\OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'not active',
-                'bcmath'    => 'BCMath',
-                'sodium'    => 'sodium',
-                'fileinfo'  => 'fileinfo',
-                'zlib'      => fn () => \defined('\ZLIB_VERSION') ? ZLIB_VERSION : 'not active',
-                'redis'     => 'Redis',
+                'cURL' => Closure::fromCallable([self::class, '_curlInfo']),
+                'mbstring' => 'mbstring',
+                'openssl' => fn () => \defined('\OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'not active',
+                'bcmath' => 'BCMath',
+                'sodium' => 'sodium',
+                'fileinfo' => 'fileinfo',
+                'zlib' => fn () => \defined('\ZLIB_VERSION') ? ZLIB_VERSION : 'not active',
+                'redis' => 'Redis',
                 'xlswriter' => 'XlsWriter',
             ] as $name => $label
         ) {
@@ -238,9 +238,8 @@ class EnvironmentHelper
              *  'libssh_version' => 'libssh/0.9.3/openssl/zlib',
              *  'brotli_ver_num' => 16777223,
              *  'brotli_version' => '1.0.7',
-             * )
+             * ).
              */
-
             $status = sprintf('%s, ssl (%s), libz (%s), brotli (%s)', $info['version'], $info['ssl_version'], $info['libz_version'], $info['brotli_version']);
         }
 

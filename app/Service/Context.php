@@ -11,12 +11,11 @@ class Context
     protected $object;
 
     /**
-     * 获取上下文
-     * @return Context
+     * 获取上下文.
      */
-    public static function get(): Context
+    public static function get(): self
     {
-        return App::getInstance()->make(Context::class);
+        return App::getInstance()->make(self::class);
     }
 
     public static function getDataObject(): ArrayObject
@@ -25,13 +24,15 @@ class Context
         if (empty($context->object)) {
             $context->object = new ArrayObject();
         }
+
         return $context->object;
     }
 
     /**
-     * 获取临时数据
-     * @param string $key
+     * 获取临时数据.
+     *
      * @param null $default
+     *
      * @return mixed|null
      */
     public static function getData(string $key, $default = null)
@@ -39,13 +40,12 @@ class Context
         if (self::hasData($key)) {
             return self::getDataObject()->offsetGet($key);
         }
+
         return $default;
     }
 
     /**
-     * 判断是否存在临时数据
-     * @param string $key
-     * @return bool
+     * 判断是否存在临时数据.
      */
     public static function hasData(string $key): bool
     {
@@ -53,9 +53,7 @@ class Context
     }
 
     /**
-     * 写入临时数据
-     * @param string $key
-     * @param $value
+     * 写入临时数据.
      */
     public static function setData(string $key, $value): void
     {
@@ -63,8 +61,7 @@ class Context
     }
 
     /**
-     * 删除数据
-     * @param string $key
+     * 删除数据.
      */
     public static function removeData(string $key): void
     {
@@ -74,9 +71,8 @@ class Context
     }
 
     /**
-     * 如果不存在则写入数据
-     * @param string $key
-     * @param $value
+     * 如果不存在则写入数据.
+     *
      * @return mixed|null
      */
     public static function rememberData(string $key, $value)

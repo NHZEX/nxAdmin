@@ -10,8 +10,7 @@ use function ini_set;
 
 /**
  * 调试助手服务
- * Class DebugHelperService
- * @package app\Service\DebugHelper
+ * Class DebugHelperService.
  */
 class DebugHelperService extends Service
 {

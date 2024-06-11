@@ -31,14 +31,15 @@ use Zxin\Think\Auth\Record\RecordHelper;
 use function array_diff_key;
 
 /**
- * 应用异常处理类
+ * 应用异常处理类.
  */
 class ExceptionHandle extends Handle
 {
     use PrintAbnormal;
 
     /**
-     * 不需要记录信息（日志）的异常类列表
+     * 不需要记录信息（日志）的异常类列表.
+     *
      * @var array
      */
     protected $ignoreReport = [
@@ -54,11 +55,7 @@ class ExceptionHandle extends Handle
     ];
 
     /**
-     * 记录异常信息（包括日志或者其它方式记录）
-     *
-     * @access public
-     * @param  Throwable $exception
-     * @return void
+     * 记录异常信息（包括日志或者其它方式记录）.
      */
     public function report(Throwable $exception): void
     {
@@ -84,7 +81,6 @@ class ExceptionHandle extends Handle
     }
 
     /**
-     * @param Throwable $exception
      * @return bool
      */
     protected function ignoreHttpException(Throwable $exception)
@@ -95,7 +91,7 @@ class ExceptionHandle extends Handle
         if ($exception instanceof HttpResponseException) {
             return true;
         }
-        if ($exception instanceof ModelException && $exception->getCode() === CODE_MODEL_OPTIMISTIC_LOCK) {
+        if ($exception instanceof ModelException && CODE_MODEL_OPTIMISTIC_LOCK === $exception->getCode()) {
             return true;
         }
         if ($exception instanceof AccessControl) {
@@ -104,26 +100,31 @@ class ExceptionHandle extends Handle
         if ($exception instanceof ModelLogicException) {
             return true;
         }
+
         return false;
     }
 
     public function render($request, Throwable $e): Response
     {
         // 捕获乐观锁错误
-        if ($e instanceof ModelException && $e->getCode() === CODE_MODEL_OPTIMISTIC_LOCK) {
+        if ($e instanceof ModelException && CODE_MODEL_OPTIMISTIC_LOCK === $e->getCode()) {
             RecordHelper::recordException($e);
+
             return Reply::bad($e->getCode(), $e->getMessage(), null, 403);
         }
         // 捕获访问控制异常
         if ($e instanceof AccessControl) {
             RecordHelper::recordException($e);
+
             return Reply::bad($e->getCode(), $e->getMessage(), null, 403);
         }
         // 模型业务逻辑错误
         if ($e instanceof ModelLogicException) {
             RecordHelper::recordException($e);
+
             return Reply::bad($e->getCode(), $e->getMessage());
         }
+
         // 渲染其他异常
         return parent::render($request, $e);
     }
@@ -132,37 +133,37 @@ class ExceptionHandle extends Handle
     {
         if ($this->app->isDebug()) {
             // 调试模式，获取详细的错误信息
-            $traces        = [];
+            $traces = [];
             $nextException = $exception;
             do {
                 $traces[] = [
-                    'name'    => $nextException::class,
-                    'file'    => $nextException->getFile(),
-                    'line'    => $nextException->getLine(),
-                    'code'    => $this->getCode($nextException),
+                    'name' => $nextException::class,
+                    'file' => $nextException->getFile(),
+                    'line' => $nextException->getLine(),
+                    'code' => $this->getCode($nextException),
                     'message' => $this->getMessage($nextException),
-                    'trace'   => $nextException->getTrace(),
-                    'source'  => $this->getSourceCode($nextException),
+                    'trace' => $nextException->getTrace(),
+                    'source' => $this->getSourceCode($nextException),
                 ];
             } while ($nextException = $nextException->getPrevious());
             $data = [
-                'code'    => $this->getCode($exception),
+                'code' => $this->getCode($exception),
                 'message' => $this->getMessage($exception),
-                'traces'  => $traces,
-                'datas'   => $this->getExtendData($exception),
-                'tables'  => [
-                    'GET Data'            => $this->app->request->get(),
-                    'POST Data'           => $this->app->request->post(),
-                    'Files'               => $this->app->request->file(),
-                    'Cookies'             => $this->app->request->cookie(),
-                    'Session'             => $this->app->exists('session') ? $this->app->session->all() : [],
+                'traces' => $traces,
+                'datas' => $this->getExtendData($exception),
+                'tables' => [
+                    'GET Data' => $this->app->request->get(),
+                    'POST Data' => $this->app->request->post(),
+                    'Files' => $this->app->request->file(),
+                    'Cookies' => $this->app->request->cookie(),
+                    'Session' => $this->app->exists('session') ? $this->app->session->all() : [],
                     'Server/Request Data' => array_diff_key($this->app->request->server(), $_ENV),
                 ],
             ];
         } else {
             // 部署模式仅显示 Code 和 Message
             $data = [
-                'code'    => $this->getCode($exception),
+                'code' => $this->getCode($exception),
                 'message' => $this->getMessage($exception),
             ];
 

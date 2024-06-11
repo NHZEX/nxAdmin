@@ -18,7 +18,7 @@ use Zxin\Think\Route\Annotation\Route;
 class System extends ApiBase
 {
     /**
-     * 基本系统设置
+     * 基本系统设置.
      */
     #[Route(method: 'GET')]
     public function config(): Response
@@ -55,19 +55,21 @@ class System extends ApiBase
     public function captcha(Captcha $captcha): Response
     {
         $captcha->entry();
+
         return $captcha->sendResponse([
             'X-Captcha-Token' => $captcha->getValidator()->generateToken(),
         ]);
     }
 
     /**
-     * 重置缓存
+     * 重置缓存.
      */
-    #[Auth("admin.resetCache")]
+    #[Auth('admin.resetCache')]
     #[Route(method: 'GET')]
     public function resetCache(): Response
     {
         SystemLogic::resetPermissionCache();
+
         return Reply::success();
     }
 }

@@ -27,7 +27,7 @@ class DatabaseUtils
                 $list = $connection
                     ->table('information_schema.tables')
                     ->field([
-                        'table_schema', 'table_name', 'auto_increment','table_rows',
+                        'table_schema', 'table_name', 'auto_increment', 'table_rows',
                         'avg_row_length', 'data_length', 'index_length', 'data_free',
                         'create_time', 'update_time', 'table_comment', 'table_collation',
                     ])
@@ -80,7 +80,7 @@ class DatabaseUtils
                                 'create_time',
                                 'update_time',
                                 'check_time',
-                            ]), ARRAY_FILTER_USE_KEY);
+                            ]), \ARRAY_FILTER_USE_KEY);
 
                             $output['id'] = "{$output['table_name']}_{$output['partition_name']}_{$output['subpartition_name']}";
 

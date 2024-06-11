@@ -68,10 +68,8 @@ class Deploy extends Command
     }
 
     /**
-     * 命令行入口
-     * @param Input  $input
-     * @param Output $output
-     * @return int|null
+     * 命令行入口.
+     *
      * @throws Exception
      */
     protected function execute(Input $input, Output $output): ?int
@@ -84,7 +82,7 @@ class Deploy extends Command
         $this->dryRun = (bool) $input->getOption('dry-run');
         $this->devMode = (bool) $input->getOption('dev');
 
-        $this->envFilePath = $this->app->getRootPath() . '.env';
+        $this->envFilePath = $this->app->getRootPath().'.env';
         $this->envFileExist = file_exists($this->envFilePath) && filesize($this->envFilePath) > 0;
         $this->config = $this->app->config->get('deploy');
 
@@ -93,7 +91,7 @@ class Deploy extends Command
 
         // 显示当前用户
         $this->env->COMMAND_USER = $input->getOption('run-user') ?: $this->env->COMMAND_USER;
-        $output->info('当前用户：' . Util::whoami() . "({$this->env->COMMAND_USER})");
+        $output->info('当前用户：'.Util::whoami()."({$this->env->COMMAND_USER})");
         $this->env->COMMAND_USER ??= Util::whoami();
 
         // 可用指令列表
@@ -141,8 +139,6 @@ class Deploy extends Command
     }
 
     /**
-     * @param Input $input
-     * @param Output $output
      * @throws Exception
      */
     public function auto(Input $input, Output $output): void
@@ -154,56 +150,37 @@ class Deploy extends Command
         }
     }
 
-    /**
-     * @return bool
-     */
     public function isDryRun(): bool
     {
         return $this->dryRun;
     }
 
-    /**
-     * @return bool
-     */
     public function isDevMode(): bool
     {
         return $this->devMode;
     }
 
-    /**
-     * @return string
-     */
     public function getVerbosity(): string
     {
         return $this->verbosity;
     }
 
-    /**
-     * @return string
-     */
     public function getEnvFilePath(): string
     {
         return $this->envFilePath;
     }
 
-    /**
-     * @return bool
-     */
     public function isEnvExist(): bool
     {
         return $this->envFileExist;
     }
 
-    /**
-     * @param bool $envFileExist
-     */
     public function setEnvExist(bool $envFileExist): void
     {
         $this->envFileExist = $envFileExist;
     }
 
     /**
-     * @param string|null $name
      * @return array
      */
     public function getConfig(?string $name = null)
@@ -211,20 +188,16 @@ class Deploy extends Command
         if (null === $name) {
             return $this->config;
         }
+
         return $this->config[$name] ?? null;
     }
 
-    /**
-     * @param int $code
-     */
     public function setCode(int $code): void
     {
         $this->code = $code;
     }
 
     /**
-     * @param string|null $runAction
-     * @param array       $actionList
      * @return bool|mixed|string|null
      */
     public function autoAction(?string $runAction, array $actionList)
@@ -238,7 +211,7 @@ class Deploy extends Command
                 $name_hits[] = $action;
             }
         }
-        if (\count($name_hits) === 1) {
+        if (1 === \count($name_hits)) {
             $runAction = $name_hits[0];
         } elseif (\count($name_hits) > 1) {
             $runAction = $this->output
@@ -247,12 +220,10 @@ class Deploy extends Command
             $this->output->error("输入的指令不存在: {$runAction}");
             $runAction = null;
         }
+
         return $runAction;
     }
 
-    /**
-     * @param array $actionList
-     */
     public function showActionList(array $actionList): void
     {
         $maxLen = 0;
@@ -263,8 +234,8 @@ class Deploy extends Command
 
         $this->output->info('========指令列表========');
         foreach ($actionList as $action => $description) {
-            $action = str_pad($action, $maxLen, ' ', STR_PAD_RIGHT);
-            $this->output->info($action . $description);
+            $action = str_pad($action, $maxLen, ' ', \STR_PAD_RIGHT);
+            $this->output->info($action.$description);
         }
     }
 }

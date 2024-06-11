@@ -11,29 +11,25 @@ use function is_numeric;
 use function substr;
 
 /**
- * Trait OptimLock
- * @package Tp\Model\Traits
+ * Trait OptimLock.
+ *
  * @mixin Model
  */
 trait MysqlJson
 {
     /**
      * 生成Json字段查询代码
-     * @param string      $field
-     * @param string      $path
-     * @param string|null $alias
-     * @return string
      */
     public static function queryJsonField(string $field, string $path, ?string $alias = null): string
     {
-        return "`{$field}`->>'$.{$path}'" . ($alias ? " AS {$alias}" : " AS {$path}");
+        return "`{$field}`->>'$.{$path}'".($alias ? " AS {$alias}" : " AS {$path}");
     }
 
     /**
-     * 设置JsonData
-     * @param string           $field
-     * @param string           $path
+     * 设置JsonData.
+     *
      * @param string|int|array $value
+     *
      * @return $this
      */
     public function setJsonData(string $field, string $path, $value)
@@ -42,17 +38,17 @@ trait MysqlJson
         $value = self::jsonValue($value);
 
         // 写入json数据
-        $raw          = new Raw(
+        $raw = new Raw(
             "JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`), '$.{$path}', {$value})"
         );
         $this->$field = $raw;
+
         return $this;
     }
 
     /**
-     * 设置JsonData
-     * @param string $field
-     * @param array  $vs
+     * 设置JsonData.
+     *
      * @return $this
      */
     public function setJsonDatas(string $field, array $vs)
@@ -65,19 +61,18 @@ trait MysqlJson
         foreach ($vs as $v) {
             [$path, $value] = $v;
             $value = self::jsonValue($value);
-            $sets  .= ", '$.{$path}', {$value}";
+            $sets .= ", '$.{$path}', {$value}";
         }
 
         // 写入json数据
-        $raw          = new Raw("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})");
+        $raw = new Raw("JSON_SET(IF(JSON_TYPE(`{$field}`)='NULL',JSON_OBJECT(),`{$field}`) {$sets})");
         $this->$field = $raw;
+
         return $this;
     }
 
     /**
-     * Mysql Json 代码生成
-     * @param mixed $value
-     * @return string
+     * Mysql Json 代码生成.
      */
     protected static function jsonValue($value): string
     {
@@ -89,9 +84,9 @@ trait MysqlJson
             if (array_is_list($value)) {
                 $tmp = '';
                 foreach ($value as $key => $v) {
-                    $tmp .= "'{$key}', " . self::jsonValue($v) . ',';
+                    $tmp .= "'{$key}', ".self::jsonValue($v).',';
                 }
-                $tmp   = substr($tmp, 0, \strlen($tmp) - 1);
+                $tmp = substr($tmp, 0, \strlen($tmp) - 1);
                 $value = "JSON_OBJECT({$tmp})";
                 unset($tmp);
             } else {
