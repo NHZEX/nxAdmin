@@ -11,7 +11,7 @@ class Login extends Base
 {
     protected $rule = [
         'token' => 'min:16',
-        'account' => 'require|length:4,64',
+        'username' => 'require|length:4,64',
         'password' => 'require|length:4,64',
         'lasting' => 'boolean',
     ];
@@ -22,7 +22,7 @@ class Login extends Base
 
     // 验证字段描述
     protected $field = [
-        'account' => '登录账号',
+        'username' => '登录账号',
         'password' => '登录密码',
         'lasting' => '记住登陆',
     ];

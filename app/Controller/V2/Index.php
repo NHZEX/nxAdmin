@@ -68,17 +68,17 @@ class Index extends ApiBase
         }
 
         // 参数提取
-        isset($param['lasting']) || ($param['lasting'] = false);
-        ['account' => $account, 'password' => $password, 'lasting' => $rememberme] = $param;
+        $param['lasting'] ??= false;
+        ['username' => $username, 'password' => $password, 'lasting' => $rememberme] = $param;
 
         // 执行登陆操作
-        if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $account, $password, $rememberme)) {
+        if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $username, $password, $rememberme)) {
             return ReplyEx::success([
                 'uuid' => $adminUser->getAuth()->getHashId(),
                 'token' => $session->getId(),
             ]);
         } else {
-            return ReplyEx::bad($adminUser->getErrorMessage(), CODE_CONV_LOGIN, httpCode: 403);
+            return ReplyEx::bad($adminUser->getErrorMessage(), CODE_CONV_LOGIN, httpCode: 401);
         }
     }
 
