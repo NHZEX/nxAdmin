@@ -32,7 +32,7 @@ class User extends Base
 
     protected $scene = [
         'save' => [
-            'genre', 'username', 'nickname', 'password', 'role_id', 'status',
+            'genre', 'username', 'nickname', 'password', 'role_ids', 'status',
         ],
         'resetPasswod' => [
             'password',
