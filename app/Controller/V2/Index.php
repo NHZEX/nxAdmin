@@ -71,6 +71,11 @@ class Index extends ApiBase
         $param['lasting'] ??= false;
         ['username' => $username, 'password' => $password, 'lasting' => $rememberme] = $param;
 
+        if (strlen($password) !== 64 || !ctype_xdigit($password)) {
+            // 快速兼容方案
+            $password = hash('sha256', $password);
+        }
+
         // 执行登陆操作
         if ($adminUser->login($adminUser::LOGIN_TYPE_NAME, $username, $password, $rememberme)) {
             return ReplyEx::success([
@@ -78,7 +83,7 @@ class Index extends ApiBase
                 'token' => $session->getId(),
             ]);
         } else {
-            return ReplyEx::bad($adminUser->getErrorMessage(), CODE_CONV_LOGIN, httpCode: 401);
+            return ReplyEx::bad($adminUser->getErrorMessage(), CODE_CONV_LOGIN, httpCode: 403);
         }
     }
 
