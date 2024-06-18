@@ -25,6 +25,8 @@ class Roles extends Base
     {
         $where = $this->buildWhere($this->request->param(), [
             ['genre', '='],
+            ['status', '=', 'empty' => '\issue'],
+            ['name', 'like', fn ($val) => "%{$val}%", 'tf' => fn ($val) => trim($val)],
         ]);
 
         $result = (new AdminRole())
