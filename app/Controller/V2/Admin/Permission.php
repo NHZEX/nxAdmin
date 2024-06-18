@@ -22,7 +22,7 @@ class Permission extends Base
     #[Route('tree', method: 'GET')]
     public function index(AuthPermission $permission): Response
     {
-        $data = $permission->getTree('__ROOT__', 1);
+        $data = $permission->getTree('__ROOT__', 1, convertChildrenEmptyToNull: true);
 
         return ReplyEx::success($data);
     }

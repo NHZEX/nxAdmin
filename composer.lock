@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4874ec13d5904fc934a7c39f5f298935",
+    "content-hash": "3b811164422d9a4a04f3be24619a0980",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -3814,23 +3814,17 @@
         },
         {
             "name": "zxin/think-library-plus",
-            "version": "v0.2.5",
+            "version": "v0.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-library-plus.git",
-                "reference": "88055062b84b33680c079eb3443a19cd5bb2dc15"
+                "reference": "2cd13f9e8b8042561365d3bcfe73d9b2e3051f3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/88055062b84b33680c079eb3443a19cd5bb2dc15",
-                "reference": "88055062b84b33680c079eb3443a19cd5bb2dc15",
-                "shasum": "",
-                "mirrors": [
-                    {
-                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
-                        "preferred": true
-                    }
-                ]
+                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/2cd13f9e8b8042561365d3bcfe73d9b2e3051f3f",
+                "reference": "2cd13f9e8b8042561365d3bcfe73d9b2e3051f3f",
+                "shasum": ""
             },
             "require": {
                 "brick/varexporter": "^0.4|^0.5",
@@ -3889,9 +3883,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-library-plus/issues",
-                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.2.5"
+                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.2.6"
             },
-            "time": "2024-05-17T02:47:47+00:00"
+            "time": "2024-06-17T04:01:56+00:00"
         },
         {
             "name": "zxin/think-redis",
