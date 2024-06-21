@@ -25,9 +25,10 @@ use Tp\Model\Traits\MysqlJson;
  * @property array|null $ext          扩展信息
  * @property int        $lock_version 锁版本
  *
- * @property array      $auth         权限
- * @property string     $status_desc  状态描述
- * @property string     $genre_desc   类型描述
+ * ↓↓ virtual props ↓↓
+ * @property array  $auth        权限
+ * @property string $status_desc 状态描述
+ * @property string $genre_desc  类型描述
  */
 class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 {
@@ -37,6 +38,7 @@ class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 
     protected $table = 'admin_role';
     protected $pk = 'id';
+    protected $convertNameToCamel = false;
 
     protected $readonly = [
         'genre',

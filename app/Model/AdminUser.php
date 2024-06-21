@@ -44,12 +44,13 @@ use function password_verify;
  * @property string $remember        记住令牌
  * @property int    $lock_version    数据版本
  *
- * @property string         $status_desc     状态描述
- * @property string         $genre_desc      类型描述
- * @property string         $role_name       load(beRoleName)
- * @property AdminRole|null $role            用户角色 load(role)
+ * ↓↓ virtual props ↓↓
+ * @property string         $status_desc   状态描述
+ * @property string         $genre_desc    类型描述
+ * @property string         $role_name     load(beRoleName)
+ * @property AdminRole|null $role          用户角色 load(role)
  * @property string|null    $avatar_data
- * @property int            $sign_out_time   退出登陆时间
+ * @property int            $sign_out_time 退出登陆时间
  */
 class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfCheck, \app\Contracts\ModelAccessLimit
 {
@@ -58,6 +59,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
 
     protected $table = 'admin_user';
     protected $pk = 'id';
+    protected $convertNameToCamel = false;
 
     protected $readonly = [
         'genre',

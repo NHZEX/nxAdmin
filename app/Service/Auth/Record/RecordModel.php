@@ -20,6 +20,7 @@ use think\Model;
  * @property string $resp_message
  * @property array  $details
  *
+ * ↓↓ virtual props ↓↓
  * @property int    $group_id
  * @property string $module
  */

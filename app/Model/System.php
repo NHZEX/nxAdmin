@@ -16,9 +16,6 @@ use function time;
 /**
  * model: 系统表.
  *
- * @property int    $id
- * @property string $laber
- *
  * @property string $label 标签
  * @property string $value 值
  */
@@ -26,6 +23,7 @@ class System extends Base
 {
     protected $name = 'system';
     protected $pk = 'label';
+    protected $convertNameToCamel = false;
 
     protected $schema = [
         'label' => 'string',

@@ -18,8 +18,9 @@ use function Zxin\Arr\array_group;
  */
 final class UserRoleRelationModel extends Base
 {
-    public $table = 'user_role_relation';
-    public $pk = 'id';
+    protected $table = 'user_role_relation';
+    protected $pk = 'id';
+    protected $convertNameToCamel = false;
 
     public static function setUserRoles(int $userId, array $roleIds): void
     {
