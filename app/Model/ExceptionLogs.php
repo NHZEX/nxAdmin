@@ -25,6 +25,7 @@ class ExceptionLogs extends Base
 {
     protected $table = 'exception_logs';
     protected $pk = 'id';
+    protected $convertNameToCamel = false;
 
     // 无需记录更新时间
     protected $updateTime = false;

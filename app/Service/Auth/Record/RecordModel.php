@@ -28,6 +28,7 @@ class RecordModel extends Model
 {
     protected $table = 'activity_log';
     protected $pk = 'id';
+    protected $convertNameToCamel = false;
     protected $type = [
         'details' => 'json',
     ];
