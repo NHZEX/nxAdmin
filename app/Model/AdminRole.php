@@ -24,6 +24,7 @@ use Tp\Model\Traits\MysqlJson;
  * @property string     $description  角色描述
  * @property array|null $ext          扩展信息
  * @property int        $lock_version 锁版本
+ *
  * @property array      $auth         权限
  * @property string     $status_desc  状态描述
  * @property string     $genre_desc   类型描述

@@ -25,6 +25,7 @@ use function explode;
  * @property string $raw_file_name 原始文件名
  * @property int    $create_time   创建时间
  * @property int    $update_time   更新时间
+ *
  * @property string $real_path     实际路径
  */
 class Attachment extends Base

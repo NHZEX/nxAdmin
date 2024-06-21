@@ -25,24 +25,25 @@ use function password_verify;
 /**
  * model: 系统用户.
  *
- * @property int            $id
- * @property int            $genre           用户类型
- * @property int            $status          状态：0禁用，1启用
- * @property string         $username        用户名
- * @property string         $nickname        昵称
- * @property string         $password        密码
- * @property string         $email           邮箱地址
- * @property string         $avatar          头像
- * @property int            $role_id         角色ID
- * @property int            $group_id        部门ID
- * @property string         $signup_ip       注册ip
- * @property int            $create_time     创建时间
- * @property int            $update_time     更新时间
- * @property int            $delete_time     删除时间
- * @property int            $last_login_time 最后一次登录时间
- * @property string         $last_login_ip   登录ip
- * @property string         $remember        记住令牌
- * @property int            $lock_version    数据版本
+ * @property int    $id
+ * @property int    $genre           用户类型
+ * @property int    $status          状态：0禁用，1启用
+ * @property string $username        用户名
+ * @property string $nickname        昵称
+ * @property string $password        密码
+ * @property string $email           邮箱地址
+ * @property string $avatar          头像
+ * @property int    $role_id         角色ID
+ * @property int    $group_id        部门ID
+ * @property string $signup_ip       注册ip
+ * @property int    $create_time     创建时间
+ * @property int    $update_time     更新时间
+ * @property int    $delete_time     删除时间
+ * @property int    $last_login_time 最后一次登录时间
+ * @property string $last_login_ip   登录ip
+ * @property string $remember        记住令牌
+ * @property int    $lock_version    数据版本
+ *
  * @property string         $status_desc     状态描述
  * @property string         $genre_desc      类型描述
  * @property string         $role_name       load(beRoleName)

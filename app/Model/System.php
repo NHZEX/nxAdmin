@@ -18,6 +18,7 @@ use function time;
  *
  * @property int    $id
  * @property string $laber
+ *
  * @property string $label 标签
  * @property string $value 值
  */

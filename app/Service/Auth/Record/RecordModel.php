@@ -19,6 +19,7 @@ use think\Model;
  * @property string $resp_code
  * @property string $resp_message
  * @property array  $details
+ *
  * @property int    $group_id
  * @property string $module
  */
