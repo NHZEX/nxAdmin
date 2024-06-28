@@ -71,7 +71,7 @@ class Index extends ApiBase
         $param['lasting'] ??= false;
         ['username' => $username, 'password' => $password, 'lasting' => $rememberme] = $param;
 
-        if (strlen($password) !== 64 || !ctype_xdigit($password)) {
+        if (64 !== \strlen($password) || !ctype_xdigit($password)) {
             // 快速兼容方案
             $password = hash('sha256', $password);
         }

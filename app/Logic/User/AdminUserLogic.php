@@ -114,7 +114,6 @@ class AdminUserLogic extends Base
         $user->save($params);
 
         if (isset($params['role_ids']) && \is_array($params['role_ids'])) {
-            log_debug($params['role_ids']);
             UserRoleRelationModel::setUserRoles($user->id, $params['role_ids']);
         }
     }
