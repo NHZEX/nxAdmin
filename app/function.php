@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use think\event\HttpEnd;
 
 /**
@@ -10,10 +12,10 @@ function is_cli(): bool
 {
     return 'cli' === \PHP_SAPI;
 }
-
 function get_temp_filename_with_auto_clear(string $prefix, string $extension = ''): string
 {
     static $fileList = null;
+    static $dirPrefix = null;
     if (null === $fileList) {
         $fileList = [];
         app()->event->listen(HttpEnd::class, static function () use (&$fileList): void {
@@ -22,8 +24,15 @@ function get_temp_filename_with_auto_clear(string $prefix, string $extension = '
             }
         });
     }
+    $dirPrefix ??= env('DEPLOY_MIXING_PREFIX');
     $dir = sys_get_temp_dir();
-    $filename = $dir.\DIRECTORY_SEPARATOR.'tmp_'.getmypid().'_'.uniqid($prefix, true);
+    if ($dirPrefix) {
+        $dir .= \DIRECTORY_SEPARATOR.$dirPrefix;
+    }
+    if (!is_dir($dir)) {
+        mkdir($dir);
+    }
+    $filename = $dir.\DIRECTORY_SEPARATOR.'p_'.getmypid().'_'.$prefix.'_'.dechex(time()).bin2hex(random_bytes(8));
     if ($extension) {
         $filename .= ".{$extension}";
     }
