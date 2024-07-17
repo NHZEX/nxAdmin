@@ -2943,16 +2943,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v3.0.15",
+            "version": "v3.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "4bd05de00ce9d689aa19d56a5d8e1cf21b4bb00d"
+                "reference": "565d76d40ee1d8c48d6661111771991cade94c1c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/4bd05de00ce9d689aa19d56a5d8e1cf21b4bb00d",
-                "reference": "4bd05de00ce9d689aa19d56a5d8e1cf21b4bb00d",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/565d76d40ee1d8c48d6661111771991cade94c1c",
+                "reference": "565d76d40ee1d8c48d6661111771991cade94c1c",
                 "shasum": ""
             },
             "require": {
@@ -2992,9 +2992,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v3.0.15"
+                "source": "https://github.com/top-think/think-orm/tree/v3.0.16"
             },
-            "time": "2024-06-25T03:25:28+00:00"
+            "time": "2024-07-10T09:39:45+00:00"
         },
         {
             "name": "topthink/think-throttle",
@@ -4439,16 +4439,16 @@
         },
         {
             "name": "rector/rector",
-            "version": "1.2.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "2fa387553db22b6f9bcccf5ff16f2c2c18a52a65"
+                "reference": "b38a3eed3ce2046f40c001255e2fec9d2746bacf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/2fa387553db22b6f9bcccf5ff16f2c2c18a52a65",
-                "reference": "2fa387553db22b6f9bcccf5ff16f2c2c18a52a65",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/b38a3eed3ce2046f40c001255e2fec9d2746bacf",
+                "reference": "b38a3eed3ce2046f40c001255e2fec9d2746bacf",
                 "shasum": ""
             },
             "require": {
@@ -4486,7 +4486,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/1.2.0"
+                "source": "https://github.com/rectorphp/rector/tree/1.2.1"
             },
             "funding": [
                 {
@@ -4494,7 +4494,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-07-01T14:24:45+00:00"
+            "time": "2024-07-16T00:22:54+00:00"
         },
         {
             "name": "sebastian/cli-parser",
