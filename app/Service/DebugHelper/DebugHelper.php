@@ -36,7 +36,7 @@ class DebugHelper
         $endMemory = memory_get_usage();
         $endPeakMemory = memory_get_peak_usage();
 
-        return sprintf(
+        return \sprintf(
             '[%d]%s, time: %.3f, mem: %s(%s)',
             getmypid(),
             $name,
@@ -55,14 +55,14 @@ class DebugHelper
         unset(self::$timeList[$name]);
         $endTime = microtime(true);
 
-        $duration = sprintf('%.3fs', $endTime - $obj->time);
+        $duration = \sprintf('%.3fs', $endTime - $obj->time);
 
         self::recordDuration($name, $duration, $note);
 
         $endMemory = memory_get_usage();
         $endPeakMemory = memory_get_peak_usage();
 
-        $message = sprintf(
+        $message = \sprintf(
             '[%d]%s => time: %s; mem: %s(%s)%s',
             getmypid(),
             $name,

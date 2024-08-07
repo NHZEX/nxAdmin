@@ -28,7 +28,7 @@ class EnvironmentHelper
             [
                 'label' => 'server_software',
                 'name' => '执行环境',
-                'value' => sprintf(
+                'value' => \sprintf(
                     '%s (%s)',
                     $_SERVER['SERVER_SOFTWARE'],
                     \PHP_SAPI,
@@ -37,7 +37,7 @@ class EnvironmentHelper
             [
                 'label' => 'framework_info',
                 'name' => '系统框架',
-                'value' => sprintf(
+                'value' => \sprintf(
                     'topthink: %s; think-orm: %s',
                     InstalledVersions::getPrettyVersion('topthink/framework'),
                     InstalledVersions::getPrettyVersion('topthink/think-orm'),
@@ -105,7 +105,7 @@ class EnvironmentHelper
         $statistics = $status['opcache_statistics'];
         $jit = $status['jit'] ?? null;
 
-        $jitInfo = ($jit['enabled'] ?? false) && ($jit['on'] ?? false) ? sprintf(
+        $jitInfo = ($jit['enabled'] ?? false) && ($jit['on'] ?? false) ? \sprintf(
             'buffer: %s / %s, mode: %s, kind: %d, opt_level: %d, opt_flags: %d;',
             format_byte($jit['buffer_free']),
             format_byte($jit['buffer_size']),
@@ -116,7 +116,7 @@ class EnvironmentHelper
         ) : 'off';
 
         $preload = $status['preload_statistics'] ?? null;
-        $preloadInfo = null === $preload ? 'not active' : sprintf(
+        $preloadInfo = null === $preload ? 'not active' : \sprintf(
             'memory: %s, function: %d, class: %d, script: %d',
             format_byte($preload['memory_consumption']),
             is_countable($preload['functions']) ? \count($preload['functions']) : 0,
@@ -125,20 +125,20 @@ class EnvironmentHelper
         );
 
         return [
-            ['label' => 'memory', 'value' => sprintf(
+            ['label' => 'memory', 'value' => \sprintf(
                 '%s / %s, wasted %s (%.2f)',
                 format_byte($memory['used_memory']),
                 format_byte($memory['free_memory']),
                 format_byte($memory['wasted_memory']),
                 $memory['current_wasted_percentage'],
             )],
-            ['label' => 'interned_strings', 'value' => sprintf(
+            ['label' => 'interned_strings', 'value' => \sprintf(
                 '%s / %s (%s)',
                 format_byte($interned_strings['used_memory']),
                 format_byte($interned_strings['free_memory']),
                 format_byte($interned_strings['buffer_size']),
             )],
-            ['label' => 'hits (misses)', 'value' => sprintf(
+            ['label' => 'hits (misses)', 'value' => \sprintf(
                 '%d (%d), hit_rate: %.2f',
                 $statistics['hits'],
                 $statistics['misses'],
@@ -157,7 +157,7 @@ class EnvironmentHelper
 
         $version = phpversion('Xdebug');
 
-        return sprintf('Xdebug: %s, mode: %s', $version ?: 'unknown', \ini_get('xdebug.mode') ?: 'null');
+        return \sprintf('Xdebug: %s, mode: %s', $version ?: 'unknown', \ini_get('xdebug.mode') ?: 'null');
     }
 
     public static function mainExtension(): array
@@ -240,7 +240,7 @@ class EnvironmentHelper
              *  'brotli_version' => '1.0.7',
              * ).
              */
-            $status = sprintf('%s, ssl (%s), libz (%s), brotli (%s)', $info['version'], $info['ssl_version'], $info['libz_version'], $info['brotli_version']);
+            $status = \sprintf('%s, ssl (%s), libz (%s), brotli (%s)', $info['version'], $info['ssl_version'], $info['libz_version'], $info['brotli_version']);
         }
 
         return $status;
