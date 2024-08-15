@@ -1,5 +1,7 @@
 <?php
 // hash: d53d1a25144e9622c2a9acd2e6757854
+
+/** @noinspection ALL */
 return [
     'features' => [
         'node@admin.index/userinfo' => [

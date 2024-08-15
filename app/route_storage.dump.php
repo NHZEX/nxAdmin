@@ -1,5 +1,7 @@
 <?php
-// hash: 0730ddbafed70fe9facd5a6c23450df3
+// hash: 6a285729b235acf506c60c28254c344a
+
+/** @noinspection ALL */
 return [
     [
         'file' => 'app/Controller/admin/Index.php',
@@ -144,6 +146,9 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
+            'presetName' => null,
+            'presetFilter' => null,
+            'registerSort' => null,
         ]),
         'resourceItems' => [],
         'routeItems' => [],
@@ -188,6 +193,9 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
+            'presetName' => null,
+            'presetFilter' => null,
+            'registerSort' => null,
         ]),
         'resourceItems' => [
             [
@@ -240,6 +248,9 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
+            'presetName' => null,
+            'presetFilter' => null,
+            'registerSort' => null,
         ]),
         'resourceItems' => [],
         'routeItems' => [],
@@ -284,6 +295,9 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
+            'presetName' => null,
+            'presetFilter' => null,
+            'registerSort' => null,
         ]),
         'resourceItems' => [],
         'routeItems' => [],
@@ -328,6 +342,9 @@ return [
             'filter' => null,
             'append' => null,
             'pattern' => null,
+            'presetName' => null,
+            'presetFilter' => null,
+            'registerSort' => null,
         ]),
         'resourceItems' => [
             [
