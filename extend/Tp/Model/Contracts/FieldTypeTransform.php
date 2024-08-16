@@ -6,6 +6,9 @@ namespace Tp\Model\Contracts;
 
 use think\Model;
 
+/**
+ * @deprecated 改为使用Orm最新内置类
+ */
 interface FieldTypeTransform
 {
     /**
