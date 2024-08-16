@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42b32c739ee226de8c6618a0daeae5e7",
+    "content-hash": "b054fb7ed7257c2dda0b2a989b6b0374",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -2951,16 +2951,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v3.0.20",
+            "version": "v3.0.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "f9fc4f110bbc8ccbf325903ca95ac77fb6523e2b"
+                "reference": "d68e185613db4dcb2f2b3084e8d4ce5d36e3a6d3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/f9fc4f110bbc8ccbf325903ca95ac77fb6523e2b",
-                "reference": "f9fc4f110bbc8ccbf325903ca95ac77fb6523e2b",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/d68e185613db4dcb2f2b3084e8d4ce5d36e3a6d3",
+                "reference": "d68e185613db4dcb2f2b3084e8d4ce5d36e3a6d3",
                 "shasum": ""
             },
             "require": {
@@ -3003,9 +3003,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v3.0.20"
+                "source": "https://github.com/top-think/think-orm/tree/v3.0.21"
             },
-            "time": "2024-08-05T09:54:58+00:00"
+            "time": "2024-08-16T06:03:42+00:00"
         },
         {
             "name": "topthink/think-throttle",
