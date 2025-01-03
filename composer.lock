@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b054fb7ed7257c2dda0b2a989b6b0374",
+    "content-hash": "44459001bc591597bdf0edc7803de35f",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -2951,16 +2951,16 @@
         },
         {
             "name": "topthink/think-orm",
-            "version": "v3.0.21",
+            "version": "v3.0.27",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "d68e185613db4dcb2f2b3084e8d4ce5d36e3a6d3"
+                "reference": "9c691f6bedc8a47103767a9a682810308c30c010"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/d68e185613db4dcb2f2b3084e8d4ce5d36e3a6d3",
-                "reference": "d68e185613db4dcb2f2b3084e8d4ce5d36e3a6d3",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/9c691f6bedc8a47103767a9a682810308c30c010",
+                "reference": "9c691f6bedc8a47103767a9a682810308c30c010",
                 "shasum": ""
             },
             "require": {
@@ -3003,9 +3003,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v3.0.21"
+                "source": "https://github.com/top-think/think-orm/tree/v3.0.27"
             },
-            "time": "2024-08-16T06:03:42+00:00"
+            "time": "2024-09-11T01:29:29+00:00"
         },
         {
             "name": "topthink/think-throttle",
@@ -3197,16 +3197,16 @@
         },
         {
             "name": "zxin/socket-log-thinkphp",
-            "version": "v1.1.1",
+            "version": "v1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/socket-log-thinkphp.git",
-                "reference": "a191d6fbe2c0f4ced8919db3fae63fd7572e4198"
+                "reference": "91dc074c4cbc946c8e3cee7ee5b38f3de47586f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/socket-log-thinkphp/zipball/a191d6fbe2c0f4ced8919db3fae63fd7572e4198",
-                "reference": "a191d6fbe2c0f4ced8919db3fae63fd7572e4198",
+                "url": "https://api.github.com/repos/NHZEX/socket-log-thinkphp/zipball/91dc074c4cbc946c8e3cee7ee5b38f3de47586f4",
+                "reference": "91dc074c4cbc946c8e3cee7ee5b38f3de47586f4",
                 "shasum": ""
             },
             "require": {
@@ -3240,9 +3240,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/socket-log-thinkphp/issues",
-                "source": "https://github.com/NHZEX/socket-log-thinkphp/tree/v1.1.1"
+                "source": "https://github.com/NHZEX/socket-log-thinkphp/tree/v1.1.2"
             },
-            "time": "2024-06-22T11:09:12+00:00"
+            "time": "2024-12-15T14:17:28+00:00"
         },
         {
             "name": "zxin/think-captcha",
@@ -3272,10 +3272,10 @@
             "type": "library",
             "extra": {
                 "think": {
-                    "services": [],
                     "config": {
                         "captcha": "config/captcha.php"
-                    }
+                    },
+                    "services": []
                 }
             },
             "autoload": {
@@ -3329,10 +3329,10 @@
             "type": "library",
             "extra": {
                 "think": {
-                    "services": [],
                     "config": {
                         "cors": "config/cors.php"
-                    }
+                    },
+                    "services": []
                 }
             },
             "autoload": {
@@ -3412,16 +3412,16 @@
         },
         {
             "name": "zxin/think-library-plus",
-            "version": "v0.5.1",
+            "version": "v0.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-library-plus.git",
-                "reference": "f63a25cee5a5d07a8d0028ca02007d085a8beee6"
+                "reference": "894bce0423f0df6eef955a1556a0240f23b5b003"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/f63a25cee5a5d07a8d0028ca02007d085a8beee6",
-                "reference": "f63a25cee5a5d07a8d0028ca02007d085a8beee6",
+                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/894bce0423f0df6eef955a1556a0240f23b5b003",
+                "reference": "894bce0423f0df6eef955a1556a0240f23b5b003",
                 "shasum": ""
             },
             "require": {
@@ -3455,11 +3455,11 @@
             "type": "library",
             "extra": {
                 "think": {
-                    "services": [],
                     "config": {
                         "auth": "config/auth.php",
                         "validate": "config/validate.php"
-                    }
+                    },
+                    "services": []
                 }
             },
             "autoload": {
@@ -3481,9 +3481,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-library-plus/issues",
-                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.5.1"
+                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.5.4"
             },
-            "time": "2024-08-15T10:22:42+00:00"
+            "time": "2024-11-03T14:23:08+00:00"
         },
         {
             "name": "zxin/think-redis",
@@ -3520,12 +3520,12 @@
             "type": "library",
             "extra": {
                 "think": {
-                    "services": [
-                        "Zxin\\Think\\Redis\\Service"
-                    ],
                     "config": {
                         "redis": "config/redis.php"
-                    }
+                    },
+                    "services": [
+                        "Zxin\\Think\\Redis\\Service"
+                    ]
                 }
             },
             "autoload": {
@@ -3602,16 +3602,16 @@
         },
         {
             "name": "zxin/utils",
-            "version": "v2.5.2",
+            "version": "v2.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/php-utils.git",
-                "reference": "38add51fba79800fdf521a19b59e4a0436681774"
+                "reference": "8d0ce5a474dd487b90e1d426a215ce5b7fc95d84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/38add51fba79800fdf521a19b59e4a0436681774",
-                "reference": "38add51fba79800fdf521a19b59e4a0436681774",
+                "url": "https://api.github.com/repos/NHZEX/php-utils/zipball/8d0ce5a474dd487b90e1d426a215ce5b7fc95d84",
+                "reference": "8d0ce5a474dd487b90e1d426a215ce5b7fc95d84",
                 "shasum": ""
             },
             "require": {
@@ -3662,9 +3662,9 @@
             "description": "util tools",
             "support": {
                 "issues": "https://github.com/NHZEX/php-utils/issues",
-                "source": "https://github.com/NHZEX/php-utils/tree/v2.5.2"
+                "source": "https://github.com/NHZEX/php-utils/tree/v2.5.3"
             },
-            "time": "2024-04-30T14:17:40+00:00"
+            "time": "2024-11-02T15:46:40+00:00"
         }
     ],
     "packages-dev": [
@@ -5543,7 +5543,7 @@
         "ext-zlib": "*",
         "composer-runtime-api": "^2"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.1"
     },
