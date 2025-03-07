@@ -37,7 +37,7 @@
         "symfony/var-dumper": "^6.0|^7.0",
         "symfony/var-exporter": "^6.0|^7.0",
         "topthink/framework": "^8.0.2",
-        "topthink/think-orm": "~3.0.27",
+        "topthink/think-orm": "~3.0.34",
         "topthink/think-throttle": "^2.0.0",
         "zxin/socket-log-thinkphp": "^1.1",
         "zxin/think-captcha": "^2.1",

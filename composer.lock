@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "44459001bc591597bdf0edc7803de35f",
+    "content-hash": "6931627c1e09fb336cf1332a4368124f",
     "packages": [
         {
             "name": "brick/varexporter",
@@ -2905,16 +2905,16 @@
         },
         {
             "name": "topthink/think-helper",
-            "version": "v3.1.6",
+            "version": "v3.1.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-helper.git",
-                "reference": "769acbe50a4274327162f9c68ec2e89a38eb2aff"
+                "reference": "ac66cc0859a12cd5d73258f50f338aadc95e9b46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-helper/zipball/769acbe50a4274327162f9c68ec2e89a38eb2aff",
-                "reference": "769acbe50a4274327162f9c68ec2e89a38eb2aff",
+                "url": "https://api.github.com/repos/top-think/think-helper/zipball/ac66cc0859a12cd5d73258f50f338aadc95e9b46",
+                "reference": "ac66cc0859a12cd5d73258f50f338aadc95e9b46",
                 "shasum": ""
             },
             "require": {
@@ -2945,22 +2945,22 @@
             "description": "The ThinkPHP6 Helper Package",
             "support": {
                 "issues": "https://github.com/top-think/think-helper/issues",
-                "source": "https://github.com/top-think/think-helper/tree/v3.1.6"
+                "source": "https://github.com/top-think/think-helper/tree/v3.1.10"
             },
-            "time": "2021-12-15T04:27:55+00:00"
+            "time": "2024-11-21T01:47:51+00:00"
         },
         {
             "name": "topthink/think-orm",
-            "version": "v3.0.27",
+            "version": "v3.0.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-orm.git",
-                "reference": "9c691f6bedc8a47103767a9a682810308c30c010"
+                "reference": "715e55da149fe32a12d68ef10e5b00e70bd3dbec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-orm/zipball/9c691f6bedc8a47103767a9a682810308c30c010",
-                "reference": "9c691f6bedc8a47103767a9a682810308c30c010",
+                "url": "https://api.github.com/repos/top-think/think-orm/zipball/715e55da149fe32a12d68ef10e5b00e70bd3dbec",
+                "reference": "715e55da149fe32a12d68ef10e5b00e70bd3dbec",
                 "shasum": ""
             },
             "require": {
@@ -3003,9 +3003,9 @@
             ],
             "support": {
                 "issues": "https://github.com/top-think/think-orm/issues",
-                "source": "https://github.com/top-think/think-orm/tree/v3.0.27"
+                "source": "https://github.com/top-think/think-orm/tree/v3.0.34"
             },
-            "time": "2024-09-11T01:29:29+00:00"
+            "time": "2025-01-14T06:03:33+00:00"
         },
         {
             "name": "topthink/think-throttle",
