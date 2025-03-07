@@ -167,7 +167,7 @@ class Attachment extends Base
         string $fileExt,
         int $fileSize,
         string $fileSha1,
-        string $rawFileName
+        string $rawFileName,
     ) {
         $that = new self();
         $that->status = 0;

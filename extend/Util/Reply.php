@@ -126,7 +126,7 @@ class Reply
         ?int $code = null,
         ?string $msg = null,
         ?array $data = null,
-        int $httpCode = 400
+        int $httpCode = 400,
     ): Response {
         if (400 > $httpCode || $httpCode > 499) {
             throw new RuntimeException('http code only 400 ~ 499');
@@ -142,7 +142,7 @@ class Reply
         ?int $code = null,
         ?string $msg = null,
         ?array $data = null,
-        int $httpCode = 500
+        int $httpCode = 500,
     ): Response {
         if (500 > $httpCode || $httpCode > 599) {
             throw new RuntimeException('http code only 500 ~ 599');

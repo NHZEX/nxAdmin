@@ -434,7 +434,7 @@ class AdminUser extends Base implements AuthenticatableContracts, ProviderlSelfC
      */
     public static function createUser(
         string $username,
-        string $password
+        string $password,
     ) {
         $model = new self();
         $model->username = $username;

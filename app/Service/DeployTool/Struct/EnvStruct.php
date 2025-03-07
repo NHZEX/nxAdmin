@@ -9,7 +9,7 @@ use function preg_match;
 class EnvStruct extends BaseProperty
 {
     public static function read(
-        $prefixs = ['DB_', 'REDIS_', 'CACHE_', 'LOG_', 'SESSION_', 'SERVER_']
+        $prefixs = ['DB_', 'REDIS_', 'CACHE_', 'LOG_', 'SESSION_', 'SERVER_'],
     ) {
         $preg = implode('|', $prefixs);
         $preg = "/^({$preg})/";

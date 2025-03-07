@@ -86,7 +86,7 @@ class ReplyEx
         $data = null,
         ?int $code = null,
         ?string $message = null,
-        int $httpCode = 400
+        int $httpCode = 400,
     ): Response {
         if (400 > $httpCode || $httpCode > 499) {
             throw new RuntimeException('http code only 400 ~ 499');
@@ -102,7 +102,7 @@ class ReplyEx
         $data = null,
         ?int $code = null,
         ?string $message = null,
-        int $httpCode = 500
+        int $httpCode = 500,
     ): Response {
         if (500 > $httpCode || $httpCode > 599) {
             throw new RuntimeException('http code only 500 ~ 599');
@@ -119,11 +119,12 @@ class ReplyEx
         ?int $code = 0,
         ?string $message = null,
         int $httpCode = 200,
-        bool $merge = false
+        bool $merge = false,
     ): Response {
         $code ??= CODE_ERROR;
+        $message = $message ?: self::strError($code);
         $content = [
-            'message' => $message ?: self::strError($code),
+            'message' => $message,
             'code' => $code,
         ];
         if ($merge) {
