@@ -4,30 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6931627c1e09fb336cf1332a4368124f",
+    "content-hash": "60316808b060e09f9b2c4a5828dc5e05",
     "packages": [
         {
             "name": "brick/varexporter",
-            "version": "0.5.0",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/varexporter.git",
-                "reference": "84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b"
+                "reference": "af98bfc2b702a312abbcaff37656dbe419cec5bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/varexporter/zipball/84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b",
-                "reference": "84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b",
+                "url": "https://api.github.com/repos/brick/varexporter/zipball/af98bfc2b702a312abbcaff37656dbe419cec5bc",
+                "reference": "af98bfc2b702a312abbcaff37656dbe419cec5bc",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^5.0",
-                "php": "^7.4 || ^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
                 "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^9.3",
-                "psalm/phar": "5.21.1"
+                "phpunit/phpunit": "^10.5",
+                "vimeo/psalm": "6.8.4"
             },
             "type": "library",
             "autoload": {
@@ -45,7 +45,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/varexporter/issues",
-                "source": "https://github.com/brick/varexporter/tree/0.5.0"
+                "source": "https://github.com/brick/varexporter/tree/0.6.0"
             },
             "funding": [
                 {
@@ -53,7 +53,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-10T17:15:19+00:00"
+            "time": "2025-02-20T17:42:39+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -3412,26 +3412,26 @@
         },
         {
             "name": "zxin/think-library-plus",
-            "version": "v0.5.4",
+            "version": "v0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-library-plus.git",
-                "reference": "894bce0423f0df6eef955a1556a0240f23b5b003"
+                "reference": "220088fc351ef58297db1f9d0bd512ce4124be6a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/894bce0423f0df6eef955a1556a0240f23b5b003",
-                "reference": "894bce0423f0df6eef955a1556a0240f23b5b003",
+                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/220088fc351ef58297db1f9d0bd512ce4124be6a",
+                "reference": "220088fc351ef58297db1f9d0bd512ce4124be6a",
                 "shasum": ""
             },
             "require": {
-                "brick/varexporter": "^0.4|^0.5",
+                "brick/varexporter": "^0.4|^0.5|^0.6",
                 "composer-runtime-api": "^2",
                 "composer/pcre": "^3.1",
                 "php": "^8.0",
                 "symfony/finder": "^6.0|^7.0",
                 "symfony/var-exporter": "^6.0|^7.0",
-                "topthink/framework": "^8.0.2",
+                "topthink/framework": "^8.0.2|^8.1.2",
                 "topthink/think-helper": "^3.1.6",
                 "zxin/utils": "^2.5"
             },
@@ -3442,7 +3442,7 @@
                 "phpstan/phpstan": "^1.10.67",
                 "phpunit/phpunit": "^9.6.19",
                 "rector/rector": "^1.0.4",
-                "topthink/think-orm": "~3.0.14"
+                "topthink/think-orm": "~3.0.14|~4.0"
             },
             "suggest": {
                 "nette/php-generator": "ModelGenerator require ^4.0"
@@ -3481,9 +3481,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-library-plus/issues",
-                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.5.4"
+                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.6.0"
             },
-            "time": "2024-11-03T14:23:08+00:00"
+            "time": "2025-03-07T12:07:21+00:00"
         },
         {
             "name": "zxin/think-redis",
@@ -5543,9 +5543,9 @@
         "ext-zlib": "*",
         "composer-runtime-api": "^2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
