@@ -4,30 +4,30 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6aa948ff29918f95c13f4d74856f4827",
+    "content-hash": "3204ee3a1af78852cfbb82d257d36de8",
     "packages": [
         {
             "name": "brick/varexporter",
-            "version": "0.5.0",
+            "version": "0.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brick/varexporter.git",
-                "reference": "84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b"
+                "reference": "af98bfc2b702a312abbcaff37656dbe419cec5bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brick/varexporter/zipball/84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b",
-                "reference": "84b2a7a91f69aa5d079aec5a0a7256ebf2dceb6b",
+                "url": "https://api.github.com/repos/brick/varexporter/zipball/af98bfc2b702a312abbcaff37656dbe419cec5bc",
+                "reference": "af98bfc2b702a312abbcaff37656dbe419cec5bc",
                 "shasum": ""
             },
             "require": {
                 "nikic/php-parser": "^5.0",
-                "php": "^7.4 || ^8.0"
+                "php": "^8.1"
             },
             "require-dev": {
                 "php-coveralls/php-coveralls": "^2.2",
-                "phpunit/phpunit": "^9.3",
-                "psalm/phar": "5.21.1"
+                "phpunit/phpunit": "^10.5",
+                "vimeo/psalm": "6.8.4"
             },
             "type": "library",
             "autoload": {
@@ -45,7 +45,7 @@
             ],
             "support": {
                 "issues": "https://github.com/brick/varexporter/issues",
-                "source": "https://github.com/brick/varexporter/tree/0.5.0"
+                "source": "https://github.com/brick/varexporter/tree/0.6.0"
             },
             "funding": [
                 {
@@ -53,7 +53,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-10T17:15:19+00:00"
+            "time": "2025-02-20T17:42:39+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -3412,16 +3412,16 @@
         },
         {
             "name": "zxin/think-library-plus",
-            "version": "v0.6.0",
+            "version": "0.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-library-plus.git",
-                "reference": "220088fc351ef58297db1f9d0bd512ce4124be6a"
+                "reference": "aab093cd0ee5864feaaf1b6bff6a58e3824d8f4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/220088fc351ef58297db1f9d0bd512ce4124be6a",
-                "reference": "220088fc351ef58297db1f9d0bd512ce4124be6a",
+                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/aab093cd0ee5864feaaf1b6bff6a58e3824d8f4b",
+                "reference": "aab093cd0ee5864feaaf1b6bff6a58e3824d8f4b",
                 "shasum": ""
             },
             "require": {
@@ -3481,9 +3481,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-library-plus/issues",
-                "source": "https://github.com/NHZEX/think-library-plus/tree/v0.6.0"
+                "source": "https://github.com/NHZEX/think-library-plus/tree/0.7.0"
             },
-            "time": "2025-03-07T12:07:21+00:00"
+            "time": "2025-03-13T08:14:15+00:00"
         },
         {
             "name": "zxin/think-redis",
