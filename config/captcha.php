@@ -3,7 +3,7 @@
 use app\Service\Captcha\CaptchaValidatorToken;
 use Zxin\Captcha\Captcha;
 
-const CAPTCHA_THROTTLE_RATE = '10/m';
+defined('CAPTCHA_THROTTLE_RATE') || define('CAPTCHA_THROTTLE_RATE', '10/m');
 
 return [
     // 访问限制
