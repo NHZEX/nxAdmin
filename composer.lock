@@ -2763,16 +2763,16 @@
         },
         {
             "name": "symfony/var-exporter",
-            "version": "v6.4.19",
+            "version": "v6.4.20",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-exporter.git",
-                "reference": "be6e71b0c257884c1107313de5d247741cfea172"
+                "reference": "998df255e9e6a15a36ae35e9c6cd818c17cf92a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/be6e71b0c257884c1107313de5d247741cfea172",
-                "reference": "be6e71b0c257884c1107313de5d247741cfea172",
+                "url": "https://api.github.com/repos/symfony/var-exporter/zipball/998df255e9e6a15a36ae35e9c6cd818c17cf92a2",
+                "reference": "998df255e9e6a15a36ae35e9c6cd818c17cf92a2",
                 "shasum": ""
             },
             "require": {
@@ -2820,7 +2820,7 @@
                 "serialize"
             ],
             "support": {
-                "source": "https://github.com/symfony/var-exporter/tree/v6.4.19"
+                "source": "https://github.com/symfony/var-exporter/tree/v6.4.20"
             },
             "funding": [
                 {
@@ -2836,7 +2836,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-02-13T09:33:32+00:00"
+            "time": "2025-03-13T09:55:08+00:00"
         },
         {
             "name": "topthink/framework",
@@ -2905,16 +2905,16 @@
         },
         {
             "name": "topthink/think-helper",
-            "version": "v3.1.10",
+            "version": "v3.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/top-think/think-helper.git",
-                "reference": "ac66cc0859a12cd5d73258f50f338aadc95e9b46"
+                "reference": "1d6ada9b9f3130046bf6922fe1bd159c8d88a33c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/top-think/think-helper/zipball/ac66cc0859a12cd5d73258f50f338aadc95e9b46",
-                "reference": "ac66cc0859a12cd5d73258f50f338aadc95e9b46",
+                "url": "https://api.github.com/repos/top-think/think-helper/zipball/1d6ada9b9f3130046bf6922fe1bd159c8d88a33c",
+                "reference": "1d6ada9b9f3130046bf6922fe1bd159c8d88a33c",
                 "shasum": ""
             },
             "require": {
@@ -2945,9 +2945,9 @@
             "description": "The ThinkPHP6 Helper Package",
             "support": {
                 "issues": "https://github.com/top-think/think-helper/issues",
-                "source": "https://github.com/top-think/think-helper/tree/v3.1.10"
+                "source": "https://github.com/top-think/think-helper/tree/v3.1.11"
             },
-            "time": "2024-11-21T01:47:51+00:00"
+            "time": "2025-04-07T06:55:59+00:00"
         },
         {
             "name": "topthink/think-orm",
@@ -3411,16 +3411,16 @@
         },
         {
             "name": "zxin/think-library-plus",
-            "version": "0.7.0",
+            "version": "0.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-library-plus.git",
-                "reference": "aab093cd0ee5864feaaf1b6bff6a58e3824d8f4b"
+                "reference": "f274acd791e738b12a50243b0e8d3fa14ea22b5b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/aab093cd0ee5864feaaf1b6bff6a58e3824d8f4b",
-                "reference": "aab093cd0ee5864feaaf1b6bff6a58e3824d8f4b",
+                "url": "https://api.github.com/repos/NHZEX/think-library-plus/zipball/f274acd791e738b12a50243b0e8d3fa14ea22b5b",
+                "reference": "f274acd791e738b12a50243b0e8d3fa14ea22b5b",
                 "shasum": ""
             },
             "require": {
@@ -3480,9 +3480,9 @@
             ],
             "support": {
                 "issues": "https://github.com/NHZEX/think-library-plus/issues",
-                "source": "https://github.com/NHZEX/think-library-plus/tree/0.7.0"
+                "source": "https://github.com/NHZEX/think-library-plus/tree/0.7.2"
             },
-            "time": "2025-03-13T08:14:15+00:00"
+            "time": "2025-04-26T03:41:34+00:00"
         },
         {
             "name": "zxin/think-redis",
@@ -5522,7 +5522,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5539,9 +5539,9 @@
         "ext-zlib": "*",
         "composer-runtime-api": "^2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
