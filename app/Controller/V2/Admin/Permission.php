@@ -64,12 +64,13 @@ class Permission extends Base
 
     #[Auth('admin.permission.edit')]
     #[Route(':id', method: 'PUT', pattern: ['id' => '\S+'])]
-    public function update(string $id, AuthScan $authScan, bool $batch = false): Response
+    public function update(string $id, AuthScan $authScan): Response
     {
         if (!$this->allowAccess()) {
             return ReplyEx::bad(CODE_CONV_ACCESS_CONTROL, '无权限执行该操作', null, 403);
         }
 
+        $batch = $this->request->param('batch');
         if ($batch) {
             $list = $this->request->put('list');
 
@@ -91,7 +92,6 @@ class Permission extends Base
                 }
                 $permissions[$name] = array_merge($permissions[$name], $item);
             }
-            $perm->setPermission($permissions);
         } else {
             $input = $this->request->only(['sort', 'desc']);
 
@@ -108,8 +108,8 @@ class Permission extends Base
             }
             $permissions = $perm->getPermission();
             $permissions[$id] = array_merge($permissions[$id], $input);
-            $perm->setPermission($permissions);
         }
+        $perm->setPermission($permissions);
 
         $authScan->export($perm->getStorage()->toArray());
 
