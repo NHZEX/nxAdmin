@@ -99,10 +99,10 @@ class WhereHelper
     public static function buildOrder(array $input, string $orderField = '_sort', ?string $tableName = null): ?array
     {
         $sort = $input[$orderField] ?? null;
-        if (empty($sort) || !str_contains($sort, ':')) {
+        if (empty($sort) || !str_contains((string) $sort, ':')) {
             return null;
         }
-        $sort = array_filter(explode(':', $sort, 2));
+        $sort = array_filter(explode(':', (string) $sort, 2));
         if (2 !== \count($sort)) {
             return null;
         }

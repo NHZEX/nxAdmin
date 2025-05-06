@@ -19,7 +19,7 @@ class EnvStruct extends BaseProperty
 
         foreach ($data as $key => $value) {
             if (isset($that->$key)
-                || preg_match($preg, $key)
+                || preg_match($preg, (string) $key)
             ) {
                 $that->$key = $value;
             }

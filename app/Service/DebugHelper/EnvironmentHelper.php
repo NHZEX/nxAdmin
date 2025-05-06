@@ -166,7 +166,7 @@ class EnvironmentHelper
 
         foreach (
             [
-                'cURL' => Closure::fromCallable([self::class, '_curlInfo']),
+                'cURL' => Closure::fromCallable(self::_curlInfo(...)),
                 'mbstring' => 'mbstring',
                 'openssl' => fn () => \defined('\OPENSSL_VERSION_TEXT') ? OPENSSL_VERSION_TEXT : 'not active',
                 'bcmath' => 'BCMath',

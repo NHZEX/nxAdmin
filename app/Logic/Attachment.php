@@ -108,9 +108,8 @@ class Attachment extends Base
         $tmpFileName = $file->getPathname();
         $name = $file->hash('sha1');
         $name .= '.'.str_pad(dechex($file->getSize()), 8, '0', \STR_PAD_LEFT);
-        $name .= '.'.$this->getImageType($tmpFileName, true);
 
-        return $name;
+        return $name.('.'.$this->getImageType($tmpFileName, true));
     }
 
     /**
@@ -121,9 +120,8 @@ class Attachment extends Base
     public function buildSaveFileName(string $name)
     {
         $savePath = substr($name, 0, 2).\DIRECTORY_SEPARATOR.substr($name, 2);
-        $savePath = date('Ymd').\DIRECTORY_SEPARATOR.$savePath;
 
-        return $savePath;
+        return date('Ymd').\DIRECTORY_SEPARATOR.$savePath;
     }
 
     /**
@@ -134,9 +132,8 @@ class Attachment extends Base
     public function getFileMime(string $filename)
     {
         $finfo = new finfo();
-        $result = $finfo->file($filename, \FILEINFO_MIME_TYPE);
 
-        return $result;
+        return $finfo->file($filename, \FILEINFO_MIME_TYPE);
     }
 
     /**
@@ -148,9 +145,8 @@ class Attachment extends Base
     public function getFileExtrnsion(string $filename)
     {
         $finfo = new finfo();
-        $result = $finfo->file($filename, \FILEINFO_EXTENSION);
 
-        return $result;
+        return $finfo->file($filename, \FILEINFO_EXTENSION);
     }
 
     /**

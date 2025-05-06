@@ -31,8 +31,6 @@ class Context
     /**
      * 获取临时数据.
      *
-     * @param null $default
-     *
      * @return mixed|null
      */
     public static function getData(string $key, $default = null)

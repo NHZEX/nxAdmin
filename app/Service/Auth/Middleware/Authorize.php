@@ -17,15 +17,8 @@ class Authorize
 {
     use JumpHelper;
 
-    private App $app;
-    private AuthGuard $auth;
-    private Permission $permission;
-
-    public function __construct(App $app, AuthGuard $auth, Permission $permission)
+    public function __construct(private App $app, private AuthGuard $auth, private Permission $permission)
     {
-        $this->app = $app;
-        $this->auth = $auth;
-        $this->permission = $permission;
     }
 
     /**

@@ -24,8 +24,8 @@ class AdminUserLogic extends Base
             ['genre', '='],
             // ['role_id', '='],
             ['status', '=', 'empty' => '\issue'],
-            ['username', 'like', fn ($val) => trim($val).'%'],
-            ['nickname', 'like', fn ($val) => trim($val).'%'],
+            ['username', 'like', fn ($val) => trim((string) $val).'%'],
+            ['nickname', 'like', fn ($val) => trim((string) $val).'%'],
         ]);
 
         $paginate = (new AdminUser())
@@ -86,7 +86,7 @@ class AdminUserLogic extends Base
         }
 
         // v2 兼容代码
-        $params['password'] = hash('sha256', $params['password']);
+        $params['password'] = hash('sha256', (string) $params['password']);
 
         $user = AdminUser::create($params);
 
@@ -107,11 +107,11 @@ class AdminUserLogic extends Base
         }
 
         if (isset($params['password'])) {
-            if (empty(trim($params['password']))) {
+            if (empty(trim((string) $params['password']))) {
                 unset($params['password']);
             } else {
                 // v2 兼容代码
-                $params['password'] = hash('sha256', $params['password']);
+                $params['password'] = hash('sha256', (string) $params['password']);
             }
         }
 

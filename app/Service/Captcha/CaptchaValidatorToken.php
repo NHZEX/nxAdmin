@@ -44,7 +44,7 @@ class CaptchaValidatorToken extends CaptchaValidatorAbstract
         }
         try {
             $plaintext = decrypt_data($ciphertext, $this->secureKey, 'aes-128-gcm', 'captcha');
-        } catch (RuntimeException $exception) {
+        } catch (RuntimeException) {
             return false;
         }
         $palyload = unserialize($plaintext, [

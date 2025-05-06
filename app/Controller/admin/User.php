@@ -61,7 +61,7 @@ class User extends Base
         }
 
         $data = $this->getFilterInput();
-        if (isset($data['password']) && empty(trim($data['password']))) {
+        if (isset($data['password']) && empty(trim((string) $data['password']))) {
             unset($data['password']);
         }
         $result->save($data);

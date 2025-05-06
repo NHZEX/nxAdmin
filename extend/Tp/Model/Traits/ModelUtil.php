@@ -24,7 +24,7 @@ trait ModelUtil
     {
         try {
             return isset($this[$field]);
-        } catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException) {
             return false;
         }
     }

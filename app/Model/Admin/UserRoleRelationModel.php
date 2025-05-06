@@ -71,9 +71,7 @@ final class UserRoleRelationModel extends Base
             $permissionGroup[] = \app\Logic\AdminRole::queryPermission($roleId, $force);
         }
 
-        $permission = array_merge(...$permissionGroup);
-
-        return $permission;
+        return array_merge(...$permissionGroup);
     }
 
     public static function listUserRolesId(array $userIds): array

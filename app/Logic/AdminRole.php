@@ -51,7 +51,7 @@ class AdminRole extends Base
             $ext = Cache::get($key);
         } else {
             $value = AdminRoleModel::where('id', $roleId)->value('ext', '{}');
-            $ext = json_decode($value, true);
+            $ext = json_decode((string) $value, true);
             Cache::set($key, $ext);
         }
 

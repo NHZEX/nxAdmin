@@ -84,7 +84,7 @@ trait OptimLock
     {
         try {
             $lockVer = $this->getData($this->optimLock);
-        } catch (InvalidArgumentException $exception) {
+        } catch (InvalidArgumentException) {
             $lockVer = $this->getOrigin($this->optimLock);
         }
 

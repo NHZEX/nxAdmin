@@ -44,7 +44,7 @@ abstract class Base extends ValidateBase
      */
     protected function isNumber($value, ?string $params)
     {
-        $isInt = str_contains($params, 'int');
+        $isInt = str_contains((string) $params, 'int');
         if (($result = filter_var($value, $isInt ? FILTER_VALIDATE_INT : \FILTER_VALIDATE_FLOAT)) === false) {
             if ($isInt) {
                 return ':attribute必须是一个整数';

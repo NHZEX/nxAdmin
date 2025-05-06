@@ -25,7 +25,7 @@ trait JumpHelper
      *
      * @return Response|View
      */
-    protected function success($msg = '', ?string $url = null, $data = '', int $wait = 3, array $header = [])
+    protected function success(mixed $msg = '', ?string $url = null, mixed $data = '', int $wait = 3, array $header = [])
     {
         if (null === $url && null === ($referer = request()->header('referer'))) {
             $url = $referer;
@@ -47,7 +47,7 @@ trait JumpHelper
      *
      * @return Response|View
      */
-    protected function error($msg = '', ?string $url = null, $data = '', int $wait = 3, array $header = [])
+    protected function error(mixed $msg = '', ?string $url = null, mixed $data = '', int $wait = 3, array $header = [])
     {
         if (null === $url) {
             $url = request()->isAjax() ? '' : 'javascript:history.back(-1);';

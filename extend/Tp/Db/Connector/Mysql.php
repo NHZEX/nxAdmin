@@ -13,9 +13,7 @@ class Mysql extends \think\db\connector\Mysql
 
         try {
             $result = null;
-            if (\is_callable($callback)) {
-                $result = $callback($this);
-            }
+            $result = $callback($this);
 
             $this->commit();
 

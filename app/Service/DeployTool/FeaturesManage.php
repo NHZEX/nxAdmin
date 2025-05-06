@@ -133,20 +133,12 @@ abstract class FeaturesManage
                 continue;
             }
 
-            switch ($type) {
-                case 'text':
-                    $result = $this->inputText((string) $value, $desc, $verify);
-                    break;
-                case 'int':
-                    $result = (int) $this->inputText($value, $desc, $verify);
-                    break;
-                case 'password':
-                    // TODO password
-                    $result = '';
-                    break;
-                default:
-                    throw new InputException("无法处理的输入类型: {$key} => {$type}");
-            }
+            $result = match ($type) {
+                'text' => $this->inputText((string) $value, $desc, $verify),
+                'int' => (int) $this->inputText($value, $desc, $verify),
+                'password' => '',
+                default => throw new InputException("无法处理的输入类型: {$key} => {$type}"),
+            };
 
             $data[$key] = $result;
         }
@@ -174,7 +166,7 @@ abstract class FeaturesManage
                 $prefix = array_shift($ekey);
                 $group = array_shift($ekey);
                 $name = implode('_', $ekey);
-                $group = strtolower($group);
+                $group = strtolower((string) $group);
             }
             // 筛选有效数据库段
             if ($envPrefix === $prefix) {
@@ -271,7 +263,7 @@ abstract class FeaturesManage
                 if (empty($param)) {
                     $param = [];
                 } elseif (!\is_array($param)) {
-                    $param = explode(',', $param);
+                    $param = explode(',', (string) $param);
                 }
                 $param = [$value, $rule, $param];
                 $rule = 'is';

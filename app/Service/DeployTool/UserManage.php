@@ -141,7 +141,7 @@ class UserManage extends FeaturesManage
             $question->setMaxAttempts(3);
             $admin_username = $this->askQuestion($input, $output, $question);
         } else {
-            if (\strlen($admin_username) < 6) {
+            if (\strlen((string) $admin_username) < 6) {
                 throw new Exception('用户名长度必须大于等于6位');
             }
         }
@@ -159,7 +159,7 @@ class UserManage extends FeaturesManage
             $question->setMaxAttempts(3);
             $admin_password = $this->askQuestion($input, $output, $question);
 
-            $question = new Question("重新输入密码(隐藏)\t\t", str_repeat('*', \strlen($admin_password)));
+            $question = new Question("重新输入密码(隐藏)\t\t", str_repeat('*', \strlen((string) $admin_password)));
             $question->setHidden(true);
             $question->setValidator(function ($value) use ($admin_password) {
                 if ($admin_password !== $value) {
@@ -171,7 +171,7 @@ class UserManage extends FeaturesManage
             $question->setMaxAttempts(3);
             $this->askQuestion($input, $output, $question);
         } else {
-            if (\strlen($admin_password) < 6) {
+            if (\strlen((string) $admin_password) < 6) {
                 throw new Exception('密码长度必须大于等于6位');
             }
         }
@@ -183,7 +183,7 @@ class UserManage extends FeaturesManage
         $au = new AdminUser();
         $au->genre = AdminUser::GENRE_SUPER_ADMIN;
         $au->username = $au->nickname = $admin_username;
-        $au->password = hash('sha256', $admin_password);
+        $au->password = hash('sha256', (string) $admin_password);
         $au->role_id = 0;
         if ($this->deploy->isDryRun()) {
             $creatde_sql = $au->fetchSql(true)->insert($au->getData());

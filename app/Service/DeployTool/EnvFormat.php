@@ -27,7 +27,7 @@ class EnvFormat
             $header = '# Date:'.date('c')."\n\n";
         }
 
-        $data = (array) $contents;
+        $data = $contents;
         ksort($data);
 
         return $header.self::generate($data);
@@ -60,11 +60,11 @@ class EnvFormat
                 $value = "\"{$value}\"";
             }
 
-            if (!empty($ts) && $ts !== substr($key, 0, 3)) {
+            if (!empty($ts) && $ts !== substr((string) $key, 0, 3)) {
                 $text .= \PHP_EOL;
             }
             $text .= "{$key}={$value}\n";
-            $ts = substr($key, 0, 3);
+            $ts = substr((string) $key, 0, 3);
         }
 
         return $text;

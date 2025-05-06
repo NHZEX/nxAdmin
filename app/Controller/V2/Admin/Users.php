@@ -78,7 +78,7 @@ class Users extends Base
     public function resetPassword(int $id): Response
     {
         $password = $this->request->param('password');
-        $password = trim($password);
+        $password = trim((string) $password);
 
         if (empty($password)) {
             return ReplyEx::bad(code: 1, message: '密码不能为空');

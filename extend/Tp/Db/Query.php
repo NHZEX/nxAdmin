@@ -23,7 +23,7 @@ class Query extends \think\db\Query
      *
      * @return $this
      */
-    public function wherePk($op, $condition = null)
+    public function wherePk(mixed $op, mixed $condition = null)
     {
         return $this->where($this->getPk(), $op, $condition);
     }

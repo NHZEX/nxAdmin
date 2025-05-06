@@ -52,7 +52,7 @@ trait ModelEvent
             }
 
             return true;
-        } catch (ModelEventException $e) {
+        } catch (ModelEventException) {
             return false;
         }
     }

@@ -28,7 +28,7 @@ class Event
      * @param mixed $params 传入参数
      * @param bool $once 只获取一个有效返回值
      */
-    public function trigger(string $event, $params = null, bool $once = false)
+    public function trigger(string $event, mixed $params = null, bool $once = false)
     {
         $result = [];
         if (isset($this->event[$event])) {

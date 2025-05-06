@@ -58,24 +58,22 @@ class System extends Base
      */
     public static function getLabel(string $label, ?string $default = null, ?int &$lockVersion = 0, ?int &$updatedAt = 0): ?string
     {
-        $result = Context::rememberData("system-label:{$label}", function () use ($label) {
-            return app()->cache->remember("system-label:{$label}", function () use ($label) {
-                /** @var System|null $item */
-                $item = (new System())
-                    ->where('label', '=', $label)
-                    ->find();
+        $result = Context::rememberData("system-label:{$label}", fn () => app()->cache->remember("system-label:{$label}", function () use ($label) {
+            /** @var System|null $item */
+            $item = (new System())
+                ->where('label', '=', $label)
+                ->find();
 
-                if ($item) {
-                    return [
-                        'value' => $item->value,
-                        'updated_at' => $item->updated_at,
-                        'lock_version' => $item->lock_version,
-                    ];
-                } else {
-                    return null;
-                }
-            }, 1800);
-        });
+            if ($item) {
+                return [
+                    'value' => $item->value,
+                    'updated_at' => $item->updated_at,
+                    'lock_version' => $item->lock_version,
+                ];
+            } else {
+                return null;
+            }
+        }, 1800));
 
         if ($result) {
             $lockVersion = $result['lock_version'];
@@ -205,7 +203,7 @@ class System extends Base
             return null;
         }
 
-        return array_map([self::class, 'parseLock'], $list);
+        return array_map(self::parseLock(...), $list);
     }
 
     public static function lockStat(string $label)
