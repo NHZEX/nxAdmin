@@ -70,7 +70,7 @@ class ExceptionLogs extends Base
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());
 
-        $msg = \trim_root_path($msg);
+        $msg = trim_root_path($msg);
 
         $traceInfo = substr($msg, 0, 65535);
 

@@ -31,6 +31,7 @@ return $config
         // 暂时不要发生过大的变动范围
         'blank_line_between_import_groups' => false,
         'declare_strict_types' => false,
+        'phpdoc_align' => ['align' => 'left'],
     ])
     ->setRiskyAllowed(true)
     ->setFinder($finder);

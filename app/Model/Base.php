@@ -13,23 +13,23 @@ use Tp\Model\Traits\ModelUtil;
 use Tp\Model\Traits\OptimLock;
 
 /**
- * @method Generator|$this[] cursor($data = null)                                                            static 游标查询
- * @method bool              chunk(int $count, callable $callback, $column = null, string $order = 'asc')    static 分块查询
- * @method ThinkModel        withAttr($name, callable $callback = null)                                      设置数据字段获取器
- * @method Query             field($field)
- * @method Query             fieldRaw(string $field)
- * @method Query             group(string|array $group)
- * @method Query             distinct()
- * @method Query             duplicate($duplicate)
- * @method Query             join($join, string $condition = null, string $type = 'INNER', array $bind = [])
- * @method Query             leftJoin($join, string $condition = null, array $bind = [])
- * @method Query             rightJoin($join, string $condition = null, array $bind = [])
- * @method Query             fullJoin($join, string $condition = null, array $bind = [])
- * @method Query             fetchSql(bool $fetch = true)
- * @method mixed             transaction(callable $callback)                                                 static
- * @method void              startTrans()                                                                    static
- * @method void              commit()                                                                        static
- * @method void              rollback()                                                                      static
+ * @method Generator|$this[] cursor($data = null) static 游标查询
+ * @method bool chunk(int $count, callable $callback, $column = null, string $order = 'asc') static 分块查询
+ * @method ThinkModel withAttr($name, callable $callback = null) 设置数据字段获取器
+ * @method Query field($field)
+ * @method Query fieldRaw(string $field)
+ * @method Query group(string|array $group)
+ * @method Query distinct()
+ * @method Query duplicate($duplicate)
+ * @method Query join($join, string $condition = null, string $type = 'INNER', array $bind = [])
+ * @method Query leftJoin($join, string $condition = null, array $bind = [])
+ * @method Query rightJoin($join, string $condition = null, array $bind = [])
+ * @method Query fullJoin($join, string $condition = null, array $bind = [])
+ * @method Query fetchSql(bool $fetch = true)
+ * @method mixed transaction(callable $callback) static
+ * @method void startTrans() static
+ * @method void commit() static
+ * @method void rollback() static
  */
 abstract class Base extends ThinkModel
 {

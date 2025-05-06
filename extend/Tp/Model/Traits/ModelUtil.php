@@ -31,14 +31,14 @@ trait ModelUtil
 
     public function hasRawData(string $field): bool
     {
-        return array_key_exists($field, $this->getData());
+        return \array_key_exists($field, $this->getData());
     }
 
     /**
      * 自定义查询集合.
      *
-     * @param array  $data
-     * @param array  $query
+     * @param array $data
+     * @param array $query
      * @param string $mapName
      */
     protected static function setQueryMap($data = [], $query = [], $mapName = 'queryMap'): array

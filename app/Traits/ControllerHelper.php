@@ -37,7 +37,7 @@ trait ControllerHelper
     /**
      * 构建筛选条件.
      *
-     * @param array                                                                                                                                                 $input 输入数据
+     * @param array $input 输入数据
      * @param array<array{0:string, 1: string, 2?: string, empty?: callable|(callable(string, array): bool), find?: array<string>|callable (array, input): string}> $where
      *                                                                                                                                                                     筛选设置 ['字段名', '操作符', '值', 'empty' => '值验证回调', 'find' => '值来源字段名']
      */

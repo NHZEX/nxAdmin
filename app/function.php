@@ -69,5 +69,5 @@ function global_security_salt(): string
 
 function global_disabled_remote_log(): void
 {
-    \app()->log->close('remote');
+    app()->log->close('remote');
 }

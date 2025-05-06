@@ -62,7 +62,7 @@ class AdminUserLogic extends Base
     {
         return AdminUser::buildOption(
             ['id', 'username', 'nickname'],
-            function (Query $query) {
+            function (Query $query): void {
                 $query->whereIn('genre', [
                     AdminUser::GENRE_ADMIN,
                     AdminUser::GENRE_SUPER_ADMIN,

@@ -14,9 +14,10 @@ class WhereHelper
 {
     /**
      * 构建筛选条件.
+     *
      * @deprecated
      *
-     * @param array                                                                                                                                                                 $input 输入数据
+     * @param array $input 输入数据
      * @param array<array{0:string, 1: string, 2?: string, empty?: callable|(callable(string, array): bool), find?: array<string>|callable (array, string): string, tf?: callable}> $where 筛选设置 ['字段名', '操作符', '值', 'empty' => '值验证回调', 'find' => '值来源字段名']
      */
     public static function buildWhere(array $input, array $where): array
@@ -142,6 +143,7 @@ class WhereHelper
             if (null === $result) {
                 continue;
             }
+
             return $result;
         }
 
@@ -159,11 +161,11 @@ class WhereHelper
     public static function conditionBuilderByDate(string $field, string|array|Closure|null $inputKey = null, bool $dateStr = false, bool $msec = false, bool $timeRange = false, ?string $default = null): ConditionBuilder
     {
         return ConditionBuilder::make($field, $inputKey, 'between', default: $default)
-            ->test(before: fn ($val) => $val && (is_string($val) || is_array($val)))
+            ->test(before: fn ($val) => $val && (\is_string($val) || \is_array($val)))
             ->convert(function ($val) use ($dateStr, $msec, $timeRange) {
-                if (is_string($val)) {
+                if (\is_string($val)) {
                     return self::parseDate($val, $dateStr, $msec);
-                } elseif (count($val) === 2) {
+                } elseif (2 === \count($val)) {
                     $d1 = (int) $val[0];
                     $d2 = (int) $val[1];
                     $dateFormat = $timeRange ? ['Y-m-d H:i:00', 'Y-m-d H:i:59'] : ['Y-m-d 00:00:00', 'Y-m-d 23:59:59'];
@@ -171,12 +173,14 @@ class WhereHelper
                         $t1 = $dateStr ? date($dateFormat[0], $d1) : strtotime(date($dateFormat[0], $d1));
                         $t2 = $dateStr ? date($dateFormat[1], $d2) : strtotime(date($dateFormat[1], $d2));
                         if ($msec) {
-                           $t1 = "{$t1}000";
-                           $t2 = "{$t2}000";
+                            $t1 = "{$t1}000";
+                            $t2 = "{$t2}000";
                         }
+
                         return [$t1, $t2];
                     }
                 }
+
                 return null;
             });
     }
@@ -194,24 +198,26 @@ class WhereHelper
             'this_year' => [date('Y-01-01 00:00:00'), date('Y-m-d 23:59:59')],
             default => true,
         };
-        if ($result !== true) {
+        if (true !== $result) {
             $t1 = $dateStr ? $result[0] : strtotime($result[0]);
             $t2 = $dateStr ? $result[1] : strtotime($result[1]);
+
             return [$msec ? "{$t1}000" : $t1, $msec ? "{$t2}000" : $t2];
         }
 
         if (Preg::isMatch('/^last_(\d+)d/', $command)) {
             $days = substr($command, 5, -1);
-            $dateRange = [date('Y-m-d 00:00:00', strtotime('-' . $days . ' day')), date('Y-m-d 23:59:59')];
+            $dateRange = [date('Y-m-d 00:00:00', strtotime('-'.$days.' day')), date('Y-m-d 23:59:59')];
             $t1 = $dateStr ? $dateRange[0] : strtotime($dateRange[0]);
             $t2 = $dateStr ? $dateRange[1] : strtotime($dateRange[1]);
+
             return [$msec ? "{$t1}000" : $t1, $msec ? "{$t2}000" : $t2];
         } else {
             return null;
         }
     }
 
-    public static function conditionBuilderByNumberRange(string $field, string|array|Closure $inputKey, Closure|null $format = null): ConditionBuilder
+    public static function conditionBuilderByNumberRange(string $field, string|array|Closure $inputKey, ?Closure $format = null): ConditionBuilder
     {
         return ConditionBuilder::make(function (string $value) use ($field, $format) {
             if (!Preg::match('/^(\d+(?:\.\d+)?|nil)~(\d+(?:\.\d+)?|nil)$/', $value, $matches)) {
@@ -225,17 +231,17 @@ class WhereHelper
 
             if ($format) {
                 if ('nil' !== $min) {
-                    $min = call_user_func($format, $min);
+                    $min = \call_user_func($format, $min);
                 }
                 if ('nil' !== $max) {
-                    $max = call_user_func($format, $max);
+                    $max = \call_user_func($format, $max);
                 }
             }
 
             if ('nil' !== $max) {
                 if (str_contains($max, '.')) {
                     [$num1, $num2] = explode('.', $max);
-                    $max = $num1 . '.' . str_pad(str_pad($num2, 3, '0'), 8, '9');
+                    $max = $num1.'.'.str_pad(str_pad($num2, 3, '0'), 8, '9');
                 } else {
                     $max .= '.00099999';
                 }
@@ -249,6 +255,6 @@ class WhereHelper
 
             return [$field, 'between', [$min, $max]];
         }, $inputKey, 'between')
-            ->test(before: fn ($val) => $val && is_string($val));
+            ->test(before: fn ($val) => $val && \is_string($val));
     }
 }

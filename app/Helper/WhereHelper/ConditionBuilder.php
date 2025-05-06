@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace app\Helper\WhereHelper;
 
 use Closure;
+use InvalidArgumentException;
 use think\helper\Str;
 
 class ConditionBuilder
@@ -30,16 +31,16 @@ class ConditionBuilder
 
     /**
      * @param string|Closure(string $value, string $key, ConditionBuilder $builder): mixed $field
-     * @param string|string[]|Closure(ConditionBuilder $builder): (string|null)             $inputKey
+     * @param string|string[]|Closure(ConditionBuilder $builder): (string|null) $inputKey
      */
     public static function make(
         string|Closure $field,
         string|array|Closure|null $inputKey,
         ?string $operator = null,
-        ?string $default = null
+        ?string $default = null,
     ): self {
         if ($field instanceof Closure && null === $inputKey) {
-            throw new \InvalidArgumentException('inputKey must not be null when field is Closure');
+            throw new InvalidArgumentException('inputKey must not be null when field is Closure');
         }
 
         return new self(
@@ -119,7 +120,7 @@ class ConditionBuilder
                     $value = $this->default;
                 }
             } else {
-                if (null === $params[$key] && $this->default !== null) {
+                if (null === $params[$key] && null !== $this->default) {
                     $value = $this->default;
                 } else {
                     $value = $params[$key];
@@ -131,7 +132,7 @@ class ConditionBuilder
                     continue;
                 }
             } elseif ($this->allowZero) {
-                if (!($value === 0 || $value === '0') && empty($value)) {
+                if (!(0 === $value || '0' === $value) && empty($value)) {
                     continue;
                 }
             } elseif (empty($value)) {
@@ -147,7 +148,7 @@ class ConditionBuilder
                     continue;
                 }
             } elseif ($this->allowZero) {
-                if (!($value === 0 || $value === '0') && empty($value)) {
+                if (!(0 === $value || '0' === $value) && empty($value)) {
                     continue;
                 }
             } elseif (empty($value)) {

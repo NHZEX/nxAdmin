@@ -83,6 +83,7 @@ class ReplyEx
         if (200 > $httpCode || $httpCode > 299) {
             throw new RuntimeException('http code only 200 ~ 299');
         }
+
         return self::message(data: $data, code: $code, message: $message, httpCode: $httpCode, merge: $merge);
     }
 

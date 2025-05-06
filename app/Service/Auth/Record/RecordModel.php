@@ -21,7 +21,7 @@ use think\Model;
  * @property array $details
  *
  * ↓↓ virtual props ↓↓
- * @property int    $group_id
+ * @property int $group_id
  * @property string $module
  */
 class RecordModel extends Model

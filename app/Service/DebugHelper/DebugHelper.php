@@ -6,6 +6,7 @@ namespace app\Service\DebugHelper;
 
 use app\Service\Context;
 use ArrayObject;
+use Closure;
 use stdClass;
 use think\App;
 use Zxin\Think\Redis\RedisManager;
@@ -83,7 +84,7 @@ class DebugHelper
         return $message;
     }
 
-    public static function fnExecuteTimeWithRecord(string $name, \Closure $fn): mixed
+    public static function fnExecuteTimeWithRecord(string $name, Closure $fn): mixed
     {
         self::startTime($name);
         try {

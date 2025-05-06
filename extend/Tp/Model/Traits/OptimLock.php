@@ -20,7 +20,7 @@ use function is_numeric;
  * @mixin Model
  *
  * @method static Query wherePk($op, $condition = null) 指定主键查询条件
- * @method        array getTableFields($tableName = '')
+ * @method array getTableFields($tableName = '')
  *
  * @property string|false $optimLock
  */

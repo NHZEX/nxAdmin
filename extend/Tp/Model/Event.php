@@ -13,7 +13,7 @@ class Event
     /**
      * 注册回调方法.
      *
-     * @param string   $event    事件名
+     * @param string $event 事件名
      * @param callable $callback 回调方法
      */
     public function listen(string $event, callable $callback): void
@@ -24,9 +24,9 @@ class Event
     /**
      * 触发事件.
      *
-     * @param string $event  事件名
-     * @param mixed  $params 传入参数
-     * @param bool   $once   只获取一个有效返回值
+     * @param string $event 事件名
+     * @param mixed $params 传入参数
+     * @param bool $once 只获取一个有效返回值
      */
     public function trigger(string $event, $params = null, bool $once = false)
     {

@@ -26,7 +26,7 @@ class Channel extends \think\log\Channel
 
         if ('' === $msg) {
             $msg = '"(empty string)"';
-        } else if (null === $msg) {
+        } elseif (null === $msg) {
             $msg = '"(null)"';
         }
 

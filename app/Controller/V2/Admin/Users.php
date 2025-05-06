@@ -31,7 +31,7 @@ class Users extends Base
         return ReplyEx::table($result);
     }
 
-    #[Auth("login")]
+    #[Auth('login')]
     public function select(): Response
     {
         return ReplyEx::success(AdminUserLogic::instance()->select());

@@ -5,6 +5,7 @@ namespace app\Exception;
 use app\Traits\PrintAbnormal;
 use LogicException;
 use think\Response;
+use Throwable;
 
 /**
  * Class BusinessResult.
@@ -20,14 +21,14 @@ class BusinessResult extends LogicException
     protected ?int $httpCode = null;
     protected ?Response $response = null;
 
-    public static function create(string $message = '', int $code = 0, ?\Throwable $previous = null, ?int $httpCode = null, ?Response $response = null): BusinessResult
+    public static function create(string $message = '', int $code = 0, ?Throwable $previous = null, ?int $httpCode = null, ?Response $response = null): self
     {
-        return (new BusinessResult($message, $code, $previous))->setHttpCode($httpCode)->setResponse($response);
+        return (new self($message, $code, $previous))->setHttpCode($httpCode)->setResponse($response);
     }
 
-    public static function createWithNotRecord(string $message = '', int $code = 0, ?\Throwable $previous = null, ?int $httpCode = null, ?Response $response = null): BusinessResult
+    public static function createWithNotRecord(string $message = '', int $code = 0, ?Throwable $previous = null, ?int $httpCode = null, ?Response $response = null): self
     {
-        $error = new BusinessResult($message, $code, $previous);
+        $error = new self($message, $code, $previous);
         $error->setFlag(self::FLAG_IGNORE_LOG);
         $error->setHttpCode($httpCode);
         $error->setResponse($response);

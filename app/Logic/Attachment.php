@@ -156,8 +156,8 @@ class Attachment extends Base
     /**
      * 提取图像类型.
      *
-     * @param string $image  图片名称
-     * @param bool   $to_ext 获取后缀
+     * @param string $image 图片名称
+     * @param bool $to_ext 获取后缀
      *
      * @return false|int|string
      */

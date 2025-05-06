@@ -6,6 +6,7 @@ namespace app\Model;
 
 use app\Service\Context;
 use app\Service\Transaction\MainTrans;
+use LogicException;
 use function array_map;
 use function bin2hex;
 use function is_countable;
@@ -58,7 +59,7 @@ class System extends Base
     public static function getLabel(string $label, ?string $default = null, ?int &$lockVersion = 0, ?int &$updatedAt = 0): ?string
     {
         $result = Context::rememberData("system-label:{$label}", function () use ($label) {
-            return \app()->cache->remember("system-label:{$label}", function () use ($label) {
+            return app()->cache->remember("system-label:{$label}", function () use ($label) {
                 /** @var System|null $item */
                 $item = (new System())
                     ->where('label', '=', $label)
@@ -79,6 +80,7 @@ class System extends Base
         if ($result) {
             $lockVersion = $result['lock_version'];
             $updatedAt = $result['updated_at'];
+
             return $result['value'] ?? $default;
         }
 
@@ -87,6 +89,7 @@ class System extends Base
 
     /**
      * 设置一个值
+     *
      * @deprecated
      */
     public static function setLabel(string $label, string $value): bool
@@ -97,7 +100,7 @@ class System extends Base
             ->insert();
 
         $cacheKey = "system-label:{$label}";
-        \app()->cache->delete($cacheKey);
+        app()->cache->delete($cacheKey);
         Context::removeData($cacheKey);
 
         return true;
@@ -105,13 +108,13 @@ class System extends Base
 
     public static function setLabelEx(string $label, string $value, ?int $lockVersion = null): void
     {
-        MainTrans::callback(function () use ($label, $value, $lockVersion) {
+        MainTrans::callback(function () use ($label, $value, $lockVersion): void {
             /** @var System|null $item */
             $item = (new System())->where('label', '=', $label)->find();
             $nowTime = time();
             if ($item && $value !== $item->value) {
-                if ($lockVersion !== null && $item->lock_version !== $lockVersion) {
-                    throw new \LogicException("set label {$label} lock version timeout");
+                if (null !== $lockVersion && $item->lock_version !== $lockVersion) {
+                    throw new LogicException("set label {$label} lock version timeout");
                 } else {
                     $item->value = $value;
                     $item->updated_at = $nowTime;
@@ -128,12 +131,13 @@ class System extends Base
             }
         });
         $cacheKey = "system-label:{$label}";
-        \app()->cache->delete($cacheKey);
+        app()->cache->delete($cacheKey);
         Context::removeData($cacheKey);
     }
 
     /**
      * @return false|string
+     *
      * @deprecated
      */
     public static function setLock(string $label, int $ttl)

@@ -21,8 +21,8 @@ function is_debug_demo()
 /**
  * 渲染模板输出.
  *
- * @param array    $vars   模板变量
- * @param int      $code   状态码
+ * @param array $vars 模板变量
+ * @param int $code 状态码
  * @param callable $filter 内容过滤
  */
 function view_current($vars = [], $code = 200, $filter = null): View
@@ -178,9 +178,9 @@ function query_mysql_exist_database(string $database, ?string $connect = null): 
  *
  * @deprecated
  *
- * @param string      $string  字符串
- * @param int         $length  截取长度
- * @param string      $dot     省略符
+ * @param string $string 字符串
+ * @param int $length 截取长度
+ * @param string $dot 省略符
  * @param string|null $charset 编码
  */
 function mb_strcut_omit(string $string, int $length, string $dot = '...', ?string $charset = null): string
@@ -201,6 +201,7 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
     return $result;
 }
 
-function trim_root_path(string $content): string {
-    return \str_replace(\rtrim(\root_path(), '\\\/'), '', $content);
+function trim_root_path(string $content): string
+{
+    return str_replace(rtrim(root_path(), '\\\/'), '', $content);
 }

@@ -7,6 +7,7 @@ namespace app\Traits\Model;
 use app\Model\Base;
 use Closure;
 use Generator;
+use stdClass;
 use think\db\Connection;
 use think\db\Query;
 use think\db\Raw;
@@ -184,7 +185,7 @@ trait ModelHelper
 
     public static function buildBindValue(mixed $value): object
     {
-        $obj = new \stdClass();
+        $obj = new stdClass();
         $obj->buildBindValue = true;
 
         if (is_numeric($value)) {
@@ -209,16 +210,16 @@ trait ModelHelper
 
         foreach ($set as $key => $val) {
             $data[] = "'{$key}'";
-            if (is_float($val)) {
+            if (\is_float($val)) {
                 $data[] = '?';
                 $values[] = [$val, Connection::PARAM_FLOAT];
-            } elseif (is_int($val)) {
+            } elseif (\is_int($val)) {
                 $data[] = '?';
                 $values[] = [$val, Connection::PARAM_INT];
-            } elseif ($val instanceof \stdClass && isset($val->buildBindValue)) {
+            } elseif ($val instanceof stdClass && isset($val->buildBindValue)) {
                 $data[] = '?';
                 $values[] = [$val->value, $val->type];
-            } else if (\is_object($val) || \is_array($val)) {
+            } elseif (\is_object($val) || \is_array($val)) {
                 $data[] = 'CONVERT(?, JSON)';
                 $values[] = json_encode_ex($val);
             } else {

@@ -26,9 +26,9 @@ use Tp\Model\Traits\MysqlJson;
  * @property int $lock_version 锁版本
  *
  * ↓↓ virtual props ↓↓
- * @property array  $auth        权限
+ * @property array $auth 权限
  * @property string $status_desc 状态描述
- * @property string $genre_desc  类型描述
+ * @property string $genre_desc 类型描述
  */
 class AdminRole extends Base implements \app\Contracts\ModelAccessLimit
 {

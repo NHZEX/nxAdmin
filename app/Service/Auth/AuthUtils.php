@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace app\Service\Auth;
@@ -16,15 +17,17 @@ class AuthUtils
             if ($is) {
                 $str .= '(\.\S+)?';
             }
+
             return $str;
         }, $patterns);
-        $regular = sprintf('#^(%s)$#m', join('|', $patterns));
+        $regular = \sprintf('#^(%s)$#m', implode('|', $patterns));
         $permission = [];
         foreach (Permission::getInstance()->allPermission() as $key => $_) {
             if (Preg::isMatch($regular, $key)) {
                 $permission[] = $key;
             }
         }
+
         return $permission;
     }
 }

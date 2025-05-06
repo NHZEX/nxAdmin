@@ -128,11 +128,11 @@ class ExceptionHandle extends Handle
         }
         // 通用业务异常重写为 http
         if ($e instanceof BusinessResult) {
-            if ($e->getHttpCode() !== null) {
+            if (null !== $e->getHttpCode()) {
                 RecordHelper::recordException($e);
 
                 return Reply::message($e->getCode(), $e->getMessage(), null, $e->getHttpCode());
-            } elseif ($e->getResponse() !== null) {
+            } elseif (null !== $e->getResponse()) {
                 RecordHelper::recordException($e);
 
                 return $e->getResponse();
@@ -196,20 +196,21 @@ class ExceptionHandle extends Handle
         $trace = $e;
         $i = 0;
         do {
-            $msg .= "exception: [#{$i}] \\" . get_class($trace) . "\n";
+            $msg .= "exception: [#{$i}] \\".$trace::class."\n";
             $msg .= ">message: [{$trace->getCode()}] {$trace->getMessage()}\n";
             $msg .= ">file: {$trace->getFile()}:{$trace->getLine()}\n";
-            if ($showSql && \app()->isDebug() && $trace instanceof PDOException) {
+            if ($showSql && app()->isDebug() && $trace instanceof PDOException) {
                 $sqlInfo = $trace->getData();
                 unset($sqlInfo['Database Config']);
                 $errMsg = var_export($sqlInfo, true);
-                $msg .= 'sql: ' . $errMsg . "\n";
+                $msg .= 'sql: '.$errMsg."\n";
             }
             if ($showTrace) {
                 $msg .= "trace: {$trace->getTraceAsString()}\n";
             }
-            $i++;
+            ++$i;
         } while ($trace = $trace->getPrevious());
-        return \trim_root_path($msg);
+
+        return trim_root_path($msg);
     }
 }

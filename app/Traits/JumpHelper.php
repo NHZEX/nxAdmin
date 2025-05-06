@@ -17,11 +17,11 @@ trait JumpHelper
     /**
      * 操作成功跳转.
      *
-     * @param mixed       $msg    提示信息
-     * @param string|null $url    跳转的URL地址
-     * @param mixed       $data   返回的数据
-     * @param int         $wait   跳转等待时间
-     * @param array       $header 发送的Header信息
+     * @param mixed $msg 提示信息
+     * @param string|null $url 跳转的URL地址
+     * @param mixed $data 返回的数据
+     * @param int $wait 跳转等待时间
+     * @param array $header 发送的Header信息
      *
      * @return Response|View
      */
@@ -39,11 +39,11 @@ trait JumpHelper
     /**
      * 操作错误跳转.
      *
-     * @param mixed  $msg    提示信息
-     * @param string $url    跳转的URL地址
-     * @param mixed  $data   返回的数据
-     * @param int    $wait   跳转等待时间
-     * @param array  $header 发送的Header信息
+     * @param mixed $msg 提示信息
+     * @param string $url 跳转的URL地址
+     * @param mixed $data 返回的数据
+     * @param int $wait 跳转等待时间
+     * @param array $header 发送的Header信息
      *
      * @return Response|View
      */
@@ -60,7 +60,7 @@ trait JumpHelper
 
     /**
      * @param int|string $code
-     * @param string     $data
+     * @param string $data
      *
      * @return Response|View
      */
