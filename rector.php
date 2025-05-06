@@ -3,8 +3,6 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\Php73\Rector\FuncCall\JsonThrowOnErrorRector;
-use Rector\Php74\Rector\LNumber\AddLiteralSeparatorToNumberRector;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -21,8 +19,6 @@ return RectorConfig::configure()
         __DIR__ . '/app/auth_storage.php',
         __DIR__ . '/app/route_storage.dump.php',
         __DIR__ . '/app/validate_storage.php',
-        JsonThrowOnErrorRector::class,
-        AddLiteralSeparatorToNumberRector::class,
     ])
     ->withPreparedSets(deadCode: true)
     // ->withImportNames(importShortClasses: false)

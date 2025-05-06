@@ -56,3 +56,18 @@ function json_decode_ex(string $json, bool $associative = true, int $depth = 512
 
     return json_decode($json, $associative, $depth, $flags);
 }
+
+function cache_prefix(): string
+{
+    return env('DEPLOY_MIXING_PREFIX');
+}
+
+function global_security_salt(): string
+{
+    return env('DEPLOY_SECURITY_SALT');
+}
+
+function global_disabled_remote_log(): void
+{
+    \app()->log->close('remote');
+}

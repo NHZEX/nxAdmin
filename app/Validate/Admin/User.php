@@ -16,7 +16,7 @@ class User extends Base
         'role_ids' => 'array',
         'username' => 'require|length:3,64',
         'nickname' => 'require|length:3,64',
-        'password' => 'require|length:6,64',
+        'password' => 'require|length:4,64',
         'lock_version' => 'number',
     ];
 

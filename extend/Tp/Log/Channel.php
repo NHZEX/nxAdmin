@@ -24,8 +24,10 @@ class Channel extends \think\log\Channel
             $msg = strtr($msg, $replace);
         }
 
-        if (\is_string($msg) && '' === $msg) {
+        if ('' === $msg) {
             $msg = '"(empty string)"';
+        } else if (null === $msg) {
+            $msg = '"(null)"';
         }
 
         if (!empty($msg) || 0 === $msg) {

@@ -29,6 +29,11 @@ class ReplyEx
         return self::bad(data: $data, code: $code, message: $message, httpCode: 404);
     }
 
+    public static function redirect(string $url, int $code = 302): Response
+    {
+        return Response::create($url, 'redirect', $code);
+    }
+
     /**
      * 响应请求table资源.
      *
@@ -63,19 +68,21 @@ class ReplyEx
         $data = null,
         int $code = 0,
         ?string $message = null,
-        int $httpCode = 200,
+        ?int $httpCode = null,
         bool $merge = false,
     ): Response {
-        if (200 > $httpCode || $httpCode > 299) {
-            throw new RuntimeException('http code only 200 ~ 299');
+        if (null === $httpCode) {
+            if ('' === $data || null === $data) {
+                $httpCode = 204;
+            }
         }
-        if ('' === $data || null === $data) {
-            $httpCode = 204;
-        }
+        $httpCode ??= 200;
         if (204 === $httpCode) {
             $data = null;
         }
-
+        if (200 > $httpCode || $httpCode > 299) {
+            throw new RuntimeException('http code only 200 ~ 299');
+        }
         return self::message(data: $data, code: $code, message: $message, httpCode: $httpCode, merge: $merge);
     }
 
@@ -93,6 +100,19 @@ class ReplyEx
         }
 
         return self::message(data: $data, code: $code, message: $message, httpCode: $httpCode);
+    }
+
+    public static function methodNotAllowed(
+        $data = null,
+        ?int $code = null,
+        ?string $message = null,
+    ): Response {
+        return self::bad(
+            data: $data,
+            code: $code,
+            message: $message,
+            httpCode: 405,
+        );
     }
 
     /**

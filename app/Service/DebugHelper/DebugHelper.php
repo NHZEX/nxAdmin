@@ -14,13 +14,17 @@ use function Zxin\Util\format_byte;
 class DebugHelper
 {
     private static array $timeList = [];
+    private static bool $memRealUsage = false;
 
-    public static function startTime(string $name): void
+    public static function startTime(string $name, ?bool $realMemoryUsage = null): void
     {
+        $memRealUsage = $realMemoryUsage ?? self::$memRealUsage;
+
         $obj = new stdClass();
         $obj->time = microtime(true);
-        $obj->memory = memory_get_usage();
-        $obj->peakMemory = memory_get_peak_usage();
+        $obj->memory = memory_get_usage($memRealUsage);
+        $obj->peakMemory = memory_get_peak_usage($memRealUsage);
+        $obj->memRealUsage = $memRealUsage;
         self::$timeList[$name] = $obj;
     }
 
@@ -33,14 +37,15 @@ class DebugHelper
         unset(self::$timeList[$name]);
         $endTime = microtime(true);
 
-        $endMemory = memory_get_usage();
-        $endPeakMemory = memory_get_peak_usage();
+        $endMemory = memory_get_usage($obj->memRealUsage);
+        $endPeakMemory = memory_get_peak_usage($obj->memRealUsage);
 
         return \sprintf(
-            '[%d]%s, time: %.3f, mem: %s(%s)',
+            '[%d]%s, time: %.3f, mem%s: %s(%s)',
             getmypid(),
             $name,
             $endTime - $obj->time,
+            self::$memRealUsage ? '[R]' : '',
             format_byte($endMemory - $obj->memory, 3),
             format_byte($endPeakMemory - $obj->peakMemory, 3),
         );
@@ -59,14 +64,15 @@ class DebugHelper
 
         self::recordDuration($name, $duration, $note);
 
-        $endMemory = memory_get_usage();
-        $endPeakMemory = memory_get_peak_usage();
+        $endMemory = memory_get_usage($obj->memRealUsage);
+        $endPeakMemory = memory_get_peak_usage($obj->memRealUsage);
 
         $message = \sprintf(
-            '[%d]%s => time: %s; mem: %s(%s)%s',
+            '[%d]%s => time: %s; mem%s: %s(%s)%s',
             getmypid(),
             $name,
             $duration,
+            self::$memRealUsage ? '[R]' : '',
             format_byte($endMemory - $obj->memory, 3),
             format_byte($endPeakMemory - $obj->peakMemory, 3),
             $note ? ", {$note}" : '',
@@ -75,6 +81,16 @@ class DebugHelper
         log_debug($message);
 
         return $message;
+    }
+
+    public static function fnExecuteTimeWithRecord(string $name, \Closure $fn): mixed
+    {
+        self::startTime($name);
+        try {
+            return $fn();
+        } finally {
+            self::endTimeWithRecord($name);
+        }
     }
 
     public static function recordDuration(string $name, string $message, ?string $note = null): void

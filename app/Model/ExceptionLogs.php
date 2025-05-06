@@ -2,6 +2,7 @@
 
 namespace app\Model;
 
+use app\Exception\BusinessResult;
 use app\Service\Auth\AuthHelper;
 use think\App;
 use Throwable;
@@ -10,16 +11,16 @@ use function substr;
 use function time;
 
 /**
- * @property int    $id
- * @property int    $create_time    创建时间
- * @property string $request_url    请求地址
- * @property string $request_route  请求路由
+ * @property int $id
+ * @property int $create_time 创建时间
+ * @property string $request_url 请求地址
+ * @property string $request_route 请求路由
  * @property string $request_method 请求方法
- * @property string $request_ip     请求IP
- * @property string $mode           类型
- * @property string $request_info   请求信息
- * @property string $message        消息
- * @property string $trace_info     异常堆栈
+ * @property string $request_ip 请求IP
+ * @property string $mode 类型
+ * @property string $request_info 请求信息
+ * @property string $message 消息
+ * @property string $trace_info 异常堆栈
  */
 class ExceptionLogs extends Base
 {
@@ -42,6 +43,10 @@ class ExceptionLogs extends Base
      */
     public static function push(Throwable $exception): bool
     {
+        if ($exception instanceof BusinessResult && $exception->isIgnoreLog()) {
+            return true;
+        }
+
         $cli = is_cli() ? 'cli' : 'other';
         $sapi = \PHP_SAPI;
 
@@ -64,6 +69,8 @@ class ExceptionLogs extends Base
             $msg .= "Stack Trace: [{$trace->getCode()}] {$trace->getMessage()}\n";
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());
+
+        $msg = \trim_root_path($msg);
 
         $traceInfo = substr($msg, 0, 65535);
 

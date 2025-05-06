@@ -12,6 +12,7 @@ return [
     'defaultConnect' => null,
     // 生成文件是否使用严格类型
     'strictTypes'    => true,
+    'alignPadding'     => false,
 
     'exclude' => [
         '_phinxlog',
@@ -28,7 +29,6 @@ return [
     // 批量模型绑定跟踪
     'mapping' => [
         [
-            // 匹配指定表
             'table'     => [
                 'admin_*',
                 'user_role_*',

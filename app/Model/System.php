@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace app\Model;
 
+use app\Service\Context;
 use app\Service\Transaction\MainTrans;
 use function array_map;
 use function bin2hex;
@@ -18,6 +19,9 @@ use function time;
  *
  * @property string $label 标签
  * @property string $value 值
+ * @property int $created_at
+ * @property int $updated_at
+ * @property int $lock_version
  */
 class System extends Base
 {
@@ -28,6 +32,9 @@ class System extends Base
     protected $schema = [
         'label' => 'string',
         'value' => 'string',
+        'created_at' => 'int',
+        'updated_at' => 'int',
+        'lock_version' => 'int',
     ];
 
     /**
@@ -48,13 +55,38 @@ class System extends Base
     /**
      * 查询一个值
      */
-    public static function getLabel(string $label, ?string $default = null): ?string
+    public static function getLabel(string $label, ?string $default = null, ?int &$lockVersion = 0, ?int &$updatedAt = 0): ?string
     {
-        return self::where('label', '=', $label)->value('value', $default);
+        $result = Context::rememberData("system-label:{$label}", function () use ($label) {
+            return \app()->cache->remember("system-label:{$label}", function () use ($label) {
+                $item = (new System())
+                    ->where('label', '=', $label)
+                    ->find();
+
+                if ($item) {
+                    return [
+                        'value' => $item->value,
+                        'updated_at' => $item->updated_at,
+                        'lock_version' => $item->lock_version,
+                    ];
+                } else {
+                    return null;
+                }
+            }, 1800);
+        });
+
+        if ($result) {
+            $lockVersion = $result['lock_version'];
+            $updatedAt = $result['updated_at'];
+            return $result['value'] ?? $default;
+        }
+
+        return $default;
     }
 
     /**
      * 设置一个值
+     * @deprecated
      */
     public static function setLabel(string $label, string $value): bool
     {
@@ -63,11 +95,45 @@ class System extends Base
             ->data(['label' => $label, 'value' => $value])
             ->insert();
 
+        $cacheKey = "system-label:{$label}";
+        \app()->cache->delete($cacheKey);
+        Context::removeData($cacheKey);
+
         return true;
+    }
+
+    public static function setLabelEx(string $label, string $value, ?int $lockVersion = null): void
+    {
+        MainTrans::callback(function () use ($label, $value, $lockVersion) {
+            /** @var System|null $item */
+            $item = (new System())->where('label', '=', $label)->find();
+            $nowTime = time();
+            if ($item && $value !== $item->value) {
+                if ($lockVersion !== null && $item->lock_version !== $lockVersion) {
+                    throw new \LogicException("set label {$label} lock version timeout");
+                } else {
+                    $item->value = $value;
+                    $item->updated_at = $nowTime;
+                    $item->save();
+                }
+            } elseif (empty($item)) {
+                (new System())->insert([
+                    'label' => $label,
+                    'value' => $value,
+                    'created_at' => $nowTime,
+                    'updated_at' => $nowTime,
+                    'lock_version' => 0,
+                ]);
+            }
+        });
+        $cacheKey = "system-label:{$label}";
+        \app()->cache->delete($cacheKey);
+        Context::removeData($cacheKey);
     }
 
     /**
      * @return false|string
+     * @deprecated
      */
     public static function setLock(string $label, int $ttl)
     {

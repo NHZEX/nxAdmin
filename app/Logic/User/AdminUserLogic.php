@@ -8,12 +8,16 @@ use app\Helper\WhereHelper;
 use app\Logic\Base;
 use app\Model\Admin\UserRoleRelationModel;
 use app\Model\AdminUser;
+use app\Traits\UseAppInstance;
 use stdClass;
+use think\db\Query;
 use think\Paginator;
 use function trim;
 
 class AdminUserLogic extends Base
 {
+    use UseAppInstance;
+
     public function search(int $limit, array $params): Paginator
     {
         $where = WhereHelper::buildWhere($params, [
@@ -58,6 +62,13 @@ class AdminUserLogic extends Base
     {
         return AdminUser::buildOption(
             ['id', 'username', 'nickname'],
+            function (Query $query) {
+                $query->whereIn('genre', [
+                    AdminUser::GENRE_ADMIN,
+                    AdminUser::GENRE_SUPER_ADMIN,
+                    AdminUser::GENRE_OPERATOR,
+                ]);
+            },
         );
     }
 
@@ -86,7 +97,6 @@ class AdminUserLogic extends Base
 
     public function update(int $id, array $params): void
     {
-        log_debug($params);
         if (empty($params['extra'])) {
             $params['extra'] = new stdClass();
         }

@@ -29,6 +29,11 @@ trait ModelUtil
         }
     }
 
+    public function hasRawData(string $field): bool
+    {
+        return array_key_exists($field, $this->getData());
+    }
+
     /**
      * 自定义查询集合.
      *

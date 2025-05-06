@@ -10,7 +10,6 @@ use app\Model\AdminUser;
 use app\ReplyEx;
 use app\Validate\Admin\User;
 use think\Response;
-use Util\Reply;
 use Zxin\Think\Auth\Annotation\Auth;
 use Zxin\Think\Auth\Annotation\AuthMeta;
 use Zxin\Think\Route\Annotation\Group;
@@ -32,13 +31,19 @@ class Users extends Base
         return ReplyEx::table($result);
     }
 
+    #[Auth("login")]
+    public function select(): Response
+    {
+        return ReplyEx::success(AdminUserLogic::instance()->select());
+    }
+
     #[Auth('admin.user.info')]
     #[AuthMeta('获取用户信息')]
     public function read(int $id): Response
     {
         $result = (new AdminUserLogic())->read($id);
         if (empty($result)) {
-            return Reply::notFound();
+            return ReplyEx::notFound();
         }
 
         return ReplyEx::success($result);

@@ -13,12 +13,14 @@
 namespace app;
 
 use app\Exception\AccessControl;
+use app\Exception\BusinessResult;
 use app\Exception\ExceptionIgnoreRecord;
 use app\Exception\ModelLogicException;
 use app\Model\ExceptionLogs;
 use app\Traits\PrintAbnormal;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
+use think\db\exception\PDOException;
 use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
@@ -124,6 +126,18 @@ class ExceptionHandle extends Handle
 
             return Reply::bad($e->getCode(), $e->getMessage());
         }
+        // 通用业务异常重写为 http
+        if ($e instanceof BusinessResult) {
+            if ($e->getHttpCode() !== null) {
+                RecordHelper::recordException($e);
+
+                return Reply::message($e->getCode(), $e->getMessage(), null, $e->getHttpCode());
+            } elseif ($e->getResponse() !== null) {
+                RecordHelper::recordException($e);
+
+                return $e->getResponse();
+            }
+        }
 
         // 渲染其他异常
         return parent::render($request, $e);
@@ -174,5 +188,28 @@ class ExceptionHandle extends Handle
         }
 
         return $data;
+    }
+
+    public static function exceptionToStr(Throwable $e, bool $showSql = false, bool $showTrace = true): string
+    {
+        $msg = '';
+        $trace = $e;
+        $i = 0;
+        do {
+            $msg .= "exception: [#{$i}] \\" . get_class($trace) . "\n";
+            $msg .= ">message: [{$trace->getCode()}] {$trace->getMessage()}\n";
+            $msg .= ">file: {$trace->getFile()}:{$trace->getLine()}\n";
+            if ($showSql && \app()->isDebug() && $trace instanceof PDOException) {
+                $sqlInfo = $trace->getData();
+                unset($sqlInfo['Database Config']);
+                $errMsg = var_export($sqlInfo, true);
+                $msg .= 'sql: ' . $errMsg . "\n";
+            }
+            if ($showTrace) {
+                $msg .= "trace: {$trace->getTraceAsString()}\n";
+            }
+            $i++;
+        } while ($trace = $trace->getPrevious());
+        return \trim_root_path($msg);
     }
 }

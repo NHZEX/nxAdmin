@@ -13,17 +13,17 @@ use Tp\Model\Traits\MysqlJson;
 /**
  * model: 系统角色.
  *
- * @property int        $id
- * @property int        $pid
- * @property int        $genre        类型 1=系统 2=代理商
- * @property int        $status       状态 0=正常 1=禁用
- * @property int        $create_time  创建时间
- * @property int        $update_time  更新时间
- * @property int|null   $delete_time  删除时间
- * @property string     $name         角色名称
- * @property string     $description  角色描述
- * @property array|null $ext          扩展信息
- * @property int        $lock_version 锁版本
+ * @property int $id
+ * @property int $pid
+ * @property int $genre 类型 1=系统 2=代理商
+ * @property int $status 状态 0=正常 1=禁用
+ * @property int $create_time 创建时间
+ * @property int $update_time 更新时间
+ * @property int|null $delete_time 删除时间
+ * @property string $name 角色名称
+ * @property string $description 角色描述
+ * @property array|null $ext 扩展信息
+ * @property int $lock_version 锁版本
  *
  * ↓↓ virtual props ↓↓
  * @property array  $auth        权限

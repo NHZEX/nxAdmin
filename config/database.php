@@ -65,5 +65,97 @@ return [
             // 字段缓存路径
             'schema_cache_path' => app()->getRuntimePath() . 'schema' . DIRECTORY_SEPARATOR,
         ],
+
+        // 更多的数据库配置信息
+        'testdb' => [
+            // 数据库类型
+            'type'            => MysqlConnector::class,
+            // 服务器地址
+            'hostname'        => env('DB_MAIN_HOSTNAME', '127.0.0.1'),
+            // 端口
+            'hostport'        => env('DB_MAIN_HOSTPORT', '3306'),
+            // 数据库名
+            'database'        => 'erp_express_22',
+            // 用户名
+            'username'        => (string) env('DB_MAIN_USERNAME', 'root'),
+            // 密码
+            'password'        => (string) env('DB_MAIN_PASSWORD', ''),
+            // 连接dsn
+            'dsn'             => '',
+            // 数据库连接参数
+            'params'          => [],
+            // 数据库编码默认采用utf8
+            'charset'         => 'utf8mb4',
+            // 数据库表前缀
+            'prefix'          => '',
+            // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
+            'deploy'          => 0,
+            // 数据库读写是否分离 主从式有效
+            'rw_separate'     => false,
+            // 读写分离后 主服务器数量
+            'master_num'      => 1,
+            // 指定从服务器序号
+            'slave_no'        => '',
+            // 是否严格检查字段是否存在
+            'fields_strict'   => true,
+            // 开启字段缓存
+            'fields_cache'    => false,
+            // 监听SQL
+            'trigger_sql'     => (bool) env('SQL_DEBUG', env('APP_DEBUG', false)),
+            // Builder类
+            'builder'         => MysqlBuilder::class,
+            // Query类
+            'query'           => Query::class,
+            // 是否需要断线重连
+            'break_reconnect' => true,
+            // 字段缓存路径
+            'schema_cache_path' => app()->getRuntimePath() . 'schema' . DIRECTORY_SEPARATOR,
+        ],
+
+        // 更多的数据库配置信息
+        'dlzdb' => [
+            // 数据库类型
+            'type'            => MysqlConnector::class,
+            // 服务器地址
+            'hostname'        => env('DB_MAIN_HOSTNAME', '127.0.0.1'),
+            // 端口
+            'hostport'        => env('DB_MAIN_HOSTPORT', '3306'),
+            // 数据库名
+            'database'        => 'erp_dlz_22',
+            // 用户名
+            'username'        => (string) env('DB_MAIN_USERNAME', 'root'),
+            // 密码
+            'password'        => (string) env('DB_MAIN_PASSWORD', ''),
+            // 连接dsn
+            'dsn'             => '',
+            // 数据库连接参数
+            'params'          => [],
+            // 数据库编码默认采用utf8
+            'charset'         => 'utf8mb4',
+            // 数据库表前缀
+            'prefix'          => '',
+            // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
+            'deploy'          => 0,
+            // 数据库读写是否分离 主从式有效
+            'rw_separate'     => false,
+            // 读写分离后 主服务器数量
+            'master_num'      => 1,
+            // 指定从服务器序号
+            'slave_no'        => '',
+            // 是否严格检查字段是否存在
+            'fields_strict'   => true,
+            // 开启字段缓存
+            'fields_cache'    => false,
+            // 监听SQL
+            'trigger_sql'     => (bool) env('SQL_DEBUG', env('APP_DEBUG', false)),
+            // Builder类
+            'builder'         => MysqlBuilder::class,
+            // Query类
+            'query'           => Query::class,
+            // 是否需要断线重连
+            'break_reconnect' => true,
+            // 字段缓存路径
+            'schema_cache_path' => app()->getRuntimePath() . 'schema' . DIRECTORY_SEPARATOR,
+        ],
     ],
 ];
