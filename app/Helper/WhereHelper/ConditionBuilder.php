@@ -76,8 +76,8 @@ class ConditionBuilder
     }
 
     /**
-     * @param ?Closure(string $value, string $key, ConditionBuilder $builder): bool $before
-     * @param ?Closure(string $value, string $key, ConditionBuilder $builder): bool $after
+     * @param ?Closure(mixed $value, string $key, ConditionBuilder $builder): bool $before
+     * @param ?Closure(mixed $value, string $key, ConditionBuilder $builder): bool $after
      */
     public function test(?Closure $before = null, ?Closure $after = null): self
     {

@@ -1,147 +1,224 @@
 parameters:
 	ignoreErrors:
 		-
-			message: "#^Parameter \\#2 \\$code of static method app\\\\ReplyEx\\:\\:bad\\(\\) expects int\\|null, string given\\.$#"
+			message: '#^Parameter \$where of method app\\BaseController\:\:buildWhere\(\) has invalid type app\\Traits\\input\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/BaseController.php
+
+		-
+			message: '#^Call to function is_array\(\) with array\<think\\file\\UploadedFile\> will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: app/Controller/Upload.php
+
+		-
+			message: '#^Instanceof between think\\file\\UploadedFile and think\\file\\UploadedFile will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: app/Controller/Upload.php
+
+		-
+			message: '#^Parameter \#2 \$code of static method app\\ReplyEx\:\:bad\(\) expects int\|null, string given\.$#'
+			identifier: argument.type
 			count: 2
 			path: app/Controller/V2/Admin/Permission.php
 
 		-
-			message: "#^Comparison operation \"\\>\\=\" between int\\<2, 6\\> and 2 is always true\\.$#"
+			message: '#^Parameter \#2 \$where of method app\\BaseController\:\:buildWhere\(\) expects array\<array\{0\: string, 1\: string, 2\?\: string, empty\?\: callable\(\)\: mixed, find\?\: array\<string\>\|\(callable\(array, app\\Traits\\input\)\: string\)\}\>, array\{array\{''genre'', ''\=''\}, array\{0\: ''status'', 1\: ''\='', empty\: ''\\\\issue''\}, array\{0\: ''name'', 1\: ''like'', 2\: Closure\(mixed\)\: non\-falsy\-string, tf\: Closure\(mixed\)\: string\}\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Controller/V2/Admin/Roles.php
+
+		-
+			message: '#^Comparison operation "\>\=" between int\<2, 6\> and 2 is always true\.$#'
+			identifier: greaterOrEqual.alwaysTrue
 			count: 1
 			path: app/Helper/WhereHelper.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
 			count: 1
 			path: app/Helper/WhereHelper.php
 
 		-
-			message: "#^Method app\\\\Helper\\\\WhereHelper\\:\\:buildOrder\\(\\) should return array\\{string, string\\}\\|null but returns non\\-empty\\-array\\<non\\-falsy\\-string, 'asc'\\|'desc'\\>\\.$#"
+			message: '#^Method app\\Helper\\WhereHelper\:\:buildOrder\(\) should return array\{string, string\}\|null but returns non\-empty\-array\<non\-falsy\-string, ''asc''\|''desc''\>\.$#'
+			identifier: return.type
 			count: 1
 			path: app/Helper/WhereHelper.php
 
 		-
-			message: "#^Right side of && is always true\\.$#"
+			message: '#^Right side of && is always true\.$#'
+			identifier: booleanAnd.rightAlwaysTrue
 			count: 1
 			path: app/Helper/WhereHelper.php
 
 		-
-			message: "#^Call to static method disk\\(\\) on an unknown class think\\\\facade\\\\Filesystem\\.$#"
+			message: '#^Call to static method disk\(\) on an unknown class think\\facade\\Filesystem\.$#'
+			identifier: class.notFound
 			count: 2
 			path: app/Logic/Attachment.php
 
 		-
-			message: "#^Offset 2 on array\\{0\\: int\\<0, max\\>, 1\\: int\\<0, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\} in isset\\(\\) always exists and is not nullable\\.$#"
+			message: '#^Offset 2 on array\{0\: int\<0, max\>, 1\: int\<0, max\>, 2\: int, 3\: string, mime\: string, channels\?\: int, bits\?\: int\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
 			count: 1
 			path: app/Logic/Attachment.php
 
 		-
-			message: "#^Cannot access property \\$id on array\\|think\\\\db\\\\Query\\|think\\\\Model\\.$#"
+			message: '#^Cannot access property \$id on array\|think\\db\\Query\|think\\Model\.$#'
+			identifier: property.nonObject
 			count: 2
 			path: app/Logic/User/AdminUserLogic.php
 
 		-
-			message: "#^Method app\\\\Logic\\\\User\\\\AdminUserLogic\\:\\:read\\(\\) should return app\\\\Model\\\\AdminUser\\|null but returns array\\|\\(ArrayAccess&think\\\\db\\\\Query\\)\\|think\\\\Model\\.$#"
+			message: '#^Method app\\Logic\\User\\AdminUserLogic\:\:read\(\) should return app\\Model\\AdminUser\|null but returns array\|\(ArrayAccess&think\\db\\Query\)\|think\\Model\.$#'
+			identifier: return.type
 			count: 1
 			path: app/Logic/User/AdminUserLogic.php
 
 		-
-			message: "#^Access to an undefined property think\\\\Model\\:\\:\\$withoutAccessLimit\\.$#"
+			message: '#^Parameter \#2 \$where of static method app\\Helper\\WhereHelper\:\:buildWhere\(\) expects array\<array\{0\: string, 1\: string, 2\?\: string, empty\?\: callable\(\)\: mixed, find\?\: array\<string\>\|\(callable\(array, string\)\: string\), tf\?\: callable\(\)\: mixed\}\>, array\{array\{''genre'', ''\=''\}, array\{0\: ''status'', 1\: ''\='', empty\: ''\\\\issue''\}, array\{''username'', ''like'', Closure\(mixed\)\: non\-falsy\-string\}, array\{''nickname'', ''like'', Closure\(mixed\)\: non\-falsy\-string\}\} given\.$#'
+			identifier: argument.type
+			count: 1
+			path: app/Logic/User/AdminUserLogic.php
+
+		-
+			message: '#^Access to an undefined property think\\Model\:\:\$withoutAccessLimit\.$#'
+			identifier: property.notFound
 			count: 1
 			path: app/Model/AdminRole.php
 
 		-
-			message: "#^Method app\\\\Model\\\\AdminRole\\:\\:getAccessControl\\(\\) should return array\\<array\\<string\\>\\>\\|null but returns array\\<int\\|string, string\\>\\|null\\.$#"
+			message: '#^Method app\\Model\\AdminRole\:\:getAccessControl\(\) should return array\<array\<string\>\>\|null but returns array\<int\|string, string\>\|null\.$#'
+			identifier: return.type
 			count: 1
 			path: app/Model/AdminRole.php
 
 		-
-			message: "#^Result of && is always false\\.$#"
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
 			count: 3
 			path: app/Model/AdminRole.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between 'rw' and array\\<string\\> will always evaluate to false\\.$#"
+			message: '#^Strict comparison using \=\=\= between ''rw'' and array\<string\> will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
 			count: 2
 			path: app/Model/AdminRole.php
 
 		-
-			message: "#^Access to an undefined property think\\\\Model\\:\\:\\$withoutAccessLimit\\.$#"
+			message: '#^Access to an undefined property think\\Model\:\:\$withoutAccessLimit\.$#'
+			identifier: property.notFound
 			count: 1
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Method app\\\\Model\\\\AdminUser\\:\\:beRoleName\\(\\) should return think\\\\model\\\\relation\\\\BelongsTo but returns think\\\\db\\\\BaseQuery\\.$#"
+			message: '#^Method app\\Model\\AdminUser\:\:beRoleName\(\) should return think\\model\\relation\\BelongsTo but returns think\\db\\BaseQuery\.$#'
+			identifier: return.type
 			count: 1
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Method app\\\\Model\\\\AdminUser\\:\\:getAccessControl\\(\\) should return array\\<array\\<string\\>\\>\\|null but returns array\\<int\\|string, string\\>\\|null\\.$#"
+			message: '#^Method app\\Model\\AdminUser\:\:getAccessControl\(\) should return array\<array\<string\>\>\|null but returns array\<int\|string, string\>\|null\.$#'
+			identifier: return.type
 			count: 1
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Result of && is always false\\.$#"
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
 			count: 3
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between 'rw' and array\\<string\\> will always evaluate to false\\.$#"
+			message: '#^Strict comparison using \=\=\= between ''rw'' and array\<string\> will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
 			count: 2
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Dead catch \\- InvalidArgumentException is never thrown in the try block\\.$#"
+			message: '#^Dead catch \- InvalidArgumentException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
 			count: 1
 			path: app/Model/Attachment.php
 
 		-
-			message: "#^Dead catch \\- InvalidArgumentException is never thrown in the try block\\.$#"
+			message: '#^Dead catch \- InvalidArgumentException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
 			count: 1
 			path: app/Model/Base.php
 
 		-
-			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
 			count: 1
 			path: app/Model/Base.php
 
 		-
-			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
 			count: 1
 			path: app/Service/DebugHelper/EnvironmentHelper.php
 
 		-
-			message: "#^Left side of && is always true\\.$#"
+			message: '#^PHPDoc tag @var with type app\\Service\\DeployTool\\FeaturesManage is not subtype of native type app\\Service\\DeployTool\\EnvManage\|app\\Service\\DeployTool\\UpdateManage\|app\\Service\\DeployTool\\UserManage\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: app/Service/DeployTool/Deploy.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
 			count: 1
 			path: app/Service/DeployTool/EnvManage.php
 
 		-
-			message: "#^Empty array passed to foreach\\.$#"
+			message: '#^Method app\\Service\\DeployTool\\EnvManage\:\:configCache\(\) has app\\Service\\DeployTool\\Exception\\ConfigInvalidException in PHPDoc @throws tag but it''s not thrown\.$#'
+			identifier: throws.unusedType
+			count: 1
+			path: app/Service/DeployTool/EnvManage.php
+
+		-
+			message: '#^Empty array passed to foreach\.$#'
+			identifier: foreach.emptyArray
 			count: 1
 			path: app/function.php
 
 		-
-			message: "#^If condition is always true\\.$#"
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
 			count: 1
 			path: extend/Tp/Log/Channel.php
 
 		-
-			message: "#^Function Zxin\\\\debug_array not found\\.$#"
+			message: '#^Trait Tp\\Model\\Traits\\RecordUser is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: extend/Tp/Model/Traits/RecordUser.php
+
+		-
+			message: '#^Function Zxin\\debug_array not found\.$#'
+			identifier: function.notFound
 			count: 1
 			path: extend/Util/Reply.php
 
 		-
-			message: "#^Function Zxin\\\\set_path_cut_len not found\\.$#"
+			message: '#^Function Zxin\\set_path_cut_len not found\.$#'
+			identifier: function.notFound
 			count: 1
 			path: extend/Util/Reply.php
 
 		-
-			message: "#^Used function Zxin\\\\debug_array not found\\.$#"
+			message: '#^Used function Zxin\\debug_array not found\.$#'
+			identifier: function.notFound
 			count: 1
 			path: extend/Util/Reply.php
 
 		-
-			message: "#^Used function Zxin\\\\set_path_cut_len not found\\.$#"
+			message: '#^Used function Zxin\\set_path_cut_len not found\.$#'
+			identifier: function.notFound
 			count: 1
 			path: extend/Util/Reply.php
 

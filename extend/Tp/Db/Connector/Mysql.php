@@ -12,7 +12,6 @@ class Mysql extends \think\db\connector\Mysql
         $this->startTrans();
 
         try {
-            $result = null;
             $result = $callback($this);
 
             $this->commit();
