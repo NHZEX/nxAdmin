@@ -1,6 +1,4 @@
 <?php
-// hash: 0638480434c4b30c33bd0d3c4ad98e38
-
 /** @noinspection ALL */
 return [
     [
