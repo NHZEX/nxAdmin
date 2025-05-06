@@ -1,14 +1,79 @@
 parameters:
 	ignoreErrors:
 		-
+			message: "#^Parameter \\#2 \\$code of static method app\\\\ReplyEx\\:\\:bad\\(\\) expects int\\|null, string given\\.$#"
+			count: 2
+			path: app/Controller/V2/Admin/Permission.php
+
+		-
+			message: "#^Comparison operation \"\\>\\=\" between int\\<2, 6\\> and 2 is always true\\.$#"
+			count: 1
+			path: app/Helper/WhereHelper.php
+
+		-
+			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: app/Helper/WhereHelper.php
+
+		-
+			message: "#^Method app\\\\Helper\\\\WhereHelper\\:\\:buildOrder\\(\\) should return array\\{string, string\\}\\|null but returns non\\-empty\\-array\\<non\\-falsy\\-string, 'asc'\\|'desc'\\>\\.$#"
+			count: 1
+			path: app/Helper/WhereHelper.php
+
+		-
+			message: "#^Right side of && is always true\\.$#"
+			count: 1
+			path: app/Helper/WhereHelper.php
+
+		-
+			message: "#^Call to static method disk\\(\\) on an unknown class think\\\\facade\\\\Filesystem\\.$#"
+			count: 2
+			path: app/Logic/Attachment.php
+
+		-
+			message: "#^Offset 2 on array\\{0\\: int\\<0, max\\>, 1\\: int\\<0, max\\>, 2\\: int, 3\\: string, mime\\: string, channels\\?\\: int, bits\\?\\: int\\} in isset\\(\\) always exists and is not nullable\\.$#"
+			count: 1
+			path: app/Logic/Attachment.php
+
+		-
+			message: "#^Cannot access property \\$id on array\\|think\\\\db\\\\Query\\|think\\\\Model\\.$#"
+			count: 2
+			path: app/Logic/User/AdminUserLogic.php
+
+		-
+			message: "#^Method app\\\\Logic\\\\User\\\\AdminUserLogic\\:\\:read\\(\\) should return app\\\\Model\\\\AdminUser\\|null but returns array\\|\\(ArrayAccess&think\\\\db\\\\Query\\)\\|think\\\\Model\\.$#"
+			count: 1
+			path: app/Logic/User/AdminUserLogic.php
+
+		-
+			message: "#^Access to an undefined property think\\\\Model\\:\\:\\$withoutAccessLimit\\.$#"
+			count: 1
+			path: app/Model/AdminRole.php
+
+		-
+			message: "#^Method app\\\\Model\\\\AdminRole\\:\\:getAccessControl\\(\\) should return array\\<array\\<string\\>\\>\\|null but returns array\\<int\\|string, string\\>\\|null\\.$#"
+			count: 1
+			path: app/Model/AdminRole.php
+
+		-
 			message: "#^Result of && is always false\\.$#"
 			count: 3
 			path: app/Model/AdminRole.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between array\\<string\\> and 'rw' will always evaluate to false\\.$#"
+			message: "#^Strict comparison using \\=\\=\\= between 'rw' and array\\<string\\> will always evaluate to false\\.$#"
 			count: 2
 			path: app/Model/AdminRole.php
+
+		-
+			message: "#^Access to an undefined property think\\\\Model\\:\\:\\$withoutAccessLimit\\.$#"
+			count: 1
+			path: app/Model/AdminUser.php
+
+		-
+			message: "#^Method app\\\\Model\\\\AdminUser\\:\\:beRoleName\\(\\) should return think\\\\model\\\\relation\\\\BelongsTo but returns think\\\\db\\\\BaseQuery\\.$#"
+			count: 1
+			path: app/Model/AdminUser.php
 
 		-
 			message: "#^Method app\\\\Model\\\\AdminUser\\:\\:getAccessControl\\(\\) should return array\\<array\\<string\\>\\>\\|null but returns array\\<int\\|string, string\\>\\|null\\.$#"
@@ -21,12 +86,62 @@ parameters:
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Strict comparison using \\=\\=\\= between array\\<string\\> and 'rw' will always evaluate to false\\.$#"
+			message: "#^Strict comparison using \\=\\=\\= between 'rw' and array\\<string\\> will always evaluate to false\\.$#"
 			count: 2
 			path: app/Model/AdminUser.php
 
 		-
-			message: "#^Call to an undefined method app\\\\Model\\\\AdminUser\\:\\:fetchSql\\(\\)\\.$#"
+			message: "#^Dead catch \\- InvalidArgumentException is never thrown in the try block\\.$#"
 			count: 1
-			path: app/Service/DeployTool/UserManage.php
+			path: app/Model/Attachment.php
+
+		-
+			message: "#^Dead catch \\- InvalidArgumentException is never thrown in the try block\\.$#"
+			count: 1
+			path: app/Model/Base.php
+
+		-
+			message: "#^Unsafe usage of new static\\(\\)\\.$#"
+			count: 1
+			path: app/Model/Base.php
+
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 1
+			path: app/Service/DebugHelper/EnvironmentHelper.php
+
+		-
+			message: "#^Left side of && is always true\\.$#"
+			count: 1
+			path: app/Service/DeployTool/EnvManage.php
+
+		-
+			message: "#^Empty array passed to foreach\\.$#"
+			count: 1
+			path: app/function.php
+
+		-
+			message: "#^If condition is always true\\.$#"
+			count: 1
+			path: extend/Tp/Log/Channel.php
+
+		-
+			message: "#^Function Zxin\\\\debug_array not found\\.$#"
+			count: 1
+			path: extend/Util/Reply.php
+
+		-
+			message: "#^Function Zxin\\\\set_path_cut_len not found\\.$#"
+			count: 1
+			path: extend/Util/Reply.php
+
+		-
+			message: "#^Used function Zxin\\\\debug_array not found\\.$#"
+			count: 1
+			path: extend/Util/Reply.php
+
+		-
+			message: "#^Used function Zxin\\\\set_path_cut_len not found\\.$#"
+			count: 1
+			path: extend/Util/Reply.php
 
