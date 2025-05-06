@@ -59,6 +59,7 @@ class System extends Base
     {
         $result = Context::rememberData("system-label:{$label}", function () use ($label) {
             return \app()->cache->remember("system-label:{$label}", function () use ($label) {
+                /** @var System|null $item */
                 $item = (new System())
                     ->where('label', '=', $label)
                     ->find();

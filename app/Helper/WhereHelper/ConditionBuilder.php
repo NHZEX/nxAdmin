@@ -20,7 +20,7 @@ class ConditionBuilder
     private function __construct(
         protected string|Closure $field,
         /**
-         * @var string[]|Closure(ConditionBuilder $builder): string|null
+         * @var string[]|Closure(ConditionBuilder $builder): (string|null)
          */
         protected array|Closure|null $inputKey,
         protected ?string $operator,
@@ -29,8 +29,8 @@ class ConditionBuilder
     }
 
     /**
-     * @param string|Closure(string $value, string $key, ConditionBuilder $builder): string $field
-     * @param string|string[]|Closure(ConditionBuilder $builder): string|null               $inputKey
+     * @param string|Closure(string $value, string $key, ConditionBuilder $builder): mixed $field
+     * @param string|string[]|Closure(ConditionBuilder $builder): (string|null)             $inputKey
      */
     public static function make(
         string|Closure $field,
@@ -65,7 +65,7 @@ class ConditionBuilder
     }
 
     /**
-     * @param Closure(string $value, string $key, ConditionBuilder $builder): mixed $convert
+     * @param Closure(mixed $value, string $key, ConditionBuilder $builder): mixed $convert
      */
     public function convert(Closure $convert): self
     {
