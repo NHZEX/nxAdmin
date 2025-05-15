@@ -19,7 +19,7 @@ class Channel extends \think\log\Channel
         }
 
         $version = ltrim(InstalledVersions::getPrettyVersion('topthink/framework'), 'v');
-        if (preg_match('~(\d+\.?)+~', $version)) {
+        if (preg_match('~^(\d+\.?)+$~', $version)) {
             $newImplement = (bool) version_compare($version, '8.1.2', '>');
         } else {
             $newImplement = !class_exists('\think\log\driver\Socket');
