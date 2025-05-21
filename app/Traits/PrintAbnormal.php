@@ -29,6 +29,7 @@ trait PrintAbnormal
             $msg .= "{$trace->getTraceAsString()}\n";
         } while ($trace = $trace->getPrevious());
         $msg .= '----END----';
+        $msg = trim_root_path($msg, '$');
         Log::record($msg, $type ?? 'critical');
 
         return $msg;
@@ -42,7 +43,7 @@ trait PrintAbnormal
             $msg[] = "[#{$trace->getCode()}]({$trace->getMessage()})";
         } while ($trace = $trace->getPrevious());
 
-        return implode(' > ', $msg);
+        return trim_root_path(implode(' > ', $msg), '$');
     }
 
     protected static function showIncludedFiles(): array

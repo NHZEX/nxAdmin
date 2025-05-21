@@ -201,7 +201,7 @@ function roule_resource(string $rule, string $route, array $ruleModel = [])
     return $result;
 }
 
-function trim_root_path(string $content): string
+function trim_root_path(string $content, string $replace = ''): string
 {
-    return str_replace(rtrim(root_path(), '\\\/'), '', $content);
+    return str_replace(rtrim(root_path(), '\\\/'), $replace, $content);
 }
