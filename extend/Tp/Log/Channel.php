@@ -40,7 +40,7 @@ class Channel extends \think\log\Channel
         if (\is_string($msg) && !empty($context)) {
             $replace = [];
             foreach ($context as $key => $val) {
-                $replace['{'.$key.'}'] = $val;
+                $replace['{'.$key.'}'] = is_string($val) ? $val : var_export($val, true);
             }
 
             $msg = strtr($msg, $replace);
