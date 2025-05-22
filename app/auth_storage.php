@@ -1,6 +1,4 @@
 <?php
-// hash: d53d1a25144e9622c2a9acd2e6757854
-
 /** @noinspection ALL */
 return [
     'features' => [
@@ -153,6 +151,11 @@ return [
             'class' => 'app\\Controller\\V2\\Admin\\Users::index',
             'policy' => '',
             'desc' => '获取用户信息',
+        ],
+        'node@v2.admin.users/select' => [
+            'class' => 'app\\Controller\\V2\\Admin\\Users::select',
+            'policy' => '',
+            'desc' => '',
         ],
         'node@v2.admin.users/read' => [
             'class' => 'app\\Controller\\V2\\Admin\\Users::read',
@@ -380,6 +383,7 @@ return [
             'allow' => [
                 'node@admin.index/userinfo',
                 'node@system/sysinfo',
+                'node@v2.admin.users/select',
                 'node@v2.system/info',
                 'node@v2.system/sysinfo',
             ],
@@ -458,6 +462,7 @@ return [
         'login' => [
             'node@admin.index/userinfo',
             'node@system/sysinfo',
+            'node@v2.admin.users/select',
             'node@v2.system/info',
             'node@v2.system/sysinfo',
         ],
@@ -574,6 +579,9 @@ return [
             'login' => true,
         ],
         'node@system/sysinfo' => [
+            'login' => true,
+        ],
+        'node@v2.admin.users/select' => [
             'login' => true,
         ],
         'node@v2.system/info' => [
