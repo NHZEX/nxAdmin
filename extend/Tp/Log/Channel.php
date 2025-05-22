@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tp\Log;
 
 use Composer\InstalledVersions;
+use Stringable;
 use think\event\LogRecord;
 use function strtr;
 
@@ -18,12 +19,13 @@ class Channel extends \think\log\Channel
             return self::$newImplement;
         }
 
-        $version = ltrim(InstalledVersions::getPrettyVersion('topthink/framework'), 'v');
+        $version = ltrim((string) InstalledVersions::getPrettyVersion('topthink/framework'), 'v');
         if (preg_match('~^(\d+\.?)+$~', $version)) {
-            $newImplement = (bool) version_compare($version, '8.1.2', '>');
+            $newImplement = version_compare($version, '8.1.2', '>');
         } else {
             $newImplement = !class_exists('\think\log\driver\Socket');
         }
+
         return self::$newImplement = $newImplement;
     }
 
@@ -33,14 +35,14 @@ class Channel extends \think\log\Channel
             return $this;
         }
 
-        if ($msg instanceof \Stringable) {
+        if ($msg instanceof Stringable) {
             $msg = (string) $msg;
         }
 
         if (\is_string($msg) && !empty($context)) {
             $replace = [];
             foreach ($context as $key => $val) {
-                $replace['{'.$key.'}'] = is_string($val) ? $val : var_export($val, true);
+                $replace['{'.$key.'}'] = \is_string($val) ? $val : var_export($val, true);
             }
 
             $msg = strtr($msg, $replace);
