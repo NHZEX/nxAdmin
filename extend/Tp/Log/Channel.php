@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Tp\Log;
 
 use Composer\InstalledVersions;
-use DateTimeImmutable;
 use Stringable;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\AbstractDumper;
