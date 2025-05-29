@@ -5,13 +5,20 @@ declare(strict_types=1);
 namespace Tp\Log;
 
 use Composer\InstalledVersions;
+use DateTimeImmutable;
 use Stringable;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\AbstractDumper;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
 use think\event\LogRecord;
 use function strtr;
 
 class Channel extends \think\log\Channel
 {
     private static ?bool $newImplement = null;
+
+    private VarCloner $cloner;
+    private CliDumper $dumper;
 
     private static function isNewImplement(): bool
     {
@@ -42,7 +49,20 @@ class Channel extends \think\log\Channel
         if (\is_string($msg) && !empty($context)) {
             $replace = [];
             foreach ($context as $key => $val) {
-                $replace['{'.$key.'}'] = \is_string($val) ? $val : var_export($val, true);
+                $k = '{'.$key.'}';
+                if (!str_contains($msg, $k)) {
+                    continue;
+                }
+                if (!\is_string($val)) {
+                    if ($val instanceof Stringable) {
+                        $val = (string) $val;
+                    } elseif (\is_object($val)) {
+                        $val = $this->dumpVar($val);
+                    } else {
+                        $val = var_export($val, true);
+                    }
+                }
+                $replace[$k] = $val;
             }
 
             $msg = strtr($msg, $replace);
@@ -70,5 +90,30 @@ class Channel extends \think\log\Channel
         }
 
         return $this;
+    }
+
+    private function dumpVar(mixed $value): string
+    {
+        if (!isset($this->cloner)) {
+            $this->cloner = new VarCloner();
+            $this->cloner->setMinDepth(3);
+            $this->cloner->setMaxString(128);
+            $this->cloner->setMaxItems(100);
+        }
+        if (!isset($this->dumper)) {
+            $this->dumper = new CliDumper(
+                flags: AbstractDumper::DUMP_LIGHT_ARRAY |
+                AbstractDumper::DUMP_COMMA_SEPARATOR |
+                AbstractDumper::DUMP_TRAILING_COMMA |
+                AbstractDumper::DUMP_STRING_LENGTH
+            );
+            $this->dumper->setColors(false);
+            $this->dumper->setStyles([]);
+            $this->dumper->setDisplayOptions([
+                'fileLinkFormat' => null,
+            ]);
+        }
+
+        return $this->dumper->dump($this->cloner->cloneVar($value), true);
     }
 }
