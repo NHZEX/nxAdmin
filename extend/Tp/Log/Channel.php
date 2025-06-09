@@ -74,13 +74,14 @@ class Channel extends \think\log\Channel
         }
 
         if (!empty($msg) || 0 === $msg) {
+            $record = new LogRecord($type, $msg);
             if (self::isNewImplement()) {
-                $this->log[] = [$type, $msg];
+                $this->log[] = $record;
             } else {
                 $this->log[$type][] = $msg;
             }
             if ($this->event) {
-                $this->event->trigger(new LogRecord($type, $msg));
+                $this->event->trigger($record);
             }
         }
 
