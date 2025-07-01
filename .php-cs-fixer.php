@@ -15,8 +15,8 @@ $config = new PhpCsFixer\Config();
 return $config
     ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setRules([
-        '@PER-CS1.0'                 => true,
-        '@PER-CS1.0:risky'           => true,
+        '@PER-CS2.0'                 => true,
+        '@PER-CS2.0:risky'           => true,
         '@PHP80Migration'            => true,
         '@PHP80Migration:risky'      => true,
         '@Symfony'                   => true,
