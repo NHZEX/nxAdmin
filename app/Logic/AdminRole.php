@@ -50,7 +50,10 @@ class AdminRole extends Base
         if (!$force && Cache::has($key)) {
             $ext = Cache::get($key);
         } else {
-            $value = AdminRoleModel::where('id', $roleId)->value('ext', '{}');
+            $value = (new AdminRoleModel())
+                ->withoutWriteAccessLimit()
+                ->where('id', $roleId)
+                ->value('ext', '{}');
             $ext = json_decode((string) $value, true);
             Cache::set($key, $ext);
         }
