@@ -3581,16 +3581,16 @@
         },
         {
             "name": "zxin/think-redis",
-            "version": "v2.1.2",
+            "version": "v2.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/NHZEX/think-redis.git",
-                "reference": "9965942aa63d071a8542cf14c72fa2c599b18e03"
+                "reference": "ce23d1ccf445cd851b77ad11435534b97fedacf5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/9965942aa63d071a8542cf14c72fa2c599b18e03",
-                "reference": "9965942aa63d071a8542cf14c72fa2c599b18e03",
+                "url": "https://api.github.com/repos/NHZEX/think-redis/zipball/ce23d1ccf445cd851b77ad11435534b97fedacf5",
+                "reference": "ce23d1ccf445cd851b77ad11435534b97fedacf5",
                 "shasum": ""
             },
             "require": {
@@ -3603,10 +3603,11 @@
                 "open-smf/connection-pool": "^1.0|^2.0",
                 "php-cs-fixer/shim": "^3.14",
                 "phpstan/phpstan": "^1.10.28",
-                "phpunit/phpunit": "^9",
+                "phpunit/phpunit": "~9|~10",
                 "rector/rector": "^0.17.12",
                 "swoole/ide-helper": "^5|^6",
-                "symfony/var-dumper": "^6.0"
+                "symfony/var-dumper": "^6.0",
+                "topthink/think-swoole": "^4.1"
             },
             "suggest": {
                 "open-smf/connection-pool": "Connection pool support"
@@ -3642,9 +3643,9 @@
             "description": "think redis",
             "support": {
                 "issues": "https://github.com/NHZEX/think-redis/issues",
-                "source": "https://github.com/NHZEX/think-redis/tree/v2.1.2"
+                "source": "https://github.com/NHZEX/think-redis/tree/v2.2.1"
             },
-            "time": "2025-04-28T01:59:39+00:00"
+            "time": "2025-04-28T15:14:47+00:00"
         },
         {
             "name": "zxin/think-symfony-bridge",
@@ -5625,7 +5626,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -5642,9 +5643,9 @@
         "ext-zlib": "*",
         "composer-runtime-api": "^2"
     },
-    "platform-dev": {},
+    "platform-dev": [],
     "platform-overrides": {
         "php": "8.1"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
